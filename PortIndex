@@ -1,0 +1,2 @@
+xirvik-tools 297
+portdir net/xirvik-tools description {Xirvik seedbox utilities.} homepage https://github.com/Tatsh/xirvik-tools epoch 0 platforms darwin name xirvik-tools depends_lib port:python36 license MIT maintainers @Tatsh long_description {Xirvik seedbox utilities.} version 0.0.5 categories net revision 0

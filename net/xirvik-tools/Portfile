@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        Tatsh xirvik-tools 0.0.5 v
+
+categories          net
+platforms           darwin
+maintainers         @Tatsh
+description         Xirvik seedbox utilities.
+long_description    Xirvik seedbox utilities.
+license             MIT
+supported_archs     noarch
+
+python.versions             27 34 35 36 37
+python.default_version      36
+
+checksums           rmd160  3ebb24c90bdf3c365a3f3fc6dc4626657e7e6677 \
+                    sha256  88a951970fc2cbc5ee9314a107949611b4be0aa4233886cdaa6f8753673d670b \
+                    size    12533
