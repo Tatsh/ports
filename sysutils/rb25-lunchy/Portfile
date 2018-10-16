@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           ruby 1.0
+
+ruby.setup          lunchy 0.10.4 gem {} rubygems ruby25
+# TODO Create lunchy_select port
+# See https://github.com/macports/macports-ports/blob/master/python/py-cython/Portfile for example
+ruby.link_binaries_suffix
+
+categories-append   net ruby
+platforms           darwin
+license             MIT
+
+maintainers         openmaintainer
+
+description         A friendly wrapper for launchctl
+
+long_description    Lunchy makes it easier to use launchctl.
+
+homepage            https://github.com/eddiezane/lunchy
+
+checksums           rmd160  a84df41c1bc8f4acca4e650163d675a07c5284bf \
+                    sha256  66bfbeafc00bee514fa32eead333fe682aa6312cd23e43ec717c4aaa994eeb60 \
+                    size    10240
+
+post-destroot {
+    file mkdir ${destroot}${prefix}/share/bash-completions/completions
+    ln -s ${destroot}${prefix}/extra/lunchy-completion.bash \
+        ${destroot}${prefix}/share/bash-completions/completions/lunchy
+}
