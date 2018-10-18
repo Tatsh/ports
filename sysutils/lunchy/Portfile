@@ -4,20 +4,15 @@ PortSystem          1.0
 PortGroup           ruby 1.0
 
 ruby.setup          lunchy 0.10.4 gem {} rubygems ruby25
-# TODO Create lunchy_select port
-# See https://github.com/macports/macports-ports/blob/master/python/py-cython/Portfile for example
+name                lunchy
+
 ruby.link_binaries_suffix
 
-categories-append   net ruby
 platforms           darwin
 license             MIT
-
-maintainers         openmaintainer
-
+maintainers         nomaintainer
 description         A friendly wrapper for launchctl
-
 long_description    Lunchy makes it easier to use launchctl.
-
 homepage            https://github.com/eddiezane/lunchy
 
 checksums           rmd160  a84df41c1bc8f4acca4e650163d675a07c5284bf \
@@ -25,7 +20,8 @@ checksums           rmd160  a84df41c1bc8f4acca4e650163d675a07c5284bf \
                     size    10240
 
 post-destroot {
-    file mkdir ${destroot}${prefix}/share/bash-completions/completions
-    ln -s ${destroot}${prefix}/extra/lunchy-completion.bash \
-        ${destroot}${prefix}/share/bash-completions/completions/lunchy
+    file mkdir ${destroot}${prefix}/share/bash-completion/completions
+    # /opt/local/lib/ruby2.5/gems/2.5.0/gems/lunchy-0.10.4/extras/lunchy-completion.bash
+    ln -s ${prefix}/lib/ruby2.5/gems/2.5.0/gems/lunchy-0.10.4/extras/lunchy-completion.bash \
+        ${destroot}${prefix}/share/bash-completion/completions/lunchy
 }
