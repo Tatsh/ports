@@ -21,7 +21,6 @@ checksums           rmd160  a84df41c1bc8f4acca4e650163d675a07c5284bf \
 
 post-destroot {
     file mkdir ${destroot}${prefix}/share/bash-completion/completions
-    # /opt/local/lib/ruby2.5/gems/2.5.0/gems/lunchy-0.10.4/extras/lunchy-completion.bash
     ln -s ${prefix}/lib/ruby2.5/gems/2.5.0/gems/lunchy-0.10.4/extras/lunchy-completion.bash \
         ${destroot}${prefix}/share/bash-completion/completions/lunchy
 }
