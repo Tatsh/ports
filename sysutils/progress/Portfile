@@ -1,0 +1,23 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Tatsh progress 0.14.1 v
+
+platforms           darwin
+license             MIT
+maintainers         nomaintainer
+description         Tool to show progress for cp, mv, etc.
+long_description    Tool to show progress for cp, mv, dd, ... (formerly known as cv). This \
+                    version is patched to support g-prefixed GNU coreutils.
+
+depends_lib         port:ncurses
+
+use_configure       no
+build.type          gnu
+build.target        progress
+build.post_args     CFLAGS='-O2'
+destroot.args       PREFIX=${prefix}
+
+checksums           rmd160  c12cfab8389e6846cfa4069db6ac9ab3eafb4076 \
+                    sha256  5e44fa26e01ca4ea4e32bf6d1b9b7b92a7f844868622cd200a6986d69b53bbaa \
+                    size    58470
