@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        mosen mysides 1.0.1 v
+github.setup        Tatsh mysides 1.0.2 v
 xcode.target        mysides
 xcode.destroot.path ${prefix}/bin
 
@@ -11,6 +11,6 @@ maintainers         nomaintainer
 description         CLI tool for sidebar favourites in Finder.
 long_description    A command line application for managing macOS Finder sidebar favourites.
 
-checksums           rmd160  5e3bb31156c6c37ae7156aaa2c67aec58469dac4 \
-                    sha256  37fa29d6f0eeac2e058b78831fe68f760fad8fac9651f96017f2f4affba6a9ac \
-                    size    9610
+checksums           rmd160  55e436c4699a2ffa263f24b9ec6d76183243b2de \
+                    sha256  e7a7fc6f7d2597d23183fc7421b33f01623e165531984d27ffe27efbb0e1c3b7 \
+                    size    8707
