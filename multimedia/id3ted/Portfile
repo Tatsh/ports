@@ -1,0 +1,29 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        muennich id3ted 1.0 v
+
+platforms           darwin
+license             GPL-2
+maintainers         nomaintainer
+description         Tool to edit ID3 tags in MP3 files.
+long_description    Tool to edit ID3 tags in MP3 files.
+
+patchfiles          a044c5.diff
+patch.pre_args      -p1
+
+depends_lib         port:taglib port:magic
+
+use_configure       no
+build.type          gnu
+build.target        id3ted
+build.post_args     CFLAGS='-O2' CXXFLAGS='-O2'
+destroot.args       PREFIX=${prefix}
+
+checksums           rmd160  465183164ab1f0550c49076f44da48a3efabf818 \
+                    sha256  99e6779e1e0a91bdda8f4a7ff123ac27d083584cea41a8ce8777c14cdb3eab7b \
+                    size    32809
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/${name}
+}
