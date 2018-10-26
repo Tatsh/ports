@@ -1,0 +1,27 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        2ion mpv-bash-completion 3.3.17
+
+platforms           darwin
+license             MIT
+maintainers         nomaintainer
+description         Bash completion for mpv.
+long_description    Bash completion for mpv.
+
+depends_build       port:lua port:mpv
+depends_run         port:bash-completion
+
+use_configure       no
+build.type          gnu
+build.args          -f Makefile.osx
+build.target        mpv
+
+checksums           rmd160  cc5373610a181638672ddb28053f6b0b057752ba \
+                    sha256  4018baba584ab7f572b09ac920b58840c64f53aec07a0e5faee8de156064e82f \
+                    size    20883
+
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/bash-completion/completions
+    xinstall -m 644 ${worksrcpath}/mpv ${destroot}${prefix}/share/bash-completion/completions/mpv
+}
