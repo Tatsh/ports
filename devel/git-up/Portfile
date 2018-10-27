@@ -1,0 +1,28 @@
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        msiemens PyGitUp 1.6.0 v
+name                git-up
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.default_version  36
+
+maintainers         nomaintainer
+
+description         Tool to easily update a clone of a git repository.
+long_description    PyGitUp is a Python port of aanand/git-up. It not only fully covers the abilities of git-up and should be a drop-in replacement, but also extends it slightly.
+homepage            https://github.com/msiemens/PyGitUp
+
+checksums           rmd160  d21637c830bf8f58a91e085ddf9cc226398f961c \
+                    sha256  747730719bea5cb83f0096a68c30e0300ee8d2c068e14e155a030b3fb3ec7b2c \
+                    size    26555
+
+depends_build-append    port:py36-setuptools
+depends_lib-append  port:py36-gitpython \
+                    port:py36-colorama \
+                    port:py36-termcolor \
+                    port:py36-click6 \
+                    port:py36-six
