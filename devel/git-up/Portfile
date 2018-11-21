@@ -8,7 +8,7 @@ platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.default_version  36
+python.default_version  37
 
 maintainers         nomaintainer
 
@@ -20,9 +20,9 @@ checksums           rmd160  d21637c830bf8f58a91e085ddf9cc226398f961c \
                     sha256  747730719bea5cb83f0096a68c30e0300ee8d2c068e14e155a030b3fb3ec7b2c \
                     size    26555
 
-depends_build-append    port:py36-setuptools
-depends_lib-append  port:py36-gitpython \
-                    port:py36-colorama \
-                    port:py36-termcolor \
-                    port:py36-click6 \
-                    port:py36-six
+depends_build-append    port:py37-setuptools
+depends_lib-append  port:py37-gitpython \
+                    port:py37-colorama \
+                    port:py37-termcolor \
+                    port:py37-click6 \
+                    port:py37-six
