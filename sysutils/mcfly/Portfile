@@ -11,6 +11,7 @@ license             MIT
 maintainers         nomaintainer
 description         Fly through your shell history.
 long_description    Fly through your shell history. Great Scott!
+categories          sysutils
 
 checksums           mcfly-0.2.5.tar.gz \
                     rmd160  6f787abdf5de81e0313606af194588c571845a97 \
