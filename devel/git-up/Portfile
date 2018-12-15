@@ -3,7 +3,7 @@ PortGroup           python 1.0
 
 set gh_user         msiemens
 set gh_project      PyGitUp
-set gh_commit       448d31e;
+set gh_commit       448d31e
 
 name                git-up
 version             1.6.1
