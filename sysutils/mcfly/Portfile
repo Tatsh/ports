@@ -4,7 +4,6 @@ PortGroup           github 1.0
 
 github.setup        cantino mcfly 0.2.5 v
 
-platforms           darwin
 supported_archs     x86_64
 
 license             MIT
@@ -346,8 +345,11 @@ cargo.crates \
     winapi-x86_64-pc-windows-gnu     0.4.0  712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f
 
 destroot {
-    # FIXME Make this work with other platforms
-    xinstall -m 0755 ${worksrcpath}/target/x86_64-apple-darwin/release/${name} ${destroot}${prefix}/bin/
+    if {[file isfile ${worksrcpath}/target/x86_64-apple-darwin/release/${name}]} {
+        xinstall -m 0755 ${worksrcpath}/target/x86_64-apple-darwin/release/${name} ${destroot}${prefix}/bin/
+    } else {
+        xinstall -m 0755 ${worksrcpath}/target/release/${name} ${destroot}${prefix}/bin/
+    }
     xinstall -d ${destroot}${prefix}/share/${name}
     xinstall -m 0644 ${worksrcpath}/${name}.bash ${destroot}${prefix}/share/${name}/
 }
