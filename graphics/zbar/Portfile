@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                zbar
+version             0.10
+
+categories          graphics
+platforms           darwin
+license             GPL-2+
+maintainers         nomaintainer
+description         Suite for reading bar codes form various sources.
+long_description    A comprehensive software suite for reading barcodes. \
+                    Supports EAN/UPC, Code 128, Code 39, Interleaved 2 of 5 \
+                    and QR Code. Includes libraries and applications for \
+                    decoding captured barcode images and using a video device \
+                    (eg, webcam) as a barcode scanner.
+homepage            http://zbar.sourceforge.net/
+master_sites        sourceforge
+
+checksums           rmd160  19457e8685958a031441de88097f1a3d333cdb56 \
+                    sha256  575fa82de699faa7bda2d2ebbe3e1af0a4152ec4d3ad72c0ab6712d7cc9b5dd2 \
+                    size    714457
+
+default_variants    +ImageMagick
+
+configure.cmd-append --disable-video \
+    --without-xshm --without-gtk --without-qt --without-xv \
+    --without-python \
+    --without-imagemagick
+
+variant python27 description {Install Python module} {
+    configure.args-delete --without-python
+    configure.args-append --with-python
+    depends_build-append port:python27
+}
+
+variant ImageMagick description {Add ImageMagick support} {
+    configure.args-delete --without-imagemagick
+    configure.args-append --with-imagemagick
+    depends_build-append port:ImageMagick
+}
