@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           xcode 1.0
+
+set                 gh_commit   f18d9bf
+set                 gh_user     nygard
+set                 gh_project  class-dump
+
+name                class-dump
+version             3.5_p20170605
+categories          devel
+license             GPL-2
+maintainers         nomaintainer
+
+description         Utility for examining the Objective-C segment of \
+                    Mach-O files.
+long_description    It generates declarations for the classes, \
+                    categories and protocols. This is the same \
+                    information provided by using 'otool -ov', \
+                    but presented as normal Objective-C declarations.
+homepage            http://stevenygard.com/projects/class-dump/
+
+supported_archs     x86_64
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}/
+
+xcode.target        class-dump deprotect
+xcode.configuration Release
+xcode.destroot.path ${prefix}/bin
+
+checksums           rmd160  54fd5833f97deb49f8bb4bb8398525d04dac3c6c \
+                    sha256  3781f40e9a274778a79f91c3912a88742cc46c1a6451459176f0c42fdbe382c8 \
+                    size    130989
+
+if {${os.major} < 12} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.8 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+post-destroot {
+    set docdir ${prefix}/share/doc/${name}
+    xinstall -d ${destroot}${docdir}
+    xinstall -m 644 ${worksrcpath}/README.md ${destroot}${docdir}
+
+    delete ${destroot}${prefix}/bin/libMachObjC.a
+}
