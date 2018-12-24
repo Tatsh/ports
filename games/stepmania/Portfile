@@ -1,0 +1,73 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+
+github.setup        stepmania stepmania 5.1.0-b2 v
+
+categories          games
+platforms           darwin
+license             MIT
+maintainers         nomaintainer
+description         Rhythm game.
+long_description    StepMania is a free dance and rhythm game.
+homepage            https://www.stepmania.com/
+
+depends_build-append port:yasm
+depends_lib port:libmad \
+    port:libvorbis \
+    port:jpeg \
+    port:ffmpeg \
+    port:glew \
+    port:pcre
+
+checksums           rmd160  bfe83400f15599212ee4211a50463c7d7a9d4252 \
+                    sha256  b520defe85ea886bf3aeafbcdedee21ba4c97512d23a864c2dfb1932a6394ca4 \
+                    size    185986933
+
+configure.args-append \
+    -DWITH_FULL_RELEASE=ON \
+    -DWITH_NO_ROLC_TOMCRYPT=OFF \
+    -DWITH_PORTABLE_TOMCRYPT=ON \
+    -DWITH_JPEG=ON \
+    -DWITH_OGG=ON \
+    -DWITH_SSE2=ON \
+    -DWITH_WAV=ON \
+    -DWITH_PROFILING=OFF \
+    -DWITH_PARALLEL_PORT=OFF \
+    -DWITH_MINIMAID=OFF \
+    -DWITH_XINERAMA=OFF
+
+variant networking description {Networking support} {
+    configure.args-append -DWITH_NETWORKING=ON
+}
+
+variant ffmpeg description {Enable ffmpeg} {
+    configure.args-append -DWITH_FFMPEG=ON
+}
+
+variant crash_handler description {Enable crash handler} {
+    configure.args-append -DWITH_CRASH_HANDLER=ON
+}
+
+variant gpl description {Enable GPL code (non-distributable binary)} {
+    configure.args-append -DWITH_GPL_LIBS=ON
+}
+
+variant bundled_songs description {Do not install bundled songs} {}
+
+variant bundled_courses description {Do not install bundled courses} {}
+
+default_variants    +networking +ffmpeg +crash_handler +gpl
+
+destroot {
+    # [exec find . -type f -iname "instructions.txt" -exec rm -f {} \;]
+    # [exec rm -fR _assets]
+    # if {[variant isset bundled-courses]} {
+    #     [exec rm -rf "${destroot}/Courses/Default"]
+    # }
+    # if {[variant isset bundled-songs]} {
+    #     rm -rf "${destroot}/Songs/StepMania 5"
+    # }
+    make install DESTDIR=${destroot}
+}
