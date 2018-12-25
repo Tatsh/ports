@@ -10,6 +10,7 @@ license             MIT
 maintainers         nomaintainer
 description         CLI tool for sidebar favourites in Finder.
 long_description    A command line application for managing macOS Finder sidebar favourites.
+categories          sysutils aqua
 
 checksums           rmd160  55e436c4699a2ffa263f24b9ec6d76183243b2de \
                     sha256  e7a7fc6f7d2597d23183fc7421b33f01623e165531984d27ffe27efbb0e1c3b7 \
