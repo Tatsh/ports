@@ -7,6 +7,8 @@ import subprocess as sp
 import sys
 import tempfile
 
+from dir2xinstall import dir2xinstall
+
 
 def mount_dmg(mountroot, dmg):
     sp.check_call([
@@ -18,26 +20,6 @@ def mount_dmg(mountroot, dmg):
 
 def unmount_dmg(mountpoint):
     sp.check_call(['hdiutil', 'detach', '-quiet', mountpoint])
-
-
-def dir2xinstall(start, strip):
-    for dirpath, dirnames, filenames in os.walk(start):
-        dirpath_arg = strip(dirpath)
-        yield 'xinstall -d "${{destroot}}${{applications_dir}}{}"'.format(
-            dirpath_arg)
-        for dirname in dirnames:
-            dirname_arg = strip(dirname)
-            yield ('xinstall -d '
-                   '"${{destroot}}${{applications_dir}}{}/{}"').format(
-                       dirpath_arg, dirname_arg)
-        for fn in filenames:
-            fpath = '{}/{}'.format(dirpath, fn)
-            mode = '0755' if os.stat(fpath).st_mode & 1 else '0644'
-            yield (
-                'xinstall -m {mode} "${{worksrcpath}}{dirpath_arg}/{fn_arg}" '
-                '"${{destroot}}${{applications_dir}}{dirpath_arg}/{fn_arg}"'
-            ).format(
-                mode=mode, dirpath_arg=dirpath_arg, fn_arg=fn)
 
 
 def main():
