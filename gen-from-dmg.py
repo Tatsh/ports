@@ -14,8 +14,8 @@ from dir2xinstall import dir2xinstall
 def mount_dmg(mountroot: str, dmg: str):
     sp.check_call([
         'hdiutil', 'attach', '-noverify', '-noautofsck', '-noautoopen',
-        '-readonly', '-mount', 'required', '-mountroot', mountroot, '-quiet',
-        dmg
+        '-private', '-nobrowse', '-readonly', '-mount', 'required',
+        '-mountroot', mountroot, '-quiet', dmg
     ])
 
 
