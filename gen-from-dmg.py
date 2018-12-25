@@ -45,11 +45,11 @@ def main():
         return 1
     root_prefix = os.listdir(mountroot)[0]
     realroot = path_join(mountroot, root_prefix)
-    realroot_re = re.compile('^{}'.format(realroot))
+    realroot_re = re.compile(realroot)
 
-    for cmd in dir2xinstall(
-            path_join(realroot, app_name),
-            lambda x: re.sub(realroot_re, '', x)):
+    for cmd in dir2xinstall(path_join(realroot, app_name)):
+        cmd = re.sub(realroot_re, '', cmd, count=2)
+        cmd = re.sub(r'/+', '/', cmd)
         print('    {}'.format(cmd))
 
     unmount_dmg(realroot)
