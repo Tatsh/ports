@@ -7,16 +7,14 @@ import subprocess as sp
 import sys
 import tempfile
 
+
 def mount_dmg(mountroot, dmg):
-    sp.check_call(['hdiutil', 'attach',
-                   '-noverify',
-                   '-noautofsck',
-                   '-noautoopen',
-                   '-readonly',
-                   '-mount', 'required',
-                   '-mountroot', mountroot,
-                   '-quiet',
-                    dmg])
+    sp.check_call([
+        'hdiutil', 'attach', '-noverify', '-noautofsck', '-noautoopen',
+        '-readonly', '-mount', 'required', '-mountroot', mountroot, '-quiet',
+        dmg
+    ])
+
 
 def unmount_dmg(mountpoint):
     sp.check_call(['hdiutil', 'detach', '-quiet', mountpoint])
@@ -25,15 +23,22 @@ def unmount_dmg(mountpoint):
 def dir2xinstall(start, strip):
     for dirpath, dirnames, filenames in os.walk(start):
         dirpath_arg = strip(dirpath)
-        yield 'xinstall -d "${{destroot}}${{applications_dir}}{}"'.format(dirpath_arg)
+        yield 'xinstall -d "${{destroot}}${{applications_dir}}{}"'.format(
+            dirpath_arg)
         for dirname in dirnames:
             dirname_arg = strip(dirname)
-            yield 'xinstall -d "${{destroot}}${{applications_dir}}{}/{}"'.format(dirpath_arg, dirname_arg)
+            yield ('xinstall -d '
+                   '"${{destroot}}${{applications_dir}}{}/{}"').format(
+                       dirpath_arg, dirname_arg)
         for fn in filenames:
             fpath = '{}/{}'.format(dirpath, fn)
             mode = '0755' if os.stat(fpath).st_mode & 1 else '0644'
-            yield 'xinstall -m {mode} "${{worksrcpath}}{dirpath_arg}/{fn_arg}" "${{destroot}}${{applications_dir}}{dirpath_arg}/{fn_arg}"'.format(
+            yield (
+                'xinstall -m {mode} "${{worksrcpath}}{dirpath_arg}/{fn_arg}" '
+                '"${{destroot}}${{applications_dir}}{dirpath_arg}/{fn_arg}"'
+            ).format(
                 mode=mode, dirpath_arg=dirpath_arg, fn_arg=fn)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -60,10 +65,13 @@ def main():
     realroot = path_join(mountroot, root_prefix)
     realroot_re = re.compile('^{}'.format(realroot))
 
-    for cmd in dir2xinstall(path_join(realroot, app_name), lambda x: re.sub(realroot_re, '', x)):
+    for cmd in dir2xinstall(
+            path_join(realroot, app_name),
+            lambda x: re.sub(realroot_re, '', x)):
         print('    {}'.format(cmd))
 
     unmount_dmg(realroot)
+
 
 if __name__ == '__main__':
     sys.exit(main())
