@@ -17,7 +17,6 @@ master_sites        https://freemacsoft.net/downloads/
 
 use_configure       no
 use_zip             yes
-extract.mkdir
 extract.only        AppCleaner_3.5.zip
 build.cmd           echo
 
