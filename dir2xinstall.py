@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 from os.path import dirname
+from typing import List
 import os
 import re
 import sys
 
 
-def dir2xinstall(start):
+def dir2xinstall(start: str):
+    dirpath: str
+    dirnames: List[str]
+    filenames: List[str]
     for dirpath, dirnames, filenames in os.walk(start):
         yield 'xinstall -d "${{destroot}}/${{applications_dir}}/{}"'.format(
             dirpath)
@@ -24,7 +28,7 @@ def dir2xinstall(start):
 
 
 def main():
-    prefix_re = re.compile('{}'.format(dirname(sys.argv[1])))
+    prefix_re: re.Pattern = re.compile('{}'.format(dirname(sys.argv[1])))
     for cmd in dir2xinstall(sys.argv[1]):
         cmd = re.sub(prefix_re, '', cmd, count=2)
         cmd = re.sub(r'/+', '/', cmd)
