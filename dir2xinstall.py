@@ -16,7 +16,7 @@ def dir2xinstall(start):
         for fn in filenames:
             fpath = '{}/{}'.format(dirpath, fn)
             mode = '0755' if os.stat(fpath).st_mode & 1 else '0644'
-            yield 'xinstall -m {mode} "${{workpath}}/{dirpath_arg}/{fn_arg}" "${{destroot}}${{applications_dir}}{dirpath_arg}/{fn_arg}"'.format(
+            yield 'xinstall -m {mode} "${{worksrcpath}}/{dirpath_arg}/{fn_arg}" "${{destroot}}${{applications_dir}}{dirpath_arg}/{fn_arg}"'.format(
                 mode=mode, dirpath_arg=dirpath, fn_arg=fn)
 
 def main():
