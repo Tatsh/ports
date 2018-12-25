@@ -1,0 +1,76 @@
+PortSystem          1.0
+
+name                Fanny
+version             1.0.3
+categories          aqua
+license             GPL-3
+maintainers         nomaintainer
+description         Monitor your Mac's fan speed and CPU temperature from your Notification Center.
+long_description    ${description}
+
+supported_archs     x86_64
+
+homepage            http://fannywidget.com/
+master_sites        http://fannywidget.com/
+distfiles           FannyWidget.zip
+dist_subdir         ${name}/${version}_1
+
+use_zip             yes
+use_configure       no
+build.cmd           echo
+extract.mkdir       yes
+extract.only        FannyWidget.zip
+
+checksums           rmd160  170801785988f6af49ef047d7b5a8262f1542cda \
+                    sha256  3c7bcc29006650cbcb33a28fa0a97480227ab36f3bb5453243fef1563bb92bc0 \
+                    size    1181888
+
+destroot {
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/_CodeSignature"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/MacOS"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/Resources"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Info.plist" "${destroot}${applications_dir}/Fanny.app/Contents/Info.plist"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PkgInfo" "${destroot}${applications_dir}/Fanny.app/Contents/PkgInfo"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/_CodeSignature"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/_CodeSignature/CodeResources" "${destroot}${applications_dir}/Fanny.app/Contents/_CodeSignature/CodeResources"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/MacOS"
+    xinstall -m 0755 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/MacOS/Fanny" "${destroot}${applications_dir}/Fanny.app/Contents/MacOS/Fanny"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/_CodeSignature"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/MacOS"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Info.plist" "${destroot}${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Info.plist"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/_CodeSignature"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/_CodeSignature/CodeResources" "${destroot}${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/_CodeSignature/CodeResources"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/MacOS"
+    xinstall -m 0755 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/MacOS/Fanny" "${destroot}${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/MacOS/Fanny"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/en.lproj"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/Base.lproj"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/archived-expanded-entitlements.xcent" "${destroot}${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/archived-expanded-entitlements.xcent"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/en.lproj"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/en.lproj/InfoPlist.strings" "${destroot}${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/en.lproj/InfoPlist.strings"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/Base.lproj"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/Base.lproj/TodayViewController.nib" "${destroot}${applications_dir}/Fanny.app/Contents/PlugIns/Fanny.appex/Contents/Resources/Base.lproj/TodayViewController.nib"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/Resources"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/Resources/Base.lproj"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/fanIcon.png" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/fanIcon.png"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/AppIcon.icns" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/AppIcon.icns"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/archived-expanded-entitlements.xcent" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/archived-expanded-entitlements.xcent"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/Assets.car" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/Assets.car"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/Resources/Base.lproj"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc"
+    xinstall -d "${destroot}/${applications_dir}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/MainMenu.nib" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/MainMenu.nib"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/XfG-lQ-9wD-view-m2S-Jp-Qdl.nib" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/XfG-lQ-9wD-view-m2S-Jp-Qdl.nib"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/infoWindow.nib" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/infoWindow.nib"
+    xinstall -m 0644 "${worksrcpath}/Fanny ${version}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/Info.plist" "${destroot}${applications_dir}/Fanny.app/Contents/Resources/Base.lproj/Main.storyboardc/Info.plist"
+}
