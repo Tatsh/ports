@@ -16,6 +16,10 @@ distfiles           "Bartender 3.zip"
 master_sites        https://www.macbartender.com/Demo/
 dist_subdir         ${name}/${version}_1
 
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "^Version\\: (\\d+\\S+)"
+
 use_configure       no
 use_zip             yes
 extract.only        "Bartender 3.zip"
