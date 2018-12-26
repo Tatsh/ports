@@ -16,7 +16,6 @@ def has_libstdcxx(start: str):
             fpath = '{}/{}'.format(dirpath, fn)
             if os.stat(fpath).st_mode & 1:
                 proc = sp.run(['otool', '-L', fpath],
-                              check=True,
                               capture_output=True,
                               text=True)
                 if 'libstdc++' in proc.stdout:
