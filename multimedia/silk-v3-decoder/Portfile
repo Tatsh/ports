@@ -19,6 +19,11 @@ master_sites        ${homepage}/tarball/${gh_commit}
 distname            ${gh_project}-${gh_commit}
 worksrcdir          ${gh_user}-${distname}/silk
 
+livecheck.type      regexm
+livecheck.url       ${homepage}
+livecheck.regex     "Latest commit.*<relative-time\\s+datetime=\"(\[^\"\]+)\""
+livecheck.version   "2017-12-31T16:00:35Z"
+
 checksums           rmd160  430a7ccd7076ca7f0f7895eb4d877026c1247962 \
                     sha256  7550b730c552ced9a80983ec3ba61ca645c159cdf29c8c9cf05c53d7789ff729 \
                     size    31104058
