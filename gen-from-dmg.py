@@ -47,8 +47,13 @@ def main():
     root_prefix: str = os.listdir(mountroot)[0]
     realroot: str = path_join(mountroot, root_prefix)
     realroot_re: re.Pattern = re.compile(realroot)
+    start: str = path_join(realroot, app_name)
 
-    for cmd in dir2xinstall(path_join(realroot, app_name)):
+    if has_libstdcxx(start):
+        print('libstdc++ detected', file=sys.stderr)
+        return 1
+
+    for cmd in dir2xinstall(start):
         cmd = re.sub(realroot_re, '', cmd, count=2)
         cmd = re.sub(r'/+', '/', cmd)
         print('    {}'.format(cmd))

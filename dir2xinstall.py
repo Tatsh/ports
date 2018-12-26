@@ -3,7 +3,25 @@ from os.path import dirname
 from typing import List
 import os
 import re
+import subprocess as sp
 import sys
+
+
+def has_libstdcxx(start: str):
+    dirpath: str
+    dirnames: List[str]
+    filenames: List[str]
+    for dirpath, dirnames, filenames in os.walk(start):
+        for fn in filenames:
+            fpath = '{}/{}'.format(dirpath, fn)
+            if os.stat(fpath).st_mode & 1:
+                proc = sp.run(['otool', '-L', fpath],
+                              check=True,
+                              capture_output=True,
+                              text=True)
+                if 'libstdc++' in proc.stdout:
+                    return True
+    return False
 
 
 def dir2xinstall(start: str):
@@ -28,6 +46,10 @@ def dir2xinstall(start: str):
 
 
 def main():
+    if has_libstdcxx(sys.argv[1]):
+        print('libstdc++ detected', file=sys.stderr)
+        return 1
+
     prefix_re: re.Pattern = re.compile('{}'.format(dirname(sys.argv[1])))
     for cmd in dir2xinstall(sys.argv[1]):
         cmd = re.sub(prefix_re, '', cmd, count=2)
