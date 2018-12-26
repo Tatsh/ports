@@ -15,6 +15,10 @@ homepage            http://freemacsoft.net/appcleaner/
 distfiles           AppCleaner_3.5.zip
 master_sites        https://freemacsoft.net/downloads/
 
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "href=\"${master_sites}${name}_(\\d+\\.\\d+)\\.zip\""
+
 use_configure       no
 use_zip             yes
 extract.only        AppCleaner_3.5.zip
