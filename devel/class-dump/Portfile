@@ -23,10 +23,14 @@ homepage            http://stevenygard.com/projects/class-dump/
 
 supported_archs     x86_64
 
-homepage            https://github.com/${gh_user}/${gh_project}
 master_sites        ${homepage}/tarball/${gh_commit}
 distname            ${gh_project}-${gh_commit}
 worksrcdir          ${gh_user}-${distname}/
+
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "Current\\s+version\\:\\s+(\\d+\[^<\]+)"
+livecheck.version   3.5
 
 xcode.target        class-dump deprotect
 xcode.configuration Release
