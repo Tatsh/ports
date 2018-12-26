@@ -1,33 +1,32 @@
 PortSystem          1.0
 PortGroup           python 1.0
 
-set gh_user         msiemens
-set gh_project      PyGitUp
-set gh_commit       448d31e
-
 name                git-up
 version             1.6.1
+categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
+revision            1
 
+python.versions     27 34 35 36 37
 python.default_version  37
 
 maintainers         nomaintainer
 
 description         Tool to easily update a clone of a git repository.
-long_description    PyGitUp is a Python port of aanand/git-up. It not only fully covers the abilities of git-up and should be a drop-in replacement, but also extends it slightly.
+long_description    PyGitUp is a Python port of aanand/git-up. It not only fully covers the \
+                    abilities of git-up and should be a drop-in replacement, but also extends it \
+                    slightly.
 
-homepage            https://github.com/${gh_user}/${gh_project}
-master_sites        ${homepage}/tarball/${gh_commit}
-distname            ${gh_project}-${gh_commit}
-worksrcdir          ${gh_user}-${distname}/
+homepage            https://pypi.org/project/git-up/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-checksums           rmd160  d5a00bbbf1f25b7627e138e6c78a23b28c2ef02b \
-                    sha256  71cf2ddfa6b1f542019ed7e5a79d698893a1ed4ecf02a7724cd17901014dfa8d \
-                    size    26577
+checksums           rmd160  6dc8fe4980410e1a21d6ee76fe0f45cf0cfe4ca0 \
+                    sha256  ea83441e7ab05011624e2e7333ef875c263124db5eed74507acd32b07c48473f \
+                    size    29411
 
-use_configure       no
+distname            ${python.rootname}-${version}
 
 depends_build-append    port:py37-setuptools
 depends_lib-append  port:py37-gitpython \
