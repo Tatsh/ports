@@ -18,6 +18,10 @@ checksums           rmd160  441408499110e2b03fbe28cc05056abc2439fc50 \
                     sha256  9e47eaa69bc0bcb8ba173724814b849a66eca57bdc61debb4b5637ec1a129a02 \
                     size    20471405
 
+livecheck.type      regex
+livecheck.url       https://www.sweetscape.com/download/010editor/
+livecheck.regex     "Version\\:\\s+(\\d+\[^,\]+),\\s+macOS"
+
 use_configure       no
 use_dmg             yes
 extract.only        010EditorMac64Installer.dmg
