@@ -28,9 +28,9 @@ checksums           rmd160  6dc8fe4980410e1a21d6ee76fe0f45cf0cfe4ca0 \
 
 distname            ${python.rootname}-${version}
 
-depends_build-append    port:py37-setuptools
-depends_lib-append  port:py37-gitpython \
-                    port:py37-colorama \
-                    port:py37-termcolor \
-                    port:py37-click \
-                    port:py37-six
+depends_build-append    port:py${python.version}-setuptools
+depends_lib-append  port:py${python.version}-gitpython \
+                    port:py${python.version}-colorama \
+                    port:py${python.version}-termcolor \
+                    port:py${python.version}-click \
+                    port:py${python.version}-six
