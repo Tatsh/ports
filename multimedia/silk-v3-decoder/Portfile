@@ -2,10 +2,10 @@ PortSystem          1.0
 
 set gh_user         kn007
 set gh_project      silk-v3-decoder
-set gh_commit       9a13f2c
+set gh_commit       8555b96
 
 name                ${gh_project}
-version             20171231
+version             20190101
 platforms           darwin
 license             MIT
 maintainers         nomaintainer
@@ -22,11 +22,11 @@ worksrcdir          ${gh_user}-${distname}/silk
 livecheck.type      regexm
 livecheck.url       ${homepage}
 livecheck.regex     "Latest commit.*<relative-time\\s+datetime=\"(\[^\"\]+)\""
-livecheck.version   "2017-12-31T16:00:35Z"
+livecheck.version   "2019-01-01T13:39:32Z"
 
-checksums           rmd160  430a7ccd7076ca7f0f7895eb4d877026c1247962 \
-                    sha256  7550b730c552ced9a80983ec3ba61ca645c159cdf29c8c9cf05c53d7789ff729 \
-                    size    31104058
+checksums           rmd160  087b3b202a08e555375253d61b9be1bef21ff18b \
+                    sha256  ce1f3399067572ef89a2115a99a60c317e3dd05df681cc73dcf24c702da1163f \
+                    size    31104031
 
 destroot {
     xinstall -m 755 ${worksrcpath}/decoder ${destroot}${prefix}/bin/silk-v3-decoder
