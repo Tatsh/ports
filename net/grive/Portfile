@@ -36,8 +36,5 @@ livecheck.url       ${homepage}
 livecheck.regex     "Latest commit.*<relative-time\\s+datetime=\"(\[^\"\]+)\""
 livecheck.version   "2018-08-19T20:58:06Z"
 
-configure.pre_args-append   -DCMAKE_CXX_FLAGS=-Doff64_t=off_t
-
-patch {
-    reinplace "s|add_subdirectory.*systemd.*||g" CMakeLists.txt
-}
+patchfiles          mac.patch
+patch.pre_args      -p1
