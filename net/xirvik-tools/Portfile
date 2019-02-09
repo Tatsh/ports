@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        Tatsh xirvik-tools 0.0.5 v
+github.setup        Tatsh xirvik-tools 0.1.0 v
 
 categories          net
 platforms           darwin
@@ -13,8 +13,8 @@ license             MIT
 supported_archs     noarch
 
 python.versions             27 34 35 36 37
-python.default_version      36
+python.default_version      37
 
-checksums           rmd160  3ebb24c90bdf3c365a3f3fc6dc4626657e7e6677 \
-                    sha256  88a951970fc2cbc5ee9314a107949611b4be0aa4233886cdaa6f8753673d670b \
-                    size    12533
+checksums           rmd160  379e2434aaa605fe79cc66155981496827ce90c9 \
+                    sha256  05efc40fede404914c5f70cec0554a11740ca96b25e79451f73cbcca47d2ffff \
+                    size    13800
