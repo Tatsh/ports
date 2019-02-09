@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 951d874..2373eb5 100644
+index 951d874..737f696 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -8,8 +8,19 @@ set( GRIVE_VERSION "0.5.1-dev" )
@@ -17,7 +17,7 @@ index 951d874..2373eb5 100644
 +)
 +if ( HAVE_SYSTEMD )
 +	add_subdirectory( systemd )
-+endif( NOT HAVE_SYSTEMD )
++endif( HAVE_SYSTEMD )
  
 -add_subdirectory( systemd )
  add_subdirectory( libgrive )
@@ -25,3 +25,57 @@ index 951d874..2373eb5 100644
 -	
 \ No newline at end of file
 +
+diff --git a/libgrive/src/base/Feed.cc b/libgrive/src/base/Feed.cc
+index 0ea834d..0a4f51b 100644
+--- a/libgrive/src/base/Feed.cc
++++ b/libgrive/src/base/Feed.cc
+@@ -30,6 +30,10 @@ Feed::Feed( const std::string &url ):
+ {
+ }
+ 
++Feed::~Feed()
++{
++}
++
+ Feed::iterator Feed::begin() const
+ {
+ 	return m_entries.begin() ;
+diff --git a/libgrive/src/base/Feed.hh b/libgrive/src/base/Feed.hh
+index d43c68c..c12f507 100644
+--- a/libgrive/src/base/Feed.hh
++++ b/libgrive/src/base/Feed.hh
+@@ -41,6 +41,7 @@ public :
+ public :
+ 	Feed( const std::string& url );
+ 	virtual bool GetNext( http::Agent *http ) = 0 ;
++	virtual ~Feed() = 0 ;
+ 	iterator begin() const ;
+ 	iterator end() const ;
+ 
+diff --git a/libgrive/src/drive2/Feed2.cc b/libgrive/src/drive2/Feed2.cc
+index 8f3d234..037df37 100644
+--- a/libgrive/src/drive2/Feed2.cc
++++ b/libgrive/src/drive2/Feed2.cc
+@@ -36,6 +36,10 @@ Feed2::Feed2( const std::string& url ):
+ {
+ }
+ 
++Feed2::~Feed2()
++{
++}
++
+ bool Feed2::GetNext( http::Agent *http )
+ {
+ 	if ( m_next.empty() )
+diff --git a/libgrive/src/drive2/Feed2.hh b/libgrive/src/drive2/Feed2.hh
+index 4de411e..c5643f6 100644
+--- a/libgrive/src/drive2/Feed2.hh
++++ b/libgrive/src/drive2/Feed2.hh
+@@ -31,6 +31,7 @@ class Feed2: public Feed
+ {
+ public :
+ 	Feed2( const std::string& url ) ;
++	~Feed2() ;
+ 	bool GetNext( http::Agent *http ) ;
+ } ;
+ 

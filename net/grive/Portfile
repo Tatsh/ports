@@ -15,10 +15,8 @@ description         Google Drive client fork.
 long_description    ${description}
 
 depends_lib         port:yajl \
-                    port:zlib \
                     port:curl \
                     port:libgcrypt \
-                    port:expat \
                     port:boost \
                     port:json-c
 
@@ -36,5 +34,6 @@ livecheck.url       ${homepage}
 livecheck.regex     "Latest commit.*<relative-time\\s+datetime=\"(\[^\"\]+)\""
 livecheck.version   "2018-08-19T20:58:06Z"
 
-patchfiles          mac.patch
+patchfiles          mac.patch \
+                    remove-unnecessary-deps.patch
 patch.pre_args      -p1
