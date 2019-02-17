@@ -24,5 +24,6 @@ checksums           rmd160  215c182f9b422fcd60b644896d87e16e1c65006a \
                     sha256  d4158a5a81d938ca1710c137d1ffdaa125bab662d69b4a2d72a3a83b01423d71 \
                     size    8758
 
+# These are in the macstrop repository
 depends_build-append port:kf5-ktexteditor
 depends_run-append port:kf5-kate
