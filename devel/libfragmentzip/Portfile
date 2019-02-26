@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+set gh_user         tihmstar
+set gh_project      libfragmentzip
+set gh_commit       7f67a7a
+
+name                ${gh_project}
+version             42_p20181002
+platforms           darwin
+license             LGPL-3
+
+depends_lib-append  port:curl \
+                    port:libzip
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}
+
+checksums           rmd160  fe8ca93e0f1113a23305abce0358526e62bb8d5f \
+                    sha256  31c486884aa0dbe385124ca55b242656fcd6d3f625ea4099432f18dd348864fa \
+                    size    36734
+
+patchfiles          ${name}-configure-ac.patch
+patch.pre_args      -p1
+
+use_autoreconf      yes
