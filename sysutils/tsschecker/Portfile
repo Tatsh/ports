@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+set gh_user         tihmstar
+set gh_project      tsschecker
+set gh_commit       4339d71
+set jssy_gh_commit  ba62564
+set commit_count    263
+
+name                ${gh_project}
+version             212_p20181216
+platforms           darwin
+license             LGPL-3 MIT
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}:main \
+                    https://github.com/${gh_user}/jssy/tarball/${jssy_gh_commit}:jssy
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}
+distfiles           ${gh_project}-${gh_commit}.tar.gz:main \
+                    jssy-${jssy_gh_commit}.tar.gz:jssy
+
+checksums           tsschecker-4339d71.tar.gz \
+                    rmd160  57705d2d4ef2f79beca0f4745498fa2394bb0bb1 \
+                    sha256  1f760c1b2b65fa78387e4447de75ee6ff5e590b879a36be5fde818160f7c18be \
+                    size    62833 \
+                    jssy-ba62564.tar.gz \
+                    rmd160  e2483b6c37214fa0254aa13b633e599673ec8def \
+                    sha256  4fb0dc498edf5971cd7ea3d3df7af710c71f4a34bf882de0a46d699ec30a9f7a \
+                    size    7078
+
+patchfiles          saveblobs.patch
+patch.pre_args      -p1
+
+depends_lib-append  port:libfragmentzip \
+                    port:libplist \
+                    port:curl \
+                    port:libirecovery
+
+use_autoreconf      yes
+
+pre-configure {
+    reinplace "s/.*VERSION_COMMIT_COUNT.*/#define VERSION_COMMIT_COUNT \"${commit_count}\"/" \
+		${worksrcpath}/tsschecker/all_tsschecker.h
+    reinplace "s/.*VERSION_COMMIT_SHA.*/#define VERSION_COMMIT_SHA \"${gh_commit}\"/" \
+		${worksrcpath}/tsschecker/all_tsschecker.h
+    file copy "${workpath}/${gh_user}-jssy-${jssy_gh_commit}/jssy/" "${worksrcpath}/external/jssy"
+}
+
+post-destroot {
+    file delete ${destroot}${prefix}/lib/libjssy.a
+    xinstall -m 644 ${worksrcpath}/devices.txt ${destroot}${prefix}/etc/devices.txt
+    xinstall -m 755 ${worksrcpath}/saveblobs.sh ${destroot}${prefix}/bin/saveblobs.sh
+}
