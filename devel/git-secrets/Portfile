@@ -1,0 +1,20 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        awslabs git-secrets 1.3.0
+
+platforms           darwin
+license             MIT
+maintainers         nomaintainer
+description         Prevents you from committing secrets and credentials into Git repositories.
+long_description    ${description}
+
+depends_run         bin:git:git
+
+checksums           rmd160  5a61465cb705c822ddf0a36b82724d5731c5ff14 \
+                    sha256  beaab9e4366d76dfde6a61455a6b5dae0027bac86db10c2aa8e06791be5cfaf1 \
+                    size    30694
+
+use_configure       no
+build {}
+destroot.post_args  PREFIX=${destroot}${prefix}
