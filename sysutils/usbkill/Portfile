@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+set gh_user         hephaest0s
+set gh_project      usbkill
+set gh_commit       d3df79e
+
+name                ${gh_project}
+version             1.0-rc.4
+platforms           darwin
+license             GPL-3
+supported_archs     noarch
+
+python.versions         27 34 35 36 37
+python.default_version  37
+
+maintainers         nomaintainer
+
+description         An anti-forensic kill-switch.
+long_description    An anti-forensic kill-switch that waits for a change on your USB ports and \
+                    then immediately shuts down your computer.
+
+checksums           rmd160  cb3a98e3ea5dd12b0503a989374d20064275c52c \
+                    sha256  5d9c147b6abf3a38a7e9c502be3fb693e4a3b9dc91a5faf45de79704373937e7 \
+                    size    4463822
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}
+
+patchfiles          ${name}-paths.patch
+patch.pre_args      -p1
+
+if {$subport ne $name} {
+    livecheck.type none
+}
