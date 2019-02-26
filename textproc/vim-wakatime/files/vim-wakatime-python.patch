@@ -1,0 +1,13 @@
+diff --git a/plugin/wakatime.vim b/plugin/wakatime.vim
+index c0be41a..dfe03aa 100644
+--- a/plugin/wakatime.vim
++++ b/plugin/wakatime.vim
+@@ -290,7 +290,7 @@ let s:VERSION = '7.1.3'
+                     let pyver = pyver - 1
+                 endwhile
+             else
+-                let paths = paths + ['/usr/bin/python3', '/usr/local/bin/python3', '/usr/bin/python3.6', '/usr/local/bin/python3.6', '/usr/bin/python', '/usr/local/bin/python', '/usr/bin/python2', '/usr/local/bin/python2']
++                let paths = paths + ['/opt/local/libexec/wakatime-python']
+             endif
+             let paths = paths + ['python']
+             let index = 0
