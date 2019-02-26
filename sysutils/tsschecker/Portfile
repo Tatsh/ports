@@ -50,6 +50,7 @@ pre-configure {
 
 post-destroot {
     file delete ${destroot}${prefix}/lib/libjssy.a
-    xinstall -m 644 ${worksrcpath}/devices.txt ${destroot}${prefix}/etc/devices.txt
+    xinstall -m 755 -d ${destroot}${prefix}/etc/tsschecker
+    xinstall -m 644 ${worksrcpath}/devices.txt ${destroot}${prefix}/etc/tsschecker/devices.txt
     xinstall -m 755 ${worksrcpath}/saveblobs.sh ${destroot}${prefix}/bin/saveblobs.sh
 }
