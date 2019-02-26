@@ -28,3 +28,7 @@ checksums           rmd160  90014d2e8c71554e2f8b0651ce8fd75507500583 \
 
 depends_run-append  port:py${python.version}-jinja2 \
                     port:py${python.version}-yaml
+
+if {$subport ne $name} {
+    livecheck.type none
+}
