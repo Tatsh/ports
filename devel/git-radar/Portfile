@@ -16,4 +16,11 @@ checksums           rmd160  fa22dfa4574f655b5d58bd39c62db68aa4f25364 \
 depends_run         bin:git:git
 
 use_configure       no
-destroot.args       PREFIX=${destroot}${prefix}
+build.cmd           echo
+
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/${name}
+    xinstall -m 755 -W ${worksrcpath} git-radar radar-base.sh prompt.zsh prompt.bash fetch.sh \
+        ${destroot}${prefix}/share/${name}
+    ln -s ${prefix}/share/${name}/${name} ${destroot}${prefix}/bin/${name}
+}
