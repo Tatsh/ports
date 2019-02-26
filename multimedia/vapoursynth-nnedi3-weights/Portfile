@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        dubhater vapoursynth-nnedi3 12 v
+
+name                vapoursynth-nnedi3-weights
+version             12
+platforms           darwin
+license             GPL-2
+supported_archs     noarch
+maintainers         nomaintainer
+description         nedi3 weights.bin file
+long_description    ${description}
+
+checksums           rmd160  610bf2e2e41f7349ddbe77f5246c03f31d03d7bd \
+                    sha256  356260830de39d3b686f9b19c1f244e34ddb9f5dc899eb5f27f8d5ddedb65748 \
+                    size    12740013
+
+use_configure       no
+build.cmd           echo
+
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/${name}
+    xinstall -m 644 ${worksrcpath}/src/nnedi3_weights.bin \
+        ${destroot}${prefix}/share/${name}/nnedi3_weights.bin
+}
