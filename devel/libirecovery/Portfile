@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+set gh_user         libimobiledevice
+set gh_project      libirecovery
+set gh_commit       4daf6d8
+
+name                ${gh_project}
+version             0.1.1_p20180917
+platforms           darwin
+license             LGPL-2.1
+
+depends_lib-append  port:readline \
+                    port:libusb
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}
+
+checksums           rmd160  7a208a17b1e5ef2ee5b9a19dd75cd129ec9192c4 \
+                    sha256  a25c052fa3692d52993d99cf5b800c5e655a2f0978bdaa3b08e6eaac1c2b7a1c \
+                    size    34537
+
+use_autoreconf      yes
