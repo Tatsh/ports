@@ -1,0 +1,564 @@
+diff --git a/sudo.xcodeproj/project.pbxproj b/sudo.xcodeproj/project.pbxproj
+index c51dfcb..2848009 100644
+--- a/sudo.xcodeproj/project.pbxproj
++++ b/sudo.xcodeproj/project.pbxproj
+@@ -22,6 +22,7 @@
+ /* End PBXAggregateTarget section */
+ 
+ /* Begin PBXBuildFile section */
++		2641B3062226517D0070B8F4 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2641B3052226517D0070B8F4 /* LocalAuthentication.framework */; };
+ 		35461CEC2029F2CC0088CB9D /* bsm_audit.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801BD81C6AD2B9006A214E /* bsm_audit.c */; };
+ 		FE1D69001CC06B2F00EBFCDF /* gc.c in Sources */ = {isa = PBXBuildFile; fileRef = FE1D68FF1CC06B1A00EBFCDF /* gc.c */; };
+ 		FE801B8F1C6AB440006A214E /* conversation.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801AD31C6AB1A5006A214E /* conversation.c */; };
+@@ -63,7 +64,7 @@
+ 		FE801D131C6AD36A006A214E /* sudoers.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801CBF1C6AD2B9006A214E /* sudoers.c */; };
+ 		FE801D151C6AD36A006A214E /* timestamp.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801CC91C6AD2B9006A214E /* timestamp.c */; };
+ 		FE801D191C6AD3FA006A214E /* pam.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801BCE1C6AD2B9006A214E /* pam.c */; };
+-		FE801D1A1C6AD3FA006A214E /* sudo_auth.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801BD41C6AD2B9006A214E /* sudo_auth.c */; };
++		FE801D1A1C6AD3FA006A214E /* sudo_auth.m in Sources */ = {isa = PBXBuildFile; fileRef = FE801BD41C6AD2B9006A214E /* sudo_auth.m */; };
+ 		FE801D1B1C6AD420006A214E /* libpam.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C84C6700F40C96100E9FD67 /* libpam.dylib */; };
+ 		FE801D1C1C6AD426006A214E /* libbsm.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6E800E0F40DCC20028C19F /* libbsm.dylib */; };
+ 		FE801D371C6AFC06006A214E /* alias.c in Sources */ = {isa = PBXBuildFile; fileRef = FE801BC41C6AD2B9006A214E /* alias.c */; };
+@@ -176,6 +177,8 @@
+ 		1C84C6720F40C96D00E9FD67 /* libdl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libdl.dylib; path = usr/lib/libdl.dylib; sourceTree = SDKROOT; };
+ 		1CE32B8D0F422FD100C2C6A0 /* sudo */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sudo; path = pam.d/sudo; sourceTree = "<group>"; };
+ 		1CE32B900F42300100C2C6A0 /* sudo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = sudo.plist; sourceTree = "<group>"; };
++		2641B303222601F90070B8F4 /* libutil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libutil.h; path = sudo/include/libutil.h; sourceTree = SOURCE_ROOT; };
++		2641B3052226517D0070B8F4 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+ 		FE1D68FF1CC06B1A00EBFCDF /* gc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gc.c; sourceTree = "<group>"; };
+ 		FE8019341C69C8A7006A214E /* sudo_lecture */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sudo_lecture; path = files/sudo_lecture; sourceTree = "<group>"; };
+ 		FE8019351C69C8A7006A214E /* sudoers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sudoers; path = files/sudoers; sourceTree = "<group>"; };
+@@ -350,7 +353,7 @@
+ 		FE801BD11C6AD2B9006A214E /* secureware.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = secureware.c; sourceTree = "<group>"; };
+ 		FE801BD21C6AD2B9006A214E /* securid5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = securid5.c; sourceTree = "<group>"; };
+ 		FE801BD31C6AD2B9006A214E /* sia.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sia.c; sourceTree = "<group>"; };
+-		FE801BD41C6AD2B9006A214E /* sudo_auth.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sudo_auth.c; sourceTree = "<group>"; };
++		FE801BD41C6AD2B9006A214E /* sudo_auth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sudo_auth.m; sourceTree = "<group>"; };
+ 		FE801BD51C6AD2B9006A214E /* sudo_auth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sudo_auth.h; sourceTree = "<group>"; };
+ 		FE801BD61C6AD2B9006A214E /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
+ 		FE801BD71C6AD2B9006A214E /* boottime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = boottime.c; sourceTree = "<group>"; };
+@@ -607,6 +610,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				2641B3062226517D0070B8F4 /* LocalAuthentication.framework in Frameworks */,
+ 				FE801D7E1C6AFFA0006A214E /* libsudoutil.a in Frameworks */,
+ 				FE801D4E1C6AFCFD006A214E /* libz.dylib in Frameworks */,
+ 				FE801D4A1C6AFCB3006A214E /* libparsesudoers.a in Frameworks */,
+@@ -650,6 +654,7 @@
+ 				1C6E801E0F40DD5F0028C19F /* Libraries */,
+ 				1AB674ADFE9D54B511CA2CBB /* Products */,
+ 				1CE32B8E0F422FD500C2C6A0 /* Other Installed Files */,
++				2641B3042226517C0070B8F4 /* Frameworks */,
+ 			);
+ 			name = sudo;
+ 			sourceTree = "<group>";
+@@ -704,6 +709,14 @@
+ 			name = "Other Installed Files";
+ 			sourceTree = "<group>";
+ 		};
++		2641B3042226517C0070B8F4 /* Frameworks */ = {
++			isa = PBXGroup;
++			children = (
++				2641B3052226517D0070B8F4 /* LocalAuthentication.framework */,
++			);
++			name = Frameworks;
++			sourceTree = "<group>";
++		};
+ 		FE80184A1C69B175006A214E /* Source */ = {
+ 			isa = PBXGroup;
+ 			children = (
+@@ -732,6 +745,7 @@
+ 			children = (
+ 				FE801ABB1C6AB1A5006A214E /* compat */,
+ 				FE801AC71C6AB1A5006A214E /* sudo_compat.h */,
++				2641B303222601F90070B8F4 /* libutil.h */,
+ 				FE801AC81C6AB1A5006A214E /* sudo_conf.h */,
+ 				FE801AC91C6AB1A5006A214E /* sudo_debug.h */,
+ 				FE801ACA1C6AB1A5006A214E /* sudo_dso.h */,
+@@ -1125,7 +1139,7 @@
+ 				FE801BD11C6AD2B9006A214E /* secureware.c */,
+ 				FE801BD21C6AD2B9006A214E /* securid5.c */,
+ 				FE801BD31C6AD2B9006A214E /* sia.c */,
+-				FE801BD41C6AD2B9006A214E /* sudo_auth.c */,
++				FE801BD41C6AD2B9006A214E /* sudo_auth.m */,
+ 				FE801BD51C6AD2B9006A214E /* sudo_auth.h */,
+ 			);
+ 			path = auth;
+@@ -1472,25 +1486,30 @@
+ 		08FB7793FE84155DC02AAC07 /* Project object */ = {
+ 			isa = PBXProject;
+ 			attributes = {
+-				LastUpgradeCheck = 0800;
++				LastUpgradeCheck = 1010;
+ 				TargetAttributes = {
+ 					1C0BFECC0F42468C00798D84 = {
++						DevelopmentTeam = EU5R2QY9HJ;
+ 						ProvisioningStyle = Manual;
+ 					};
+ 					FE801AFA1C6AB210006A214E = {
+ 						CreatedOnToolsVersion = 7.3;
++						DevelopmentTeam = EU5R2QY9HJ;
+ 						ProvisioningStyle = Manual;
+ 					};
+ 					FE801D291C6AFB2E006A214E = {
+ 						CreatedOnToolsVersion = 7.3;
++						DevelopmentTeam = EU5R2QY9HJ;
+ 						ProvisioningStyle = Manual;
+ 					};
+ 					FE801D331C6AFB8F006A214E = {
+ 						CreatedOnToolsVersion = 7.3;
++						DevelopmentTeam = EU5R2QY9HJ;
+ 						ProvisioningStyle = Manual;
+ 					};
+ 					FE801D5A1C6AFE87006A214E = {
+ 						CreatedOnToolsVersion = 7.3;
++						DevelopmentTeam = EU5R2QY9HJ;
+ 						ProvisioningStyle = Manual;
+ 					};
+ 				};
+@@ -1632,7 +1651,7 @@
+ 				FE801B961C6AB440006A214E /* load_plugins.c in Sources */,
+ 				FE801D081C6AD36A006A214E /* logwrap.c in Sources */,
+ 				FE801D151C6AD36A006A214E /* timestamp.c in Sources */,
+-				FE801D1A1C6AD3FA006A214E /* sudo_auth.c in Sources */,
++				FE801D1A1C6AD3FA006A214E /* sudo_auth.m in Sources */,
+ 				FE801D061C6AD36A006A214E /* locale.c in Sources */,
+ 				FE801CFA1C6AD36A006A214E /* check.c in Sources */,
+ 				FE801B901C6AB440006A214E /* env_hooks.c in Sources */,
+@@ -1773,9 +1792,9 @@
+ 		1C0BFECD0F42468D00798D84 /* Release */ = {
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
++				CLANG_ENABLE_OBJC_WEAK = YES;
+ 				COPY_PHASE_STRIP = YES;
+ 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+ 				PRODUCT_NAME = "Build All";
+ 				ZERO_LINK = NO;
+ 			};
+@@ -1785,10 +1804,34 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPRESSION = "respect-asset-catalog";
++				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
++				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
++				CLANG_WARN_BOOL_CONVERSION = YES;
++				CLANG_WARN_COMMA = YES;
++				CLANG_WARN_CONSTANT_CONVERSION = YES;
++				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
++				CLANG_WARN_EMPTY_BODY = YES;
++				CLANG_WARN_ENUM_CONVERSION = YES;
++				CLANG_WARN_INFINITE_RECURSION = YES;
++				CLANG_WARN_INT_CONVERSION = YES;
++				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
++				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
++				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
++				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
++				CLANG_WARN_STRICT_PROTOTYPES = YES;
++				CLANG_WARN_SUSPICIOUS_MOVE = YES;
++				CLANG_WARN_UNREACHABLE_CODE = YES;
++				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
++				ENABLE_STRICT_OBJC_MSGSEND = YES;
+ 				GCC_C_LANGUAGE_STANDARD = gnu99;
++				GCC_NO_COMMON_BLOCKS = YES;
+ 				GCC_OPTIMIZATION_LEVEL = s;
+ 				GCC_PREPROCESSOR_DEFINITIONS = __APPLE_MEMBERSHIP__;
++				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+ 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
++				GCC_WARN_UNDECLARED_SELECTOR = YES;
++				GCC_WARN_UNINITIALIZED_AUTOS = YES;
++				GCC_WARN_UNUSED_FUNCTION = YES;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+ 				HEADER_SEARCH_PATHS = (
+ 					"$(SRCROOT)/sudo",
+@@ -1796,14 +1839,13 @@
+ 					"$(SRCROOT)/sudo/plugins/sudoers",
+ 					"$(SRCROOT)/sudo/src",
+ 				);
+-				INSTALL_GROUP = wheel;
+-				INSTALL_OWNER = root;
++				MACOSX_DEPLOYMENT_TARGET = 10.11;
+ 				OTHER_CFLAGS = (
+ 					"-DSUDOERS_UID=0",
+ 					"-DSUDOERS_GID=0",
+ 					"-DSUDOERS_MODE=0440",
+ 				);
+-				SDKROOT = macosx.internal;
++				SDKROOT = macosx;
+ 			};
+ 			name = Release;
+ 		};
+@@ -1813,6 +1855,7 @@
+ 				ALWAYS_SEARCH_USER_PATHS = NO;
+ 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+ 				CLANG_CXX_LIBRARY = "libc++";
++				CLANG_ENABLE_OBJC_WEAK = YES;
+ 				CLANG_WARN_BOOL_CONVERSION = YES;
+ 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+ 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+@@ -1832,7 +1875,7 @@
+ 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+ 				GCC_WARN_UNUSED_FUNCTION = YES;
+ 				INSTALL_MODE_FLAG = 4511;
+-				INSTALL_PATH = /usr/bin;
++				INSTALL_PATH = /opt/local/bin;
+ 				MTL_ENABLE_DEBUG_INFO = NO;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 			};
+@@ -1844,6 +1887,7 @@
+ 				ALWAYS_SEARCH_USER_PATHS = NO;
+ 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+ 				CLANG_CXX_LIBRARY = "libc++";
++				CLANG_ENABLE_OBJC_WEAK = YES;
+ 				CLANG_WARN_BOOL_CONVERSION = YES;
+ 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+ 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+@@ -1863,8 +1907,7 @@
+ 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+ 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+ 				GCC_WARN_UNUSED_FUNCTION = YES;
+-				INSTALL_MODE_FLAG = 111;
+-				INSTALL_PATH = /usr/sbin;
++				INSTALL_PATH = /opt/local/sbin;
+ 				MTL_ENABLE_DEBUG_INFO = NO;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 			};
+@@ -1898,9 +1941,9 @@
+ 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+ 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+ 				GCC_WARN_UNUSED_FUNCTION = YES;
++				INSTALL_PATH = /opt/local/lib;
+ 				MTL_ENABLE_DEBUG_INFO = NO;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+-				SKIP_INSTALL = YES;
+ 				STRIP_INSTALLED_PRODUCT = NO;
+ 			};
+ 			name = Release;
+@@ -1933,9 +1976,9 @@
+ 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+ 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+ 				GCC_WARN_UNUSED_FUNCTION = YES;
++				INSTALL_PATH = /opt/local/lib;
+ 				MTL_ENABLE_DEBUG_INFO = NO;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+-				SKIP_INSTALL = YES;
+ 				STRIP_INSTALLED_PRODUCT = NO;
+ 			};
+ 			name = Release;
+diff --git a/sudo/config.h b/sudo/config.h
+index 8121119..03042c4 100644
+--- a/sudo/config.h
++++ b/sudo/config.h
+@@ -503,6 +503,9 @@
+ /* Define to 1 if you use PAM authentication. */
+ #define HAVE_PAM 1
+ 
++/* Define to use Touch ID. */
++#define HAVE_TOUCHID 1
++
+ /* Define to 1 if you have the `pam_getenvlist' function. */
+ #define HAVE_PAM_GETENVLIST 1
+ 
+diff --git a/sudo/include/libutil.h b/sudo/include/libutil.h
+new file mode 100644
+index 0000000..4fbcbc8
+--- /dev/null
++++ b/sudo/include/libutil.h
+@@ -0,0 +1,166 @@
++/*
++ * Copyright (c) 1996  Peter Wemm <peter@FreeBSD.org>.
++ * All rights reserved.
++ * Copyright (c) 2002 Networks Associates Technology, Inc.
++ * All rights reserved.
++ *
++ * Portions of this software were developed for the FreeBSD Project by
++ * ThinkSec AS and NAI Labs, the Security Research Division of Network
++ * Associates, Inc.  under DARPA/SPAWAR contract N66001-01-C-8035
++ * ("CBOSS"), as part of the DARPA CHATS research program.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, is permitted provided that the following conditions
++ * are met:
++ * 1. Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ * 3. The name of the author may not be used to endorse or promote
++ *    products derived from this software without specific prior written
++ *    permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
++ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
++ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
++ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
++ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
++ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
++ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++ * SUCH DAMAGE.
++ *
++ * $FreeBSD: src/lib/libutil/libutil.h,v 1.42 2006/02/18 11:25:28 des Exp $
++ */
++
++#ifndef _LIBUTIL_H_
++#define	_LIBUTIL_H_
++
++#include <unistd.h>
++#define PROPERTY_MAX_NAME	64
++#define PROPERTY_MAX_VALUE	512
++
++/* for properties.c */
++typedef struct _property {
++    struct _property *next;
++    char *name;
++    char *value;
++} *properties;
++
++#ifdef _SYS_PARAM_H_
++/* for pidfile.c */
++struct pidfh {
++    int	pf_fd;
++    char	pf_path[MAXPATHLEN + 1];
++    dev_t	pf_dev;
++    ino_t	pf_ino;
++};
++#endif
++
++/* Avoid pulling in all the include files for no need */
++struct termios;
++struct winsize;
++struct utmp;
++struct in_addr;
++
++__BEGIN_DECLS
++void	clean_environment(const char * const *_white,
++                          const char * const *_more_white);
++int	extattr_namespace_to_string(int _attrnamespace, char **_string);
++int	extattr_string_to_namespace(const char *_string, int *_attrnamespace);
++void	login(struct utmp *_ut);
++int	login_tty(int _fd);
++int	logout(const char *_line);
++void	logwtmp(const char *_line, const char *_name, const char *_host);
++void	trimdomain(char *_fullhost, int _hostsize);
++int	openpty(int *_amaster, int *_aslave, char *_name,
++            struct termios *_termp, struct winsize *_winp);
++int	forkpty(int *_amaster, char *_name,
++            struct termios *_termp, struct winsize *_winp);
++int	humanize_number(char *_buf, size_t _len, int64_t _number,
++                    const char *_suffix, int _scale, int _flags);
++const char *uu_lockerr(int _uu_lockresult);
++int	uu_lock(const char *_ttyname);
++int	uu_unlock(const char *_ttyname);
++int	uu_lock_txfr(const char *_ttyname, pid_t _pid);
++int	_secure_path(const char *_path, uid_t _uid, gid_t _gid);
++properties properties_read(int fd);
++void	properties_free(properties list);
++char	*property_find(properties list, const char *name);
++char	*auth_getval(const char *name);
++int	realhostname(char *host, size_t hsize, const struct in_addr *ip);
++struct sockaddr;
++int	realhostname_sa(char *host, size_t hsize, struct sockaddr *addr,
++                    int addrlen);
++
++int	kld_isloaded(const char *name);
++int	kld_load(const char *name);
++
++#ifdef _STDIO_H_	/* avoid adding new includes */
++char   *fparseln(FILE *, size_t *, size_t *, const char[3], int);
++#endif
++
++#ifdef _PWD_H_
++int	pw_copy(int _ffd, int _tfd, const struct passwd *_pw, struct passwd *_old_pw);
++struct passwd *pw_dup(const struct passwd *_pw);
++int	pw_edit(int _notsetuid);
++int	pw_equal(const struct passwd *_pw1, const struct passwd *_pw2);
++void	pw_fini(void);
++int	pw_init(const char *_dir, const char *_master);
++char	*pw_make(const struct passwd *_pw);
++int	pw_mkdb(const char *_user);
++int	pw_lock(void);
++struct passwd *pw_scan(const char *_line, int _flags);
++const char *pw_tempname(void);
++int	pw_tmp(int _mfd);
++#endif
++
++#ifdef _SYS_PARAM_H_
++struct pidfh *pidfile_open(const char *path, mode_t mode, pid_t *pidptr);
++int pidfile_write(struct pidfh *pfh);
++int pidfile_close(struct pidfh *pfh);
++int pidfile_remove(struct pidfh *pfh);
++#endif
++
++__END_DECLS
++
++#define UU_LOCK_INUSE (1)
++#define UU_LOCK_OK (0)
++#define UU_LOCK_OPEN_ERR (-1)
++#define UU_LOCK_READ_ERR (-2)
++#define UU_LOCK_CREAT_ERR (-3)
++#define UU_LOCK_WRITE_ERR (-4)
++#define UU_LOCK_LINK_ERR (-5)
++#define UU_LOCK_TRY_ERR (-6)
++#define UU_LOCK_OWNER_ERR (-7)
++
++/* return values from realhostname() */
++#define HOSTNAME_FOUND		(0)
++#define HOSTNAME_INCORRECTNAME	(1)
++#define HOSTNAME_INVALIDADDR	(2)
++#define HOSTNAME_INVALIDNAME	(3)
++
++/* fparseln(3) */
++#define	FPARSELN_UNESCESC	0x01
++#define	FPARSELN_UNESCCONT	0x02
++#define	FPARSELN_UNESCCOMM	0x04
++#define	FPARSELN_UNESCREST	0x08
++#define	FPARSELN_UNESCALL	0x0f
++
++/* pw_scan() */
++#define PWSCAN_MASTER		0x01
++#define PWSCAN_WARN		0x02
++
++/* humanize_number(3) */
++#define HN_DECIMAL		0x01
++#define HN_NOSPACE		0x02
++#define HN_B			0x04
++#define HN_DIVISOR_1000		0x08
++
++#define HN_GETSCALE		0x10
++#define HN_AUTOSCALE		0x20
++
++#endif /* !_LIBUTIL_H_ */
+diff --git a/sudo/plugins/sudoers/auth/sudo_auth.c b/sudo/plugins/sudoers/auth/sudo_auth.m
+similarity index 79%
+rename from sudo/plugins/sudoers/auth/sudo_auth.c
+rename to sudo/plugins/sudoers/auth/sudo_auth.m
+index dca4e1c..7e4468b 100644
+--- a/sudo/plugins/sudoers/auth/sudo_auth.c
++++ b/sudo/plugins/sudoers/auth/sudo_auth.m
+@@ -34,11 +34,29 @@
+ #include <time.h>
+ #include <signal.h>
+ 
++#ifdef HAVE_TOUCHID
++#include <crt_externs.h>
++#endif // __APPLE__
++
+ #include "sudoers.h"
+ #include "sudo_auth.h"
+ #include "insults.h"
+ 
++#ifdef HAVE_TOUCHID
++#import <LocalAuthentication/LocalAuthentication.h>
++int is_over_ssh = 0;
++int touchid_setup(struct passwd *pw, char **prompt, sudo_auth *auth);
++int touchid_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_conv_callback *callback);
++int touchid_pam_begin_session(struct passwd *pw, char **user_envp[], sudo_auth *auth);
++int touchid_pam_end_session(struct passwd *pw, sudo_auth *auth);
++#endif // HAVE_TOUCHID
++
+ static sudo_auth auth_switch[] = {
++#ifdef HAVE_TOUCHID
++    /* Touch ID, with fallback to PAM when over SSH */
++    AUTH_ENTRY("touchid", FLAG_STANDALONE, sudo_pam_init, touchid_setup, touchid_verify, sudo_pam_cleanup, touchid_pam_begin_session, touchid_pam_end_session)
++#endif
++    
+ /* Standalone entries first */
+ #ifdef HAVE_AIXAUTH
+     AUTH_ENTRY("aixauth", FLAG_STANDALONE, sudo_aix_init, NULL, sudo_aix_verify, sudo_aix_cleanup, NULL, NULL)
+@@ -116,6 +134,7 @@ sudo_auth_init(struct passwd *pw)
+      * Make sure we haven't mixed standalone and shared auth methods.
+      * If there are multiple standalone methods, only use the first one.
+      */
++    
+     if ((standalone = IS_STANDALONE(&auth_switch[0]))) {
+ 	bool found = false;
+ 	for (auth = auth_switch; auth->name; auth++) {
+@@ -445,3 +464,84 @@ dump_auth_methods(void)
+ 
+     debug_return;
+ }
++
++#ifdef HAVE_TOUCHID
++typedef enum {
++    kTouchIDResultNone,
++    kTouchIDResultAllowed,
++    kTouchIDResultFailed
++} TouchIDResult;
++
++static const LAPolicy kAuthPolicy = 0x3f0;
++
++int
++touchid_setup(struct passwd *pw, char **prompt, sudo_auth *auth) {
++    // If over SSH, indicated by non-empty environment variable SSH_CONNECTION,
++    // fallback to PAM by exiting early as possible here
++    // Still has to be AUTH_SUCCESS but is_over_ssh is set to non-zero
++    char **ep, **envp = *_NSGetEnviron();
++    const char *name = "SSH_CONNECTION";
++    size_t namelen = 0;
++    while (name[namelen] != '\0') {
++        namelen++;
++    }
++    for (ep = envp; *ep != NULL; ep++) {
++        if (strncmp(*ep, name, namelen) == 0 && (*ep)[namelen] == '=') {
++            log_warningx(SLOG_SEND_MAIL, N_("No Touch ID over SSH."));
++            is_over_ssh = 1;
++            return AUTH_SUCCESS;
++        }
++    }
++
++    @try {
++        LAContext *context = [[LAContext alloc] init];
++        BOOL canAuthenticate = [context canEvaluatePolicy:kAuthPolicy error:nil];
++        [context release];
++        if (canAuthenticate) {
++            return AUTH_SUCCESS;
++        }
++    }
++    @catch(NSException *) {
++        // LAPolicyDeviceOwnerAuthenticationWithBiometrics may not be available on builds older than 10.12.1!
++        sudo_printf(SUDO_CONV_INFO_MSG, _("2"));
++    }
++    audit_failure(NewArgc, NewArgv, "%s", N_("Touch ID setup failed."));
++
++    return AUTH_FAILURE;
++}
++
++int
++touchid_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_conv_callback *callback) {
++    if (is_over_ssh) {
++        return sudo_pam_verify(pw, pass, auth, callback);
++    }
++
++    LAContext *context = [[LAContext alloc] init];
++    __block TouchIDResult result = kTouchIDResultNone;
++    [context evaluatePolicy:kAuthPolicy localizedReason:@"authenticate a privileged operation" reply:^(BOOL success, NSError *error) {
++        result = success ? kTouchIDResultAllowed : kTouchIDResultFailed;
++        CFRunLoopWakeUp(CFRunLoopGetCurrent());
++    }];
++    
++    while (result == kTouchIDResultNone)
++        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, true);
++    
++    [context release];
++    return result == kTouchIDResultAllowed ? AUTH_SUCCESS : AUTH_FAILURE;
++}
++
++int touchid_pam_begin_session(struct passwd *pw, char **user_envp[], sudo_auth *auth) {
++    if (is_over_ssh) {
++        return sudo_pam_begin_session(pw, user_envp, auth);
++    }
++    return AUTH_SUCCESS;
++}
++
++int touchid_pam_end_session(struct passwd *pw, sudo_auth *auth) {
++    if (is_over_ssh) {
++        return sudo_pam_end_session(pw, auth);
++    }
++    return AUTH_SUCCESS;
++}
++#endif // HAVE_TOUCHID
++

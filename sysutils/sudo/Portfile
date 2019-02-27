@@ -1,0 +1,42 @@
+PortSystem          1.0
+PortGroup           xcode 1.0
+
+name                sudo
+categories          sysutils security
+version             86.50.1
+platforms           darwin
+license             AAPL MIT BSD-3
+
+homepage            https://opensource.apple.com/release/macos-10141.html
+master_sites        https://opensource.apple.com/tarballs/${name}
+distname            ${name}-${version}
+
+checksums           rmd160  fdcada155c91905eec0ac90b7a616b9dbcb86040 \
+                    sha256  9fe6fbc0b55dbd0df91cf6aa3d6a2af8158d4b41830e6a0d275c055620a6664b \
+                    size    3049156
+
+description         Allow users to run programs as other users, e.g. root (with Touch ID patch).
+long_description    ${description}
+
+xcode.target        "Build All"
+xcode.configuration Release
+
+patchfiles          touchid.patch
+patch.pre_args      -p1
+
+if {${os.major} < 15} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.11 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+post-patch {
+    file rename ${worksrcpath}/sudo/plugins/sudoers/auth/sudo_auth.c \
+        ${worksrcpath}/sudo/plugins/sudoers/auth/sudo_auth.m
+}
+
+destroot {
+    xinstall -m 111 ${worksrcpath}/build/Release/visudo ${destroot}${prefix}/sbin/visudo
+    xinstall -m 4511 ${worksrcpath}/build/Release/sudo ${destroot}${prefix}/bin/sudo
+}
