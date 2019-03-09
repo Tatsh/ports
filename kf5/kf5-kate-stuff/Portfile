@@ -1,0 +1,49 @@
+PortSystem          1.0
+
+set gh_user         zaufi
+set gh_project      kate-stuff
+set gh_commit       7dabd82
+
+name                kf5-${gh_project}
+version             20190213
+categories          kde kf5
+license             MIT
+maintainers         nomaintainer
+description         Improved Kate syntax files.
+long_description    ${description}
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}
+
+# These are in the macstrop repository
+depends_run-append port:kf5-kate
+
+use_configure       no
+build.cmd           echo
+
+checksums           rmd160  2c44262c45d4d5f47ea83c80a54ecee8146f9bb9 \
+                    sha256  d0b0ec5a2cde1b700deddf7e67509d7bb615cd23d71316558f460ddd5842742b \
+                    size    158395
+
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax
+    xinstall -m 644 ${worksrcpath}/syntax/rainbow-csv.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-rainbow-csv.xml
+    xinstall -m 644 ${worksrcpath}/syntax/cpp.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-cpp.xml
+    xinstall -m 644 ${worksrcpath}/syntax/doxygen.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-doxygen.xml
+    xinstall -m 644 ${worksrcpath}/syntax/alert.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-alert.xml
+    xinstall -m 644 ${worksrcpath}/syntax/gcc.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-gcc.xml
+    xinstall -m 644 ${worksrcpath}/syntax/javascript.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-javascript.xml
+    xinstall -m 644 ${worksrcpath}/syntax/modelines.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-modelines.xml
+    xinstall -m 644 ${worksrcpath}/syntax/cmake.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-cmake.xml
+    xinstall -m 644 ${worksrcpath}/syntax/rest.xml ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax/zaufi-rest.xml
+
+    xinstall -m 755 -d ${destroot}${prefix}/share/ktexteditor_snippets/
+    xinstall -m 755 -d ${destroot}${prefix}/share/ktexteditor_snippets/data
+    xinstall -m 644 ${worksrcpath}/snippets/gcc-specifics.xml ${destroot}${prefix}/share/ktexteditor_snippets/data/gcc-specifics.xml
+    xinstall -m 644 ${worksrcpath}/snippets/BOOST_PP.xml ${destroot}${prefix}/share/ktexteditor_snippets/data/BOOST_PP.xml
+    xinstall -m 644 "${worksrcpath}/snippets/zaufi's C++ snippets.xml" "${destroot}${prefix}/share/ktexteditor_snippets/data/zaufi's C++ snippets.xml"
+    xinstall -m 644 ${worksrcpath}/snippets/kate-modelines.xml ${destroot}${prefix}/share/ktexteditor_snippets/data/kate-modelines.xml
+    xinstall -m 644 ${worksrcpath}/snippets/BOOST_TEST.xml ${destroot}${prefix}/share/ktexteditor_snippets/data/BOOST_TEST.xml
+}
