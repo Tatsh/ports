@@ -1,0 +1,33 @@
+PortSystem          1.0
+
+set gh_user         z0mbix
+set gh_project      docker-ctl
+set gh_commit       4b349f4
+
+name                ${gh_project}
+version             20160123
+license             MIT
+supported_archs     noarch
+maintainers         nomaintainer
+description         Docker wrapper script for common tasks.
+long_description    ${description}
+
+homepage            https://github.com/${gh_user}/${gh_project}
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}
+
+checksums           rmd160  323937fa5d9ae84d9a768a087f4f7ace90308a61 \
+                    sha256  f4de07818afef562ecbda4aa3b671d1446ef320ecf9238b6966bf28df2359b25 \
+                    size    2662
+
+use_configure       no
+build.cmd           echo
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/docker-ctl ${destroot}${prefix}/bin/docker-ctl
+    xinstall -m 0755 -d ${destroot}${prefix}/share/bash-completion
+    xinstall -m 0755 -d ${destroot}${prefix}/share/bash-completion/completions
+    xinstall -m 0644 ${worksrcpath}/docker-ctl_completiton.bash \
+        ${destroot}${prefix}/share/bash-completion/completions/docker-ctl
+}
