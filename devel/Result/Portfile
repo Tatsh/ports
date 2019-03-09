@@ -1,0 +1,30 @@
+PortSystem          1.0
+PortGroup           xcode 1.0
+PortGroup           github 1.0
+
+github.setup        antitypical Result 4.1.0
+
+license             MIT
+maintainers         nomaintainer
+description         Swift type modelling the success/failure of arbitrary operations.
+long_description    ${description}
+categories          devel
+
+checksums           rmd160  d58ca7bf2f8822f02ee2b5fb4175c16962675eef \
+                    sha256  fbd4091ce0ce01a76c7ee1b9a4b6f909698cec8668f3555b50457cc2209bc486 \
+                    size    17163
+
+xcode.target        Result-Mac
+xcode.configuration Release
+
+if {${os.major} < 15} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.11 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+destroot {
+    file copy ${worksrcpath}/build/Release/Result.framework \
+        ${destroot}${prefix}/Library/Frameworks/
+}
