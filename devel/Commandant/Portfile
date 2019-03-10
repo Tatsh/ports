@@ -30,7 +30,7 @@ checksums           Commandant-0.15.0.tar.gz \
 xcode.target        Commandant
 xcode.configuration Release
 
-depends_build-append    port:Result
+depends_lib         port:Result
 
 patchfiles          use-system-result.patch
 patch.pre_args      -p1
