@@ -14,14 +14,23 @@ checksums           rmd160  433232341b6b2b38f605dbce397a9b33a4ae172d \
                     sha256  6cd559973b984c8955cdb665eb51acb9b122fd8c7cdbf2d3db12dbb5a1347020 \
                     size    3043373
 
-xcode.target        "mas-cli Release"
+xcode.target        mas
 xcode.configuration Release
 
 depends_build-append    port:Commandant port:Result
+
+patchfiles          system-libs.patch
+patch.pre_args      -p1
 
 if {${os.major} < 15} {
     pre-fetch {
         ui_error "${name} @${version} requires OS X 10.11 or later."
         return -code error "incompatible OS X version"
     }
+}
+
+destroot {
+    file copy ${worksrcpath}/build/Release/MasKit.framework \
+        ${destroot}${prefix}/Library/Frameworks/
+    xinstall -m 755 ${worksrcpath}/build/Release/mas ${destroot}${prefix}/bin/mas
 }
