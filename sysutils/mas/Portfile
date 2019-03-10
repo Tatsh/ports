@@ -14,11 +14,10 @@ checksums           rmd160  433232341b6b2b38f605dbce397a9b33a4ae172d \
                     sha256  6cd559973b984c8955cdb665eb51acb9b122fd8c7cdbf2d3db12dbb5a1347020 \
                     size    3043373
 
+depends_lib         port:Commandant port:Result
+
 xcode.target        mas
 xcode.configuration Release
-
-depends_build-append    port:Commandant port:Result
-depends_run-append      port:Commandant port:Result
 
 patchfiles          system-libs.patch
 patch.pre_args      -p1
