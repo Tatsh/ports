@@ -17,6 +17,8 @@ checksums           rmd160  9a0c96cb3b851a4e8da25e1a199f9eb920365d05 \
 xcode.target        Commandant
 xcode.configuration Release
 
+depends_build-append    port:Nimble port:Quick
+
 if {${os.major} < 15} {
     pre-fetch {
         ui_error "${name} @${version} requires OS X 10.11 or later."

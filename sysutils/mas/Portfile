@@ -1,0 +1,27 @@
+PortSystem          1.0
+PortGroup           xcode 1.0
+PortGroup           github 1.0
+
+github.setup        mas-cli mas 1.6.2 v
+
+license             MIT
+maintainers         nomaintainer
+description         Mac App Store command line interface.
+long_description    ${description}
+categories          sysutils aqua
+
+checksums           rmd160  433232341b6b2b38f605dbce397a9b33a4ae172d \
+                    sha256  6cd559973b984c8955cdb665eb51acb9b122fd8c7cdbf2d3db12dbb5a1347020 \
+                    size    3043373
+
+xcode.target        "mas-cli Release"
+xcode.configuration Release
+
+depends_build-append    port:Commandant port:Result
+
+if {${os.major} < 15} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.11 or later."
+        return -code error "incompatible OS X version"
+    }
+}
