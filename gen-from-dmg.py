@@ -8,7 +8,7 @@ import subprocess as sp
 import sys
 import tempfile
 
-from dir2xinstall import dir2xinstall
+from dir2xinstall import dir2xinstall, has_libstdcxx
 
 
 def mount_dmg(mountroot: str, dmg: str):
