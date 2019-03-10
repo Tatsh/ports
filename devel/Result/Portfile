@@ -17,13 +17,6 @@ checksums           rmd160  d58ca7bf2f8822f02ee2b5fb4175c16962675eef \
 xcode.target        Result-Mac
 xcode.configuration Release
 
-if {${os.major} < 15} {
-    pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.11 or later."
-        return -code error "incompatible OS X version"
-    }
-}
-
 destroot {
     file copy ${worksrcpath}/build/Release/Result.framework \
         ${destroot}${prefix}/Library/Frameworks/
