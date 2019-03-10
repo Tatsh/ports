@@ -18,6 +18,7 @@ xcode.target        mas
 xcode.configuration Release
 
 depends_build-append    port:Commandant port:Result
+depends_run-append      port:Commandant port:Result
 
 patchfiles          system-libs.patch
 patch.pre_args      -p1
