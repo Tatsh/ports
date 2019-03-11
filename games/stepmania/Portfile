@@ -33,52 +33,47 @@ depends_lib port:libmad \
     port:pcre \
     port:libogg
 
-
 configure.args-append \
-		-DWITH_FFMPEG=yes \
-		-DWITH_SYSTEM_FFMPEG=yes \
 		-DWITH_FULL_RELEASE=yes \
 		-DWITH_PORTABLE_TOMCRYPT=no \
-		-DWITH_CRASH_HANDLER=yes \
 		-DWITH_GLES2=yes \
-		-DWITH_GPL_LIBS=yes \
 		-DWITH_JPEG=yes \
-		-DWITH_MP3=yes \
 		-DWITH_OGG=yes \
 		-DWITH_WAV=yes \
 		-DWITH_SYSTEM_GLEW=yes \
 		-DWITH_SYSTEM_TOMMATH=yes \
-		-DWITH_SYSTEM_MAD=yes \
 		-DWITH_SYSTEM_ZLIB=yes \
 		-DWITH_SYSTEM_JSONCPP=no \
 		-DWITH_SYSTEM_PNG=no \
 		-DWITH_SYSTEM_JPEG=yes \
 		-DWITH_SYSTEM_PCRE=yes \
-		-DWITH_SYSTEM_OGG=yes \
-		-DWITH_NETWORKING=yes \
-		-DWITH_LTO=no
+		-DWITH_SYSTEM_OGG=yes
 
-# variant networking description {Networking support} {
-#     configure.args-append -DWITH_NETWORKING=ON
-# }
+variant networking description {Networking support} {
+	configure.args-append -DWITH_NETWORKING=yes
+}
 
-# variant ffmpeg description {Enable ffmpeg} {
-#     configure.args-append -DWITH_FFMPEG=ON
-# }
+variant ffmpeg description {Enable ffmpeg} {
+    configure.args-append -DWITH_FFMPEG=yes -DWITH_SYSTEM_FFMPEG=yes
+}
 
-# variant crash_handler description {Enable crash handler} {
-#     configure.args-append -DWITH_CRASH_HANDLER=ON
-# }
+variant crash_handler description {Enable crash handler} {
+    configure.args-append -DWITH_CRASH_HANDLER=yes
+}
 
-# variant gpl description {Enable GPL code (non-distributable binary)} {
-#     configure.args-append -DWITH_GPL_LIBS=ON
-# }
+variant gpl description {Enable GPL code (non-distributable binary)} {
+    configure.args-append -DWITH_GPL_LIBS=yes -DWITH_MP3=yes -DWITH_SYSTEM_MAD=yes
+}
+
+variant lto description {Enable link time optimisation} {
+	configure.args-append -DWITH_LTO=yes
+}
 
 # variant bundled_songs description {Do not install bundled songs} {}
 
 # variant bundled_courses description {Do not install bundled courses} {}
 
-# default_variants    +networking +ffmpeg +crash_handler +gpl
+default_variants    +networking +ffmpeg +crash_handler +gpl
 
 destroot {
     set dirnames {Announcers BGAnimations BackgroundEffects
