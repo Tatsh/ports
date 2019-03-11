@@ -8,6 +8,13 @@ set icons_hash      40150835b9475d259035a18381d24a64b2a489a9
 
 github.setup        ${gh_user} ${gh_project} 6.1.7
 
+license             GPL-2
+description         Desktop-independent file manager.
+long_description    ${description}
+platforms           darwin linux
+maintainers         nomaintainer
+categories          aqua
+
 distfiles           ${name}-${version}.tar.gz:qtfm \
                     ${icons_hash}.tar.gz:icons
 worksrcdir          ${gh_user}-${gh_project}-f8b015e
@@ -23,7 +30,7 @@ checksums           qtfm-6.1.7.tar.gz \
                     sha256  bbe1fad79eb16565e5c14bd9181103dabdb9049d8549c1af84d0804d041b367e \
                     size    10115186
 
-depends_lib         port:libinotify-kqueue
+depends_lib         port:libinotify-kqueue port:qt5-kde
 
 pre-configure {
     file copy "${workpath}/adwaita-bundle-${icons_hash}/adwaita.qrc" \
