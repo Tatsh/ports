@@ -10,7 +10,7 @@ name                openrct2
 
 categories          games
 platforms           darwin
-maintainers         {kencu @kencu} openmaintainer
+maintainers         {kencu @kencu} {audvare@gmail.com @Tatsh} openmaintainer
 license             GPL-3+
 
 description         An open-source re-implementation of RollerCoaster Tycoon 2.
@@ -41,15 +41,22 @@ depends_lib-append  port:libsdl2 \
                     port:curl \
                     port:freetype \
                     port:libiconv \
-                    port:icu63
+                    port:${name}-icu
 # prevent unctrl.h from loading - it brings in an error regarding undefined SCREEN*
 # if MacPorts ncurses has been installed
 configure.cppflags-append -DNCURSES_UNCTRL_H_incl
 configure.cppflags-append -Wno-deprecated-declarations
 configure.args-append \
     -DDOWNLOAD_TITLE_SEQUENCES=no \
-    -DDOWNLOAD_OBJECTS=no
+    -DDOWNLOAD_OBJECTS=no \
+    -DICU_ROOT=${prefix}/libexec/${name}-icu
 
 notes "
 OpenRCT2 requires files from the original RollerCoaster Tycoon 2 in order to work.
 "
+
+pre-patch {
+    reinplace \
+        "s|target_include_directories(\$\{PROJECT\} SYSTEM PRIVATE \$\{ICU.*|target_include_directories(\${PROJECT} BEFORE PRIVATE \${ICU_INCLUDE_DIRS})|" \
+        ${worksrcpath}/src/${name}/CMakeLists.txt
+}
