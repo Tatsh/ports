@@ -11,7 +11,7 @@ github.setup        ${gh_user} ${gh_project} 6.1.7
 license             GPL-2
 description         Desktop-independent file manager.
 long_description    ${description}
-platforms           darwin linux
+platforms           macosx
 maintainers         nomaintainer
 categories          aqua
 
