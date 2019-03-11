@@ -1,0 +1,37 @@
+PortSystem          1.0
+PortGroup           qmake5 1.0
+PortGroup           github 1.0
+
+set gh_user         rodlie
+set gh_project      qtfm
+set icons_hash      40150835b9475d259035a18381d24a64b2a489a9
+
+github.setup        ${gh_user} ${gh_project} 6.1.7
+
+distfiles           ${name}-${version}.tar.gz:qtfm \
+                    ${icons_hash}.tar.gz:icons
+worksrcdir          ${gh_user}-${gh_project}-f8b015e
+master_sites        ${github.homepage}/tarball/${git.branch}:qtfm \
+                    https://github.com/${gh_user}/adwaita-bundle/archive:icons
+
+checksums           qtfm-6.1.7.tar.gz \
+                    rmd160  ec3b648251c0a4ae5a6d74f7cfb54faecba69dd7 \
+                    sha256  879a9611c152afd3ce88f8447e523628e74b01c1316895760773051ff289f42c \
+                    size    247677 \
+                    40150835b9475d259035a18381d24a64b2a489a9.tar.gz \
+                    rmd160  eabf32f7da0a0be1226131cb415008592bc70ce4 \
+                    sha256  bbe1fad79eb16565e5c14bd9181103dabdb9049d8549c1af84d0804d041b367e \
+                    size    10115186
+
+depends_lib         port:libinotify-kqueue
+
+pre-configure {
+    file copy "${workpath}/adwaita-bundle-${icons_hash}/adwaita.qrc" \
+        "${worksrcpath}/fm/bundle/"
+    file copy "${workpath}/adwaita-bundle-${icons_hash}/Adwaita" \
+        "${worksrcpath}/fm/bundle/"
+}
+
+destroot {
+    file copy "${worksrcpath}/fm/QtFM.app" "${destroot}/${applications_dir}/"
+}
