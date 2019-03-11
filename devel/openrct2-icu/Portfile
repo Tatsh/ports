@@ -32,7 +32,7 @@ checksums           rmd160  5c895a6e2b135978df59e135ed772747aec0065f \
                     sha256  05c490b69454fce5860b7e8e2821231674af0a11d7ef2febea9a32512998cb9d
 
 worksrcdir      ${real_name}/source
-set docdir      ${prefix}/libexec/openrct-icu/share/doc/${name}
+set docdir      ${prefix}/libexec/openrct2-icu/share/doc/${name}
 
 configure.args              --disable-layoutex \
                             --disable-samples \
@@ -40,7 +40,7 @@ configure.args              --disable-layoutex \
                             --disable-tools \
                             --disable-extras \
                             --disable-tests \
-                            --prefix=${prefix}/libexec/openrct-icu
+                            --prefix=${prefix}/libexec/openrct2-icu
 
 subport ${name}-docs {
     revision                0
