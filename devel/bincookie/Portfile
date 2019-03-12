@@ -2,17 +2,17 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Tatsh bincookie 0.0.2 v
+github.setup        Tatsh bincookie 0.1.0 v
 name                bincookie
-version             0.0.2
+version             0.1.0
 platforms           darwin
 license             MIT
 maintainers         nomaintainer
 description         Library to parse Apple's binarycookies format.
 long_description    ${description}
 
-checksums           rmd160  fdb1fdef5c600fa56209ee4e077ef9eb8bca0ec6 \
-                    sha256  154223259bc6a0c8605a28fa8ac157f2a70bef90b9ee2fabb7b3de802e430aa5 \
-                    size    36527
+checksums           rmd160  0ba7dc33383c1311002a0afc7007027f96df0d2c \
+                    sha256  fc1f39e72d6eb44a0f166c86814063cb1d8556888ee17850f6f6cd1d0559141e \
+                    size    36526
 
 configure.args-append -DWITH_EXAMPLES=yes
