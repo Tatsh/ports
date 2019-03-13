@@ -1,11 +1,10 @@
-# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
-
 PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           cxx11 1.1
 
-github.setup        OpenRCT2 OpenRCT2 0.2.1 v
+set gh_name         OpenRCT2
+github.setup        ${gh_name} ${gh_name} 0.2.1 v
 name                openrct2
 
 categories          games
@@ -18,8 +17,28 @@ long_description    ${description} A construction and management simulation \
                     video game that simulates amusement park management. Requires \
                     files from the original RollerCoaster Tycoon 2 in order to work.
 
-checksums           rmd160  e8c032c8c49afefa58b6acc31228fb5775e63ff0 \
-                    sha256  83adb7e688cbbc200df6b5de4dcd8a7d8a0097861820a712c09000ec519bef98
+set tsv             0.1.2
+set objv            1.0.7
+master_sites        ${github.homepage}/tarball/${git.branch}:main \
+                    https://github.com/OpenRCT2/title-sequences/releases/download/v${tsv}:ts \
+                    https://github.com/OpenRCT2/objects/releases/download/v${objv}:obj
+distfiles           ${name}-${version}.tar.gz:main \
+                    title-sequence-v${tsv}.zip:ts \
+                    objects.zip:obj
+worksrcdir          ${gh_name}-${gh_name}-410bee9
+
+checksums           openrct2-0.2.1.tar.gz \
+                    rmd160  e8c032c8c49afefa58b6acc31228fb5775e63ff0 \
+                    sha256  83adb7e688cbbc200df6b5de4dcd8a7d8a0097861820a712c09000ec519bef98 \
+                    size    6571973 \
+                    title-sequence-v0.1.2.zip \
+                    rmd160  76d3c3fbc5fa4707ce04c2f287ac4bc7ef4ae37c \
+                    sha256  dcb1648739b351e857e2d19fed1626bec561d5e9f4b49201568f42c475ee7e61 \
+                    size    4073116 \
+                    objects.zip \
+                    rmd160  7176077b98478fb5f76ca3c628a24c069d733b85 \
+                    sha256  1ddc6605878e32969d910aada5c49e789207d0122a8b0d8663492b4ff5b915fb \
+                    size    2164242
 
 # requires 10.11 or newer at present
 # see https://trac.macports.org/ticket/55591
@@ -54,6 +73,14 @@ configure.args-append \
 notes "
 OpenRCT2 requires files from the original RollerCoaster Tycoon 2 in order to work.
 "
+
+post-extract {
+    file mkdir ${worksrcpath}/data
+    file mkdir ${worksrcpath}/data/title
+    file mkdir ${worksrcpath}/data/object
+    exec unzip ${distpath}/title-sequence-v${tsv}.zip -d ${worksrcpath}/data/title/
+    exec unzip ${distpath}/objects.zip -d ${worksrcpath}/data/object/
+}
 
 pre-patch {
     reinplace \
