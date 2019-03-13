@@ -9,7 +9,7 @@ name                openrct2
 
 categories          games
 platforms           darwin
-maintainers         {kencu @kencu} {audvare@gmail.com @Tatsh} openmaintainer
+maintainers         {kencu @kencu} {gmail.com:audvare @Tatsh} openmaintainer
 license             GPL-3+
 
 description         An open-source re-implementation of RollerCoaster Tycoon 2.
