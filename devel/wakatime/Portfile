@@ -9,8 +9,8 @@ platforms           darwin
 license             BSD-3
 supported_archs     noarch
 
-python.versions         27 34 35 36
-python.default_version  36
+python.versions         27 34 35 36 37
+python.default_version  37
 
 maintainers         nomaintainer
 
@@ -39,6 +39,10 @@ depends_run-append  port:py${python.version}-requests \
 
 if {$subport ne $name} {
     livecheck.type none
+}
+
+post-extract {
+    exec rm -fR "${worksrcpath}/${name}/packages/"
 }
 
 post-destroot {
