@@ -1,0 +1,135 @@
+diff --git a/Overkill.xcodeproj/project.pbxproj b/Overkill.xcodeproj/project.pbxproj
+index ab813f6..891d550 100644
+--- a/Overkill.xcodeproj/project.pbxproj
++++ b/Overkill.xcodeproj/project.pbxproj
+@@ -103,7 +103,7 @@
+ 					CA14B5451F3F933A00C9F139 = {
+ 						CreatedOnToolsVersion = 8.3.2;
+ 						LastSwiftMigration = 1000;
+-						ProvisioningStyle = Automatic;
++						ProvisioningStyle = Manual;
+ 					};
+ 				};
+ 			};
+@@ -213,7 +213,7 @@
+ 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+ 				GCC_WARN_UNUSED_FUNCTION = YES;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+-				MACOSX_DEPLOYMENT_TARGET = 10.12;
++				MACOSX_DEPLOYMENT_TARGET = 10.10;
+ 				MTL_ENABLE_DEBUG_INFO = YES;
+ 				ONLY_ACTIVE_ARCH = YES;
+ 				SDKROOT = macosx;
+@@ -265,7 +265,7 @@
+ 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+ 				GCC_WARN_UNUSED_FUNCTION = YES;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+-				MACOSX_DEPLOYMENT_TARGET = 10.12;
++				MACOSX_DEPLOYMENT_TARGET = 10.10;
+ 				MTL_ENABLE_DEBUG_INFO = NO;
+ 				SDKROOT = macosx;
+ 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+@@ -276,7 +276,8 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+-				CODE_SIGN_IDENTITY = "Mac Developer";
++				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_STYLE = Manual;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				DEVELOPMENT_TEAM = "";
+ 				INFOPLIST_FILE = Overkill/Info.plist;
+@@ -284,7 +285,6 @@
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.krausefx.Overkill;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				PROVISIONING_PROFILE_SPECIFIER = "";
+-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+ 				SWIFT_VERSION = 4.2;
+ 			};
+ 			name = Debug;
+@@ -293,7 +293,8 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+-				CODE_SIGN_IDENTITY = "Mac Developer";
++				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_STYLE = Manual;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				DEVELOPMENT_TEAM = "";
+ 				INFOPLIST_FILE = Overkill/Info.plist;
+@@ -301,7 +302,6 @@
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.krausefx.Overkill;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				PROVISIONING_PROFILE_SPECIFIER = "";
+-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+ 				SWIFT_VERSION = 4.2;
+ 			};
+ 			name = Release;
+diff --git a/Overkill/LaunchStarter.swift b/Overkill/LaunchStarter.swift
+index dc55f58..b288f31 100644
+--- a/Overkill/LaunchStarter.swift
++++ b/Overkill/LaunchStarter.swift
+@@ -18,8 +18,10 @@ func itemReferencesInLoginItems() -> (existingReference: LSSharedFileListItem?,
+     
+     let appURL = NSURL.fileURL(withPath: Bundle.main.bundlePath) as NSURL
+     let currentItemRef = loginItems.first { currentItemRef in
+-        let itemURL = url(currentItemRef)
+-        return itemURL.isEqual(appURL)
++        if let itemURL = url(currentItemRef) {
++            return itemURL.isEqual(appURL)
++        }
++        return false
+     }
+     
+     return (currentItemRef, lastItemRef)
+@@ -37,8 +39,9 @@ func toggleLaunchAtStartup() {
+         return
+     }
+     
+-    let itemURL = url(existingReference)
+-    LSSharedFileListItemRemove(loginItemsRef, get(item: itemURL))
++    if let itemURL = url(existingReference) {
++        LSSharedFileListItemRemove(loginItemsRef, get(item: itemURL))
++    }
+ }
+ 
+ // MARK - Private functions
+@@ -51,13 +54,21 @@ private func get(item byURL: NSURL) -> LSSharedFileListItem? {
+     }
+     
+     let item = loginItems.first { currentItemRef in
+-        let itemURL = url(currentItemRef)
+-        return itemURL.isEqual(byURL)
++        if let itemURL = url(currentItemRef) {
++            return itemURL.isEqual(byURL)
++        }
++        return false
+     }
+     return item
+ }
+ 
+-private func url(_ item: LSSharedFileListItem?) -> NSURL {
+-    return LSSharedFileListItemCopyResolvedURL(item, 0, nil).takeRetainedValue() as NSURL
++private func url(_ item: LSSharedFileListItem?) -> NSURL? {
++    var error: Unmanaged<CFError>? = nil
++    let ret = LSSharedFileListItemCopyResolvedURL(item, 0, &error)
++    if error == nil {
++        return ret!.takeRetainedValue() as NSURL
++    }
++    // Normally: Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist."
++    return nil
+ }
+ 
+diff --git a/Overkill/OverkillController.swift b/Overkill/OverkillController.swift
+index 7127caa..7fca1b2 100644
+--- a/Overkill/OverkillController.swift
++++ b/Overkill/OverkillController.swift
+@@ -126,7 +126,7 @@ class OverkillController: NSObject {
+     
+     private func killProcess(_ processId: Int) {
+         if let process = NSRunningApplication.init(processIdentifier: pid_t(processId)) {
+-            print("Killing \(processId): \(String(describing: process.localizedName))")
++            print("Killing \(processId): \(String(describing: process.localizedName!))")
+             process.forceTerminate()
+         }
+     }
