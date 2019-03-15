@@ -1,0 +1,30 @@
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           qmake5 1.0
+
+github.setup        Simsys qhexedit2 0.8.5 v
+
+license             LGPL-2.1
+maintainers         {gmail.com:audvare @Tatsh}
+description         Hex editor UI library with editor app.
+long_description    ${description}
+
+checksums           rmd160  41550ec9d5e502a4337ed24199e77ae39823c8b7 \
+                    sha256  f41e103c0384096408682d30c1b563d8e213634ff083c5195f3bcaa471e552ec \
+                    size    354003
+
+depends_lib-append  port:qt5-kde
+
+patch {
+    file rename ${worksrcpath}/src/qhexedit.pro ${worksrcpath}/src/src.pro
+    file rename ${worksrcpath}/example/qhexedit.pro ${worksrcpath}/example/example.pro
+    set chan [open ${worksrcpath}/qhexedit2.pro "w"]
+    puts $chan "TEMPLATE = subdirs\nCONFIG = -ORDERED\nSUBDIRS += example src\n"
+    close $chan
+    set chan [open ${worksrcpath}/src/src.pro "a"]
+    puts $chan "TARGET = qhexedit\nDESTDIR = ${worksrcpath}\ntarget.path = ${prefix}/lib\nINSTALLS += target\n"
+    close $chan
+    set chan [open ${worksrcpath}/example/example.pro "a"]
+    puts $chan "TARGET = qhexedit2\nDESTDIR = ${worksrcpath}\ntarget.path = ${applications_dir}\nINSTALLS += target\n"
+    close $chan
+}
