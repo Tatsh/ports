@@ -1,10 +1,8 @@
 PortSystem          1.0
+PortGroup           github 1.0
 
-set gh_user         kn007
-set gh_project      silk-v3-decoder
-set gh_commit       8555b96
+github.setup        kn007 silk-v3-decoder 8555b96
 
-name                ${gh_project}
 version             20190101
 platforms           darwin
 license             MIT
@@ -13,11 +11,6 @@ description         Tool to decode SILK audio files.
 long_description    Decode silk v3 audio files (like WeChat amr, aud files, QQ slk files).
 
 use_configure       no
-
-homepage            https://github.com/${gh_user}/${gh_project}
-master_sites        ${homepage}/tarball/${gh_commit}
-distname            ${gh_project}-${gh_commit}
-worksrcdir          ${gh_user}-${distname}/silk
 
 livecheck.type      regexm
 livecheck.url       ${homepage}
