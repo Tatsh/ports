@@ -1,21 +1,16 @@
 PortSystem          1.0
+PortGroup           github 1.0
 
-set gh_user         zaufi
-set gh_project      kate-stuff
-set gh_commit       7dabd82
+github.setup        zaufi kate-stuff 7dabd82
 
-name                kf5-${gh_project}
+name                kf5-kate-stuff
 version             20190213
 categories          kde kf5
 license             MIT
 maintainers         nomaintainer
 description         Improved Kate syntax files.
 long_description    ${description}
-
-homepage            https://github.com/${gh_user}/${gh_project}
-master_sites        ${homepage}/tarball/${gh_commit}
-distname            ${gh_project}-${gh_commit}
-worksrcdir          ${gh_user}-${distname}
+revision            1
 
 # These are in the macstrop repository
 depends_run-append port:kf5-kate
