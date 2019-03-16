@@ -1,24 +1,17 @@
 PortSystem          1.0
-PortGroup           github 1.0
 PortGroup           cmake 1.1
+PortGroup           github 1.0
 
-set gh_user         justinmeza
-set gh_project      lci
-set gh_commit       6762b72
+github.setup        justinmeza lci 6762b72
 
-name                ${gh_project}
 version             0.11.2_p20170413
 platforms           darwin
 license             MIT
 maintainers         nomaintainer
 description         LOLCODE interpreter written in C.
 long_description    ${description}
+revision            1
 
 checksums           rmd160  0ae8f3cebce927d082abcb1df0028e45cf639c73 \
                     sha256  5df8304329ab1163988bcfb03673a5679db8d6f9c2dc4ffb89b95dfa94edff2f \
                     size    316378
-
-homepage            https://github.com/${gh_user}/${gh_project}
-master_sites        ${homepage}/tarball/${gh_commit}
-distname            ${gh_project}-${gh_commit}
-worksrcdir          ${gh_user}-${distname}
