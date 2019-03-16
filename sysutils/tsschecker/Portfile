@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           github 1.0
 
 set gh_user         tihmstar
 set gh_project      tsschecker
@@ -8,10 +9,13 @@ set gh_commit       4339d71
 set jssy_gh_commit  ba62564
 set commit_count    263
 
-name                ${gh_project}
+github.setup        ${gh_user} ${gh_project} ${gh_commit}
+
 version             212_p20181216
 platforms           darwin
 license             LGPL-3 MIT
+maintainers         {gmail.com:audvare @Tatsh}
+revision            1
 
 homepage            https://github.com/${gh_user}/${gh_project}
 master_sites        ${homepage}/tarball/${gh_commit}:main \
