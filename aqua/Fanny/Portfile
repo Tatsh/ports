@@ -1,34 +1,48 @@
 PortSystem          1.0
+PortGroup           xcode 1.0
 
-name                Fanny
+set                 gh_commit   2ee66f3
+set                 gh_user     DanielStormApps
+set                 gh_project  Fanny
+
+name                ${gh_project}
 version             1.0.3
-categories          aqua
+categories-append   sysutils
 license             GPL-3
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Monitor your Mac's fan speed and CPU temperature from your Notification Center.
 long_description    ${description}
+homepage            https://github.com/DanielStormApps/Fanny/
 
 supported_archs     x86_64
 
-homepage            http://fannywidget.com/
-master_sites        http://fannywidget.com/
-distfiles           FannyWidget.zip
-dist_subdir         ${name}/${version}_1
+master_sites        ${homepage}/tarball/${gh_commit}
+distname            ${gh_project}-${gh_commit}
+worksrcdir          ${gh_user}-${distname}/
+
+checksums           rmd160  2ca7d8ffd89b4759edb39b94c58a3026b33a7dc2 \
+                    sha256  b42cc63efb9b5c5aaebf478fd11671137539050d60f56b4a91d19399bfa522be \
+                    size    798504
 
 livecheck.type      regex
 livecheck.url       ${homepage}
 livecheck.regex     "Download\\s+<span>v(\\d+\[^<\]+)"
 
-use_zip             yes
-use_configure       no
-build.cmd           echo
-extract.mkdir       yes
-extract.only        FannyWidget.zip
+xcode.target        Fanny
+xcode.configuration Release
+xcode.build.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
 
-checksums           rmd160  170801785988f6af49ef047d7b5a8262f1542cda \
-                    sha256  3c7bcc29006650cbcb33a28fa0a97480227ab36f3bb5453243fef1563bb92bc0 \
-                    size    1181888
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
 
-destroot {
-    file copy "${worksrcpath}/Fanny ${version}/Fanny.app" "${destroot}/${applications_dir}/"
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
 }
