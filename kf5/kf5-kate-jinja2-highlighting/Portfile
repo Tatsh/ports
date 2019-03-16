@@ -1,11 +1,10 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 PortSystem          1.0
+PortGroup           github 1.0
 
-set gh_user         Pitmairen
-set gh_project      kate-jinja2-highlighting
-set gh_commit       b0e25e0
+github.setup        Pitmairen kate-jinja2-highlighting b0e25e0
 
-name                kf5-${gh_project}
+name                kf5-kate-jinja2-highlighting
 version             20181118
 categories          kde
 platforms           darwin
@@ -13,11 +12,6 @@ license             MIT
 maintainers         nomaintainer
 description         Improved Jinja2 syntax highlighting for Kate.
 long_description    ${description}
-
-homepage            https://github.com/${gh_user}/${gh_project}
-master_sites        ${homepage}/tarball/${gh_commit}
-distname            ${gh_project}-${gh_commit}
-worksrcdir          ${gh_user}-${distname}
 
 checksums           rmd160  41507c164d68cf9f89a46eddaf5b26fcb2bf0b0a \
                     sha256  c274dcba4659dcd35bc9e9f40080c7c6e9f4d0fcf0b56d3e631080c80258fec1 \
