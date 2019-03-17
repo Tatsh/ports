@@ -1,0 +1,21 @@
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup        kward shflags 1.2.3 v
+
+version             1.2.3
+revision            1
+license             Apache-2.0
+description         shFlags is a port of the Google gflags library for Unix shell.
+long_description    ${description}
+
+checksums           rmd160  6e7716f414c93928513d3f4db448f51a3eab3183 \
+                    sha256  ed02faa2365547a1864c42c1cdd47f4ce07ed747e8a298392fa83cebd00ee7f3 \
+                    size    42278
+
+use_configure       no
+build {}
+destroot {
+    xinstall -m 755 -d "${destroot}${prefix}/share/misc"
+    xinstall -m 644 "${worksrcpath}/shflags" "${destroot}${prefix}/share/misc/"
+}
