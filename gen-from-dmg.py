@@ -1,14 +1,18 @@
 #!/usr/bin/env python
-from os.path import join as path_join
+from os.path import join as path_join, realpath
 from typing import List
 import argparse
 import os
+import plistlib
 import re
 import subprocess as sp
 import sys
 import tempfile
 
-from dir2xinstall import dir2xinstall, has_libstdcxx
+from dir2xinstall import has_libstdcxx
+
+def hdiutil_info():
+    return plistlib.loads(sp.check_output(['hdiutil', 'info', '-plist']))
 
 
 def mount_dmg(mountroot: str, dmg: str):
@@ -29,10 +33,20 @@ def main():
     parser.add_argument('app_name', metavar='APP_NAME', nargs=1)
     args = parser.parse_args()
 
-    dmg: str = args.dmg[0]
+    dmg: str = realpath(args.dmg[0])
     app_name: str = args.app_name[0]
     if not app_name.endswith('.app'):
         app_name += '.app'
+
+    for x in hdiutil_info()['images']:
+        p = realpath(x['image-path'])
+        if p != dmg:
+            continue
+        for s in x['system-entities']:
+            try:
+                unmount_dmg(s['mount-point'])
+            except (KeyError, sp.CalledProcessError):
+                pass
 
     mountroot: str = tempfile.mkdtemp()
     mount_dmg(mountroot, dmg)
@@ -51,12 +65,13 @@ def main():
 
     if has_libstdcxx(start):
         print('libstdc++ detected', file=sys.stderr)
+        unmount_dmg(realroot)
         return 1
 
-    for cmd in dir2xinstall(start):
-        cmd = re.sub(realroot_re, '', cmd, count=2)
-        cmd = re.sub(r'/+', '/', cmd)
-        print('    {}'.format(cmd))
+    print('''destroot {{
+    file copy "${{worksrcpath}}/{}"
+        "${{destroot}}${{prefix}}${{applications_dir}}/"
+}}'''.format(app_name))
 
     unmount_dmg(realroot)
 
