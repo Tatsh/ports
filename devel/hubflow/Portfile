@@ -1,0 +1,33 @@
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup        datasift gitflow 1.5.3
+
+name                hubflow
+version             1.5.3
+revision            2
+license             {BSD LGPL-2.1+}
+description         Git extensions for Vincent Driessen branching (HubFlow).
+long_description    Git extensions for Vincent Driessen branching. \
+                    This is the HubFlow version, and is actively developed.
+
+depends_run-append  port:shflags
+
+checksums           rmd160  956dd94c3ef2504991b91a9eb237a2ac99480034 \
+                    sha256  bfb820c8675e11d1ccaea18c1c71691683b68396a29cc40b5673f0005caa5cf1 \
+                    size    23871
+
+use_configure       no
+destroot.env        INSTALL_INTO="${destroot}${prefix}/bin"
+destroot.cmd        ./install.sh
+destroot.destdir
+
+patch {
+    reinplace "s|hubflow-shFlags||g" "${worksrcpath}/install.sh"
+}
+
+build {}
+
+post-destroot {
+    ln -sf "${prefix}/share/misc/shflags" "${destroot}${prefix}/bin/hubflow-shFlags"
+}
