@@ -29,7 +29,7 @@ def main():
 
     print('''destroot {{
     file copy "${{worksrcpath}}/{}"
-        "${{destroot}}/${{applications_dir}}/"
+        "${{destroot}}${{prefix}}${{applications_dir}}/"
 }}'''.format(basename(sys.argv[1].rstrip('/'))))
 
 
