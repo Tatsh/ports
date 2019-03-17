@@ -38,15 +38,17 @@ def main():
     if not app_name.endswith('.app'):
         app_name += '.app'
 
-    for x in hdiutil_info()['images']:
-        p = realpath(x['image-path'])
-        if p != dmg:
-            continue
-        for s in x['system-entities']:
-            try:
-                unmount_dmg(s['mount-point'])
-            except (KeyError, sp.CalledProcessError):
-                pass
+    info = hdiutil_info()
+    if 'images' in info:
+        for x in info['images']:
+            p = realpath(x['image-path'])
+            if p != dmg:
+                continue
+            for s in x['system-entities']:
+                try:
+                    unmount_dmg(s['mount-point'])
+                except (KeyError, sp.CalledProcessError):
+                    pass
 
     mountroot: str = tempfile.mkdtemp()
     mount_dmg(mountroot, dmg)
