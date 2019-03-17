@@ -70,7 +70,7 @@ def main():
 
     print('''destroot {{
     file copy "${{worksrcpath}}/{}"
-        "${{destroot}}${{prefix}}${{applications_dir}}/"
+        "${{destroot}}/${{applications_dir}}/"
 }}'''.format(app_name))
 
     unmount_dmg(realroot)
