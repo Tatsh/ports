@@ -1,0 +1,80 @@
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/browserpass/browserpass 2f191ad
+version             2.0.22_p20190116
+categories          net www
+maintainers         {gmail.com:audvare @Tatsh}
+license             MIT
+description         Chrome & Firefox browser extension for pass, a UNIX password manager.
+long_description    ${description}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  134063417342d03c3bfad2fd0fcc4358056fad31 \
+                        sha256  9add72afaf95155bfab145d7a10ff11ea575b30758a36a7ceab9ae73bebb24dc \
+                        size    50703
+
+depends_run-append  port:pass
+
+notes "
+You must place a symbolic link (or copy) to the JSON file in your browser's 'native
+messaging hosts' directory. Example with Chrome:
+
+ln -s ${prefix}/etc/opt/chrome/native-messaging-hosts/com.dannyvankooten.browserpass.json ~/Library/Application\\ Support/Google/Chrome/NativeMessagingHosts/
+
+Chromium directory: ~/Library/Application\\ Support/Chromium/NativeMessagingHosts/
+Firefox directory:  ~/Library/Application\\ Support/Mozilla/NativeMessagingHosts/
+Vivaldi directory:  ~/Library/Application\\ Support/Vivaldi/NativeMessagingHosts/
+
+For Firefox you must use the Firefox specific JSON file in ${prefix}/lib/mozilla/native-messaging-hosts
+"
+
+# A mirror is used for qr since MacPorts cannot handle rsc.io domain
+go.vendors          github.com/gokyle/twofactor \
+                        lock    bbc82ff8de72400ce39a13077627531d9841ad62 \
+                        rmd160  9fb61f254ab812912b0656188203c144b7941648 \
+                        sha256  0f28d6463496b8c1eef4c35975f4345eae877fd2547e0e2aa18bb977bd1942f6 \
+                        size    22514 \
+                    github.com/mattn/go-zglob \
+                        lock    4959821b481786922ac53e7ef25c61ae19fb7c36 \
+                        rmd160  541c00dce0dc8a182007edbd5fe8d42b32ea062b \
+                        sha256  0a3af560f13b0a01febf844bb145bf82a4e807924d5477fe431eaf8e9ca5eab1 \
+                        size    7998 \
+                    github.com/sahilm/fuzzy \
+                        lock    0e1c4a4e1f632f936a5c0fa6176076eea01c054b \
+                        rmd160  a484bc7af888fdcc8f360a00838b0a5514d3c529 \
+                        sha256  9f3036a40b11d017568db7f95de3609d08dc7a727ffb331243b7634b7f7e52c9 \
+                        size    1931898 \
+                    golang.org/x/sys \
+                        lock    3ccc7e5779793fd54564baf60c51bf017955e0ba \
+                        rmd160  da0f654c05555273387570cd0b662e19139b1160 \
+                        sha256  9df6a75a776e6f465b5ef617935fdd2925ead523360d33b7cebfff4a789f5651 \
+                        size    812255 \
+                    github.com/rsc/qr \
+                        lock    ca9a01fc2f9505024045632c50e5e8cd6142fafe \
+                        rmd160  f642fe01c13937615e5a975e6a1932f8dc25359a \
+                        sha256  1d69d5a13366a84a1484abdec5affd7f5781016469f4b43b1a26f5fa5c93497b \
+                        size    18816
+
+build.cmd-append    -o browserpass ./cmd/browserpass
+
+post-patch {
+    reinplace "s|%%replace%%|${prefix}/libexec/browserpass|" \
+        ${worksrcpath}/firefox/host.json \
+        ${worksrcpath}/chrome/host.json
+    reinplace "s|dannyvankooten|browserpass|g" \
+        ${worksrcpath}/browserpass.go \
+        ${worksrcpath}/cmd/browserpass/main.go
+}
+
+destroot {
+    xinstall ${worksrcpath}/${name} ${destroot}${prefix}/libexec/
+
+    xinstall -d ${destroot}${prefix}/etc/opt/chrome/native-messaging-hosts
+    file copy ${worksrcpath}/chrome/host.json \
+        ${destroot}${prefix}/etc/opt/chrome/native-messaging-hosts/com.dannyvankooten.browserpass.json
+
+    xinstall -d ${destroot}${prefix}/lib/mozilla/native-messaging-hosts
+    file copy ${worksrcpath}/firefox/host.json \
+        ${destroot}${prefix}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json
+}
