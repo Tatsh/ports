@@ -4,12 +4,12 @@ from typing import List
 import argparse
 import os
 import plistlib
-import re
 import subprocess as sp
 import sys
 import tempfile
 
 from dir2xinstall import has_libstdcxx
+
 
 def hdiutil_info():
     return plistlib.loads(sp.check_output(['hdiutil', 'info', '-plist']))
@@ -62,7 +62,6 @@ def main():
         return 1
     root_prefix: str = os.listdir(mountroot)[0]
     realroot: str = path_join(mountroot, root_prefix)
-    realroot_re: re.Pattern = re.compile(realroot)
     start: str = path_join(realroot, app_name)
 
     if has_libstdcxx(start):
