@@ -6,13 +6,14 @@ PortGroup           python 1.0
 name                wakatime
 version             10.8.0
 platforms           darwin
-license             BSD-3
+license             BSD
 supported_archs     noarch
+categories          devel net python
 
 python.versions         27 34 35 36 37
 python.default_version  37
 
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 
 description         Keep track of coding with WakaTime.
 long_description    ${description}
