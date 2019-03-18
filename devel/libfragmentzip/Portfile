@@ -8,6 +8,10 @@ github.setup        tihmstar libfragmentzip 7f67a7a
 version             42_p20181002
 platforms           darwin
 license             LGPL-3
+description         A library to extract files from remote zip files.
+long_description    ${description}
+categories          devel net
+maintainers         {gmail.com:audvare @Tatsh}
 revision            1
 
 depends_lib-append  port:curl \
