@@ -7,7 +7,7 @@ github.setup        dubhater vapoursynth-nnedi3 12 v
 
 name                vapoursynth-nnedi3-weights
 version             12
-platforms           darwin
+platforms           darwin linux freebsd
 license             GPL-2
 supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
