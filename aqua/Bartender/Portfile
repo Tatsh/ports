@@ -5,8 +5,9 @@ name                Bartender
 version             3.0.47
 
 categories          aqua
+license             EULA
 platforms           darwin
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Organise your menu icons.
 long_description    Bartender 3 lets you organize your menu bar icons, by hiding them, \
                     rearranging them, show hidden items with a click or keyboard shortcut and \
