@@ -6,7 +6,7 @@ PortGroup           github 1.0
 github.setup        tihmstar libfragmentzip 7f67a7a
 
 version             42_p20181002
-platforms           darwin
+platforms           darwin linux freebsd
 license             LGPL-3
 description         A library to extract files from remote zip files.
 long_description    ${description}
