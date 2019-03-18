@@ -6,9 +6,10 @@ name                lunchy
 
 ruby.link_binaries_suffix
 
-platforms           darwin
+categories          sysutils ruby
+platforms           macosx
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         A friendly wrapper for launchctl
 long_description    Lunchy makes it easier to use launchctl.
 homepage            https://github.com/eddiezane/lunchy
