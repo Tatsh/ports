@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                py-pgspecial
 version             1.11.5
 license             BSD
-platforms           darwin
+platforms           darwin linux freebsd
 supported_archs     noarch
 maintainers         {@xeron gmail.com:xeron.oskom} openmaintainer
 description         Meta-commands handler for Postgres Database
