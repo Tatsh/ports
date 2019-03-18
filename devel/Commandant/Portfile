@@ -7,7 +7,7 @@ version             0.15.0
 github.setup        Carthage ${name} ${version}
 
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Type-safe command line argument handling.
 long_description    ${description}
 categories          devel
