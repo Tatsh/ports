@@ -12,7 +12,7 @@ set commit_count    263
 github.setup        ${gh_user} ${gh_project} ${gh_commit}
 
 version             212_p20181216
-platforms           darwin
+platforms           darwin linux freebsd
 license             {LGPL-3 MIT}
 maintainers         {gmail.com:audvare @Tatsh}
 revision            1
