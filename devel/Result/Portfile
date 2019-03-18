@@ -5,7 +5,7 @@ PortGroup           github 1.0
 github.setup        antitypical Result 4.1.0
 
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Swift type modelling the success/failure of arbitrary operations.
 long_description    ${description}
 categories          devel
