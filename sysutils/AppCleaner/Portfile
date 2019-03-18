@@ -6,7 +6,7 @@ version             3.5
 
 license             EULA
 categories          sysutils aqua
-platforms           darwin
+platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Thoroughly uninstall apps.
 long_description    Installing an application distributes many files throughout your System \
