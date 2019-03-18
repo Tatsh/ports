@@ -8,7 +8,7 @@ github.setup        ${gh_name} ${gh_name} 0.2.1 v
 name                openrct2
 
 categories          games
-platforms           darwin
+platforms           darwin linux freebsd
 maintainers         {kencu @kencu} {gmail.com:audvare @Tatsh} openmaintainer
 license             GPL-3+
 
