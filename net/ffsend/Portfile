@@ -7,7 +7,7 @@ categories          net sysutils
 github.setup        timvisee ffsend 0.2.33
 
 version             0.2.33
-platforms           darwin
+platforms           darwin linux freebsd
 supported_archs     x86_64
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
