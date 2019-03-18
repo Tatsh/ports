@@ -6,10 +6,10 @@ github.setup        Pitmairen kate-jinja2-highlighting b0e25e0
 
 name                kf5-kate-jinja2-highlighting
 version             20181118
-categories          kde
-platforms           darwin
+categories          kf5 kde
+platforms           darwin linux freebsd
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Improved Jinja2 syntax highlighting for Kate.
 long_description    ${description}
 
