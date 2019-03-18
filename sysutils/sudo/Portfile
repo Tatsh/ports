@@ -5,7 +5,8 @@ name                sudo
 categories          sysutils security
 version             86.50.1
 platforms           darwin
-license             AAPL MIT BSD-3
+license             {AAPL MIT BSD}
+maintainers         {gmail.com:audvare @Tatsh}
 
 homepage            https://opensource.apple.com/release/macos-10141.html
 master_sites        https://opensource.apple.com/tarballs/${name}
