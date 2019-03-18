@@ -17,6 +17,7 @@ maintainers         {gmail.com:audvare @Tatsh}
 
 description         A REPL for Postgres.
 long_description    ${description}
+categories          databases python
 homepage            https://github.com/dbcli/pgcli
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
