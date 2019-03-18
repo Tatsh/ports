@@ -6,7 +6,7 @@ PortGroup           github 1.0
 github.setup        libimobiledevice libirecovery 4daf6d8
 
 version             0.1.1_p20180917
-platforms           darwin
+platforms           darwin linux freebsd
 license             LGPL-2.1
 description         Library and utility to talk to iBoot/iBSS via USB.
 long_description    ${description}
