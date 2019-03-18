@@ -8,6 +8,8 @@ license             LGPL-2.1
 maintainers         {gmail.com:audvare @Tatsh}
 description         Hex editor UI library with editor app.
 long_description    ${description}
+categories          devel aqua sysutils
+platforms           darwin linux freebsd
 
 checksums           rmd160  41550ec9d5e502a4337ed24199e77ae39823c8b7 \
                     sha256  f41e103c0384096408682d30c1b563d8e213634ff083c5195f3bcaa471e552ec \
