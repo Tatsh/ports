@@ -5,7 +5,7 @@ name                zbar
 version             0.10
 
 categories          graphics
-platforms           darwin
+platforms           darwin linux freebsd
 license             GPL-2+
 maintainers         {gmail.com:audvare @Tatsh}
 description         Suite for reading bar codes form various sources.
