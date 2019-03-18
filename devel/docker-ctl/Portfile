@@ -6,9 +6,11 @@ github.setup       z0mbix docker-ctl 4b349f4
 version             20160123
 license             MIT
 supported_archs     noarch
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
+categories          devel sysutils
 description         Docker wrapper script for common tasks.
 long_description    ${description}
+platforms           darwin linux freebsd
 revision            1
 
 checksums           rmd160  323937fa5d9ae84d9a768a087f4f7ace90308a61 \
