@@ -6,9 +6,12 @@ github.setup        ladyrassilon git-hubflow-completion 0.5
 name                hubflow-completion
 version             0.5
 revision            1
+maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 description         Provides completions for DataSift's hubflow fork of git-flow.
 long_description    ${description}
+platforms           linux darwin freebsd
+categories          devel
 
 depends_run-append  port:bash-completion
 
