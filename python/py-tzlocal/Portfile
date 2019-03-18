@@ -6,7 +6,7 @@ PortGroup           python 1.0
 
 github.setup        regebro tzlocal 1.4
 name                py-${name}
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 categories          python
 description         tzinfo object for the local timezone
 long_description    This Python module returns a tzinfo object with the local \
