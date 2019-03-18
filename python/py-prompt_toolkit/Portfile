@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                py-prompt_toolkit
 version             2.0.9
 categories-append   devel
-platforms           darwin
+platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
 
