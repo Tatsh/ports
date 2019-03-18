@@ -5,7 +5,7 @@ PortGroup           python 1.0
 github.setup        Tatsh xirvik-tools 0.1.0 v
 
 categories          net
-platforms           darwin
+platforms           darwin linux freebsd
 maintainers         @Tatsh
 description         Xirvik seedbox utilities.
 long_description    Xirvik seedbox utilities.
