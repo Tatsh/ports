@@ -7,7 +7,7 @@ github.setup        stepmania stepmania 3c8ee86
 
 version             5.1.0_beta2_p20190310
 categories          games
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         Rhythm game.
