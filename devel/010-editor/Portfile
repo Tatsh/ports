@@ -6,7 +6,7 @@ version             9.0.1
 
 categories          devel aqua
 license             EULA
-platforms           darwin
+platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Binary text editor and hex editor (trial).
 long_description    ${description}
