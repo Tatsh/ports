@@ -3,7 +3,7 @@ PortGroup           github 1.0
 
 github.setup        2ion mpv-bash-completion 3.3.17
 
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         Bash completion for mpv.
