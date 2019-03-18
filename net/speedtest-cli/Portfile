@@ -10,7 +10,7 @@ python.versions     27 34 35 36 37
 python.default_version 37
 
 categories          net
-platforms           darwin
+platforms           darwin linux freebsd
 license             Apache-2
 maintainers         {khindenburg @kurthindenburg} openmaintainer
 
