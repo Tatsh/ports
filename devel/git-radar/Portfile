@@ -5,9 +5,10 @@ github.setup        michaeldfallen git-radar 0.6 v
 
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         A heads up display for Git.
 long_description    ${description}
+categories          devel
 
 checksums           rmd160  fa22dfa4574f655b5d58bd39c62db68aa4f25364 \
                     sha256  5ee19f4f0f9ba20964f579b88c36766a46d16d75d3b09ec28937d0c20b656049 \
