@@ -6,10 +6,10 @@ PortGroup           github 1.0
 github.setup        Tatsh kate-wakatime 1.2.0 v
 name                kf5-kate-wakatime
 version             1.2.0
-categories          kde kf5
+categories          kf5 kde
 platforms           darwin
 license             GPL-3
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Integration with WakaTime service.
 long_description    ${description}
 
