@@ -3,7 +3,7 @@ PortGroup           github 1.0
 
 github.setup        muennich id3ted 1.0 v
 
-platforms           darwin
+platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to edit ID3 tags in MP3 files.
