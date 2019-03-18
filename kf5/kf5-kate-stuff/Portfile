@@ -5,9 +5,10 @@ github.setup        zaufi kate-stuff 7dabd82
 
 name                kf5-kate-stuff
 version             20190213
-categories          kde kf5
+categories          kf5 kde
+platforms           darwin linux freebsd
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Improved Kate syntax files.
 long_description    ${description}
 revision            1
