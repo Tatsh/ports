@@ -5,7 +5,7 @@ PortGroup           github 1.0
 github.setup        mas-cli mas 1.6.2 v
 
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Mac App Store command line interface.
 long_description    ${description}
 categories          sysutils aqua
