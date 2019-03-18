@@ -5,7 +5,7 @@ PortGroup           github 1.0
 github.setup        justinmeza lci 6762b72
 
 version             0.11.2_p20170413
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         LOLCODE interpreter written in C.
