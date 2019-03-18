@@ -6,7 +6,7 @@ github.setup        brona iproute2mac 1.2.2 v
 
 name                iproute2mac
 version             1.2.2
-platforms           darwin
+platforms           macosx
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         CLI wrapper for basic network utilities.
