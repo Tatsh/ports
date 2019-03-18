@@ -7,7 +7,7 @@ version             0.10
 categories          graphics
 platforms           darwin
 license             GPL-2+
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Suite for reading bar codes form various sources.
 long_description    A comprehensive software suite for reading barcodes. \
                     Supports EAN/UPC, Code 128, Code 39, Interleaved 2 of 5 \
