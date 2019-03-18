@@ -2,14 +2,13 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        KrauseFx overkill-for-mac 3e2f8c7
+github.setup        KrauseFx overkill-for-mac 84cda74
 
 name                overkill
-version             1.0_p20181022
+version             1.0_p20190316
 categories          aqua sysutils
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
-revision            1
 
 description         Temporarily block certain apps from opening.
 long_description    Did iTunes ever launch without you opening it? Use Overkill to instantly \
@@ -17,21 +16,12 @@ long_description    Did iTunes ever launch without you opening it? Use Overkill 
                     interrupted.
 homepage            https://github.com/KrauseFx/overkill-for-mac
 
-checksums           rmd160  445f9c79b0d492dfc84ead6c48f6ba036b0bd291 \
-                    sha256  69a334f31a459b7143b4dbfb262b077c32c5f74fc097612d4e1599c22f109d8f \
-                    size    118952
+checksums           rmd160  ca8196d2f407b891d2249736219ff6aab353596c \
+                    sha256  0158a1b05204b9de17fe83b499608640c7b2a1bc0f60972284a894b4e5100352 \
+                    size    119651
 
 xcode.target        Overkill
 xcode.configuration Release
-xcode.build.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
-xcode.destroot.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
-
-patchfiles          21.patch
-patch.pre_args      -p1
 
 if {${os.major} < 14} {
     pre-fetch {
