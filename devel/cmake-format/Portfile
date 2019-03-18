@@ -12,10 +12,11 @@ supported_archs     noarch
 python.versions         27 34 35 36 37
 python.default_version  37
 
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 
 description         Source code formatter for CMake files.
 long_description    ${description}
+categories          devel python
 homepage            https://github.com/cheshirekow/cmake_format
 python.rootname     cmake_format
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
