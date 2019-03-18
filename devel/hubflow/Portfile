@@ -10,6 +10,9 @@ license             {BSD LGPL-2.1+}
 description         Git extensions for Vincent Driessen branching (HubFlow).
 long_description    Git extensions for Vincent Driessen branching. \
                     This is the HubFlow version, and is actively developed.
+maintainers         {gmail.com:audvare @Tatsh}
+platforms           linux darwin freebsd
+categories          devel
 
 depends_run-append  port:shflags
 
