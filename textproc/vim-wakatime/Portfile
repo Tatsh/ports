@@ -9,14 +9,14 @@ patchfiles          ${name}-fix-cli-path.patch \
                     ${name}-python.patch
 patch.pre_args      -p1
 
-categories-append   devel
+categories          textproc devel
 
 name                vim-wakatime
 version             7.1.3
 platforms           darwin
-license             BSD-3
+license             BSD
 supported_archs     noarch
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Keep track of coding with WakaTime (Vim plugin).
 long_description    ${description}
 
