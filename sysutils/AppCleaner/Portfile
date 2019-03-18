@@ -4,9 +4,10 @@ PortSystem          1.0
 name                AppCleaner
 version             3.5
 
+license             EULA
 categories          sysutils aqua
 platforms           darwin
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Thoroughly uninstall apps.
 long_description    Installing an application distributes many files throughout your System \
                     using space of your Hard Drive unnecessarily. AppCleaner finds all these \
