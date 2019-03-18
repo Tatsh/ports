@@ -5,7 +5,7 @@ PortGroup           github 1.0
 github.setup        Tatsh bincookie 0.1.0 v
 name                bincookie
 version             0.1.0
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         Library to parse Apple's binarycookies format.
