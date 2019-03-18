@@ -9,7 +9,8 @@ name                grive
 version             0.5.1-dev
 platforms           darwin
 license             GPL-2
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
+categories          net
 description         Google Drive client fork.
 long_description    ${description}
 revision            1
