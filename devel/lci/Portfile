@@ -7,9 +7,10 @@ github.setup        justinmeza lci 6762b72
 version             0.11.2_p20170413
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         LOLCODE interpreter written in C.
 long_description    ${description}
+categories          devel
 revision            1
 
 checksums           rmd160  0ae8f3cebce927d082abcb1df0028e45cf639c73 \
