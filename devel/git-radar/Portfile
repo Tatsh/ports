@@ -3,7 +3,7 @@ PortGroup           github 1.0
 
 github.setup        michaeldfallen git-radar 0.6 v
 
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         A heads up display for Git.
