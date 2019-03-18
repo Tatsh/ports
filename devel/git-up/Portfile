@@ -7,12 +7,13 @@ categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
+categories          devel python
 revision            1
 
 python.versions     27 34 35 36 37
 python.default_version  37
 
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 
 description         Tool to easily update a clone of a git repository.
 long_description    PyGitUp is a Python port of aanand/git-up. It not only fully covers the \
