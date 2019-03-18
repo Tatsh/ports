@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                litecli
 version             1.0.0
 platforms           darwin
-license             BSD-3
+license             BSD
 supported_archs     noarch
 
 python.versions         27 34 35 36 37
@@ -14,6 +14,7 @@ python.default_version  37
 
 maintainers         {gmail.com:audvare @Tatsh}
 
+categories          databases python
 description         A REPL for SQLite.
 long_description    ${description}
 homepage            https://github.com/dbcli/litecli
