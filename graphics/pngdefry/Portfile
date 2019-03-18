@@ -7,9 +7,10 @@ version             1.2
 
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Convert iOS 'optimised' PNG files to standard format.
 long_description    ${description}
+categories          graphics
 
 livecheck.type      regex
 livecheck.url       http://www.jongware.com/pngdefry.html
