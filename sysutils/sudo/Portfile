@@ -4,7 +4,7 @@ PortGroup           xcode 1.0
 name                sudo
 categories          sysutils security
 version             86.50.1
-platforms           darwin
+platforms           macosx
 license             {AAPL MIT BSD}
 maintainers         {gmail.com:audvare @Tatsh}
 
