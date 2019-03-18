@@ -8,6 +8,10 @@ github.setup        libimobiledevice libirecovery 4daf6d8
 version             0.1.1_p20180917
 platforms           darwin
 license             LGPL-2.1
+description         Library and utility to talk to iBoot/iBSS via USB.
+long_description    ${description}
+categories          devel
+maintainers         {gmail.com:audvare @Tatsh}
 revision            1
 
 depends_lib-append  port:readline \
