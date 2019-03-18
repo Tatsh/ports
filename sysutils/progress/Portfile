@@ -5,10 +5,11 @@ github.setup        Tatsh progress 0.14.1 v
 
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to show progress for cp, mv, etc.
 long_description    Tool to show progress for cp, mv, dd, ... (formerly known as cv). This \
                     version is patched to support g-prefixed GNU coreutils.
+categories          sysutils
 
 depends_lib         port:ncurses
 
