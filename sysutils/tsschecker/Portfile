@@ -13,7 +13,7 @@ github.setup        ${gh_user} ${gh_project} ${gh_commit}
 
 version             212_p20181216
 platforms           darwin
-license             LGPL-3 MIT
+license             {LGPL-3 MIT}
 maintainers         {gmail.com:audvare @Tatsh}
 revision            1
 description         A powerful tool to check TSS signing status of various iOS devices and firmwares.
