@@ -9,11 +9,12 @@ categories-append   python
 platforms           darwin
 license             MIT
 supported_archs     noarch
+categories          devel python
 
 python.versions         27 34 35 36 37
 python.default_version  37
 
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 
 description         Send local Git changes to Travis CI without commits or \
                     pushes.
