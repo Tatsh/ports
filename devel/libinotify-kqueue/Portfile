@@ -5,9 +5,9 @@ github.setup        libinotify-kqueue libinotify-kqueue 20180201
 platforms           darwin freebsd
 license             MIT
 supported_archs     x86_64 i386 ppc
+categories          devel
 
-
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 
 description         inotify shim for BSD.
 long_description    ${description}
