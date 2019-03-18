@@ -6,9 +6,10 @@ github.setup        kn007 silk-v3-decoder 8555b96
 version             20190101
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to decode SILK audio files.
 long_description    Decode silk v3 audio files (like WeChat amr, aud files, QQ slk files).
+categories          multimedia
 
 use_configure       no
 
