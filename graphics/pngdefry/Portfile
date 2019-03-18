@@ -5,7 +5,7 @@ github.setup        Tatsh pngdefry 1.2-jongware v
 name                pngdefry
 version             1.2
 
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         Convert iOS 'optimised' PNG files to standard format.
