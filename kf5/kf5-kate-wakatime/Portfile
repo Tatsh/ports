@@ -7,7 +7,7 @@ github.setup        Tatsh kate-wakatime 1.2.0 v
 name                kf5-kate-wakatime
 version             1.2.0
 categories          kf5 kde
-platforms           darwin
+platforms           darwin linux freebsd
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
 description         Integration with WakaTime service.
