@@ -7,9 +7,10 @@ name                bincookie
 version             0.1.0
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Library to parse Apple's binarycookies format.
 long_description    ${description}
+categories          devel
 
 checksums           rmd160  0ba7dc33383c1311002a0afc7007027f96df0d2c \
                     sha256  fc1f39e72d6eb44a0f166c86814063cb1d8556888ee17850f6f6cd1d0559141e \
