@@ -9,7 +9,7 @@ github.setup        nygard class-dump f18d9bf
 version             3.5_p20170605
 categories          devel
 license             GPL-2
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 revision            1
 
 description         Utility for examining the Objective-C segment of \
