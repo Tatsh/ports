@@ -11,7 +11,7 @@ set my_name     icu4c
 name            openrct2-icu
 version         63.1
 categories      devel textproc
-platforms       darwin freebsd
+platforms       darwin freebsd linux
 maintainers     {ryandesign @ryandesign} openmaintainer
 license         Permissive
 description     International Components for Unicode
