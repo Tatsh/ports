@@ -10,9 +10,10 @@ version             12
 platforms           darwin
 license             GPL-2
 supported_archs     noarch
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         nedi3 weights.bin file
 long_description    ${description}
+categories          multimedia
 
 checksums           rmd160  610bf2e2e41f7349ddbe77f5246c03f31d03d7bd \
                     sha256  356260830de39d3b686f9b19c1f244e34ddb9f5dc899eb5f27f8d5ddedb65748 \
