@@ -9,7 +9,7 @@ version             5.1.0_beta2_p20190310
 categories          games
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Rhythm game.
 long_description    StepMania is a free dance and rhythm game.
 revision            3
