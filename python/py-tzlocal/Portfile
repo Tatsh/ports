@@ -13,7 +13,7 @@ long_description    This Python module returns a tzinfo object with the local \
                     timezone information under Unix and Win-32. It requires \
                     pytz, and returns pytz tzinfo objects.
 
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 
 python.versions     27 34 35 36 37
