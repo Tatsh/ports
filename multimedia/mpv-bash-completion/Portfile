@@ -5,9 +5,10 @@ github.setup        2ion mpv-bash-completion 3.3.17
 
 platforms           darwin
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Bash completion for mpv.
 long_description    Bash completion for mpv.
+categories          multimedia
 
 depends_build       port:lua port:mpv
 depends_run         port:bash-completion
