@@ -3,7 +3,7 @@ PortGroup           golang 1.0
 
 go.setup            github.com/browserpass/browserpass 2f191ad
 version             2.0.22_p20190116
-categories          net www
+categories          www net
 maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 description         Chrome & Firefox browser extension for pass, a UNIX password manager.
