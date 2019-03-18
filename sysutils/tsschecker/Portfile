@@ -16,6 +16,9 @@ platforms           darwin
 license             LGPL-3 MIT
 maintainers         {gmail.com:audvare @Tatsh}
 revision            1
+description         A powerful tool to check TSS signing status of various iOS devices and firmwares.
+long_description    ${description}
+categories          sysutils
 
 homepage            https://github.com/${gh_user}/${gh_project}
 master_sites        ${homepage}/tarball/${gh_commit}:main \
