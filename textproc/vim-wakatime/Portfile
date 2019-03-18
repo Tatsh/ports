@@ -13,7 +13,7 @@ categories          textproc devel
 
 name                vim-wakatime
 version             7.1.3
-platforms           darwin
+platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
