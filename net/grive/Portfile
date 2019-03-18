@@ -7,7 +7,7 @@ github.setup        vitalif grive2 cf51167
 
 name                grive
 version             0.5.1-dev
-platforms           darwin
+platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
 categories          net
