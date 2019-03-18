@@ -7,7 +7,7 @@ xcode.target        mysides
 xcode.destroot.path ${prefix}/bin
 
 license             MIT
-maintainers         nomaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         CLI tool for sidebar favourites in Finder.
 long_description    A command line application for managing macOS Finder sidebar favourites.
 categories          sysutils aqua
