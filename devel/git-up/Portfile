@@ -4,7 +4,7 @@ PortGroup           python 1.0
 name                git-up
 version             1.6.1
 categories-append   devel
-platforms           darwin
+platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
 categories          devel python
