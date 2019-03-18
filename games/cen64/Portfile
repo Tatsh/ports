@@ -6,11 +6,12 @@ PortGroup           github 1.0
 github.setup        n64dev cen64 a877987
 
 version             0.3_p20181201
-platforms           darwin
-license             BSD-3
-maintainers         nomaintainer
+platforms           darwin linux freebsd
+license             BSD
+maintainers         {gmail.com:audvare @Tatsh}
 description         Cycle-accurate Nintendo 64 emulator.
 long_description    ${description}
+categories          games
 revision            1
 
 checksums           rmd160  19dadce6b41d548b9c9431ab4e77daf246b3d09e \
