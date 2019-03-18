@@ -7,11 +7,12 @@ github.setup        dh4 cen64-qt 20180730-alpha
 
 name                cen64-qt
 version             20180730-alpha
-platforms           darwin
-license             BSD-3
-maintainers         nomaintainer
+platforms           darwin linux freebsd
+license             BSD
+maintainers         {gmail.com:audvare @Tatsh}
 description         Front-end to Cen64.
 long_description    ${description}
+categories          games
 
 checksums           rmd160  f76cb99dbfa263b8a361c47b27953e3f5d6d7488 \
                     sha256  d2d44bba734dac8178be48bf6a5ccd2c53ac578a10d898d4cd2de5e4758bf947 \
