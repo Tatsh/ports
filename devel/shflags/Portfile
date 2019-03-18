@@ -8,6 +8,9 @@ revision            1
 license             Apache-2.0
 description         shFlags is a port of the Google gflags library for Unix shell.
 long_description    ${description}
+categories          devel
+maintainers         {gmail.com:audvare @Tatsh}
+platforms           darwin linux freebsd
 
 checksums           rmd160  6e7716f414c93928513d3f4db448f51a3eab3183 \
                     sha256  ed02faa2365547a1864c42c1cdd47f4ce07ed747e8a298392fa83cebd00ee7f3 \
