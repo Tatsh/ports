@@ -1,9 +1,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        kn007 silk-v3-decoder 8555b96
+github.setup        kn007 silk-v3-decoder 42030a8
 
-version             20190101
+version             20190219
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,11 +12,6 @@ long_description    Decode silk v3 audio files (like WeChat amr, aud files, QQ s
 categories          multimedia
 
 use_configure       no
-
-livecheck.type      regexm
-livecheck.url       ${homepage}
-livecheck.regex     "Latest commit.*<relative-time\\s+datetime=\"(\[^\"\]+)\""
-livecheck.version   "2019-01-01T13:39:32Z"
 
 checksums           rmd160  087b3b202a08e555375253d61b9be1bef21ff18b \
                     sha256  ce1f3399067572ef89a2115a99a60c317e3dd05df681cc73dcf24c702da1163f \
