@@ -25,6 +25,5 @@ checksums           rmd160  4ab2d9f91873b59a9a52e6bf8a94a532aec28700 \
                     sha256  e2df00c888b4368caa3cf181b55dd620f619559323c33712de2f0af2edd5168f \
                     size    169696
 
-patchfiles          mac.patch \
-                    remove-unnecessary-deps.patch
+patchfiles          mac.patch
 patch.pre_args      -p1
