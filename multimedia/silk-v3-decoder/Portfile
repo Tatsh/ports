@@ -1,9 +1,11 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        kn007 silk-v3-decoder 42030a8
+name                silk-v3-decoder
+set hash            42030a8
+github.setup        kn007 ${name} ${hash}
 
-version             20190219
+version             1.0.2.7
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,10 +14,11 @@ long_description    Decode silk v3 audio files (like WeChat amr, aud files, QQ s
 categories          multimedia
 
 use_configure       no
+worksrcdir          ${name}-${hash}/silk
 
-checksums           rmd160  087b3b202a08e555375253d61b9be1bef21ff18b \
-                    sha256  ce1f3399067572ef89a2115a99a60c317e3dd05df681cc73dcf24c702da1163f \
-                    size    31104031
+checksums           rmd160  1b7ec6c62b651608bb00298e8ad1b9edb2a495ea \
+                    sha256  a2119388222ab4b730cef6f0e16280bf7605e7312908a5e756f3aaac6ef53847 \
+                    size    31180750
 
 destroot {
     xinstall -m 755 ${worksrcpath}/decoder ${destroot}${prefix}/bin/silk-v3-decoder
