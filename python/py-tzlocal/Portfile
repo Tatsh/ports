@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        regebro tzlocal 1.4
+github.setup        regebro tzlocal 2.0.0b1
 name                py-${name}
 maintainers         {gmail.com:audvare @Tatsh}
 categories          python
@@ -18,8 +18,8 @@ license             MIT
 
 python.versions     27 34 35 36 37
 
-checksums           rmd160  7b36602b2940534e97c3aeb67065a4b9446a8b46 \
-                    sha256  498469a5c544ea85a85f25a4b6896221b9ebb0fe4b6c139a12e2b6a2a466da89
+checksums           rmd160  accfa50ffdf724794d2d32af95ed0fff14cb8a8f \
+                    sha256  b092eb346ff73205e509232f515952e85d42a14a905ccd85ac1d3cc52990a519
 
 if { $name ne $subport } {
     depends_build-append       port:py${python.version}-setuptools
