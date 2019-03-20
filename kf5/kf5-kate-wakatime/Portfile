@@ -18,5 +18,6 @@ checksums           rmd160  cf6c9b617da9796ecacd3d37b3f265e3e4931840 \
                     size    45890
 
 # These are in the macstrop repository
-depends_build-append port:kf5-ktexteditor
-depends_run-append port:kf5-kate
+depends_build-append    port:kde-extra-cmake-modules
+depends_lib-append      port:kf5-ktexteditor
+depends_run-append      port:kf5-kate
