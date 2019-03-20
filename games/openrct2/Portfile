@@ -4,7 +4,7 @@ PortGroup           github 1.0
 PortGroup           cxx11 1.1
 
 set gh_name         OpenRCT2
-github.setup        ${gh_name} ${gh_name} 0.2.1 v
+github.setup        ${gh_name} ${gh_name} 0.2.2 v
 name                openrct2
 
 categories          games
@@ -27,10 +27,10 @@ distfiles           ${name}-${version}.tar.gz:main \
                     objects.zip:obj
 worksrcdir          ${gh_name}-${gh_name}-410bee9
 
-checksums           openrct2-0.2.1.tar.gz \
-                    rmd160  e8c032c8c49afefa58b6acc31228fb5775e63ff0 \
-                    sha256  83adb7e688cbbc200df6b5de4dcd8a7d8a0097861820a712c09000ec519bef98 \
-                    size    6571973 \
+checksums           openrct2-0.2.2.tar.gz \
+                    rmd160  c78bd0c83c83dcf309c1229eba4c6c7195db4f69 \
+                    sha256  738907fee3405833f60d7ab42fe55ce90f815f07cffc72c02fe5aec779811e77 \
+                    size    8064404 \
                     title-sequence-v0.1.2.zip \
                     rmd160  76d3c3fbc5fa4707ce04c2f287ac4bc7ef4ae37c \
                     sha256  dcb1648739b351e857e2d19fed1626bec561d5e9f4b49201568f42c475ee7e61 \
