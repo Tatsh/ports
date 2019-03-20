@@ -11,15 +11,11 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Monitor your Mac's fan speed and CPU temperature from your Notification Center.
 long_description    ${description}
 homepage            https://github.com/DanielStormApps/Fanny/
-revision            1
+revision            2
 
 checksums           rmd160  2ca7d8ffd89b4759edb39b94c58a3026b33a7dc2 \
                     sha256  b42cc63efb9b5c5aaebf478fd11671137539050d60f56b4a91d19399bfa522be \
                     size    798504
-
-livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "Download\\s+<span>v(\\d+\[^<\]+)"
 
 xcode.target        Fanny
 xcode.configuration Release
