@@ -1,22 +1,23 @@
-# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        stepmania stepmania 3c8ee86
+github.setup        stepmania stepmania d6bd000
 
-version             5.1.0_beta2_p20190310
+version             5.1.0_beta2_p20190318
 categories          games
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         Rhythm game.
 long_description    StepMania is a free dance and rhythm game.
-revision            3
 
-checksums           rmd160  237c4d1463ebe3fee792e7f55530f6f570fc15c3 \
-                    sha256  fba293230fa641798d1ed7326d04762435b261bc05b82d10c527c8e70dea72ec \
-                    size    186427476
+checksums           rmd160  a913037ddde1d5e448b155f845eaa7b23a5f131b \
+                    sha256  93fe7a5fd9e06f8c2bc71e56282fc9ba47feee9c1af04520e4407a5e8d779939 \
+                    size    186503470
+
+patchfiles          noexcept.patch
+patch.pre_args      -p1 -R
 
 depends_build-append port:yasm
 depends_lib \
