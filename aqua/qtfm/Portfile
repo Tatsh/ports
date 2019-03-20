@@ -17,7 +17,7 @@ categories          aqua
 
 distfiles           ${name}-${version}.tar.gz:qtfm \
                     ${icons_hash}.tar.gz:icons
-worksrcdir          ${gh_user}-${gh_project}-f8b015e
+worksrcdir          ${gh_user}-${gh_project}-1f3ad63
 master_sites        ${github.homepage}/tarball/${git.branch}:qtfm \
                     https://github.com/${gh_user}/adwaita-bundle/archive:icons
 
