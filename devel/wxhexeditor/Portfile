@@ -1,0 +1,23 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        EUA wxHexEditor 0.24 v
+
+name                wxhexeditor
+version             0.24
+categories          devel aqua
+platforms           darwin linux freebsd
+description         A free hex editor / disk editor.
+long_description    ${description}
+maintainers         {gmail.com:audvare @Tatsh}
+
+checksums           rmd160  6a5ab69697e149e1ac0d093694bf83a63cfd1c80 \
+                    sha256  9ef6c3b073ecc8456bdf12ae9f83a8ef865fae2e2d6d804d1afc0d2077a88e24 \
+                    size    1699487
+
+patchfiles          syslibs.patch
+patch.pre_args      -p1
+
+depends_lib         port:wxgtk-3.0 \
+                    port:udis86 \
+                    port:mhash
