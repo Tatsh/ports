@@ -1,0 +1,76 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        munki munki 3.6.0 v
+
+name                munki-app-usage
+version             3.6.0
+license             Apache-2
+description         Managed software installation for macOS (app usage).
+long_description    Munki is a set of tools that, used together with a webserver-based \
+                    repository of packages and package metadata, can be used by macOS \
+                    administrators to manage software installs (and in many cases removals) on \
+                    macOS client machines.
+
+checksums           rmd160  722828893a7a06bcd2cdb4f9d631072d33d39a27 \
+                    sha256  c32fdb6d351444bf88cc0e0296dc2e43594def23e06f96937750f4661321f494 \
+                    size    7442236
+
+depends_run         port:munki-core
+
+worksrcdir          "munki-${version}/launchd"
+
+set agent_prefix com.googlecode.munki
+set agents {com.googlecode.munki.app_usage_monitor.plist}
+set daemons {com.googlecode.munki.appusaged.plist}
+
+use_configure       no
+
+patch {
+    foreach agent $agents {
+        reinplace "s|/usr/local/munki/|/opt/local/bin/|g" app_usage_LaunchAgent/$agent
+        reinplace "s|/Applications/|/Applications/MacPorts/|g" app_usage_LaunchAgent/$agent
+    }
+    foreach daemon $daemons {
+        reinplace "s|/usr/local/munki/|/opt/local/bin/|g" app_usage_LaunchDaemon/$daemon
+        reinplace "s|/Applications/|/Applications/MacPorts/|g" app_usage_LaunchDaemon/$daemon
+    }
+}
+
+build {}
+
+destroot {
+    set launchd_label           org.macports.munki
+    set agents_path_prefix      "${prefix}/etc/LaunchAgents/${launchd_label}"
+    set daemons_path_prefix     "${prefix}/etc/LaunchDaemons/${launchd_label}"
+
+    xinstall -m 755 -d "${destroot}${agents_path_prefix}"
+    xinstall -m 755 -d "${destroot}${daemons_path_prefix}"
+
+    foreach agent $agents {
+        xinstall -m 644 "${worksrcpath}/app_usage_LaunchAgent/$agent" \
+            "${destroot}${agents_path_prefix}/"
+    }
+    foreach daemon $daemons {
+        xinstall -m 644 "${worksrcpath}/app_usage_LaunchDaemon/$daemon" \
+            "${destroot}${daemons_path_prefix}/"
+    }
+
+    if {${startupitem.install} && [geteuid] == 0} {
+        xinstall -d -m 0755 ${destroot}/Library/LaunchDaemons
+        xinstall -d -m 0755 ${destroot}/Library/LaunchAgents
+        foreach agent $agents {
+            ln -s ${agents_path_prefix}/${agent} ${destroot}/Library/LaunchAgents
+        }
+        foreach daemon $daemons {
+            ln -s ${daemons_path_prefix}/${daemon} ${destroot}/Library/LaunchDaemons
+        }
+    } else {
+        foreach agent $agents {
+            ln -sf ${agents_path_prefix}/${agent} ${destroot}${prefix}/etc/LaunchAgents
+        }
+        foreach daemon $daemons {
+            ln -sf ${daemons_path_prefix}/${daemon} ${destroot}${prefix}/etc/LaunchDaemons
+        }
+    }
+}
