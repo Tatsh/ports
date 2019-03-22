@@ -8,7 +8,7 @@ name                munki-managed-software-center
 version             3.6.0
 maintainers         {gmail.com:audvare @Tatsh}
 license             Apache-2
-description         Managed software installation for macOS (MSC).
+description         Managed software installation for macOS (MSC). Meta package.
 long_description    Munki is a set of tools that, used together with a webserver-based \
                     repository of packages and package metadata, can be used by macOS \
                     administrators to manage software installs (and in many cases removals) on \
@@ -17,6 +17,12 @@ long_description    Munki is a set of tools that, used together with a webserver
 checksums           rmd160  722828893a7a06bcd2cdb4f9d631072d33d39a27 \
                     sha256  c32fdb6d351444bf88cc0e0296dc2e43594def23e06f96937750f4661321f494 \
                     size    7442236
+
+depends_run         port:munki-notifier \
+                    port:munki-status \
+                    port:munki-app-usage \
+                    port:munki-core \
+                    port:munki-launchd
 
 worksrcdir          "munki-${version}/code/apps/Managed Software Center"
 
