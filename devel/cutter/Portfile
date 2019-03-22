@@ -5,6 +5,12 @@ PortGroup           github 1.0
 github.setup        radareorg cutter 1.8.0 v
 
 version             1.8.0
+categories          devel aqua
+platforms           darwin linux freebsd
+description         Free and open-source GUI for radare2 reverse engineering framework.
+long_description    ${description}
+maintainers         {gmail.com:audvare @Tatsh}
+revision            1
 
 checksums           rmd160  a268dde5acb7a9382a92bd07635dfd2ac3f22e97 \
                     sha256  158926c419907fc94e7d466265626432d833bd3ead1c8fa42ffae9d5b728e1b8 \
@@ -20,14 +26,8 @@ variant webengine {
     configure.args-append -DCUTTER_ENABLE_QTWEBENGINE=yes
 }
 
-patch {
-    reinplace "s|add_executable(Cutter|add_executable(Cutter MACOSX_BUNDLE|" \
-        "${worksrcpath}/CMakeLists.txt"
-    set h [open "${worksrcpath}/CMakeLists.txt" "a"]
-    puts $h "set_target_properties(Cutter PROPERTIES MACOSX_BUNDLE_INFO_PLIST\n \
-                                   ${worksrcpath}/macos/Info.plist)\n"
-    close $h
-}
+patchfiles          macos-bundle.patch
+patch.pre_args      -p2
 
 destroot {
     file copy "${worksrcpath}/../../build/Cutter.app" "${destroot}/${applications_dir}"
