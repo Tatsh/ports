@@ -1,0 +1,46 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        munki munki 3.6.0 v
+
+name                munki-core
+version             3.6.0
+license             Apache-2
+description         Managed software installation for macOS (core).
+long_description    Munki is a set of tools that, used together with a webserver-based \
+                    repository of packages and package metadata, can be used by macOS \
+                    administrators to manage software installs (and in many cases removals) on \
+                    macOS client machines.
+
+checksums           rmd160  722828893a7a06bcd2cdb4f9d631072d33d39a27 \
+                    sha256  c32fdb6d351444bf88cc0e0296dc2e43594def23e06f96937750f4661321f494 \
+                    size    7442236
+
+worksrcdir          "munki-${version}/code/client"
+
+use_configure       no
+
+build {}
+
+destroot.violate_mtree  yes
+
+destroot {
+    # https://github.com/munki/munki/blob/master/code/tools/make_munki_mpkg.sh#L323
+    set tools {authrestartd launchapp logouthelper managedsoftwareupdate supervisor \
+        precache_agent ptyexec removepackages}
+    foreach tool $tools {
+        xinstall -m 755 "${worksrcpath}/$tool" "${destroot}${prefix}/bin"
+    }
+    # https://github.com/munki/munki/blob/master/code/tools/make_munki_mpkg.sh#L382
+    set tools {makecatalogs makepkginfo manifestutil munkiimport iconimporter}
+    foreach tool $tools {
+        xinstall -m 755 "${worksrcpath}/$tool" "${destroot}${prefix}/bin"
+    }
+    # https://github.com/munki/munki/blob/master/code/tools/make_munki_mpkg.sh#L327
+    file copy "${worksrcpath}/munkilib" "${destroot}${prefix}/lib/"
+    # https://github.com/munki/munki/blob/master/code/tools/make_munki_mpkg.sh#L354
+    xinstall -d -m 755 "/Library/Managed Installs"
+    xinstall -d -m 750 "/Library/Managed Installs/Cache"
+    xinstall -d -m 750 "/Library/Managed Installs/catalogs"
+    xinstall -d -m 755 "/Library/Managed Installs/manifests"
+}
