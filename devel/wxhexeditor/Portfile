@@ -6,7 +6,7 @@ github.setup        EUA wxHexEditor 0.24 v
 name                wxhexeditor
 version             0.24
 categories          devel aqua
-platforms           darwin linux freebsd
+platforms           macosx
 description         A free hex editor / disk editor.
 long_description    ${description}
 maintainers         {gmail.com:audvare @Tatsh}
@@ -21,3 +21,7 @@ patch.pre_args      -p1
 depends_lib         port:wxgtk-3.0 \
                     port:udis86 \
                     port:mhash
+
+destroot {
+    file copy wxHexEditor.app "${destroot}/${applications_dir}"
+}
