@@ -1,0 +1,34 @@
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        radareorg cutter 1.8.0 v
+
+version             1.8.0
+
+checksums           rmd160  a268dde5acb7a9382a92bd07635dfd2ac3f22e97 \
+                    sha256  158926c419907fc94e7d466265626432d833bd3ead1c8fa42ffae9d5b728e1b8 \
+                    size    1431925
+
+depends_lib         port:radare2 \
+                    port:qt5-kde
+
+worksrcdir          cutter-${version}/src
+
+variant webengine {
+    depends_lib-append port:qt5-kde-qtwebengine
+    configure.args-append -DCUTTER_ENABLE_QTWEBENGINE=yes
+}
+
+patch {
+    reinplace "s|add_executable(Cutter|add_executable(Cutter MACOSX_BUNDLE|" \
+        "${worksrcpath}/CMakeLists.txt"
+    set h [open "${worksrcpath}/CMakeLists.txt" "a"]
+    puts $h "set_target_properties(Cutter PROPERTIES MACOSX_BUNDLE_INFO_PLIST\n \
+                                   ${worksrcpath}/macos/Info.plist)\n"
+    close $h
+}
+
+destroot {
+    file copy "${worksrcpath}/../../build/Cutter.app" "${destroot}/${applications_dir}"
+}
