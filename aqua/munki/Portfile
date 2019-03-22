@@ -2,9 +2,8 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        munki munki  3.6.0 v
+github.setup        munki munki 3.6.0 v
 
-name                munki-managed-software-center
 version             3.6.0
 maintainers         {gmail.com:audvare @Tatsh}
 license             Apache-2
