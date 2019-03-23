@@ -1,0 +1,19 @@
+diff --git a/tunnelblick/MenuController.m b/tunnelblick/MenuController.m
+index 0b2e50e8..a5928954 100644
+--- a/tunnelblick/MenuController.m
++++ b/tunnelblick/MenuController.m
+@@ -6189,14 +6189,6 @@ BOOL warnAboutNonTblks(void)
+ 
+ 	NSString * currentPath = [[NSBundle mainBundle] bundlePath];
+ 	
+-	NSString * contentsPath = [currentPath stringByAppendingPathComponent: @"Contents"];
+-    if (   [gFileMgr fileExistsAtPath: [contentsPath stringByAppendingPathComponent: @"_CodeSignature"]]
+-		&& ( ! [self hasValidSignature] )  ) {
+-		signatureIsInvalid = TRUE;
+-	} else {
+-		signatureIsInvalid = FALSE;	// (But it might not have one)
+-	}
+-	
+     TBLog(@"DB-SU", @"relaunchIfNecessary: 002")
+     // Move or copy Tunnelblick.app to /Applications if it isn't already there
+     

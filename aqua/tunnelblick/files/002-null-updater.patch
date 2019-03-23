@@ -1,0 +1,455 @@
+diff --git a/tunnelblick/ConfigurationUpdater.h b/tunnelblick/ConfigurationUpdater.h
+index 0c003bd1..a04d799d 100644
+--- a/tunnelblick/ConfigurationUpdater.h
++++ b/tunnelblick/ConfigurationUpdater.h
+@@ -21,12 +21,10 @@
+ 
+ #import "defines.h"
+ 
+-@class SUUpdater;
+-
+ @interface ConfigurationUpdater : NSObject {
+     
+     NSString  * cfgBundlePath;
+-    SUUpdater * cfgUpdater;
++    id cfgUpdater;
+     NSString  * cfgBundleId;
+     NSString  * cfgName;
+ 	NSString  * feedUrlStringForConfigurationUpdater;
+diff --git a/tunnelblick/ConfigurationUpdater.m b/tunnelblick/ConfigurationUpdater.m
+index 9b394b38..2d268ea9 100644
+--- a/tunnelblick/ConfigurationUpdater.m
++++ b/tunnelblick/ConfigurationUpdater.m
+@@ -32,7 +32,6 @@
+ #import "MenuController.h"
+ #import "NSFileManager+TB.h"
+ #import "NSTimer+TB.h"
+-#import "Sparkle/SUUpdater.h"
+ #import "TBUserDefaults.h"
+ 
+ extern NSFileManager        * gFileMgr;
+@@ -41,7 +40,7 @@ extern TBUserDefaults       * gTbDefaults;
+ 
+ @implementation ConfigurationUpdater
+ 
+-TBSYNTHESIZE_OBJECT_GET(retain, SUUpdater *, cfgUpdater)
++TBSYNTHESIZE_OBJECT_GET(retain, id, cfgUpdater)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSString  *, cfgBundlePath)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSString  *, cfgBundleId)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSString  *, cfgName)
+@@ -92,21 +91,6 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+     }
+ 	
+ 	[self setFeedUrlStringForConfigurationUpdater: feedURLString];
+-	
+-    NSTimeInterval interval = 60*60; // One hour (1 hour in seconds = 60 minutes * 60 seconds/minute)
+-    id checkInterval = [infoPlist objectForKey: @"SUScheduledCheckInterval"];
+-    if (  checkInterval  ) {
+-        if (  [checkInterval respondsToSelector: @selector(intValue)]  ) {
+-            NSTimeInterval i = (NSTimeInterval) [checkInterval intValue];
+-            if (  i <= 60.0  ) {
+-                NSLog(@"SUScheduledCheckInterval in Info.plist for the .tblk at %@ is less than 60 seconds; using 60 minutes.", path);
+-            } else {
+-                interval = i;
+-            }
+-        } else {
+-            NSLog(@"SUScheduledCheckInterval in Info.plist for the .tblk at %@ is invalid (does not respond to intValue); using 3600 seconds (60 minutes)", path);
+-        }
+-    }
+     
+     if (  (self = [super init])  ) {
+         
+@@ -114,18 +98,6 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+         cfgBundleId   = [bundleId retain];
+         cfgName       = [[path lastPathComponent] retain];
+         
+-        cfgUpdater    = [[SUUpdater updaterForBundle: [NSBundle bundleWithPath: path]] retain];
+-        if (  cfgUpdater  ) {
+-            [cfgUpdater setAutomaticallyChecksForUpdates: NO];      // Don't start checking yet
+-            [cfgUpdater setAutomaticallyDownloadsUpdates: NO];      // MUST BE 'NO' because "Install" on Quit doesn't work properly
+-            [cfgUpdater setSendsSystemProfile:            NO];      // See https://answers.edge.launchpad.net/sparkle/+question/88790
+-            [cfgUpdater setUpdateCheckInterval:           interval];
+-            [cfgUpdater setDelegate:                      (id)self];
+-            [cfgUpdater setFeedURL:                       feedURL];
+-        } else {
+-            NSLog(@"Unable to create an updater for %@", path);
+-        }
+-        
+         return self;
+     }
+ 
+@@ -143,31 +115,9 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+ }
+ 
+ -(void) startUpdateCheckingWithUI {
+-	
+-	if (  [gTbDefaults boolForKey: @"inhibitOutboundTunneblickTraffic"]) {
+-		return;
+-	}
+-	
+-	[[self cfgUpdater] resetUpdateCycle];
+-	[[self cfgUpdater] checkForUpdates: self];
+-	
+-	TBLog(@"DB-UC", @"Started update check with UI for configuration '%@' (%@); URL = %@", [self cfgBundleId], [self edition], [cfgUpdater feedURL]);
+ }
+ 
+ -(void) startCheckingWithoutUI {
+-	
+-	if (  [gTbDefaults boolForKey: @"inhibitOutboundTunneblickTraffic"]) {
+-		return;
+-	}
+-	
+-	NSString * action = (  [[self cfgUpdater] automaticallyChecksForUpdates]
+-						 ? @"Restarted"
+-						 : @"Started");
+-	
+-	[[self cfgUpdater] resetUpdateCycle];
+-	[[self cfgUpdater] checkForUpdatesInBackground];
+-	
+-	TBLog(@"DB-UC", @"%@ update checks without UI for configuration '%@' (%@); URL = %@", action, [self cfgBundleId], [self edition], [cfgUpdater feedURL]);
+ }
+ 
+ -(void) startUpdateCheckingWithUIThread: (NSNumber *) withUINumber {
+@@ -185,19 +135,6 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+     
+     BOOL withUI = [withUINumber boolValue];
+     
+-    // Wait until the application is not being updated
+-    SUUpdater * appUpdater = [((MenuController *)[NSApp delegate]) updater];
+-    while (  [appUpdater updateInProgress]  ) {
+-        
+-		if (  [gTbDefaults boolForKey: @"inhibitOutboundTunneblickTraffic"]) {
+-			[threadPool drain];
+-			return;
+-		}
+-        TBLog(@"DB-UC", @"Delaying start of update checks for configuration '%@' (%@)", [self cfgBundleId], [self edition]);
+-        sleep(1);
+-        
+-    }
+-    
+     if (  withUI  ) {
+ 		[self performSelectorOnMainThread: @selector(startUpdateCheckingWithUI) withObject: nil waitUntilDone: NO];
+     } else {
+@@ -215,20 +152,12 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+ }
+ 
+ -(void) stopChecking {
+-    
+-	if (  [[self cfgUpdater] automaticallyChecksForUpdates]  ) {
+-		[[self cfgUpdater] setAutomaticallyChecksForUpdates: NO];
+-		TBLog(@"DB-UC", @"Stopped update checks for configuration '%@' (%@)", [self cfgBundleId], [self edition]);
+-	} else {
+-		TBLog(@"DB-UC", @"Update checks are already stopped for configuration '%@' (%@)", [self cfgBundleId], [self edition]);
+-	}
+-
+ }
+ 
+ //************************************************************************************************************
+-// SUUpdater delegate methods
++// NilUpdater delegate methods
+ 
+-- (BOOL)updaterShouldPromptForPermissionToCheckForUpdates:(SUUpdater *)bundle {
++- (BOOL)updaterShouldPromptForPermissionToCheckForUpdates:(id)bundle {
+     
+ 	// Use this to override the default behavior for Sparkle prompting the user about automatic update checks.
+     
+@@ -238,7 +167,7 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+     return NO;
+ }
+ 
+-- (NSString *)feedURLStringForUpdater:(SUUpdater *)updater {
++- (NSString *)feedURLStringForUpdater:(id)updater {
+ 	
+ 	(void)updater;
+ 	
+@@ -246,7 +175,7 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+ }
+ 
+ 
+-- (BOOL)updaterShouldRelaunchApplication:(SUUpdater *)updater {
++- (BOOL)updaterShouldRelaunchApplication:(id)updater {
+ 	
+     (void) updater;
+ 	
+@@ -275,8 +204,8 @@ TBSYNTHESIZE_OBJECT(    retain, NSString *,  feedUrlStringForConfigurationUpdate
+ // None of the rest of the delegate methods are used but they show the progress of the update checks
+ //
+ 
+--(void)         updater: (SUUpdater *) updater
+-didFinishLoadingAppcast: (SUAppcast *) appcast {
++-(void)         updater: (id) updater
++didFinishLoadingAppcast: (id) appcast {
+     
+     // Implement this if you want to do some special handling with the appcast once it finishes loading.
+     
+@@ -286,8 +215,8 @@ didFinishLoadingAppcast: (SUAppcast *) appcast {
+     TBLog(@"DB-UC", @"didFinishLoadingAppcast for '%@' (%@ %@)", [self cfgName], [self cfgBundleId], [self edition]);
+ }
+ 
+--(void)    updater: (SUUpdater *)    updater
+-didFindValidUpdate:(SUAppcastItem *) update {
++-(void)    updater: (id)    updater
++didFindValidUpdate:(id) update {
+     
+     // Sent when a valid update is found by the update driver.
+     
+@@ -297,7 +226,7 @@ didFindValidUpdate:(SUAppcastItem *) update {
+     TBLog(@"DB-UC", @"didFindValidUpdate for '%@' (%@ %@)", [self cfgName], [self cfgBundleId], [self edition]);
+ }
+ 
+--(void) updaterDidNotFindUpdate: (SUUpdater *) update {
++-(void) updaterDidNotFindUpdate: (id) update {
+     
+     // Sent when a valid update is not found.
+     
+@@ -306,7 +235,7 @@ didFindValidUpdate:(SUAppcastItem *) update {
+     TBLog(@"DB-UC", @"updaterDidNotFindUpdate for '%@' (%@ %@)", [self cfgName], [self cfgBundleId], [self edition]);
+ }
+ 
+-- (void)updater:(SUUpdater *)updater willInstallUpdate:(SUAppcastItem *)update {
++- (void)updater:(id)updater willInstallUpdate:(id)update {
+     
+ 	(void) updater;
+     (void) update;
+@@ -321,7 +250,7 @@ didFindValidUpdate:(SUAppcastItem *) update {
+     TBLog(@"DB-UC", @"installerFinishedForHost for '%@' (%@ %@)", [self cfgName], [self cfgBundleId], [self edition]);
+ }
+ 
+-- (NSString *)pathToRelaunchForUpdater:(SUUpdater *)updater {
++- (NSString *)pathToRelaunchForUpdater:(id)updater {
+     
+     // Returns the path which is used to relaunch the client after the update is installed. By default, the path of the host bundle.
+     
+@@ -331,7 +260,7 @@ didFindValidUpdate:(SUAppcastItem *) update {
+ 	return nil;
+ }
+ 
+-- (void) updaterWillRelaunchApplication: (SUUpdater *) updater {
++- (void) updaterWillRelaunchApplication: (id) updater {
+     
+     // Called immediately before relaunching.
+     
+diff --git a/tunnelblick/MenuController.h b/tunnelblick/MenuController.h
+index d22ca6b1..ab49eccb 100644
+--- a/tunnelblick/MenuController.h
++++ b/tunnelblick/MenuController.h
+@@ -35,7 +35,6 @@
+ @class NetSocket;
+ @class SplashWindowController;
+ @class StatusWindowController;
+-@class SUUpdater;
+ @class SystemAuth;
+ @class TBUIUpdater;
+ @class VPNConnection;
+@@ -158,7 +157,7 @@ enum StatusIconPosition {
+ 	
+     NSTimer                 * statisticsWindowTimer;        // Used to check for stale statistics that must be cleared 
+     
+-    SUUpdater               * updater;                      // Sparkle Updater item used to check for updates to the program
++    id               updater;                      // Sparkle Updater item used to check for updates to the program
+ 
+     ConfigurationMultiUpdater * myConfigMultiUpdater;       // Checks for configuration updates
+ 	
+@@ -329,7 +328,7 @@ enum StatusIconPosition {
+ -(NSString *)       customRunOnConnectPath;
+ -(void)             startOrStopUiUpdater;
+ -(BOOL)             terminatingAtUserRequest;
+--(SUUpdater *)      updater;
++-(id)      updater;
+ -(BOOL volatile)    doingSetupOfUI;
+ -(void)				setDoingSetupOfUI: (BOOL) value;
+ 
+diff --git a/tunnelblick/MenuController.m b/tunnelblick/MenuController.m
+index 28b55786..f9469f80 100644
+--- a/tunnelblick/MenuController.m
++++ b/tunnelblick/MenuController.m
+@@ -49,7 +49,6 @@
+ #import "NSString+TB.h"
+ #import "NSTimer+TB.h"
+ #import "SetupImporter.h"
+-#import "Sparkle/SUUpdater.h"
+ #import "SplashWindowController.h"
+ #import "SystemAuth.h"
+ #import "TBUIUpdater.h"
+@@ -191,7 +190,7 @@ TBSYNTHESIZE_NONOBJECT(BOOL         , showingImportSetupWindow, setShowingImport
+ 
+ TBSYNTHESIZE_OBJECT_GET(retain, MyPrefsWindowController *,   logScreen)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSString *,                  customRunOnConnectPath)
+-TBSYNTHESIZE_OBJECT_GET(retain, SUUpdater *,                 updater)
++TBSYNTHESIZE_OBJECT_GET(retain, id,                 updater)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSMutableArray *,            largeAnimImages)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSImage *,                   largeConnectedImage)
+ TBSYNTHESIZE_OBJECT_GET(retain, NSImage *,                   largeMainImage)
+@@ -2272,7 +2271,7 @@ static pthread_mutex_t myVPNMenuMutex = PTHREAD_MUTEX_INITIALIZER;
+ }
+ 
+ // Sparkle delegates:
+-- (NSString *)feedURLStringForUpdater:(SUUpdater *) theUpdater {
++- (NSString *)feedURLStringForUpdater:(id) theUpdater {
+ 	
+ 	// This delegate method is implemented so Sparkle always uses the correct URL:
+ 	//		* If we are running a beta version of Tunnelblick, we must check for a beta update.
+@@ -2356,7 +2355,7 @@ static pthread_mutex_t myVPNMenuMutex = PTHREAD_MUTEX_INITIALIZER;
+ 	return urlString;
+ }
+ 
+-- (BOOL)updaterShouldPromptForPermissionToCheckForUpdates:(SUAppcastItem *) theUpdater {
++- (BOOL)updaterShouldPromptForPermissionToCheckForUpdates:(id) theUpdater {
+ 	
+ 	// We never want Sparkle to ask for permission to check for updates.
+ 	// Tunnelblick asks for permission to check for updates when it asks for agreement to the use terms.
+@@ -2366,7 +2365,7 @@ static pthread_mutex_t myVPNMenuMutex = PTHREAD_MUTEX_INITIALIZER;
+ 	return NO;
+ }
+ 
+-- (void)updater:(SUUpdater *)theUpdater willInstallUpdate:(SUAppcastItem *)update
++- (void)updater:(id)theUpdater willInstallUpdate:(id)update
+ {
+ 	(void) theUpdater;
+ 	(void) update;
+@@ -4105,36 +4104,6 @@ static void signal_handler(int signalNumber)
+ }
+ 
+ -(void) setupUpdaterAutomaticChecks {
+-    
+-    if (  [updater respondsToSelector: @selector(setAutomaticallyChecksForUpdates:)]  ) {
+-        if (  [gTbDefaults boolForKey: @"inhibitOutboundTunneblickTraffic"]  ) {
+-            [updater setAutomaticallyChecksForUpdates: NO];
+-			[myConfigMultiUpdater stopAllUpdateChecking];
+-        } else {
+-            BOOL userIsAdminOrNonAdminsCanUpdate = (   userIsAnAdmin
+-                                                    || ( ! [gTbDefaults boolForKey:@"onlyAdminCanUpdate"])  );
+-			if (  userIsAdminOrNonAdminsCanUpdate  ) {
+-				if (  [gTbDefaults preferenceExistsForKey: @"updateCheckAutomatically"]  ) {
+-					BOOL startChecking = [gTbDefaults boolForKey: @"updateCheckAutomatically"];
+-					[updater setAutomaticallyChecksForUpdates: startChecking];
+-					if (  startChecking) {
+-						[myConfigMultiUpdater startAllUpdateCheckingWithUI: NO];
+-					} else {
+-						[myConfigMultiUpdater stopAllUpdateChecking];
+-					}
+-				}
+-			} else {
+-				if (  [gTbDefaults boolForKey: @"updateCheckAutomatically"]  ) {
+-					NSLog(@"Automatic check for updates will not be performed because user is not allowed to administer this computer and 'onlyAdminCanUpdate' preference is set");
+-				}
+-				[updater setAutomaticallyChecksForUpdates: NO];
+-			}
+-		}
+-    } else {
+-        if (  [gTbDefaults preferenceExistsForKey: @"updateCheckAutomatically"]  ) {
+-            NSLog(@"Automatic checks for updates will not be performed because the updater does not respond to setAutomaticallyChecksForUpdates:");
+-        }
+-	}
+ }
+ 
+ - (void) applicationWillFinishLaunching: (NSNotification *)notification
+@@ -4199,29 +4168,6 @@ static void signal_handler(int signalNumber)
+ 	// and we don't want Sparkle to repeat the question. Because Sparkle isn't operating yet, it doesn't need to be notified directly that the preference changed.
+ 	[[NSUserDefaults standardUserDefaults] setBool: TRUE forKey: @"SUHasLaunchedBefore"];
+ 	
+-	// Create and initialize the Sparkle Updater instance that updates the application:
+-	updater = [[SUUpdater alloc] init];
+-	
+-	if (  [updater respondsToSelector: @selector(setDelegate:)]  ) {
+-		[updater setDelegate: (id)self];
+-	} else {
+-		NSLog(@"Cannot set Sparkle delegate because Sparkle Updater does not respond to setDelegate:");
+-	}
+-
+-    if (  [updater respondsToSelector: @selector(setUpdateCheckInterval:)]  ) {
+-        NSTimeInterval checkInterval = [gTbDefaults timeIntervalForKey: @"updateCheckInterval"
+-                                                               default: 60.0 * 60.0 * 24.0          // Default = 24 hours
+-                                                                   min: 60.0 * 60.0                 // Minumum = 1 hour to prevent DOS on the update server
+-                                                                   max: 60.0 * 60.0 * 24.0 * 7];    // Maximum = 1 week
+-        [updater setUpdateCheckInterval: checkInterval];
+-    } else {
+-        if (  [gTbDefaults preferenceExistsForKey: @"updateCheckInterval"]  ) {
+-            NSLog(@"Ignoring 'updateCheckInterval' preference because Sparkle Updater Updater does not respond to setUpdateCheckInterval:");
+-        }
+-    }
+-    
+-    [self setupUpdaterAutomaticChecks];
+-	
+     TBLog(@"DB-SU", @"applicationWillFinishLaunching: 002 -- LAST")
+ }
+ 
+@@ -4847,22 +4793,6 @@ static void signal_handler(int signalNumber)
+     }
+     
+     TBLog(@"DB-SU", @"applicationDidFinishLaunching: 002")
+-    // If checking for updates is enabled, we do a check every time Tunnelblick is launched (i.e., now)
+-    if (   [gTbDefaults boolWithDefaultYesForKey: @"updateCheckAutomatically"]  ) {
+-        if (  [updater respondsToSelector: @selector(checkForUpdatesInBackground)]  ) {
+-            if (  [self feedURLToUse]  ) {
+-				if (  ! [gTbDefaults boolForKey: @"inhibitOutboundTunneblickTraffic"]  ) {
+-					[updater checkForUpdatesInBackground];
+-				} else {
+-					NSLog(@"Not checking for updates because inhibitOutboundTunneblickTraffic is true");
+-				}
+-			} else {
+-					NSLog(@"Not checking for updates because no FeedURL has been set");
+-			}
+-        } else {
+-            NSLog(@"Cannot check for updates because Sparkle Updater does not respond to checkForUpdatesInBackground");
+-        }
+-    }
+     
+     TBLog(@"DB-SU", @"applicationDidFinishLaunching: 003")
+     
+diff --git a/tunnelblick/MyPrefsWindowController.m b/tunnelblick/MyPrefsWindowController.m
+index 01177ea3..e5f296f4 100755
+--- a/tunnelblick/MyPrefsWindowController.m
++++ b/tunnelblick/MyPrefsWindowController.m
+@@ -41,7 +41,6 @@
+ #import "NSFileManager+TB.h"
+ #import "NSString+TB.h"
+ #import "SettingsSheetWindowController.h"
+-#import "Sparkle/SUUpdater.h"
+ #import "SystemAuth.h"
+ #import "TBButton.h"
+ #import "TBOperationQueue.h"
+@@ -2759,13 +2758,6 @@ static BOOL firstTimeShowingWindow = TRUE;
+ 	
+ 	[self setupUpdatesCheckboxes];
+ 	[self setupCheckIPAddress: nil];
+-	
+-    SUUpdater * updater = [((MenuController *)[NSApp delegate]) updater];
+-    if (  [updater respondsToSelector: @selector(setAutomaticallyChecksForUpdates:)]  ) {
+- 		[((MenuController *)[NSApp delegate]) setupUpdaterAutomaticChecks];
+-    } else {
+-        NSLog(@"'Inhibit automatic update checking and IP address checking' change ignored because the updater does not respond to setAutomaticallyChecksForUpdates:");
+-	}
+ }
+ 
+ 
+@@ -2853,13 +2845,7 @@ static BOOL firstTimeShowingWindow = TRUE;
+ 
+ -(IBAction) updatesCheckAutomaticallyCheckboxWasClicked: (NSButton *) sender
+ {
+-    SUUpdater * updater = [((MenuController *)[NSApp delegate]) updater];
+-    if (  [updater respondsToSelector: @selector(setAutomaticallyChecksForUpdates:)]  ) {
+-        [gTbDefaults setBool: [sender state] forKey: @"updateCheckAutomatically"];
+-		[((MenuController *)[NSApp delegate]) setupUpdaterAutomaticChecks];
+-    } else {
+-        NSLog(@"'Automatically Check for Updates' change ignored because the updater does not respond to setAutomaticallyChecksForUpdates:");
+-    }
++    (void)sender;
+ }
+ 
+ 
+diff --git a/tunnelblick/defines.h b/tunnelblick/defines.h
+index 27cb357f..4383af02 100644
+--- a/tunnelblick/defines.h
++++ b/tunnelblick/defines.h
+@@ -717,8 +717,8 @@ name = newValue;                                    \
+ \
+ @"NSWindow Frame SettingsSheetWindow",	\
+ @"NSWindow Frame ConnectingWindow",	\
+-@"NSWindow Frame SUStatusFrame",	\
+-@"NSWindow Frame SUUpdateAlert",	\
++@"NSWindow Frame NilStatusFrame",	\
++@"NSWindow Frame NilUpdateAlert",	\
+ @"NSWindow Frame ListingWindow",	\
+ @"detailsWindowFrameVersion",	\
+ @"detailsWindowFrame",	\

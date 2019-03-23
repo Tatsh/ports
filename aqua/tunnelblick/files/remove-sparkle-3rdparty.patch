@@ -1,0 +1,120 @@
+diff --git a/tunnelblick/Tunnelblick.xcodeproj/project.pbxproj b/tunnelblick/Tunnelblick.xcodeproj/project.pbxproj
+index 9568d84f..9b7a99f3 100644
+--- a/tunnelblick/Tunnelblick.xcodeproj/project.pbxproj
++++ b/tunnelblick/Tunnelblick.xcodeproj/project.pbxproj
+@@ -115,7 +115,6 @@
+ 		637A879B13B75694003C1871 /* tb-logo-309x64-2011-06-26.png in Resources */ = {isa = PBXBuildFile; fileRef = 637A879A13B75694003C1871 /* tb-logo-309x64-2011-06-26.png */; };
+ 		637ACF291053EE9B00A49655 /* UKFileWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 637ACF281053EE9B00A49655 /* UKFileWatcher.m */; };
+ 		637B0A1E1A81DC2100210900 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637B0A1D1A81DC2100210900 /* Sparkle.framework */; };
+-		637B0A281A81DC3500210900 /* Sparkle.framework in Copy Sparkle */ = {isa = PBXBuildFile; fileRef = 637B0A1D1A81DC2100210900 /* Sparkle.framework */; };
+ 		638164DE1C145CC100B59958 /* reactivate-tunnelblick.sh in Resources */ = {isa = PBXBuildFile; fileRef = 638164DD1C145CC100B59958 /* reactivate-tunnelblick.sh */; };
+ 		638222211E287C0500A2BD87 /* updates_create_signature in Resources */ = {isa = PBXBuildFile; fileRef = 638222201E287C0500A2BD87 /* updates_create_signature */; };
+ 		638613271492C88B00C3DCCE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638A2004135CC41C00FB932C /* Foundation.framework */; };
+@@ -340,17 +339,6 @@
+ 			name = "Copy Helpers";
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		61C8B0AB0E38E3C100696EE9 /* Copy Sparkle */ = {
+-			isa = PBXCopyFilesBuildPhase;
+-			buildActionMask = 2147483647;
+-			dstPath = "";
+-			dstSubfolderSpec = 10;
+-			files = (
+-				637B0A281A81DC3500210900 /* Sparkle.framework in Copy Sparkle */,
+-			);
+-			name = "Copy Sparkle";
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ /* End PBXCopyFilesBuildPhase section */
+ 
+ /* Begin PBXFileReference section */
+@@ -1509,13 +1497,10 @@
+ 			isa = PBXNativeTarget;
+ 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Tunnelblick" */;
+ 			buildPhases = (
+-				616A49200E38D17500477476 /* Build Third Party Items */,
+ 				8D1107290486CEB800E47090 /* Resources */,
+ 				8D11072C0486CEB800E47090 /* Sources */,
+ 				8D11072E0486CEB800E47090 /* Frameworks */,
+ 				61BC4D930E2FA26E00F24255 /* Copy Helpers */,
+-				61C8B0AB0E38E3C100696EE9 /* Copy Sparkle */,
+-				610AEAE70E2FE63900EA3C79 /* Create the Applications and .dmgs */,
+ 			);
+ 			buildRules = (
+ 			);
+@@ -1542,6 +1527,35 @@
+ 			isa = PBXProject;
+ 			attributes = {
+ 				LastUpgradeCheck = 1000;
++				TargetAttributes = {
++					61BC4BC00E2F9FE900F24255 = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					61BC4D6A0E2FA06900F24255 = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					6317943D118D7E820057ACAF = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					635BF17E1501CCDF00D87717 = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					638A1FFB135CC35100FB932C = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					63AA8E571492C75200C791C9 = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					63C374381A4510AA00D51E81 = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					63ED8EE51A1E84560045D34E = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++					8D1107260486CEB800E47090 = {
++						DevelopmentTeam = EU5R2QY9HJ;
++					};
++				};
+ 			};
+ 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Tunnelblick" */;
+ 			compatibilityVersion = "Xcode 3.2";
+@@ -1700,39 +1714,6 @@
+ 		};
+ /* End PBXResourcesBuildPhase section */
+ 
+-/* Begin PBXShellScriptBuildPhase section */
+-		610AEAE70E2FE63900EA3C79 /* Create the Applications and .dmgs */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputPaths = (
+-			);
+-			name = "Create the Applications and .dmgs";
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/bash;
+-			shellScript = "./BuildAppsAndDmgs.sh\n";
+-			showEnvVarsInLog = 0;
+-		};
+-		616A49200E38D17500477476 /* Build Third Party Items */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputPaths = (
+-			);
+-			name = "Build Third Party Items";
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/bash;
+-			shellScript = ./BuildThirdPartyItems.sh;
+-			showEnvVarsInLog = 0;
+-		};
+-/* End PBXShellScriptBuildPhase section */
+-
+ /* Begin PBXSourcesBuildPhase section */
+ 		61BC4BBE0E2F9FE900F24255 /* Sources */ = {
+ 			isa = PBXSourcesBuildPhase;

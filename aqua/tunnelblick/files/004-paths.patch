@@ -1,0 +1,733 @@
+diff --git a/tunnelblick/LeaseWatch.plist b/tunnelblick/LeaseWatch.plist
+index e0a3a052..e2ca3d0d 100644
+--- a/tunnelblick/LeaseWatch.plist
++++ b/tunnelblick/LeaseWatch.plist
+@@ -6,7 +6,7 @@
+ 		<string>net.tunnelblick.openvpn.leasewatch</string>
+ 		<key>ProgramArguments</key>
+ 		<array>
+-			<string>/Applications/Tunnelblick.app/Contents/Resources/leasewatch</string>
++			<string>/Applications/MacPorts/Tunnelblick.app/Contents/Resources/leasewatch</string>
+ 		</array>
+ 		<key>WatchPaths</key>
+ 		<array>
+diff --git a/tunnelblick/LeaseWatch3.plist b/tunnelblick/LeaseWatch3.plist
+index 4e64e6d5..ee637f94 100644
+--- a/tunnelblick/LeaseWatch3.plist
++++ b/tunnelblick/LeaseWatch3.plist
+@@ -6,7 +6,7 @@
+ 		<string>net.tunnelblick.openvpn.leasewatch3</string>
+ 		<key>ProgramArguments</key>
+ 		<array>
+-			<string>/Applications/Tunnelblick.app/Contents/Resources/leasewatch3</string>
++			<string>/Applications/MacPorts/Tunnelblick.app/Contents/Resources/leasewatch3</string>
+ 		</array>
+ 		<key>WatchPaths</key>
+ 		<array>
+diff --git a/tunnelblick/MenuController.m b/tunnelblick/MenuController.m
+index de31868e..0b2e50e8 100644
+--- a/tunnelblick/MenuController.m
++++ b/tunnelblick/MenuController.m
+@@ -4087,7 +4087,7 @@ static void signal_handler(int signalNumber)
+     
+     if (  [gFileMgr fileExistsAtPath: gDeployPath]  ) {
+         NSString * tunnelblickdPath = [[NSBundle mainBundle] pathForResource: @"tunnelblickd" ofType: nil];
+-        if (  [tunnelblickdPath isNotEqualTo: @"/Applications/Tunnelblick.app/Contents/Resources/tunnelblickd"]  ) {
++        if (  [tunnelblickdPath isNotEqualTo: @"/Applications/MacPorts/Tunnelblick.app/Contents/Resources/tunnelblickd"]  ) {
+             return YES;
+         }
+         NSDictionary * attributes = [gFileMgr tbFileAttributesAtPath: tunnelblickdPath traverseLink: NO];
+@@ -6208,11 +6208,11 @@ BOOL warnAboutNonTblks(void)
+         [self warnIfInvalidOrNoSignatureAllowCheckbox: YES];
+         return;
+ #else
+-        if (  [currentPath isEqualToString: @"/Applications/Tunnelblick.app"]  ) {
++        if (  [currentPath isEqualToString: @"/Applications/MacPorts/Tunnelblick.app"]  ) {
+ 			[self warnIfInvalidOrNoSignatureAllowCheckbox: YES];
+             return;
+         } else {
+-            NSLog(@"Tunnelblick can only run when it is /Applications/Tunnelblick.app; path = %@.", currentPath);
++            NSLog(@"Tunnelblick can only run when it is /Applications/MacPorts/Tunnelblick.app; path = %@.", currentPath);
+         }
+ #endif
+     } else {
+@@ -6332,7 +6332,7 @@ BOOL warnAboutNonTblks(void)
+     TBLog(@"DB-SU", @"relaunchIfNecessary: 005")
+     
+     // Make sure there are no Tunnelblicks or OpenVPNs running
+-    BOOL openvpns          = ( [NSApp pidsOfProcessesWithPrefix: @"/Applications/Tunnelblick.app/Contents/Resources/openvpn"] != nil );
++    BOOL openvpns          = ( [NSApp pidsOfProcessesWithPrefix: @"/Applications/MacPorts/Tunnelblick.app/Contents/Resources/openvpn"] != nil );
+     BOOL otherTunnelblicks = ( [NSApp countOtherInstances] > 0 );
+     
+     while (   openvpns
+@@ -6368,7 +6368,7 @@ BOOL warnAboutNonTblks(void)
+         }
+         
+         otherTunnelblicks = ( [NSApp countOtherInstances] > 0 );
+-		openvpns          = ( [NSApp pidsOfProcessesWithPrefix: @"/Applications/Tunnelblick.app/Contents/Resources/openvpn"] != nil );
++		openvpns          = ( [NSApp pidsOfProcessesWithPrefix: @"/Applications/MacPorts/Tunnelblick.app/Contents/Resources/openvpn"] != nil );
+     }
+     
+     TBLog(@"DB-SU", @"relaunchIfNecessary: 006")
+@@ -6897,7 +6897,7 @@ BOOL needToChangeOwnershipAndOrPermissions(BOOL inApplications)
+ 								  stringByDeletingLastPathComponent]	// Remove "/Contents"
+ 								 lastPathComponent];
+ 								  
+-        resourcesPath = [NSString stringWithFormat: @"/Applications/%@/Contents/Resources", ourAppName];
++        resourcesPath = [NSString stringWithFormat: @"/Applications/MacPorts/%@/Contents/Resources", ourAppName];
+ 	}
+     
+ 	NSString *contentsPath			    = [resourcesPath stringByDeletingLastPathComponent];
+diff --git a/tunnelblick/NSApplication+LoginItem.m b/tunnelblick/NSApplication+LoginItem.m
+index 55886f26..2b092f9b 100755
+--- a/tunnelblick/NSApplication+LoginItem.m
++++ b/tunnelblick/NSApplication+LoginItem.m
+@@ -293,7 +293,7 @@ extern TBUserDefaults * gTbDefaults;
+ -(NSArray *) pidsOfProcessesWithPrefix: (NSString *) prefix {
+     
+     // Returns an array with the PID of each process whose command line start with the given prefix.
+-    // For example, "/Applications/Tunnelblick.app/Contents/Resources/openvpn" would return the PID of any running
++    // For example, "/Applications/MacPorts/Tunnelblick.app/Contents/Resources/openvpn" would return the PID of any running
+     // instance of "openvpnstart" as well as the PID of each instance of Tunnelblick's OpenVPN
+     //
+     // Returns nil if there are no such processes
+@@ -339,7 +339,7 @@ extern TBUserDefaults * gTbDefaults;
+     
+ 	// This is a modified version of a method from http://blog.originate.com/blog/2013/10/07/answers-to-common-questions-in-cocoa-development/
+ 	
+-    NSURL * ourURL = [NSURL fileURLWithPath: @"/Applications/Tunnelblick.app/"];
++    NSURL * ourURL = [NSURL fileURLWithPath: @"/Applications/MacPorts/Tunnelblick.app/"];
+     
+ 	OSStatus status;
+ 	LSSharedFileListItemRef existingItem = NULL;
+@@ -431,7 +431,7 @@ extern TBUserDefaults * gTbDefaults;
+ #ifdef TBDebug
+ 	NSLog(@"DEBUG VERSION DOES NOT UPDATE LaunchAtLogin.plist.");
+ #else
+-    NSString * ourPlistPath = @"/Applications/Tunnelblick.app/Contents/Resources/net.tunnelblick.tunnelblick.LaunchAtLogin.plist";
++    NSString * ourPlistPath = @"/Applications/MacPorts/Tunnelblick.app/Contents/Resources/net.tunnelblick.tunnelblick.LaunchAtLogin.plist";
+     NSString * launchAgentsPath = [[NSHomeDirectory() stringByAppendingPathComponent: @"Library"]
+ 								   stringByAppendingPathComponent: @"LaunchAgents"];
+ 	NSString * installedPlistPath = [launchAgentsPath stringByAppendingPathComponent: @"net.tunnelblick.tunnelblick.LaunchAtLogin.plist"];
+diff --git a/tunnelblick/ProcessNetworkChanges.plist b/tunnelblick/ProcessNetworkChanges.plist
+index e1e22d19..a482fdca 100644
+--- a/tunnelblick/ProcessNetworkChanges.plist
++++ b/tunnelblick/ProcessNetworkChanges.plist
+@@ -6,7 +6,7 @@
+ 		<string>net.tunnelblick.openvpn.process-network-changes</string>
+ 		<key>ProgramArguments</key>
+ 		<array>
+-			<string>/Applications/Tunnelblick.app/Contents/Resources/process-network-changes</string>
++			<string>/Applications/MacPorts/Tunnelblick.app/Contents/Resources/process-network-changes</string>
+ 		</array>
+ 		<key>WatchPaths</key>
+ 		<array>
+diff --git a/tunnelblick/client.3.up.tunnelblick.sh b/tunnelblick/client.3.up.tunnelblick.sh
+index dcba9e65..e7713b33 100755
+--- a/tunnelblick/client.3.up.tunnelblick.sh
++++ b/tunnelblick/client.3.up.tunnelblick.sh
+@@ -16,7 +16,7 @@ ARG_MONITOR_NETWORK_CONFIGURATION="false"
+ ARG_RESTORE_ON_DNS_RESET="false"
+ ARG_RESTORE_ON_WINS_RESET="false"
+ ARG_TAP="false"
+-ARG_TB_PATH="/Applications/Tunnelblick.app"
++ARG_TB_PATH="/Applications/MacPorts/Tunnelblick.app"
+ 
+ while [ {$#} ] ; do
+     if [  "$1" = "-m" ] ; then                              # Handle the arguments we know about
+@@ -77,7 +77,7 @@ trim() {
+ 
+ readonly TB_RESOURCES_PATH="${ARG_TB_PATH}/Contents/Resources"
+ 
+-if [ "${ARG_TB_PATH}" = "/Applications/Tunnelblick.app" ] ; then
++if [ "${ARG_TB_PATH}" = "/Applications/MacPorts/Tunnelblick.app" ] ; then
+     readonly LEASEWATCHER_PLIST_PATH="${TB_RESOURCES_PATH}/LeaseWatch3.plist"
+     readonly LEASEWATCHER_TEMPLATE_PATH=""
+     readonly REMOVE_LEASEWATCHER_PLIST="false"
+@@ -356,7 +356,7 @@ echo "$(date '+%a %b %e %T %Y') *Tunnelblick client.3.up.tunnelblick.sh: Saved t
+ 
+ if ${ARG_MONITOR_NETWORK_CONFIGURATION} ; then
+     if [ "${LEASEWATCHER_TEMPLATE_PATH}" != "" ] ; then
+-        sed -e "s|/Applications/Tunnelblick/.app/Contents/Resources|${TB_RESOURCES_PATH}|g" "${LEASEWATCHER_TEMPLATE_PATH}" > "${LEASEWATCHER_PLIST_PATH}"
++        sed -e "s|/Applications/MacPorts/Tunnelblick/.app/Contents/Resources|${TB_RESOURCES_PATH}|g" "${LEASEWATCHER_TEMPLATE_PATH}" > "${LEASEWATCHER_PLIST_PATH}"
+     fi
+     launchctl load "${LEASEWATCHER_PLIST_PATH}"
+     echo "$(date '+%a %b %e %T %Y') *Tunnelblick client.3.up.tunnelblick.sh: Set up to monitor system configuration with leasewatch" >> "${SCRIPT_LOG_FILE}"
+diff --git a/tunnelblick/client.4.up.tunnelblick.sh b/tunnelblick/client.4.up.tunnelblick.sh
+index 3fd07b7e..c7baa6fe 100755
+--- a/tunnelblick/client.4.up.tunnelblick.sh
++++ b/tunnelblick/client.4.up.tunnelblick.sh
+@@ -941,7 +941,7 @@ EOF
+             logMessage "Setting up to monitor system configuration with leasewatch"
+         fi
+         if [ "${LEASEWATCHER_TEMPLATE_PATH}" != "" ] ; then
+-            sed -e "s|/Applications/Tunnelblick\.app/Contents/Resources|${TB_RESOURCES_PATH}|g" "${LEASEWATCHER_TEMPLATE_PATH}" > "${LEASEWATCHER_PLIST_PATH}"
++            sed -e "s|/Applications/MacPorts/Tunnelblick\.app/Contents/Resources|${TB_RESOURCES_PATH}|g" "${LEASEWATCHER_TEMPLATE_PATH}" > "${LEASEWATCHER_PLIST_PATH}"
+ 		fi
+         launchctl load "${LEASEWATCHER_PLIST_PATH}"
+ 	fi
+@@ -1385,7 +1385,7 @@ ARG_OVERRIDE_MANUAL_NETWORK_SETTINGS="false"
+ ARG_PREPEND_DOMAIN_NAME="false"
+ ARG_IGNORE_OPTION_FLAGS="false"
+ ARG_RESET_PRIMARY_INTERFACE_ON_DISCONNECT="false"
+-ARG_TB_PATH="/Applications/Tunnelblick.app"
++ARG_TB_PATH="/Applications/MacPorts/Tunnelblick.app"
+ ARG_RESTORE_ON_WINS_RESET="false"
+ 
+ # Handle the arguments we know about by setting ARG_ script variables to their values, then shift them out
+@@ -1501,7 +1501,7 @@ if [ "${ARG_IGNORE_OPTION_FLAGS:0:2}" = "-p" ] ; then
+ else
+     readonly LEASEWATCHER_PLIST="LeaseWatch.plist"
+ fi
+-if [ "${ARG_TB_PATH}" = "/Applications/Tunnelblick.app" ] ; then
++if [ "${ARG_TB_PATH}" = "/Applications/MacPorts/Tunnelblick.app" ] ; then
+     readonly LEASEWATCHER_PLIST_PATH="${TB_RESOURCES_PATH}/${LEASEWATCHER_PLIST}"
+     readonly LEASEWATCHER_TEMPLATE_PATH=""
+     readonly REMOVE_LEASEWATCHER_PLIST="false"
+diff --git a/tunnelblick/client.up.tunnelblick.sh b/tunnelblick/client.up.tunnelblick.sh
+index 2d6c466c..9283dff9 100755
+--- a/tunnelblick/client.up.tunnelblick.sh
++++ b/tunnelblick/client.up.tunnelblick.sh
+@@ -836,7 +836,7 @@ sed -e 's/^[[:space:]]*[[:digit:]]* : //g' | tr '\n' ' '
+             logMessage "Setting up to monitor system configuration with leasewatch"
+         fi
+         if [ "${LEASEWATCHER_TEMPLATE_PATH}" != "" ] ; then
+-            sed -e "s|/Applications/Tunnelblick\.app/Contents/Resources|${TB_RESOURCES_PATH}|g" "${LEASEWATCHER_TEMPLATE_PATH}" > "${LEASEWATCHER_PLIST_PATH}"
++            sed -e "s|/Applications/MacPorts/Tunnelblick\.app/Contents/Resources|${TB_RESOURCES_PATH}|g" "${LEASEWATCHER_TEMPLATE_PATH}" > "${LEASEWATCHER_PLIST_PATH}"
+ 		fi
+         launchctl load "${LEASEWATCHER_PLIST_PATH}"
+ 	fi
+@@ -1298,7 +1298,7 @@ ARG_DO_NO_USE_DEFAULT_DOMAIN="false"
+ ARG_OVERRIDE_MANUAL_NETWORK_SETTINGS="false"
+ ARG_PREPEND_DOMAIN_NAME="false"
+ ARG_RESET_PRIMARY_INTERFACE_ON_DISCONNECT="false"
+-ARG_TB_PATH="/Applications/Tunnelblick.app"
++ARG_TB_PATH="/Applications/MacPorts/Tunnelblick.app"
+ ARG_RESTORE_ON_WINS_RESET="false"
+ 
+ # Handle the arguments we know about by setting ARG_ script variables to their values, then shift them out
+@@ -1420,7 +1420,7 @@ if [ "${ARG_IGNORE_OPTION_FLAGS:0:2}" = "-p" ] ; then
+ else
+     readonly LEASEWATCHER_PLIST="LeaseWatch.plist"
+ fi
+-if [ "${ARG_TB_PATH}" = "/Applications/Tunnelblick.app" ] ; then
++if [ "${ARG_TB_PATH}" = "/Applications/MacPorts/Tunnelblick.app" ] ; then
+     readonly LEASEWATCHER_PLIST_PATH="${TB_RESOURCES_PATH}/${LEASEWATCHER_PLIST}"
+     readonly LEASEWATCHER_TEMPLATE_PATH=""
+     readonly REMOVE_LEASEWATCHER_PLIST="false"
+diff --git a/tunnelblick/defines.h b/tunnelblick/defines.h
+index 71562103..fc4f96ee 100644
+--- a/tunnelblick/defines.h
++++ b/tunnelblick/defines.h
+@@ -223,7 +223,7 @@
+ //                             /Library/Application Support/Tunnelblick/Tblks,
+ //                             /Library/Application Support/Tunnelblick/Users/username/,
+ //                             /Library/Application Support/Tunnelblick/Backup/
+-//                             /Applications/XXXXX.app/Contents/Resources/Deploy/
++//                             /Applications/MacPorts/XXXXX.app/Contents/Resources/Deploy/
+ //                             (These folders are owned by root:wheel)
+ //
+ // _FOLDER      entries are for folders
+diff --git a/tunnelblick/help/system-folder-not-secure.html b/tunnelblick/help/system-folder-not-secure.html
+index d414342f..e78e9e0f 100644
+--- a/tunnelblick/help/system-folder-not-secure.html
++++ b/tunnelblick/help/system-folder-not-secure.html
+@@ -34,7 +34,7 @@
+ <p class="p2"><br></p>
+ <p class="p4">If you are using macOS 10.10 ("Yosemite") or earlier, try to fix the problem by using the macOS Disk Utility program:</p>
+ <ol class="ol1">
+-  <li class="li4">Launch Disk Utility. It is located in /Applications/Utilities.</li>
++  <li class="li4">Launch Disk Utility. It is located in /Applications/MacPorts/Utilities.</li>
+   <li class="li4">Select the computer's boot volume (usually "Macintosh HD") in the left column.</li>
+   <li class="li4">Click on the "Repair Disk Permissions" button".</li>
+   <li class="li4">Wait until the permissions repair is complete (it usually takes several minutes).</li>
+diff --git a/tunnelblick/installer.m b/tunnelblick/installer.m
+index cd6c112e..bba2728e 100644
+--- a/tunnelblick/installer.m
++++ b/tunnelblick/installer.m
+@@ -403,7 +403,7 @@ BOOL removeQuarantineBitWorker(NSString * path) {
+ }
+ BOOL removeQuarantineBit(void) {
+     
+-    NSString * tbPath = @"/Applications/Tunnelblick.app";
++    NSString * tbPath = @"/Applications/MacPorts/Tunnelblick.app";
+     
+     if (  ! removeQuarantineBitWorker(tbPath)  ) {
+         return FALSE;
+@@ -556,7 +556,7 @@ void loadLaunchDaemonAndSaveHashes (NSDictionary * newPlistContents) {
+     NSString * resourcesPath = [ourBundle bundlePath]; // (installer itself is in Resources, so this works)
+     NSString * tunnelblickdPath = [resourcesPath stringByAppendingPathComponent: @"tunnelblickd"];
+ #else
+-    NSString * tunnelblickdPath = @"/Applications/Tunnelblick.app/Contents/Resources/tunnelblickd";
++    NSString * tunnelblickdPath = @"/Applications/MacPorts/Tunnelblick.app/Contents/Resources/tunnelblickd";
+ #endif
+     NSData   * daemonData = [gFileMgr contentsAtPath: tunnelblickdPath];
+     if (  ! daemonData  ) {
+@@ -1088,7 +1088,7 @@ void moveLibOpenVPN() {
+ void copyTheApp(void) {
+ 	
+ 	NSString * currentPath = [[[[NSBundle mainBundle] bundlePath] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+-	NSString * targetPath  = @"/Applications/Tunnelblick.app";
++	NSString * targetPath  = @"/Applications/MacPorts/Tunnelblick.app";
+ 	if (  [gFileMgr fileExistsAtPath: targetPath]  ) {
+ 		errorExitIfAnySymlinkInPath(targetPath);
+ 		if (  [[NSWorkspace sharedWorkspace] performFileOperation: NSWorkspaceRecycleOperation
+@@ -2232,7 +2232,7 @@ int main(int argc, char *argv[])
+     
+     // We use Deploy located in the Tunnelblick in /Applications, even if we are running from some other location and are copying the application there
+ #ifndef TBDebug
+-	gDeployPath = @"/Applications/Tunnelblick.app/Contents/Resources/Deploy";
++	gDeployPath = @"/Applications/MacPorts/Tunnelblick.app/Contents/Resources/Deploy";
+ #else
+ 	gDeployPath = [resourcesPath stringByAppendingPathComponent: @"Deploy"];
+ #endif
+@@ -2313,7 +2313,7 @@ int main(int argc, char *argv[])
+ 	
+     //**************************************************************************************************************************
+     // (4) If INSTALLER_COPY_APP is set:
+-    //     Then move /Applications/XXXXX.app to the Trash, then copy this app to /Applications/XXXXX.app
++    //     Then move /Applications/MacPorts/XXXXX.app to the Trash, then copy this app to /Applications/MacPorts/XXXXX.app
+     
+     if (  doCopyApp  ) {
+ 		copyTheApp();
+diff --git a/tunnelblick/launchAtLogin.sh b/tunnelblick/launchAtLogin.sh
+index 54b28a6a..c9a9454d 100755
+--- a/tunnelblick/launchAtLogin.sh
++++ b/tunnelblick/launchAtLogin.sh
+@@ -13,13 +13,13 @@ export PATH="/bin:/sbin:/usr/sbin:/usr/bin"
+ # The 'launchAtNextLogin' preference is set to "0" when you quit Tunnelblick and you are not logging out.
+ 
+ if [ -e "/Library/Application Support/Tunnelblick/disabled-network-services.txt" ] ; then
+-  open /Applications/Tunnelblick.app
++  open /Applications/MacPorts/Tunnelblick.app
+   exit
+ fi
+ 
+ launch_at_login_preference="$( defaults read net.tunnelblick.tunnelblick launchAtNextLogin 2> /dev/null )"
+ if [ "${launch_at_login_preference}" = "1" ] ; then
+-  open /Applications/Tunnelblick.app
++  open /Applications/MacPorts/Tunnelblick.app
+   exit
+ fi
+ 
+@@ -27,18 +27,18 @@ processes="$( ps -f -u 0 )"
+ 
+ openvpn_is_running="$( echo "${processes}" | grep 'setenv TUNNELBLICK_CONFIG_FOLDER' | grep -v grep )"
+ if [ "${openvpn_is_running}" != "" ] ; then
+-  open /Applications/Tunnelblick.app
++  open /Applications/MacPorts/Tunnelblick.app
+   exit
+ fi
+ 
+ helper_is_running="$( echo "${processes}" | grep /tunnelblick-helper | grep -v grep )"
+ if [ "${helper_is_running}" != "" ] ; then
+-  open /Applications/Tunnelblick.app
++  open /Applications/MacPorts/Tunnelblick.app
+   exit
+ fi
+ 
+ openvpnstart_is_running="$( echo "${processes}" | grep /openvpnstart | grep -v grep )"
+ if [ "${openvpnstart_is_running}" != "" ] ; then
+-open /Applications/Tunnelblick.app
++open /Applications/MacPorts/Tunnelblick.app
+ exit
+ fi
+diff --git a/tunnelblick/net.tunnelblick.tunnelblick.LaunchAtLogin.plist b/tunnelblick/net.tunnelblick.tunnelblick.LaunchAtLogin.plist
+index 6cdb8fff..854d8161 100644
+--- a/tunnelblick/net.tunnelblick.tunnelblick.LaunchAtLogin.plist
++++ b/tunnelblick/net.tunnelblick.tunnelblick.LaunchAtLogin.plist
+@@ -6,7 +6,7 @@
+ 	<string>net.tunnelblick.tunnelblick.LaunchAtLogin</string>
+ 	<key>ProgramArguments</key>
+ 	<array>
+-		<string>/Applications/Tunnelblick.app/Contents/Resources/launchAtLogin.sh</string>
++		<string>/Applications/MacPorts/Tunnelblick.app/Contents/Resources/launchAtLogin.sh</string>
+ 	</array>
+ 	<key>LimitLoadToSessionType</key>
+ 	<string>Aqua</string>
+diff --git a/tunnelblick/net.tunnelblick.tunnelblick.tunnelblickd.plist b/tunnelblick/net.tunnelblick.tunnelblick.tunnelblickd.plist
+index 76933a1f..095de7fe 100644
+--- a/tunnelblick/net.tunnelblick.tunnelblick.tunnelblickd.plist
++++ b/tunnelblick/net.tunnelblick.tunnelblick.tunnelblickd.plist
+@@ -3,7 +3,7 @@
+ <plist version="1.0">
+ <dict>
+ 	<key>Program</key>
+-	<string>/Applications/Tunnelblick.app/Contents/Resources/tunnelblickd</string>
++	<string>/Applications/MacPorts/Tunnelblick.app/Contents/Resources/tunnelblickd</string>
+ 	<key>UserName</key>
+ 	<string>root</string>
+ 	<key>GroupName</key>
+diff --git a/tunnelblick/tunnelblick-helper.m b/tunnelblick/tunnelblick-helper.m
+index 05e02676..cf2ded7c 100644
+--- a/tunnelblick/tunnelblick-helper.m
++++ b/tunnelblick/tunnelblick-helper.m
+@@ -45,7 +45,7 @@ NSString			* gConfigPath    = nil;     // Path to configuration file
+ //                                                 in ~/Library/Application Support/Tunnelblick/Configurations/
+ //                                                 or /Library/Application Support/Tunnelblick/Users/<username>/
+ //                                                 or /Library/Application Support/Tunnelblick/Shared
+-//                                                 or /Applications/XXXXX.app/Contents/Resources/Deploy
++//                                                 or /Applications/MacPorts/XXXXX.app/Contents/Resources/Deploy
+ NSString			* gResourcesPath = nil;     // Path to Tunnelblick.app/Contents/Resources
+ NSString            * gDeployPath    = nil;     // Path to Tunnelblick.app/Contents/Resources/Deploy
+ NSString            * gStartArgs     = nil;     // String with an underscore-delimited list of the following arguments to openvpnstart's start
+@@ -282,7 +282,7 @@ void printUsageMessageAndExitOpenvpnstart(void) {
+             "                     G - Workgroup changed to some other value\n"
+             "                     W - WINSAddresses changed to some other value\n\n"
+             
+-            "openvpnVersion is a string with the name of the subfolder of /Applications/Tunnelblick.app/Contents/Resources/openvpn\n"
++            "openvpnVersion is a string with the name of the subfolder of /Applications/MacPorts/Tunnelblick.app/Contents/Resources/openvpn\n"
+             "               that contains the openvpn and openvpn-down-root.so binaries to be used for the connection. The string may\n"
+             "               contain only lower-case letters, hyphen, underscore, period, and the digits 0-9.\n"
+             "               If not present, the lowest (in lexicographical order) subfolder of openvpn will be used.\n"
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/CA.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/CA.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/CA.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/CA.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/CS.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/CS.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/CS.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/CS.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/DA.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/DA.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/DA.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/DA.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/DE.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/DE.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/DE.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/DE.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/ES.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/ES.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/ES.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/ES.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/English.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/English.lproj/Localizable.strings
+index 2d14bc85..ed7d2941 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/English.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/English.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/FI.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/FI.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/FI.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/FI.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/FR.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/FR.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/FR.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/FR.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/HU.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/HU.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/HU.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/HU.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/IT.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/IT.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/IT.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/IT.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/JA.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/JA.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/JA.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/JA.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/KO.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/KO.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/KO.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/KO.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/NB.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/NB.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/NB.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/NB.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/NL.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/NL.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/NL.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/NL.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/PL.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/PL.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/PL.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/PL.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/PT.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/PT.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/PT.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/PT.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/RU.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/RU.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/RU.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/RU.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/SK.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/SK.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/SK.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/SK.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/SV.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/SV.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/SV.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/SV.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/UK.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/UK.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/UK.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/UK.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/ZH_CN.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/ZH_CN.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/ZH_CN.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/ZH_CN.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller-localization/ZH_TW.lproj/Localizable.strings b/tunnelblick/tunnelblick-uninstaller-localization/ZH_TW.lproj/Localizable.strings
+index ac1ffe0a..57653356 100644
+--- a/tunnelblick/tunnelblick-uninstaller-localization/ZH_TW.lproj/Localizable.strings
++++ b/tunnelblick/tunnelblick-uninstaller-localization/ZH_TW.lproj/Localizable.strings
+@@ -35,7 +35,7 @@
+ "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it make the changes required to uninstall %s." = "The next window will ask for a computer administrator username and password.\n\nThe uninstaller needs administrator access so it can make the changes required to uninstall %s.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+-"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/Tunnelblick.";
++"%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick." = "%s\n\ndoes not exist.\n\nTo uninstall a Tunnelblick-based application, drag and drop it onto the uninstaller, or double-click the installer to uninstall /Applications/MacPorts/Tunnelblick.";
+ 
+ /* NEEDS TRANSLATION *//* Window text */
+ "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?" = "%s\n\nis damaged or is not a Tunnelblick-based application.\n\nDo you wish to use the Tunnelblick Uninstaller to try to uninstall it?";
+diff --git a/tunnelblick/tunnelblick-uninstaller.applescript b/tunnelblick/tunnelblick-uninstaller.applescript
+index f8589000..c4a2ae94 100644
+--- a/tunnelblick/tunnelblick-uninstaller.applescript
++++ b/tunnelblick/tunnelblick-uninstaller.applescript
+@@ -8,7 +8,7 @@
+ --     'tunnelblick-uninstaller.sh' bash script. This AppleScript acts as a "front end" for that
+ --     bash script, which is invoked by this AppleScript "with authorization" so it runs as root.
+ --
+---     The application may be double-clicked to uninstall /Applications/Tunnelblick.app, or
++--     The application may be double-clicked to uninstall /Applications/MacPorts/Tunnelblick.app, or
+ --     a Tunnelblick (or rebranded) application may be dropped on it.
+ --
+ ------------------------------------------------------------------------------------------------------------------
+@@ -652,7 +652,7 @@ on open theFileList
+ end open
+ 
+ ------------------------------------------------------------------------------------------------------------------
+--- Start of script: If no file was dropped, uninstall /Applications/Tunnelblick.app
++-- Start of script: If no file was dropped, uninstall /Applications/MacPorts/Tunnelblick.app
+ ------------------------------------------------------------------------------------------------------------------
+ 
+ activate
+@@ -666,7 +666,7 @@ end try
+ 
+ if not IsDefined then
+ 	try
+-		ProcessFile(POSIX path of "/Applications/Tunnelblick.app")
++		ProcessFile(POSIX path of "/Applications/MacPorts/Tunnelblick.app")
+ 	on error errorMessage number errorNumber
+ 		display alert "Error in ProcessFile(): '" & errorMessage & "' (" & errorNumber & ")\n\nPlease email developers@tunnelblick.net for help."
+ 	end try
+diff --git a/tunnelblick/tunnelblick-uninstaller.sh b/tunnelblick/tunnelblick-uninstaller.sh
+index c73de280..2498e59c 100755
+--- a/tunnelblick/tunnelblick-uninstaller.sh
++++ b/tunnelblick/tunnelblick-uninstaller.sh
+@@ -310,7 +310,7 @@ usage_message="Usage:
+ 
+      Examples:
+ 
+-     ./tunnelblick-uninstaller.sh -u   Tunnelblick   net.tunnelblick.tunnelblick   /Applications/Tunnelblick.app
++     ./tunnelblick-uninstaller.sh -u   Tunnelblick   net.tunnelblick.tunnelblick   /Applications/MacPorts/Tunnelblick.app
+      This is the normal use. It will remove the application and all files and folders associated with it.
+ 
+      ./tunnelblick-uninstaller.sh -u   Tunnelblick   net.tunnelblick.tunnelblick
+@@ -318,9 +318,9 @@ usage_message="Usage:
+      It will remove files and folders associated with Tunnelblick and net.tunnelblick.tunnelblick, but will not
+      remove the application itself.
+ 
+-     ./tunnelblick-uninstaller.sh -t   RebrandedTB   com.example.rebrandedtb /Applications/RebrandedTB.app
++     ./tunnelblick-uninstaller.sh -t   RebrandedTB   com.example.rebrandedtb /Applications/MacPorts/RebrandedTB.app
+      This will test the removal of a \"rebranded\" Tunnelblick which is named \"RebrandedTB\", has
+-	 CFBundleIdentifier \"com.example.rebrandedtb\", and is located at \"/Applications/RebrandedTB.app\"
++	 CFBundleIdentifier \"com.example.rebrandedtb\", and is located at \"/Applications/MacPorts/RebrandedTB.app\"
+ "
+ 
+ show_usage_message="false"
+@@ -604,7 +604,7 @@ for user in $( dscl . list /users ) ; do
+ 
+     if [ "${uninstall_tb_app_name}" != "" ] ; then
+       uninstall_tb_remove_item_at_path "/Users/${user}/Library/Application Support/${uninstall_tb_app_name}"
+-	  tunnelblick_dock_prefs="$( sudo -n -u "${user}" defaults read com.apple.dock | grep "/Applications/${uninstall_tb_app_name}" )"
++	  tunnelblick_dock_prefs="$( sudo -n -u "${user}" defaults read com.apple.dock | grep "/Applications/MacPorts/${uninstall_tb_app_name}" )"
+ 	  if [ "$tunnelblick_dock_prefs" != "" ] ; then
+ 		remove_dock_items="${remove_dock_items}You need to manually remove one or more ${uninstall_tb_app_name} items from the Dock for user ${user}
+ "
