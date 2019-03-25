@@ -50,8 +50,6 @@ post-destroot {
         }
         file delete -force "${destroot}/${applications_dir}/${tool}"
     }
-    file copy "${prefix}/sbin/openvpn2" \
-        "${destroot}/${applications_dir}/Tunnelblick.app/Contents/Resources/openvpn"
 }
 
 if {${os.major} < 11} {
