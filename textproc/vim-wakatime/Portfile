@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        wakatime vim-wakatime 7.1.3
+set version         7.1.4
+github.setup        wakatime vim-wakatime ${version}
 
 patchfiles          ${name}-fix-cli-path.patch \
                     ${name}-python.patch
@@ -12,7 +13,7 @@ patch.pre_args      -p1
 categories          textproc devel
 
 name                vim-wakatime
-version             7.1.3
+version             ${version}
 platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
@@ -20,9 +21,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Keep track of coding with WakaTime (Vim plugin).
 long_description    ${description}
 
-checksums           rmd160  0ee4125c279faab3220aef5b3213af0a3412ad52 \
-                    sha256  7fc9f3df04ab0facf60ef398646198cdfbb582f74c1de8e15e7b0d7043da216d \
-                    size    1752447
+checksums           rmd160  32082b91b39e8c19b38c26ade8daebc8890ddfef \
+                    sha256  a8e3a64e78596d3eaf06b9047eab37e083cda88128e5755d029298d9707cf6aa \
+                    size    1751464
 
 use_configure       no
 build.cmd           echo
