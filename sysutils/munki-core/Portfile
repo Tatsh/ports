@@ -1,10 +1,11 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        munki munki 3.6.0 v
+set ver             3.6.1
+github.setup        munki munki ${ver} v
 
 name                munki-core
-version             3.6.0
+version             ${ver}
 license             Apache-2
 description         Managed software installation for macOS (core).
 long_description    Munki is a set of tools that, used together with a webserver-based \
@@ -12,9 +13,9 @@ long_description    Munki is a set of tools that, used together with a webserver
                     administrators to manage software installs (and in many cases removals) on \
                     macOS client machines.
 
-checksums           rmd160  722828893a7a06bcd2cdb4f9d631072d33d39a27 \
-                    sha256  c32fdb6d351444bf88cc0e0296dc2e43594def23e06f96937750f4661321f494 \
-                    size    7442236
+checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
+                    sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
+                    size    7443172
 
 worksrcdir          "munki-${version}/code/client"
 
