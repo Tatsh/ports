@@ -1,26 +1,56 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/browserpass/browserpass 2f191ad
-version             2.0.22_p20190116
+go.setup            github.com/browserpass/browserpass-native 2c110bf
+name                browserpass
+version             3.0.5
+platforms           macosx
 categories          www net
 maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 description         Chrome & Firefox browser extension for pass, a UNIX password manager.
 long_description    ${description}
 
-checksums           ${distname}${extract.suffix} \
-                        rmd160  134063417342d03c3bfad2fd0fcc4358056fad31 \
-                        sha256  9add72afaf95155bfab145d7a10ff11ea575b30758a36a7ceab9ae73bebb24dc \
-                        size    50703
+checksums           browserpass-native-2c110bf.tar.gz \
+                    rmd160  fcde560ef50c300fdedf0e6594a3abe0583d9184 \
+                    sha256  f996ae4b668586d3e4639e416dfb42e126a9d2ffa948617552a74064d7d6814e \
+                    size    17063 \
+                    konsorten-go-windows-terminal-sequences-f55edac94c9bbba5d6182a4be46d86a2c9b5b50e.tar.gz \
+                    rmd160  9b5e034c9a2fbbe2c4a3768d00d6337a8e06ab74 \
+                    sha256  0a29b8c0a24ace07e3280feb5ee7b71ddb965a894ace70d8c77c0a4f330a8dbb \
+                    size    1987 \
+                    mattn-go-zglob-2ea3427bfa539cca900ca2768d8663ecc8a708c1.tar.gz \
+                    rmd160  4fee750ce871ba2c7fbf917599baac7791a4f958 \
+                    sha256  8b8b0cd95a5ee0637876ae404359ecb3df11f878782a0c1318663b418ff0b35a \
+                    size    7711 \
+                    rifflock-lfshook-b9218ef580f59a2e72dad1aa33d660150445d05a.tar.gz \
+                    rmd160  39e83d39af52ed60d934ebc83b819d9ec6f8c8e3 \
+                    sha256  21b05b84f48253fd6b5baabd063960ca2d5b2844d175b9f4f2f9521219d83a96 \
+                    size    3833 \
+                    sirupsen-logrus-e1e72e9de974bd926e5c56f83753fba2df402ce5.tar.gz \
+                    rmd160  ee8a8aabf505f432d103a954c9741c55f3746b30 \
+                    sha256  009cf548c0f53d21433f4b334e2b4a507d271f1a8c3a35f2a86b32da74d7a8a9 \
+                    size    38466 \
+                    golang-crypto-c2843e01d9a2bc60bb26ad24e09734fdc2d9ec58.tar.gz \
+                    rmd160  35481af319848c87b8a91b708c1e045831062227 \
+                    sha256  f8e063af716f960d2bc47bac8f0c84e353797f791a955dd52c2a745396e930be \
+                    size    1650814 \
+                    golang-sys-10058d7d4faa7dd5ef860cbd31af00903076e7b8.tar.gz \
+                    rmd160  f9c5a586192dad71e135969d1a59011d0cc6b114 \
+                    sha256  daadcb33c6ed442873d1dc900ff56950eb2e3a96042054e3120da24857e3569f \
+                    size    1258096
 
 depends_run-append  port:pass
+
+set app_id com.github.browserpass.native
 
 notes "
 You must place a symbolic link (or copy) to the JSON file in your browser's 'native
 messaging hosts' directory. Example with Chrome:
 
-ln -s ${prefix}/etc/opt/chrome/native-messaging-hosts/com.dannyvankooten.browserpass.json ~/Library/Application\\ Support/Google/Chrome/NativeMessagingHosts/
+mkdir -p ~/Library/Application\\ Support/Google/Chrome/NativeMessagingHosts/ ~/Library/Application\\ Support/Google/Chrome/policies/managed/
+ln -s ${prefix}/etc/opt/chrome/native-messaging-hosts/${app_id}.json ~/Library/Application\\ Support/Google/Chrome/NativeMessagingHosts/
+ln -s ${prefix}/etc/opt/chrome/policies/managed/${app_id}.json ~/Library/Application\\ Support/Google/Chrome/policies/managed/
 
 Chromium directory: ~/Library/Application\\ Support/Chromium/NativeMessagingHosts/
 Firefox directory:  ~/Library/Application\\ Support/Mozilla/NativeMessagingHosts/
@@ -29,52 +59,56 @@ Vivaldi directory:  ~/Library/Application\\ Support/Vivaldi/NativeMessagingHosts
 For Firefox you must use the Firefox specific JSON file in ${prefix}/lib/mozilla/native-messaging-hosts
 "
 
-# A mirror is used for qr since MacPorts cannot handle rsc.io domain
-go.vendors          github.com/gokyle/twofactor \
-                        lock    bbc82ff8de72400ce39a13077627531d9841ad62 \
-                        rmd160  9fb61f254ab812912b0656188203c144b7941648 \
-                        sha256  0f28d6463496b8c1eef4c35975f4345eae877fd2547e0e2aa18bb977bd1942f6 \
-                        size    22514 \
+go.vendors          github.com/konsorten/go-windows-terminal-sequences \
+                        lock    f55edac94c9bbba5d6182a4be46d86a2c9b5b50e \
+                        rmd160  9b5e034c9a2fbbe2c4a3768d00d6337a8e06ab74 \
+                        sha256  0a29b8c0a24ace07e3280feb5ee7b71ddb965a894ace70d8c77c0a4f330a8dbb \
+                        size    1987 \
                     github.com/mattn/go-zglob \
-                        lock    4959821b481786922ac53e7ef25c61ae19fb7c36 \
-                        rmd160  541c00dce0dc8a182007edbd5fe8d42b32ea062b \
-                        sha256  0a3af560f13b0a01febf844bb145bf82a4e807924d5477fe431eaf8e9ca5eab1 \
-                        size    7998 \
-                    github.com/sahilm/fuzzy \
-                        lock    0e1c4a4e1f632f936a5c0fa6176076eea01c054b \
-                        rmd160  a484bc7af888fdcc8f360a00838b0a5514d3c529 \
-                        sha256  9f3036a40b11d017568db7f95de3609d08dc7a727ffb331243b7634b7f7e52c9 \
-                        size    1931898 \
+                        lock    2ea3427bfa539cca900ca2768d8663ecc8a708c1 \
+                        rmd160  4fee750ce871ba2c7fbf917599baac7791a4f958 \
+                        sha256  8b8b0cd95a5ee0637876ae404359ecb3df11f878782a0c1318663b418ff0b35a \
+                        size    7711 \
+                    github.com/rifflock/lfshook \
+                        lock    b9218ef580f59a2e72dad1aa33d660150445d05a \
+                        rmd160  39e83d39af52ed60d934ebc83b819d9ec6f8c8e3 \
+                        sha256  21b05b84f48253fd6b5baabd063960ca2d5b2844d175b9f4f2f9521219d83a96 \
+                        size    3833 \
+                    github.com/sirupsen/logrus \
+                        lock    e1e72e9de974bd926e5c56f83753fba2df402ce5 \
+                        rmd160  ee8a8aabf505f432d103a954c9741c55f3746b30 \
+                        sha256  009cf548c0f53d21433f4b334e2b4a507d271f1a8c3a35f2a86b32da74d7a8a9 \
+                        size    38466 \
+                    golang.org/x/crypto \
+                        lock    c2843e01d9a2bc60bb26ad24e09734fdc2d9ec58 \
+                        rmd160  35481af319848c87b8a91b708c1e045831062227 \
+                        sha256  f8e063af716f960d2bc47bac8f0c84e353797f791a955dd52c2a745396e930be \
+                        size    1650814 \
                     golang.org/x/sys \
-                        lock    3ccc7e5779793fd54564baf60c51bf017955e0ba \
-                        rmd160  da0f654c05555273387570cd0b662e19139b1160 \
-                        sha256  9df6a75a776e6f465b5ef617935fdd2925ead523360d33b7cebfff4a789f5651 \
-                        size    812255 \
-                    github.com/rsc/qr \
-                        lock    ca9a01fc2f9505024045632c50e5e8cd6142fafe \
-                        rmd160  f642fe01c13937615e5a975e6a1932f8dc25359a \
-                        sha256  1d69d5a13366a84a1484abdec5affd7f5781016469f4b43b1a26f5fa5c93497b \
-                        size    18816
+                        lock    10058d7d4faa7dd5ef860cbd31af00903076e7b8 \
+                        rmd160  f9c5a586192dad71e135969d1a59011d0cc6b114 \
+                        sha256  daadcb33c6ed442873d1dc900ff56950eb2e3a96042054e3120da24857e3569f \
+                        size    1258096
 
-build.cmd-append    -o browserpass ./cmd/browserpass
+build.cmd           make browserpass-darwin64
 
 post-patch {
     reinplace "s|%%replace%%|${prefix}/libexec/browserpass|" \
-        ${worksrcpath}/firefox/host.json \
-        ${worksrcpath}/chrome/host.json
-    reinplace "s|dannyvankooten|browserpass|g" \
-        ${worksrcpath}/browserpass.go \
-        ${worksrcpath}/cmd/browserpass/main.go
+        ${worksrcpath}/browser-files/firefox-host.json \
+        ${worksrcpath}/browser-files/chromium-host.json
 }
 
 destroot {
-    xinstall ${worksrcpath}/${name} ${destroot}${prefix}/libexec/
+    xinstall ${worksrcpath}/${name}-darwin64 ${destroot}${prefix}/libexec/${name}
 
     xinstall -d ${destroot}${prefix}/etc/opt/chrome/native-messaging-hosts
-    file copy ${worksrcpath}/chrome/host.json \
-        ${destroot}${prefix}/etc/opt/chrome/native-messaging-hosts/com.dannyvankooten.browserpass.json
+    file copy ${worksrcpath}/browser-files/chromium-host.json \
+        ${destroot}${prefix}/etc/opt/chrome/native-messaging-hosts/${app_id}.json
+    xinstall -d ${destroot}${prefix}/etc/opt/chrome/policies/managed/
+    file copy ${worksrcpath}/browser-files/chromium-policy.json \
+        ${destroot}${prefix}/etc/opt/chrome/policies/managed/${app_id}.json
 
     xinstall -d ${destroot}${prefix}/lib/mozilla/native-messaging-hosts
-    file copy ${worksrcpath}/firefox/host.json \
-        ${destroot}${prefix}/lib/mozilla/native-messaging-hosts/com.dannyvankooten.browserpass.json
+    file copy ${worksrcpath}/browser-files/firefox-host.json \
+        ${destroot}${prefix}/lib/mozilla/native-messaging-hosts/${app_id}.json
 }
