@@ -2,9 +2,11 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        munki munki 3.6.0 v
+set ver         3.6.1
 
-version             3.6.0
+github.setup        munki munki ${ver} v
+
+version             ${ver}
 maintainers         {gmail.com:audvare @Tatsh}
 license             Apache-2
 description         Managed software installation for macOS (MSC). Meta package.
@@ -13,9 +15,9 @@ long_description    Munki is a set of tools that, used together with a webserver
                     administrators to manage software installs (and in many cases removals) on \
                     macOS client machines.
 
-checksums           rmd160  722828893a7a06bcd2cdb4f9d631072d33d39a27 \
-                    sha256  c32fdb6d351444bf88cc0e0296dc2e43594def23e06f96937750f4661321f494 \
-                    size    7442236
+checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
+                    sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
+                    size    7443172
 
 depends_run         port:munki-notifier \
                     port:munki-status \
@@ -35,3 +37,40 @@ xcode.destroot.settings \
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
+
+subport munki-notifier {
+    checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
+                        sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
+                        size    7443172
+
+    worksrcdir          "munki-${version}/code/apps/munki-notifier"
+
+    destroot {
+        xinstall -d -m 755 \
+            "${destroot}/${applications_dir}/Managed Software Center.app/Contents/Resources/"
+        file copy "${worksrcpath}/build/Release/${name}.app" \
+            "${destroot}/${applications_dir}/Managed Software Center.app/Contents/Resources/"
+    }
+}
+
+subport munki-status {
+    checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
+                        sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
+                        size    7443172
+
+    worksrcdir          "munki-${version}/code/apps/MunkiStatus"
+
+    post-destroot {
+        xinstall -d -m 755 "${destroot}/${applications_dir}/Managed Software Center.app/Contents/Resources/"
+        file copy "${destroot}/${applications_dir}/MunkiStatus.app" \
+            "${destroot}/${applications_dir}/Managed Software Center.app/Contents/Resources/"
+        file delete -force ${destroot}/${applications_dir}/MunkiStatus.app
+    }
+}
+
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
