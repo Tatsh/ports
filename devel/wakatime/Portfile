@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                wakatime
-version             10.8.1
+version             10.8.2
 platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
@@ -22,9 +22,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  012715508ca42e43b3eec64db4c2084f37b1c60d \
-                    sha256  30e2dcc49005d2f48889d03cdf316e1ad7a9b773e7e259a59f6db20e4e0c7e87 \
-                    size    1524410
+checksums           rmd160  6d7335c0ee2967025987031457f75e5118d6866b \
+                    sha256  19489f6433d33ac53850d66ba69529c90d49b63f9f57997f78c4aec58b769d43 \
+                    size    1524500
 
 patchfiles          ${name}-system-libs.patch
 patch.pre_args      -p1
