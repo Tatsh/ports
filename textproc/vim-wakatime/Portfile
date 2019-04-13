@@ -3,8 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-set version         7.1.4
-github.setup        wakatime vim-wakatime ${version}
+github.setup        wakatime vim-wakatime 7.1.4
 
 patchfiles          ${name}-fix-cli-path.patch \
                     ${name}-python.patch
@@ -13,7 +12,6 @@ patch.pre_args      -p1
 categories          textproc devel
 
 name                vim-wakatime
-version             ${version}
 platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
