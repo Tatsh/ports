@@ -2,9 +2,10 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        stepmania stepmania d6bd000
+github.setup            stepmania stepmania 4977f29
+github.livecheck.branch 5_1-new
 
-version             5.1.0_beta2_p20190318
+version             5.1.0_beta2_p20190328
 categories          games
 platforms           darwin linux freebsd
 license             MIT
@@ -12,9 +13,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Rhythm game.
 long_description    StepMania is a free dance and rhythm game.
 
-checksums           rmd160  a913037ddde1d5e448b155f845eaa7b23a5f131b \
-                    sha256  93fe7a5fd9e06f8c2bc71e56282fc9ba47feee9c1af04520e4407a5e8d779939 \
-                    size    186503470
+checksums           rmd160  a2950408283ccf6ddbe5f8ca39fdb5a35d61197b \
+                    sha256  01bd4fdbaf5ea7e638b7b0206d6b2e396e8e063daaf43e262949b51648d55fda \
+                    size    186514195
 
 patchfiles          noexcept.patch
 patch.pre_args      -p1 -R
