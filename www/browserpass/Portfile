@@ -1,9 +1,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/browserpass/browserpass-native 2c110bf
+go.setup            github.com/browserpass/browserpass-native 6422e66
 name                browserpass
-version             3.0.5
+version             3.0.6
 platforms           macosx
 categories          www net
 maintainers         {gmail.com:audvare @Tatsh}
@@ -11,11 +11,14 @@ license             MIT
 description         Chrome & Firefox browser extension for pass, a UNIX password manager.
 long_description    ${description}
 
-checksums           browserpass-native-2c110bf.tar.gz \
-                    rmd160  fcde560ef50c300fdedf0e6594a3abe0583d9184 \
-                    sha256  f996ae4b668586d3e4639e416dfb42e126a9d2ffa948617552a74064d7d6814e \
-                    size    17063 \
+checksums           browserpass-native-6422e66.tar.gz \
+                    rmd160  8280eebb1b8461f6a8cacd3f08c1c1c90d1eb211 \
+                    sha256  fbf1672b40cab86bcfff382bc02fcbdbfa6b26caf034809ed6ccab1854c03183 \
+                    size    17740 \
                     konsorten-go-windows-terminal-sequences-f55edac94c9bbba5d6182a4be46d86a2c9b5b50e.tar.gz \
+                    rmd160  9b5e034c9a2fbbe2c4a3768d00d6337a8e06ab74 \
+                    sha256  0a29b8c0a24ace07e3280feb5ee7b71ddb965a894ace70d8c77c0a4f330a8dbb \
+                    size    1987 \
                     rmd160  9b5e034c9a2fbbe2c4a3768d00d6337a8e06ab74 \
                     sha256  0a29b8c0a24ace07e3280feb5ee7b71ddb965a894ace70d8c77c0a4f330a8dbb \
                     size    1987 \
@@ -23,7 +26,13 @@ checksums           browserpass-native-2c110bf.tar.gz \
                     rmd160  4fee750ce871ba2c7fbf917599baac7791a4f958 \
                     sha256  8b8b0cd95a5ee0637876ae404359ecb3df11f878782a0c1318663b418ff0b35a \
                     size    7711 \
+                    rmd160  4fee750ce871ba2c7fbf917599baac7791a4f958 \
+                    sha256  8b8b0cd95a5ee0637876ae404359ecb3df11f878782a0c1318663b418ff0b35a \
+                    size    7711 \
                     rifflock-lfshook-b9218ef580f59a2e72dad1aa33d660150445d05a.tar.gz \
+                    rmd160  39e83d39af52ed60d934ebc83b819d9ec6f8c8e3 \
+                    sha256  21b05b84f48253fd6b5baabd063960ca2d5b2844d175b9f4f2f9521219d83a96 \
+                    size    3833 \
                     rmd160  39e83d39af52ed60d934ebc83b819d9ec6f8c8e3 \
                     sha256  21b05b84f48253fd6b5baabd063960ca2d5b2844d175b9f4f2f9521219d83a96 \
                     size    3833 \
@@ -31,11 +40,20 @@ checksums           browserpass-native-2c110bf.tar.gz \
                     rmd160  ee8a8aabf505f432d103a954c9741c55f3746b30 \
                     sha256  009cf548c0f53d21433f4b334e2b4a507d271f1a8c3a35f2a86b32da74d7a8a9 \
                     size    38466 \
+                    rmd160  ee8a8aabf505f432d103a954c9741c55f3746b30 \
+                    sha256  009cf548c0f53d21433f4b334e2b4a507d271f1a8c3a35f2a86b32da74d7a8a9 \
+                    size    38466 \
                     golang-crypto-c2843e01d9a2bc60bb26ad24e09734fdc2d9ec58.tar.gz \
                     rmd160  35481af319848c87b8a91b708c1e045831062227 \
                     sha256  f8e063af716f960d2bc47bac8f0c84e353797f791a955dd52c2a745396e930be \
                     size    1650814 \
+                    rmd160  35481af319848c87b8a91b708c1e045831062227 \
+                    sha256  f8e063af716f960d2bc47bac8f0c84e353797f791a955dd52c2a745396e930be \
+                    size    1650814 \
                     golang-sys-10058d7d4faa7dd5ef860cbd31af00903076e7b8.tar.gz \
+                    rmd160  f9c5a586192dad71e135969d1a59011d0cc6b114 \
+                    sha256  daadcb33c6ed442873d1dc900ff56950eb2e3a96042054e3120da24857e3569f \
+                    size    1258096 \
                     rmd160  f9c5a586192dad71e135969d1a59011d0cc6b114 \
                     sha256  daadcb33c6ed442873d1dc900ff56950eb2e3a96042054e3120da24857e3569f \
                     size    1258096
