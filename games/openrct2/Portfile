@@ -11,6 +11,7 @@ categories          games
 platforms           darwin linux freebsd
 maintainers         {kencu @kencu} {gmail.com:audvare @Tatsh} openmaintainer
 license             GPL-3+
+revision            1
 
 description         An open-source re-implementation of RollerCoaster Tycoon 2.
 long_description    ${description} A construction and management simulation \
