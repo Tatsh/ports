@@ -2,19 +2,17 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        radareorg cutter 1.8.0 v
+github.setup        radareorg cutter 1.8.1 v
 
-version             1.8.0
 categories          devel aqua
 platforms           darwin linux freebsd
 description         Free and open-source GUI for radare2 reverse engineering framework.
 long_description    ${description}
 maintainers         {gmail.com:audvare @Tatsh}
-revision            1
 
-checksums           rmd160  a268dde5acb7a9382a92bd07635dfd2ac3f22e97 \
-                    sha256  158926c419907fc94e7d466265626432d833bd3ead1c8fa42ffae9d5b728e1b8 \
-                    size    1431925
+checksums           rmd160  78b98352163007a0e8987546914b2bb0a2a88eeb \
+                    sha256  3647438d8af10737c8cc6d961e550ba67a36d970a33607ba5aa6ee6cd1a55d0b \
+                    size    1488877
 
 depends_lib         port:radare2 \
                     port:qt5-kde
@@ -25,9 +23,6 @@ variant webengine {
     depends_lib-append port:qt5-kde-qtwebengine
     configure.args-append -DCUTTER_ENABLE_QTWEBENGINE=yes
 }
-
-patchfiles          macos-bundle.patch
-patch.pre_args      -p2
 
 destroot {
     file copy "${worksrcpath}/../../build/Cutter.app" "${destroot}/${applications_dir}"
