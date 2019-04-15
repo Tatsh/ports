@@ -1,9 +1,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        tihmstar libfragmentzip a4d0f14
+github.setup        tihmstar libfragmentzip cb3db36
 
-version             42_p20190131
+version             42_p20190322
 platforms           darwin linux freebsd
 license             LGPL-3
 description         A library to extract files from remote zip files.
@@ -14,9 +14,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 depends_lib-append  port:curl \
                     port:libzip
 
-checksums           rmd160  cd8819fe17682637f41b94953d6000516bed68d2 \
-                    sha256  ee4027ed2797450613ae567ddd0acc1bc8762a1263164a158abe738a6b7e63d7 \
-                    size    36735
+checksums           rmd160  21c350d19862b76345818b0ba94fa8fd902213d1 \
+                    sha256  1f0523252fc80e7e7fafeeae68e1bde52b50632f177f8782ea6ae46e102163a0 \
+                    size    36771
 
 patchfiles          ${name}-configure-ac.patch
 patch.pre_args      -p1
