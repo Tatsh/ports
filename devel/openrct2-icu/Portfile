@@ -7,7 +7,7 @@ set my_name     icu4c
 # To find dependencies, use:
 # port file all | sort -u | xargs grep -El ':icu( |$)' | rev | cut -d / -f 2 | rev | sort -u
 name            openrct2-icu
-version         63.1
+version         64.1
 categories      devel textproc
 platforms       darwin freebsd linux
 maintainers     {ryandesign @ryandesign} openmaintainer
@@ -26,8 +26,8 @@ distname        ${my_name}-[join [split ${version} .] _]
 extract.suffix  .tgz
 distfiles       ${distname}-src${extract.suffix}
 
-checksums           rmd160  5c895a6e2b135978df59e135ed772747aec0065f \
-                    sha256  05c490b69454fce5860b7e8e2821231674af0a11d7ef2febea9a32512998cb9d
+checksums           rmd160  9c7c07493b2700397075c50112642f849938f05c \
+                    sha256  92f1b7b9d51b396679c17f35a2112423361b8da3c1b9de00aa94fd768ae296e6
 
 worksrcdir      ${real_name}/source
 set docdir      ${prefix}/libexec/openrct2-icu/share/doc/${name}
