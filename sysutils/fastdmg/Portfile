@@ -1,0 +1,35 @@
+PortSystem          1.0
+
+name                fastdmg
+version             1.0.1
+
+categories          sysutils aqua
+license             EULA
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Alternative to annoying DiskImageMounter.
+long_description    FastDMG is a free macOS utility to mount .dmg and other \
+                    disk images quickly, without any unneeded nonsense. It \
+                    is a very fast and reliable alternative to Apple's \
+                    annoying DiskImageMounter.
+homepage            https://sveinbjorn.org/fastdmg
+distfiles           FastDMG.zip
+master_sites        https://sveinbjorn.org/files/software/
+
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "⇩ Download FastDMG (\\d+\[^<\]+)"
+
+use_configure       no
+use_zip             yes
+extract.only        "FastDMG.zip"
+extract.mkdir       yes
+build.cmd           echo
+
+checksums           rmd160  a06342a0bab82e9eb2e1792743647e24017d065f \
+                    sha256  9faf7a10fc33b8f0a1dd952328df6602128ad44e21b15a457b37c0288b302e0f \
+                    size    1220399
+
+destroot {
+    file copy "${worksrcpath}/FastDMG.app" "${destroot}/${applications_dir}/"
+}
