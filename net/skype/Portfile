@@ -22,6 +22,10 @@ use_dmg             yes
 extract.only        Skype-${version}.dmg
 build.cmd           echo
 
+livecheck.url       https://get.skype.com/s4l-update?version=${version}&os=mac&ring=production&app=s4l
+livecheck.type      md5
+livecheck.md5       d41d8cd98f00b204e9800998ecf8427e
+
 destroot {
     file copy "${worksrcpath}/Skype.app" "${destroot}/${applications_dir}/"
 }
