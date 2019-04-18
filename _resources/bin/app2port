@@ -29,6 +29,7 @@ def main():
         return 1
 
     name = basename(sys.argv[1].rstrip('/'))
+    pkg_name = name.lower().replace(' ', '-').replace('.app', '')
     plist_path = path_join(sys.argv[1], 'Contents', 'Info.plist')
     try:
         with open(plist_path, 'rb') as f:
@@ -70,7 +71,7 @@ build.cmd           echo
 
 destroot {{
     file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
-}}'''.format(name=name, version=version))
+}}'''.format(name=pkg_name, version=version))
 
 
 if __name__ == '__main__':
