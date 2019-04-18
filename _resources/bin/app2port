@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-from os.path import basename
+from os.path import basename, join as path_join
 from typing import List
 import os
+import plistlib
 import subprocess as sp
 import sys
 
@@ -27,10 +28,49 @@ def main():
         print('libstdc++ detected', file=sys.stderr)
         return 1
 
-    print('''destroot {{
-    file copy "${{worksrcpath}}/{}"
-        "${{destroot}}/${{applications_dir}}/"
-}}'''.format(basename(sys.argv[1].rstrip('/'))))
+    name = basename(sys.argv[1].rstrip('/'))
+    plist_path = path_join(sys.argv[1], 'Contents', 'Info.plist')
+    try:
+        with open(plist_path, 'rb') as f:
+            pl = plistlib.load(f)
+    except IOError:
+        print('Info.plist not found', file=sys.stderr)
+        unmount_dmg(realroot)
+        return 1
+
+    try:
+        version = pl['CFBundleShortVersionString']
+    except KeyError:
+        version = 'VERSION'
+
+    print('''PortSystem 1.0
+
+name                {name}
+version             {version}
+categories          aqua
+platforms           macosx
+maintainers         {{tat.sh:z @Tatsh}}
+description         DESCRIPTION
+long_description    ${{description}}
+homepage            HOMEPAGE
+distfiles           DISTFILES
+master_sites        URL
+
+# CHECKSUMS
+
+livecheck.type      regex
+livecheck.url       ${{homepage}}
+livecheck.regex     REGEX
+
+use_configure       no
+use_zip             yes
+extract.only        ZIPFILE
+extract.mkdir       yes
+build.cmd           echo
+
+destroot {{
+    file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
+}}'''.format(name=name, version=version))
 
 
 if __name__ == '__main__':

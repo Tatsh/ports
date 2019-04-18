@@ -83,10 +83,48 @@ def main():
         unmount_dmg(realroot)
         return 1
 
-    print('''destroot {{
-    file copy "${{worksrcpath}}/{}"
-        "${{destroot}}/${{applications_dir}}/"
-}}'''.format(app_name))
+    plist_path = path_join(start, 'Contents', 'Info.plist')
+    try:
+        with open(plist_path, 'rb') as f:
+            pl = plistlib.load(f)
+    except IOError:
+        print('Info.plist not found', file=sys.stderr)
+        unmount_dmg(realroot)
+        return 1
+
+    try:
+        version = pl['CFBundleShortVersionString']
+    except KeyError:
+        version = 'VERSION'
+
+    print('''PortSystem 1.0
+
+name                {name}
+version             {version}
+categories          aqua
+platforms           macosx
+maintainers         {{tat.sh:z @Tatsh}}
+description         DESCRIPTION
+long_description    ${{description}}
+homepage            HOMEPAGE
+distfiles           DISTFILES
+master_sites        URL
+
+# CHECKSUMS
+
+livecheck.type      regex
+livecheck.url       ${{homepage}}
+livecheck.regex     REGEX
+
+use_configure       no
+use_zip             yes
+extract.only        ZIPFILE
+extract.mkdir       yes
+build.cmd           echo
+
+destroot {{
+    file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
+}}'''.format(name=app_name, version=version))
 
     unmount_dmg(realroot)
 
