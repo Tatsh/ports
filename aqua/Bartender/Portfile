@@ -1,7 +1,7 @@
 PortSystem          1.0
 
 name                Bartender
-version             3.0.47
+version             3.0.64
 
 categories          aqua
 license             EULA
@@ -26,9 +26,9 @@ extract.only        "Bartender 3.zip"
 extract.mkdir       yes
 build.cmd           echo
 
-checksums           rmd160  2664c98110d3c2ba71598b1e75aaaff85696fb3e \
-                    sha256  8c92401a39471edc1e151850901991e8d1d25c14c92e2fe3ca3d74791608cb6c \
-                    size    7118852
+checksums           rmd160  fd909a24c55aaf196c9a4f33448880927be066a8 \
+                    sha256  8d9c85934682f395a642a00c62a0a633ecf7834e70ab2ac0442b4dbccbb4c0f3 \
+                    size    6765227
 
 destroot {
     file copy "${worksrcpath}/Bartender 3.app" "${destroot}/${applications_dir}/"
