@@ -50,7 +50,6 @@ def main():
     if args.dmg[0].startswith('http:') or args.dmg[0].startswith('https:'):
         _, dmg = tempfile.mkstemp(suffix='.dmg')
         sp.check_call(['curl', '-q', '-o', dmg, args.dmg[0]])
-        print(dmg)
     else:
         dmg: str = realpath(args.dmg[0])
 
