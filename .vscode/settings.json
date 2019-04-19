@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "Portfile": "tcl"
+        "Portfile": "tcl",
+        "cargo2port": "tcl"
     },
     "editor.rulers": [
         99
@@ -11,5 +12,6 @@
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
-    "python.unitTest.pyTestEnabled": false
+    "python.unitTest.pyTestEnabled": false,
+    "python.formatting.provider": "yapf"
 }
