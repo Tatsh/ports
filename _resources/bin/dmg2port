@@ -49,6 +49,7 @@ def main():
 
     dmg: str = realpath(args.dmg[0])
     app_name: str = args.app_name[0]
+    pkg_name = app_name.lower().replace(' ', '-').replace('.app', '')
     if not app_name.endswith('.app'):
         app_name += '.app'
 
@@ -99,7 +100,7 @@ def main():
 
     print('''PortSystem 1.0
 
-name                {name}
+name                {display_name}
 version             {version}
 categories          aqua
 platforms           macosx
@@ -124,7 +125,7 @@ build.cmd           echo
 
 destroot {{
     file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
-}}'''.format(name=app_name, version=version))
+}}'''.format(name=app_name, display_name=pkg_name, version=version))
 
     unmount_dmg(realroot)
 

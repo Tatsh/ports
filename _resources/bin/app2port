@@ -36,7 +36,6 @@ def main():
             pl = plistlib.load(f)
     except IOError:
         print('Info.plist not found', file=sys.stderr)
-        unmount_dmg(realroot)
         return 1
 
     try:
@@ -46,7 +45,7 @@ def main():
 
     print('''PortSystem 1.0
 
-name                {name}
+name                {display_name}
 version             {version}
 categories          aqua
 platforms           macosx
@@ -71,7 +70,7 @@ build.cmd           echo
 
 destroot {{
     file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
-}}'''.format(name=pkg_name, version=version))
+}}'''.format(name=name, display_name=pkg_name, version=version))
 
 
 if __name__ == '__main__':
