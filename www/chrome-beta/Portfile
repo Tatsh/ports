@@ -1,0 +1,31 @@
+PortSystem 1.0
+
+name                chrome-beta
+version             74.0.3729.91
+categories          aqua
+platforms           macosx
+maintainers         {tat.sh:z @Tatsh}
+description         A web browser.
+long_description    ${description}
+homepage            https://www.google.com/chrome/beta/
+distfiles           GoogleChrome.dmg
+master_sites        https://dl.google.com/chrome/mac/beta/
+
+checksums           rmd160  e182e9251bfcae150b9af7b167350d87b231852b \
+                    sha256  ad4e73c1fee864ee56b8952b61c0e18b4af9095a7d2284b34a7fbc2d7f31069a \
+                    size    78770354
+
+use_configure       no
+use_dmg             yes
+extract.only        GoogleChrome.dmg
+build.cmd           echo
+
+destroot {
+    file copy "${worksrcpath}/Google Chrome.app" "${destroot}/${applications_dir}/"
+}
+
+notes "
+Consider disabling Google's automatic updater:
+
+defaults write com.google.Keystone.Agent checkInterval 0
+"
