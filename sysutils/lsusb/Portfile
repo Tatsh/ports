@@ -1,0 +1,27 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        jlhonora lsusb 9da9755
+
+categories          sysutils
+version             1.0_p20150309
+platforms           macosx
+license             MIT
+maintainers         {udva.re:bugs @Tatsh}
+revision            1
+
+description         lsusb command for macOS.
+long_description    ${description}
+
+checksums           rmd160  e900bcf40695ababf1689c5e660bd34c88784cbc \
+                    sha256  784204b515df840fe759647679439aaf58dd184b9cf05455acdfd8cf9c2198ca \
+                    size    5989
+
+use_configure       no
+build.cmd           echo
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/lsusb ${destroot}${prefix}/bin/
+    xinstall -d -m 0755 ${destroot}/share/man/man8
+    xinstall -m 0644 ${worksrcpath}/man/lsusb.8 ${destroot}/share/man/man8/
+}
