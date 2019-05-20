@@ -19,9 +19,7 @@ checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
                     sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
                     size    7443172
 
-depends_run         port:munki-notifier \
-                    port:munki-status \
-                    port:munki-app-usage \
+depends_run         port:munki-app-usage \
                     port:munki-core \
                     port:munki-launchd
 
@@ -39,6 +37,7 @@ xcode.destroot.settings \
 build {}
 
 subport munki-notifier {
+    depends_run-delete  port:munki-notifier
     checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
                         sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
                         size    7443172
@@ -54,6 +53,7 @@ subport munki-notifier {
 }
 
 subport munki-status {
+    depends_run-delete  port:munki-status
     checksums           rmd160  871f37ee384c765d72eb513a8bab9dd20b195220 \
                         sha256  a4fb9fd7342d0338ac8199d4dba4b3636135d75c5c64b125efbb0d5b3f48a4b2 \
                         size    7443172
