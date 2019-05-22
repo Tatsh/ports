@@ -12,6 +12,6 @@
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
-    "python.unitTest.pyTestEnabled": false,
+    "python.testing.pyTestEnabled": false,
     "python.formatting.provider": "yapf"
 }
