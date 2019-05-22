@@ -4,6 +4,7 @@ from typing import Any, Dict, List
 import argparse
 import os
 import plistlib
+import re
 import subprocess as sp
 import sys
 import tempfile
@@ -84,10 +85,9 @@ def main():
     realroot: str = path_join(mountroot, root_prefix)
     start: str = path_join(realroot, app_name)
 
+    stdcxx_line = ''
     if has_libstdcxx(start):
-        print('libstdc++ detected', file=sys.stderr)
-        unmount_dmg(realroot)
-        return 1
+        stdcxx_line = '\nconfigure.cxx_stdlib libstdc++\n'
 
     plist_path = path_join(start, 'Contents', 'Info.plist')
     try:
@@ -99,7 +99,7 @@ def main():
         return 1
 
     try:
-        version = pl['CFBundleShortVersionString']
+        version = re.sub(r'^v', '', pl['CFBundleShortVersionString'])
     except KeyError:
         version = 'VERSION'
 
@@ -126,11 +126,13 @@ use_configure       no
 use_zip             yes
 extract.only        DMGFILE
 extract.mkdir       yes
-build.cmd           echo
+{stdcxx_line}
+build {{}}
 
 destroot {{
     file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
-}}'''.format(name=app_name, display_name=pkg_name, version=version))
+}}'''.format(name=app_name, display_name=pkg_name, version=version,
+             stdcxx_line=stdcxx_line))
 
     unmount_dmg(realroot)
 

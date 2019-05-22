@@ -24,9 +24,9 @@ def has_libstdcxx(start: str):
 
 
 def main():
+    configure_cxx_stdlib = ''
     if has_libstdcxx(sys.argv[1]):
-        print('libstdc++ detected', file=sys.stderr)
-        return 1
+        configure_cxx_stdlib = '\nconfigure.cxx_stdlib libstdc++\n'
 
     name = basename(sys.argv[1].rstrip('/'))
     pkg_name = name.lower().replace(' ', '-').replace('.app', '')
@@ -66,11 +66,15 @@ use_configure       no
 use_zip             yes
 extract.only        ZIPFILE
 extract.mkdir       yes
-build.cmd           echo
+{configure_cxx_stdlib}
+build {{}}
 
 destroot {{
     file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
-}}'''.format(name=name, display_name=pkg_name, version=version))
+}}'''.format(name=name,
+             display_name=pkg_name,
+             configure_cxx_stdlib=configure_cxx_stdlib,
+             version=version))
 
 
 if __name__ == '__main__':
