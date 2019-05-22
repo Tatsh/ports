@@ -3,6 +3,7 @@ from os.path import basename, join as path_join
 from typing import List
 import os
 import plistlib
+import re
 import subprocess as sp
 import sys
 
@@ -13,8 +14,12 @@ def has_libstdcxx(start: str):
     filenames: List[str]
     for dirpath, dirnames, filenames in os.walk(start):
         for fn in filenames:
-            fpath = '{}/{}'.format(dirpath, fn)
-            if os.stat(fpath).st_mode & 1:
+            fpath = path_join(dirpath, fn)
+            try:
+                is_exec = os.stat(fpath).st_mode & 1
+            except FileNotFoundError:
+                continue
+            if is_exec:
                 proc = sp.run(['otool', '-L', fpath],
                               capture_output=True,
                               text=True)
@@ -39,7 +44,7 @@ def main():
         return 1
 
     try:
-        version = pl['CFBundleShortVersionString']
+        version = re.sub(r'^v', '', pl['CFBundleShortVersionString'])
     except KeyError:
         version = 'VERSION'
 
