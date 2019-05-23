@@ -1,0 +1,44 @@
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        objective-see AuRevoir 1.0.0
+
+name                AuRevoir
+version             1.0.0
+categories          aqua sysutils
+description         View and remove notification messages from Apple's Notification Database.
+long_description    AuRevoir (French for 'goodbye') is a simple utility to view and remove \
+                    notifications from Apple's Notification Database.
+maintainers         {gmail.com:audvare @Tatsh}
+# https://github.com/objective-see/AuRevoir/issues/5
+license             EULA
+
+checksums           rmd160  62a165f2819071c05560fd5b79b18e4207e7de58 \
+                    sha256  fd09eb47e1dfdd58cb5cdfd58626e86d987452f9ef29191ba17e213da8667c7b \
+                    size    69857
+
+worksrcdir          ${worksrcpath}/auRevoir
+
+xcode.target        ${name}
+xcode.configuration Release
+xcode.build.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+
+patchfiles      4.patch \
+                main-menu-xib.patch
+patch.pre_args  -p2
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
+
+if {${os.major} < 17} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.13 or later."
+        return -code error "incompatible OS X version"
+    }
+}

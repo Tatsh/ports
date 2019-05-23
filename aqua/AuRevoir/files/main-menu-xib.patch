@@ -1,0 +1,22 @@
+From e72a96889cb47b5781af50aa77a4db1fce41337d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Andr=C3=A9=20Sintzoff?= <andre.sintzoff@gmail.com>
+Date: Mon, 14 May 2018 21:46:33 +0200
+Subject: [PATCH] MainMenu.xib: fix typo in explanation
+
+---
+ auRevoir/AuRevoir/Base.lproj/MainMenu.xib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/auRevoir/AuRevoir/Base.lproj/MainMenu.xib b/auRevoir/AuRevoir/Base.lproj/MainMenu.xib
+index 4437f56..88e1e9c 100644
+--- a/auRevoir/AuRevoir/Base.lproj/MainMenu.xib
++++ b/auRevoir/AuRevoir/Base.lproj/MainMenu.xib
+@@ -717,7 +717,7 @@
+                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                     <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" id="fcU-fM-vdc">
+                                         <font key="font" size="13" name="Menlo-Regular"/>
+-                                        <string key="title">Signal's messages (including 'disappearing' ones) may be stored unencrypted in your Mac's 'Notifciation Database' 😥  This application can display, and also fully removes such messages!</string>
++                                        <string key="title">Signal's messages (including 'disappearing' ones) may be stored unencrypted in your Mac's 'Notification Database' 😥  This application can display, and also fully removes such messages!</string>
+                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                     </textFieldCell>

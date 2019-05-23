@@ -1,0 +1,22 @@
+From 54c1ae1fe1673de11c35b5cd0b59f7d34dd4702c Mon Sep 17 00:00:00 2001
+From: Micah Lee <micah@micahflee.com>
+Date: Tue, 14 May 2019 14:38:21 -0700
+Subject: [PATCH] Support macOS 10.14.x
+
+---
+ auRevoir/AuRevoir/main.m | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/auRevoir/AuRevoir/main.m b/auRevoir/AuRevoir/main.m
+index 3968cfa..43892dc 100644
+--- a/auRevoir/AuRevoir/main.m
++++ b/auRevoir/AuRevoir/main.m
+@@ -23,7 +23,7 @@ int main(int argc, const char * argv[])
+     osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+     
+     //only support h sierra
+-    if(osVersion.minorVersion != 13)
++    if(osVersion.minorVersion != 13 && osVersion.minorVersion != 14)
+     {
+         //init alert
+         alert = [[NSAlert alloc] init];
