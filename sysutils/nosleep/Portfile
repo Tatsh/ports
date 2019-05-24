@@ -28,6 +28,12 @@ worksrcdir          ${worksrcpath}/NoSleep
 # MacPorts cannot properly handle signing requirements.
 # TODO After the framework is installed, targets that rely on it should be looking solely in
 # ${prefixz}/Library/Frameworks for it.
+# Target statuses:
+# * configure - fails
+# * launchDaemon - fails
+# * helper
+# * loginItem
+# * mainApp
 
 xcode.target        NoSleepFramework
 xcode.configuration Release
