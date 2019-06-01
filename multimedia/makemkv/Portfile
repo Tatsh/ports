@@ -1,0 +1,64 @@
+PortSystem          1.0
+
+name                makemkv
+version             1.14.3
+
+categories          multimedia aqua
+license             EULA
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         DVD and Blu-ray disc streamer ripper.
+long_description    MakeMKV is your one-click solution to convert video that \
+                    you own into free and patents-unencumbered format that \
+                    can be played everywhere. MakeMKV is a format converter, \
+                    otherwise called transcoder. It converts the video \
+                    clips from proprietary (and usually encrypted) disc into \
+                    a set of MKV files, preserving most information but not \
+                    changing it in any way. The MKV format can store multiple \
+                    video/audio tracks with all meta-information and preserve \
+                    chapters. There are many players that can play MKV files \
+                    nearly on all platforms, and there are tools to convert \
+                    MKV files to many formats, including DVD and Blu-ray discs.
+homepage            https://makemkv.com
+set special_dmg     ${name}_v${version}_osx.dmg
+distfiles           ${special_dmg}
+master_sites        https://makemkv.com/download/
+
+checksums           rmd160  e2562f5ed2de93563d2c2830a3c7cc0bea6b88fe \
+                    sha256  a5b568fbcf7f6b31415d28ac92dd9d414171faab2138e91923bd8e48e474c111 \
+                    size    18252785
+
+depends_extract     bin:expect:expect
+
+use_configure           no
+configure.cxx_stdlib    libstdc++
+
+extract {
+    file mkdir ${worksrcpath}/MakeMKV.app
+    set my_system_disk_container_mount [my_attach_disk_image ${distpath}/${special_dmg}]
+    file copy "${my_system_disk_container_mount}/MakeMKV.app" ${worksrcpath}/MakeMKV.app
+    my_detach_disk_image ${my_system_disk_container_mount}
+}
+
+build {}
+
+destroot {
+    file copy "${worksrcpath}/MakeMKV.app" "${destroot}${applications_dir}/"
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set my_name ${name}
+    set mountpoint [mkdtemp "/tmp/${my_name}.XXXXXXXX"]
+    # Use this expect script instead of using hdiutil directly, because the
+    # system disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    file delete -force ${mountpoint}
+}
