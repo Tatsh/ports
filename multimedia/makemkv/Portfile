@@ -34,16 +34,16 @@ use_configure           no
 configure.cxx_stdlib    libstdc++
 
 extract {
-    file mkdir ${worksrcpath}/MakeMKV.app
-    set my_system_disk_container_mount [my_attach_disk_image ${distpath}/${special_dmg}]
-    file copy "${my_system_disk_container_mount}/MakeMKV.app" ${worksrcpath}/MakeMKV.app
-    my_detach_disk_image ${my_system_disk_container_mount}
+    file mkdir ${worksrcpath}
+    set msdcm [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy "${msdcm}/MakeMKV.app" "${msdcm}/MakeMKV.url" "${worksrcpath}/"
+    my_detach_disk_image ${msdcm}
 }
 
 build {}
 
 destroot {
-    file copy "${worksrcpath}/MakeMKV.app" "${destroot}${applications_dir}/"
+    copy "${worksrcpath}/MakeMKV.app" "${destroot}${applications_dir}/"
 }
 
 # Mounts a disk image.
@@ -52,7 +52,7 @@ proc my_attach_disk_image {disk_image} {
     set my_name ${name}
     set mountpoint [mkdtemp "/tmp/${my_name}.XXXXXXXX"]
     # Use this expect script instead of using hdiutil directly, because the
-    # system disk image has a license agreement we must agree to.
+    # disk image has a license agreement we must agree to.
     system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
     return ${mountpoint}
 }
