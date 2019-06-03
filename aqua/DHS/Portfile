@@ -4,7 +4,7 @@ name                DHS
 version             1.4.1
 
 categories          aqua sysutils
-license             EULA
+license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Dylib hijack scanner.
