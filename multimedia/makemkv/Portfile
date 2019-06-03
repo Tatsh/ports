@@ -1,13 +1,14 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 PortSystem          1.0
 
 name                makemkv
 version             1.14.3
 
 categories          multimedia aqua
-license             EULA
+license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
-description         DVD and Blu-ray disc streamer ripper.
+description         DVD and Blu-ray disc stream ripper.
 long_description    MakeMKV is your one-click solution to convert video that \
                     you own into free and patents-unencumbered format that \
                     can be played everywhere. MakeMKV is a format converter, \
@@ -20,6 +21,8 @@ long_description    MakeMKV is your one-click solution to convert video that \
                     nearly on all platforms, and there are tools to convert \
                     MKV files to many formats, including DVD and Blu-ray discs.
 homepage            https://makemkv.com
+supported_archs     x86_64
+
 set special_dmg     ${name}_v${version}_osx.dmg
 distfiles           ${special_dmg}
 master_sites        https://makemkv.com/download/
@@ -35,22 +38,21 @@ configure.cxx_stdlib    libstdc++
 
 extract {
     file mkdir ${worksrcpath}
-    set msdcm [my_attach_disk_image ${distpath}/${special_dmg}]
-    copy "${msdcm}/MakeMKV.app" "${msdcm}/MakeMKV.url" "${worksrcpath}/"
-    my_detach_disk_image ${msdcm}
+    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy ${mountpoint}/MakeMKV.app ${mountpoint}/MakeMKV.url ${worksrcpath}/
+    my_detach_disk_image ${mountpoint}
 }
 
 build {}
 
 destroot {
-    copy "${worksrcpath}/MakeMKV.app" "${destroot}${applications_dir}/"
+    copy ${worksrcpath}/MakeMKV.app ${destroot}${applications_dir}
 }
 
 # Mounts a disk image.
 proc my_attach_disk_image {disk_image} {
     global filespath name
-    set my_name ${name}
-    set mountpoint [mkdtemp "/tmp/${my_name}.XXXXXXXX"]
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
     # Use this expect script instead of using hdiutil directly, because the
     # disk image has a license agreement we must agree to.
     system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
@@ -61,4 +63,11 @@ proc my_attach_disk_image {disk_image} {
 proc my_detach_disk_image {mountpoint} {
     system "hdiutil detach ${mountpoint} -force"
     file delete -force ${mountpoint}
+}
+
+if {${os.major} < 10} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.6 or later."
+        return -code error "incompatible OS X version"
+    }
 }
