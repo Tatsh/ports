@@ -12,7 +12,7 @@ long_description    AuRevoir (French for 'goodbye') is a simple utility to view 
                     notifications from Apple's Notification Database.
 maintainers         {gmail.com:audvare @Tatsh}
 # https://github.com/objective-see/AuRevoir/issues/5
-license             EULA
+license             Restrictive
 
 checksums           rmd160  62a165f2819071c05560fd5b79b18e4207e7de58 \
                     sha256  fd09eb47e1dfdd58cb5cdfd58626e86d987452f9ef29191ba17e213da8667c7b \
