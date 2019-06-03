@@ -4,7 +4,7 @@ name                Bartender
 version             3.0.64
 
 categories          aqua
-license             EULA
+license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Organise your menu icons.
