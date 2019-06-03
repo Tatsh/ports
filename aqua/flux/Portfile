@@ -4,7 +4,7 @@ name                flux
 version             39.987
 
 categories          aqua
-license             EULA
+license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Software to make your life better.
