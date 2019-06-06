@@ -39,7 +39,7 @@ configure.cxx_stdlib    libstdc++
 extract {
     file mkdir ${worksrcpath}
     set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
-    copy ${mountpoint}/MakeMKV.app ${mountpoint}/MakeMKV.url ${worksrcpath}/
+    copy ${mountpoint}/MakeMKV.app ${worksrcpath}
     my_detach_disk_image ${mountpoint}
 }
 
