@@ -127,9 +127,9 @@ livecheck.url       ${{homepage}}
 livecheck.regex     REGEX
 
 use_configure       no
-use_zip             yes
+use_dmg             yes
 extract.only        DMGFILE
-extract.mkdir       yes
+extract.mkdir       no
 {stdcxx_line}
 build {{}}
 
