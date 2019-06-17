@@ -1,0 +1,66 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                charles
+version             4.2.8
+
+categories          net
+platforms           darwin
+maintainers         {gmail.com:audvare @Tatsh}
+description         Web debugging and proxy application (trial).
+long_description    Charles is an HTTP proxy / HTTP monitor / Reverse Proxy that enables a \
+                    developer to view all of the HTTP and SSL / HTTPS traffic between their \
+                    machine and the Internet. This includes requests, responses and the HTTP \
+                    headers (which contain the cookies and caching information).
+homepage            https://www.charlesproxy.com/
+distfiles           ${name}-proxy-${version}.dmg
+master_sites        https://www.charlesproxy.com/assets/release/${version}/
+license             Charles-EULA
+revision            1
+
+checksums           rmd160  68991f93bc63c5ee23fe9ee9110c403a898ba7ae \
+                    sha256  091268247ce67ee98eec0fb5fd908f332494234666ad8e81a1be08a144d67b87 \
+                    size    61030036
+
+set special_dmg     ${name}-proxy-${version}.dmg
+
+use_configure           no
+configure.cxx_stdlib    libstdc++
+
+depends_extract     bin:expect:expect
+
+extract {
+    file mkdir ${worksrcpath}
+    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy ${mountpoint}/Charles.app ${worksrcpath}
+    my_detach_disk_image ${mountpoint}
+}
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/Charles.app ${destroot}${applications_dir}
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
+    # Use this expect script instead of using hdiutil directly, because the
+    # disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    file delete -force ${mountpoint}
+}
+
+if {${os.major} < 11} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.7 or later."
+        return -code error "incompatible OS X version"
+    }
+}
