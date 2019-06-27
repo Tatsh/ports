@@ -21,6 +21,8 @@ use_dmg             yes
 extract.only        Impactor_${version}.dmg
 extract.mkdir       no
 
+# livecheck.url https://cydia.saurik.com/api/appcast/1
+
 configure.cxx_stdlib libstdc++
 
 build {}
