@@ -1,7 +1,7 @@
 PortSystem          1.0
 
 name                010-editor
-version             9.0.1
+version             9.0.2
 
 categories          devel aqua
 license             Restrictive
@@ -14,9 +14,9 @@ distfiles           010EditorMac64Installer.dmg
 master_sites        https://www.sweetscape.com/download/
 dist_subdir         ${name}/${version}_1
 
-checksums           rmd160  441408499110e2b03fbe28cc05056abc2439fc50 \
-                    sha256  9e47eaa69bc0bcb8ba173724814b849a66eca57bdc61debb4b5637ec1a129a02 \
-                    size    20471405
+checksums           rmd160  a08eb57dc9d97c256b8cbe9d48407909f498096f \
+                    sha256  fa1455685e77df7b41e4140dbb9b89cff17a8d9df4377bab0ae0361d029c2e66 \
+                    size    20583908
 
 livecheck.type      regex
 livecheck.url       https://www.sweetscape.com/download/010editor/
