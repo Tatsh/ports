@@ -3,7 +3,7 @@
 spawn hdiutil attach "[lindex $argv 0]" -mountpoint "[lindex $argv 1]" -private -nobrowse -noautoopen -noautofsck -noverify -readonly
 
 expect {
-	"Copyright (C) 2007-2018 GuinpinSoft inc" {
+	"Copyright (C) 2007-2019 GuinpinSoft inc" {
 		exp_send "q"
 		exp_continue
 	}
