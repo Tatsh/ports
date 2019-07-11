@@ -19,22 +19,6 @@ license             GPL-2
 
 worksrcdir          ${worksrcpath}/NoSleep
 
-# FIXME This only installs the framework.
-# NOTE In the project, a separate build configuration is required for each target, necessitating
-# several Portfiles to achieve correct installation (due to limitations with the xcode PortGroup).
-# The primary issue is that with INSTALL_PATH set for all targets, the framework gets installed
-# into the incorrect place, and then is referenced by binaries inside of the NoSleep.app bundle.
-# TODO The helper tool should be patched away since it should not be needed and on its own,
-# MacPorts cannot properly handle signing requirements.
-# TODO After the framework is installed, targets that rely on it should be looking solely in
-# ${prefixz}/Library/Frameworks for it.
-# Target statuses:
-# * configure - fails
-# * launchDaemon - fails
-# * helper
-# * loginItem
-# * mainApp
-
 xcode.target        NoSleepFramework
 xcode.configuration Release
 xcode.destroot.type framework
