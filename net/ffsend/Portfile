@@ -5,8 +5,9 @@ PortGroup           github 1.0
 categories          net sysutils
 
 github.setup        timvisee ffsend 0.2.44 v
+revision            1
 
-platforms           darwin linux freebsd
+platforms           darwin
 supported_archs     x86_64
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -1269,7 +1270,5 @@ patch {
 }
 
 destroot {
-    # FIXME Make this work with other platforms
-    xinstall -m 0755 ${worksrcpath}/target/x86_64-apple-darwin/release/${name} \
-        ${destroot}${prefix}/bin/
+    xinstall -m 0755 {*}[glob ${worksrcpath}/target/*/release/${name}] ${destroot}${prefix}/bin/
 }
