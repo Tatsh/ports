@@ -15,8 +15,6 @@ checksums           rmd160  58f7f91d36ff318dc825ef9206d847e4e8e1e4f6 \
                     sha256  56359df5c8cec03469cfa6e1b87e8334796a9f2948602e93f1686b98a6353647 \
                     size    354310
 
-depends_lib-append  port:qt5-kde
-
 patch {
     file rename ${worksrcpath}/src/qhexedit.pro ${worksrcpath}/src/src.pro
     file rename ${worksrcpath}/example/qhexedit.pro ${worksrcpath}/example/example.pro
