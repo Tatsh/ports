@@ -1,6 +1,7 @@
 PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
+PortGroup           qt5-kde 1.0
 
 github.setup        radareorg cutter 1.8.1 v
 
@@ -14,13 +15,13 @@ checksums           rmd160  78b98352163007a0e8987546914b2bb0a2a88eeb \
                     sha256  3647438d8af10737c8cc6d961e550ba67a36d970a33607ba5aa6ee6cd1a55d0b \
                     size    1488877
 
-depends_lib         port:radare2 \
-                    port:qt5-kde
+qt5.depends_component   qtsvg
+depends_lib         port:radare2
 
 worksrcdir          cutter-${version}/src
 
 variant webengine {
-    depends_lib-append port:qt5-kde-qtwebengine
+    depends_lib-append port:qt5-qtwebengine
     configure.args-append -DCUTTER_ENABLE_QTWEBENGINE=yes
 }
 
