@@ -1,6 +1,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           cmake 1.1
+PortGroup           qt5 1.0
 
 github.setup        obsproject obs-studio 23.1.0-rc1
 
@@ -16,7 +17,6 @@ platforms           darwin freebsd
 license             GPL-2
 
 depends_lib \
-    port:qt5-kde \
     port:curl \
     port:ffmpeg \
     port:jansson
