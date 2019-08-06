@@ -30,7 +30,7 @@ checksums           qtfm-6.1.8.tar.gz \
                     sha256  bbe1fad79eb16565e5c14bd9181103dabdb9049d8549c1af84d0804d041b367e \
                     size    10115186
 
-depends_lib         port:libinotify-kqueue port:qt5-kde
+depends_lib         port:libinotify-kqueue
 
 pre-configure {
     file copy "${workpath}/adwaita-bundle-${icons_hash}/adwaita.qrc" \
