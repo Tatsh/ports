@@ -9,11 +9,12 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to edit ID3 tags in MP3 files.
 long_description    ${description}
 categories          multimedia
+revision            1
 
 patchfiles          a044c5.diff
 patch.pre_args      -p1
 
-depends_lib         port:taglib port:magic
+depends_lib         port:taglib port:libmagic
 
 use_configure       no
 build.type          gnu
