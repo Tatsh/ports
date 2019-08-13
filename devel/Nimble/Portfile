@@ -1,0 +1,30 @@
+PortSystem          1.0
+PortGroup           xcode 1.0
+PortGroup           github 1.0
+
+github.setup        Quick Nimble 8.0.2 v
+
+license             Apache-2.0
+maintainers         {gmail.com:audvare @Tatsh}
+description         A Matcher Framework for Swift and Objective-C.
+long_description    ${description}
+categories          devel
+
+checksums           rmd160  76d2417c1e2dbaa16be8e7a20010acccf7048421 \
+                    sha256  f9038af8e7918a3f382341a65df13670ae8f9f11d0484e02b380235edcc1ca97 \
+                    size    131165
+
+xcode.target        Nimble-macOS
+xcode.configuration Release
+
+pre-fetch {
+    if { [vercmp ${xcodeversion} "10.0"] < 0 } {
+        ui_error "Xcode 10.0 or greater is needed to build ${name}; only found version ${xcodeversion}."
+        return -code error "incompatible Xcode version"
+    }
+}
+
+destroot {
+    copy ${worksrcpath}/build/Release/Nimble.framework \
+        ${destroot}${prefix}/Library/Frameworks/
+}
