@@ -1,0 +1,32 @@
+PortSystem          1.0
+PortGroup           xcode 1.0
+PortGroup           github 1.0
+
+github.setup        jdhealy PrettyColors 5.0.2
+
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+description         Styles and colors text in the Terminal with ANSI escape codes.
+long_description    ${description} Conforms to ECMA Standard 48.
+categories          devel
+
+checksums           rmd160  acffaa81428f02368e3942ed9312f8afcc3539aa \
+                    sha256  149281b51d7540b928985bdc37a55d9210ee1fa55ecf28f66d83c1ecbe5ea297 \
+                    size    16395
+
+xcode.target        PrettyColors
+xcode.configuration Release
+
+# FIXME Needs files from https://github.com/jdhealy/FABConfig/tree/e95b87a2bd6cb0afd94d250399dad91663185bec
+
+pre-fetch {
+    if { [vercmp ${xcodeversion} "10.0"] < 0 } {
+        ui_error "Xcode 10.0 or greater is needed to build ${name}; only found version ${xcodeversion}."
+        return -code error "incompatible Xcode version"
+    }
+}
+
+destroot {
+    copy ${worksrcpath}/build/Release/PrettyColors.framework \
+        ${destroot}${prefix}/Library/Frameworks/
+}
