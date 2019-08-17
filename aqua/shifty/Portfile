@@ -5,6 +5,7 @@ PortGroup           xcode 1.0
 github.setup        thompsonate Shifty 1.1.2 v
 
 version             1.1.2
+revision            1
 categories-append   sysutils
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,7 +17,6 @@ checksums           rmd160  f6069f2b440b0df0e1aa270afd61a6c4d89b8dc3 \
                     sha256  534b285a8ec6bf3a8dbc713325bdaa4861b9c5616b99c7b10f7c0f956fe095c3 \
                     size    25522694
 
-macosx_deployment_target 10.14
 xcode.scheme        Shifty
 xcode.configuration Release
 xcode.destroot.settings \
@@ -32,9 +32,9 @@ patch.pre_args  -p1
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
 
-if {${os.major} < 18} {
+if {${os.major} < 16} {
     pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.14 or later."
+        ui_error "${name} @${version} requires OS X 10.12 or later."
         return -code error "incompatible OS X version"
     }
 }
