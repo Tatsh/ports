@@ -26,8 +26,7 @@ xcode.destroot.settings \
 destroot.pre_args   -workspace Shifty.xcworkspace \
                     -derivedDataPath ${worksrcpath}
 
-patchfiles      remove-analytics.patch \
-                eventsmanager.patch
+patchfiles      macports.patch
 patch.pre_args  -p1
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137

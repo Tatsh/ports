@@ -1,5 +1,75 @@
+diff --git a/.gitignore b/.gitignore
+index dede4d0..70efff1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -66,6 +66,7 @@ fastlane/report.xml
+ fastlane/Preview.html
+ fastlane/screenshots
+ fastlane/test_output
++/data-path/
+ 
+ # macOS specific
+ .DS_Store
+diff --git a/README.md b/README.md
+index e4528c1..6ea43f4 100644
+--- a/README.md
++++ b/README.md
+@@ -1,17 +1,48 @@
++# Shifty
++
+ Shifty was made to expand the capabilities of the built in Night Shift feature in macOS. You can disable Night Shift for specific apps, websites, and custom time periods. It also provides easy access to a slider to fine tune your color temperature. With Shifty, Night Shift becomes a power user feature!
+ 
++Website shifting supports Safari, Chrome, and Vivaldi.
++
+ <img src='docs/en/images/shifty-screenshot-large.png' width=70%>
+ 
+ Shifty is customizable! Make it easier to toggle Night Shift with Quick Toggle or set dark mode based on the schedule. For common Shifty actions, you can set global keyboard shortcuts.
+ 
+ <img src="docs/en/images/prefs-general-screenshot-shadow.png" width=60%/>
+ 
+-### System requirements:
+-* macOS 10.12.4 or later
+-* System meets the [requirements for Night Shift](https://support.apple.com/en-us/HT207513#requirements)
+-* Website shifting supports Safari, Chrome, and Vivaldi.
++## System requirements
++
++* macOS 10.14 or later
++* Your system must [support Night Shift](https://support.apple.com/en-us/HT207513#requirements)
++
++## Building from source
++
++### Command line
++
++```sh
++cd where-shifty-is-cloned-to/
++mkdir data-path
++xcodebuild -workspace Shifty.xcworkspace/ \
++    -scheme Shifty \
++    -derivedDataPath data-path \
++    -configuration Release \
++    install \
++    INSTALL_PATH=./test/ \
++    CODE_SIGN_IDENTITY=- \
++    CODE_SIGN_STYLE=Manual \
++    ENABLE_HARDENED_RUNTIME=NO \
++    ARCHS=x86_64 \
++    MACOSX_DEPLOYMENT_TARGET=10.14
++```
++
++In one line:
++
++```sh
++cd where-shifty-is-cloned-to/ && mkdir data-path && xcodebuild -workspace Shifty.xcworkspace/ -scheme Shifty -derivedDataPath data-path -configuration Release install INSTALL_PATH=/Applications/ CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual ENABLE_HARDENED_RUNTIME=NO ARCHS=x86_64
++```
++
++## License
+ 
+-<br>
+ Shifty is free and open source, licensed under GPLv3. Feel free to make a pull request!
+ 
+ If you'd like to help translate Shifty into other languages, you can contribute [here](https://shifty.natethompson.io/translate).
 diff --git a/Shifty/AppDelegate.swift b/Shifty/AppDelegate.swift
-index 8cec98c..e7039fd 100644
+index 8cec98c..77b1831 100644
 --- a/Shifty/AppDelegate.swift
 +++ b/Shifty/AppDelegate.swift
 @@ -9,7 +9,6 @@
@@ -10,7 +80,7 @@ index 8cec98c..e7039fd 100644
  import AppCenterCrashes
  import LetsMove
  import MASPreferences_Shifty
-@@ -38,24 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
+@@ -38,27 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
      var setupWindowController: NSWindowController!
  
      func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -32,9 +102,90 @@ index 8cec98c..e7039fd 100644
 -            userDefaults.set(true, forKey: Keys.analyticsPermission)
 -        }
 -        
-         // Initialize Sparkle
-         SUUpdater.shared()
+-        // Initialize Sparkle
+-        SUUpdater.shared()
+-        
          
+         let versionObject = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
+         userDefaults.set(versionObject as? String ?? "", forKey: Keys.lastInstalledShiftyVersion)
+diff --git a/Shifty/AppleEventsManager.m b/Shifty/AppleEventsManager.m
+index 8ad4900..81558a1 100644
+--- a/Shifty/AppleEventsManager.m
++++ b/Shifty/AppleEventsManager.m
+@@ -11,14 +11,6 @@
+ #import "AppleEventsManager.h"
+ 
+ 
+-// !!!: Workaround for Apple bug. Their AppleEvents.h header conditionally defines errAEEventWouldRequireUserConsent and one other constant, valid only for 10.14 and higher, which means our code inside the @available() check would fail to compile. Remove this definition when they fix it.
+-#if __MAC_OS_X_VERSION_MIN_REQUIRED <= __MAC_10_14
+-enum {
+-    errAEEventWouldRequireUserConsent = -1744, /* Determining whether this can be sent would require prompting the user, and the AppleEvent was sent with kAEDoNotPromptForPermission */
+-};
+-#endif
+-
+-
+ @implementation AppleEventsManager : NSObject
+ 
+ + (PrivacyConsentState)automationConsentForBundleIdentifier:(NSString *)bundleIdentifier {
+diff --git a/Shifty/Base.lproj/PrefAboutViewController.xib b/Shifty/Base.lproj/PrefAboutViewController.xib
+index 393cb4e..74f4f3b 100644
+--- a/Shifty/Base.lproj/PrefAboutViewController.xib
++++ b/Shifty/Base.lproj/PrefAboutViewController.xib
+@@ -1,8 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
++<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+     <dependencies>
+         <deployment identifier="macosx"/>
+-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
++        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+     </dependencies>
+     <objects>
+@@ -174,18 +174,8 @@
+                 <stackView distribution="fillProportionally" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalCompressionResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1HH-lX-oxw">
+                     <rect key="frame" x="20" y="34" width="260" height="21"/>
+                     <subviews>
+-                        <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dIb-5N-Omh">
+-                            <rect key="frame" x="-6" y="-7" width="175" height="32"/>
+-                            <buttonCell key="cell" type="push" title="Check for Updates..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LHX-7G-HlA">
+-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                <font key="font" metaFont="system"/>
+-                            </buttonCell>
+-                            <connections>
+-                                <action selector="checkUpdateClicked:" target="-2" id="SIv-2y-xy3"/>
+-                            </connections>
+-                        </button>
+                         <button horizontalHuggingPriority="500" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E56-v4-Gla">
+-                            <rect key="frame" x="165" y="-7" width="101" height="32"/>
++                            <rect key="frame" x="-6" y="-7" width="272" height="32"/>
+                             <buttonCell key="cell" type="push" title="Credits..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Qq-tv-01n">
+                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                 <font key="font" metaFont="system"/>
+@@ -195,22 +185,17 @@
+                             </connections>
+                         </button>
+                     </subviews>
+-                    <constraints>
+-                        <constraint firstAttribute="height" secondItem="dIb-5N-Omh" secondAttribute="height" id="GIY-b7-oRR"/>
+-                    </constraints>
+                     <visibilityPriorities>
+                         <integer value="1000"/>
+-                        <integer value="1000"/>
+                     </visibilityPriorities>
+                     <customSpacing>
+                         <real value="3.4028234663852886e+38"/>
+-                        <real value="3.4028234663852886e+38"/>
+                     </customSpacing>
+                 </stackView>
+                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aMY-R4-Ypv">
+                     <rect key="frame" x="68" y="10" width="164" height="14"/>
+                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="© 2017-2019 Nate Thompson" id="yZ7-c6-8tC">
+-                        <font key="font" metaFont="smallSystem"/>
++                        <font key="font" metaFont="controlContent" size="11"/>
+                         <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                     </textFieldCell>
 diff --git a/Shifty/Base.lproj/PrefGeneralViewController.xib b/Shifty/Base.lproj/PrefGeneralViewController.xib
 index 6a4d2b4..1aeb976 100644
 --- a/Shifty/Base.lproj/PrefGeneralViewController.xib
@@ -325,9 +476,36 @@ index 6a4d2b4..1aeb976 100644
              <point key="canvasLocation" x="-86.5" y="-212"/>
          </view>
 diff --git a/Shifty/Base.lproj/Setup.storyboard b/Shifty/Base.lproj/Setup.storyboard
-index df80081..6af0981 100644
+index df80081..55091a2 100644
 --- a/Shifty/Base.lproj/Setup.storyboard
 +++ b/Shifty/Base.lproj/Setup.storyboard
+@@ -67,7 +67,7 @@
+                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="6jJ-c5-oIY">
+                                 <rect key="frame" x="122" y="315" width="232" height="17"/>
+                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Shifty is now running in the menu bar." id="WcY-uu-0Eu">
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                 </textFieldCell>
+@@ -75,7 +75,7 @@
+                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ldh-Qb-ijW">
+                                 <rect key="frame" x="18" y="71" width="315" height="17"/>
+                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Click Next to continue setup. It'll just take a minute." id="J4B-E9-KIZ">
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                 </textFieldCell>
+@@ -87,7 +87,7 @@
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TnF-o1-sgY">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent" base64-UTF8="YES">
+ DQ
+ </string>
 @@ -97,7 +97,7 @@ DQ
                                  </connections>
                              </button>
@@ -337,6 +515,150 @@ index df80081..6af0981 100644
                                  <constraints>
                                      <constraint firstAttribute="width" constant="410" id="kBb-Cu-wf7"/>
                                  </constraints>
+@@ -148,7 +148,7 @@ DQ
+                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="500" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sJ8-k4-SBk">
+                                 <rect key="frame" x="18" y="372" width="439" height="34"/>
+                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Would you like to let Shifty automatically disable Night Shift when you visit certain websites?" id="hcb-Lm-Zmy">
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                 </textFieldCell>
+@@ -168,7 +168,7 @@ DQ
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" title="Yes" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hNr-Ak-j8a">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent" base64-UTF8="YES">
+ DQ
+ </string>
+@@ -181,7 +181,7 @@ DQ
+                                 <rect key="frame" x="288" y="13" width="91" height="32"/>
+                                 <buttonCell key="cell" type="push" title="Not now" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y40-o0-ueU">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                 </buttonCell>
+                                 <connections>
+                                     <action selector="closeButtonClicked:" target="NqW-NI-dEn" id="xEh-sp-RqX"/>
+@@ -194,7 +194,7 @@ DQ
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSLeftFacingTriangleTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yYu-Hy-TQe">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent"></string>
+                                 </buttonCell>
+                                 <connections>
+@@ -207,7 +207,7 @@ DQ
+                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fxw-jc-XI4">
+                                         <rect key="frame" x="-2" y="100" width="165" height="17"/>
+                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Website Shifting supports:" id="bNv-dv-CBp">
+-                                            <font key="font" metaFont="system"/>
++                                            <font key="font" metaFont="label" size="13"/>
+                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                         </textFieldCell>
+@@ -229,7 +229,7 @@ DQ
+                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WWn-Pc-9SO">
+                                                         <rect key="frame" x="26" y="2" width="122" height="17"/>
+                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Safari" id="4ft-mI-wIN">
+-                                                            <font key="font" metaFont="system"/>
++                                                            <font key="font" metaFont="label" size="13"/>
+                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                         </textFieldCell>
+@@ -261,7 +261,7 @@ DQ
+                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MmC-i0-VFp">
+                                                         <rect key="frame" x="26" y="2" width="122" height="17"/>
+                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Chrome" id="shv-ze-VLi">
+-                                                            <font key="font" metaFont="system"/>
++                                                            <font key="font" metaFont="label" size="13"/>
+                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                         </textFieldCell>
+@@ -293,7 +293,7 @@ DQ
+                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p0g-Ne-ZzW">
+                                                         <rect key="frame" x="26" y="2" width="122" height="17"/>
+                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Opera" id="1Y8-bn-63E">
+-                                                            <font key="font" metaFont="system"/>
++                                                            <font key="font" metaFont="label" size="13"/>
+                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                         </textFieldCell>
+@@ -325,7 +325,7 @@ DQ
+                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="df5-Zs-JT5">
+                                                         <rect key="frame" x="26" y="2" width="122" height="17"/>
+                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Vivaldi" id="cXQ-bL-QlF">
+-                                                            <font key="font" metaFont="system"/>
++                                                            <font key="font" metaFont="label" size="13"/>
+                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                         </textFieldCell>
+@@ -424,7 +424,7 @@ DQ
+                                 <rect key="frame" x="263" y="13" width="198" height="32"/>
+                                 <buttonCell key="cell" type="push" title="Open System Preferences" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lqU-rF-E5t">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent" base64-UTF8="YES">
+ DQ
+ </string>
+@@ -440,7 +440,7 @@ DQ
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" title="Skip" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0wv-vs-acj">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent"></string>
+                                 </buttonCell>
+                                 <connections>
+@@ -451,7 +451,7 @@ DQ
+                                 <rect key="frame" x="62" y="13" width="32" height="31"/>
+                                 <buttonCell key="cell" type="round" title="?" bezelStyle="circular" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hnI-7M-qBT">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                 </buttonCell>
+                                 <connections>
+                                     <action selector="accessibilityHelp:" target="a2t-LO-CJe" id="ihi-P6-6NQ"/>
+@@ -464,7 +464,7 @@ DQ
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSGoLeftTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Uyi-J6-pvR">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent"></string>
+                                 </buttonCell>
+                                 <connections>
+@@ -514,7 +514,7 @@ DQ
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" title="Close" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="s21-gu-5OC">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent" base64-UTF8="YES">
+ DQ
+ </string>
+@@ -530,7 +530,7 @@ DQ
+                                 </constraints>
+                                 <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSGoLeftTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dJy-3p-fnG">
+                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+-                                    <font key="font" metaFont="system"/>
++                                    <font key="font" metaFont="label" size="13"/>
+                                     <string key="keyEquivalent"></string>
+                                 </buttonCell>
+                                 <connections>
+@@ -562,7 +562,7 @@ DQ
+                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qrq-NZ-lPw">
+                                                 <rect key="frame" x="134" y="0.0" width="168" height="17"/>
+                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Thanks for installing Shifty." id="E7p-5d-X2C">
+-                                                    <font key="font" metaFont="system"/>
++                                                    <font key="font" metaFont="label" size="13"/>
+                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                 </textFieldCell>
 @@ -589,49 +589,18 @@ DQ
                                      <constraint firstAttribute="trailing" secondItem="8NH-cV-yLc" secondAttribute="trailing" id="wYc-PN-18G"/>
                                  </constraints>
@@ -415,7 +737,7 @@ index 7010b44..2a2e927 100644
  
      private var eventName: String {
 diff --git a/Shifty/Info.plist b/Shifty/Info.plist
-index b35ac9d..2138fed 100644
+index b35ac9d..391b7f4 100644
 --- a/Shifty/Info.plist
 +++ b/Shifty/Info.plist
 @@ -22,20 +22,6 @@
@@ -439,15 +761,39 @@ index b35ac9d..2138fed 100644
  	<key>LSApplicationCategoryType</key>
  	<string>public.app-category.utilities</string>
  	<key>LSHasLocalizedDisplayName</key>
-@@ -53,7 +39,7 @@
+@@ -52,11 +38,5 @@
+ 	<string>MainMenu</string>
  	<key>NSPrincipalClass</key>
  	<string>NSApplication</string>
- 	<key>SUEnableAutomaticChecks</key>
+-	<key>SUEnableAutomaticChecks</key>
 -	<true/>
-+	<false/>
- 	<key>SUFeedURL</key>
- 	<string>https://shifty.natethompson.io/ShiftyAppcast.xml</string>
- 	<key>SUPublicDSAKeyFile</key>
+-	<key>SUFeedURL</key>
+-	<string>https://shifty.natethompson.io/ShiftyAppcast.xml</string>
+-	<key>SUPublicDSAKeyFile</key>
+-	<string>dsa_pub.pem</string>
+ </dict>
+ </plist>
+diff --git a/Shifty/PrefAboutViewController.swift b/Shifty/PrefAboutViewController.swift
+index 577d22c..03d6280 100644
+--- a/Shifty/PrefAboutViewController.swift
++++ b/Shifty/PrefAboutViewController.swift
+@@ -9,8 +9,6 @@ import Cocoa
+ import Sparkle
+ import MASPreferences_Shifty
+ 
+-let ShiftyUpdater = SUUpdater()
+-
+ @objcMembers
+ class PrefAboutViewController: NSViewController, MASPreferencesViewController {
+ 
+@@ -53,7 +51,6 @@ class PrefAboutViewController: NSViewController, MASPreferencesViewController {
+     }
+ 
+     @IBAction func checkUpdateClicked(_ sender: NSButton) {
+-        ShiftyUpdater.checkForUpdates(sender)
+         Event.checkForUpdatesClicked.record()
+     }
+ 
 diff --git a/Shifty/PrefManager.swift b/Shifty/PrefManager.swift
 index 55f4ac1..872a105 100644
 --- a/Shifty/PrefManager.swift
