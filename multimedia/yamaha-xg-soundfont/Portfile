@@ -1,0 +1,31 @@
+PortSystem          1.0
+
+name                yamaha-xg-soundfont
+platforms           darwin freebsd linux
+version             20140604
+supported_archs     noarch
+license             Restricted
+categories          multimedia
+maintainers         udva.re:support openmaintainer
+description         Yamaha XG re-mapped soundfont by ZSF on SF2 forums.
+long_description    ${description}
+homepage            https://www.ronimusic.com/smp_ios_dls_files.htm
+master_sites        http://www.ronimusic.com/sf2/
+distfiles           Yamaha_XG_Sound_Set.sf2
+
+checksums           rmd160  a91f7302cee5f1c440b337f7d4ee8279d079ce6b \
+                    sha256  5501c62c1cbcd805b8669a53808b499b5229aae205fb4e365b7231deeecf41e4 \
+                    size    3853314
+
+use_configure       no
+
+extract {}
+
+build {}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/share/sounds
+    xinstall -d ${destroot}${prefix}/share/sounds/sf2
+    xinstall -m 644 ${distpath}/Yamaha_XG_Sound_Set.sf2 \
+        ${destroot}${prefix}/share/sounds/sf2/yamaha_xg.sf2
+}
