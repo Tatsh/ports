@@ -7,6 +7,8 @@ import re
 import subprocess as sp
 import sys
 
+version_keys = ('CFBundleShortVersionString', 'CFBundleVersion', 'CFBundleGetInfoString')
+
 
 def has_libstdcxx(start: str):
     dirpath: str
@@ -43,10 +45,18 @@ def main():
         print('Info.plist not found', file=sys.stderr)
         return 1
 
-    try:
-        version = re.sub(r'^v', '', pl['CFBundleShortVersionString'])
-    except KeyError:
-        version = 'VERSION'
+    version = 'VERSION'
+    for version_key in version_keys:
+        try:
+            version = re.sub(r'^v', '', pl[version_key])
+            if version:
+                break
+        except KeyError:
+            pass
+
+    # TODO Add handling of LSMinimumSystemVersion
+    # TODO Use SUFeedURL to generate livecheck
+    # TODO If LSApplicationCategoryType is public.app-category.utilities, add sysutils to categories
 
     print('''PortSystem 1.0
 
