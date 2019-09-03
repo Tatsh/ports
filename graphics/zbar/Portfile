@@ -38,3 +38,10 @@ variant ImageMagick description {Add ImageMagick support} {
     configure.args-append --with-imagemagick
     depends_build-append port:ImageMagick
 }
+
+# Patch for ImageMagick 7
+use_autoconf        yes
+patch {
+    reinplace "s|wand/MagickWand\.h|MagickWand/MagickWand.h|g" \
+        ${worksrcpath}/configure.ac ${worksrcpath}/zbarimg/zbarimg.c
+}
