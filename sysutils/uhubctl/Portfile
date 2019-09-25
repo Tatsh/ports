@@ -6,7 +6,7 @@ github.setup        mvp uhubctl e93d1a0
 categories          sysutils
 version             2.0.0_p20190428
 platforms           darwin linux freebsd
-license             MIT
+license             GPL-2
 maintainers         {udva.re:bugs @Tatsh}
 revision            1
 
