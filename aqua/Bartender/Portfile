@@ -1,7 +1,7 @@
 PortSystem          1.0
 
 name                Bartender
-version             3.0.64
+version             3.1.7
 revision            1
 
 categories          aqua
@@ -17,6 +17,10 @@ distfiles           "Bartender 3.zip"
 master_sites        https://www.macbartender.com/Demo/
 dist_subdir         ${name}/${version}_1
 
+checksums           rmd160  6cf97ea817f03ea4aecbbf6eeab67a5fb889b0d7 \
+                    sha256  3eb3629cf4eee818d8395429e5b0fe612268fb6fc7e8a2e9405037989962d45f \
+                    size    6712814
+
 livecheck.type      regex
 livecheck.url       ${homepage}
 livecheck.regex     "^Version\\: (\\d+\\S+)"
@@ -26,10 +30,6 @@ use_zip             yes
 extract.only        "Bartender 3.zip"
 extract.mkdir       yes
 build.cmd           echo
-
-checksums           rmd160  fa4e3fed6fc989d13969b08507056ec35166a3a1 \
-                    sha256  40a65c09f41ff56cd95b247c94ebdeda78748253b86204d0e4617b3f3fd4e261 \
-                    size    6765601
 
 destroot {
     file copy "${worksrcpath}/Bartender 3.app" "${destroot}/${applications_dir}/"
