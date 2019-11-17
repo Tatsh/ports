@@ -2,10 +2,10 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 name                silk-v3-decoder
-set hash            41cede4
+set hash            5251c36
 github.setup        kn007 ${name} ${hash}
 
-version             1.0.2.8
+version             1.0.3.1
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,9 +16,9 @@ categories          multimedia
 use_configure       no
 worksrcdir          ${name}-${hash}/silk
 
-checksums           rmd160  67b704c6b0d6a9fdc78571eaf868f29c8971c29c \
-                    sha256  0473f233bca2f5713bc307b59c09d5c81fc39919c04e97c79c2ef22b10fbef26 \
-                    size    31176522
+checksums           rmd160  74d436025a05f1a9fc39f2407aecaff49b2a7715 \
+                    sha256  b06bffe4874426e2dfbd27de27a6b7dc80499bd5ecd5d90618c74a2410c52e8d \
+                    size    31179113
 
 destroot {
     xinstall -m 755 ${worksrcpath}/decoder ${destroot}${prefix}/bin/silk-v3-decoder
