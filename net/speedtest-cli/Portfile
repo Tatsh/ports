@@ -4,8 +4,8 @@ PortGroup           python 1.0
 
 github.setup        sivel speedtest-cli 2.1.1 v
 
-python.versions     27 34 35 36 37
-python.default_version 37
+python.versions     27 34 35 36 37 38
+python.default_version 38
 
 categories          net
 platforms           darwin linux freebsd
