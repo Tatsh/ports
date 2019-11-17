@@ -1,10 +1,10 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Pitmairen kate-jinja2-highlighting b0e25e0
+github.setup        Pitmairen kate-jinja2-highlighting 8ab9b0d
 
 name                kf5-kate-jinja2-highlighting
-version             20181118
+version             20190428
 categories          kf5 kde
 platforms           darwin linux freebsd
 license             MIT
