@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        regebro tzlocal 2.0.0b1
+github.setup        regebro tzlocal 2.0.0b3
 name                py-${name}
 maintainers         {gmail.com:audvare @Tatsh}
 categories          python
@@ -10,14 +10,17 @@ description         tzinfo object for the local timezone
 long_description    This Python module returns a tzinfo object with the local \
                     timezone information under Unix and Win-32. It requires \
                     pytz, and returns pytz tzinfo objects.
+supported_archs     noarch
 
 platforms           darwin linux freebsd
 license             MIT
 
-python.versions     27 34 35 36 37
+python.versions     27 34 35 36 37 38
+python.default_version  37
 
-checksums           rmd160  accfa50ffdf724794d2d32af95ed0fff14cb8a8f \
-                    sha256  b092eb346ff73205e509232f515952e85d42a14a905ccd85ac1d3cc52990a519
+checksums           rmd160  e4c11166ab736d71b9a482fb0602e1034b1988d6 \
+                    sha256  ce42c6f194b21fc5ffed877176a7de1fbc89bd3ebf6bfc7d9e60bdb0c843c25f \
+                    size    21951
 
 if { $name ne $subport } {
     depends_build-append       port:py${python.version}-setuptools
