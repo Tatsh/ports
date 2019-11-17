@@ -45,7 +45,7 @@ index d02b57a..794c9a7 100644
 @@ -21,7 +21,7 @@ from .__about__ import __version__
  from .compat import basestring
  from .configs import parseConfigFile
- from .constants import AUTH_ERROR, DEFAULT_SYNC_OFFLINE_ACTIVITY
+ from .constants import AUTH_ERROR, DEFAULT_SYNC_OFFLINE_ACTIVITY, SUCCESS
 -from .packages import argparse
 +import argparse
  
