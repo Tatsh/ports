@@ -5,6 +5,12 @@ PortGroup           xcode 1.0
 github.setup        Tatsh mysides 1.0.2 v
 xcode.target        mysides
 xcode.destroot.path ${prefix}/bin
+xcode.build.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
