@@ -2,9 +2,9 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        n64dev cen64 8d2074b
+github.setup        n64dev cen64 05eedd9
 
-version             0.3_p20190221
+version             0.3_p20191103
 platforms           darwin linux freebsd
 license             BSD
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,9 +12,9 @@ description         Cycle-accurate Nintendo 64 emulator.
 long_description    ${description}
 categories          games
 
-checksums           rmd160  8d13b366a386d7f4276835eb502db036e31424b0 \
-                    sha256  f02b10975fedd631620b22aa723a58a7a53cbe9cd0b4ea5651b537f7e38e2409 \
-                    size    1945728
+checksums           rmd160  a6d35fb22f350a7f96f092fbc0dfefa9ef638cc9 \
+                    sha256  a9f4e7cf62beefa1bae724dc241ce2b691279a24d0befbcc0f7c5e21587f6bcd \
+                    size    1949213
 
 depends_lib-append  port:libiconv
 
