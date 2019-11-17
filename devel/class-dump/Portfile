@@ -26,6 +26,12 @@ livecheck.version   3.5
 xcode.target        class-dump deprotect
 xcode.configuration Release
 xcode.destroot.path ${prefix}/bin
+xcode.build.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
 
 checksums           rmd160  54fd5833f97deb49f8bb4bb8398525d04dac3c6c \
                     sha256  3781f40e9a274778a79f91c3912a88742cc46c1a6451459176f0c42fdbe382c8 \
