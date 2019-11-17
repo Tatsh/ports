@@ -1,12 +1,18 @@
 PortSystem          1.0
-PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        Tunnelblick Tunnelblick 3.7.8 v
+set version 3.1.8
+master_sites        https://github.com/Tunnelblick/Tunnelblick/archive/
+distfiles           v${version}.tar.gz
 
 name                tunnelblick
-version             3.7.8
+version             ${version}
 categories          aqua net
+maintainers         {gmail.com:audvare @Tatsh}
+description         Tool to manage OpenVPN settings.
+long_description    ${description}
+homepage            https://tunnelblick.net/
+license             GPL-2
 
 depends_build-append    port:automake \
                         port:autoconf \
@@ -15,9 +21,9 @@ depends_run             port:openvpn2
 
 worksrcdir          ${worksrcpath}/tunnelblick
 
-checksums           rmd160  6b86e8059026b798f9d1b68b73368579bbbdfd4a \
-                    sha256  ab7fbb4ce90049905b7e31f6e25044018bacac8149ebd22ced8f2787fc677362 \
-                    size    60051244
+checksums           rmd160  b9d6705f2f9df69b6b7834d5dfb97642dbadef0b \
+                    sha256  59e2368fb09674ba8d863c8552e2b0fbeab03e7fbd6b2a7a3ff0c4f7819137aa \
+                    size    60764582
 
 xcode.target        Tunnelblick
 xcode.configuration Release
