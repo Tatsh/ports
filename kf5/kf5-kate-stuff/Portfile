@@ -1,17 +1,16 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        zaufi kate-stuff 7dabd82
+github.setup        zaufi kate-stuff c2d89a8
 
 name                kf5-kate-stuff
-version             20190213
+version             20191111
 categories          kf5 kde
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         Improved Kate syntax files.
 long_description    ${description}
-revision            1
 
 # These are in the macstrop repository
 depends_run-append port:kf5-kate
@@ -19,9 +18,9 @@ depends_run-append port:kf5-kate
 use_configure       no
 build.cmd           echo
 
-checksums           rmd160  2c44262c45d4d5f47ea83c80a54ecee8146f9bb9 \
-                    sha256  d0b0ec5a2cde1b700deddf7e67509d7bb615cd23d71316558f460ddd5842742b \
-                    size    158395
+checksums           rmd160  c281247d539f8d8bb47ecfacbbfb2b2ade5e5f22 \
+                    sha256  7d4e51a5bdff788a8d4f2a90def69679edfc61a50e8fb7bb6415089b2787185e \
+                    size    161957
 
 destroot {
     xinstall -m 755 -d ${destroot}${prefix}/share/org.kde.syntax-highlighting/syntax
