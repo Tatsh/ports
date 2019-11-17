@@ -3,11 +3,11 @@ PortGroup           github 1.0
 PortGroup           cmake 1.1
 PortGroup           qt5 1.0
 
-github.setup        obsproject obs-studio 23.1.0-rc1
+github.setup        obsproject obs-studio 24.0.3
 
-checksums           rmd160  f24092e536570cdcf4c43ba423e0bc9697218cea \
-                    sha256  8554f64b9b2d89b33cce729227bea349c2b09dbc73114db37238c8620e65038a \
-                    size    6169929
+checksums           rmd160  8f37c7e8daab3c16a618ead081486328a36c0fb4 \
+                    sha256  c29b20b0bd2635736ebba2dfd4262a644423a0e146c946d5445a62788e1c1611 \
+                    size    6284524
 
 categories          multimedia audio net aqua
 description         Free and open source software for live streaming and screen recording.
