@@ -2,20 +2,20 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-set git_version     swift-DEVELOPMENT-SNAPSHOT-2019-08-09-a
+set git_version     swift-5.1-DEVELOPMENT-SNAPSHOT-2019-11-15-a
 github.setup        apple swift-llbuild ${git_version}
 
 name                swift-llbuild
-version             20190809a
+version             20191115a
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 description         A low-level build system, used by Xcode and the Swift Package Manager.
 long_description    ${description}
 categories          devel
 
-checksums           rmd160  6c477066e451b46ff4e3d867d51fc09a47617e55 \
-                    sha256  46a9878b8db297be9af145cbd241f18760b1691c09df3a2900049e2da021148c \
-                    size    5392490
+checksums           rmd160  e4b466c3e43f08a46b6f131a00008b49138834f7 \
+                    sha256  dbb296f8a59e631e8aca48f10f9e13960e605c82b02bd23420a8b21c4497fc0b \
+                    size    5381726
 
 xcode.target        libllbuild "llbuild Tool" swift-build-tool
 xcode.configuration Release
