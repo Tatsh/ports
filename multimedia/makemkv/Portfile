@@ -3,6 +3,7 @@ PortSystem          1.0
 
 name                makemkv
 version             1.14.5
+revision            1
 
 categories          multimedia aqua
 license             Restrictive
@@ -47,6 +48,10 @@ build {}
 
 destroot {
     copy ${worksrcpath}/MakeMKV.app ${destroot}${applications_dir}
+    set apps {makemkv makemkvcon mmccextr}
+    foreach name $apps {
+      ln -s ${applications_dir}/MakeMKV.app/Contents/MacOS/${name} ${destroot}${prefix}/bin/${name}
+    }
 }
 
 # Mounts a disk image.
