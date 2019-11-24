@@ -1,0 +1,13 @@
+diff --git b/Xcode/Info.plist.in.xml a/Xcode/Info.plist.in.xml
+index 4b911aa973..34d6ffee4d 100644
+--- b/Xcode/Info.plist.in.xml
++++ a/Xcode/Info.plist.in.xml
+@@ -55,8 +55,6 @@
+     <string>Copyright 2001-2015</string>
+     <key>NSPrincipalClass</key>
+     <string>SMApplication</string>
+-    <key>NSHighResolutionCapable</key>
+-    <false />
+   </dict>
+ </plist>
+ 

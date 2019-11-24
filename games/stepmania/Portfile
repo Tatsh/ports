@@ -17,7 +17,10 @@ checksums           rmd160  a2950408283ccf6ddbe5f8ca39fdb5a35d61197b \
                     sha256  01bd4fdbaf5ea7e638b7b0206d6b2e396e8e063daaf43e262949b51648d55fda \
                     size    186514195
 
-patchfiles          noexcept.patch
+patchfiles          noexcept.patch \
+                    glew-link.patch \
+                    catalina-rev.patch \
+                    catalina2.patch
 patch.pre_args      -p1 -R
 
 depends_build-append port:yasm
