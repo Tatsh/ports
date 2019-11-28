@@ -3,7 +3,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Commandant
-version             0.15.0
+version             0.17.0
 github.setup        Carthage ${name} ${version}
 
 license             MIT
@@ -14,14 +14,14 @@ categories          devel
 
 master_sites        ${github.homepage}/tarball/${git.branch}:commandant \
                     https://github.com/jspahrsummers/xcconfigs/tarball/0.9:xcconfigs
-worksrcdir          Carthage-${name}-db12a6b
+worksrcdir          Carthage-${name}-ab68611
 distfiles           ${name}-${version}.tar.gz:commandant \
                     jspahrsummers-xcconfigs-0.9.tar.gz:xcconfigs
 
-checksums           Commandant-0.15.0.tar.gz \
-                    rmd160  9a0c96cb3b851a4e8da25e1a199f9eb920365d05 \
-                    sha256  e8ca762b0fecdb2dfc38efa3c493845d82ddf0778c3841519f3a850be0798c9f \
-                    size    23178 \
+checksums           Commandant-0.17.0.tar.gz \
+                    rmd160  50096d3dc752a11e9f6d88873074ec07ed732d7d \
+                    sha256  53bf7e77301e2a5f48cb857119cd8d3f59d4824d2959e61a9d88bfbd87f6df37 \
+                    size    23316 \
                     jspahrsummers-xcconfigs-0.9.tar.gz \
                     rmd160  3a10683664721d6408556d7e751c0cce41c70255 \
                     sha256  f73609606b3bd9d60f980e53380bf7856e22467f0bebae7af50186f9016c41e3 \
@@ -36,15 +36,12 @@ xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 
-depends_lib         port:Result
-
-patchfiles          use-system-result.patch
-patch.pre_args      -p1
+set gh_hash d78854b
 
 pre-configure {
-    file copy "${workpath}/jspahrsummers-xcconfigs-d78854b/Base" \
+    file copy "${workpath}/jspahrsummers-xcconfigs-${gh_hash}/Base" \
         "${worksrcpath}/Carthage/Checkouts/xcconfigs/Base"
-    file copy "${workpath}/jspahrsummers-xcconfigs-d78854b/Mac OS X" \
+    file copy "${workpath}/jspahrsummers-xcconfigs-${gh_hash}/Mac OS X" \
         "${worksrcpath}/Carthage/Checkouts/xcconfigs/Mac OS X"
 }
 
