@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-github.setup        antitypical Result 4.1.0
+github.setup        antitypical Result 5.0.0
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -10,9 +10,9 @@ description         Swift type modelling the success/failure of arbitrary operat
 long_description    ${description}
 categories          devel
 
-checksums           rmd160  d58ca7bf2f8822f02ee2b5fb4175c16962675eef \
-                    sha256  fbd4091ce0ce01a76c7ee1b9a4b6f909698cec8668f3555b50457cc2209bc486 \
-                    size    17163
+checksums           rmd160  3d186d333e3bb90820798c632312ea4e7ed4ecdd \
+                    sha256  d43fddd37c2f52c2ddd32eab8fba574aa88cd37ce75b672c4c98d72d9c130cd6 \
+                    size    17408
 
 xcode.target        Result-Mac
 xcode.configuration Release
