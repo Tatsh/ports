@@ -8,7 +8,7 @@ Remove -O2 from forced CXXFLAGS.
  WXCONFIG ?= wx-config
  HOST=
 -WXCXXFLAGS= `$(WXCONFIG) --cxxflags` -Iudis86 -Imhash/include -MMD -fopenmp -Wall -O2
-+WXCXXFLAGS= `$(WXCONFIG) --cxxflags` -MMD -fopenmp -Wall
++WXCXXFLAGS= `$(WXCONFIG) --cxxflags` -MMD -fopenmp=libomp -Wall
  WXLDFLAGS = `$(WXCONFIG) --libs` `$(WXCONFIG) --libs aui` `$(WXCONFIG) --libs core`
  WXCXXFLAGS += -fopenmp
 -LDFLAGS += -lgomp

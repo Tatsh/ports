@@ -1,5 +1,6 @@
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           wxWidgets 1.0
 
 github.setup        EUA wxHexEditor 0.24 v
 
@@ -15,13 +16,27 @@ checksums           rmd160  6a5ab69697e149e1ac0d093694bf83a63cfd1c80 \
                     sha256  9ef6c3b073ecc8456bdf12ae9f83a8ef865fae2e2d6d804d1afc0d2077a88e24 \
                     size    1699487
 
-patchfiles          syslibs.patch
+patchfiles \
+    syslibs.patch \
+    no-libs.patch \
+    fopenmp.patch \
+    syntax-fixes.patch
 patch.pre_args      -p1
 
-depends_lib         port:wxgtk-3.0 \
+wxWidgets.use       wxWidgets-3.1
+depends_lib         port:${wxWidgets.port} \
+                    port:libomp \
                     port:udis86 \
-                    port:mhash
+                    port:mhash \
+                    port:clang-9.0
+use_configure       no
+
+build.post_args \
+    WXCONFIG=${wxWidgets.wxconfig} \
+    PREFIX=${destroot}${prefix} \
+    CXX="clang++ -D_Bool=bool -std=c++11" \
+    mac
 
 destroot {
-    file copy wxHexEditor.app "${destroot}/${applications_dir}"
+    file copy "${worksrcpath}/wxHexEditor.app" "${destroot}/${applications_dir}"
 }

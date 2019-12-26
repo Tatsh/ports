@@ -1,0 +1,13 @@
+--- a/Makefile	2019-12-26 00:23:29.000000000 -0500
++++ b/Makefile	2019-12-26 00:24:31.000000000 -0500
+@@ -2,8 +2,8 @@
+ HOST=
+ WXCXXFLAGS= `$(WXCONFIG) --cxxflags` -MMD -fopenmp=libomp -Wall
+ WXLDFLAGS = `$(WXCONFIG) --libs` `$(WXCONFIG) --libs aui` `$(WXCONFIG) --libs core`
+-WXCXXFLAGS += -fopenmp
+-LDFLAGS += -fopenmp -lgomp
++WXCXXFLAGS += -fopenmp=libomp
++LDFLAGS += -fopenmp=libomp
+ #add this ldflags for WinConsole  "-Wl,--subsystem,console -mconsole" for win-debug
+ #LDFLAGS += -Wl,--subsystem,console -mconsole
+ RC = `$(WXCONFIG) --rescomp`
