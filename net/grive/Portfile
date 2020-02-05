@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        vitalif grive2 f039e38
+github.setup        vitalif grive2 a3cce71
 
 name                grive
 version             0.5.1-dev
@@ -12,7 +12,7 @@ maintainers         {gmail.com:audvare @Tatsh}
 categories          net
 description         Google Drive client fork.
 long_description    ${description}
-revision            2
+revision            3
 
 depends_lib         port:yajl \
                     port:curl \
@@ -20,9 +20,9 @@ depends_lib         port:yajl \
                     port:boost \
                     port:json-c
 
-checksums           rmd160  4ab2d9f91873b59a9a52e6bf8a94a532aec28700 \
-                    sha256  e2df00c888b4368caa3cf181b55dd620f619559323c33712de2f0af2edd5168f \
-                    size    169696
+checksums           rmd160  cc9e0f4d9fc598cb7a17b2a01fd419d50ca03c7b \
+                    sha256  7920a5d9dc73834a3cf3785a962cc7cd04eeca29314290485df5103bbf1e05cf \
+                    size    171117
 
 patchfiles          mac.patch
 patch.pre_args      -p1
