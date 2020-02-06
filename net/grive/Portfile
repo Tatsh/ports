@@ -2,27 +2,23 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        vitalif grive2 a3cce71
+github.setup        vitalif grive2 ffb744a
 
 name                grive
-version             0.5.1-dev
+version             0.5.2-dev
 platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
 categories          net
 description         Google Drive client fork.
 long_description    ${description}
-revision            3
 
 depends_lib         port:yajl \
                     port:curl \
                     port:libgcrypt \
                     port:boost \
-                    port:json-c
+                    port:expat
 
-checksums           rmd160  cc9e0f4d9fc598cb7a17b2a01fd419d50ca03c7b \
-                    sha256  7920a5d9dc73834a3cf3785a962cc7cd04eeca29314290485df5103bbf1e05cf \
-                    size    171117
-
-patchfiles          mac.patch
-patch.pre_args      -p1
+checksums           rmd160  30d3b848ca340a64b08392e7a2a576d9760c4821 \
+                    sha256  d987f223d6b121ea8fb199900704a07b21b1dfde9b9b08de322ad7332d052ed9 \
+                    size    170395
