@@ -1,0 +1,23 @@
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-typing_extensions
+version             3.7.4.1
+license             PSF
+platforms           darwin linux freebsd
+supported_archs     noarch
+maintainers         {@Tatsh gmail.com:audvare}
+description         Backported and experimental type hints for Python.
+long_description    ${description}
+
+python.versions     35 36 37 38
+
+homepage            https://pypi.python.org/pypi/${python.rootname}/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  36c4d4e38dcaeb7d2d822a0463b92c44f2e4266b \
+                    sha256  091ecc894d5e908ac75209f10d5b4f118fbdb2eb1ede6a63544054bb1edb41f2 \
+                    size    36357
+
+livecheck.type      pypi
