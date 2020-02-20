@@ -1,0 +1,31 @@
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-requests-futures
+version             1.0.0
+license             Apache-2
+platforms           darwin linux freebsd
+supported_archs     noarch
+maintainers         {@Tatsh gmail.com:audvare}
+description         Asynchronous Python HTTP requests for humans.
+long_description    ${description}
+
+python.versions     27 33 34 35 36 37 38
+
+homepage            https://pypi.python.org/pypi/${python.rootname}/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+
+livecheck.type      pypi
+
+checksums           rmd160  4531ab2bbab75a8ba0e88a77e144391e0fa75b8e \
+                    sha256  35547502bf1958044716a03a2f47092a89efe8f9789ab0c4c528d9c9c30bc148 \
+                    size    10897
+
+if {${name} ne ${subport}} {
+    depends_lib-append port:py${python.version}-requests
+    if {${python.version} eq 27} {
+        depends_lib-append port:py${python.version}-futures
+    }
+    livecheck.type none
+}
