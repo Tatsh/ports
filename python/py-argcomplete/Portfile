@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           python 1.0
+PortGroup           select 1.0
 
 name                py-argcomplete
 version             1.11.1
@@ -23,6 +24,17 @@ checksums           rmd160  fb89dbf0238ace2e8ce231368eb6fc32bf2e061b \
                     size    50773
 
 if {${name} ne ${subport}} {
-    depends_build   port:py${python.version}-setuptools
+    depends_lib-append   port:py${python.version}-setuptools
+    depends_run-append   port:argcomplete_select
+
+    select.group argcomplete
+    select.file ${filespath}/py${python.version}-argcomplete
+
+    notes "
+To make the Python ${python.branch} version of Pygments the one that is run when\
+you execute the commands without a version suffix, e.g. 'activate-global-python-argcomplete', run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
     livecheck.type  none
 }
