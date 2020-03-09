@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        Tatsh xirvik-tools 0.3.0 v
+github.setup        Tatsh xirvik-tools 0.3.1 v
 
 categories          net
 platforms           darwin linux freebsd
@@ -12,12 +12,12 @@ long_description    Xirvik seedbox utilities.
 license             MIT
 supported_archs     noarch
 
-python.versions             36 37 38
-python.default_version      37
+checksums           rmd160  68748d2747c5a676785e652d5d8cd8ff4d4eac5b \
+                    sha256  cc3658cbcde99a43a9fc9e6f0be76f70fce138b55013f5b03104a557271482a6 \
+                    size    34455
 
-checksums           rmd160  fac4f17a1eb2d737a29275a4082fc99320204311 \
-                    sha256  d83228aeba7eddfd67fc5622b3f47e356ea48baba13123894ddee1d31f3e0845 \
-                    size    34613
+python.versions             36 37
+python.default_version      37
 
 depends_lib-append port:py${python.version}-benc \
                    port:py${python.version}-unidecode \
