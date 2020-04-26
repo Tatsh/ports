@@ -1,12 +1,11 @@
 {
-  "[python]": {
-    "editor.rulers": [
-      79
-    ]
+  "[tcl]": {
+    "editor.tabSize": 4
   },
-  "editor.rulers": [
-    99
-  ],
+  "[python]": {
+    "editor.rulers": [79]
+  },
+  "editor.rulers": [99],
   "files.associations": {
     "Portfile": "tcl",
     "cargo2port": "tcl"
@@ -18,5 +17,41 @@
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
   "python.linting.pylintEnabled": false,
-  "python.testing.pytestEnabled": false
+  "python.testing.pytestEnabled": false,
+  "cSpell.ignoreWords": [
+    "asyncio",
+    "br",
+    "br'authority",
+    "br'mac",
+    "def",
+    "filelist",
+    "freetype",
+    "harfbuzz",
+    "isysroot",
+    "lbsm",
+    "libc",
+    "libopus",
+    "libpng",
+    "libskia",
+    "libvpx",
+    "libwebp",
+    "libxml",
+    "libxslt",
+    "ljpeg",
+    "llvm",
+    "lpmenergy",
+    "lpmsample",
+    "lresolv",
+    "mmacosx",
+    "openh",
+    "png",
+    "sdks",
+    "stdlib",
+    "strippath",
+    "struct",
+    "toolchain",
+    "wcrl",
+    "xcode",
+    "xctoolchain"
+  ]
 }
