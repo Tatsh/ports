@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                chromium
-version             81.0.4044.122
+version             83.0.4103.23
 categories          www
 platforms           darwin
 license             BSD
@@ -18,10 +18,10 @@ distfiles           ${name}-${version}.tar.xz:chromium \
 supported_archs     x86_64
 use_xz              yes:chromium no:gtb
 
-checksums           chromium-81.0.4044.122.tar.xz \
-                    rmd160  c5583aa89bbf9694e1bb89095a5dd1977773a8bd \
-                    sha256  0f9ffd30d769e25e091a87b9dda4d688c19bf85b1e1fcb3b89eaae5ff780182a \
-                    size    786010072 \
+checksums           chromium-83.0.4103.23.tar.xz \
+                    rmd160  bbb1d416897153b4d371d4f96de34d7089069213 \
+                    sha256  929a3d8c5da5066c496ddcc6147aa3c528976a61dca65c9010e625733fa46ee8 \
+                    size    802566932 \
                     v2.2.2.tar.gz \
                     rmd160  645b3e1b4ed1d67856692433ccb2ff2c838db463 \
                     sha256  358f3970bcfa16e6cf0ae7d1b4a52104cd9f1348953a1d105b62ae699a602ec0 \
@@ -50,21 +50,24 @@ depends_lib \
     port:snappy \
     port:zlib
 # See README.md
-use_xcode yes
-depends_build-append port:clang-9.0
+use_xcode               yes
+depends_build-append    port:clang-9.0
 
 # These are my keys. You should get your own and set the appropriate
 # environment variables.
 # https://www.chromium.org/developers/how-tos/api-keys
-set api_key AIzaSyB_hqiMB2a3F0bS6zeKO6kLL9vDdV_G5v8
-set client_id 764736492930-49m2gmgatl2basnvvc8887or3ufn5nvs.apps.googleusercontent.com
-set secret kdoszTi98YJNh3vT5pUW1b_Y
+set api_key     AIzaSyB_hqiMB2a3F0bS6zeKO6kLL9vDdV_G5v8
+set client_id   764736492930-49m2gmgatl2basnvvc8887or3ufn5nvs.apps.googleusercontent.com
+set secret      kdoszTi98YJNh3vT5pUW1b_Y
 
-configure.env-append PATH=${frameworks_dir}/Python.framework/Versions/2.7/bin:$env(PATH)
-configure.python    ${prefix}/bin/python2.7
-configure.cmd       gn
-configure.pre_args  gen
-configure.post_args --args=\'clang_use_chrome_plugins=false \
+set python_bin  ${frameworks_dir}/Python.framework/Versions/2.7/bin
+set python      ${python_bin}/python
+
+configure.env-append    PATH=${python_bin}:$env(PATH)
+configure.python        ${prefix}/bin/python2.7
+configure.cmd           gn
+configure.pre_args      gen
+configure.post_args     --args=\'clang_use_chrome_plugins=false \
     closure_compile=true \
     enable_hangout_services_extension=true \
     enable_nacl=false \
@@ -321,8 +324,7 @@ set gn_system_libraries {
 }
 
 patch {
-    exec ${frameworks_dir}/Python.framework/Versions/2.7/bin/python \
-        ${worksrcpath}/build/linux/unbundle/remove_bundled_libraries.py \
+    exec ${python} ${worksrcpath}/build/linux/unbundle/remove_bundled_libraries.py \
         {*}${keeplibs} --do-remove
     file mkdir ${worksrcpath}/third_party/llvm-build/Release+Asserts/bin
     ln -s ${prefix}/bin/clang \
@@ -336,7 +338,7 @@ patch {
         ${worksrcpath}/third_party/node/mac/node-darwin-x64/bin/node
     move ${workpath}/google-toolbox-for-mac-${gtb_version} \
         ${worksrcpath}/third_party/google_toolbox_for_mac/src
-    exec python ${worksrcpath}/build/linux/unbundle/replace_gn_files.py \
+    exec ${python} ${worksrcpath}/build/linux/unbundle/replace_gn_files.py \
         --system-libraries {*}${gn_system_libraries}
 }
 
