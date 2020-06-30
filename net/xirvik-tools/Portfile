@@ -11,13 +11,14 @@ description         Xirvik seedbox utilities.
 long_description    Xirvik seedbox utilities.
 license             MIT
 supported_archs     noarch
+revision            1
 
 checksums           rmd160  68748d2747c5a676785e652d5d8cd8ff4d4eac5b \
                     sha256  cc3658cbcde99a43a9fc9e6f0be76f70fce138b55013f5b03104a557271482a6 \
                     size    34455
 
-python.versions             36 37
-python.default_version      37
+python.versions             36 37 38
+python.default_version      38
 
 depends_lib-append port:py${python.version}-benc \
                    port:py${python.version}-unidecode \
