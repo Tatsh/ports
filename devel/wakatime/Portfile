@@ -7,9 +7,10 @@ platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
 categories          devel net python
+revision            1
 
 python.versions         27 34 35 36 37 38
-python.default_version  37
+python.default_version  38
 
 maintainers         {gmail.com:audvare @Tatsh}
 
