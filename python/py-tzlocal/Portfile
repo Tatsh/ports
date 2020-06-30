@@ -18,9 +18,9 @@ license             MIT
 python.versions     27 34 35 36 37 38
 python.default_version  37
 
-checksums           rmd160  e4c11166ab736d71b9a482fb0602e1034b1988d6 \
-                    sha256  ce42c6f194b21fc5ffed877176a7de1fbc89bd3ebf6bfc7d9e60bdb0c843c25f \
-                    size    21951
+checksums           rmd160  86bd563edd43d0f0a3b62d041f2c343c8d449e99 \
+                    sha256  8afc8c5b78570bf9a05be75884ed9d98c5cdc00028f5789524d339fd22bf744a \
+                    size    18199
 
 if { $name ne $subport } {
     depends_build-append       port:py${python.version}-setuptools
