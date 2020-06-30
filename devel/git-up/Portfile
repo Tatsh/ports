@@ -8,10 +8,10 @@ platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
 categories          devel python
-revision            1
+revision            2
 
 python.versions     27 34 35 36 37
-python.default_version  37
+python.default_version  38
 
 maintainers         {gmail.com:audvare @Tatsh}
 
