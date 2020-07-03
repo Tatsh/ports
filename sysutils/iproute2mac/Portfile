@@ -2,10 +2,10 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        brona iproute2mac 1.2.2 v
+github.setup        brona iproute2mac 1.2.3 v
 
 name                iproute2mac
-version             1.2.2
+version             1.2.3
 platforms           macosx
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -14,17 +14,20 @@ long_description    CLI wrapper for basic network utilities on Mac OS X inspired
                     Linux systems - ip command.
 categories          sysutils
 
-checksums           rmd160  7025735946d7f15103a69dfb96e5128f3933328e \
-                    sha256  70b71cb148f187d941cec18a5dc263879614577f6c8eaec1f62276993ed5595f \
-                    size    7509
+checksums           rmd160  579c2736b9270b8a1f6010b2f25372cb74349bcb \
+                    sha256  9cb871afd060924254d5ceae1c29e1868ea784f806a1933bcdafd41ec1a7681c \
+                    size    7835
 
-python.versions         27
-python.default_version  27
+python.versions         37 38
+python.default_version  38
 
 build.cmd               echo
 
+patchfiles              33.patch
+patch.pre_args          -p1
+
 post-patch {
-    reinplace "1s|.*|#!/usr/bin/env python2.7|" ${worksrcpath}/src/ip.py
+    reinplace "1s|.*|#!/usr/bin/env python3|" ${worksrcpath}/src/ip.py
 }
 
 destroot {
