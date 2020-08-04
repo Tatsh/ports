@@ -1,0 +1,550 @@
+From 1ec7d119e2b4e81c291fcab8d6cfab71c5f14752 Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Mon, 17 Feb 2020 03:22:49 -0500
+Subject: [PATCH 1/2] NSURLSession-based HTTP agent
+
+---
+ .gitignore                             |   1 +
+ grive/src/main.cc                      |  44 +++++---
+ libgrive/CMakeLists.txt                |  34 ++++--
+ libgrive/src/http/NSURLSessionAgent.hh |  69 ++++++++++++
+ libgrive/src/http/NSURLSessionAgent.mm | 147 +++++++++++++++++++++++++
+ 5 files changed, 266 insertions(+), 29 deletions(-)
+ create mode 100644 libgrive/src/http/NSURLSessionAgent.hh
+ create mode 100644 libgrive/src/http/NSURLSessionAgent.mm
+
+diff --git a/.gitignore b/.gitignore
+index b33b2e2..d0f4972 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -14,6 +14,7 @@ bgrive/bgrive
+ grive/grive
+ libgrive/btest
+ *.cmake
++.vscode/
+ 
+ debian/debhelper-build-stamp
+ debian/files
+diff --git a/grive/src/main.cc b/grive/src/main.cc
+index 54d5560..a3633bb 100644
+--- a/grive/src/main.cc
++++ b/grive/src/main.cc
+@@ -23,7 +23,11 @@
+ #include "base/Drive.hh"
+ #include "drive2/Syncer2.hh"
+ 
++#ifdef __APPLE__
++#include "http/NSURLSessionAgent.hh"
++#else
+ #include "http/CurlAgent.hh"
++#endif
+ #include "protocol/AuthAgent.hh"
+ #include "protocol/OAuth2.hh"
+ #include "json/Val.hh"
+@@ -80,19 +84,19 @@ void InitLog( const po::variables_map& vm )
+ 		file_log->Enable( log::warning ) ;
+ 		file_log->Enable( log::error ) ;
+ 		file_log->Enable( log::critical ) ;
+-		
++
+ 		// log grive version to log file
+ 		file_log->Log( log::Fmt("grive version " VERSION " " __DATE__ " " __TIME__), log::verbose ) ;
+ 		file_log->Log( log::Fmt("current time: %1%") % DateTime::Now(), log::verbose ) ;
+-		
++
+ 		comp_log->Add( file_log ) ;
+ 	}
+-	
++
+ 	if ( vm.count( "verbose" ) )
+ 	{
+ 		console_log->Enable( log::verbose ) ;
+ 	}
+-	
++
+ 	if ( vm.count( "debug" ) )
+ 	{
+ 		console_log->Enable( log::verbose ) ;
+@@ -104,7 +108,7 @@ void InitLog( const po::variables_map& vm )
+ int Main( int argc, char **argv )
+ {
+ 	InitGCrypt() ;
+-	
++
+ 	// construct the program options
+ 	po::options_description desc( "Grive options" );
+ 	desc.add_options()
+@@ -131,7 +135,7 @@ int Main( int argc, char **argv )
+ 		( "download-speed,D", po::value<unsigned>(), "Limit download speed in kbytes per second" )
+ 		( "progress-bar,P", "Enable progress bar for upload/download of files")
+ 	;
+-	
++
+ 	po::variables_map vm;
+ 	try
+ 	{
+@@ -143,7 +147,7 @@ int Main( int argc, char **argv )
+ 		return -1;
+ 	}
+ 	po::notify( vm );
+-	
++
+ 	// simple commands that doesn't require log or config
+ 	if ( vm.count("help") )
+ 	{
+@@ -159,12 +163,16 @@ int Main( int argc, char **argv )
+ 
+ 	// initialize logging
+ 	InitLog( vm ) ;
+-	
++
+ 	Config config( vm ) ;
+-	
++
+ 	Log( "config file name %1%", config.Filename(), log::verbose );
+ 
++#ifdef __APPLE__
++	std::unique_ptr<http::Agent> http( new http::NSURLSessionAgent );
++#else
+ 	std::unique_ptr<http::Agent> http( new http::CurlAgent );
++#endif
+ 	if ( vm.count( "log-http" ) )
+ 		http->SetLog( new http::ResponseLog( vm["log-http"].as<std::string>(), ".txt" ) );
+ 
+@@ -185,34 +193,34 @@ int Main( int argc, char **argv )
+                         : default_secret ;
+ 
+ 		OAuth2 token( http.get(), id, secret ) ;
+-		
++
+ 		if ( vm.count("print-url") )
+ 		{
+ 			std::cout <<  token.MakeAuthURL() << std::endl ;
+ 			return 0 ;
+ 		}
+-		
++
+ 		std::cout
+ 			<< "-----------------------\n"
+ 			<< "Please go to this URL and get an authentication code:\n\n"
+ 			<< token.MakeAuthURL()
+ 			<< std::endl ;
+-		
++
+ 		std::cout
+ 			<< "\n-----------------------\n"
+ 			<< "Please input the authentication code here: " << std::endl ;
+ 		std::string code ;
+ 		std::cin >> code ;
+-		
++
+ 		token.Auth( code ) ;
+-		
++
+ 		// save to config
+ 		config.Set( "id", Val( id ) ) ;
+ 		config.Set( "secret", Val( secret ) ) ;
+ 		config.Set( "refresh_token", Val( token.RefreshToken() ) ) ;
+ 		config.Save() ;
+ 	}
+-	
++
+ 	std::string refresh_token ;
+ 	std::string id ;
+ 	std::string secret ;
+@@ -228,10 +236,10 @@ int Main( int argc, char **argv )
+ 			"Please run grive with the \"-a\" option if this is the "
+ 			"first time you're accessing your Google Drive!",
+ 			log::critical ) ;
+-		
++
+ 		return -1;
+ 	}
+-	
++
+ 	OAuth2 token( http.get(), refresh_token, id, secret ) ;
+ 	AuthAgent agent( token, http.get() ) ;
+ 	v2::Syncer2 syncer( &agent );
+@@ -257,7 +265,7 @@ int Main( int argc, char **argv )
+ 	}
+ 	else
+ 		drive.DryRun() ;
+-		
++
+ 	config.Save() ;
+ 	Log( "Finished!", log::info ) ;
+ 	return 0 ;
+diff --git a/libgrive/CMakeLists.txt b/libgrive/CMakeLists.txt
+index 63b2a50..5aa0e49 100644
+--- a/libgrive/CMakeLists.txt
++++ b/libgrive/CMakeLists.txt
+@@ -3,13 +3,19 @@ project(libgrive)
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+ 
+ find_package(LibGcrypt REQUIRED)
+-find_package(CURL REQUIRED)
++if (NOT APPLE)
++    find_package(CURL REQUIRED)
++endif(NOT APPLE)
+ find_package(Backtrace)
+ find_package(Boost 1.40.0 COMPONENTS program_options filesystem unit_test_framework regex system REQUIRED)
+ find_package(BFD)
+ find_package(CppUnit)
+ find_package(Iberty)
+ 
++if (APPLE)
++	find_library(MAC_FRAME_FOUNDATION Foundation ${CMAKE_SYSTEM_FRAMEWORK_PATH} REQUIRED)
++endif()
++
+ find_package(PkgConfig)
+ pkg_check_modules(YAJL REQUIRED yajl)
+ 
+@@ -27,13 +33,13 @@ if ( BFD_FOUND AND Backtrace_FOUND )
+ 		src/bfd/*.cc
+ 	)
+ 	add_definitions( -DHAVE_BFD )
+-	
++
+ endif ( BFD_FOUND AND Backtrace_FOUND )
+ 
+ if ( IBERTY_FOUND )
+ 	set( OPT_LIBS	${OPT_LIBS}	${IBERTY_LIBRARY} )
+ else ( IBERTY_FOUND )
+-  set( IBERTY_LIBRARY "" )
++	set( IBERTY_LIBRARY "" )
+ endif ( IBERTY_FOUND )
+ 
+ include_directories(
+@@ -45,15 +51,15 @@ include_directories(
+ )
+ 
+ file (GLOB PROTOCOL_HEADERS
+-    ${libgrive_SOURCE_DIR}/src/protocol/*.hh
++	${libgrive_SOURCE_DIR}/src/protocol/*.hh
+ )
+ 
+ file (GLOB UTIL_HEADERS
+-    ${libgrive_SOURCE_DIR}/src/util/*.hh
++	${libgrive_SOURCE_DIR}/src/util/*.hh
+ )
+ 
+ file (GLOB XML_HEADERS
+-    ${libgrive_SOURCE_DIR}/src/xml/*.hh
++	${libgrive_SOURCE_DIR}/src/xml/*.hh
+ )
+ 
+ file (GLOB LIBGRIVE_SRC
+@@ -66,13 +72,17 @@ file (GLOB LIBGRIVE_SRC
+ 	src/util/log/*.cc
+ )
+ 
++if (APPLE)
++	file (GLOB LIBGRIVE_SRC_OBJC src/http/*.mm)
++endif(APPLE)
++
+ add_definitions(
+ 	-DTEST_DATA="${libgrive_SOURCE_DIR}/test/data/"
+ 	-DSRC_DIR="${libgrive_SOURCE_DIR}/src"
+ )
+ 
+-#add_library( grive SHARED ${LIBGRIVE_SRC} ${OPT_SRC} )
+-add_library( grive STATIC ${LIBGRIVE_SRC} ${OPT_SRC} )
++#add_library( grive SHARED ${LIBGRIVE_SRC} ${OPT_SRC} ${LIBGRIVE_SRC_OBJC} )
++add_library( grive STATIC ${LIBGRIVE_SRC} ${OPT_SRC} ${LIBGRIVE_SRC_OBJC} )
+ 
+ target_link_libraries( grive
+ 	${YAJL_LIBRARIES}
+@@ -85,6 +95,9 @@ target_link_libraries( grive
+ 	${IBERTY_LIBRARY}
+ 	${OPT_LIBS}
+ )
++if (APPLE)
++	target_link_libraries(grive ${MAC_FRAME_FOUNDATION})
++endif(APPLE)
+ 
+ #set_target_properties(grive PROPERTIES
+ #    SOVERSION 0 VERSION ${GRIVE_VERSION}
+@@ -108,8 +121,7 @@ endif()
+ IF ( CPPUNIT_FOUND )
+ 	message("-- Building unitary tests along with the library and the binary")
+ 	set( OPT_INCS		${CPPUNIT_INCLUDE_DIR} )
+-    
+-    # list of test source files here
++	# list of test source files here
+ 	file(GLOB TEST_SRC
+ 		test/base/*.cc
+ 		test/util/*.cc
+@@ -124,7 +136,7 @@ IF ( CPPUNIT_FOUND )
+ 		grive
+ 		${CPPUNIT_LIBRARY}
+ 	)
+-        
++
+ ENDIF ( CPPUNIT_FOUND )
+ 
+ file(GLOB BTEST_SRC
+diff --git a/libgrive/src/http/NSURLSessionAgent.hh b/libgrive/src/http/NSURLSessionAgent.hh
+new file mode 100644
+index 0000000..2ff23b0
+--- /dev/null
++++ b/libgrive/src/http/NSURLSessionAgent.hh
+@@ -0,0 +1,69 @@
++/*
++    grive: an GPL program to sync a local directory with Google Drive
++    Copyright (C) 2012  Wan Wai Ho
++
++    This program is free software; you can redistribute it and/or
++    modify it under the terms of the GNU General Public License
++    as published by the Free Software Foundation version 2
++    of the License.
++
++    This program is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License
++    along with this program; if not, write to the Free Software
++    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
++   USA.
++*/
++
++#pragma once
++
++#include "Agent.hh"
++
++#include <memory>
++#include <string>
++
++namespace gr {
++
++class DataStream;
++
++namespace http {
++
++/*!	\brief	agent to provide HTTP access
++
++    This class provides functions to send HTTP request in many methods (e.g.
++   get, post and put). Normally the HTTP response is returned in a Receivable.
++*/
++class NSURLSessionAgent : public Agent {
++public:
++	NSURLSessionAgent();
++	~NSURLSessionAgent();
++	ResponseLog *GetLog() const;
++	void SetLog( ResponseLog *log );
++	void SetProgressReporter( Progress *progress );
++	long Request( const std::string &method,
++	              const std::string &url,
++	              SeekStream *in,
++	              DataStream *dest,
++	              const Header &hdr,
++	              u64_t downloadFileBytes = 0 );
++	std::string LastError() const;
++	std::string LastErrorHeaders() const;
++	std::string RedirLocation() const;
++	std::string Escape( const std::string &str );
++	std::string Unescape( const std::string &str );
++
++private:
++	void Init();
++
++private:
++	struct Impl;
++	std::unique_ptr<Impl> m_pimpl;
++	std::unique_ptr<ResponseLog> m_log;
++	Progress *m_pb;
++};
++
++} // namespace http
++} // namespace gr
+diff --git a/libgrive/src/http/NSURLSessionAgent.mm b/libgrive/src/http/NSURLSessionAgent.mm
+new file mode 100644
+index 0000000..26c66d5
+--- /dev/null
++++ b/libgrive/src/http/NSURLSessionAgent.mm
+@@ -0,0 +1,147 @@
++#include "NSURLSessionAgent.hh"
++
++#include <Foundation/Foundation.h>
++
++#include "Error.hh"
++#include "Header.hh"
++#include "util/log/Log.hh"
++
++namespace gr {
++namespace http {
++
++struct NSURLSessionAgent::Impl {
++	NSURLSession *session;
++	std::string location;
++	bool error;
++	std::string error_headers;
++	std::string error_data;
++	DataStream *dest;
++	u64_t total_download, total_upload;
++};
++
++NSURLSessionAgent::NSURLSessionAgent()
++    : Agent(), m_pimpl( new Impl ), m_pb( 0 ) {
++	m_pimpl->session = NSURLSession.sharedSession;
++}
++
++NSURLSessionAgent::~NSURLSessionAgent() {
++}
++
++void NSURLSessionAgent::Init() {
++	m_pimpl->error = false;
++	m_pimpl->error_headers = "";
++	m_pimpl->error_data = "";
++	m_pimpl->dest = NULL;
++	m_pimpl->total_download = m_pimpl->total_upload = 0;
++}
++
++ResponseLog *NSURLSessionAgent::GetLog() const {
++	return m_log.get();
++}
++
++void NSURLSessionAgent::SetLog( ResponseLog *log ) {
++	m_log.reset( log );
++}
++
++void NSURLSessionAgent::SetProgressReporter( Progress *progress ) {
++	m_pb = progress;
++}
++
++long NSURLSessionAgent::Request( const std::string &method,
++                                 const std::string &url,
++                                 SeekStream *in,
++                                 DataStream *dest,
++                                 const Header &hdr,
++                                 u64_t downloadFileBytes ) {
++	Trace( "HTTP %1% \"%2%\"", method, url );
++
++	Init();
++	m_pimpl->total_download = downloadFileBytes;
++	m_pimpl->dest = dest;
++
++	NSURL *nsurl =
++	    [NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]];
++	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:nsurl];
++	req.HTTPMethod = [NSString stringWithUTF8String:method.c_str()];
++
++	const auto colon = std::string( ":" );
++	for ( auto it = hdr.begin(); it != hdr.end(); it++ ) {
++		const auto index = it->find_first_of( colon );
++		[req setValue:[[NSString
++		                  stringWithUTF8String:it->substr( index + 1 ).c_str()]
++		                  stringByTrimmingCharactersInSet:
++		                      NSCharacterSet.whitespaceAndNewlineCharacterSet]
++		    forHTTPHeaderField:
++		        [[NSString stringWithUTF8String:it->substr( 0, index ).c_str()]
++		            stringByTrimmingCharactersInSet:
++		                NSCharacterSet.whitespaceAndNewlineCharacterSet]];
++	}
++
++	if ( in ) {
++		char *ptr = static_cast<char *>( malloc( in->Size() ) );
++		std::size_t n = in->Read( ptr, in->Size() );
++		assert( n == in->Size() );
++		req.HTTPBody = [NSData dataWithBytes:ptr
++		                              length:( NSUInteger )in->Size()];
++	}
++
++	__block NSInteger statusCode = 0;
++	dispatch_semaphore_t sema = dispatch_semaphore_create( 0 );
++	[[m_pimpl->session
++	    dataTaskWithRequest:req
++	      completionHandler:^(
++	          NSData *data, NSURLResponse *response, NSError *error ) {
++		      m_pimpl->total_download += data.length;
++		      if ( error ) {
++			      m_pimpl->error = true;
++			      m_pimpl->error_data.append(
++			          error.localizedDescription.UTF8String,
++			          error.localizedDescription.length );
++			      m_pimpl->error_headers = hdr.Str();
++			      return;
++		      }
++		      assert( data.bytes != nil );
++		      statusCode = ( ( NSHTTPURLResponse * )response ).statusCode;
++		      if ( statusCode < 200 || statusCode > 299 ) {
++			      m_pimpl->error = true;
++			      m_pimpl->error_data.append(
++			          static_cast<const char *>( data.bytes ) );
++		      }
++		      m_pimpl->dest->Write( static_cast<const char *>( data.bytes ),
++		                            data.length );
++		      dispatch_semaphore_signal( sema );
++	      }] resume];
++	dispatch_semaphore_wait( sema, dispatch_time( DISPATCH_TIME_NOW, 30e9 ) );
++
++	if ( m_pimpl->error ) {
++		BOOST_THROW_EXCEPTION( Error()
++		                       << Url( url ) << HttpRequestHeaders( hdr )
++		                       << HttpResponseCode( statusCode )
++		                       << HttpResponseText( m_pimpl->error_data ) );
++	}
++
++	return statusCode;
++}
++
++std::string NSURLSessionAgent::LastError() const {
++	return m_pimpl->error_data;
++}
++
++std::string NSURLSessionAgent::LastErrorHeaders() const {
++	return m_pimpl->error_headers;
++}
++
++std::string NSURLSessionAgent::RedirLocation() const {
++	return m_pimpl->location;
++}
++
++std::string NSURLSessionAgent::Escape( const std::string &str ) {
++	return str;
++}
++
++std::string NSURLSessionAgent::Unescape( const std::string &str ) {
++	return str;
++}
++
++}
++}
+
+From 222eed10a1cec7f296575d85ad87c75b10faf2b0 Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Mon, 9 Mar 2020 22:06:08 -0400
+Subject: [PATCH 2/2] NSURLSessionAgent: allow zero-byte files to be made
+
+---
+ libgrive/src/http/NSURLSessionAgent.mm | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/libgrive/src/http/NSURLSessionAgent.mm b/libgrive/src/http/NSURLSessionAgent.mm
+index 26c66d5..29fcdfa 100644
+--- a/libgrive/src/http/NSURLSessionAgent.mm
++++ b/libgrive/src/http/NSURLSessionAgent.mm
+@@ -100,15 +100,17 @@
+ 			      m_pimpl->error_headers = hdr.Str();
+ 			      return;
+ 		      }
+-		      assert( data.bytes != nil );
+ 		      statusCode = ( ( NSHTTPURLResponse * )response ).statusCode;
+ 		      if ( statusCode < 200 || statusCode > 299 ) {
+ 			      m_pimpl->error = true;
+-			      m_pimpl->error_data.append(
+-			          static_cast<const char *>( data.bytes ) );
++			      if ( data.bytes != nil ) {
++				      m_pimpl->error_data.append(
++				          static_cast<const char *>( data.bytes ) );
++			      }
++		      } else {
++			      m_pimpl->dest->Write(
++			          static_cast<const char *>( data.bytes ), data.length );
+ 		      }
+-		      m_pimpl->dest->Write( static_cast<const char *>( data.bytes ),
+-		                            data.length );
+ 		      dispatch_semaphore_signal( sema );
+ 	      }] resume];
+ 	dispatch_semaphore_wait( sema, dispatch_time( DISPATCH_TIME_NOW, 30e9 ) );
