@@ -1,7 +1,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh progress 0.14.1 v
+github.setup        Tatsh progress 0.15 v
 
 platforms           darwin linux freebsd
 license             MIT
@@ -19,6 +19,6 @@ build.target        progress
 build.post_args     CFLAGS='-O2'
 destroot.args       PREFIX=${prefix}
 
-checksums           rmd160  c12cfab8389e6846cfa4069db6ac9ab3eafb4076 \
-                    sha256  5e44fa26e01ca4ea4e32bf6d1b9b7b92a7f844868622cd200a6986d69b53bbaa \
-                    size    58470
+checksums           rmd160  fa0750ac6f91a8c1f35dc6ae9dbad71b38000d9b \
+                    sha256  1ed0ac65a912ef1aa605d524eaddaacae92079cf71182096a7c65cbc61687d1b \
+                    size    58549
