@@ -2,8 +2,7 @@
 PortSystem          1.0
 
 name                makemkv
-version             1.15.0
-revision            1
+version             1.15.2
 
 categories          multimedia aqua
 license             Restrictive
@@ -28,9 +27,9 @@ set special_dmg     ${name}_v${version}_osx.dmg
 distfiles           ${special_dmg}
 master_sites        https://makemkv.com/download/
 
-checksums           rmd160  b9ae764a04dedd27b2b7e1da2c741ac2212afd29 \
-                    sha256  ad4323d5141a82f11b36f1ad3f54b0f201eedfbd4597ee604fed4b616f2d06b0 \
-                    size    24325531
+checksums           rmd160  d425c73e1698ae1c280665f9457abbed9532c5e1 \
+                    sha256  841bf2e6bbd13f793a84595aa1bb1bb02861eb4dae848d26cd96fe0ddd53f970 \
+                    size    24009717
 
 depends_extract     bin:expect:expect
 
