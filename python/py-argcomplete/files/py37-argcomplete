@@ -1,4 +1,0 @@
-${frameworks_dir}/Python.framework/Versions/3.7/bin/activate-global-python-argcomplete
-${frameworks_dir}/Python.framework/Versions/3.7/bin/python-argcomplete-check-easy-install-script
-${frameworks_dir}/Python.framework/Versions/3.7/bin/python-argcomplete-tcsh
-${frameworks_dir}/Python.framework/Versions/3.7/bin/register-python-argcomplete
