@@ -1,0 +1,29 @@
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                macprefs
+version             0.0.3
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions         36 37 38
+python.default_version  38
+
+maintainers         {gmail.com:audvare @Tatsh}
+
+categories          sysutils aqua python
+description         Backup and convert macOS preferences to a shell script.
+long_description    ${description}
+homepage            https://github.com/Tatsh/macprefs
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  93e423874a8e337f00fc24624b6d3f95f06efabd \
+                    sha256  318a1fdca5f3a7fb049dcde95be6145473c6a56732978011427cfbbe8ffc8862 \
+                    size    10878
+
+if {$subport ne $name} {
+    livecheck.type none
+}
