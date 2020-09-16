@@ -1,0 +1,74 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                UIBrowser
+version             2.9.2
+
+categories          aqua
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         The ultimate assistant for Accessibility and GUI Scripting.
+long_description    UI Browser is the ultimate assistant for Apple's \
+                    Accessibility and AppleScript GUI Scripting technologies. \
+                    It helps you to explore, monitor, and control the user \
+                    interface of most applications running on macOS.
+homepage            https://pfiddlesoft.com/uibrowser/index.html
+supported_archs     x86_64
+
+set special_dmg     ${name}292.dmg
+set app_name        "UI Browser.app"
+distfiles           ${special_dmg}
+master_sites        https://pfiddlesoft.com/uibrowser/downloads/
+
+checksums           rmd160  52dcb05d5c907b7c62d8170811a0fcded96b7696 \
+                    sha256  d2870ee3f85ca822bc9dfe819fffa46085a534db3e3bcbff96f785ecfd528959 \
+                    size    3741172
+
+depends_extract     bin:expect:expect
+
+use_configure           no
+
+extract {
+    file mkdir ${worksrcpath}
+    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy ${mountpoint}/${app_name} ${worksrcpath}
+    copy "${mountpoint}/GUI Scripting" ${worksrcpath}
+    copy "${mountpoint}/Read Me.rtf" ${worksrcpath}
+    file delete "${worksrcpath}/GUI Scripting/.DS_Store" \
+        "${worksrcpath}/GUI Scripting/GUI Scripting Library/.DS_Store" \
+        "${worksrcpath}/GUI Scripting/UI Element Scripts (PFiddlesoft)/.DS_Store"
+    my_detach_disk_image ${mountpoint}
+}
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/${app_name} ${destroot}${applications_dir}
+    file mkdir "${destroot}${prefix}/share/${name}"
+    xinstall -m 644 "${worksrcpath}/Read Me.rtf" "${destroot}${prefix}/share/${name}/Read Me.rtf"
+    copy "${worksrcpath}/GUI Scripting" ${destroot}${prefix}/share/${name}/
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
+    # Use this expect script instead of using hdiutil directly, because the
+    # disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    file delete -force ${mountpoint}
+}
+
+if {${os.major} < 14} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.10 or later."
+        return -code error "incompatible OS X version"
+    }
+}
