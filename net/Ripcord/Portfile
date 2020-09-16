@@ -1,0 +1,38 @@
+PortSystem          1.0
+
+name                Ripcord
+version             0.4.26
+
+categories          aqua net
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Desktop chat client for Slack and Discord.
+long_description    Ripcord is a desktop chat client for group-centric \
+                    services like Slack and Discord. It provides a \
+                    traditional compact desktop interface designed for power \
+                    users. It's not built on top of web browser technology: \
+                    it has a small resource footprint, responds quickly to \
+                    input, and gets out of your way.
+homepage            https://cancel.fm/ripcord/
+
+distfiles           ${name}_Mac_${version}.zip
+master_sites        https://cancel.fm/dl/
+
+checksums           rmd160  10b293ebb0d23ffa510d3b1c7528bbd00afacb6d \
+                    sha256  6d76e1ef7589df8d4b3816c8ee77701e03460f7edaa47717abb8ecb84999b6c8 \
+                    size    18022320
+
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "Ripcord Mac (\\d+\\.\\d+\\.\\d+)"
+
+use_configure       no
+use_zip             yes
+extract.only        ${name}_Mac_${version}.zip
+extract.mkdir       yes
+build.cmd           echo
+
+destroot {
+    file copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
+}
