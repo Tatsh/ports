@@ -1,0 +1,33 @@
+PortSystem          1.0
+
+name                Postman
+version             7.32.0
+
+categories          aqua net
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         The collaboration platform for API development.
+long_description    ${description}
+homepage            https://www.postman.com/
+
+distfiles           osx
+master_sites        https://dl.pstmn.io/download/latest/
+
+checksums           rmd160  54a44a6cdb6c98bd400d9c639142eb464d2fc2e9 \
+                    sha256  d083ec6c88cb27d7bfa5c8fa8e7cf87af0ff66739d1497cfa43b3b7bbb76e57f \
+                    size    121553393
+
+livecheck.type      regex
+livecheck.url       https://dl.pstmn.io/api/version/latest?platform=osx&channel=stable
+livecheck.regex     "\"version\"\\:\"(\\d+\\.\\d+\\.\\d+)\""
+
+use_configure       no
+use_zip             yes
+extract.only        osx
+extract.mkdir       yes
+build.cmd           echo
+
+destroot {
+    file copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
+}
