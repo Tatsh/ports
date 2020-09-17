@@ -1,21 +1,25 @@
 PortSystem          1.0
-PortGroup           github 1.0
 PortGroup           cmake 1.1
+PortGroup           github 1.0
 
-github.setup        vusec ridl 508d549
+# This project has submodules, but none are used in the Apple variant of the
+# code
+github.setup        vusec ridl bdcc1a7
 
 name                mdstool
-version             20190519
+version             2020609
 platforms           darwin linux freebsd
 license             MPL-2
-maintainers         {udva.re:andrew @Tatsh}
+maintainers         {gmail.com:audvare @Tatsh}
 description         A tool to check whether your system is affected by Micro-architectural Data Sampling and other attacks.
 long_description    ${description}
 categories          sysutils
 
-checksums           rmd160  1984dfe646c251be7cfbd2598e4c786546b66ccd \
-                    sha256  07881381b3c7285bdb7590aae3c818439b3a3efe9c4f34cae3a1a58bc9c3c602 \
-                    size    36611
+checksums           rmd160  f0a4a735f9216755db0ef9e9437798c4e3b1f540 \
+                    sha256  0aeac6a9ce7f6ffe22b33ae4279e88ad558a2ba00212ff2a69cb7ea7173159e4 \
+                    size    3260022
+
+worksrcdir          ${distname}/tool
 
 destroot {
     xinstall -m 755 ${cmake.build_dir}/mdstool-cli ${destroot}${prefix}/bin/
