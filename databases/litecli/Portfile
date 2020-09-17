@@ -2,11 +2,10 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                litecli
-version             1.2.0
+version             1.4.1
 platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
-revision            1
 
 python.versions         37 38
 python.default_version  38
@@ -21,9 +20,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  90cf4947f4bfda960deec75c48173dddf3b58d39 \
-                    sha256  a42950fc0e4387b29fbeef28a048d9fb4059327e1e32e90ea8015ee6db8ffea4 \
-                    size    53105
+checksums           rmd160  ea4da663a9c2f1b79a41e424015a70155a8de7e9 \
+                    sha256  1404568ed6d2e738bf5d00f201522652602b2e3f31013cf58d9e239d715dab5c \
+                    size    56144
 
 depends_run-append  port:py${python.version}-click \
                     port:py${python.version}-pygments \
