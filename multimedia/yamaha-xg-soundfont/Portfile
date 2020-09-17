@@ -6,7 +6,7 @@ version             20140604
 supported_archs     noarch
 license             Restricted
 categories          multimedia
-maintainers         udva.re:support openmaintainer
+maintainers         {gmail.com:audvare @Tatsh}
 description         Yamaha XG re-mapped soundfont by ZSF on SF2 forums.
 long_description    ${description}
 homepage            https://www.ronimusic.com/smp_ios_dls_files.htm
