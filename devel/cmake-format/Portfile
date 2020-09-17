@@ -2,12 +2,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                cmake-format
-version             0.5.4
+version             0.6.13
 platforms           darwin linux freebsd
 license             GPL-3
 supported_archs     noarch
-revision            1
 
+python.rootname         cmakelang
 python.versions         27 34 35 36 37 38
 python.default_version  38
 
@@ -17,18 +17,22 @@ description         Source code formatter for CMake files.
 long_description    ${description}
 categories          devel python
 homepage            https://github.com/cheshirekow/cmake_format
-python.rootname     cmake_format
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  381b6feba132d54d459e1c7cbb0c43b769f1da68 \
-                    sha256  c6b4431a271ce412d0a3be30ec610087fe82a8cdd43b23b5b06928491689d7d5 \
-                    size    94693
+checksums           rmd160  f5139aca196cf93a82c944d6a28cbe6f1547a533 \
+                    sha256  03982e87b00654d024d73ef972d9d9bb0e5726cdb6b8a424a15661fb6278e67f \
+                    size    123111
 
 depends_run-append  port:py${python.version}-jinja2 \
                     port:py${python.version}-yaml
 
 if {$subport ne $name} {
     livecheck.type none
+}
+
+patch {
+    file mkdir ${worksrcpath}/cmakelang/doc
+    file copy ${worksrcpath}/README.rst ${worksrcpath}/cmakelang/doc/README.rst
 }
