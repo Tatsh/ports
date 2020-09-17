@@ -17,6 +17,10 @@ checksums           rmd160  a91f7302cee5f1c440b337f7d4ee8279d079ce6b \
                     sha256  5501c62c1cbcd805b8669a53808b499b5229aae205fb4e365b7231deeecf41e4 \
                     size    3853314
 
+livecheck.type      md5
+livecheck.url       https://www.ronimusic.com/sf2/Yamaha_XG_Sound_Set.sf2
+livecheck.md5       c3182f517459d02b4cdabc16782aebbc
+
 use_configure       no
 
 extract {}
