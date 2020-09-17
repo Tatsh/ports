@@ -2,10 +2,10 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        KrauseFx overkill-for-mac 84cda74
+github.setup        KrauseFx overkill-for-mac 2c9f9de
 
 name                overkill
-version             1.0_p20190316
+version             1.0_p20191112
 categories          aqua sysutils
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,9 +16,9 @@ long_description    Did iTunes ever launch without you opening it? Use Overkill 
                     interrupted.
 homepage            https://github.com/KrauseFx/overkill-for-mac
 
-checksums           rmd160  ca8196d2f407b891d2249736219ff6aab353596c \
-                    sha256  0158a1b05204b9de17fe83b499608640c7b2a1bc0f60972284a894b4e5100352 \
-                    size    119651
+checksums           rmd160  28b9c245641d6372fa272ca339ded790aab03b91 \
+                    sha256  d27094b734b5b7490ce271395afc832314c75b3bbd5a38a6d714a00d71439ac6 \
+                    size    119797
 
 xcode.target        Overkill
 xcode.configuration Release
