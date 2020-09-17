@@ -18,6 +18,6 @@ description         CLI tool for sidebar favourites in Finder.
 long_description    A command line application for managing macOS Finder sidebar favourites.
 categories          sysutils aqua
 
-checksums           rmd160  55e436c4699a2ffa263f24b9ec6d76183243b2de \
-                    sha256  e7a7fc6f7d2597d23183fc7421b33f01623e165531984d27ffe27efbb0e1c3b7 \
-                    size    8707
+checksums           rmd160  fa0571546c07b26fd2d930be823d07a436e6c9d6 \
+                    sha256  1ca1029afbc519b1112e64cd15c55444fa132b9ee9c3a5685a4306c212de5471 \
+                    size    8713
