@@ -7,7 +7,7 @@ categories          sysutils
 version             1.0_p20150309
 platforms           macosx
 license             MIT
-maintainers         {udva.re:bugs @Tatsh}
+maintainers         {gmail.com:audvare @Tatsh}
 revision            1
 
 description         lsusb command for macOS.
