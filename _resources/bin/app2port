@@ -65,7 +65,7 @@ name                {display_name}
 version             {version}
 categories          aqua
 platforms           macosx
-maintainers         {{tat.sh:z @Tatsh}}
+maintainers         {{gmail.com:audvare @Tatsh}}
 description         DESCRIPTION
 long_description    ${{description}}
 homepage            HOMEPAGE
