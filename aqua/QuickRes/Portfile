@@ -1,0 +1,64 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                QuickRes
+version             4.7.1
+
+categories          aqua
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         The resolution switcher Apple forgot.
+long_description    The best way to change between screen resolutions on your \
+                    Mac.
+homepage            https://www.thnkdev.com/QuickRes/
+supported_archs     x86_64
+
+set special_dmg     ${name}.dmg
+set app_name        ${name}.app
+distfiles           ${special_dmg}
+
+checksums           rmd160  000258dc6583c46a6b2d93a75a8d33c9f7544e60 \
+                    sha256  eae9754e2ea73c8de2ab7cb62b4a4da82f9ac0381a9f40e0dadc4e165fde9756 \
+                    size    9987872
+
+depends_extract     bin:expect:expect
+
+use_configure           no
+configure.cxx_stdlib libstdc++
+
+extract {
+    file mkdir ${worksrcpath}
+    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy ${mountpoint}/${app_name} ${worksrcpath}
+    my_detach_disk_image ${mountpoint}
+}
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/${app_name} ${destroot}${applications_dir}
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
+    # Use this expect script instead of using hdiutil directly, because the
+    # disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    file delete -force ${mountpoint}
+}
+
+if {${os.major} < 15} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.11 or later."
+        return -code error "incompatible OS X version"
+    }
+}
