@@ -14,46 +14,21 @@ long_description    The best way to change between screen resolutions on your \
 homepage            https://www.thnkdev.com/QuickRes/
 supported_archs     x86_64
 
-set special_dmg     ${name}.dmg
-set app_name        ${name}.app
-distfiles           ${special_dmg}
+distfiles           ${name}-35.zip
 
-checksums           rmd160  000258dc6583c46a6b2d93a75a8d33c9f7544e60 \
-                    sha256  eae9754e2ea73c8de2ab7cb62b4a4da82f9ac0381a9f40e0dadc4e165fde9756 \
-                    size    9987872
+checksums           rmd160  e17461c5f1152cba8a77e4893030087f1199894b \
+                    sha256  433e8d16d181ccf850c3082a6629c22d2b92da26cec5c059e6e63008ed070de2 \
+                    size    4402999
 
-depends_extract     bin:expect:expect
-
+worksrcdir
 use_configure           no
-configure.cxx_stdlib libstdc++
-
-extract {
-    file mkdir ${worksrcpath}
-    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
-    copy ${mountpoint}/${app_name} ${worksrcpath}
-    my_detach_disk_image ${mountpoint}
-}
+use_zip                 yes
+configure.cxx_stdlib    libstdc++
 
 build {}
 
 destroot {
-    copy ${worksrcpath}/${app_name} ${destroot}${applications_dir}
-}
-
-# Mounts a disk image.
-proc my_attach_disk_image {disk_image} {
-    global filespath name
-    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
-    # Use this expect script instead of using hdiutil directly, because the
-    # disk image has a license agreement we must agree to.
-    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
-    return ${mountpoint}
-}
-
-# Unmounts a disk image.
-proc my_detach_disk_image {mountpoint} {
-    system "hdiutil detach ${mountpoint} -force"
-    file delete -force ${mountpoint}
+    copy ${worksrcpath}/${name}.app ${destroot}${applications_dir}
 }
 
 if {${os.major} < 15} {
