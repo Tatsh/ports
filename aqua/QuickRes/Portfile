@@ -14,7 +14,14 @@ long_description    The best way to change between screen resolutions on your \
 homepage            https://www.thnkdev.com/QuickRes/
 supported_archs     x86_64
 
-distfiles           ${name}-35.zip
+set number          35
+distfiles           ${name}-${number}.zip
+master_sites        https://dl.devmate.com/ThnkDev.QuickRes/35/1565573014/
+
+livecheck.type      regexm
+livecheck.version   ${number}
+livecheck.url       https://updates.devmate.com/ThnkDev.${name}.xml
+livecheck.regex     "<channel>\\n\\s+<title>${name}</title>\\n\\s+<link></link>\\n\\s+<description></description>\\n\\s+<language>en</language>\\n\\s+<item>\\n\\s+<title>(\\d+)</title>\\n"
 
 checksums           rmd160  e17461c5f1152cba8a77e4893030087f1199894b \
                     sha256  433e8d16d181ccf850c3082a6629c22d2b92da26cec5c059e6e63008ed070de2 \
