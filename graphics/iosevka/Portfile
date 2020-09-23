@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                iosevka
+version             3.6.1
+
+categories          graphics
+license             OFL-1.1
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         The resolution switcher Apple forgot.
+long_description    The best way to change between screen resolutions on your \
+                    Mac.
+long_description    Iosevka is an open-source, sans-serif + slab-serif, \
+                    monospace + quasi‑proportional typeface family, designed \
+                    for writing code, using in terminals, and preparing \
+                    technical documents.
+homepage            https://typeof.net/Iosevka/
+
+distfiles           ttf-${name}-${version}.zip
+master_sites        https://github.com/be5invis/Iosevka/releases/download/v${version}
+
+checksums           rmd160  4e543565a7453fc1ddf0eb5021dd89b44fc54fc3 \
+                    sha256  5c6c37740e5e7252b8f68976031adec887ed803f8ea4beab50491a03c69c9961 \
+                    size    79194545
+
+worksrcdir
+use_configure           no
+use_zip                 yes
+
+destroot.violate_mtree  yes
+
+build {}
+
+destroot {
+    xinstall -d -m 755 ${destroot}/Library/Fonts
+    foreach file [glob -nocomplain -directory ${worksrcpath}/ttf *.ttf] {
+        set basename [lrange [split ${file} /] end end]
+        copy ${file} ${destroot}/Library/Fonts/${basename}
+    }
+}
