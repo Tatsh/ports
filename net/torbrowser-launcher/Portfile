@@ -1,0 +1,40 @@
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        Tatsh torbrowser-launcher-mac 799c8c8
+
+name                torbrowser-launcher
+version             0.0.1_p20200923
+categories          aqua net
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+
+description         A launcher for Tor Browser.
+long_description    This package exists so that official Tor Browser builds \
+                    are installed into the user directory, but the launcher \
+                    installation can be maintained by a package manager.
+homepage            https://github.com/Tatsh/torbrowser-launcher-mac
+
+checksums           rmd160  cd91b6cc85c062fc22cf9523d2602449d7f543ef \
+                    sha256  82bd9e2900a5adaf636e1c36a676cf0ba5c4131714021cbc7864bd1beaee69eb \
+                    size    1465972
+
+xcode.target        "Tor Browser Launcher"
+xcode.configuration Release
+xcode.build.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual
+
+if {${os.major} < 19} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.15 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
