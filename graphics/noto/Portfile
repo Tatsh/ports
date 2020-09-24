@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        googlei18n noto-fonts 4931378
+name                noto
+version             20200521
+
+categories          graphics
+license             OFL-1.1
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Google's font family that aims to support all the world's languages.
+long_description    ${description}
+homepage            https://www.google.com/get/noto/
+
+checksums           rmd160  eb8f57d029d813c48162fa8c7b9ebfb80c3d5a50 \
+                    sha256  d610660c6a0beffcea24c1ccf5e22bddda1f36a0f3b6db4e446e0fb7017ef240 \
+                    size    861162281
+
+use_configure           no
+destroot.violate_mtree  yes
+
+build {}
+
+destroot {
+    xinstall -d -m 755 ${destroot}/Library/Fonts
+    foreach dir [glob -nocomplain -directory ${worksrcpath}/hinted Noto*] {
+        set dir_basename [lrange [split ${dir} /] end end]
+        foreach file [glob -nocomplain -directory ${worksrcpath}/hinted/${dir_basename} *.ttf] {
+            set basename [lrange [split ${file} /] end end]
+            copy ${file} ${destroot}/Library/Fonts/${basename}
+        }
+    }
+}
