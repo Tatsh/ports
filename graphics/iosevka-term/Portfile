@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                iosevka-term
+version             3.6.1
+
+categories          graphics
+license             OFL-1.1
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Fixed width minimal font with ligatures.
+long_description    Iosevka is an open-source, sans-serif + slab-serif, \
+                    monospace + quasi‑proportional typeface family, designed \
+                    for writing code, using in terminals, and preparing \
+                    technical documents.
+homepage            https://typeof.net/Iosevka/
+
+distfiles           ttf-${name}-${version}.zip
+master_sites        https://github.com/be5invis/Iosevka/releases/download/v${version}
+
+checksums           rmd160  9553bc25094da7efb9093251ef6a71df706b06ff \
+                    sha256  17f07ad3ab31e9f88a48493d672d6b1e00ae73d71d17f6e54cfc4583e7660e44 \
+                    size    79305252
+
+worksrcdir
+use_configure           no
+use_zip                 yes
+
+destroot.violate_mtree  yes
+
+build {}
+
+destroot {
+    xinstall -d -m 755 ${destroot}/Library/Fonts
+    foreach file [glob -nocomplain -directory ${worksrcpath}/ttf *.ttf] {
+        set basename [lrange [split ${file} /] end end]
+        copy ${file} ${destroot}/Library/Fonts/${basename}
+    }
+}
