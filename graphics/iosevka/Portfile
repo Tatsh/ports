@@ -8,9 +8,7 @@ categories          graphics
 license             OFL-1.1
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
-description         The resolution switcher Apple forgot.
-long_description    The best way to change between screen resolutions on your \
-                    Mac.
+description         Fixed width minimal font with ligatures.
 long_description    Iosevka is an open-source, sans-serif + slab-serif, \
                     monospace + quasi‑proportional typeface family, designed \
                     for writing code, using in terminals, and preparing \
