@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                roboto
+version             2.138
+
+categories          graphics
+license             OFL-1.1
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Google's signatuer family of fonts.
+long_description    Google’s signature family of fonts, the default font on \
+                    Android and Chrome OS, and the recommended font for \
+                    Google’s visual language, Material Design.
+homepage            https://www.google.com/get/noto/
+
+distfiles           ${name}-android.zip
+master_sites        https://github.com/googlefonts/${name}/releases/download/v${version}
+
+checksums           rmd160  2a6374e8adebe28b3905edfd869987cd13ed8ade \
+                    sha256  c825453253f590cfe62557733e7173f9a421fff103b00f57d33c4ad28ae53baf \
+                    size    3927471
+
+worksrcdir
+use_configure           no
+use_zip                 yes
+destroot.violate_mtree  yes
+
+build {}
+
+destroot {
+    xinstall -d -m 755 ${destroot}/Library/Fonts
+    foreach file [glob -nocomplain -directory ${worksrcpath} *.ttf] {
+        set basename [lrange [split ${file} /] end end]
+        copy ${file} ${destroot}/Library/Fonts/${basename}
+    }
+}
