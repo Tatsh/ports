@@ -21,6 +21,48 @@ checksums           rmd160  eb8f57d029d813c48162fa8c7b9ebfb80c3d5a50 \
 use_configure           no
 destroot.violate_mtree  yes
 
+set dupes {
+    NotoSansKannada-ExtraLight.ttf
+    NotoSansKannada-Light.ttf
+    NotoSansKannada-Medium.ttf
+    NotoSansKannada-Regular.ttf
+    NotoSansKannada-Thin.ttf
+    NotoSansKannada-Black.ttf
+    NotoSansKannada-Bold.ttf
+    NotoSansKannada-ExtraBold.ttf
+    NotoSansKannada-SemiBold.ttf
+    NotoNastaliqUrdu-Bold.ttf
+    NotoNastaliqUrdu-Regular.ttf
+    NotoSansJavanese-Regular.ttf
+    NotoSansMyanmar-ExtraLight.ttf
+    NotoSansMyanmar-Light.ttf
+    NotoSansMyanmar-Medium.ttf
+    NotoSansMyanmar-Regular.ttf
+    NotoSansMyanmar-Thin.ttf
+    NotoSansMyanmar-Black.ttf
+    NotoSansMyanmar-Bold.ttf
+    NotoSansMyanmar-ExtraBold.ttf
+    NotoSansMyanmar-SemiBold.ttf
+    NotoSerifMyanmar-ExtraLight.ttf
+    NotoSerifMyanmar-Light.ttf
+    NotoSerifMyanmar-Medium.ttf
+    NotoSerifMyanmar-Regular.ttf
+    NotoSerifMyanmar-Thin.ttf
+    NotoSerifMyanmar-Black.ttf
+    NotoSerifMyanmar-Bold.ttf
+    NotoSerifMyanmar-ExtraBold.ttf
+    NotoSerifMyanmar-SemiBold.ttf
+    NotoSansOriya-Bold.ttf
+    NotoSansOriya-Regular.ttf
+}
+
+patch {
+    foreach dupe ${dupes} {
+        exec find ${worksrcpath}/ -name ${dupe} -delete
+    }
+
+}
+
 build {}
 
 destroot {
