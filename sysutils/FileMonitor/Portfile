@@ -6,7 +6,7 @@ github.setup        objective-see FileMonitor f6f4189
 
 version             1.1.1
 categories          aqua security sysutils
-license             CC-BY-NC-4.0
+license             CC-BY-NC-4
 maintainers         {gmail.com:audvare @Tatsh}
 description         A macOS file monitor.
 long_description    A macOS file monitor (based on Apple's new Endpoint \
