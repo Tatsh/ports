@@ -1,0 +1,27 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        kcrawford dockutil 2.0.5
+
+version             2.0.5
+license             Apache-2
+supported_archs     noarch
+maintainers         {gmail.com:audvare @Tatsh}
+categories          aqua sysutils
+description         dockutil is a command line utility for managing macOS \
+                    dock items.
+long_description    ${description}
+platforms           macosx
+
+checksums           rmd160  6bc291768f107b275fd44e73fb2674e4d24a2f68 \
+                    sha256  8d18972a7dfe09bcfb94411c36a252ca30559e209f2269a66405eaf6f6273a19 \
+                    size    9509
+
+use_configure       no
+
+build {}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/scripts/${name} \
+        ${destroot}${prefix}/bin/${name}
+}
