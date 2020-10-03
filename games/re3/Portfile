@@ -1,0 +1,67 @@
+PortSystem          1.0
+PortGroup           github 1.0
+
+name                re3
+version             a8c19df
+github.setup        GTAmodding re3 ${version}
+
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+categories          games
+description         Reverse-engineered rebuild of GTA III.
+long_description    ${description}
+
+master_sites        ${github.homepage}/tarball/${git.branch}:re3 \
+                    https://github.com/aap/librw/archive:librw
+set librw_hash      30b77b0b32b4113b5dce2b67813ce9b85d1e1e57
+distfiles           ${name}-${version}.tar.gz:re3 \
+                    ${librw_hash}.tar.gz:librw
+worksrcdir          GTAmodding-${name}-${version}/build
+
+checksums           re3-a8c19df.tar.gz \
+                    rmd160  d26e3f05be55ba5ba051947f3cbb249ba4a09376 \
+                    sha256  314be25fd6b62fbb2267b7139bad9c2e070b97d8ce6839019b96cd56ac59be75 \
+                    size    17197203 \
+                    30b77b0b32b4113b5dce2b67813ce9b85d1e1e57.tar.gz \
+                    rmd160  9ac28eb0adc1bce0d4c3506d993c2f9af2fc0657 \
+                    sha256  ff82ac9d803917e660b83d3427dfa152a10e61890d0ce4360e81712d0f67d6f0 \
+                    size    1269459
+
+depends_build       port:premake5
+depends_lib         port:openal-soft \
+                    port:glfw \
+                    port:glew \
+                    port:mpg123 \
+                    port:libsndfile
+
+build.type          gnu
+build.post_args     config=release_macosx-amd64-librw_gl3_glfw-oal verbose=1
+
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+post-extract {
+    file mkdir ${worksrcpath}
+}
+
+pre-configure {
+    file delete -force ${worksrcpath}/../vendor/librw
+    file delete -force ${worksrcpath}/../vendor/libsndfile
+    file delete -force ${worksrcpath}/../vendor/openal-soft
+    file delete -force ${worksrcpath}/../vendor/mpg123
+    file copy ${workpath}/librw-${librw_hash} \
+        ${worksrcpath}/../vendor/librw
+}
+
+configure {
+    exec premake5 --file=${worksrcpath}/../premake5.lua --with-librw gmake2
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/../bin/macosx-amd64-librw_gl3_glfw-oal/Release/re3.app ${destroot}${prefix}/bin/re3
+}
