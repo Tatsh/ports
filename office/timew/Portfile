@@ -1,0 +1,36 @@
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+name                timew
+version             1.4.2
+github.setup        GothenburgBitFactory timewarrior ${version} v
+
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+categories          office
+description         Command line time reporting.
+long_description    ${description}
+
+master_sites        ${github.homepage}/tarball/${git.branch}:timew \
+                    https://github.com/GothenburgBitFactory/libshared/archive:libshared
+set libshared_hash  b8b5796595dbf221656a25faaaed2f7a88b0aff6
+distfiles           ${name}arrior-${version}.tar.gz:timew \
+                    ${libshared_hash}.tar.gz:libshared
+worksrcdir          GothenburgBitFactory-${name}arrior-4aa8489
+
+checksums           timewarrior-1.4.2.tar.gz \
+                    rmd160  a4a8b2e0b29a180f37a6da332b3d61c28e946dcd \
+                    sha256  044bdb212d99cced2c36bd8ba3916c4f23d90cae5c7bf98ccb99580efb9fcd37 \
+                    size    184180 \
+                    b8b5796595dbf221656a25faaaed2f7a88b0aff6.tar.gz \
+                    rmd160  2b860e8e65fb36a1737773158a2d50236f97c034 \
+                    sha256  85b941a148c9cee89c446fb64f5be79e4b2596e58cc83944030c44adb3121184 \
+                    size    148847
+
+pre-configure {
+    file delete ${worksrcpath}/src/libshared
+    file copy ${workpath}/libshared-${libshared_hash} \
+        ${worksrcpath}/src/libshared
+}
