@@ -2,8 +2,8 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 name                re3
-version             a8c19df
-github.setup        GTAmodding re3 ${version}
+version             fa94ee2
+github.setup        Tatsh re3 ${version}
 
 platforms           darwin linux freebsd
 license             MIT
@@ -17,12 +17,12 @@ master_sites        ${github.homepage}/tarball/${git.branch}:re3 \
 set librw_hash      30b77b0b32b4113b5dce2b67813ce9b85d1e1e57
 distfiles           ${name}-${version}.tar.gz:re3 \
                     ${librw_hash}.tar.gz:librw
-worksrcdir          GTAmodding-${name}-${version}/build
+worksrcdir          Tatsh-${name}-${version}/build
 
-checksums           re3-a8c19df.tar.gz \
-                    rmd160  d26e3f05be55ba5ba051947f3cbb249ba4a09376 \
-                    sha256  314be25fd6b62fbb2267b7139bad9c2e070b97d8ce6839019b96cd56ac59be75 \
-                    size    17197203 \
+checksums           re3-fa94ee2.tar.gz \
+                    rmd160  d89a463fc948af65adbec1757ec11f6b9cea13af \
+                    sha256  b638c2e64841238c13cde51a38cc68bca718ce61212c0ed0bf610c79b8b70698 \
+                    size    17202690 \
                     30b77b0b32b4113b5dce2b67813ce9b85d1e1e57.tar.gz \
                     rmd160  9ac28eb0adc1bce0d4c3506d993c2f9af2fc0657 \
                     sha256  ff82ac9d803917e660b83d3427dfa152a10e61890d0ce4360e81712d0f67d6f0 \
@@ -59,6 +59,13 @@ pre-configure {
 }
 
 configure {
+    set chan [open ${worksrcpath}/../src/core/config.h a]
+    puts $chan "#define BIND_VEHICLE_FIREWEAPON"
+    puts $chan "#define NEW_WALK_AROUND_ALGORITHM"
+    puts $chan "#define PEDS_REPORT_CRIMES_ON_PHONE"
+    puts $chan "#define SIMPLIER_MISSIONS"
+    puts $chan "#define VC_PED_PORTS"
+    close $chan
     exec premake5 --file=${worksrcpath}/../premake5.lua --with-librw gmake2
 }
 
