@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                vscode
+version             1.49.3
+
+categories          aqua devel
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Free source code editor.
+long_description    ${description}
+homepage            https://code.visualstudio.com/
+supported_archs     x86_64
+
+distfiles           VSCode-darwin-stable.zip
+set sha             2af051012b66169dde0c4dfae3f5ef48f787ff69
+master_sites        https://az764295.vo.msecnd.net/stable/${sha}
+
+checksums           rmd160  cb9f2915de7159613be030c7508cdfe0c40646be \
+                    sha256  0e8756d990c729e33c36ab802da491719a9dd1c55f531f03405e7f0ee27eaf2f \
+                    size    95394850
+
+livecheck.type      regex
+set update_sha      cc0baacfefc65f9caad1a498753154c1f456cbb3
+livecheck.url       https://update.code.visualstudio.com/api/update/darwin/stable/${update_sha}/
+livecheck.regex     "\"productVersion\"\\:\"(\\d+\\.\\d+\\.\\d+)\""
+
+worksrcdir
+use_configure           no
+use_zip                 yes
+configure.cxx_stdlib    libstdc++
+
+build {}
+
+destroot {
+    copy "${worksrcpath}/Visual Studio Code.app" ${destroot}${applications_dir}
+}
+
+if {${os.major} < 14} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.10 or later."
+        return -code error "incompatible OS X version"
+    }
+}
