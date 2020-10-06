@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 name                re3
-version             fa94ee2
+version             ad60903
 github.setup        Tatsh re3 ${version}
 
 platforms           darwin linux freebsd
@@ -19,10 +19,10 @@ distfiles           ${name}-${version}.tar.gz:re3 \
                     ${librw_hash}.tar.gz:librw
 worksrcdir          Tatsh-${name}-${version}/build
 
-checksums           re3-fa94ee2.tar.gz \
-                    rmd160  d89a463fc948af65adbec1757ec11f6b9cea13af \
-                    sha256  b638c2e64841238c13cde51a38cc68bca718ce61212c0ed0bf610c79b8b70698 \
-                    size    17202690 \
+checksums           re3-ad60903.tar.gz \
+                    rmd160  1ab6fa9db597164e75cef45331627ee8ba610afc \
+                    sha256  4725a0c27adeed669ff8cf30ee92439dd74b5106810d5262afa286d3963e75b2 \
+                    size    17202503 \
                     30b77b0b32b4113b5dce2b67813ce9b85d1e1e57.tar.gz \
                     rmd160  9ac28eb0adc1bce0d4c3506d993c2f9af2fc0657 \
                     sha256  ff82ac9d803917e660b83d3427dfa152a10e61890d0ce4360e81712d0f67d6f0 \
@@ -60,7 +60,7 @@ pre-configure {
 
 configure {
     set chan [open ${worksrcpath}/../src/core/config.h a]
-    puts $chan "#define BIND_VEHICLE_FIREWEAPON"
+    puts $chan "#define APPSUPPORT_ROOT"
     puts $chan "#define NEW_WALK_AROUND_ALGORITHM"
     puts $chan "#define PEDS_REPORT_CRIMES_ON_PHONE"
     puts $chan "#define SIMPLIER_MISSIONS"
