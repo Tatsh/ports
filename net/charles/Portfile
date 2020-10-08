@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                charles
+version             4.5.6
+
+categories          net devel aqua
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Web debugging proxy application.
+long_description    ${description}
+homepage            https://www.charlesproxy.com/
+supported_archs     x86_64
+
+set special_dmg     ${name}-proxy-${version}.dmg
+distfiles           ${special_dmg}
+master_sites        https://www.charlesproxy.com/assets/release/${version}/
+
+checksums           rmd160  f6cdf582dbd38f45613c8b9d1b86debe9f75f97a \
+                    sha256  c00a002476b7a453ff1585288781081f71a81daacf0e39fa362e733a65f7258c \
+                    size    56536342
+
+livecheck.type      regex
+livecheck.url       https://www.charlesproxy.com/latest-release/download.do
+livecheck.regex     "The latest version of Charles is (\\d+\\.\\d+\\.\\d+)\\."
+
+depends_extract     bin:expect:expect
+depends_lib-append  port:openjdk11
+
+use_configure           no
+configure.cxx_stdlib    libstdc++
+
+extract {
+    file mkdir ${worksrcpath}
+    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy ${mountpoint}/Charles.app ${worksrcpath}
+    my_detach_disk_image ${mountpoint}
+}
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/Charles.app ${destroot}${applications_dir}
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
+    # Use this expect script instead of using hdiutil directly, because the
+    # disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    file delete -force ${mountpoint}
+}
+
+if {${os.major} < 11} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.7 or later."
+        return -code error "incompatible OS X version"
+    }
+}
