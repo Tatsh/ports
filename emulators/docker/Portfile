@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+set commit          4484c46d9d
+go.setup            github.com/docker/docker-ce ${commit}
+categories          emulators
+maintainers
+license             Apache-2
+homepage            https://www.docker.com/
+
+description         The core functions you need to create Docker images and run Docker containers.
+long_description    ${description}
+
+checksums           rmd160  3cf4dfbf4090c057d6d3180aaa1cba0f0ccbb1c4 \
+                    sha256  4c99c6e5caf359796bdbabec24528a7209662d7aff7880f063ee7a52dd108a17 \
+                    size    18243174
+
+
+depends_build-append    port:go-md2man port:pkgconfig
+depends_lib-append      port:sqlite3
+depends_run-append      port:git port:xz port:containerd port:docker-proxy
+# libltdl ?
+
+patch {
+    # fake golang layout
+    file link -symbolic ${worksrcpath}/../docker ${worksrcpath}/components/engine
+    file link -symbolic ${worksrcpath}/../cli ${worksrcpath}/components/cli
+}
+
+build {
+    set buildtime 2020-10-10T05:00:18.416272000+00:00
+    set f [open ${worksrcpath}/VERSION]
+    set version [string trim [read ${f}]]
+    close ${f}
+    # build daemon
+    reinplace "s/EXTLDFLAGS_STATIC='/&-fno-PIC /" ${worksrcpath}/components/engine/hack/make.sh
+    reinplace "s/LDFLAGS_STATIC_DOCKER='/&-extldflags -fno-PIC /" ${worksrcpath}/components/engine/hack/make/dynbinary-daemon
+    foreach line_no {98 99 100 101 102 103} {
+        reinplace "98d" ${worksrcpath}/components/engine/hack/make.sh
+    }
+    system "cd ${worksrcpath}/components/engine && env GOPATH=${gopath} CGO_LDFLAGS=-L${prefix}/lib CGO_CFLAGS=-I${prefix}/include DOCKER_GITCOMMIT=${commit} BUILDTIME=${buildtime} DOCKER_BUILDTAGS=exclude_graphdriver_devmapper ./hack/make.sh dynbinary"
+    # build CLI
+    system "cd ${worksrcpath}/components/cli && env GOPATH=${gopath} CGO_CFLAGS=-I${prefix}/include CGO_LDFLAGS=-L${prefix}/lib DISABLE_WARN_OUTSIDE_CONTAINER=1 make \"LDFLAGS=-extldflags -fno-PIC\" VERSION=${version} GITCOMMIT=${commit} BUILDTIME=${buildtime} dynbinary"
+    # build man pages
+    system "cd ${worksrcpath}/components/cli && go build -o gen-manpages github.com/docker/cli/man"
+    system "cd ${worksrcpath}/components/cli &&  ./gen-manpages --root . --target ./man/man1"
+    system "cd ${worksrcpath}/components/cli && ./man/md2man-all.sh -q"
+    system "cd ${worksrcpath}/components/cli && rm gen-manpages"
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
