@@ -27,29 +27,39 @@ patch {
     # fake golang layout
     file link -symbolic ${worksrcpath}/../docker ${worksrcpath}/components/engine
     file link -symbolic ${worksrcpath}/../cli ${worksrcpath}/components/cli
-}
-
-build {
-    set buildtime 2020-10-10T05:00:18.416272000+00:00
-    set f [open ${worksrcpath}/VERSION]
-    set version [string trim [read ${f}]]
-    close ${f}
-    # build daemon
     reinplace "s/EXTLDFLAGS_STATIC='/&-fno-PIC /" ${worksrcpath}/components/engine/hack/make.sh
     reinplace "s/LDFLAGS_STATIC_DOCKER='/&-extldflags -fno-PIC /" ${worksrcpath}/components/engine/hack/make/dynbinary-daemon
     foreach line_no {98 99 100 101 102 103} {
         reinplace "98d" ${worksrcpath}/components/engine/hack/make.sh
     }
-    system "cd ${worksrcpath}/components/engine && env GOPATH=${gopath} CGO_LDFLAGS=-L${prefix}/lib CGO_CFLAGS=-I${prefix}/include DOCKER_GITCOMMIT=${commit} BUILDTIME=${buildtime} DOCKER_BUILDTAGS=exclude_graphdriver_devmapper ./hack/make.sh dynbinary"
+    reinplace "s@dockerd\?\.exe@@g" ${worksrcpath}/components/cli/contrib/completion/bash/docker
+}
+
+set real_version    19.03.13
+set buildtime       "2020-10-10T05:00:18.416272000+00:00"
+
+build {
+    # build daemon
+    system "cd ${worksrcpath}/components/engine && env CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 GOPATH=${gopath} CGO_LDFLAGS=-L${prefix}/lib CGO_CFLAGS=-I${prefix}/include DOCKER_GITCOMMIT=${commit} BUILDTIME=${buildtime} DOCKER_BUILDTAGS=exclude_graphdriver_devmapper ./hack/make.sh dynbinary"
     # build CLI
-    system "cd ${worksrcpath}/components/cli && env GOPATH=${gopath} CGO_CFLAGS=-I${prefix}/include CGO_LDFLAGS=-L${prefix}/lib DISABLE_WARN_OUTSIDE_CONTAINER=1 make \"LDFLAGS=-extldflags -fno-PIC\" VERSION=${version} GITCOMMIT=${commit} BUILDTIME=${buildtime} dynbinary"
+    system "cd ${worksrcpath}/components/cli && env GOPATH=${gopath} CGO_CFLAGS=-I${prefix}/include CGO_LDFLAGS=-L${prefix}/lib DISABLE_WARN_OUTSIDE_CONTAINER=1 make \"LDFLAGS=-extldflags -fno-PIC\" VERSION=${real_version} GITCOMMIT=${commit} BUILDTIME=${buildtime} dynbinary"
     # build man pages
     system "cd ${worksrcpath}/components/cli && go build -o gen-manpages github.com/docker/cli/man"
-    system "cd ${worksrcpath}/components/cli &&  ./gen-manpages --root . --target ./man/man1"
+    system "cd ${worksrcpath}/components/cli && ./gen-manpages --root . --target ./man/man1"
     system "cd ${worksrcpath}/components/cli && ./man/md2man-all.sh -q"
     system "cd ${worksrcpath}/components/cli && rm gen-manpages"
 }
 
 destroot {
-    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    foreach app {containerd containerd-shim runc} {
+        ln -s ${prefix}/bin/${app} ${prefix}/bin/${app}
+    }
+    xinstall -m 0755 ${worksrcpath}/components/engine/bundles/dynbinary-daemon/dockerd-${version} ${destroot}${prefix}/bin/dockerd
+    copy ${worksrcpath}/components/engine/contrib ${destroot}${prefix}/share/${name}/contrib
+    foreach path {*}[glob -nocomplain ${worksrcpath}/components/cli/bin/docker-*] {
+        xinstall -m 0755 ${path} ${destroot}${prefix}/bin/docker
+    }
+    copy ${worksrcpath}/components/cli/man ${destroot}${prefix}/share/man
+    # Completion, conditional
+    # xinstall -m 0644 {*}[glob -nocomplain ${worksrcpath}/components/cli/contrib/completion/bash/*]
 }
