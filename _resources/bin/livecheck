@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." >/dev/null 2>&1 && pwd )"
+find \
+    "$DIR" \
+    ! '(' -path "*/.mypy_cache" -prune -o \
+          -path "*/.git" -prune -o \
+          -path "*/_resources" -prune -o \
+          -path "*/.vscode" -prune \
+      ')' -a \
+    -type d | \
+        sed -r -e "s:^${DIR}/::g" | \
+        grep -E '^[a-z]+/[A-Za-z_-]+$' | \
+        cut -d/ -f2 | \
+        xargs port -v livecheck  2>&1 | \
+        grep -Fv 'seems to be up to date' | \
+        sort
