@@ -1,7 +1,7 @@
 PortSystem          1.0
 
 name                AppCleaner
-version             3.5
+version             3.5.1
 
 license             Restrictive
 categories          sysutils aqua
@@ -12,21 +12,21 @@ long_description    Installing an application distributes many files throughout 
                     using space of your Hard Drive unnecessarily. AppCleaner finds all these \
                     small files and safely deletes them.
 homepage            http://freemacsoft.net/appcleaner/
-distfiles           AppCleaner_3.5.zip
+distfiles           AppCleaner_${version}.zip
 master_sites        https://freemacsoft.net/downloads/
 
 livecheck.type      regex
 livecheck.url       ${homepage}
-livecheck.regex     "href=\"${master_sites}${name}_(\\d+\\.\\d+)\\.zip\""
+livecheck.regex     "href=\"${master_sites}${name}_(\\d+\\.\\d+(\\.\\d+)?)\\.zip\""
 
 use_configure       no
 use_zip             yes
 extract.only        AppCleaner_3.5.zip
 build.cmd           echo
 
-checksums           rmd160  46f21101fc3e0c6022b96dbaaebc97ffc6c85259 \
-                    sha256  9a67033977622f8523c6d11315fd646b4b3b7b2675ec7c10b37b4d5f5602acb3 \
-                    size    2974322
+checksums           rmd160  b464ba2dd240d5c2a56c975f40adade7f26bb214 \
+                    sha256  64b707b4841458300b02374d4b95acfed27e453ba1bbf50f7d1fc4fb0f2d1b70 \
+                    size    2970963
 
 destroot {
     file copy "${workpath}/AppCleaner.app" "${destroot}/${applications_dir}"
