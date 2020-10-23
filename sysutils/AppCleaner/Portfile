@@ -21,12 +21,13 @@ livecheck.regex     "href=\"${master_sites}${name}_(\\d+\\.\\d+(\\.\\d+)?)\\.zip
 
 use_configure       no
 use_zip             yes
-extract.only        AppCleaner_3.5.zip
-build.cmd           echo
+extract.only        AppCleaner_${version}.zip
 
 checksums           rmd160  b464ba2dd240d5c2a56c975f40adade7f26bb214 \
                     sha256  64b707b4841458300b02374d4b95acfed27e453ba1bbf50f7d1fc4fb0f2d1b70 \
                     size    2970963
+
+build {}
 
 destroot {
     file copy "${workpath}/AppCleaner.app" "${destroot}/${applications_dir}"
