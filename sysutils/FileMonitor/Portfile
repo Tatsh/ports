@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        objective-see FileMonitor f6f4189
+github.setup        objective-see FileMonitor 732a3ca
 
 version             1.1.1
 categories          aqua security sysutils
@@ -13,9 +13,9 @@ long_description    A macOS file monitor (based on Apple's new Endpoint \
                     Security Framework).
 homepage            https://objective-see.com/products/utilities.html#FileMonitor
 
-checksums           rmd160  528ee405598bdd011c2c3b23b839d3470bf5a36a \
-                    sha256  21e3ef46a3069b806cea5aa66c4957fcd3d6cc8923598e71093d95974d59433e \
-                    size    263174
+checksums           rmd160  30674abb614627f014a51934dff8d73f58b49a19 \
+                    sha256  e4a6b6b95fdff569be81be0049f393dcc1803c4a85e3a398ea8412e9a11df345 \
+                    size    254814
 
 xcode.scheme        FileMonitor
 xcode.configuration Release
