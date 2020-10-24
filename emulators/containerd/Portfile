@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-set commit          8fba4e9a7d01810a393d5d25a3621dc101981175
+set commit          656b487d333db8ad7134d26cfe12358c46c2b7f8
 go.setup            github.com/containerd/containerd ${commit}
 categories          emulators
 maintainers         {gmail.com:audvare @Tatsh}
@@ -13,11 +13,12 @@ homepage            https://containerd.io/
 description         A daemon to control runC.
 long_description    ${description}
 
-checksums           rmd160  f01dce340edafaf7e3ff50665687ece9e9a748f0 \
-                    sha256  a74b5e3beafb762c42f1ce79bbec524c913ed8db32b676676490b6a8bec98c81 \
-                    size    5705390
 
 depends_build       port:go-md2man port:pkgconfig
+
+checksums           rmd160  98588f242e1495fb9069379d82667a3d9f5585a5 \
+                    sha256  7d33cdc948eae610cbd2a4c001e068c43087dfa022597c706a4529617de7ba60 \
+                    size    6652861
 
 patch {
     reinplace "s/git describe --match.*$/echo ${name})/" ${worksrcpath}/Makefile
