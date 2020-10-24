@@ -5,8 +5,9 @@ PortGroup           golang 1.0
 
 set commit          4484c46d9d
 go.setup            github.com/docker/docker-ce ${commit}
+version             19.03.13
 categories          emulators
-maintainers
+maintainers         {gmail.com:audvare @Tatsh}
 license             Apache-2
 homepage            https://www.docker.com/
 
@@ -16,7 +17,6 @@ long_description    ${description}
 checksums           rmd160  3cf4dfbf4090c057d6d3180aaa1cba0f0ccbb1c4 \
                     sha256  4c99c6e5caf359796bdbabec24528a7209662d7aff7880f063ee7a52dd108a17 \
                     size    18243174
-
 
 depends_build-append    port:go-md2man port:pkgconfig
 depends_lib-append      port:sqlite3
