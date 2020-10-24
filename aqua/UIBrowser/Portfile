@@ -25,9 +25,13 @@ checksums           rmd160  52dcb05d5c907b7c62d8170811a0fcded96b7696 \
                     sha256  d2870ee3f85ca822bc9dfe819fffa46085a534db3e3bcbff96f785ecfd528959 \
                     size    3741172
 
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "UI Browser (\\d+\\.\\d+\\.\\d+)</a></h3>"
+
 depends_extract     bin:expect:expect
 
-use_configure           no
+use_configure       no
 
 extract {
     file mkdir ${worksrcpath}
