@@ -22,6 +22,10 @@ checksums           rmd160  d26b52185f9552a0234841f64cae52fb2ca38cf4 \
                     sha256  7cde7b7a2da262132ef3d35992d5e547a29c71df5095bfa9675b8fdf7aa35fb9 \
                     size    80405423
 
+livecheck.type      regex
+livecheck.regex     "(\\d+\\.\\d+\\.\\d+)</div><div class=\"desc\">Version"
+livecheck.url       ${homepage}
+
 worksrcdir
 use_configure           no
 use_zip                 yes
