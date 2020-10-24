@@ -8,11 +8,11 @@ categories          graphics
 license             OFL-1.1
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
-description         Google's signatuer family of fonts.
+description         Google's signature family of fonts.
 long_description    Google’s signature family of fonts, the default font on \
                     Android and Chrome OS, and the recommended font for \
                     Google’s visual language, Material Design.
-homepage            https://www.google.com/get/noto/
+homepage            https://github.com/googlefonts/roboto
 
 distfiles           ${name}-android.zip
 master_sites        https://github.com/googlefonts/${name}/releases/download/v${version}
@@ -20,6 +20,10 @@ master_sites        https://github.com/googlefonts/${name}/releases/download/v${
 checksums           rmd160  2a6374e8adebe28b3905edfd869987cd13ed8ade \
                     sha256  c825453253f590cfe62557733e7173f9a421fff103b00f57d33c4ad28ae53baf \
                     size    3927471
+
+livecheck.type      regex
+livecheck.url       ${homepage}
+livecheck.regex     "<a class=\"link-gray-dark d-flex no-underline\" href=\"/googlefonts/roboto/releases/tag/v(\\d+\\.\\d+)\">"
 
 worksrcdir
 use_configure           no
