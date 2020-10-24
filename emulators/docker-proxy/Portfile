@@ -3,12 +3,12 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-set sha             e7933d41e7b206756115aa9df5e0599fc5169742
+set sha             d0951081b35fa4216fc4f0064bf065beeb55a74b
 go.setup            github.com/docker/libnetwork ${sha}
 go.author           moby
 
 name                docker-proxy
-version             0.8.0_p20190513
+version             0.8.0_p20200917
 homepage            https://github.com/docker/libnetwork
 categories          emulators
 maintainers
@@ -17,9 +17,9 @@ license             Apache-2
 description         Docker container networking.
 long_description    ${description}
 
-checksums           rmd160  1e516943915997649477b5c47f6448b6680833c0 \
-                    sha256  bc226db36f4de2ebeb7446c756942f108949908d7a2a0febc064730741466eaa \
-                    size    2704355
+checksums           rmd160  95e839a6c8816a5d695b48b993e8df75d330b736 \
+                    sha256  6bf6c72a6784d76b840dc173438b9f848727b3a0c13e2941af8494c146237181 \
+                    size    3148255
 
 build.args -o bin/docker-proxy ./cmd/proxy
 
