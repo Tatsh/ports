@@ -2,9 +2,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        googlei18n noto-fonts 4931378
+github.setup        googlei18n noto-fonts b9a5b5c
 name                noto
-version             20200521
+version             20201023
 
 categories          graphics
 license             OFL-1.1
@@ -14,9 +14,9 @@ description         Google's font family that aims to support all the world's la
 long_description    ${description}
 homepage            https://www.google.com/get/noto/
 
-checksums           rmd160  eb8f57d029d813c48162fa8c7b9ebfb80c3d5a50 \
-                    sha256  d610660c6a0beffcea24c1ccf5e22bddda1f36a0f3b6db4e446e0fb7017ef240 \
-                    size    861162281
+checksums           rmd160  08c8c749f27efe507310d47c01aaabfce58486cd \
+                    sha256  1706a5d55704a39d52b3772e590b34c180ec9d177c002a48ac9e248dddf1338f \
+                    size    881757840
 
 use_configure           no
 destroot.violate_mtree  yes
@@ -67,9 +67,9 @@ build {}
 
 destroot {
     xinstall -d -m 755 ${destroot}/Library/Fonts
-    foreach dir [glob -nocomplain -directory ${worksrcpath}/hinted Noto*] {
+    foreach dir [glob -nocomplain -directory ${worksrcpath}/hinted/ttf Noto*] {
         set dir_basename [lrange [split ${dir} /] end end]
-        foreach file [glob -nocomplain -directory ${worksrcpath}/hinted/${dir_basename} *.ttf] {
+        foreach file [glob -nocomplain -directory ${worksrcpath}/hinted/ttf/${dir_basename} *.ttf] {
             set basename [lrange [split ${file} /] end end]
             copy ${file} ${destroot}/Library/Fonts/${basename}
         }
