@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        Tatsh torbrowser-launcher-mac 799c8c8
+github.setup        Tatsh torbrowser-launcher-mac ce63c84
 
 name                torbrowser-launcher
 version             0.0.1_p20200923
@@ -16,9 +16,9 @@ long_description    This package exists so that official Tor Browser builds \
                     installation can be maintained by a package manager.
 homepage            https://github.com/Tatsh/torbrowser-launcher-mac
 
-checksums           rmd160  cd91b6cc85c062fc22cf9523d2602449d7f543ef \
-                    sha256  82bd9e2900a5adaf636e1c36a676cf0ba5c4131714021cbc7864bd1beaee69eb \
-                    size    1465972
+checksums           rmd160  0c3d31f7e6445c48c11555ea3e23ef00ab96b7a5 \
+                    sha256  6e705632e2d4e6ca0d59db590f055403e2180cba24d0f215823fd311da705817 \
+                    size    1466467
 
 xcode.target        "Tor Browser Launcher"
 xcode.configuration Release
