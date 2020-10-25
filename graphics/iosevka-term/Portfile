@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                iosevka-term
-version             3.6.3
+version             3.7.0
 
 categories          graphics
 license             OFL-1.1
@@ -18,9 +18,9 @@ homepage            https://typeof.net/Iosevka/
 distfiles           ttf-${name}-${version}.zip
 master_sites        https://github.com/be5invis/Iosevka/releases/download/v${version}
 
-checksums           rmd160  5b824cb53827aad3252116b19d2877057b6a4a56 \
-                    sha256  2da15e3546e35a5cbb35e0e3129e5e64958cd10f4980aae71a01de55f3f7bd34 \
-                    size    80520888
+checksums           rmd160  4a8fa222c0c315a6b80cf822306673b7c5236878 \
+                    sha256  61609340bbc6e2234c5ba3389f6fb1dff50c6bfe9e2b623184cb9e09453c2af6 \
+                    size    86749914
 
 livecheck.type      regex
 livecheck.regex     "(\\d+\\.\\d+\\.\\d+)</div><div class=\"desc\">Version"
