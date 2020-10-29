@@ -2,15 +2,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                git-up
-version             1.6.1
-categories-append   devel
+version             2.0.1.post1
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
 categories          devel python
-revision            2
 
-python.versions     27 34 35 36 37
+python.versions         35 36 37 38 39
 python.default_version  38
 
 maintainers         {gmail.com:audvare @Tatsh}
@@ -23,15 +21,19 @@ long_description    PyGitUp is a Python port of aanand/git-up. It not only fully
 homepage            https://pypi.org/project/git-up/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-checksums           rmd160  6dc8fe4980410e1a21d6ee76fe0f45cf0cfe4ca0 \
-                    sha256  ea83441e7ab05011624e2e7333ef875c263124db5eed74507acd32b07c48473f \
-                    size    29411
+checksums           rmd160  966b3939e32a4ed343a680941ab6b364ba08cef5 \
+                    sha256  43d463199449cd6e3e80d2cef83a8e68f735f03fc33c94310e83b2241db9d73f \
+                    size    23330
 
-distname            ${python.rootname}-${version}
+depends_build-append    port:pyproject2setuppy
+depends_lib-append      port:py${python.version}-gitpython \
+                        port:py${python.version}-colorama \
+                        port:py${python.version}-termcolor \
+                        port:py${python.version}-click \
+                        port:py${python.version}-six
 
-depends_build-append    port:py${python.version}-setuptools
-depends_lib-append  port:py${python.version}-gitpython \
-                    port:py${python.version}-colorama \
-                    port:py${python.version}-termcolor \
-                    port:py${python.version}-click \
-                    port:py${python.version}-six
+patch {
+    file delete -force ${worksrcpath}/PyGitUp/tests
+    system "cd \"${worksrcpath}\" && ${python.bin} -m pyproject2setuppy.main build"
+    reinplace "s|, 'PyGitUp.tests'||" ${worksrcpath}/setup.py
+}
