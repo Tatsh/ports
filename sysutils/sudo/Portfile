@@ -1,20 +1,20 @@
 PortSystem          1.0
+PortGroup           github 1.0
 PortGroup           xcode 1.0
 
+github.setup        Tatsh sudo-touchid 87.140.1 v
 name                sudo
 categories          sysutils security
-version             86.50.1
+version             87.140.1
 platforms           macosx
 license             {AAPL MIT BSD}
 maintainers         {gmail.com:audvare @Tatsh}
 
-homepage            https://opensource.apple.com/release/macos-10141.html
-master_sites        https://opensource.apple.com/tarballs/${name}
-distname            ${name}-${version}
+checksums           rmd160  50fa4bd61090aa1c8909a90e8b0cab7610b31480 \
+                    sha256  3d3ca882be759eef098db14c93c7716b4ebf6f46312481f443a471296fdd5da7 \
+                    size    3687525
 
-checksums           rmd160  fdcada155c91905eec0ac90b7a616b9dbcb86040 \
-                    sha256  9fe6fbc0b55dbd0df91cf6aa3d6a2af8158d4b41830e6a0d275c055620a6664b \
-                    size    3049156
+homepage            https://opensource.apple.com/source/sudo/
 
 description         Allow users to run programs as other users, e.g. root (with Touch ID patch).
 long_description    ${description}
@@ -22,19 +22,11 @@ long_description    ${description}
 xcode.target        "Build All"
 xcode.configuration Release
 
-patchfiles          touchid.patch
-patch.pre_args      -p1
-
 if {${os.major} < 15} {
     pre-fetch {
         ui_error "${name} @${version} requires OS X 10.11 or later."
         return -code error "incompatible OS X version"
     }
-}
-
-post-patch {
-    file rename ${worksrcpath}/sudo/plugins/sudoers/auth/sudo_auth.c \
-        ${worksrcpath}/sudo/plugins/sudoers/auth/sudo_auth.m
 }
 
 destroot {
