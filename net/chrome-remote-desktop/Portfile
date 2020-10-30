@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                chrome-remote-desktop
+version             85.0.4183.6
+maintainers         {gmail.com:audvare @Tatsh}
+license             Restricted
+description         Remote desktop service, provided by Google.
+long_description    ${description}
+homepage            https://remotedesktop.google.com/
+master_sites        https://dl.google.com/chrome-remote-desktop/
+distfiles           chromeremotedesktop.dmg
+
+checksums           rmd160  90796606119c577beb922a7d78050ef9a66aba72 \
+                    sha256  5103eb518a5392ce228b33f0435012868d355c539b19fc552af7c03cf2297eeb \
+                    size    54657949
+
+livecheck.type      md5
+livecheck.url       https://dl.google.com/chrome-remote-desktop/chromeremotedesktop.dmg
+livecheck.md5       43c3a8fc90f37e91b9b9a33d2f1e8549
+
+use_configure       no
+use_dmg             yes
+extract.only        chromeremotedesktop.dmg
+extract.mkdir       no
+
+destroot.violate_mtree  yes
+
+if {${os.major} < 14} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.10 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+post-extract {
+    exec pkgutil --expand "${worksrcpath}/Chrome Remote Desktop Host.pkg" ${worksrcpath}/rdh
+    system "cd \"${worksrcpath}/rdh/ChromeRemoteDesktopHostService.pkg\" && cpio -i < Payload"
+}
+
+build {}
+
+destroot {
+    file copy {*}[glob -nocomplain -directory ${worksrcpath}/rdh/ChromeRemoteDesktopHostService.pkg/Library *] ${destroot}/Library/
+}
+
+post-destroot {
+    ui_msg "******************************************************"
+    ui_msg "*"
+    ui_msg "* To start the service:"
+    ui_msg "*"
+    ui_msg "    launchctl load -w -S Aqua /Library/LaunchAgents/org.chromium.chromoting.plist"
+    ui_msg "    launchctl start /Library/LaunchAgents/org.chromium.chromoting.plist"
+    ui_msg "*"
+    ui_msg "* Then go to https://remotedesktop.google.com/access/ to finish configuration."
+    ui_msg "*"
+    ui_msg "******************************************************"
+}
