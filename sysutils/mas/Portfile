@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-github.setup        mas-cli mas 1.6.3 v
+github.setup        mas-cli mas 1.7.1 v
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -10,11 +10,11 @@ description         Mac App Store command line interface.
 long_description    ${description}
 categories          sysutils aqua
 
-checksums           rmd160  e1f8291b1db2522b3a98ecabd2b95e45cb7a23ca \
-                    sha256  8674be01c54357a0ca8f908d9127bd9631e2a7f57d4d155acac225b749cb8617 \
-                    size    3044875
+checksums           rmd160  6be44c470c1efe943c5fa9388053d201f1f0a404 \
+                    sha256  c4659f52cb6238a51e53f33570e2744411fa1f4650dde4213cab0ae28e892842 \
+                    size    3320031
 
-depends_lib         port:Commandant port:Result
+depends_lib         port:Commandant
 
 xcode.target        mas
 xcode.configuration Release

@@ -1,68 +1,59 @@
 diff --git a/mas-cli.xcodeproj/project.pbxproj b/mas-cli.xcodeproj/project.pbxproj
-index cb46bbc..5de77ae 100644
+index 225b8ee..88a3f8d 100644
 --- a/mas-cli.xcodeproj/project.pbxproj
 +++ b/mas-cli.xcodeproj/project.pbxproj
-@@ -7,6 +7,8 @@
+@@ -7,6 +7,7 @@
  	objects = {
  
  /* Begin PBXBuildFile section */
-+		2633ADF42234F14200132989 /* Commandant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2633ADF32234F14200132989 /* Commandant.framework */; };
-+		2633ADF62234F14E00132989 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2633ADF52234F14E00132989 /* Result.framework */; };
- 		B537017321A0F85700538F78 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB4069213F4DDD0044E445 /* Result.framework */; };
++		26772D62254DE24900225FAA /* Commandant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26772D61254DE24900225FAA /* Commandant.framework */; };
+ 		60D8CF3624262F92005B4004 /* PurchaseCommandSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D8CF3524262F92005B4004 /* PurchaseCommandSpec.swift */; };
+ 		75FB3E761F9F7841005B6F20 /* Purchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75FB3E751F9F7841005B6F20 /* Purchase.swift */; };
  		B537017421A0F85B00538F78 /* Commandant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB406B213F4DDD0044E445 /* Commandant.framework */; };
- 		B537017521A0F94000538F78 /* Result.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB4069213F4DDD0044E445 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-@@ -102,11 +104,7 @@
+@@ -103,9 +104,7 @@
  		F832139F2173D5B2008BA8A0 /* SSDownloadStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = F8FB71B020F2EC4500F56FDC /* SSDownloadStatus.h */; };
  		F83213A02173D5B2008BA8A0 /* SSPurchase.h in Headers */ = {isa = PBXBuildFile; fileRef = F8FB71B120F2EC4500F56FDC /* SSPurchase.h */; };
  		F83213A12173D5B2008BA8A0 /* SSPurchaseResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = F8FB71B220F2EC4500F56FDC /* SSPurchaseResponse.h */; };
 -		F83213A22173DC13008BA8A0 /* Commandant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB406B213F4DDD0044E445 /* Commandant.framework */; };
--		F83213A32173DC18008BA8A0 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB4069213F4DDD0044E445 /* Result.framework */; };
  		F83213A82173F5A7008BA8A0 /* MasKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FB715220F2B41400F56FDC /* MasKit.framework */; };
 -		F83213A92173F5D0008BA8A0 /* Commandant.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB406B213F4DDD0044E445 /* Commandant.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
--		F83213AA2173F5D0008BA8A0 /* Result.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 90CB4069213F4DDD0044E445 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
- 		F8FB715B20F2B41400F56FDC /* MasKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FB715220F2B41400F56FDC /* MasKit.framework */; };
- 		F8FB716220F2B41400F56FDC /* MasKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F8FB715420F2B41400F56FDC /* MasKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
- 		F8FB716A20F2B4DD00F56FDC /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0F238A1B87569C00AE40CD /* Downloader.swift */; };
-@@ -187,8 +185,6 @@
+ 		F85DA8AE240C313900FE5650 /* MasAppLibrarySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85DA8AD240C313900FE5650 /* MasAppLibrarySpec.swift */; };
+ 		F85DA8B0240C32FA00FE5650 /* SoftwareMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85DA8AF240C32FA00FE5650 /* SoftwareMap.swift */; };
+ 		F85DA8B2240CBAFE00FE5650 /* CKSoftwareMap+SoftwareMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85DA8B1240CBAFE00FE5650 /* CKSoftwareMap+SoftwareMap.swift */; };
+@@ -191,7 +190,6 @@
  			dstPath = "";
  			dstSubfolderSpec = 10;
  			files = (
 -				F83213A92173F5D0008BA8A0 /* Commandant.framework in Copy Frameworks */,
--				F83213AA2173F5D0008BA8A0 /* Result.framework in Copy Frameworks */,
  			);
  			name = "Copy Frameworks";
  			runOnlyForDeploymentPostprocessing = 0;
-@@ -196,6 +192,8 @@
+@@ -199,6 +197,7 @@
  /* End PBXCopyFilesBuildPhase section */
  
  /* Begin PBXFileReference section */
-+		2633ADF32234F14200132989 /* Commandant.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Commandant.framework; path = ../../../../opt/local/Library/Frameworks/Commandant.framework; sourceTree = "<group>"; };
-+		2633ADF52234F14E00132989 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = ../../../../opt/local/Library/Frameworks/Result.framework; sourceTree = "<group>"; };
++		26772D61254DE24900225FAA /* Commandant.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Commandant.framework; path = ../../../../../opt/local/Library/Frameworks/Commandant.framework; sourceTree = "<group>"; };
+ 		60D8CF3524262F92005B4004 /* PurchaseCommandSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseCommandSpec.swift; sourceTree = "<group>"; };
  		693A98981CBFFA760004D3B4 /* Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
- 		8078FAA71EC4F2FB004B5B3F /* Lucky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lucky.swift; sourceTree = "<group>"; };
- 		900A1E801DBAC8CB0069B1A8 /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
-@@ -364,9 +362,9 @@
+ 		75FB3E751F9F7841005B6F20 /* Purchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purchase.swift; sourceTree = "<group>"; };
+@@ -376,7 +375,7 @@
  			isa = PBXFrameworksBuildPhase;
  			buildActionMask = 2147483647;
  			files = (
 -				F83213A22173DC13008BA8A0 /* Commandant.framework in Frameworks */,
-+				2633ADF42234F14200132989 /* Commandant.framework in Frameworks */,
++				26772D62254DE24900225FAA /* Commandant.framework in Frameworks */,
  				B5552928219A1BB900ACB4CA /* CommerceKit.framework in Frameworks */,
--				F83213A32173DC18008BA8A0 /* Result.framework in Frameworks */,
-+				2633ADF62234F14E00132989 /* Result.framework in Frameworks */,
  				B5552929219A1BC700ACB4CA /* StoreFoundation.framework in Frameworks */,
  			);
- 			runOnlyForDeploymentPostprocessing = 0;
-@@ -691,6 +689,8 @@
+@@ -709,6 +708,7 @@
  		EDFC76381B642A2E00D0DBD7 /* Frameworks */ = {
  			isa = PBXGroup;
  			children = (
-+				2633ADF52234F14E00132989 /* Result.framework */,
-+				2633ADF32234F14200132989 /* Commandant.framework */,
++				26772D61254DE24900225FAA /* Commandant.framework */,
  				F83213A42173EF75008BA8A0 /* Cocoa.framework */,
  				F83213A62173EF75008BA8A0 /* CommerceKit.framework */,
  				F83213A52173EF75008BA8A0 /* StoreFoundation.framework */,
-@@ -1126,6 +1126,7 @@
+@@ -1159,6 +1159,7 @@
  				FRAMEWORK_SEARCH_PATHS = (
  					"$(inherited)",
  					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
@@ -70,7 +61,7 @@ index cb46bbc..5de77ae 100644
  				);
  				GCC_C_LANGUAGE_STANDARD = gnu99;
  				GCC_DYNAMIC_NO_PIC = NO;
-@@ -1191,6 +1192,7 @@
+@@ -1227,6 +1228,7 @@
  				FRAMEWORK_SEARCH_PATHS = (
  					"$(inherited)",
  					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
@@ -78,62 +69,45 @@ index cb46bbc..5de77ae 100644
  				);
  				GCC_C_LANGUAGE_STANDARD = gnu99;
  				GCC_NO_COMMON_BLOCKS = YES;
-@@ -1220,12 +1222,13 @@
- 				COPY_PHASE_STRIP = NO;
- 				FRAMEWORK_SEARCH_PATHS = (
- 					"$(inherited)",
-+					/opt/local/Library/Frameworks,
- 					"$(PROJECT_DIR)/Carthage/Build/Mac",
- 				);
+@@ -1264,9 +1266,9 @@
  				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
  				INFOPLIST_FILE = "mas/mas-Info.plist";
  				INSTALL_PATH = /bin;
 -				LD_RUNPATH_SEARCH_PATHS = "@executable_path/. @executable_path/MasKit.framework/Versions/Current/Frameworks /usr/local/Frameworks /usr/local/Frameworks/MasKit.framework/Versions/Current/Frameworks $(inherited)";
-+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/. @executable_path/MasKit.framework/Versions/Current/Frameworks /usr/local/Frameworks /opt/local/Library/Frameworks/MasKit.framework/Versions/Current/Frameworks $(inherited) /opt/local/Library/Frameworks";
- 				PRODUCT_BUNDLE_IDENTIFIER = "com.mphys.mas-cli";
++				LD_RUNPATH_SEARCH_PATHS = "@executable_path/. @executable_path/MasKit.framework/Versions/Current/Frameworks /opt/local/Library/Frameworks /usr/local/Frameworks /usr/local/Frameworks/MasKit.framework/Versions/Current/Frameworks $(inherited)";
+ 				MARKETING_VERSION = 1.7.1;
+-				PRODUCT_BUNDLE_IDENTIFIER = "com.mphys.mas-cli";
++				PRODUCT_BUNDLE_IDENTIFIER = "org.macports.com.mphys.mas-cli";
  				PRODUCT_NAME = "$(TARGET_NAME)";
  				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-@@ -1242,12 +1245,13 @@
- 				DEPLOYMENT_LOCATION = YES;
- 				FRAMEWORK_SEARCH_PATHS = (
- 					"$(inherited)",
-+					/opt/local/Library/Frameworks,
- 					"$(PROJECT_DIR)/Carthage/Build/Mac",
- 				);
+ 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+@@ -1289,9 +1291,9 @@
  				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
  				INFOPLIST_FILE = "mas/mas-Info.plist";
  				INSTALL_PATH = /bin;
 -				LD_RUNPATH_SEARCH_PATHS = "@executable_path/. @executable_path/MasKit.framework/Versions/Current/Frameworks /usr/local/Frameworks /usr/local/Frameworks/MasKit.framework/Versions/Current/Frameworks $(inherited)";
-+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/. @executable_path/MasKit.framework/Versions/Current/Frameworks /usr/local/Frameworks /opt/local/Library/Frameworks/MasKit.framework/Versions/Current/Frameworks $(inherited) /opt/local/Library/Frameworks";
- 				PRODUCT_BUNDLE_IDENTIFIER = "com.mphys.mas-cli";
++				LD_RUNPATH_SEARCH_PATHS = "@executable_path/. @executable_path/MasKit.framework/Versions/Current/Frameworks /opt/local/Library/Frameworks /usr/local/Frameworks /usr/local/Frameworks/MasKit.framework/Versions/Current/Frameworks $(inherited)";
+ 				MARKETING_VERSION = 1.7.1;
+-				PRODUCT_BUNDLE_IDENTIFIER = "com.mphys.mas-cli";
++				PRODUCT_BUNDLE_IDENTIFIER = "org.macports.com.mphys.mas-cli";
  				PRODUCT_NAME = "$(TARGET_NAME)";
  				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-@@ -1279,11 +1283,12 @@
- 				FRAMEWORK_SEARCH_PATHS = (
- 					"$(inherited)",
- 					"$(PROJECT_DIR)/Carthage/Build/Mac",
-+					/opt/local/Library/Frameworks,
- 				);
+ 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+@@ -1326,7 +1328,7 @@
  				FRAMEWORK_VERSION = A;
  				GCC_C_LANGUAGE_STANDARD = gnu11;
  				INFOPLIST_FILE = MasKit/SupportingFiles/Info.plist;
 -				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 +				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /opt/local/Library/Frameworks";
+ 				MARKETING_VERSION = 1.7.1;
  				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
  				MTL_FAST_MATH = YES;
- 				PRODUCT_BUNDLE_IDENTIFIER = at.phatbl.MasKit;
-@@ -1317,12 +1322,13 @@
- 				FRAMEWORK_SEARCH_PATHS = (
- 					"$(inherited)",
- 					"$(PROJECT_DIR)/Carthage/Build/Mac",
-+					/opt/local/Library/Frameworks,
- 				);
- 				FRAMEWORK_VERSION = A;
+@@ -1365,7 +1367,7 @@
  				GCC_C_LANGUAGE_STANDARD = gnu11;
  				INFOPLIST_FILE = MasKit/SupportingFiles/Info.plist;
  				INSTALL_PATH = /Frameworks;
 -				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 +				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks /opt/local/Library/Frameworks";
+ 				MARKETING_VERSION = 1.7.1;
  				MTL_FAST_MATH = YES;
  				PRODUCT_BUNDLE_IDENTIFIER = at.phatbl.MasKit;
- 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
