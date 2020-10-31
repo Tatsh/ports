@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-set commit          656b487d333db8ad7134d26cfe12358c46c2b7f8
+set commit          3662dc4c0b12cb5baebf1bb835a962b7e70d4efc
 go.setup            github.com/containerd/containerd ${commit}
 categories          emulators
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,9 +16,9 @@ long_description    ${description}
 
 depends_build       port:go-md2man port:pkgconfig
 
-checksums           rmd160  98588f242e1495fb9069379d82667a3d9f5585a5 \
-                    sha256  7d33cdc948eae610cbd2a4c001e068c43087dfa022597c706a4529617de7ba60 \
-                    size    6652861
+checksums           rmd160  118d84c7f8faf11f95e6bb683082417cfef6888e \
+                    sha256  5310766b9e06d5df467107aead78b106a3c9b097b2cc087561d4cec0f0df927e \
+                    size    6641645
 
 patch {
     reinplace "s/git describe --match.*$/echo ${name})/" ${worksrcpath}/Makefile
