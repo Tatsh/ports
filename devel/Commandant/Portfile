@@ -13,19 +13,19 @@ long_description    ${description}
 categories          devel
 
 master_sites        ${github.homepage}/tarball/${git.branch}:commandant \
-                    https://github.com/jspahrsummers/xcconfigs/tarball/0.9:xcconfigs
+                    https://github.com/xcconfigs/xcconfigs/tarball/0.9:xcconfigs
 worksrcdir          Carthage-${name}-ab68611
 distfiles           ${name}-${version}.tar.gz:commandant \
-                    jspahrsummers-xcconfigs-0.9.tar.gz:xcconfigs
+                    xcconfigs-xcconfigs-0.9.tar.gz:xcconfigs
 
 checksums           Commandant-0.17.0.tar.gz \
                     rmd160  50096d3dc752a11e9f6d88873074ec07ed732d7d \
                     sha256  53bf7e77301e2a5f48cb857119cd8d3f59d4824d2959e61a9d88bfbd87f6df37 \
                     size    23316 \
-                    jspahrsummers-xcconfigs-0.9.tar.gz \
-                    rmd160  3a10683664721d6408556d7e751c0cce41c70255 \
-                    sha256  f73609606b3bd9d60f980e53380bf7856e22467f0bebae7af50186f9016c41e3 \
-                    size    6778
+                    xcconfigs-xcconfigs-0.9.tar.gz \
+                    rmd160  aad17ae2705c15e492e31d9f579260570c5e48f7 \
+                    sha256  2d1b42a3c2c972d398d9b9deaef4698127164114044b67bd8b43fd9c1ad0a4d1 \
+                    size    6772
 
 xcode.target        Commandant
 xcode.configuration Release
@@ -39,9 +39,9 @@ xcode.destroot.settings \
 set gh_hash d78854b
 
 pre-configure {
-    file copy "${workpath}/jspahrsummers-xcconfigs-${gh_hash}/Base" \
+    file copy "${workpath}/xcconfigs-xcconfigs-${gh_hash}/Base" \
         "${worksrcpath}/Carthage/Checkouts/xcconfigs/Base"
-    file copy "${workpath}/jspahrsummers-xcconfigs-${gh_hash}/Mac OS X" \
+    file copy "${workpath}/xcconfigs-xcconfigs-${gh_hash}/Mac OS X" \
         "${worksrcpath}/Carthage/Checkouts/xcconfigs/Mac OS X"
 }
 
