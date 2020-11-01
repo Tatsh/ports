@@ -2,22 +2,34 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        DanielStormApps Fanny 2ee66f3
+github.setup        DanielStormApps Fanny 2.3.0
 
-version             1.0.3
+version             2.3.0
 categories-append   sysutils
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
 description         Monitor your Mac's fan speed and CPU temperature from your Notification Center.
 long_description    ${description}
 homepage            https://github.com/DanielStormApps/Fanny/
-revision            2
 
-checksums           rmd160  2ca7d8ffd89b4759edb39b94c58a3026b33a7dc2 \
-                    sha256  b42cc63efb9b5c5aaebf478fd11671137539050d60f56b4a91d19399bfa522be \
-                    size    798504
+master_sites        ${github.homepage}/tarball/${git.branch}:re3 \
+                    https://github.com/DanielStormApps/SMC/archive:smc
+set fanny_hash      8a330d0
+set smc_hash        3d720728c59c54ef488beefd85567b4c42bb407d
+distfiles           ${name}-${version}.tar.gz:Fanny \
+                    ${smc_hash}.tar.gz:smc
+worksrcdir          DanielStormApps-${name}-${fanny_hash}/${name}
 
-xcode.target        Fanny
+checksums           Fanny-2.3.0.tar.gz \
+                    rmd160  3806a672d6781de938744a518b0a5dda75a1cd95 \
+                    sha256  b8e7a8558140eea013125675a5fc14bae42b1037bab8ab5e86ac2a214eaf1c7f \
+                    size    1268796 \
+                    3d720728c59c54ef488beefd85567b4c42bb407d.tar.gz \
+                    rmd160  8a70894b8293d1faf732f8647ee46817b6da833b \
+                    sha256  3d666514336e3cf9de2f285ce711cd980848aaf57b0d77b68b15cb365240c620 \
+                    size    15864
+
+xcode.target        ${name}
 xcode.configuration Release
 xcode.build.settings \
     CODE_SIGN_IDENTITY=- \
@@ -25,6 +37,12 @@ xcode.build.settings \
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
+
+pre-configure {
+    file delete -force ${worksrcpath}/Submodules/Internal/SMC
+    file copy ${workpath}/SMC-${smc_hash} \
+        ${worksrcpath}/Submodules/Internal/SMC
+}
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
@@ -34,4 +52,16 @@ if {${os.major} < 16} {
         ui_error "${name} @${version} requires OS X 10.12 or later."
         return -code error "incompatible OS X version"
     }
+}
+
+post-install {
+    ui_msg "******************************************************"
+    ui_msg "*"
+    ui_msg "* If you had a previous version of Fanny, you should stop it before running the app "
+    ui_msg "* again and then re-add the widget to your Notification Centre:"
+    ui_msg "*"
+    ui_msg "*   killall Fanny FannyWidget"
+    ui_msg "*   open ${applications_dir}/Fanny.app"
+    ui_msg "*"
+    ui_msg "******************************************************"
 }
