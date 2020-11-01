@@ -28,7 +28,15 @@ use_configure       no
 use_zip             yes
 extract.only        "Bartender 3.zip"
 extract.mkdir       yes
-build.cmd           echo
+
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+build {}
 
 destroot {
     file copy "${worksrcpath}/Bartender 3.app" "${destroot}/${applications_dir}/"
