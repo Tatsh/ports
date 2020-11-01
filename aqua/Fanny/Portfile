@@ -57,11 +57,11 @@ if {${os.major} < 16} {
 post-install {
     ui_msg "******************************************************"
     ui_msg "*"
-    ui_msg "* If you had a previous version of Fanny, you should stop it before running the app "
+    ui_msg "* If you had a previous version of ${name}, you should stop it before running the app "
     ui_msg "* again and then re-add the widget to your Notification Centre:"
     ui_msg "*"
-    ui_msg "*   killall Fanny FannyWidget"
-    ui_msg "*   open ${applications_dir}/Fanny.app"
+    ui_msg "*   killall '${name}' '${name}Widget'"
+    ui_msg "*   open '${applications_dir}/${name}.app'"
     ui_msg "*"
     ui_msg "******************************************************"
 }
