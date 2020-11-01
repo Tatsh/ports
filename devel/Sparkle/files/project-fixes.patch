@@ -1,0 +1,85 @@
+diff --git a/Sparkle.xcodeproj/project.pbxproj b/Sparkle.xcodeproj/project.pbxproj
+index 6b57ae9c..8f971191 100644
+--- a/Sparkle.xcodeproj/project.pbxproj
++++ b/Sparkle.xcodeproj/project.pbxproj
+@@ -397,6 +397,20 @@
+ 			remoteGlobalIDString = 55C14BB6136EEF1500649790;
+ 			remoteInfo = Autoupdate;
+ 		};
++		26EAB4BE254ED85A0058E90F /* PBXContainerItemProxy */ = {
++			isa = PBXContainerItemProxy;
++			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
++			proxyType = 1;
++			remoteGlobalIDString = EA43119F229D5FBC00A5503D;
++			remoteInfo = ed25519;
++		};
++		26EAB4C0254ED86A0058E90F /* PBXContainerItemProxy */ = {
++			isa = PBXContainerItemProxy;
++			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
++			proxyType = 1;
++			remoteGlobalIDString = EA4311E9229D651300A5503D;
++			remoteInfo = bsdiff;
++		};
+ 		55C14F96136F044100649790 /* PBXContainerItemProxy */ = {
+ 			isa = PBXContainerItemProxy;
+ 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+@@ -1957,6 +1971,8 @@
+ 			buildRules = (
+ 			);
+ 			dependencies = (
++				26EAB4C1254ED86A0058E90F /* PBXTargetDependency */,
++				26EAB4BF254ED85A0058E90F /* PBXTargetDependency */,
+ 				55C14F97136F044100649790 /* PBXTargetDependency */,
+ 			);
+ 			name = Sparkle;
+@@ -2235,7 +2251,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = "/usr/bin/env sh";
+-			shellScript = "ln -sfh \"fr.lproj\" \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/fr_CA.lproj\"";
++			shellScript = "/bin/ln -sfh \"fr.lproj\" \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/fr_CA.lproj\"\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		61E31A85103299750051D188 /* Run Script: Link pt to pt_BR */ = {
+@@ -2252,7 +2268,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = "/usr/bin/env sh";
+-			shellScript = "ln -sfh \"pt_BR.lproj\" \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/pt.lproj\"";
++			shellScript = "/bin/ln -sfh \"pt_BR.lproj\" \"$BUILT_PRODUCTS_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/pt.lproj\"\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		895C5DBD24D75F590058A82D /* ShellScript */ = {
+@@ -2548,6 +2564,16 @@
+ 			target = 55C14BB6136EEF1500649790 /* Autoupdate */;
+ 			targetProxy = 1495006B195FB8A600BC5B5B /* PBXContainerItemProxy */;
+ 		};
++		26EAB4BF254ED85A0058E90F /* PBXTargetDependency */ = {
++			isa = PBXTargetDependency;
++			target = EA43119F229D5FBC00A5503D /* ed25519 */;
++			targetProxy = 26EAB4BE254ED85A0058E90F /* PBXContainerItemProxy */;
++		};
++		26EAB4C1254ED86A0058E90F /* PBXTargetDependency */ = {
++			isa = PBXTargetDependency;
++			target = EA4311E9229D651300A5503D /* bsdiff */;
++			targetProxy = 26EAB4C0254ED86A0058E90F /* PBXContainerItemProxy */;
++		};
+ 		55C14F97136F044100649790 /* PBXTargetDependency */ = {
+ 			isa = PBXTargetDependency;
+ 			target = 55C14BB6136EEF1500649790 /* Autoupdate */;
+@@ -2881,6 +2907,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = FA1941CF0D94A70100DD942E /* ConfigCommonDebug.xcconfig */;
+ 			buildSettings = {
++				DEVELOPMENT_TEAM = "";
+ 				SWIFT_VERSION = 4.2;
+ 			};
+ 			name = Debug;
+@@ -2889,6 +2916,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = FA1941CC0D94A70100DD942E /* ConfigCommonRelease.xcconfig */;
+ 			buildSettings = {
++				DEVELOPMENT_TEAM = "";
+ 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+ 				SWIFT_VERSION = 4.2;
+ 			};
