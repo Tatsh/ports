@@ -5,6 +5,7 @@ PortGroup           github 1.0
 name                Commandant
 version             0.17.0
 github.setup        Carthage ${name} ${version}
+revision            1
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
