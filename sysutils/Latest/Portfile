@@ -1,0 +1,63 @@
+PortSystem          1.0
+PortGroup           xcode 1.0
+PortGroup           github 1.0
+
+name                Latest
+version             0.6.3
+github.setup        mangerlahn ${name} ${version}
+
+master_sites        ${github.homepage}/tarball/${git.branch}:latest \
+                    https://github.com/sparkle-project/Sparkle/archive:sparkle \
+                    https://github.com/mas-cli/mas/archive:mas
+set n_commits       370
+set latest_hash     f970a07
+set sparkle_hash    67819be18a4ef48e85ea30dbbf8de582f5ef405c
+set mas_hash        b5efb8525e3ae538d41d0102756534410e7a3c98
+distfiles           ${name}-${version}.tar.gz:latest \
+                    ${sparkle_hash}.tar.gz:sparkle \
+                    ${mas_hash}.tar.gz:mas
+worksrcdir          mangerlahn-${name}-${latest_hash}
+
+checksums           Latest-0.6.3.tar.gz \
+                    rmd160  30f323c543af1525a56ac5c4d4c8d1f8e8c6ed59 \
+                    sha256  54342796bcf8ffd347be46ec1d43fd69736007aea7f58abbc61a71e256d18bb9 \
+                    size    2247254 \
+                    67819be18a4ef48e85ea30dbbf8de582f5ef405c.tar.gz \
+                    rmd160  82310599396ba959a0a2b54f340fe98a31f8aabe \
+                    sha256  5a928cc6772e9abe17ce14a88eee4277ad769bdc46e01fa25769177aba3e744b \
+                    size    12145916 \
+                    b5efb8525e3ae538d41d0102756534410e7a3c98.tar.gz \
+                    rmd160  1cb049e28dd020621c761b5777b2b237859bd23c \
+                    sha256  8ba72527823c57191e35e92be1970fc14959d36fc8a4f68db4cc3878a3e3bca6 \
+                    size    3046433
+
+xcode.scheme        ${name}
+xcode.configuration Release
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
+destroot.pre_args -derivedDataPath ${build.dir}/.dd
+
+post-extract {
+    file delete -force ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
+    copy ${workpath}/Sparkle-${sparkle_hash} ${worksrcpath}/Frameworks/Sparkle
+    copy ${workpath}/mas-${mas_hash} ${worksrcpath}/Frameworks/mas-cli
+}
+
+patch {
+    reinplace "s|ln -sfh|/bin/ln -sfh|" \
+        ${worksrcpath}/Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj
+    reinplace "s/\\\$number_of_commits/${n_commits}/" \
+        ${worksrcpath}/Latest.xcodeproj/project.pbxproj
+}
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
+
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
