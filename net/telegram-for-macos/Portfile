@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+
+name                telegram-for-macos
+version             7.2
+categories          aqua net
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         macOS native client for Telegram (official build).
+long_description    ${description}
+homepage            https://macos.telegram.org/
+distfiles           Telegram.dmg
+master_sites        https://osx.telegram.org/updates/
+
+checksums           rmd160  d7bcf0d22275893cd201438e3ee9696fe406f4cb \
+                    sha256  76d26103088935cea715e168396be4853e1512c66a3433a78dd76d345d5f0948 \
+                    size    37046946
+
+livecheck.type      md5
+livecheck.url       https://osx.telegram.org/updates/Telegram.dmg
+livecheck.md5       3c5c0b054f0524f357bdafc6c314d5e1
+
+use_configure       no
+use_dmg             yes
+extract.only        Telegram.dmg
+extract.mkdir       no
+
+build {}
+
+destroot {
+    file copy "${worksrcpath}/Telegram.app" "${destroot}/${applications_dir}/"
+}
