@@ -53,6 +53,7 @@ post-destroot {
     ui_msg "    launchctl load -w -S Aqua /Library/LaunchAgents/org.chromium.chromoting.plist"
     ui_msg "    launchctl start /Library/LaunchAgents/org.chromium.chromoting.plist"
     ui_msg "*"
+    ui_msg "* Install the Chrome extension: https://chrome.google.com/webstore/detail/chrome-remote-desktop/inomeogfingihgjfjlpeplalcfajhgai/"
     ui_msg "* Then go to https://remotedesktop.google.com/access/ to finish configuration."
     ui_msg "*"
     ui_msg "******************************************************"
