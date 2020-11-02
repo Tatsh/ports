@@ -12,7 +12,7 @@ description         Monitor your Mac's fan speed and CPU temperature from your N
 long_description    ${description}
 homepage            https://github.com/DanielStormApps/Fanny/
 
-master_sites        ${github.homepage}/tarball/${git.branch}:re3 \
+master_sites        ${github.homepage}/tarball/${git.branch}:Fanny \
                     https://github.com/DanielStormApps/SMC/archive:smc
 set fanny_hash      8a330d0
 set smc_hash        3d720728c59c54ef488beefd85567b4c42bb407d
