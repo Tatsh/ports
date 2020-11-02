@@ -1,0 +1,35 @@
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+name                MenuMeters
+version             2.0.8.3
+github.setup        yujitach MenuMeters 2.0.8.3
+
+categories-append   sysutils
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh}
+description         MenuMeters is a set of CPU, memory, disk, and network monitoring tools for macOS.
+long_description    ${description}
+homepage            https://github.com/yujitach/MenuMeters/
+
+checksums           rmd160  4833424524198f8ab23e07939441fedc30534992 \
+                    sha256  90af2ea9e6cde7df27a578fd9a8d5551769fdf364aaec4527c9e6a77f7d06a67 \
+                    size    1211333
+
+xcode.target        ${name}
+xcode.configuration Release
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
+
+if {${os.major} < 15} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.11 or later."
+        return -code error "incompatible OS X version"
+    }
+}
