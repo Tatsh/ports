@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from os.path import join as path_join, realpath
-from typing import Any, Dict, List
+from os.path import basename, join as path_join, realpath
+from typing import Any, Dict, Final, List, Optional
 import argparse
 import os
 import plistlib
@@ -9,8 +9,12 @@ import subprocess as sp
 import sys
 import tempfile
 
+HEADER: Final[str] = ('# -*- coding: utf-8; mode: tcl; tab-width: 4; '
+                      'indent-tabs-mode: nil; c-basic-offset: 4 -*- '
+                      'vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4')
 
-def has_libstdcxx(start: str):
+
+def has_libstdcxx(start: str) -> bool:
     dirpath: str
     dirnames: List[str]
     filenames: List[str]
@@ -34,7 +38,7 @@ def hdiutil_info() -> Dict[str, Any]:
     return plistlib.loads(sp.check_output(['hdiutil', 'info', '-plist']))
 
 
-def mount_dmg(mountroot: str, dmg: str):
+def mount_dmg(mountroot: str, dmg: str) -> None:
     sp.check_call([
         'hdiutil', 'attach', '-noverify', '-noautofsck', '-noautoopen',
         '-private', '-nobrowse', '-readonly', '-mount', 'required',
@@ -42,21 +46,22 @@ def mount_dmg(mountroot: str, dmg: str):
     ])
 
 
-def unmount_dmg(mountpoint: str):
+def unmount_dmg(mountpoint: str) -> None:
     sp.check_call(['hdiutil', 'detach', '-quiet', mountpoint])
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('dmg', metavar='DMG', nargs=1)
     parser.add_argument('app_name', metavar='APP_NAME', nargs=1)
     args = parser.parse_args()
+    dmg: Optional[str] = None
 
     if args.dmg[0].startswith('http:') or args.dmg[0].startswith('https:'):
         _, dmg = tempfile.mkstemp(suffix='.dmg')
         sp.check_call(['curl', '-q', '-o', dmg, args.dmg[0]])
     else:
-        dmg: str = realpath(args.dmg[0])
+        dmg = realpath(args.dmg[0])
 
     app_name: str = args.app_name[0]
     pkg_name = app_name.lower().replace(' ', '-').replace('.app', '')
@@ -76,6 +81,7 @@ def main():
                     pass
 
     mountroot: str = tempfile.mkdtemp()
+    assert dmg is not None
     mount_dmg(mountroot, dmg)
 
     ld: List[str] = os.listdir(mountroot)
@@ -107,9 +113,17 @@ def main():
     except KeyError:
         version = 'VERSION'
 
-    print('''PortSystem 1.0
+    copy_arg2 = '"${{destroot}}/${{applications_dir}}/"'
+    copy_line = f'    copy "${{worksrcpath}}/{app_name}" {copy_arg2}'
+    if len(copy_line) > 79:
+        copy_line = (f'    copy "${{worksrcpath}}/{app_name}"\n \\'
+                     f'        {copy_arg2}')
 
-name                {display_name}
+    print(f'''{HEADER}
+
+PortSystem 1.0
+
+name                {pkg_name}
 version             {version}
 categories          aqua
 platforms           macosx
@@ -117,7 +131,7 @@ maintainers         {{gmail.com:audvare @Tatsh}}
 description         DESCRIPTION
 long_description    ${{description}}
 homepage            HOMEPAGE
-distfiles           DISTFILES
+distfiles           {basename(dmg)}
 master_sites        URL
 
 # CHECKSUMS
@@ -128,19 +142,17 @@ livecheck.regex     REGEX
 
 use_configure       no
 use_dmg             yes
-extract.only        DMGFILE
+extract.only        {basename(dmg)}
 extract.mkdir       no
 {stdcxx_line}
 build {{}}
 
 destroot {{
-    file copy "${{worksrcpath}}/{name}" "${{destroot}}/${{applications_dir}}/"
-}}'''.format(name=app_name,
-             display_name=pkg_name,
-             version=version,
-             stdcxx_line=stdcxx_line))
+{copy_line}
+}}''')
 
     unmount_dmg(realroot)
+    return 0
 
 
 if __name__ == '__main__':
