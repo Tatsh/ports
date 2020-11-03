@@ -1,7 +1,10 @@
 PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
 
 name                fastdmg
-version             1.0.1
+version             1.0.1_p20200921
+github.setup        sveinbjornt FastDMG 1ef0428
 
 categories          sysutils aqua
 license             BSD-3
@@ -13,23 +16,23 @@ long_description    FastDMG is a free macOS utility to mount .dmg and other \
                     is a very fast and reliable alternative to Apple's \
                     annoying DiskImageMounter.
 homepage            https://sveinbjorn.org/fastdmg
-distfiles           FastDMG.zip
-master_sites        https://sveinbjorn.org/files/software/
 
-livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "⇩ Download FastDMG (\\d+\[^<\]+)"
+checksums           rmd160  456662edb25684f1dfa82674b26e1616ec431ce7 \
+                    sha256  21acc914a7dc8ab5b0c84da60b035c030a4075551c97e82142226fdae43cd75e \
+                    size    3133601
 
-use_configure       no
-use_zip             yes
-extract.only        "FastDMG.zip"
-extract.mkdir       yes
-build.cmd           echo
+xcode.target        FastDMG
+xcode.configuration Release
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
 
-checksums           rmd160  a06342a0bab82e9eb2e1792743647e24017d065f \
-                    sha256  9faf7a10fc33b8f0a1dd952328df6602128ad44e21b15a457b37c0288b302e0f \
-                    size    1220399
+build {}
 
-destroot {
-    file copy "${worksrcpath}/FastDMG.app" "${destroot}/${applications_dir}/"
+if {${os.major} < 12} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.8 or later."
+        return -code error "incompatible OS X version"
+    }
 }
