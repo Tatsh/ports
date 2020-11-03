@@ -1,0 +1,18 @@
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Orc discount db1d037
+version             2.2.6_p20201026
+platforms           darwin linux freebsd
+license             BSD-3
+maintainers         {gmail.com:audvare @Tatsh}
+description         An implementation of the Markdown markup language.
+long_description    ${description}
+categories          textproc
+
+checksums           rmd160  708cb791621335910d61f5b81f40316aba4d156c \
+                    sha256  6bfd461340b136db390e46cf24f24e992a280e76aaf97788aeab813679d7bf86 \
+                    size    133105
+
+cmake.source_dir    ${worksrcpath}/cmake
