@@ -16,7 +16,7 @@ checksums           rmd160  8a8704576c62d57ae63d6fda95ba62de1d11b59f \
                     size    60381
 
 xcode.target        ${name}
-xcode.destroot.path ${prefix}/share/${name}
+xcode.destroot.path ${prefix}/Library/PreferencePanes
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
@@ -41,7 +41,7 @@ post-destroot {
     ui_msg "* To finish installation, run the following command as a regular user. Choose "
     ui_msg "* 'Install for this user only' in System Preferences."
     ui_msg "*"
-    ui_msg "    open ${prefix}/share/${name}/${name}.prefPane"
+    ui_msg "    open ${xcode.destroot.path}/${name}.prefPane"
     ui_msg "*"
     ui_msg "******************************************************"
 }
