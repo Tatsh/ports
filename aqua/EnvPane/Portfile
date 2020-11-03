@@ -1,0 +1,47 @@
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        hschmidt EnvPane 467af65
+
+version             0.6_p2018107
+categories-append   sysutils
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh}
+description         Tool to set environment variables for an Aqua session.
+long_description    ${description}
+
+checksums           rmd160  8a8704576c62d57ae63d6fda95ba62de1d11b59f \
+                    sha256  9d66d16db519c45685db2f23bd76aacb4e755e5984f39fd9d69da907615e8872 \
+                    size    60381
+
+xcode.target        ${name}
+xcode.destroot.path ${prefix}/share/${name}
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO \
+    GCC_TREAT_WARNINGS_AS_ERRORS=NO
+
+patchfiles      macports.patch
+patch.pre_args  -p1
+
+build {}
+
+if {${os.major} < 12} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.8 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+post-destroot {
+    ui_msg "******************************************************"
+    ui_msg "*"
+    ui_msg "* To finish installation, run the following command as a regular user. Choose "
+    ui_msg "* 'Install for this user only' in System Preferences."
+    ui_msg "*"
+    ui_msg "    open ${prefix}/share/${name}/${name}.prefPane"
+    ui_msg "*"
+    ui_msg "******************************************************"
+}
