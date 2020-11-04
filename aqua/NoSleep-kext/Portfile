@@ -21,6 +21,12 @@ use_dmg             yes
 extract.only        ${github.project}-${version}.dmg
 extract.mkdir       no
 
+set daemon_name org.macports.${name}
+startupitem.type        launchd
+startupitem.create      no
+startupitem.uniquename  ${daemon_name}
+startupitem.plist       ${daemon_name}.plist
+
 if {${os.major} < 16} {
     pre-fetch {
         ui_error "${name} @${version} requires OS X 10.12 or later."
@@ -34,4 +40,26 @@ destroot {
     xinstall -d -m 0755 ${destroot}${prefix}/Library/Extensions
     copy ${worksrcpath}/NoSleep.app/Contents/Resources/NoSleep.kext \
         ${destroot}${prefix}/Library/Extensions
+    xinstall -d -m 0755 ${destroot}${prefix}/etc/LaunchDaemons/${daemon_name}
+    set plist [open ${destroot}${prefix}/etc/LaunchDaemons/${daemon_name}/${daemon_name}.plist w 0644]
+    puts ${plist} "<?xml version='1.0' encoding='UTF-8'?>"
+    puts ${plist} "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\""
+    puts ${plist} "\"http://www.apple.com/DTDs/PropertyList-1.0.dtd\" >"
+    puts ${plist} "<plist version='1.0'>"
+    puts ${plist} "<dict>"
+    puts ${plist} "<key>Label</key><string>${daemon_name}</string>"
+    puts ${plist} "<key>ProgramArguments</key>"
+    puts ${plist} "<array>"
+    puts ${plist} "\t<string>/sbin/kextload</string>"
+    puts ${plist} "\t<string>${prefix}/Library/Extensions/NoSleep.kext</string>"
+    puts ${plist} "</array>"
+    puts ${plist} "<key>KeepAlive</key><false/>"
+    puts ${plist} "<key>Disabled</key><true/>"
+    puts ${plist} "<key>RunAtLoad</key><true/>"
+    puts ${plist} "</dict>"
+    puts ${plist} "</plist>"
+    close ${plist}
+    xinstall -d -m 0755 ${destroot}/Library/LaunchDaemons
+    ln -s ${prefix}/etc/LaunchDaemons/${daemon_name}/${daemon_name}.plist \
+        ${destroot}/Library/LaunchDaemons
 }
