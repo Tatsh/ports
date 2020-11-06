@@ -1,0 +1,309 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libreoffice
+version             7.0.3
+categories          office aqua
+license             {LGPL-3 MPL-1.1}
+description         Free, open source office suite.
+long_description    ${description}
+homepage            https://www.libreoffice.org
+supported_archs     x86_64
+master_sites        https://download.documentfoundation.org/${name}/src/${version}/
+use_xz              yes
+set full_version    ${version}.1
+
+set addons_uri      https://dev-www.libreoffice.org/src/
+set extern_uri      https://dev-www.libreoffice.org/extern/
+set osuosl_uri      https://ftp.osuosl.org/pub/tdf/${name}/src/${version}/
+set main_distfile   ${name}-${full_version}${extract.suffix}
+extract.only        ${main_distfile}
+master_sites        https://download.documentfoundation.org/${name}/src/${version}/:main \
+                    ${extern_uri}:opens \
+                    ${addons_uri}:ucpp \
+                    ${addons_uri}:clucene-core \
+                    ${addons_uri}:mythes \
+                    ${addons_uri}:dtoa \
+                    ${addons_uri}:abw \
+                    ${addons_uri}:cmis \
+                    ${addons_uri}:ebook \
+                    ${addons_uri}:epubgen \
+                    ${addons_uri}:exttextcat \
+                    ${addons_uri}:mwaw \
+                    ${addons_uri}:orcus \
+                    ${addons_uri}:qxp \
+                    ${addons_uri}:libstaroffice \
+                    ${addons_uri}:zmf \
+                    ${addons_uri}:mdds \
+                    ${addons_uri}:openssl \
+                    ${addons_uri}:xmlsec \
+                    ${addons_uri}:python \
+                    ${osuosl_uri}:dicts \
+                    ${osuosl_uri}:translations
+distfiles           ${main_distfile}:main \
+                    ${name}-dictionaries-7.0.3.1.tar.xz:dicts \
+                    ${name}-translations-7.0.3.1.tar.xz:translations \
+                    0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz:ucpp \
+                    48d647fbd8ef8889e5a7f422c1bfda94-clucene-core-2.3.3.4.tar.gz:clucene-core \
+                    884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc-opens___.ttf:opens \
+                    Python-3.7.7.tar.xz:python \
+                    a8c2c5b8f09e7ede322d5c602ff6a4b6-mythes-1.2.4.tar.gz:mythes \
+                    dtoa-20180411.tgz:dtoa \
+                    libabw-0.1.3.tar.xz:abw \
+                    libcmis-0.5.2.tar.xz:cmis \
+                    libe-book-0.1.3.tar.xz:ebook \
+                    libepubgen-0.1.1.tar.xz:epubgen \
+                    libexttextcat-3.4.5.tar.xz:exttextcat \
+                    libmwaw-0.3.16.tar.xz:mwaw \
+                    liborcus-0.15.4.tar.bz2:orcus \
+                    libqxp-0.0.2.tar.xz:qxp \
+                    libstaroffice-0.0.7.tar.xz:libstaroffice \
+                    libzmf-0.0.2.tar.xz:zmf \
+                    mdds-1.6.0.tar.bz2:mdds \
+                    openssl-1.0.2t.tar.gz:openssl \
+                    xmlsec1-1.2.30.tar.gz:xmlsec
+
+checksums           libreoffice-7.0.3.1.tar.xz \
+                    rmd160  76ca05ed15a0c0d2d0525d9d4f12c4750407df53 \
+                    sha256  6566bce180c6b9561554de334b02344340a59f3bc0663d2c3c72addec444292d \
+                    size    240706432 \
+                    0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz \
+                    rmd160  dbeb7a7f8c89961ca2e544b810345d025561866b \
+                    sha256  983941d31ee8d366085cadf28db75eb1f5cb03ba1e5853b98f12f7f51c63b776 \
+                    size    96939 \
+                    48d647fbd8ef8889e5a7f422c1bfda94-clucene-core-2.3.3.4.tar.gz \
+                    rmd160  5acfc9c8acd167b3684cfc731a60fd9c5465cc9b \
+                    sha256  ddfdc433dd8ad31b5c5819cc4404a8d2127472a3b720d3e744e8c51d79732eab \
+                    size    2241498 \
+                    a8c2c5b8f09e7ede322d5c602ff6a4b6-mythes-1.2.4.tar.gz \
+                    rmd160  4bf022808a362c0711ec857787bc3376e9adb940 \
+                    sha256  1e81f395d8c851c3e4e75b568e20fa2fa549354e75ab397f9de4b0e0790a305f \
+                    size    4910303 \
+                    dtoa-20180411.tgz \
+                    rmd160  8d1bba737d8b58c3fb09533f35af2a03e05d9849 \
+                    sha256  0082d0684f7db6f62361b76c4b7faba19e0c7ce5cb8e36c4b65fea8281e711b4 \
+                    size    48893 \
+                    libabw-0.1.3.tar.xz \
+                    rmd160  3dc267391c6253496767177f8a54d45aa079cf77 \
+                    sha256  e763a9dc21c3d2667402d66e202e3f8ef4db51b34b79ef41f56cacb86dcd6eed \
+                    size    318808 \
+                    libcmis-0.5.2.tar.xz \
+                    rmd160  cb17ab0d699ab56faae46ebaaabca618f3cf8b28 \
+                    sha256  d7b18d9602190e10d437f8a964a32e983afd57e2db316a07d87477a79f5000a2 \
+                    size    484404 \
+                    libe-book-0.1.3.tar.xz \
+                    rmd160  a19ab0f9e76af473b7a29781096d42dd24a054ae \
+                    sha256  7e8d8ff34f27831aca3bc6f9cc532c2f90d2057c778963b884ff3d1e34dfe1f9 \
+                    size    416268 \
+                    libepubgen-0.1.1.tar.xz \
+                    rmd160  53bbc182262a0d77e2d19a19d27d850b1e699132 \
+                    sha256  03e084b994cbeffc8c3dd13303b2cb805f44d8f2c3b79f7690d7e3fc7f6215ad \
+                    size    324380 \
+                    libexttextcat-3.4.5.tar.xz \
+                    rmd160  da7b61766ac962abb4e0b2bcb2de6555b49cefc5 \
+                    sha256  13fdbc9d4c489a4d0519e51933a1aa21fe3fb9eb7da191b87f7a63e82797dac8 \
+                    size    1041268 \
+                    libmwaw-0.3.16.tar.xz \
+                    rmd160  111e5dc4e9cefbd812dafd4168ea0c0cc18aca04 \
+                    sha256  0c639edba5297bde5575193bf5b5f2f469956beaff5c0206d91ce9df6bde1868 \
+                    size    1306872 \
+                    liborcus-0.15.4.tar.bz2 \
+                    rmd160  21eac3c9b1f37fdb59031fec606a1b4492f95d7c \
+                    sha256  cfb2aa60825f2a78589ed030c07f46a1ee16ef8a2d1bf2279192fbc1ae5a5f61 \
+                    size    1840593 \
+                    libqxp-0.0.2.tar.xz \
+                    rmd160  3363d46e334124f454c8b928c1e91e8f138ef250 \
+                    sha256  e137b6b110120a52c98edd02ebdc4095ee08d0d5295a94316a981750095a945c \
+                    size    341760 \
+                    libreoffice-dictionaries-7.0.3.1.tar.xz \
+                    rmd160  ee972abaf0eaca752afde4ba2cfcb39486c3433c \
+                    sha256  959001bc692a67fd65296a0f33179a33414c0754182908396756849da1fee034 \
+                    size    47312072 \
+                    libreoffice-translations-7.0.3.1.tar.xz \
+                    rmd160  e5d6b9aacebed1a630b9db845f6c47f1bbb07e1b \
+                    sha256  442a2a1931549edbdbc6ab8f9fbc6b8e7088fde4d5806cda82263080d3617168 \
+                    size    175131584 \
+                    libstaroffice-0.0.7.tar.xz \
+                    rmd160  96d41ee09185a39d1dbd5c418705603424e6f66f \
+                    sha256  f94fb0ad8216f97127bedef163a45886b43c62deac5e5b0f5e628e234220c8db \
+                    size    707920 \
+                    libzmf-0.0.2.tar.xz \
+                    rmd160  b0be3dbe0f6bf4565c1668a236850601616f625f \
+                    sha256  27051a30cb057fdb5d5de65a1f165c7153dc76e27fe62251cbb86639eb2caf22 \
+                    size    320952 \
+                    mdds-1.6.0.tar.bz2 \
+                    rmd160  003175ca1b3d1293a6f144490de94eba72cb1697 \
+                    sha256  f1585c9cbd12f83a6d43d395ac1ab6a9d9d5d77f062c7b5f704e24ed72dae07d \
+                    size    350406 \
+                    openssl-1.0.2t.tar.gz \
+                    rmd160  60fa7238a3beefb1e95d76de607d69af7198118b \
+                    sha256  14cb464efe7ac6b54799b34456bd69558a749a4931ecfd9cf9f71d7881cac7bc \
+                    size    5355422 \
+                    xmlsec1-1.2.30.tar.gz \
+                    rmd160  5de6607d95b852da826f99ca6ca89a81f71aaaf3 \
+                    sha256  2d84360b03042178def1d9ff538acacaed2b3a27411db7b2874f1612ed71abc8 \
+                    size    1989670 \
+                    884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc-opens___.ttf \
+                    rmd160  00b1e296adf2caad44c49ad9743e5da7c771e480 \
+                    sha256  884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc \
+                    size    207544 \
+                    Python-3.7.7.tar.xz \
+                    rmd160  b36217d3ee4566d69e02076c8ff7bfa0de387b4f \
+                    sha256  06a0a9f1bf0d8cd1e4121194d666c4e28ddae4dd54346de6c343206599f02136 \
+                    size    17268888
+
+depends_build-append \
+    port:autoconf \
+    port:automake \
+    port:coreutils \
+    port:flex
+depends_lib-append  \
+    port:apr \
+    port:apr-util \
+    port:boost \
+    port:bzip2 \
+    port:curl \
+    port:expat \
+    port:gdbm \
+    port:gettext \
+    port:graphite2 \
+    port:harfbuzz \
+    port:harfbuzz-icu \
+    port:hunspell \
+    port:hyphen \
+    port:icu \
+    port:jpeg \
+    port:lcms2 \
+    port:libcdr-0.1 \
+    port:libepoxy \
+    port:libetonyek \
+    port:libfreehand \
+    port:libiconv \
+    port:liblangtag \
+    port:libmspub \
+    port:libodfgen \
+    port:libpagemaker \
+    port:libpng \
+    port:librevenge \
+    port:libvisio-0.1 \
+    port:libwpd-0.10 \
+    port:libwpg-0.3 \
+    port:libwps \
+    port:libxml2 \
+    port:libxslt \
+    port:ncurses \
+    port:nspr \
+    port:nss \
+    port:openssl \
+    port:ossp-uuid \
+    port:raptor2 \
+    port:readline \
+    port:redland \
+    port:serf1 \
+    port:sqlite3 \
+    port:xz \
+    port:zlib
+
+if {${os.major} < 14} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.10 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+post-extract {
+    file mkdir ${workpath}/tar
+    foreach item [glob -tails -nocomplain -directory ${distpath} *.tar*] {
+        ln -s ${distpath}/${item} ${workpath}/tar/${item}
+    }
+}
+
+patch {
+    reinplace "s|find |gfind |g" ${worksrcpath}/bin/unpack-sources
+    reinplace "221s|.*||" ${worksrcpath}/vcl/source/filter/ipdf/pdfread.cxx
+}
+
+set product_name "LibreOffice Vanilla"
+
+# Necessary to get the correct SDK.
+use_xcode           yes
+configure.env-append  \
+    "LCMS2_CFLAGS=-I${prefix}/include -DCMS_NO_REGISTER_KEYWORD=1"
+# Most args from https://wiki.documentfoundation.org/LibreOffice_Vanilla_for_Mac#LibreOffice_Vanilla
+# FIXME Need to patch out the fetches and then use --disable-fetch-external
+configure.args-append  \
+    --disable-breakpad \
+    --disable-bundle-mariadb \
+    --disable-ccache \
+    --disable-coinmp \
+    --disable-epm \
+    --disable-ext-ct2n \
+    --disable-ext-numbertext \
+    --disable-firebird-sdbc \
+    --disable-ldap \
+    --disable-libnumbertext \
+    --disable-lotuswordpro \
+    --disable-lpsolve \
+    --disable-neon \
+    --disable-odk \
+    --disable-openssl \
+    --disable-online-update \
+    --disable-pdfimport \
+    --disable-pdfium \
+    --disable-postgresql-sdbc \
+    --disable-qrcodegen \
+    --disable-vlc \
+    --enable-bogus-pkg-config \
+    --enable-cups \
+    --enable-extension-integration \
+    --enable-mpl-subset \
+    --enable-python=system \
+    --enable-readonly-installset \
+    --enable-release-build \
+    --enable-symbols \
+    --with-external-tar=${workpath}/tar \
+    --with-myspell-dicts \
+    --with-package-version=${full_version} \
+    --with-parallelism=${build.jobs} \
+    --with-system-epoxy \
+    --with-system-gpgmepp \
+    --with-system-headers \
+    --with-system-hunspell \
+    --with-system-jars \
+    --with-system-libs \
+    --with-theme=colibre \
+    --with-tls=nss \
+    --with-vendor=Collabora \
+    --without-doxygen \
+    --without-fonts \
+    --without-java \
+    --without-package-format \
+    --without-system-dicts \
+    --without-system-libabw \
+    --without-system-libcmis \
+    --without-system-libebook \
+    --without-system-libepubgen \
+    --without-system-libexttextcat \
+    --without-system-libmwaw \
+    --without-system-libqxp \
+    --without-system-libstaroffice \
+    --without-system-libzmf \
+    --without-system-mdds \
+    --without-system-mythes \
+    --without-system-orcus \
+    --without-system-sane \
+    --without-system-xmlsec \
+    \"--with-lang=bg br ca ca-valencia cy cs da de el en-US en-GB es et eu fi fr ga gd gl hr hu id is it ja km lt lv nb nl nn pl pt pt-BR ro ru sk sl sv ta tr uk zh-CN zh-TW\" \
+    \"--with-product-name=${product_name}\"
+# This is not a mistake, despite requiring port:openssl in depends_lib. Some internals still
+# require libcrypto.
+configure.args-append --disable-openssl
+# "Your version of libclucene has contribs-lib missing."
+configure.args-append --without-system-clucene
+
+build.target    build-nocheck
+
+destroot {
+    copy ${worksrcpath}/instdir/LibreOfficeVanilla.app "${destroot}${applications_dir}/${product_name}.app"
+}
