@@ -4,20 +4,29 @@ PortSystem          1.0
 
 name                libreoffice
 version             7.0.3
+revision            1
 categories          office aqua
 license             {LGPL-3 MPL-1.1}
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
 description         Free, open source office suite.
-long_description    ${description}
+long_description    LibreOffice is a free and powerful office suite, and a successor to \
+                    OpenOffice.org (commonly known as OpenOffice). Its clean interface and \
+                    feature-rich tools help you unleash your creativity and enhance your \
+                    productivity.
 homepage            https://www.libreoffice.org
 supported_archs     x86_64
 master_sites        https://download.documentfoundation.org/${name}/src/${version}/
 use_xz              yes
+
 set full_version    ${version}.1
 
 set addons_uri      https://dev-www.libreoffice.org/src/
 set extern_uri      https://dev-www.libreoffice.org/extern/
 set osuosl_uri      https://ftp.osuosl.org/pub/tdf/${name}/src/${version}/
+
 set main_distfile   ${name}-${full_version}${extract.suffix}
+
 extract.only        ${main_distfile}
 master_sites        https://download.documentfoundation.org/${name}/src/${version}/:main \
                     ${extern_uri}:opens \
@@ -220,16 +229,18 @@ post-extract {
 }
 
 patch {
+    # Force GNU find.
     reinplace "s|find |gfind |g" ${worksrcpath}/bin/unpack-sources
+    # Undefined reference.
     reinplace "221s|.*||" ${worksrcpath}/vcl/source/filter/ipdf/pdfread.cxx
 }
 
-set product_name "LibreOffice Vanilla"
+set product_name LibreOffice
 
-# Necessary to get the correct SDK.
+# This needs the full Xcode SDK. CLT is not enough.
 use_xcode           yes
-configure.env-append  \
-    "LCMS2_CFLAGS=-I${prefix}/include -DCMS_NO_REGISTER_KEYWORD=1"
+# CMS_NO_REGISTER_KEYWORD required for C++17 or newer compiler.
+configure.env-append  "LCMS2_CFLAGS=-I${prefix}/include -DCMS_NO_REGISTER_KEYWORD=1"
 # Most args from https://wiki.documentfoundation.org/LibreOffice_Vanilla_for_Mac#LibreOffice_Vanilla
 # FIXME Need to patch out the fetches and then use --disable-fetch-external
 configure.args-append  \
@@ -253,6 +264,7 @@ configure.args-append  \
     --disable-pdfium \
     --disable-postgresql-sdbc \
     --disable-qrcodegen \
+    --disable-report-builder \
     --disable-vlc \
     --enable-bogus-pkg-config \
     --enable-cups \
@@ -266,6 +278,7 @@ configure.args-append  \
     --with-myspell-dicts \
     --with-package-version=${full_version} \
     --with-parallelism=${build.jobs} \
+    --with-product-name=${product_name} \
     --with-system-epoxy \
     --with-system-gpgmepp \
     --with-system-headers \
@@ -274,7 +287,7 @@ configure.args-append  \
     --with-system-libs \
     --with-theme=colibre \
     --with-tls=nss \
-    --with-vendor=Collabora \
+    --with-vendor=MacPorts \
     --without-doxygen \
     --without-fonts \
     --without-java \
@@ -294,8 +307,7 @@ configure.args-append  \
     --without-system-orcus \
     --without-system-sane \
     --without-system-xmlsec \
-    \"--with-lang=bg br ca ca-valencia cy cs da de el en-US en-GB es et eu fi fr ga gd gl hr hu id is it ja km lt lv nb nl nn pl pt pt-BR ro ru sk sl sv ta tr uk zh-CN zh-TW\" \
-    \"--with-product-name=${product_name}\"
+    \"--with-lang=bg br ca ca-valencia cy cs da de el en-US en-GB es et eu fi fr ga gd gl hr hu id is it ja km lt lv nb nl nn pl pt pt-BR ro ru sk sl sv ta tr uk zh-CN zh-TW\"
 # This is not a mistake, despite requiring port:openssl in depends_lib. Some internals still
 # require libcrypto.
 configure.args-append --disable-openssl
@@ -305,5 +317,5 @@ configure.args-append --without-system-clucene
 build.target    build-nocheck
 
 destroot {
-    copy ${worksrcpath}/instdir/LibreOfficeVanilla.app "${destroot}${applications_dir}/${product_name}.app"
+    copy ${worksrcpath}/instdir/${product_name}.app ${destroot}${applications_dir}
 }
