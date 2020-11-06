@@ -4,7 +4,7 @@ PortSystem          1.0
 
 name                libreoffice
 version             7.0.3
-revision            1
+revision            2
 categories          office aqua
 license             {LGPL-3 MPL-1.1}
 platforms           macosx
@@ -26,6 +26,10 @@ set extern_uri      https://dev-www.libreoffice.org/extern/
 set osuosl_uri      https://ftp.osuosl.org/pub/tdf/${name}/src/${version}/
 
 set main_distfile   ${name}-${full_version}${extract.suffix}
+
+livecheck.type      regex
+livecheck.url       https://downloadarchive.documentfoundation.org/libreoffice/old/latest/src/
+livecheck.regex     "${name}-(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?${extract.suffix}</a></td>"
 
 extract.only        ${main_distfile}
 master_sites        https://download.documentfoundation.org/${name}/src/${version}/:main \
