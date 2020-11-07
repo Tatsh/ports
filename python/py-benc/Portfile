@@ -1,0 +1,26 @@
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-benc
+version             2019.8.1
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          devel python
+maintainers         {gmail.com:audvare @Tatsh}
+description         Bencoder in 100 lines of modern Python.
+long_description    ${description}
+homepage            https://pypi.org/project/benc/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  5f81f15274b2f6d4c5597ecfe46f0e6eb51a7157 \
+                    sha256  cdedafb5270d3bd94cfe84e7258d21c42c9a6a55c7860c035cddbdc1c7586b50 \
+                    size    4744
+
+python.versions     36 37 38 39
+
+if {$subport ne $name} {
+    livecheck.type none
+}
