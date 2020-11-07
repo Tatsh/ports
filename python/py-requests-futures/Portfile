@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        ross requests-futures f6203f6
+
+name                py-requests-futures
+version             1.0.0_p20200913
+platforms           darwin
+license             apache
+maintainers         {gmail.com:audvare @Tatsh}
+description         Small add-on for the python requests http library.
+long_description    ${description}
+
+checksums           rmd160  ab69f78172150889b52dd9230a7f0d6cbf3dd283 \
+                    sha256  0ef37cfa81cd2f27f3f7cece102bd9b8e511742c75596a53d68875efcfd7cf40 \
+                    size    8092
+
+python.versions     27 36 37 38 39
+
+if {${name} ne ${subport}} {
+    livecheck.type          none
+    depends_build-append    port:py${python.version}-setuptools
+    depends_run-append      port:py${python.version}-requests
+}
+
+if {${subport} eq "py27-requests-futures"} {
+    depends_run-append port:py27-futures
+}
