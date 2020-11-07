@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; c-basic-offset: 4; indent-tabs-mode: nil; tab-width: 4; truncate-lines: t -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Tatsh dbeaver-creds 0fd0f8f
+version             20201107
+platforms           linux darwin freebsd
+maintainers         {gmail.com:audvare @Tatsh}
+description         Recover your DBeaver saved credentials.
+long_description    ${description}
+license             MIT
+categories          databases sysutils security
+
+checksums           rmd160  fb80b940e303669318d7c6d8c2aa595657d984aa \
+                    sha256  9013cae07559eda45bc271de6ae53f8dd02bec6faf843018afc193f87b856ef8 \
+                    size    1633
+use_configure       no
+
+build {}
+
+if {${os.platform} ne "darwin"} {
+    depends_run-append port:openssl
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
