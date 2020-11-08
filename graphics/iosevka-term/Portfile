@@ -23,7 +23,7 @@ checksums           rmd160  0f7fe901d7c4b131872b4eb344b282d0aa5639b6 \
                     size    26268193
 
 livecheck.type      regex
-livecheck.regex     "(\\d+\\.\\d+\\.\\d+)</div><div class=\"desc\">Version"
+livecheck.regex     "(\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta)\\.\\d+)?)</div><div class=\"desc\">Version"
 livecheck.url       ${homepage}
 
 worksrcdir
