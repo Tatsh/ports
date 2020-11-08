@@ -17,8 +17,8 @@ checksums           rmd160  7e5e2133737ec0d3e66319082d8cd4503926f904 \
                     size    54839948
 
 livecheck.type      md5
-livecheck.url       https://dl.google.com/chrome-remote-desktop/${distfiles}.dmg
-livecheck.md5       43c3a8fc90f37e91b9b9a33d2f1e8549
+livecheck.url       https://dl.google.com/chrome-remote-desktop/${distfiles}
+livecheck.md5       4fb5efe88ed0b2928616d43663b98a43
 
 use_configure       no
 use_dmg             yes
