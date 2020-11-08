@@ -31,7 +31,9 @@ livecheck.type      regex
 livecheck.url       https://downloadarchive.documentfoundation.org/libreoffice/old/latest/src/
 livecheck.regex     "${name}-(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?${extract.suffix}</a></td>"
 
-extract.only        ${main_distfile}
+extract.only        ${main_distfile} \
+                    ${name}-dictionaries-7.0.3.1.tar.xz \
+                    ${name}-translations-7.0.3.1.tar.xz
 master_sites        https://download.documentfoundation.org/${name}/src/${version}/:main \
                     ${extern_uri}:opens \
                     ${addons_uri}:ucpp \
@@ -169,8 +171,15 @@ checksums           libreoffice-7.0.3.1.tar.xz \
 depends_build-append \
     port:autoconf \
     port:automake \
+    port:bison \
     port:coreutils \
-    port:flex
+    port:cppunit \
+    port:flex \
+    port:gettext \
+    port:gperf \
+    port:intltool \
+    port:pkgconfig \
+    port:unixODBC
 depends_lib-append  \
     port:apr \
     port:apr-util \
@@ -225,18 +234,11 @@ if {${os.major} < 14} {
     }
 }
 
-post-extract {
-    file mkdir ${workpath}/tar
-    foreach item [glob -tails -nocomplain -directory ${distpath} *.tar*] {
-        ln -s ${distpath}/${item} ${workpath}/tar/${item}
-    }
-}
-
 patch {
     # Force GNU find.
     reinplace "s|find |gfind |g" ${worksrcpath}/bin/unpack-sources
     # Undefined reference.
-    reinplace "221s|.*||" ${worksrcpath}/vcl/source/filter/ipdf/pdfread.cxx
+    reinplace "221d" ${worksrcpath}/vcl/source/filter/ipdf/pdfread.cxx
 }
 
 set product_name LibreOffice
@@ -244,9 +246,10 @@ set product_name LibreOffice
 # This needs the full Xcode SDK. CLT is not enough.
 use_xcode           yes
 # CMS_NO_REGISTER_KEYWORD required for C++17 or newer compiler.
-configure.env-append  "LCMS2_CFLAGS=-I${prefix}/include -DCMS_NO_REGISTER_KEYWORD=1"
-# Most args from https://wiki.documentfoundation.org/LibreOffice_Vanilla_for_Mac#LibreOffice_Vanilla
-# FIXME Need to patch out the fetches and then use --disable-fetch-external
+configure.env-append  \
+    "LCMS2_CFLAGS=-I${prefix}/include -DCMS_NO_REGISTER_KEYWORD=1"
+# Most arguments are from
+# https://wiki.documentfoundation.org/LibreOffice_Vanilla_for_Mac#LibreOffice_Vanilla
 configure.args-append  \
     --disable-breakpad \
     --disable-bundle-mariadb \
@@ -255,6 +258,7 @@ configure.args-append  \
     --disable-epm \
     --disable-ext-ct2n \
     --disable-ext-numbertext \
+    --disable-fetch-external \
     --disable-firebird-sdbc \
     --disable-ldap \
     --disable-libnumbertext \
@@ -278,7 +282,7 @@ configure.args-append  \
     --enable-readonly-installset \
     --enable-release-build \
     --enable-symbols \
-    --with-external-tar=${workpath}/tar \
+    --with-external-tar=${distpath} \
     --with-myspell-dicts \
     --with-package-version=${full_version} \
     --with-parallelism=${build.jobs} \
