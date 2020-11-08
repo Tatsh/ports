@@ -6,7 +6,7 @@ github.setup        vitalif grive2 ffb744a
 
 name                grive
 version             0.5.2-dev
-revision            1
+revision            2
 platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -24,5 +24,6 @@ checksums           rmd160  30d3b848ca340a64b08392e7a2a576d9760c4821 \
                     sha256  d987f223d6b121ea8fb199900704a07b21b1dfde9b9b08de322ad7332d052ed9 \
                     size    170395
 
-patchfiles      307.patch
+patchfiles      307.patch \
+                330.patch
 patch.pre_args  -p1
