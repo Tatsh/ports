@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                chrome-remote-desktop
-version             85.0.4183.6
+version             87.0.4280.27
 maintainers         {gmail.com:audvare @Tatsh}
 license             Restricted
 description         Remote desktop service, provided by Google.
@@ -12,12 +12,12 @@ homepage            https://remotedesktop.google.com/
 master_sites        https://dl.google.com/chrome-remote-desktop/
 distfiles           chromeremotedesktop.dmg
 
-checksums           rmd160  90796606119c577beb922a7d78050ef9a66aba72 \
-                    sha256  5103eb518a5392ce228b33f0435012868d355c539b19fc552af7c03cf2297eeb \
-                    size    54657949
+checksums           rmd160  7e5e2133737ec0d3e66319082d8cd4503926f904 \
+                    sha256  78cabb152aaa810a378cb8e3ae9595dff6016b3edf21aa0f2975be077bf757da \
+                    size    54839948
 
 livecheck.type      md5
-livecheck.url       https://dl.google.com/chrome-remote-desktop/chromeremotedesktop.dmg
+livecheck.url       https://dl.google.com/chrome-remote-desktop/${distfiles}.dmg
 livecheck.md5       43c3a8fc90f37e91b9b9a33d2f1e8549
 
 use_configure       no
