@@ -1,7 +1,7 @@
 PortSystem          1.0
 
 name                Bartender
-version             3.1.23
+version             3.1.25
 
 categories          aqua
 license             Restrictive
@@ -16,9 +16,9 @@ distfiles           "Bartender 3.zip"
 master_sites        https://www.macbartender.com/Demo/
 dist_subdir         ${name}/${version}_1
 
-checksums           rmd160  70268ac0770d2eeda45e80ea7b329a3dc18607ae \
-                    sha256  fe923c58cb52e66bf3f6c47314c8c7a960c20da7e4d59d7ccf83bafc36e36a9f \
-                    size    9991683
+checksums           rmd160  ead9ba864d7164643350f625b0123e42d7a75b6e \
+                    sha256  bd31aa2aab3262ed08f5c421d504b82893b5dfc546f37fc98eae23bc47494c8a \
+                    size    10577084
 
 livecheck.type      regex
 livecheck.url       ${homepage}
