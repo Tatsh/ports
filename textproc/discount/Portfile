@@ -2,7 +2,9 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Orc discount db1d037
+github.setup                Orc discount db1d037
+github.livecheck.branch     main
+
 version             2.2.6_p20201026
 platforms           darwin linux freebsd
 license             BSD-3
