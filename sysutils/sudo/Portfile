@@ -16,6 +16,9 @@ checksums           rmd160  50fa4bd61090aa1c8909a90e8b0cab7610b31480 \
 
 homepage            https://opensource.apple.com/source/sudo/
 
+livecheck.url       ${homepage}
+livecheck.regex     "sudo-(\\d+(?:\\.\\d+(?:\\.\\d+)?)?)/"
+
 description         Allow users to run programs as other users, e.g. root (with Touch ID patch).
 long_description    ${description}
 
