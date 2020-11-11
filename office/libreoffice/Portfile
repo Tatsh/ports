@@ -4,7 +4,7 @@ PortSystem          1.0
 
 name                libreoffice
 version             7.0.3
-revision            2
+revision            3
 categories          office aqua
 license             {LGPL-3 MPL-1.1}
 platforms           macosx
@@ -15,7 +15,6 @@ long_description    LibreOffice is a free and powerful office suite, and a succe
                     feature-rich tools help you unleash your creativity and enhance your \
                     productivity.
 homepage            https://www.libreoffice.org
-supported_archs     x86_64
 master_sites        https://download.documentfoundation.org/${name}/src/${version}/
 use_xz              yes
 
@@ -42,7 +41,6 @@ master_sites        https://download.documentfoundation.org/${name}/src/${versio
                     ${addons_uri}:dtoa \
                     ${addons_uri}:abw \
                     ${addons_uri}:cmis \
-                    ${addons_uri}:ebook \
                     ${addons_uri}:epubgen \
                     ${addons_uri}:exttextcat \
                     ${addons_uri}:mwaw \
@@ -51,9 +49,7 @@ master_sites        https://download.documentfoundation.org/${name}/src/${versio
                     ${addons_uri}:libstaroffice \
                     ${addons_uri}:zmf \
                     ${addons_uri}:mdds \
-                    ${addons_uri}:openssl \
                     ${addons_uri}:xmlsec \
-                    ${addons_uri}:python \
                     ${osuosl_uri}:dicts \
                     ${osuosl_uri}:translations
 distfiles           ${main_distfile}:main \
@@ -62,12 +58,10 @@ distfiles           ${main_distfile}:main \
                     0168229624cfac409e766913506961a8-ucpp-1.3.2.tar.gz:ucpp \
                     48d647fbd8ef8889e5a7f422c1bfda94-clucene-core-2.3.3.4.tar.gz:clucene-core \
                     884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc-opens___.ttf:opens \
-                    Python-3.7.7.tar.xz:python \
                     a8c2c5b8f09e7ede322d5c602ff6a4b6-mythes-1.2.4.tar.gz:mythes \
                     dtoa-20180411.tgz:dtoa \
                     libabw-0.1.3.tar.xz:abw \
                     libcmis-0.5.2.tar.xz:cmis \
-                    libe-book-0.1.3.tar.xz:ebook \
                     libepubgen-0.1.1.tar.xz:epubgen \
                     libexttextcat-3.4.5.tar.xz:exttextcat \
                     libmwaw-0.3.16.tar.xz:mwaw \
@@ -76,7 +70,6 @@ distfiles           ${main_distfile}:main \
                     libstaroffice-0.0.7.tar.xz:libstaroffice \
                     libzmf-0.0.2.tar.xz:zmf \
                     mdds-1.6.0.tar.bz2:mdds \
-                    openssl-1.0.2t.tar.gz:openssl \
                     xmlsec1-1.2.30.tar.gz:xmlsec
 
 checksums           libreoffice-7.0.3.1.tar.xz \
@@ -107,10 +100,6 @@ checksums           libreoffice-7.0.3.1.tar.xz \
                     rmd160  cb17ab0d699ab56faae46ebaaabca618f3cf8b28 \
                     sha256  d7b18d9602190e10d437f8a964a32e983afd57e2db316a07d87477a79f5000a2 \
                     size    484404 \
-                    libe-book-0.1.3.tar.xz \
-                    rmd160  a19ab0f9e76af473b7a29781096d42dd24a054ae \
-                    sha256  7e8d8ff34f27831aca3bc6f9cc532c2f90d2057c778963b884ff3d1e34dfe1f9 \
-                    size    416268 \
                     libepubgen-0.1.1.tar.xz \
                     rmd160  53bbc182262a0d77e2d19a19d27d850b1e699132 \
                     sha256  03e084b994cbeffc8c3dd13303b2cb805f44d8f2c3b79f7690d7e3fc7f6215ad \
@@ -151,10 +140,6 @@ checksums           libreoffice-7.0.3.1.tar.xz \
                     rmd160  003175ca1b3d1293a6f144490de94eba72cb1697 \
                     sha256  f1585c9cbd12f83a6d43d395ac1ab6a9d9d5d77f062c7b5f704e24ed72dae07d \
                     size    350406 \
-                    openssl-1.0.2t.tar.gz \
-                    rmd160  60fa7238a3beefb1e95d76de607d69af7198118b \
-                    sha256  14cb464efe7ac6b54799b34456bd69558a749a4931ecfd9cf9f71d7881cac7bc \
-                    size    5355422 \
                     xmlsec1-1.2.30.tar.gz \
                     rmd160  5de6607d95b852da826f99ca6ca89a81f71aaaf3 \
                     sha256  2d84360b03042178def1d9ff538acacaed2b3a27411db7b2874f1612ed71abc8 \
@@ -162,17 +147,12 @@ checksums           libreoffice-7.0.3.1.tar.xz \
                     884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc-opens___.ttf \
                     rmd160  00b1e296adf2caad44c49ad9743e5da7c771e480 \
                     sha256  884ed41809687c3e168fc7c19b16585149ff058eca79acbf3ee784f6630704cc \
-                    size    207544 \
-                    Python-3.7.7.tar.xz \
-                    rmd160  b36217d3ee4566d69e02076c8ff7bfa0de387b4f \
-                    sha256  06a0a9f1bf0d8cd1e4121194d666c4e28ddae4dd54346de6c343206599f02136 \
-                    size    17268888
+                    size    207544
 
 depends_build-append \
     port:autoconf \
     port:automake \
     port:bison \
-    port:coreutils \
     port:cppunit \
     port:flex \
     port:gettext \
@@ -198,6 +178,7 @@ depends_lib-append  \
     port:jpeg \
     port:lcms2 \
     port:libcdr-0.1 \
+    port:libe-book \
     port:libepoxy \
     port:libetonyek \
     port:libfreehand \
@@ -217,7 +198,7 @@ depends_lib-append  \
     port:ncurses \
     port:nspr \
     port:nss \
-    port:openssl \
+    path:lib/libssl.dylib:openssl \
     port:ossp-uuid \
     port:raptor2 \
     port:readline \
@@ -226,6 +207,11 @@ depends_lib-append  \
     port:sqlite3 \
     port:xz \
     port:zlib
+# Try to keep this in sync with the Python portgroup.
+set python_version 38
+depends_run-append \
+    port:python${python_version} \
+    port:py${python_version}-lxml
 
 if {${os.major} < 14} {
     pre-fetch {
@@ -234,16 +220,16 @@ if {${os.major} < 14} {
     }
 }
 
-patch {
-    # Force GNU find.
-    reinplace "s|find |gfind |g" ${worksrcpath}/bin/unpack-sources
-    # Undefined reference.
-    reinplace "221d" ${worksrcpath}/vcl/source/filter/ipdf/pdfread.cxx
-}
+patchfiles  pdfread-cxx-undefined.patch \
+            system-python.patch \
+            unpack-sources-fix-for-bsd-find.patch
 
 set product_name LibreOffice
 
-# This needs the full Xcode SDK. CLT is not enough.
+pre-configure {
+    system "cd ${worksrcpath} && env NOCONFIGURE=1 ./autogen.sh"
+}
+
 use_xcode           yes
 # CMS_NO_REGISTER_KEYWORD required for C++17 or newer compiler.
 configure.env-append  \
@@ -266,7 +252,6 @@ configure.args-append  \
     --disable-lpsolve \
     --disable-neon \
     --disable-odk \
-    --disable-openssl \
     --disable-online-update \
     --disable-pdfimport \
     --disable-pdfium \
@@ -291,6 +276,7 @@ configure.args-append  \
     --with-system-gpgmepp \
     --with-system-headers \
     --with-system-hunspell \
+    --with-system-libebook \
     --with-system-jars \
     --with-system-libs \
     --with-theme=colibre \
@@ -316,8 +302,8 @@ configure.args-append  \
     --without-system-sane \
     --without-system-xmlsec \
     \"--with-lang=bg br ca ca-valencia cy cs da de el en-US en-GB es et eu fi fr ga gd gl hr hu id is it ja km lt lv nb nl nn pl pt pt-BR ro ru sk sl sv ta tr uk zh-CN zh-TW\"
-# This is not a mistake, despite requiring port:openssl in depends_lib. Some internals still
-# require libcrypto.
+# This is not a mistake, despite requiring port:openssl in depends_lib. Some
+# internals still require libcrypto.
 configure.args-append --disable-openssl
 # "Your version of libclucene has contribs-lib missing."
 configure.args-append --without-system-clucene
