@@ -2,10 +2,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup                Orc discount db1d037
-github.livecheck.branch     main
-
-version             2.2.6_p20201026
+github.setup                Orc discount 2.2.7 v
 platforms           darwin linux freebsd
 license             BSD-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -13,8 +10,12 @@ description         An implementation of the Markdown markup language.
 long_description    ${description}
 categories          textproc
 
-checksums           rmd160  708cb791621335910d61f5b81f40316aba4d156c \
-                    sha256  6bfd461340b136db390e46cf24f24e992a280e76aaf97788aeab813679d7bf86 \
-                    size    133105
+checksums           rmd160  74a4a65f60d713cba7e020681922c333ae3dd759 \
+                    sha256  4e698a3c9fb0e81b0a751770db0d1e5c4a7f4c9515c77a9ddeb5f44e1a085b94 \
+                    size    128853
 
 cmake.source_dir    ${worksrcpath}/cmake
+
+patch {
+    reinplace "s|DESTRUCTOR||g" ${worksrcpath}/setup.c
+}
