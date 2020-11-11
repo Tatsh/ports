@@ -1,0 +1,10 @@
+--- vcl/source/filter/ipdf/pdfread.cxx.old	2020-11-11 04:46:07.000000000 -0500
++++ vcl/source/filter/ipdf/pdfread.cxx	2020-11-11 04:46:17.000000000 -0500
+@@ -218,7 +218,6 @@
+     (void)rBitmaps;
+     (void)nFirstPage;
+     (void)nPages;
+-    (void)fResolutionDPI;
+     return 0;
+ #endif // HAVE_FEATURE_PDFIUM
+ }
