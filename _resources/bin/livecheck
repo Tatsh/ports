@@ -1,30 +1,16 @@
 #!/usr/bin/env bash
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
-
-check-sudo() {
-    local -r version=$(grep -E ^version "${DIR}/sysutils/sudo/Portfile" | awk '{ print $2 }')
-    local -r latest_version=$(curl 'https://opensource.apple.com/source/sudo/' 2> /dev/null |
-        grep -E 'a href="sudo-' | sed -r -e 's/.*a href="//' -e 's:/">sudo.*::' |
-        sort --version-sort | tail -n 1)
-    if [[ "sudo-${version}" != "$latest_version" ]]; then
-        echo "sudo appears to have been updated (port version: ${version}, new version: ${latest_version:5})"
-    fi
-}
-
-check-sudo
 find \
     "$DIR" \
+    -mindepth 2 \
+    -maxdepth 2 \
     ! '(' \
-    -path "*/.mypy_cache" -prune -o \
-    -path "*/.git" -prune -o \
-    -path "*/_resources" -prune -o \
-    -path "*/.vscode" -prune \
+    -path '*/.mypy_cache/*' -prune -o \
+    -path '*/.git/*' -prune -o \
+    -path '*/_resources/*' -prune -o \
+    -path '*/.vscode/*' -prune \
     ')' -a \
-    -type d |
-    sed -r -e "s:^${DIR}/::g" |
-    grep -E '^[a-z]+/[A-Za-z_-]+$' |
-    cut -d/ -f2 |
-    grep -Fv sudo |
+    -type d \
+    -printf '%f\n' |
     xargs port -v livecheck 2>&1 |
-    grep -Fv 'seems to be up to date' |
-    sort
+    grep -Fv 'seems to be up to date'
