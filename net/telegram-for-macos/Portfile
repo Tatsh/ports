@@ -4,6 +4,7 @@ PortSystem 1.0
 
 name                telegram-for-macos
 version             7.2.1
+revision            1
 categories          aqua net
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
@@ -13,13 +14,13 @@ homepage            https://macos.telegram.org/
 distfiles           Telegram.dmg
 master_sites        https://osx.telegram.org/updates/
 
-checksums           rmd160  afaa11ec344439f517a42ee2f619af8809ed6a18 \
-                    sha256  b0bc5731c909bd34bbc051cd1a47b509685add04459d5c85eb41b55fbdade089 \
-                    size    37102182
+checksums           rmd160  11ab4f7015d9b11ef6d36158fe445f0c5c8cfc3f \
+                    sha256  259df25e62fa9b7b9054f30c9428c79f05199696381fc315d1a765df26093fd1 \
+                    size    37102804
 
-livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "<i class='anchor-icon'></i></a>(\\d+\\.\\d+(?:\\.\\d+)?) <strong>"
+livecheck.type      md5
+livecheck.url       ${master_sites}${distfiles}
+livecheck.md5       1d37cfbc1bb3575c23dfe98e03ff7061
 
 use_configure       no
 use_dmg             yes
