@@ -8,7 +8,7 @@ revision            3
 categories          office aqua
 license             {LGPL-3 MPL-1.1}
 platforms           macosx
-maintainers         {gmail.com:audvare @Tatsh}
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 description         Free, open source office suite.
 long_description    LibreOffice is a free and powerful office suite, and a successor to \
                     OpenOffice.org (commonly known as OpenOffice). Its clean interface and \
@@ -72,7 +72,7 @@ distfiles           ${main_distfile}:main \
                     mdds-1.6.0.tar.bz2:mdds \
                     xmlsec1-1.2.30.tar.gz:xmlsec
 
-checksums           libreoffice-${full_version}.tar.xz \
+checksums           libreoffice-7.0.3.1.tar.xz \
                     rmd160  76ca05ed15a0c0d2d0525d9d4f12c4750407df53 \
                     sha256  6566bce180c6b9561554de334b02344340a59f3bc0663d2c3c72addec444292d \
                     size    240706432 \
