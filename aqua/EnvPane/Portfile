@@ -17,6 +17,7 @@ checksums           rmd160  8a8704576c62d57ae63d6fda95ba62de1d11b59f \
                     sha256  9d66d16db519c45685db2f23bd76aacb4e755e5984f39fd9d69da907615e8872 \
                     size    60381
 
+depends_lib-append  port:discount
 xcode.target        ${name}
 xcode.destroot.path ${prefix}/Library/PreferencePanes
 xcode.destroot.settings \
