@@ -3,37 +3,57 @@
 PortSystem          1.0
 
 name                Bartender
-version             3.1.25
+set major_version   4
+set minor           0
+set patch           18
+version             ${major_version}.${minor}.${patch}
 
 categories          aqua
 license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Organise your menu icons.
-long_description    Bartender 3 lets you organize your menu bar icons, by hiding them, \
+long_description    Bartender lets you organize your menu bar icons, by hiding them, \
                     rearranging them, show hidden items with a click or keyboard shortcut and \
                     have icons show when they update.
 homepage            https://www.macbartender.com/
-distfiles           "Bartender 3.zip"
-master_sites        https://www.macbartender.com/Demo/
-dist_subdir         ${name}/${version}_1
+master_sites        https://macbartender.com/B2/updates/${major_version}-${minor}-${patch}/
 
-checksums           rmd160  ead9ba864d7164643350f625b0123e42d7a75b6e \
-                    sha256  bd31aa2aab3262ed08f5c421d504b82893b5dfc546f37fc98eae23bc47494c8a \
-                    size    10577084
+checksums           rmd160  e503840b7e242a6e6b9440232a5d616c2c6b6acf \
+                    sha256  34b4cbc67d3200af899ee6539670f4ee8ede5f99d06c47aca3c36e7e0e880d33 \
+                    size    5231585
 
 livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "^Version\\: (\\d+\\S+)"
+livecheck.url       https://www.macbartender.com/B2/updates/AppcastB4.xml
+livecheck.regex     "<title>Version\\ (\\d+\\.\\d+(?:\\.\\d+)?)"
 
-use_configure       no
 use_zip             yes
-extract.only        "Bartender 3.zip"
 extract.mkdir       yes
+use_configure       no
 
-if {${os.major} < 16} {
+subport Bartender3 {
+    set major_version 3
+    version ${major_version}.1.25
+    livecheck.type  none
+    dist_subdir         ${name}/${version}_1
+    master_sites        https://www.macbartender.com/Demo/
+    checksums           rmd160  ead9ba864d7164643350f625b0123e42d7a75b6e \
+                        sha256  bd31aa2aab3262ed08f5c421d504b82893b5dfc546f37fc98eae23bc47494c8a \
+                        size    10577084
+    if {${os.major} < 16 || ${os.major} > 19} {
+        pre-fetch {
+            ui_error "${name} @${version} requires an OS X version between 10.12 and 10.16 inclusive. Use the Bartender port."
+            return -code error "incompatible OS X version"
+        }
+    }
+}
+
+distfiles           "Bartender ${major_version}${extract.suffix}"
+extract.only        [lindex ${distfiles} 0]
+
+if {$subport eq $name && ${os.major} < 20} {
     pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.12 or later."
+        ui_error "${name} @${version} requires OS X 11.0 or later. Use the ${name}3 port."
         return -code error "incompatible OS X version"
     }
 }
@@ -41,5 +61,5 @@ if {${os.major} < 16} {
 build {}
 
 destroot {
-    file copy "${worksrcpath}/Bartender 3.app" "${destroot}/${applications_dir}/"
+    file copy "${worksrcpath}/Bartender ${major_version}.app" "${destroot}/${applications_dir}/"
 }
