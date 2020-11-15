@@ -4,7 +4,6 @@ PortSystem          1.0
 
 name                libreoffice
 version             7.0.3
-revision            3
 categories          office aqua
 license             {LGPL-3 MPL-1.1}
 platforms           macosx
@@ -185,6 +184,7 @@ depends_lib-append  \
     port:libiconv \
     port:liblangtag \
     port:libmspub \
+    port:lib/libjpeg.dylib:jpeg \
     port:libodfgen \
     port:libpagemaker \
     port:libpng \
@@ -221,8 +221,8 @@ if {${os.major} < 14} {
 }
 
 patchfiles \
+    configure.patch \
     pdfread-cxx-undefined.patch \
-    system-python.patch \
     unpack-sources-fix-for-bsd-find.patch
 
 set product_name LibreOffice
@@ -277,8 +277,8 @@ configure.args-append  \
     --with-system-gpgmepp \
     --with-system-headers \
     --with-system-hunspell \
-    --with-system-libebook \
     --with-system-jars \
+    --with-system-libebook \
     --with-system-libs \
     --with-theme=colibre \
     --with-tls=nss \
@@ -290,7 +290,6 @@ configure.args-append  \
     --without-system-dicts \
     --without-system-libabw \
     --without-system-libcmis \
-    --without-system-libebook \
     --without-system-libepubgen \
     --without-system-libexttextcat \
     --without-system-libmwaw \

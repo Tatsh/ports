@@ -1,0 +1,58 @@
+--- configure.ac.old	2020-11-11 05:31:37.000000000 -0500
++++ configure.ac	2020-11-15 11:35:14.000000000 -0500
+@@ -2814,7 +2814,7 @@
+     # higher than or equal to the minimum required should be found.
+ 
+     AC_MSG_CHECKING([what macOS SDK to use])
+-    for _macosx_sdk in ${with_macosx_sdk-10.15 10.14 10.13}; do
++    for _macosx_sdk in ${with_macosx_sdk-11.0 10.15 10.14 10.13}; do
+         MACOSX_SDK_PATH=`xcrun --sdk macosx${_macosx_sdk} --show-sdk-path 2> /dev/null`
+         if test -d "$MACOSX_SDK_PATH"; then
+             with_macosx_sdk="${_macosx_sdk}"
+@@ -2843,8 +2843,11 @@
+     10.15)
+         MACOSX_SDK_VERSION=101500
+         ;;
++    11.0)
++        MACOSX_SDK_VERSION=110000
++        ;;
+     *)
+-        AC_MSG_ERROR([with-macosx-sdk $with_macosx_sdk is not a supported value, supported values are 10.13--15])
++        AC_MSG_ERROR([with-macosx-sdk $with_macosx_sdk is not a supported value, supported values are 10.13--15, 11.0])
+         ;;
+     esac
+ 
+@@ -2944,8 +2947,11 @@
+     10.15)
+         MAC_OS_X_VERSION_MAX_ALLOWED="101500"
+         ;;
++    11.0)
++        MAC_OS_X_VERSION_MAX_ALLOWED="110000"
++        ;;
+     *)
+-        AC_MSG_ERROR([with-macosx-version-max-allowed $with_macosx_version_max_allowed is not a supported value, supported values are 10.10--15])
++        AC_MSG_ERROR([with-macosx-version-max-allowed $with_macosx_version_max_allowed is not a supported value, supported values are 10.10--15, 11.0])
+         ;;
+     esac
+ 
+@@ -8760,10 +8766,6 @@
+ # Optionally user can pass an option to configure, i. e.
+ # ./configure PYTHON=/usr/bin/python
+ # =====================================================================
+-if test $_os = Darwin -a "$enable_python" != fully-internal -a "$enable_python" != internal; then
+-    # Only allowed choices for macOS are 'internal' (default) and 'fully-internal'
+-    enable_python=internal
+-fi
+ if test "$build_os" != "cygwin" -a "$enable_python" != fully-internal; then
+     if test -n "$PYTHON"; then
+         PYTHON_FOR_BUILD=$PYTHON
+@@ -8833,9 +8835,6 @@
+     ;;
+ system)
+     AC_MSG_RESULT([system])
+-    if test "$_os" = Darwin; then
+-        AC_MSG_ERROR([--enable-python=system doesn't work on macOS because the version provided is obsolete])
+-    fi
+     ;;
+ *)
+     AC_MSG_ERROR([Incorrect --enable-python option])
