@@ -41,6 +41,8 @@ if {${os.major} < 12} {
 post-destroot {
     ui_msg "******************************************************"
     ui_msg "*"
+    ui_msg "* Note: ${name} cannot be installed for all users."
+    ui_msg "*"
     ui_msg "* To finish installation, run the following command as a regular user. Choose "
     ui_msg "* 'Install for this user only' in System Preferences."
     ui_msg "*"
