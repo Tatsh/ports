@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                Ripcord
-version             0.4.26
+version             0.4.27
 
 categories          aqua net
 license             Restrictive
@@ -21,9 +21,9 @@ homepage            https://cancel.fm/ripcord/
 distfiles           ${name}_Mac_${version}.zip
 master_sites        https://cancel.fm/dl/
 
-checksums           rmd160  10b293ebb0d23ffa510d3b1c7528bbd00afacb6d \
-                    sha256  6d76e1ef7589df8d4b3816c8ee77701e03460f7edaa47717abb8ecb84999b6c8 \
-                    size    18022320
+checksums           rmd160  b348eda2776145670cadfea1cecca074b841ad66 \
+                    sha256  933bd257341aed56dfb37ff158fdc5f3d89aee556c10dc1cbd3fa2dc65fafbd7 \
+                    size    18021868
 
 livecheck.type      regex
 livecheck.url       ${homepage}
