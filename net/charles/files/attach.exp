@@ -3,7 +3,7 @@
 spawn hdiutil attach "[lindex $argv 0]" -mountpoint "[lindex $argv 1]" -private -nobrowse -noautoopen -noautofsck -noverify -readonly
 
 expect {
-	"to you. You may not copy, publish, sell, market, distribute, lend," {
+	"2016 DEFINITIONS: \"Charles\" means the web debugging proxy application" {
 		exp_send "q"
 		exp_continue
 	}
