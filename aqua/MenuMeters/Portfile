@@ -4,10 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-name                MenuMeters
-version             2.0.8.3
-github.setup        yujitach MenuMeters 2.0.8.3
-revision            1
+github.setup        yujitach MenuMeters 2.0.9
 
 categories-append   sysutils
 license             GPL-2
@@ -16,9 +13,9 @@ description         MenuMeters is a set of CPU, memory, disk, and network monito
 long_description    ${description}
 homepage            https://github.com/yujitach/MenuMeters/
 
-checksums           rmd160  4833424524198f8ab23e07939441fedc30534992 \
-                    sha256  90af2ea9e6cde7df27a578fd9a8d5551769fdf364aaec4527c9e6a77f7d06a67 \
-                    size    1211333
+checksums           rmd160  51722b43b39703d172a9e40a98d8948b42ce903e \
+                    sha256  35b45bf188b1a3b34ea32defa4a05759bcb451c490cef10f88116df239a1b8a6 \
+                    size    1211513
 
 xcode.target        "${name} No Sparkle"
 xcode.configuration Release
