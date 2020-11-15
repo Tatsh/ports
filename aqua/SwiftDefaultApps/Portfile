@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        Lord-Kamina SwiftDefaultApps 2.0.1 v
+
+categories          aqua sysutils
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+
+description         Temporarily block certain apps from opening.
+long_description    This Preference pane is chiefly intended to be a modern \
+                    replacement for the amazing RCDefaultApp developed way \
+                    back when by Carl Lindberg, which stopped working in \
+                    10.12 due to deprecation of ObjC Garbage collection.
+
+worksrcdir          ${github.author}-${name}-86d6666
+set swiftcli_sha    18ead68
+master_sites        ${github.homepage}/tarball/${git.branch}:swda \
+                    https://github.com/${github.author}/SwiftCLI/tarball/${swiftcli_sha}:swiftcli
+distfiles           ${name}-${version}.tar.gz:swda \
+                    Lord-Kamina-SwiftCLI-${swiftcli_sha}.tar.gz:swiftcli
+
+checksums           SwiftDefaultApps-2.0.1.tar.gz \
+                    rmd160  d0d5dbc7832b6b16827e47b2f796fcf2b4e3e3c7 \
+                    sha256  7e346381572474fd9957b645a0fd0017814cc9265ff965b92ec38b7463b1e173 \
+                    size    1438933 \
+                    Lord-Kamina-SwiftCLI-18ead68.tar.gz \
+                    rmd160  b95fb25af9a362d368d810538f420ecc42a07f1d \
+                    sha256  9835ee1adaa4ee88b4070fcb8d76a2505a848522d9cc5dcfb3f4edaddf7328b1 \
+                    size    24449
+
+patchfiles          ${name}-swift-fix.patch
+
+build.pre_args          -derivedDataPath "${build.dir}/.dd" \
+                        -workspace "${worksrcpath}/${name}.xcworkspace"
+xcode.build.settings    CODE_SIGN_IDENTITY=- \
+                        CODE_SIGN_STYLE=Manual \
+                        ENABLE_HARDENED_RUNTIME=NO
+xcode.scheme            "Make Release & Package"
+xcode.configuration     Release
+
+pre-configure {
+    delete "${worksrcpath}/Packages/SwiftCLI-2.0.3"
+    copy "${workpath}/Lord-Kamina-SwiftCLI-${swiftcli_sha}" \
+        "${worksrcpath}/Packages/SwiftCLI-2.0.3"
+}
+
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
+
+destroot.violate_mtree  yes
+
+destroot {
+    xinstall -m 0755 ${build.dir}/build/Release/swda ${destroot}${prefix}/bin
+    xinstall -d ${destroot}${prefix}/share/${name}
+    xinstall -m 0644 ${build.dir}/build/Release/README.md \
+        ${destroot}${prefix}/share/${name}
+    xinstall -d 0755 ${destroot}/Library
+    xinstall -d 0755 ${destroot}/Library/PreferencePanes
+    copy ${build.dir}/build/Release/${name}.prefPane \
+        ${destroot}/Library/PreferencePanes/${name}.prefPane
+}
