@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 name                re3
-version             ad60903
+version             6853be3
 github.setup        Tatsh re3 ${version}
 
 platforms           darwin linux freebsd
@@ -21,10 +21,10 @@ distfiles           ${name}-${version}.tar.gz:re3 \
                     ${librw_hash}.tar.gz:librw
 worksrcdir          Tatsh-${name}-${version}/build
 
-checksums           re3-ad60903.tar.gz \
-                    rmd160  1ab6fa9db597164e75cef45331627ee8ba610afc \
-                    sha256  4725a0c27adeed669ff8cf30ee92439dd74b5106810d5262afa286d3963e75b2 \
-                    size    17202503 \
+checksums           re3-6853be3.tar.gz \
+                    rmd160  e854b0c4960884e40ddd39f07a86bb3f0bd854e5 \
+                    sha256  8b33348e891e838846fc71a0fe75ca34c5f7436013bdf3b6ac75cd73ec188ccb \
+                    size    17201072 \
                     30b77b0b32b4113b5dce2b67813ce9b85d1e1e57.tar.gz \
                     rmd160  9ac28eb0adc1bce0d4c3506d993c2f9af2fc0657 \
                     sha256  ff82ac9d803917e660b83d3427dfa152a10e61890d0ce4360e81712d0f67d6f0 \
