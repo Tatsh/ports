@@ -10,7 +10,7 @@ categories          aqua sysutils
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 
-description         Temporarily block certain apps from opening.
+description         Defaults apps and file associations/URIs manager.
 long_description    This Preference pane is chiefly intended to be a modern \
                     replacement for the amazing RCDefaultApp developed way \
                     back when by Carl Lindberg, which stopped working in \
