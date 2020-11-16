@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           ruby 1.0
 
-ruby.setup          lunchy 0.10.4 gem {} rubygems ruby25
+ruby.setup          lunchy 0.10.4 gem {} rubygems ruby27
 name                lunchy
-
+revision            1
 ruby.link_binaries_suffix
 
 categories          sysutils ruby
@@ -22,6 +22,6 @@ checksums           rmd160  a84df41c1bc8f4acca4e650163d675a07c5284bf \
 
 post-destroot {
     file mkdir ${destroot}${prefix}/share/bash-completion/completions
-    ln -s ${prefix}/lib/ruby2.5/gems/2.5.0/gems/lunchy-0.10.4/extras/lunchy-completion.bash \
+    ln -s ${ruby.gemdir}/gems/${name}-${version}/extras/lunchy-completion.bash \
         ${destroot}${prefix}/share/bash-completion/completions/lunchy
 }
