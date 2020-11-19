@@ -1,16 +1,7 @@
 #!/usr/bin/env bash
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
-find \
-    "$DIR" \
-    -mindepth 2 \
-    -maxdepth 2 \
-    ! '(' \
-    -path '*/.mypy_cache/*' -prune -o \
-    -path '*/.git/*' -prune -o \
-    -path '*/_resources/*' -prune -o \
-    -path '*/.vscode/*' -prune \
-    ')' -a \
-    -type d \
-    -printf '%f\n' |
-    xargs port -v livecheck 2>&1 |
+grep -E '^[a-zA-Z0-9_-]+ [0-9]+$' "${DIR}/PortIndex" |
+    awk '{ print $1 }' |
+    sort |
+    xargs port -v livecheck |
     grep -Fv 'seems to be up to date'
