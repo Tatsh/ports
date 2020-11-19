@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        nicklockwood SwiftFormat 0.47.3
+github.setup        nicklockwood SwiftFormat 0.47.4
 
 name                swiftformat
 version             0.47.0
@@ -16,9 +16,9 @@ description         Formatter for Swift (CLI only).
 long_description    ${description}
 homepage            https://github.com/nicklockwood/SwiftFormat
 
-checksums           rmd160  a021fc399a5191e93ad02c845cd613631d2cb99b \
-                    sha256  29b77f901555b285983b1250f3c53edd61391c8d30a3028f99444969e9c5de21 \
-                    size    7633571
+checksums           rmd160  15bcb33644ba192609d8473168ede8320dc9ef03 \
+                    sha256  22708daeaeda14a300261a1a9fb9a6ead9260fb10dc1e1ad7f2650d28ba88b6a \
+                    size    9376642
 
 xcode.target        CommandLineTool
 xcode.configuration Release
