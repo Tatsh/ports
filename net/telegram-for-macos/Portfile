@@ -3,32 +3,30 @@
 PortSystem 1.0
 
 name                telegram-for-macos
-version             7.2.1
-revision            1
+version             7.2.3
+revision            0
 categories          aqua net
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         macOS native client for Telegram (official build).
 long_description    ${description}
 homepage            https://macos.telegram.org/
-distfiles           Telegram.dmg
+distfiles           Telegram-${version}.208487.app.zip
 master_sites        https://osx.telegram.org/updates/
 
-checksums           rmd160  11ab4f7015d9b11ef6d36158fe445f0c5c8cfc3f \
-                    sha256  259df25e62fa9b7b9054f30c9428c79f05199696381fc315d1a765df26093fd1 \
-                    size    37102804
+checksums           rmd160  5b6847af42b7b91a4bb2be68f253ac15444bc785 \
+                    sha256  85bc627b73dd1a628b977cced5a12a99fbdc67e66c119fac15e4610af0f2fee0 \
+                    size    37697215
 
-livecheck.type      md5
-livecheck.url       ${master_sites}${distfiles}
-livecheck.md5       1d37cfbc1bb3575c23dfe98e03ff7061
+livecheck.type      regex
+livecheck.url       https://osx.telegram.org/updates/versions.xml
+livecheck.regex     "sparkle\\:shortVersionString=\"(\\d+\\.\\d+\\.(?:\\d+)?)\""
 
+use_zip             yes
 use_configure       no
-use_dmg             yes
-extract.only        Telegram.dmg
-extract.mkdir       no
 
 build {}
 
 destroot {
-    file copy "${worksrcpath}/Telegram.app" "${destroot}/${applications_dir}/"
+    file copy "${workpath}/Telegram.app" "${destroot}/${applications_dir}/"
 }
