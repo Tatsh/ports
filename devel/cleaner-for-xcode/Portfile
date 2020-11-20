@@ -4,10 +4,15 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        waylybaye XcodeCleaner-SwiftUI 26deaf4
+if {${os.major} < 20} {
+    github.setup        waylybaye XcodeCleaner-SwiftUI cc8c942
+    version             3.1.1
+} else {
+    github.setup        waylybaye XcodeCleaner-SwiftUI 26deaf4
+    version             4.0.1
+}
 
 name                cleaner-for-xcode
-version             4.0.1
 categories          devel aqua
 license             Restricted
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,9 +21,15 @@ description         This app helps you to make your Xcode faster by removing \
                     unwanted and deprecated files.
 long_description    ${description}
 
-checksums           rmd160  23a65ccded56c71a84b2a90dbf3d0c661477d5c1 \
-                    sha256  a286f241372047da93affbc81acde0df06cf99cd97a3ed2bf43c03c2a4ae8b2a \
-                    size    1466626
+if {${os.major} >= 20} {
+    checksums           rmd160  23a65ccded56c71a84b2a90dbf3d0c661477d5c1 \
+                        sha256  a286f241372047da93affbc81acde0df06cf99cd97a3ed2bf43c03c2a4ae8b2a \
+                        size    1466626
+} else {
+    checksums           rmd160  bb90fbe23852eb579d60ec89e9a4858a0e8e62d3 \
+                        sha256  9b78e03e67a177aea561b7b47dd45a39932345659f007e2bb908d3e45d95d416 \
+                        size    1465192
+}
 
 xcode.target        "Cleaner for Xcode"
 xcode.configuration Release
@@ -26,9 +37,9 @@ xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 
-if {${os.major} < 20} {
+if {${os.major} < 19} {
     pre-fetch {
-        ui_error "${name} @${version} requires macOS 11.0 or later."
+        ui_error "${name} @${version} requires macOS 10.15 or later."
         return -code error "incompatible OS X version"
     }
 }
