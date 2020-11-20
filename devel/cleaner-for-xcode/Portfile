@@ -10,6 +10,7 @@ if {${os.major} < 20} {
 } else {
     github.setup        waylybaye XcodeCleaner-SwiftUI 26deaf4
     version             4.0.1
+    livecheck.type      none
 }
 
 name                cleaner-for-xcode
