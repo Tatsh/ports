@@ -2,9 +2,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        googlefonts noto-fonts 725acad
+github.setup        googlefonts noto-fonts ac3c7c4
 name                noto
-version             20201118
+version             20201120
 
 categories          graphics
 license             OFL-1.1
@@ -14,9 +14,9 @@ description         Google's font family that aims to support all the world's la
 long_description    ${description}
 homepage            https://www.google.com/get/noto/
 
-checksums           rmd160  06667e1dedee64da6f4da1e85fd276820ab16ae1 \
-                    sha256  fa8f3b8d024c18f6659e739f1b879fcd437eb14b158cca4c01e7efb46353ac71 \
-                    size    854173305
+checksums           rmd160  9222f6e6959b9bdde4d36077036da14cf4d2365a \
+                    sha256  7aaec05c6b2a8fd58cc2222965756c00c224b3c1b084f2c9bf35027b92c19c2b \
+                    size    855490611
 
 use_configure           no
 destroot.violate_mtree  yes
