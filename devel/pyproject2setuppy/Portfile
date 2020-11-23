@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                pyproject2setuppy
-version             8
+version             9
 categories          devel  python
 platforms           darwin linux freebsd
 license             BSD-2
@@ -21,9 +21,9 @@ long_description    ${description}
 homepage            https://pypi.org/project/pyproject2setuppy/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-checksums           rmd160  68415fa37572e0195777ddaf62088cbb2b456988 \
-                    sha256  68cf15ee34c407e313601f5918189c2ddc47766d35d65b61870a9fc583b281cf \
-                    size    14261
+checksums           rmd160  597af1cbafe183fd5cd568592609aa5e6f97d948 \
+                    sha256  ffd0029784d4312fcb5b08dd9b8cab14cc746ce31da372e8576eeb991411054c \
+                    size    14456
 
 distname            ${python.rootname}-${version}
 
