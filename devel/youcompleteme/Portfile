@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup            ycm-core YouCompleteMe 604a2a0
+name                    youcompleteme
+version                 20201113
+categories              textproc devel
+maintainers             {gmail.com:audvare @Tatsh}
+description             A code-completion engine for Vim.
+long_description        ${description}
+
+checksums           rmd160  c08a9082725b6819146ec33a672f9801979b09de \
+                    sha256  37be7d9cef5266d714414bc0ef36f6b1e2f548b45faeb474589cc5db9a299ec7 \
+                    size    288836
+
+worksrcdir  ${github.project}-${github.version}/python
+
+set python_minor_version 8
+set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
+
+set clang_version 10
+
+depends_lib \
+    port:clang-${clang_version} \
+    port:python3${python_minor_version}
+depends_run \
+    port:py3${python_minor_version}-requests-futures \
+    port:py3${python_minor_version}-requests \
+    port:ycmd
+
+use_configure no
+
+patch {
+    file delete -force ${worksrcpath}/ycm/tests
+    file delete -force ${worksrcpath}/../third_party
+}
+
+build {
+    system "cd ${worksrcpath}/ycm && python -m compileall ."
+}
+
+destroot {
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
+    copy ${worksrcpath}/ycm ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
+}
