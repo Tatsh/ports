@@ -27,8 +27,10 @@ configure.args \
     -DPYTHON_LIBRARY=${python_framework_dir}/lib/libpython3.${python_minor_version}.dylib \
     -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version}
 
+set clang_version 10
+
 depends_lib \
-    port:clang-10 \
+    port:clang-${clang_version} \
     port:python3${python_minor_version}
 depends_run \
     port:py3${python_minor_version}-regex \
@@ -40,6 +42,8 @@ patch {
 }
 
 post-build {
+    # FIXME Hack rpath in for now
+    system "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../ycm_core.so"
     system "cd ${worksrcpath}/../ycmd && python -m compileall ."
 }
 
