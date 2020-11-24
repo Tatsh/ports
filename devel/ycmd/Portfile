@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup            ycm-core ycmd f876f207
+version                 20201106
+categories-append       textproc
+maintainers             {gmail.com:audvare @Tatsh}
+description             A code-completion engine for Vim.
+long_description        ${description}
+
+checksums           rmd160  613e8998c887cc0031392c1bbf8f93c2b3392ecc \
+                    sha256  8af5d3ad9417e37499cb04694ca79eef620db50f8bc0129696e0c5d67dec5889 \
+                    size    3327282
+
+worksrcdir  ${github.project}-${github.version}/cpp
+
+# compiler.cxx_standard       2017
+# configure.cxxflags-append   -std=c++17
+
+set python_major_version 8
+configure.pre_args-append \
+    -DCMAKE_CXX_COMPILER=clang++
+configure.args \
+    -DUSE_CLANG_COMPLETER=ON \
+    -DUSE_SYSTEM_LIBCLANG=ON \
+    -DPYTHON_LIBRARY=${prefix}/Library/Frameworks/Python.framework/Versions/3.${python_major_version}/lib/libpython3.${python_major_version}.dylib \
+    -DPYTHON_INCLUDE_DIR=${prefix}/Library/Frameworks/Python.framework/Versions/3.${python_major_version}/include/python3.${python_major_version}
+
+use_xcode yes
+depends_build \
+    port:clang-10
+depends_lib \
+    port:python3${python_major_version} \
+    port:vim
+# depends_run \
+#     port:py${python.version}-jedi
+
+destroot {
+    xinstall -m 0755 -d ${destroot}${prefix}/lib/ycmd
+    xinstall -m 0755 ${worksrcpath}/../ycm_core.so \
+        ${destroot}${prefix}/lib/ycmd/ycm_core.so
+}
