@@ -17,29 +17,38 @@ checksums           rmd160  613e8998c887cc0031392c1bbf8f93c2b3392ecc \
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
-# compiler.cxx_standard       2017
-# configure.cxxflags-append   -std=c++17
-
-set python_major_version 8
+set python_minor_version 8
+set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 configure.pre_args-append \
     -DCMAKE_CXX_COMPILER=clang++
 configure.args \
     -DUSE_CLANG_COMPLETER=ON \
     -DUSE_SYSTEM_LIBCLANG=ON \
-    -DPYTHON_LIBRARY=${prefix}/Library/Frameworks/Python.framework/Versions/3.${python_major_version}/lib/libpython3.${python_major_version}.dylib \
-    -DPYTHON_INCLUDE_DIR=${prefix}/Library/Frameworks/Python.framework/Versions/3.${python_major_version}/include/python3.${python_major_version}
+    -DPYTHON_LIBRARY=${python_framework_dir}/lib/libpython3.${python_minor_version}.dylib \
+    -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version}
 
-use_xcode yes
-depends_build \
-    port:clang-10
 depends_lib \
-    port:python3${python_major_version} \
-    port:vim
-# depends_run \
-#     port:py${python.version}-jedi
+    port:clang-10 \
+    port:python3${python_minor_version}
+depends_run \
+    port:py3${python_minor_version}-regex \
+    port:py3${python_minor_version}-watchdog
+
+patch {
+    file delete -force ${worksrcpath}/../ycmd/tests
+    file delete -force ${worksrcpath}/../third_party
+}
+
+post-build {
+    system "cd ${worksrcpath}/../ycmd && python -m compileall ."
+}
 
 destroot {
-    xinstall -m 0755 -d ${destroot}${prefix}/lib/ycmd
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
+    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
     xinstall -m 0755 ${worksrcpath}/../ycm_core.so \
-        ${destroot}${prefix}/lib/ycmd/ycm_core.so
+        ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
+    copy ${worksrcpath}/../ycmd ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
 }
