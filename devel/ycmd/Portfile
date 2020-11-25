@@ -17,8 +17,9 @@ checksums           rmd160  65a2dcfd9f6e5712e70fd3ceef4ef94092ac66b1 \
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
-set python_minor_version 8
-set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
+set python_minor_version    8
+set python_framework_dir    ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
+set site_packages_dir       ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
 configure.pre_args-append \
     -DCMAKE_CXX_COMPILER=clang++
 configure.args \
@@ -27,7 +28,8 @@ configure.args \
     -DPYTHON_LIBRARY=${python_framework_dir}/lib/libpython3.${python_minor_version}.dylib \
     -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version}
 
-set clang_version 10
+set clang_version   10
+set core_version    44
 
 depends_lib \
     port:clang-${clang_version} \
@@ -42,56 +44,32 @@ depends_run \
 
 patch.dir       ${worksrcpath}/..
 patchfiles      gopls-path.patch \
-                tern-path.patch
+                tern-path.patch \
+                utils.patch
 
 post-patch {
     file delete -force ${patch.dir}/ycmd/tests
     file delete -force ${patch.dir}/third_party
     reinplace -W ${patch.dir} \
-        "s|^LIBCLANG_DIR =.*|LIBCLANG_DIR = '${prefix}/libexec/llvm-${clang_version}/lib'|" \
+        "s|@LIBCLANG_DIR@|${prefix}/libexec/llvm-${clang_version}/lib|" \
         ycmd/utils.py
-    reinplace -W ${patch.dir} \
-        "s|os.path.isfile( libclang_path ).*|os.path.isfile( libclang_path ) and libclang_path.endswith('.dylib'):|" ycmd/utils.py
-    reinplace -W ${patch.dir} \
-        "s|int( ReadFile( os.path.join( ROOT_DIR, 'CORE_VERSION' ) ) )|44|" \
-        ycmd/utils.py
+    reinplace -W ${patch.dir} "s|@CORE_VERSION@|${core_version}|" ycmd/utils.py
 }
 
 post-build {
     # FIXME Hack rpath in for now
-    system "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../ycm_core.so"
-    system "cd ${worksrcpath}/../ycmd && python -m compileall ."
+    system \
+        "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../ycm_core.so"
+    system "python -m compileall ${worksrcpath}/../ycmd"
 }
 
 destroot {
     xinstall -m 0755 -d ${destroot}${python_framework_dir}
     xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib
-    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
-    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
+    xinstall -m 0755 -d \
+        ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
+    xinstall -m 0755 -d ${destroot}${site_packages_dir}
     xinstall -m 0755 ${worksrcpath}/../ycm_core.so \
-        ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
-    copy ${worksrcpath}/../ycmd ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
-}
-
-post-activate {
-    ui_msg "For JavaScript and TypeScript completion, run the following:"
-    ui_msg ""
-    ui_msg "npm install -g tern typescript"
-    ui_msg ""
-    ui_msg "Then set the following in your vimrc:"
-    ui_msg ""
-    ui_msg "let g:ycm_tsserver_binary_path = '~/.node/bin/tsserver'"
-    ui_msg ""
-    ui_msg "For Go completion, install the gopls port."
-    ui_msg ""
-    ui_msg "For C# completion (not supported), install the mono port and "
-    ui_msg "Omnisharp and set the path to OmniSharp.exe in your vimrc:"
-    ui_msg ""
-    ui_msg "let g:ycm_roslyn_binary_path = 'path/to/OmniSharp.exe'"
-    ui_msg ""
-    ui_msg "Please be sure to reference the documentation before filing bugs."
-    ui_msg ""
-    ui_msg "https://github.com/ycm-core/YouCompleteMe/blob/master/README.md"
-    ui_msg ""
-    ui_msg "Java and Rust support are not tested with this build."
+        ${destroot}${site_packages_dir}
+    copy ${worksrcpath}/../ycmd ${destroot}${site_packages_dir}/
 }
