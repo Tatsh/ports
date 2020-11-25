@@ -33,12 +33,23 @@ depends_lib \
     port:clang-${clang_version} \
     port:python3${python_minor_version}
 depends_run \
+    port:py3${python_minor_version}-bottle \
+    port:py3${python_minor_version}-waitress \
     port:py3${python_minor_version}-regex \
+    port:py3${python_minor_version}-jedi \
+    port:py3${python_minor_version}-requests \
     port:py3${python_minor_version}-watchdog
 
 patch {
     file delete -force ${worksrcpath}/../ycmd/tests
     file delete -force ${worksrcpath}/../third_party
+    reinplace \
+        "s|^LIBCLANG_DIR =.*|LIBCLANG_DIR = '${prefix}/libexec/llvm-${clang_version}/lib'|" \
+        ${worksrcpath}/../ycmd/utils.py
+    reinplace \
+        "s|os.path.isfile( libclang_path ).*|os.path.isfile( libclang_path ) and libclang_path.endswith('.dylib'):|" ${worksrcpath}/../ycmd/utils.py
+    reinplace \
+        "s|int( ReadFile( os.path.join( ROOT_DIR, 'CORE_VERSION' ) ) )|44|" ${worksrcpath}/../ycmd/utils.py
 }
 
 post-build {
