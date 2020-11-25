@@ -35,6 +35,8 @@ use_configure no
 patch {
     file delete -force ${worksrcpath}/ycm/tests
     file delete -force ${worksrcpath}/../third_party
+    reinplace "s|DIR_OF_YCMD =.*|DIR_OF_YCMD = '${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/'|" ${worksrcpath}/ycm/paths.py
+    reinplace "26d" ${worksrcpath}/ycm/paths.py
 }
 
 build {
