@@ -63,3 +63,26 @@ destroot {
     xinstall -m 0644 ${worksrcpath}/doc/${name}.txt \
         ${destroot}${prefix}/share/doc/${name}/
 }
+
+post-activate {
+    ui_msg "For JavaScript and TypeScript completion, run the following:"
+    ui_msg ""
+    ui_msg "npm install -g tern typescript"
+    ui_msg ""
+    ui_msg "Then set the following in your vimrc:"
+    ui_msg ""
+    ui_msg "let g:ycm_tsserver_binary_path = '~/.node/bin/tsserver'"
+    ui_msg ""
+    ui_msg "For Go completion, install the gopls port."
+    ui_msg ""
+    ui_msg "For C# completion (not supported), install the mono port and "
+    ui_msg "Omnisharp and set the path to OmniSharp.exe in your vimrc:"
+    ui_msg ""
+    ui_msg "let g:ycm_roslyn_binary_path = 'path/to/OmniSharp.exe'"
+    ui_msg ""
+    ui_msg "Please be sure to reference the documentation before filing bugs."
+    ui_msg ""
+    ui_msg "https://github.com/ycm-core/YouCompleteMe/blob/master/README.md"
+    ui_msg ""
+    ui_msg "Java and Rust support are not tested with this build."
+}
