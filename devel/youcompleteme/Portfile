@@ -19,7 +19,6 @@ worksrcdir  ${github.project}-${github.version}/python
 
 set python_minor_version 8
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
-
 set clang_version 10
 
 depends_lib \
@@ -28,6 +27,7 @@ depends_lib \
 depends_run \
     port:py3${python_minor_version}-requests-futures \
     port:py3${python_minor_version}-requests \
+    port:vim \
     port:ycmd
 
 use_configure no
@@ -44,9 +44,21 @@ build {
 }
 
 destroot {
-    xinstall -m 0755 -d ${destroot}${python_framework_dir}
-    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib
-    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
-    xinstall -m 0755 -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
+    xinstall -d ${destroot}${python_framework_dir}
+    xinstall -d ${destroot}${python_framework_dir}/lib
+    xinstall -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
+    xinstall -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
     copy ${worksrcpath}/ycm ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
+    xinstall -d ${destroot}${prefix}/share/vim
+    xinstall -d ${destroot}${prefix}/share/vim/vimfiles
+    xinstall -d ${destroot}${prefix}/share/vim/vimfiles/plugin
+    xinstall -d ${destroot}${prefix}/share/vim/vimfiles/autoload
+    xinstall -m 0644 ${worksrcpath}/../autoload/${name}.vim \
+        ${destroot}${prefix}/share/vim/vimfiles/autoload/
+    xinstall -m 0644 ${worksrcpath}/../plugin/${name}.vim \
+        ${destroot}${prefix}/share/vim/vimfiles/plugin/
+    xinstall -d ${destroot}${prefix}/share/doc
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/../doc/${name}.txt \
+        ${destroot}${prefix}/share/doc/${name}/
 }
