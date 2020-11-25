@@ -15,10 +15,9 @@ checksums           rmd160  c08a9082725b6819146ec33a672f9801979b09de \
                     sha256  37be7d9cef5266d714414bc0ef36f6b1e2f548b45faeb474589cc5db9a299ec7 \
                     size    288836
 
-worksrcdir  ${github.project}-${github.version}/python
-
 set python_minor_version 8
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
+set python_site_packages_dir ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
 set clang_version 10
 
 depends_lib \
@@ -32,15 +31,17 @@ depends_run \
 
 use_configure no
 
-patch {
-    file delete -force ${worksrcpath}/ycm/tests
-    file delete -force ${worksrcpath}/../third_party
-    reinplace "s|DIR_OF_YCMD =.*|DIR_OF_YCMD = '${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/'|" ${worksrcpath}/ycm/paths.py
-    reinplace "26d" ${worksrcpath}/ycm/paths.py
+patchfiles      python-path.patch
+
+post-patch {
+    file delete -force ${worksrcpath}/python/ycm/tests
+    file delete -force ${worksrcpath}/third_party
+    reinplace "s|@PYTHON_SITE_PACKAGES_DIR@|${python_site_packages_dir}|" \
+        ${worksrcpath}/python/ycm/paths.py
 }
 
 build {
-    system "cd ${worksrcpath}/ycm && python -m compileall ."
+    system "python -m compileall ${worksrcpath}/python/ycm"
 }
 
 destroot {
@@ -48,17 +49,17 @@ destroot {
     xinstall -d ${destroot}${python_framework_dir}/lib
     xinstall -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
     xinstall -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
-    copy ${worksrcpath}/ycm ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
+    copy ${worksrcpath}/python/ycm ${destroot}${python_site_packages_dir}
     xinstall -d ${destroot}${prefix}/share/vim
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles/plugin
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles/autoload
-    xinstall -m 0644 ${worksrcpath}/../autoload/${name}.vim \
+    xinstall -m 0644 ${worksrcpath}/autoload/${name}.vim \
         ${destroot}${prefix}/share/vim/vimfiles/autoload/
-    xinstall -m 0644 ${worksrcpath}/../plugin/${name}.vim \
+    xinstall -m 0644 ${worksrcpath}/plugin/${name}.vim \
         ${destroot}${prefix}/share/vim/vimfiles/plugin/
     xinstall -d ${destroot}${prefix}/share/doc
     xinstall -d ${destroot}${prefix}/share/doc/${name}
-    xinstall -m 0644 ${worksrcpath}/../doc/${name}.txt \
+    xinstall -m 0644 ${worksrcpath}/doc/${name}.txt \
         ${destroot}${prefix}/share/doc/${name}/
 }
