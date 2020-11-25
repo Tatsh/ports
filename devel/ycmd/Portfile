@@ -40,16 +40,21 @@ depends_run \
     port:py3${python_minor_version}-requests \
     port:py3${python_minor_version}-watchdog
 
-patch {
-    file delete -force ${worksrcpath}/../ycmd/tests
-    file delete -force ${worksrcpath}/../third_party
-    reinplace \
+patch.dir       ${worksrcpath}/..
+patchfiles      gopls-path.patch \
+                tern-path.patch
+
+post-patch {
+    file delete -force ${patch.dir}/ycmd/tests
+    file delete -force ${patch.dir}/third_party
+    reinplace -W ${patch.dir} \
         "s|^LIBCLANG_DIR =.*|LIBCLANG_DIR = '${prefix}/libexec/llvm-${clang_version}/lib'|" \
-        ${worksrcpath}/../ycmd/utils.py
-    reinplace \
-        "s|os.path.isfile( libclang_path ).*|os.path.isfile( libclang_path ) and libclang_path.endswith('.dylib'):|" ${worksrcpath}/../ycmd/utils.py
-    reinplace \
-        "s|int( ReadFile( os.path.join( ROOT_DIR, 'CORE_VERSION' ) ) )|44|" ${worksrcpath}/../ycmd/utils.py
+        ycmd/utils.py
+    reinplace -W ${patch.dir} \
+        "s|os.path.isfile( libclang_path ).*|os.path.isfile( libclang_path ) and libclang_path.endswith('.dylib'):|" ycmd/utils.py
+    reinplace -W ${patch.dir} \
+        "s|int( ReadFile( os.path.join( ROOT_DIR, 'CORE_VERSION' ) ) )|44|" \
+        ycmd/utils.py
 }
 
 post-build {
@@ -66,4 +71,27 @@ destroot {
     xinstall -m 0755 ${worksrcpath}/../ycm_core.so \
         ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
     copy ${worksrcpath}/../ycmd ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages/
+}
+
+post-activate {
+    ui_msg "For JavaScript and TypeScript completion, run the following:"
+    ui_msg ""
+    ui_msg "npm install -g tern typescript"
+    ui_msg ""
+    ui_msg "Then set the following in your vimrc:"
+    ui_msg ""
+    ui_msg "let g:ycm_tsserver_binary_path = '~/.node/bin/tsserver'"
+    ui_msg ""
+    ui_msg "For Go completion, install the gopls port."
+    ui_msg ""
+    ui_msg "For C# completion (not supported), install the mono port and "
+    ui_msg "Omnisharp and set the path to OmniSharp.exe in your vimrc:"
+    ui_msg ""
+    ui_msg "let g:ycm_roslyn_binary_path = 'path/to/OmniSharp.exe'"
+    ui_msg ""
+    ui_msg "Please be sure to reference the documentation before filing bugs."
+    ui_msg ""
+    ui_msg "https://github.com/ycm-core/YouCompleteMe/blob/master/README.md"
+    ui_msg ""
+    ui_msg "Java and Rust support are not tested with this build."
 }
