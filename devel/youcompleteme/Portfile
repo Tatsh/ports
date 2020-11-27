@@ -3,17 +3,17 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            ycm-core YouCompleteMe 604a2a0
+github.setup            ycm-core YouCompleteMe e7ae151
 name                    youcompleteme
-version                 20201113
+version                 20201125
 categories              textproc devel
 maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        ${description}
 
-checksums           rmd160  c08a9082725b6819146ec33a672f9801979b09de \
-                    sha256  37be7d9cef5266d714414bc0ef36f6b1e2f548b45faeb474589cc5db9a299ec7 \
-                    size    288836
+checksums           rmd160  002b5e619278cede8423f2ff44abc491ce4ef9f5 \
+                    sha256  dbd4fc640b2bbfe635e10a3adbac1b6167a0476adc7b295701f6f5d26269c1f5 \
+                    size    288950
 
 set python_minor_version 8
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
