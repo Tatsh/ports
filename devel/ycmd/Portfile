@@ -6,6 +6,7 @@ PortGroup           github 1.0
 
 github.setup            ycm-core ycmd 64a4eaf
 version                 20201125
+revision                1
 categories-append       textproc
 maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
@@ -23,10 +24,9 @@ set site_packages_dir       ${python_framework_dir}/lib/python3.${python_minor_v
 configure.pre_args-append \
     -DCMAKE_CXX_COMPILER=clang++
 configure.args \
-    -DUSE_CLANG_COMPLETER=ON \
-    -DUSE_SYSTEM_LIBCLANG=ON \
     -DPYTHON_LIBRARY=${python_framework_dir}/lib/libpython3.${python_minor_version}.dylib \
-    -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version}
+    -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version} \
+    -DUSE_CLANG_TIDY=ON
 
 set clang_version   10
 set core_version    44
@@ -44,7 +44,8 @@ depends_run \
 patch.dir       ${worksrcpath}/..
 patchfiles      gopls-path.patch \
                 tern-path.patch \
-                utils.patch
+                utils.patch \
+                clangd-path.patch
 
 post-patch {
     file delete -force ${patch.dir}/ycmd/tests
@@ -53,6 +54,13 @@ post-patch {
         "s|@LIBCLANG_DIR@|${prefix}/libexec/llvm-${clang_version}/lib|" \
         ycmd/utils.py
     reinplace -W ${patch.dir} "s|@CORE_VERSION@|${core_version}|" ycmd/utils.py
+    reinplace -W ${patch.dir} "s|@LLVM_VERSION@|${clang_version}|" \
+        ycmd/completers/cpp/clangd_completer.py
+    reinplace -W ${patch.dir} "s|@PREFIX@|${prefix}|" \
+        ycmd/completers/cpp/clangd_completer.py
+    reinplace "453s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
+    reinplace -W ${patch.dir} "s|^MIN_SUPPORTED_VERSION = ( 11|MIN_SUPPORTED_VERSION = ( 10|" \
+        ycmd/completers/cpp/clangd_completer.py
 }
 
 post-build {
