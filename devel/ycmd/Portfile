@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            ycm-core ycmd 3aa00aea
-version                 20201116
+github.setup            ycm-core ycmd 64a4eaf
+version                 20201125
 categories-append       textproc
 maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        ${description}
 
-checksums           rmd160  65a2dcfd9f6e5712e70fd3ceef4ef94092ac66b1 \
-                    sha256  72283eb747b77b31eacbd3a3249d61842f5fbb2d6858271b26d963856b74e118 \
-                    size    3327746
+checksums           rmd160  6416f266f87e9cf5c10d5bce6d3f91af98befad6 \
+                    sha256  b977699f09a6b7b9800f5faa8b1603efb78094d2fc811b4746b6f928494a21f0 \
+                    size    3327358
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
@@ -39,7 +39,6 @@ depends_run \
     port:py3${python_minor_version}-waitress \
     port:py3${python_minor_version}-regex \
     port:py3${python_minor_version}-jedi \
-    port:py3${python_minor_version}-requests \
     port:py3${python_minor_version}-watchdog
 
 patch.dir       ${worksrcpath}/..
