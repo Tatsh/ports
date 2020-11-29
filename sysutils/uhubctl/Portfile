@@ -3,10 +3,10 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        mvp uhubctl 9183aef
+github.setup        mvp uhubctl 50d5501
 
 categories          sysutils
-version             2.2.0_p20201126
+version             2.2.0_p20201127
 platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -14,9 +14,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         USB hub per-port power control.
 long_description    ${description}
 
-checksums           rmd160  98abe02262aed96a967fbf961b2cb9d534efed0a \
-                    sha256  5ba9408f067ebe980c831b78a4ab6a262484071689e2b4311886a77b5f3eb42b \
-                    size    24474
+checksums           rmd160  23f4900bcf6643940b739d17c83b20e601863aa4 \
+                    sha256  ea61ee24d943149b4c7740608a30dcf2aec51c8f0c5a2ed2f9b25f8d3f6c6a31 \
+                    size    24560
 
 depends_lib         port:libusb
 
