@@ -6,6 +6,7 @@ PortGroup           github 1.0
 github.setup            ycm-core YouCompleteMe 4496153
 name                    youcompleteme
 version                 20201127
+revision                1
 platforms               darwin linux freebsd
 license                 GPL-3
 categories              devel textproc
@@ -20,7 +21,7 @@ checksums           rmd160  04487361bbe531472874f6390c8ec4d7a5f71332 \
 set python_minor_version 8
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set python_site_packages_dir ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
-set clang_version 10
+set clang_version 11
 
 depends_lib \
     port:clang-${clang_version} \
