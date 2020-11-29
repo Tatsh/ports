@@ -28,7 +28,7 @@ configure.args \
     -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version} \
     -DUSE_CLANG_TIDY=ON
 
-set clang_version   10
+set clang_version   11
 set core_version    44
 
 depends_lib \
@@ -58,9 +58,8 @@ post-patch {
         ycmd/completers/cpp/clangd_completer.py
     reinplace -W ${patch.dir} "s|@PREFIX@|${prefix}|" \
         ycmd/completers/cpp/clangd_completer.py
+    # Force finding clang-tidy in PATH
     reinplace "453s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
-    reinplace -W ${patch.dir} "s|^MIN_SUPPORTED_VERSION = ( 11|MIN_SUPPORTED_VERSION = ( 10|" \
-        ycmd/completers/cpp/clangd_completer.py
 }
 
 post-build {
