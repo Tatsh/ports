@@ -6,8 +6,10 @@ PortGroup           github 1.0
 
 github.setup            ycm-core ycmd 64a4eaf
 version                 20201125
-revision                1
-categories-append       textproc
+revision                2
+categories              devel textproc
+platforms               darwin linux freebsd
+license                 GPL-3
 maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        ${description}
