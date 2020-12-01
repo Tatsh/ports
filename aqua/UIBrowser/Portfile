@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                UIBrowser
-version             2.9.2
+version             3.0.0
 
 categories          aqua
 license             Restrictive
@@ -16,14 +16,14 @@ long_description    UI Browser is the ultimate assistant for Apple's \
 homepage            https://pfiddlesoft.com/uibrowser/index.html
 supported_archs     x86_64
 
-set special_dmg     ${name}292.dmg
+set special_dmg     ${name}300.dmg
 set app_name        "UI Browser.app"
 distfiles           ${special_dmg}
 master_sites        https://pfiddlesoft.com/uibrowser/downloads/
 
-checksums           rmd160  52dcb05d5c907b7c62d8170811a0fcded96b7696 \
-                    sha256  d2870ee3f85ca822bc9dfe819fffa46085a534db3e3bcbff96f785ecfd528959 \
-                    size    3741172
+checksums           rmd160  cb71a30fb8021eb74777af176769ffac38b983ad \
+                    sha256  ec1d05f2c64ae1843939df1b449a9861fcdbc2d07bd22ce6fa57cf72be31702e \
+                    size    4056252
 
 livecheck.type      regex
 livecheck.url       ${homepage}
