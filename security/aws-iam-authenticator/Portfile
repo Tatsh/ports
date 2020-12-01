@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/kubernetes-sigs/aws-iam-authenticator v0.5.2
-categories-append   net
+go.setup            github.com/kubernetes-sigs/aws-iam-authenticator 0.5.2 v
+categories          security net
 maintainers         {gmail.com:audvare @Tatsh}
 license             Apache-2
 
