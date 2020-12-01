@@ -13,11 +13,6 @@ long_description    ${description}
 
 go.package          sigs.k8s.io/aws-iam-authenticator
 
-checksums           ${distname}${extract.suffix} \
-                        rmd160  0bf5bee637fe3ae2faf96d24d5b95621c8e6c00c \
-                        sha256  a24cd391de7a5f736d1a9436054188b97fd30e01c0f707afea08c31b41720653 \
-                        size    6073567
-
 go.vendors          sigs.k8s.io/yaml \
                         repo    github.com/kubernetes-sigs/yaml \
                         lock    v1.1.0 \
