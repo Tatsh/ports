@@ -7,13 +7,14 @@ PortGroup           xcode 1.0
 if {${os.major} < 20} {
     github.setup        waylybaye XcodeCleaner-SwiftUI cc8c942
     version             3.1.1
+    livecheck.type      none
 } else {
     github.setup        waylybaye XcodeCleaner-SwiftUI 26deaf4
     version             4.0.1
-    livecheck.type      none
 }
 
 name                cleaner-for-xcode
+revision            1
 categories          devel aqua
 license             Restricted
 maintainers         {gmail.com:audvare @Tatsh}
