@@ -8,6 +8,8 @@ name                timew
 version             1.4.2
 github.setup        GothenburgBitFactory timewarrior ${version} v
 
+github.livecheck.regex {([0-9.]+)}
+
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
