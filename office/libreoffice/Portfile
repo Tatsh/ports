@@ -25,7 +25,7 @@ set main_distfile   ${name}-${version}${extract.suffix}
 
 livecheck.type      regex
 livecheck.url       https://downloadarchive.documentfoundation.org/libreoffice/old/latest/src/
-livecheck.regex     "${name}-(\\d+\\.\\d+\\.\\d+)(?:\\.\\d+)?${extract.suffix}</a></td>"
+livecheck.regex     "${name}-((?:\\d+\\.\\d+\\.\\d+)(?:\\.\\d+))?${extract.suffix}</a></td>"
 
 extract.only        ${main_distfile} \
                     ${name}-dictionaries-${version}.tar.xz \
