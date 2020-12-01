@@ -46,7 +46,6 @@ master_sites        https://download.documentfoundation.org/${name}/src/${versio
                     ${addons_uri}:libstaroffice \
                     ${addons_uri}:zmf \
                     ${addons_uri}:mdds \
-                    ${addons_uri}:xmlsec \
                     ${osuosl_uri}:dicts \
                     ${osuosl_uri}:translations
 distfiles           ${main_distfile}:main \
@@ -66,8 +65,7 @@ distfiles           ${main_distfile}:main \
                     libqxp-0.0.2.tar.xz:qxp \
                     libstaroffice-0.0.7.tar.xz:libstaroffice \
                     libzmf-0.0.2.tar.xz:zmf \
-                    mdds-1.6.0.tar.bz2:mdds \
-                    xmlsec1-1.2.30.tar.gz:xmlsec
+                    mdds-1.6.0.tar.bz2:mdds
 
 checksums           libreoffice-7.0.4.1.tar.xz \
                     rmd160  afc2f11635d79c62d59898d0a1a2dd09a4a59f85 \
@@ -140,11 +138,7 @@ checksums           libreoffice-7.0.4.1.tar.xz \
                     mdds-1.6.0.tar.bz2 \
                     rmd160  003175ca1b3d1293a6f144490de94eba72cb1697 \
                     sha256  f1585c9cbd12f83a6d43d395ac1ab6a9d9d5d77f062c7b5f704e24ed72dae07d \
-                    size    350406 \
-                    xmlsec1-1.2.30.tar.gz \
-                    rmd160  5de6607d95b852da826f99ca6ca89a81f71aaaf3 \
-                    sha256  2d84360b03042178def1d9ff538acacaed2b3a27411db7b2874f1612ed71abc8 \
-                    size    1989670
+                    size    350406
 
 depends_build-append \
     port:autoconf \
@@ -204,6 +198,7 @@ depends_lib-append  \
     port:redland \
     port:serf1 \
     port:sqlite3 \
+    port:xmlsec \
     port:xz \
     port:zlib
 # Try to keep this in sync with the Python portgroup.
@@ -278,6 +273,7 @@ configure.args-append  \
     --with-system-jars \
     --with-system-libebook \
     --with-system-libs \
+    --with-system-xmlsec \
     --with-theme=colibre \
     --with-tls=nss \
     --with-vendor=MacPorts \
@@ -299,7 +295,6 @@ configure.args-append  \
     --without-system-mythes \
     --without-system-orcus \
     --without-system-sane \
-    --without-system-xmlsec \
     \"--with-lang=bg br ca ca-valencia cy cs da de el en-US en-GB es et eu fi fr ga gd gl hr hu id is it ja km lt lv nb nl nn pl pt pt-BR ro ru sk sl sv ta tr uk zh-CN zh-TW\"
 # This is not a mistake, despite requiring port:openssl in depends_lib. Some
 # internals still require libcrypto.
