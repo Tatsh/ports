@@ -5,7 +5,8 @@ PortSystem 1.0
 name                telegram-for-macos
 version             7.2.4
 revision            0
-categories          aqua net
+categories          net aqua
+license             GPL-2
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         macOS native client for Telegram (official build).
