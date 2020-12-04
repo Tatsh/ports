@@ -7,7 +7,7 @@ PortGroup           xcode 1.0
 github.setup        objective-see FileMonitor 732a3ca
 
 version             1.1.1
-categories          aqua security sysutils
+categories          sysutils aqua security
 license             CC-BY-NC-4
 maintainers         {gmail.com:audvare @Tatsh}
 description         A macOS file monitor.
