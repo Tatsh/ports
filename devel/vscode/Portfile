@@ -4,7 +4,7 @@ PortSystem          1.0
 name                vscode
 version             1.51.1
 
-categories          aqua devel
+categories          devel aqua
 license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
