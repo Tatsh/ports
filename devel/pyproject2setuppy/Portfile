@@ -7,7 +7,7 @@ name                pyproject2setuppy
 version             9
 categories          devel  python
 platforms           darwin linux freebsd
-license             BSD-2
+license             BSD
 supported_archs     noarch
 
 python.versions         35 36 37 38 39
