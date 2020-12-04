@@ -7,6 +7,9 @@ PortGroup           github 1.0
 name                Latest
 version             0.6.3
 github.setup        mangerlahn ${name} ${version}
+description         A utility to check for available updates.
+long_description    ${description}
+maintainers         {gmail.com:audvare @Tatsh}
 
 master_sites        ${github.homepage}/tarball/${git.branch}:latest \
                     https://github.com/sparkle-project/Sparkle/archive:sparkle \
