@@ -10,6 +10,8 @@ github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
 long_description    ${description}
 maintainers         {gmail.com:audvare @Tatsh}
+license             CC-BY-NC-SA-4
+categories          sysutils aqua
 
 master_sites        ${github.homepage}/tarball/${git.branch}:latest \
                     https://github.com/sparkle-project/Sparkle/archive:sparkle \
