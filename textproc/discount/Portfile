@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup                Orc discount 2.2.7 v
+github.setup        Orc discount 2.2.7 v
 platforms           darwin linux freebsd
-license             BSD-3
+license             BSD
 maintainers         {gmail.com:audvare @Tatsh}
 description         An implementation of the Markdown markup language.
 long_description    ${description}
