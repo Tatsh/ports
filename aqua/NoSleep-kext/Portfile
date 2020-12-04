@@ -11,6 +11,8 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             GPL-2
 description         Kernel module for ${github.project}.
 long_description    ${description}
+categories          aqua sysutils
+platforms           macosx
 
 checksums           rmd160  4ed1e014b6f573f7a1f9a792eb31863e56822a0d \
                     sha256  2dd5293c41a16a35deeaf903cc9f10092721b8869b69ef263231a73a4202cb5a \
