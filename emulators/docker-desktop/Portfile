@@ -8,6 +8,8 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             Restricted
 description         The fastest way to containerize applications on your desktop.
 long_description    ${description}
+platforms           macosx
+categories          emulators aqua
 homepage            https://www.docker.com/products/docker-desktop
 master_sites        https://desktop.docker.com/mac/edge/50261/
 distfiles           Docker.dmg
