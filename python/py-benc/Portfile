@@ -8,7 +8,7 @@ version             2019.8.1
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
-categories          devel python
+categories          python devel
 maintainers         {gmail.com:audvare @Tatsh}
 description         Bencoder in 100 lines of modern Python.
 long_description    ${description}
