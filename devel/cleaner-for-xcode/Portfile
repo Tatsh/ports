@@ -8,7 +8,7 @@ if {${os.major} < 20} {
     github.setup        waylybaye XcodeCleaner-SwiftUI cc8c942
     version             3.1.1
     livecheck.type      none
-    revision            0
+    revision            1
 } else {
     github.setup        waylybaye XcodeCleaner-SwiftUI 46edf63
     version             4.0.2
