@@ -5,7 +5,7 @@ PortSystem          1.0
 name                Ripcord
 version             0.4.27
 
-categories          aqua net
+categories          net aqua
 license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
