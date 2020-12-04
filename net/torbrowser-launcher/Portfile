@@ -8,7 +8,7 @@ github.setup        Tatsh torbrowser-launcher-mac 264f5c3
 
 name                torbrowser-launcher
 version             0.0.1_p20201121
-categories          aqua net
+categories          net aqua
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
 
