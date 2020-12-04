@@ -5,7 +5,7 @@ PortSystem          1.0
 name                Postman
 version             7.36.0
 
-categories          aqua devel net
+categories          net aqua devel
 license             Restrictive
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
