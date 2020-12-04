@@ -4,13 +4,12 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/cpuguy83/go-md2man v2.0.0
-categories
-maintainers
-license
+categories          textproc
+maintainers         {gmail.com:audvare @Tatsh}
+license             MIT
 
-description
-
-long_description
+description         Converts markdown into roff (man pages).
+long_description    ${description}
 
 checksums           ${distname}${extract.suffix} \
                         rmd160  85f342c341fa928e9ec874490c277bdabf1c39c6 \
