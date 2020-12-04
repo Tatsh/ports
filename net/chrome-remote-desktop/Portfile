@@ -11,6 +11,8 @@ long_description    ${description}
 homepage            https://remotedesktop.google.com/
 master_sites        https://dl.google.com/chrome-remote-desktop/
 distfiles           chromeremotedesktop.dmg
+categories          net aqua
+platforms           macosx
 
 checksums           rmd160  7e5e2133737ec0d3e66319082d8cd4503926f904 \
                     sha256  78cabb152aaa810a378cb8e3ae9595dff6016b3edf21aa0f2975be077bf757da \
