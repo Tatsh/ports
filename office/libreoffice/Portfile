@@ -14,13 +14,12 @@ long_description    LibreOffice is a free and powerful office suite, and a succe
                     feature-rich tools help you unleash your creativity and enhance your \
                     productivity.
 homepage            https://www.libreoffice.org
-master_sites        https://downloadarchive.documentfoundation.org/libreoffice/old/${version}/src/
 use_xz              yes
 
+set short_version   [string range $version 0 end-2]
+set main_uri        https://download.documentfoundation.org/${name}/src/${short_version}/
 set addons_uri      https://dev-www.libreoffice.org/src/
 set extern_uri      https://dev-www.libreoffice.org/extern/
-set osuosl_uri      https://ftp.osuosl.org/pub/tdf/${name}/src/${version}/
-
 set main_distfile   ${name}-${version}${extract.suffix}
 
 livecheck.type      regex
@@ -46,8 +45,8 @@ master_sites        https://download.documentfoundation.org/${name}/src/${versio
                     ${addons_uri}:libstaroffice \
                     ${addons_uri}:zmf \
                     ${addons_uri}:mdds \
-                    ${osuosl_uri}:dicts \
-                    ${osuosl_uri}:translations
+                    ${main_uri}:dicts \
+                    ${main_uri}:translations
 distfiles           ${main_distfile}:main \
                     ${name}-dictionaries-${version}.tar.xz:dicts \
                     ${name}-translations-${version}.tar.xz:translations \
