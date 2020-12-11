@@ -4,7 +4,7 @@ PortSystem          1.0
 name                brave
 version             1.18.70
 
-categories          aqua
+categories          www aqua
 license             MPL-2
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
