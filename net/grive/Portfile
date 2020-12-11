@@ -7,8 +7,7 @@ PortGroup           github 1.0
 github.setup        vitalif grive2 ffb744a
 
 name                grive
-version             0.5.2-dev
-revision            2
+version             0.5.2_p20200205
 platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -27,5 +26,6 @@ checksums           rmd160  30d3b848ca340a64b08392e7a2a576d9760c4821 \
                     size    170395
 
 patchfiles      307.patch \
-                330.patch
+                330.patch \
+                print-times.patch
 patch.pre_args  -p1
