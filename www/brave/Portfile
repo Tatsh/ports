@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                brave
+version             1.18.70
+
+categories          aqua
+license             MPL-2
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Secure, fast and private web browser with adblocker.
+long_description    The Brave browser is a fast, private and secure web \
+                    browser.
+homepage            https://brave.com/
+supported_archs     x86_64
+
+set app_name        "Brave Browser.app"
+distfiles           Brave-Browser-x64.dmg
+set v0              [string range $version 0 0]
+set v1              [string range $version 2 end]
+master_sites        https://updates-cdn.bravesoftware.com/sparkle/Brave-Browser/stable/${v0}${v1}
+
+checksums           rmd160  c26b93887da61b3b4a7dac3e67321208442a1571 \
+                    sha256  5c076e64d44bd4fb6d19d5d0a27f4b3c5c3c2308632c056dc61b66c213526e55 \
+                    size    109272709
+
+livecheck.type      regex
+livecheck.url       https://updates.bravesoftware.com/sparkle/Brave-Browser/stable/appcast.xml
+livecheck.regex     "sparkle:shortVersionString=\"\\d+\\.(\[^\"\]+)\""
+
+depends_extract     bin:expect:expect
+
+use_configure       no
+
+extract {
+    file mkdir ${worksrcpath}
+    set mountpoint [my_attach_disk_image ${distpath}/[lindex ${distfiles} 0]]
+    copy ${mountpoint}/${app_name} ${worksrcpath}
+    my_detach_disk_image ${mountpoint}
+}
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/${app_name} ${destroot}${applications_dir}
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
+    # Use this expect script instead of using hdiutil directly, because the
+    # disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    file delete -force ${mountpoint}
+}
+
+if {${os.major} < 14} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.10 or later."
+        return -code error "incompatible OS X version"
+    }
+}
