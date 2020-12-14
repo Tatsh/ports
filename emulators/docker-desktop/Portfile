@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                docker-desktop
-version             2.5.4
+version             3.0.1
 maintainers         {gmail.com:audvare @Tatsh}
 license             Restricted
 description         The fastest way to containerize applications on your desktop.
@@ -11,12 +11,12 @@ long_description    ${description}
 platforms           macosx
 categories          emulators aqua
 homepage            https://www.docker.com/products/docker-desktop
-master_sites        https://desktop.docker.com/mac/edge/50534/
+master_sites        https://desktop.docker.com/mac/stable/50773/
 distfiles           Docker.dmg
 
-checksums           rmd160  347f1afcfaccb2b2a42ae22a4f02764dcf2cdb6c \
-                    sha256  5d63435e322494be1113c0e25474fd55db4b06563abc2c0f9697db54584d1595 \
-                    size    525878482
+checksums           rmd160  84726d55f50714d14e06351ed8406c63d261eaad \
+                    sha256  ecf1d3d8519a5d040adc6ab9ea447780c550827320743c4af568494603d5e8b4 \
+                    size    536470394
 
 livecheck.type      regex
 livecheck.url       https://desktop.docker.com/mac/edge/appcast.xml
