@@ -1,19 +1,19 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "portindex",
-            "type": "shell",
-            "command": "portindex",
-            "problemMatcher": [],
-            "presentation": {
-                "reveal": "silent",
-                "showReuseMessage": false
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "portindex",
+      "type": "shell",
+      "command": "portindex",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "showReuseMessage": false
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
 }
