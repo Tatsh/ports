@@ -3,18 +3,13 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/segmentio/aws-okta 2cb83eb
-version             1.0.8
+go.setup            github.com/segmentio/aws-okta 37d8632
+version             1.0.9
 categories          security net
 maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 description         aws-okta allows you to authenticate with AWS using your Okta credentials.
 long_description    ${description}
-
-checksums           ${distname}${extract.suffix} \
-                        rmd160  1bbb956029862c94c8f7dc73723a15117d77c607 \
-                        sha256  e7f50aea2663bf0ec0ffa3ac3cbf4b825ed7dda264f9dbbb10863527018cb7b6 \
-                        size    2216996
 
 go.vendors          gopkg.in/ini.v1 \
                         lock    v1.42.0 \
@@ -151,7 +146,7 @@ go.vendors          gopkg.in/ini.v1 \
                         rmd160  bc68f0cd5c09a6bf5d38a6883bf00bf66c62937b \
                         sha256  f8e28bb6112cd54ea490d432c6c213b9620b46abc2eea8845fbd4c6c808e00e8 \
                         size    284643 \
-                    github.com/jtolds/gls \
+                    github.com/jtolio/gls \
                         lock    v4.20.0 \
                         rmd160  8e721b1aa6de0606caa5a2a038ddd53a0d05d7b4 \
                         sha256  6f98dcae4c326cbfb0400e6a01604511e544957ea88494e979ace881e2058cbb \
@@ -202,10 +197,10 @@ go.vendors          gopkg.in/ini.v1 \
                         sha256  36b96edebdba23f599a9f7db19897fff644f10def6c1609dbaa72202ba666e0f \
                         size    1472 \
                     github.com/aws/aws-sdk-go \
-                        lock    v1.25.25 \
-                        rmd160  8b9efa00b093913bf3adf3e7b6e7f20f983f989f \
-                        sha256  1f36c91aca59a1aa516fdb434451cc15a556e00443e20b47cfbc1704e330c47b \
-                        size    12057109 \
+                        lock    v1.25.35 \
+                        rmd160  32e150f879bbafe06c5dd448e7e4caebd9e3ebbb \
+                        sha256  009ab1dbeddff00b1721e399fd4401c3de968d228e1aa2dfe750833647866af0 \
+                        size    12274217 \
                     github.com/alessio/shellescape \
                         lock    b115ca0f9053 \
                         rmd160  a224327176688df4d86887bfd73ee0b63827bfd9 \
@@ -217,10 +212,10 @@ go.vendors          gopkg.in/ini.v1 \
                         sha256  6ed1debc3e023c3175ad8519a7b55d40a62d26da80e4871231521c141c875467 \
                         size    17891
 
-checksums           aws-okta-2cb83eb.tar.gz \
-                    rmd160  1bbb956029862c94c8f7dc73723a15117d77c607 \
-                    sha256  e7f50aea2663bf0ec0ffa3ac3cbf4b825ed7dda264f9dbbb10863527018cb7b6 \
-                    size    2216996 \
+checksums           aws-okta-37d8632.tar.gz \
+                    rmd160  8729b0b3a372b231db3189e510c1dfec20b15ca2 \
+                    sha256  94976f81342efffa0beb302f208923ebf8ac0089ba858739468ef6a47a12a316 \
+                    size    2217175 \
                     go-ini-ini-v1.42.0.tar.gz \
                     rmd160  1df5ae9bfc4f421c93d2d3f4e89e8d8f08cdbc1a \
                     sha256  d1299d3fa9c8989ca8b181cae4e8cf307252189f02babf721987152141cd82c2 \
@@ -329,10 +324,10 @@ checksums           aws-okta-2cb83eb.tar.gz \
                     rmd160  bc68f0cd5c09a6bf5d38a6883bf00bf66c62937b \
                     sha256  f8e28bb6112cd54ea490d432c6c213b9620b46abc2eea8845fbd4c6c808e00e8 \
                     size    284643 \
-                    jtolds-gls-v4.20.0.tar.gz \
-                    rmd160  31d8656bd6c1426338ceaac9535198244248b254 \
-                    sha256  04069406ca336d355eab62b4ab9e84b820ac968ac1e20bd3777efec2d3843446 \
-                    size    7305 \
+                    jtolio-gls-v4.20.0.tar.gz \
+                    rmd160  8e721b1aa6de0606caa5a2a038ddd53a0d05d7b4 \
+                    sha256  6f98dcae4c326cbfb0400e6a01604511e544957ea88494e979ace881e2058cbb \
+                    size    7308 \
                     jmespath-go-jmespath-c2b33e8439af.tar.gz \
                     rmd160  5599516af7167f50fd50b90f7f7247658275032c \
                     sha256  08f16ad09da5b3d22b2500d1b37abd7170654184292f6869c551f0de13ad9013 \
@@ -369,10 +364,10 @@ checksums           aws-okta-2cb83eb.tar.gz \
                     rmd160  cc0e24c59b3efd76d821706eedb45002a8d7bcaf \
                     sha256  36b96edebdba23f599a9f7db19897fff644f10def6c1609dbaa72202ba666e0f \
                     size    1472 \
-                    aws-aws-sdk-go-v1.25.25.tar.gz \
-                    rmd160  8b9efa00b093913bf3adf3e7b6e7f20f983f989f \
-                    sha256  1f36c91aca59a1aa516fdb434451cc15a556e00443e20b47cfbc1704e330c47b \
-                    size    12057109 \
+                    aws-aws-sdk-go-v1.25.35.tar.gz \
+                    rmd160  32e150f879bbafe06c5dd448e7e4caebd9e3ebbb \
+                    sha256  009ab1dbeddff00b1721e399fd4401c3de968d228e1aa2dfe750833647866af0 \
+                    size    12274217 \
                     alessio-shellescape-b115ca0f9053.tar.gz \
                     rmd160  a224327176688df4d86887bfd73ee0b63827bfd9 \
                     sha256  c58b20cf8977f09a56c371bebc48e3ead4ef8748e09c3830b92ca6f7ebf064ed \
