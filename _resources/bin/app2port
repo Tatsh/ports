@@ -11,7 +11,7 @@ version_keys = ('CFBundleShortVersionString', 'CFBundleVersion',
                 'CFBundleGetInfoString')
 
 
-def has_libstdcxx(start: str):
+def has_libstdcxx(start: str) -> bool:
     dirpath: str
     dirnames: List[str]
     filenames: List[str]
@@ -31,11 +31,10 @@ def has_libstdcxx(start: str):
     return False
 
 
-def main():
+def main() -> int:
     configure_cxx_stdlib = ''
     if has_libstdcxx(sys.argv[1]):
         configure_cxx_stdlib = '\nconfigure.cxx_stdlib libstdc++\n'
-
     name = basename(sys.argv[1].rstrip('/'))
     pkg_name = name.lower().replace(' ', '-').replace('.app', '')
     plist_path = path_join(sys.argv[1], 'Contents', 'Info.plist')
@@ -45,7 +44,6 @@ def main():
     except IOError:
         print('Info.plist not found', file=sys.stderr)
         return 1
-
     version = 'VERSION'
     for version_key in version_keys:
         try:
