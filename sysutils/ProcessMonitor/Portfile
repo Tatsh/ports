@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        objective-see ProcessMonitor c54b2f5
+github.setup        objective-see ProcessMonitor 1a9c2e0
 
-version             1.4.0
+version             1.5.0
 revision            0
 categories          sysutils aqua security
 license             CC-BY-NC-4
@@ -16,17 +16,12 @@ long_description    A macOS process monitor (based on Apple's new Endpoint \
                     Security Framework).
 homepage            https://objective-see.com/products/utilities.html#ProcessMonitor
 
-checksums           rmd160  3ee145f0fb9477f494d91094a44d6eb9643905ff \
-                    sha256  d8aad06e470b5bb04e796c349598377a938dc721b6fb9394159e9497192caac5 \
-                    size    249065
+checksums           rmd160  ca2141b458915d71f083c90300786a6457a8d45b \
+                    sha256  2cb7febd6ccf079a0b2dbae04ad90bbf2e5b24faadccdd9e6cda3873d56ebf0f \
+                    size    189454
 
 xcode.scheme        ProcessMonitor
 xcode.configuration Release
-xcode.build.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual \
-    ENABLE_HARDENED_RUNTIME=NO \
-    CODE_SIGN_ENTITLEMENTS=
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
