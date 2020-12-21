@@ -5,7 +5,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Latest
-version             0.6.3
+version             0.7.1
 github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
 long_description    ${description}
@@ -16,8 +16,8 @@ categories          sysutils aqua
 master_sites        ${github.homepage}/tarball/${git.branch}:latest \
                     https://github.com/sparkle-project/Sparkle/archive:sparkle \
                     https://github.com/mas-cli/mas/archive:mas
-set n_commits       370
-set latest_hash     f970a07
+set n_commits       440
+set latest_hash     edb391f
 set sparkle_hash    67819be18a4ef48e85ea30dbbf8de582f5ef405c
 set mas_hash        b5efb8525e3ae538d41d0102756534410e7a3c98
 distfiles           ${name}-${version}.tar.gz:latest \
@@ -25,10 +25,10 @@ distfiles           ${name}-${version}.tar.gz:latest \
                     ${mas_hash}.tar.gz:mas
 worksrcdir          mangerlahn-${name}-${latest_hash}
 
-checksums           Latest-0.6.3.tar.gz \
-                    rmd160  30f323c543af1525a56ac5c4d4c8d1f8e8c6ed59 \
-                    sha256  54342796bcf8ffd347be46ec1d43fd69736007aea7f58abbc61a71e256d18bb9 \
-                    size    2247254 \
+checksums           Latest-0.7.1.tar.gz \
+                    rmd160  158a64db722c04563d52655745427cdd62b8a99c \
+                    sha256  6ea5ee84d9f72e89658332e0a462dc75640851190dc42afb9892be2b9264b65e \
+                    size    2396161 \
                     67819be18a4ef48e85ea30dbbf8de582f5ef405c.tar.gz \
                     rmd160  82310599396ba959a0a2b54f340fe98a31f8aabe \
                     sha256  5a928cc6772e9abe17ce14a88eee4277ad769bdc46e01fa25769177aba3e744b \
