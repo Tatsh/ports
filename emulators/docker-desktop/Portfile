@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                docker-desktop
-version             3.0.2
+version             3.0.3
 maintainers         {gmail.com:audvare @Tatsh}
 license             Restricted
 description         The fastest way to containerize applications on your desktop.
@@ -11,12 +11,12 @@ long_description    ${description}
 platforms           macosx
 categories          emulators aqua
 homepage            https://www.docker.com/products/docker-desktop
-master_sites        https://desktop.docker.com/mac/stable/50996/
+master_sites        https://desktop.docker.com/mac/stable/51017/
 distfiles           Docker.dmg
 
-checksums           rmd160  4d41429c77adafe113b9da0f19a44a8d30103bcb \
-                    sha256  977723187d02f9c322f7b271011bfe29f4de3bca8bb3f533e292ed110e06a268 \
-                    size    536953174
+checksums           rmd160  3b90d8aab69b6d23efd85b788880e7c07c31406d \
+                    sha256  d63c7cc6d4fcbc1ef1fb113c7a594d90f4f44a2da2d1c7f3ed8d1553c5bc1bad \
+                    size    538089046
 
 livecheck.type      regex
 livecheck.url       https://desktop.docker.com/mac/edge/appcast.xml
@@ -41,9 +41,9 @@ destroot {
 }
 
 post-deactivate {
-    ui_msg "To fully uninstall, run the following command:"
+    ui_msg "To fully uninstall, run the following commands:"
     ui_msg ""
-    ui_msg "sudo rm \\"
+    ui_msg "sudo rm -f \\"
     ui_msg "  /usr/local/bin/docker \\"
     ui_msg "  /usr/local/bin/notary \\"
     ui_msg "  /usr/local/bin/hyperkit \\"
@@ -56,8 +56,7 @@ post-deactivate {
     ui_msg "  /usr/local/bin/vpnkit \\"
     ui_msg "  /usr/local/bin/docker-compose \\"
     ui_msg "  /usr/local/bin/hexf \\"
-    ui_msg "  /usr/local/bin/kubectl \\"
-    ui_msg "  /usr/local/lib/docker \\"
-    ui_msg "  /usr/local/lib/docker/cli-plugins"
+    ui_msg "  /usr/local/bin/kubectl"
+    ui_msg "sudo rm -fR /usr/local/lib/docker"
     ui_msg ""
 }
