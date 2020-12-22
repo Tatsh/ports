@@ -45,6 +45,7 @@
     "lpmsample",
     "lresolv",
     "macprefs",
+    "mapfile",
     "mkdtemp",
     "mmacosx",
     "mypy",
