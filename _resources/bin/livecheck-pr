@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 mapfile -d $'\n' -t prs < <(
     curl 'https://api.github.com/search/issues?q=author%3ATatsh+type%3Apr' 2> /dev/null |
-        jq -r '.items[]|select(.repository_url=="https://api.github.com/repos/macports/macports-ports")|.title' |
-        sed -r -e 's/^py-/py38-/g'
+        jq -r '.items[]|select(.repository_url|contains("macports/macports-ports"))|.title' |
+        sed -r -e 's/^py-/py38-/'
 )
 while IFS=$'\n' read -r port_line; do
     port=$(cut -d' ' -f1 <<< "$port_line")
     new_version=$(sed -r -e 's/.*, new version: ([^\)]+)\)/\1/' <<< "$port_line")
-    if ! grep -qF "${port}: update to ${new_version}" <<< "${prs[*]}"; then
-        echo "$port_line"
-    fi
-done < <(for pr in "${prs[@]}"; do
-    sed -r -e 's/([^\:]+)\:.*/\1/' <<< "$pr"
-done |
-    sort -u |
-    xargs -r port -v livecheck 2>&1 |
-    grep -Fv 'seems to be up to date' |
-    grep -Fv 'cannot check if iTerm2 was updated')
+    ! grep -qF "${port}: update to ${new_version}" <<< "${prs[*]}" && echo "$port_line"
+done < <(
+    printf '%s\n' "${prs[@]}" |
+        sed -r -e 's/([^\:]+)\:.*/\1/' |
+        sort -u |
+        xargs -r port -v livecheck 2>&1 |
+        grep -vE '(seems to be up to date|cannot check if iTerm2 was updated)'
+)
