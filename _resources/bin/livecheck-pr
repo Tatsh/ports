@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 PR_URL="https://github.com/macports/macports-ports/pulls?q=+is%3Apr+author%3ATatsh"
-{
-    curl "$PR_URL"
-    curl "${PR_URL}&page=2"
-} 2> /dev/null |
-    grep -E '<a id="issue_[0-9]+_link"' |
-    sed -r -e 's/<a[^>]+>//' -e 's/^\s+//' -e 's/([^\:]+)\:.*/\1/' -e 's/^py-/py38-/g' \
-        -e 's/^waitress$/py38-waitress/g' |
-    sort -u |
-    xargs port -v livecheck |
-    grep -Fv 'seems to be up to date'
+mapfile -d $'\n' -t prs < <(
+    {
+        curl "$PR_URL"
+        curl "${PR_URL}&page=2"
+    } 2> /dev/null |
+        grep -E '<a id="issue_[0-9]+_link"' |
+        sed -r -e 's/<a[^>]+>//' -e 's/^\s+//' -e 's:</a>::' -e 's/^py-/py38-/g'
+)
+while IFS=$'\n' read -r port_line; do
+    port=$(cut -d' ' -f1 <<< "$port_line")
+    new_version=$(sed -r -e 's/.*, new version: ([^\)]+)\)/\1/' <<< "$port_line")
+    if ! grep -qF "${port}: update to ${new_version}" <<< "${prs[*]}"; then
+        echo "$port_line"
+    fi
+done < <(for pr in "${prs[@]}"; do
+    sed -r -e 's/([^\:]+)\:.*/\1/' <<< "$pr"
+done | sort -u | xargs -r port -v livecheck | grep -v 'seems to be up to date')
