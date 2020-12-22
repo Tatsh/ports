@@ -20,7 +20,7 @@ checksums           rmd160  31bbedd4dce5204b3c65e545af0efd9aa74b3388 \
 
 livecheck.type      md5
 livecheck.url       https://dl.google.com/chrome-remote-desktop/${distfiles}
-livecheck.md5       4fb5efe88ed0b2928616d43663b98a43
+livecheck.md5       461987faee516f8d2bab98198ea54e00
 
 use_configure       no
 use_dmg             yes
