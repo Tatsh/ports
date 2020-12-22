@@ -8,10 +8,10 @@ if {${os.major} < 20} {
     github.setup        waylybaye XcodeCleaner-SwiftUI cc8c942
     version             3.1.1
     livecheck.type      none
-    revision            1
+    revision            0
 } else {
-    github.setup        waylybaye XcodeCleaner-SwiftUI 46edf63
-    version             4.0.2
+    github.setup        waylybaye XcodeCleaner-SwiftUI b879c4e
+    version             4.0.3
 }
 
 name                cleaner-for-xcode
@@ -24,9 +24,9 @@ description         This app helps you to make your Xcode faster by removing \
 long_description    ${description}
 
 if {${os.major} >= 20} {
-    checksums           rmd160  683a2a64b82bb85cbde40daeb5b794f7bc25b489 \
-                        sha256  48b3a8bd7d3c413b502b594c5431b2f6931cb97a7aaeb0735af8be3263d414a5 \
-                        size    1466631
+    checksums           rmd160  26a271cbcd3d6bcc7a83c154e18ea3c0f3aa6163 \
+                        sha256  57d6ae36f85cb9f52665c380ed88184f063013e36f2a13e944f8e1cc16256bf5 \
+                        size    1466642
 } else {
     checksums           rmd160  bb90fbe23852eb579d60ec89e9a4858a0e8e62d3 \
                         sha256  9b78e03e67a177aea561b7b47dd45a39932345659f007e2bb908d3e45d95d416 \
