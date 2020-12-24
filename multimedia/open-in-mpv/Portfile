@@ -3,8 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            Tatsh open-in-mpv b61255e
-version                 20201223
+github.setup            Tatsh open-in-mpv 0.0.3 v
 description             Host-side script for interacting with the 'Open in mpv' Chrome extension.
 long_description        ${description}
 categories              multimedia sysutils
@@ -12,9 +11,9 @@ maintainers             {gmail.com:audvare @Tatsh}
 license                 MIT
 platforms               darwin
 
-checksums           rmd160  ccd25403c6fb8307dcde57ec0d49fc80e9d7a574 \
-                    sha256  ab9d7ee944a28ddedb7c4cd4cdebc2c4aa217a8e0e0561856664082692ffb106 \
-                    size    48997
+checksums           rmd160  a37daae3685e0e8dce16378e75d97e233c0138e4 \
+                    sha256  1ae43011b45c68170067c59bedb8f82530abce4b8729523fa941ca53cf420882 \
+                    size    49103
 
 use_configure       no
 
