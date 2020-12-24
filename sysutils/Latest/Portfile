@@ -62,9 +62,9 @@ patch {
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
 
-if {${os.major} < 16} {
+if {${os.major} < 17} {
     pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.12 or later."
+        ui_error "${name} @${version} requires OS X 10.13 or later."
         return -code error "incompatible OS X version"
     }
 }
