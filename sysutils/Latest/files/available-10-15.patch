@@ -1,0 +1,52 @@
+diff --git Latest/Interface/Update Table View/Controller/UpdateTableViewController.swift Latest/Interface/Update Table View/Controller/UpdateTableViewController.swift
+index 759c264..c09d948 100644
+--- Latest/Interface/Update Table View/Controller/UpdateTableViewController.swift	
++++ Latest/Interface/Update Table View/Controller/UpdateTableViewController.swift	
+@@ -398,12 +398,8 @@ class UpdateTableViewController: NSViewController, NSMenuItemValidation, NSTable
+         }
+         
+ 		self.scrubber?.reloadData()
+-		
+-		if #available(macOS 11, *) {
+-			self.view.window?.subtitle = statusText
+-		} else {
+-			self.updatesLabel.stringValue = statusText
+-		}
++
++      self.updatesLabel.stringValue = statusText
+     }
+ 	
+ 	/// Updates the contents of the table view
+diff --git Latest/Interface/Views/UpdateButton.swift Latest/Interface/Views/UpdateButton.swift
+index 4200a09..f6117f0 100644
+--- Latest/Interface/Views/UpdateButton.swift
++++ Latest/Interface/Views/UpdateButton.swift
+@@ -193,11 +193,7 @@ class UpdateButton: NSButton {
+ 			self.image = nil
+ 		case .error:
+ 			self.title = ""
+-			if #available(OSX 11.0, *) {
+-				self.image = NSImage(systemSymbolName: "exclamationmark.triangle.fill", accessibilityDescription: NSLocalizedString("Error while updating app", comment: "Description of button that opens an error dialogue."))
+-			} else {
+ 				self.image = NSImage(named: "warning")!
+-			}
+ 		default:
+ 			self.title = ""
+ 			self.image = nil
+diff --git Latest/Interface/Window Controllers/MainWindowController.swift Latest/Interface/Window Controllers/MainWindowController.swift
+index 0477976..f17dc6c 100644
+--- Latest/Interface/Window Controllers/MainWindowController.swift	
++++ Latest/Interface/Window Controllers/MainWindowController.swift	
+@@ -57,12 +57,7 @@ class MainWindowController: NSWindowController, NSMenuItemValidation, NSMenuDele
+     
+ 		self.window?.titlebarAppearsTransparent = true
+ 
+-		if #available(macOS 11.0, *) {
+-			self.window?.toolbarStyle = .unified
+-			self.window?.title = NSLocalizedString("Latest", comment: "App name as title of the main window.")
+-		} else {
+ 			self.window?.titleVisibility = .hidden
+-		}
+         
+ 		// Set ourselves as the view menu delegate
+ 		NSApplication.shared.mainMenu?.item(at: MainMenuItem.view.rawValue)?.submenu?.delegate = self

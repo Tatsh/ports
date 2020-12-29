@@ -46,13 +46,17 @@ xcode.destroot.settings \
     ENABLE_HARDENED_RUNTIME=NO
 destroot.pre_args -derivedDataPath ${build.dir}/.dd
 
+if {${os.major} < 20} {
+    patchfiles available-10-15.patch
+}
+
 post-extract {
     file delete -force ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
     copy ${workpath}/Sparkle-${sparkle_hash} ${worksrcpath}/Frameworks/Sparkle
     copy ${workpath}/mas-${mas_hash} ${worksrcpath}/Frameworks/mas-cli
 }
 
-patch {
+post-patch {
     reinplace "s|ln -sfh|/bin/ln -sfh|" \
         ${worksrcpath}/Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj
     reinplace "s/\\\$number_of_commits/${n_commits}/" \
