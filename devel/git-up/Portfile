@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                git-up
-version             2.0.1.post1
+version             2.0.2
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -23,9 +23,9 @@ long_description    PyGitUp is a Python port of aanand/git-up. It not only fully
 homepage            https://pypi.org/project/git-up/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-checksums           rmd160  966b3939e32a4ed343a680941ab6b364ba08cef5 \
-                    sha256  43d463199449cd6e3e80d2cef83a8e68f735f03fc33c94310e83b2241db9d73f \
-                    size    23330
+checksums           rmd160  9313f2a0d3160d0464f99631d8f119cff428860d \
+                    sha256  ce1bc2285393145d0c287de271ecea9f5302b6103be92263077e4c4a1fcd58cb \
+                    size    23268
 
 depends_build-append    port:pyproject2setuppy
 depends_lib-append      port:py${python.version}-gitpython \
