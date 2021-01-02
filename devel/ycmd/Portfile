@@ -4,31 +4,31 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            ycm-core ycmd f08a6df
-version                 20201219
+github.setup            ycm-core ycmd 7aa5211
+version                 20201231
 revision                0
 categories              devel textproc
-platforms               darwin linux freebsd
+platforms               darwin
 license                 GPL-3
 maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        ${description}
 
-checksums           rmd160  65c84cb5ac94a225dfc64f689358c56bb7c412ef \
-                    sha256  8d5d32396d169bc9e844f3526ef598653056aeef937721284c80958fa43dc56c \
-                    size    3327910
+checksums           rmd160  85b6f934b3d9b976ec1ca569f6325ad01c7feac3 \
+                    sha256  92f295b9b5953df6cd3daf72c609ce036ef847178d0d38c7a597dc476667b30f \
+                    size    3325743
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
 set python_minor_version    8
 set python_framework_dir    ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set site_packages_dir       ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
+set ycm_core_file           ycm_core.cpython-3${python_minor_version}-darwin.so
 configure.pre_args-append \
     -DCMAKE_CXX_COMPILER=clang++
 configure.args \
-    -DPYTHON_LIBRARY=${python_framework_dir}/lib/libpython3.${python_minor_version}.dylib \
-    -DPYTHON_INCLUDE_DIR=${python_framework_dir}/include/python3.${python_minor_version} \
-    -DUSE_CLANG_TIDY=ON
+    -DUSE_CLANG_TIDY=ON \
+    -DPython3_ROOT_DIR=${python_framework_dir}
 
 set clang_version   11
 set core_version    44
@@ -61,13 +61,16 @@ post-patch {
     reinplace -W ${patch.dir} "s|@PREFIX@|${prefix}|" \
         ycmd/completers/cpp/clangd_completer.py
     # Force finding clang-tidy in PATH
-    reinplace "453s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
+    reinplace "423s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
+    # Force specific version of Python
+    reinplace -E "s|Python3 \[0-9\\.\]+ REQUIRED COMPONENTS|Python3 3.8 EXACT REQUIRED COMPONENTS|" \
+        CMakeLists.txt
 }
 
 post-build {
     # FIXME Hack rpath in for now
     system \
-        "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../ycm_core.so"
+        "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../${ycm_core_file}"
     system "python -m compileall ${worksrcpath}/../ycmd"
 }
 
@@ -77,7 +80,7 @@ destroot {
     xinstall -m 0755 -d \
         ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
     xinstall -m 0755 -d ${destroot}${site_packages_dir}
-    xinstall -m 0755 ${worksrcpath}/../ycm_core.so \
+    xinstall -m 0755 ${worksrcpath}/../${ycm_core_file} \
         ${destroot}${site_packages_dir}
     copy ${worksrcpath}/../ycmd ${destroot}${site_packages_dir}/
 }
