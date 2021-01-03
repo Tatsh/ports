@@ -44,10 +44,10 @@ depends_run \
     port:py3${python_minor_version}-watchdog
 
 patch.dir       ${worksrcpath}/..
-patchfiles      gopls-path.patch \
-                tern-path.patch \
-                utils.patch \
-                clangd-path.patch
+patchfiles      patch-gopls-path.diff \
+                patch-tern-path.diff \
+                patch-utils.diff \
+                patch-clangd-path.diff
 
 post-patch {
     file delete -force ${patch.dir}/ycmd/tests
