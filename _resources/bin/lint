@@ -2,7 +2,26 @@
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
 cd "$DIR" || exit 1
 portindex
-grep -E '^[a-zA-Z0-9_-]+ [0-9]+$' PortIndex |
+while IFS=$'\n' read -r name; do
+    file=$(port file "$name" | sed -r -e "s|^${DIR}/||")
+    out=$(port -q lint --nitpick "$name" 2>&1)
+    if [ -n "$out" ]; then
+        while IFS=$'\n' read -r message; do
+            line_no=1
+            if [[ $message == *Patchfile* ]]; then
+                line_no=$(grep -Fn patchfiles "$file" | head -n 1 | cut -d: -f1)
+                if [ -z "$line_no" ]; then
+                    line_no=1
+                fi
+            elif grep -qE '^Warning: Line [0-9]+ seems' <<< "$message"; then
+                line_no=$(sed -r -e 's/^Warning: Line ([0-9]+) seems.*/\1/' <<< "$message")
+                if [ -z "$line_no" ]; then
+                    line_no=1
+                fi
+            fi
+            echo "${file}:${line_no}: ${message}"
+        done <<< "$out"
+    fi
+done < <(grep -E '^[a-zA-Z0-9_-]+ [0-9]+$' PortIndex |
     awk '{ print $1 }' |
-    sort |
-    xargs port lint --nitpick
+    sort)

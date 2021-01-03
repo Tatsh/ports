@@ -58,6 +58,8 @@
     "noverify",
     "openh",
     "otool",
+    "patchfile",
+    "patchfiles",
     "plistlib",
     "png",
     "portfile",
