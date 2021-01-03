@@ -27,7 +27,7 @@ checksums           rmd160  9313f2a0d3160d0464f99631d8f119cff428860d \
                     sha256  ce1bc2285393145d0c287de271ecea9f5302b6103be92263077e4c4a1fcd58cb \
                     size    23268
 
-depends_build-append    port:pyproject2setuppy
+depends_build-append    port:py${python.version}-pyproject2setuppy
 depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-colorama \
                         port:py${python.version}-termcolor \
