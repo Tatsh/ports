@@ -3,29 +3,26 @@
 PortSystem          1.0
 PortGroup           python 1.0
 
-name                pyproject2setuppy
+name                py-pyproject2setuppy
 version             9
-categories          devel  python
+categories          python devel
 platforms           darwin linux freebsd
 license             BSD
 supported_archs     noarch
-
-python.versions         35 36 37 38 39
-python.default_version  38
-
 maintainers         {gmail.com:audvare @Tatsh}
-
 description         Tool to convert pyproject.toml-based projects to setuptools.
 long_description    ${description}
-
 homepage            https://pypi.org/project/pyproject2setuppy/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distname            ${python.rootname}-${version}
+python.versions     36 37 38 39
 
 checksums           rmd160  597af1cbafe183fd5cd568592609aa5e6f97d948 \
                     sha256  ffd0029784d4312fcb5b08dd9b8cab14cc746ce31da372e8576eeb991411054c \
                     size    14456
 
-distname            ${python.rootname}-${version}
-
-depends_lib-append  port:py${python.version}-setuptools \
-                    port:py${python.version}-toml
+if {$subport ne $name} {
+    livecheck.type      none
+    depends_lib-append  port:py${python.version}-setuptools \
+                        port:py${python.version}-toml
+}
