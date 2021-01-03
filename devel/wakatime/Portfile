@@ -26,7 +26,7 @@ checksums           rmd160  0ae5e731c9e1bbd9a7019f656956ef0ddfeee81c \
                     sha256  8da2e38335a60819b61adb60a72adc6588b3755eca376d05c9588cbf5fe64c57 \
                     size    2295171
 
-patchfiles          ${name}-system-libs.patch
+patchfiles          patch-${name}-system-libs.diff
 patch.pre_args      -p1
 
 depends_run-append  port:py${python.version}-requests \
