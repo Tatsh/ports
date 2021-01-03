@@ -4,7 +4,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pyproject2setuppy
-version             9
+
+# add .0 to version to make `port lint --nitpick` not trigger warning due to python.versions
+# https://trac.macports.org/ticket/61980
+version             9.0
+distname            ${python.rootname}-[string index ${version} 0]
+
 categories          python devel
 platforms           darwin linux freebsd
 license             BSD
@@ -14,7 +19,6 @@ description         Tool to convert pyproject.toml-based projects to setuptools.
 long_description    ${description}
 homepage            https://pypi.org/project/pyproject2setuppy/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
-distname            ${python.rootname}-${version}
 python.versions     36 37 38 39
 
 checksums           rmd160  597af1cbafe183fd5cd568592609aa5e6f97d948 \
