@@ -17,7 +17,6 @@ categories          graphics
 livecheck.type      regex
 livecheck.url       http://www.jongware.com/pngdefry.html
 livecheck.regex     ";\\s+v(\\d\[^,\]+)"
-livecheck.version   1.2
 
 use_configure       no
 build.type          gnu
