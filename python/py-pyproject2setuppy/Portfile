@@ -9,6 +9,7 @@ name                py-pyproject2setuppy
 # https://trac.macports.org/ticket/61980
 version             9.0
 distname            ${python.rootname}-[string index ${version} 0]
+livecheck.version   [string index ${version} 0]
 
 categories          python devel
 platforms           darwin linux freebsd
