@@ -25,7 +25,7 @@ checksums           rmd160  30d3b848ca340a64b08392e7a2a576d9760c4821 \
                     sha256  d987f223d6b121ea8fb199900704a07b21b1dfde9b9b08de322ad7332d052ed9 \
                     size    170395
 
-patchfiles      307.patch \
-                330.patch \
-                print-times.patch
+patchfiles      patch-307.diff \
+                patch-330.diff \
+                patch-print-times.diff
 patch.pre_args  -p1
