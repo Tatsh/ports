@@ -11,7 +11,7 @@ platforms           darwin linux freebsd
 license             GPL-2
 supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
-description         nedi3 weights.bin file
+description         nnedi3 weights.bin file
 long_description    ${description}
 categories          multimedia
 
