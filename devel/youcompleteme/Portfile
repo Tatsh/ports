@@ -34,7 +34,7 @@ depends_run \
 
 use_configure no
 
-patchfiles      python-path.patch
+patchfiles      patch-python-path.diff
 
 post-patch {
     file delete -force ${worksrcpath}/python/ycm/tests
