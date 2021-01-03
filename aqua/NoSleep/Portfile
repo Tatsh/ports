@@ -29,13 +29,13 @@ post-extract {
 }
 
 patchfiles \
-    ${github.project}-${github.version}-0002-Project-updates-including-automated-ones-from-Xcode.patch \
-    ${github.project}-${github.version}-0003-Completely-remove-Sparkle-and-related-UI.patch \
-    ${github.project}-${github.version}-0004-NoSleepPref.xib-fix-all-constraint-issues.patch \
-    ${github.project}-${github.version}-0005-Project-update.patch \
-    ${github.project}-${github.version}-0006-NoSleepHelper-not-loading-kext-this-way.patch \
-    ${github.project}-${github.version}-0007-Clean-up-kextloader-stuff.patch \
-    ${github.project}-${github.version}-0008-Skip-installs.patch
+    patch-${github.project}-${github.version}-0002-Project-updates-including-automated-ones-from-Xcode.diff \
+    patch-${github.project}-${github.version}-0003-Completely-remove-Sparkle-and-related-UI.diff \
+    patch-${github.project}-${github.version}-0004-NoSleepPref.xib-fix-all-constraint-issues.diff \
+    patch-${github.project}-${github.version}-0005-Project-update.diff \
+    patch-${github.project}-${github.version}-0006-NoSleepHelper-not-loading-kext-this-way.diff \
+    patch-${github.project}-${github.version}-0007-Clean-up-kextloader-stuff.diff \
+    patch-${github.project}-${github.version}-0008-Skip-installs.diff
 patch.pre_args  -t -p2
 
 xcode.scheme            ${name}
