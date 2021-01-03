@@ -5,8 +5,8 @@ PortGroup           github 1.0
 
 github.setup        wakatime vim-wakatime 8.0.0
 
-patchfiles          ${name}-fix-cli-path.patch \
-                    ${name}-python.patch
+patchfiles          patch-${name}-fix-cli-path.diff \
+                    patch-${name}-python.diff
 patch.pre_args      -p1
 
 categories          textproc devel
