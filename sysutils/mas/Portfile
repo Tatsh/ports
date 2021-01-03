@@ -27,7 +27,7 @@ xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 
-patchfiles          system-libs.patch
+patchfiles          patch-system-libs.diff
 patch.pre_args      -p1
 
 if {${os.major} < 15} {

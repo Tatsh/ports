@@ -26,7 +26,7 @@ checksums           rmd160  cb3a98e3ea5dd12b0503a989374d20064275c52c \
                     sha256  5d9c147b6abf3a38a7e9c502be3fb693e4a3b9dc91a5faf45de79704373937e7 \
                     size    4463822
 
-patchfiles          ${name}-paths.patch
+patchfiles          patch-${name}-paths.diff
 patch.pre_args      -p1
 
 if {$subport ne $name} {
