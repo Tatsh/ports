@@ -4,28 +4,30 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        Tatsh sudo-touchid 87.140.1 v
+github.setup        Tatsh sudo-touchid 94 v
 name                sudo
 categories          sysutils security
-version             87.140.1
 platforms           macosx
 license             {AAPL MIT BSD}
 maintainers         {gmail.com:audvare @Tatsh}
-
-checksums           rmd160  50fa4bd61090aa1c8909a90e8b0cab7610b31480 \
-                    sha256  3d3ca882be759eef098db14c93c7716b4ebf6f46312481f443a471296fdd5da7 \
-                    size    3687525
-
 homepage            https://opensource.apple.com/source/sudo/
+description         Allow users to run programs as other users, e.g. root (with Touch ID patch).
+long_description    ${description}
+
+checksums           rmd160  f3ea5b8e89827fb5370035ef18ebff80eb462099 \
+                    sha256  cc9c3bbda588b8003d3bdc6c7ce4fec3866a7e8270021c061b0d071894645a77 \
+                    size    3504283
 
 livecheck.url       ${homepage}
 livecheck.regex     "sudo-(\\d+(?:\\.\\d+(?:\\.\\d+)?)?)/"
 
-description         Allow users to run programs as other users, e.g. root (with Touch ID patch).
-long_description    ${description}
 
 xcode.target        "Build All"
 xcode.configuration Release
+xcode.build.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
 
 if {${os.major} < 15} {
     pre-fetch {
