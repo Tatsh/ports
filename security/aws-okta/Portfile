@@ -3,13 +3,17 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/segmentio/aws-okta 37d8632
-version             1.0.9
+go.setup            github.com/segmentio/aws-okta 1.0.11 v
 categories          security net
 maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 description         aws-okta allows you to authenticate with AWS using your Okta credentials.
 long_description    ${description}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  649724bf4da0e44e583c9fbdc355f4de4f2d0828 \
+                        sha256  e2947cb7aff0baa80490c52cdd975c09445dd393da4c9696b86e084704ae2bc5 \
+                        size    2229035
 
 go.vendors          gopkg.in/ini.v1 \
                         lock    v1.42.0 \
@@ -32,10 +36,10 @@ go.vendors          gopkg.in/ini.v1 \
                         sha256  6243d5bbd9d8550bc44cb58a0d70180f7a3f6767299b490015107b4d27c604ae \
                         size    6102563 \
                     golang.org/x/sys \
-                        lock    6ec70d6a5542 \
-                        rmd160  0f14b15e693e0ec688d2ad9cf4d549d93c70e78e \
-                        sha256  c7360d7c14953e14965f3051f7a78f2b0c62adeed3ee0f19501a1e1ded775bcd \
-                        size    1451211 \
+                        lock    fae7ac547cb7 \
+                        rmd160  fcfc69599fbaac8ecd6f861df4c227677441335a \
+                        sha256  67f86b8d419d79b55e7fd41437c83cb5bc1e656cf9bb57e3a638324d9c6f8ee7 \
+                        size    1455014 \
                     golang.org/x/net \
                         lock    da137c7871d7 \
                         rmd160  9dda4740e2457dbe51377f26adc3a89b1fbc8b86 \
@@ -111,6 +115,11 @@ go.vendors          gopkg.in/ini.v1 \
                         rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
                         sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
                         size    11409 \
+                    github.com/mtibben/percent \
+                        lock    v0.2.1 \
+                        rmd160  9271475f842555667e1f0dc5e5f7a2310d71ba9a \
+                        sha256  02873199713ddd96cb5b37738117ac860d13306db9e48ffb0ea539b2ea833ebd \
+                        size    2166 \
                     github.com/mitchellh/go-homedir \
                         lock    v1.1.0 \
                         rmd160  44b3985e40e5bbb22d11f8622c340f9ed727ea91 \
@@ -137,10 +146,10 @@ go.vendors          gopkg.in/ini.v1 \
                         sha256  0a29b8c0a24ace07e3280feb5ee7b71ddb965a894ace70d8c77c0a4f330a8dbb \
                         size    1987 \
                     github.com/keybase/go-keychain \
-                        lock    cc436cc9fe98 \
-                        rmd160  5d401a96d97d965778c72a30eabba2387c0be115 \
-                        sha256  b7fe569ec7a1864d8d1e2b08627e23d755b34fed1a82e4b2a7760e63fc3ea1ae \
-                        size    2367462 \
+                        lock    48d3d31d256d \
+                        rmd160  9f9b4e381e6522d13e6f675d914f65e84c3fee5a \
+                        sha256  84d5739de8988877414dbea79607cadfaa09a6c6d38f6d54324ae584530e563b \
+                        size    2340429 \
                     github.com/karalabe/hid \
                         lock    v1.0.0 \
                         rmd160  bc68f0cd5c09a6bf5d38a6883bf00bf66c62937b \
@@ -172,15 +181,15 @@ go.vendors          gopkg.in/ini.v1 \
                         sha256  abe56698d0855027a1f6030a44924895d781b19526aa8f9b3ef49ed4199f7c57 \
                         size    217261 \
                     github.com/godbus/dbus \
-                        lock    v4.1.0 \
-                        rmd160  a5f33db9bdab3ed956745965c1f8c27dfe8e8292 \
-                        sha256  4fe3c261fa88573cb48bad97302ca4f81cb93e0858294165ec8c0877efa66c43 \
-                        size    53485 \
+                        lock    4481cbc300e2 \
+                        rmd160  cca4e351cd4faf9e7d24c47209ad4fb06ab47e3e \
+                        sha256  2b73162d29ba100f88893be0ac4d569140e25dd5fc27f944fd4aa667720582d9 \
+                        size    62538 \
                     github.com/dvsekhvalnov/jose2go \
-                        lock    7f401d37b68a \
-                        rmd160  fb70f5cd72a98c1590fb442577400c0d3945478a \
-                        sha256  9bfee59c2e66fda0c843fc0c8949a8c7ba670fc20eca340dad2289c93d042995 \
-                        size    68074 \
+                        lock    248326c1351b \
+                        rmd160  23659325921c3d1af4156cf253cebf5ae3b9d40c \
+                        sha256  60df14c707b5a039a8f4a5f494f6d7b96dfe33889955722dcd0cbfc4685e6d74 \
+                        size    68098 \
                     github.com/davecgh/go-spew \
                         lock    v1.1.1 \
                         rmd160  7c02883aa81f81aca14e13a27fdca9e7fbc136f7 \
@@ -207,175 +216,10 @@ go.vendors          gopkg.in/ini.v1 \
                         sha256  c58b20cf8977f09a56c371bebc48e3ead4ef8748e09c3830b92ca6f7ebf064ed \
                         size    3071 \
                     github.com/99designs/keyring \
-                        lock    v1.0.0 \
-                        rmd160  437546bf70e8f011caf326cbeb5bf60a83033a39 \
-                        sha256  6ed1debc3e023c3175ad8519a7b55d40a62d26da80e4871231521c141c875467 \
-                        size    17891
-
-checksums           aws-okta-37d8632.tar.gz \
-                    rmd160  8729b0b3a372b231db3189e510c1dfec20b15ca2 \
-                    sha256  94976f81342efffa0beb302f208923ebf8ac0089ba858739468ef6a47a12a316 \
-                    size    2217175 \
-                    go-ini-ini-v1.42.0.tar.gz \
-                    rmd160  1df5ae9bfc4f421c93d2d3f4e89e8d8f08cdbc1a \
-                    sha256  d1299d3fa9c8989ca8b181cae4e8cf307252189f02babf721987152141cd82c2 \
-                    size    35082 \
-                    go-check-check-788fd7840127.tar.gz \
-                    rmd160  b63165c8909a27edc15dda210df66a1b49efb49e \
-                    sha256  7e5547c6471cc48da89a7c87f965b20ca5311f43fc4d883ca62f9fccf7551630 \
-                    size    31597 \
-                    golang-xerrors-a985d3407aa7.tar.gz \
-                    rmd160  b6292b8b271245f925086a11c023a1eb2da9bca7 \
-                    sha256  1bda326d6ff46923acf39d3c399420d00547da618fb197b3281168af7c800e86 \
-                    size    12271 \
-                    golang-text-v0.3.0.tar.gz \
-                    rmd160  81061ce2006da3d6f7a8ef8dae237d65305513d3 \
-                    sha256  6243d5bbd9d8550bc44cb58a0d70180f7a3f6767299b490015107b4d27c604ae \
-                    size    6102563 \
-                    golang-sys-6ec70d6a5542.tar.gz \
-                    rmd160  0f14b15e693e0ec688d2ad9cf4d549d93c70e78e \
-                    sha256  c7360d7c14953e14965f3051f7a78f2b0c62adeed3ee0f19501a1e1ded775bcd \
-                    size    1451211 \
-                    golang-net-da137c7871d7.tar.gz \
-                    rmd160  9dda4740e2457dbe51377f26adc3a89b1fbc8b86 \
-                    sha256  be2b974da567e28d799019b7a9ac1e39ee11f707690e9fc7f73e537fd9289a29 \
-                    size    1099247 \
-                    golang-crypto-4def268fd1a4.tar.gz \
-                    rmd160  3f9c0c4b6c928c1067e248dbf07cc88a4fade5d8 \
-                    sha256  d79b031176f21153e00fe884f73199a7adea67cd570534dd1444c5beeb139e0e \
-                    size    1693122 \
-                    xtgo-uuid-a0b114877d4c.tar.gz \
-                    rmd160  22851fd1777502158d38e7471770b56bd5ff8685 \
-                    sha256  6075eca8cb8be51ea5445f794bb34086bdb7c038a05ab9ba7ab2ae6b69efe8e1 \
-                    size    4030 \
-                    vaughan0-go-ini-a98ad7ee00ec.tar.gz \
-                    rmd160  f54df0a11c06d24a7b4f73484df16e16cee8a821 \
-                    sha256  2c310ec484c6737ca369822fa0c63505a4e84fbc0573764e3aeddb1cd08abb98 \
-                    size    3702 \
-                    stretchr-testify-v1.3.0.tar.gz \
-                    rmd160  80582370443047a1d7020211865d85d54c036eea \
-                    sha256  ac782171992e3af1c8ac8384cbf4a39706ec5f9e3c6eed57a246e02dce571762 \
-                    size    102899 \
-                    stretchr-objx-v0.2.0.tar.gz \
-                    rmd160  c56e1cd0bf459aa10978a3db9448860f64ff3464 \
-                    sha256  3e5e938cdfe8b8aa24f9b234cdc61b30cffa37ef385c1c07139af3dde803d622 \
-                    size    80014 \
-                    spf13-pflag-v1.0.0.tar.gz \
-                    rmd160  895413cc3013c1031a7d426785f229944e85645b \
-                    sha256  181ec8c433cac09078118fb32ced949ecda0462a5b92390df382392bfd068102 \
-                    size    39011 \
-                    spf13-cobra-31694f19adee.tar.gz \
-                    rmd160  ddc5729f8cc8c6c5ab21ed3736251388346fa86f \
-                    sha256  78f497211edd384b34f0fe990b1d984fa84e47e7ac1350a646f1236dc228829b \
-                    size    97195 \
-                    smartystreets-goconvey-68dc04aab96a.tar.gz \
-                    rmd160  6c431897b9cf45f692c130270a54f637c3234e75 \
-                    sha256  532023336d26913c914142c549ff392c280963ca9b7ecf90995c5114a49a9130 \
-                    size    1478844 \
-                    smartystreets-assertions-b2de0cb4f26d.tar.gz \
-                    rmd160  32d7082172ea8c4a03119f3ffb803f8aad9744ce \
-                    sha256  469875871db96f87e62f76f0bfc4b3b0b9e4761c2a14d4ce12f246797a7c342c \
-                    size    52177 \
-                    skratchdot-open-golang-75fb7ed4208c.tar.gz \
-                    rmd160  b13b1d27e33a2ee83b251bbdcc94b9cc2c81dab5 \
-                    sha256  43650db3719bb888dc000c9316c69fff549822d0374a57b2d59ce5e86a9e76cf \
-                    size    7019 \
-                    sirupsen-logrus-v1.4.1.tar.gz \
-                    rmd160  ebde5e9141f9618aab63ac2448e1125ce5944776 \
-                    sha256  3da9149cdc4b1500b0c055c9aba699e3c074cdb44de0cbcb8f769eaff8e02e03 \
-                    size    40818 \
-                    segmentio-backo-go-204274ad699c.tar.gz \
-                    rmd160  5b152930f880a544f7332b33c30163b30a2b2f94 \
-                    sha256  53a79450c8ed3765cad6c13a12845f2036675863d531f320ca35b2b84effbc91 \
-                    size    2881 \
-                    segmentio-analytics-go-v3.0.1.tar.gz \
-                    rmd160  6568067cadd7d7a9cbb0972d5e5ec139a9486e03 \
-                    sha256  c87c86cdc05e5da9c3234e025206019a4d2315bfbc330285b2191089c6754c82 \
-                    size    29816 \
-                    pmezard-go-difflib-v1.0.0.tar.gz \
-                    rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
-                    sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
-                    size    11409 \
-                    mitchellh-go-homedir-v1.1.0.tar.gz \
-                    rmd160  44b3985e40e5bbb22d11f8622c340f9ed727ea91 \
-                    sha256  024c8a57316c7fbc0eb23cdbfd57f72a74b51beb83d714034d67ee9aba48100c \
-                    size    3366 \
-                    marshallbrekka-go-u2fhost-cc764c209ee9.tar.gz \
-                    rmd160  38ba907a6a44a192506fd70f246a1eb8bfb16c8e \
-                    sha256  e64b5344b8a87534bc4c4d8dd241f37be07177ea7180e8133d4cad642e71b0de \
-                    size    966124 \
-                    kr-text-v0.1.0.tar.gz \
-                    rmd160  0b3c78459e227170a3b80a0103d87a3eef77ed88 \
-                    sha256  5ed970aad0da3cba3cffacdb4d154a162a8968655ee6d6f7b627e71b869efaf6 \
-                    size    8691 \
-                    kr-pretty-v0.1.0.tar.gz \
-                    rmd160  9aa7a5aad4c48840eecfd0f80186d1fb5ded0fd6 \
-                    sha256  f6c3f89667c63e5b7f1fc6ee2c06b6a6bfdce88f3a965ccd395b64c6f95c9a47 \
-                    size    8553 \
-                    konsorten-go-windows-terminal-sequences-v1.0.2.tar.gz \
-                    rmd160  9b5e034c9a2fbbe2c4a3768d00d6337a8e06ab74 \
-                    sha256  0a29b8c0a24ace07e3280feb5ee7b71ddb965a894ace70d8c77c0a4f330a8dbb \
-                    size    1987 \
-                    keybase-go-keychain-cc436cc9fe98.tar.gz \
-                    rmd160  5d401a96d97d965778c72a30eabba2387c0be115 \
-                    sha256  b7fe569ec7a1864d8d1e2b08627e23d755b34fed1a82e4b2a7760e63fc3ea1ae \
-                    size    2367462 \
-                    karalabe-hid-v1.0.0.tar.gz \
-                    rmd160  bc68f0cd5c09a6bf5d38a6883bf00bf66c62937b \
-                    sha256  f8e28bb6112cd54ea490d432c6c213b9620b46abc2eea8845fbd4c6c808e00e8 \
-                    size    284643 \
-                    jtolio-gls-v4.20.0.tar.gz \
-                    rmd160  8e721b1aa6de0606caa5a2a038ddd53a0d05d7b4 \
-                    sha256  6f98dcae4c326cbfb0400e6a01604511e544957ea88494e979ace881e2058cbb \
-                    size    7308 \
-                    jmespath-go-jmespath-c2b33e8439af.tar.gz \
-                    rmd160  5599516af7167f50fd50b90f7f7247658275032c \
-                    sha256  08f16ad09da5b3d22b2500d1b37abd7170654184292f6869c551f0de13ad9013 \
-                    size    48224 \
-                    inconshreveable-mousetrap-v1.0.0.tar.gz \
-                    rmd160  5c617a09f1432fc543672a0e0c1e13d3752030c2 \
-                    sha256  0e6bae2849f13d12fe361ecac087728e4e97f3482f4cec44f6e7a2c53bb9cd0c \
-                    size    2291 \
-                    gsterjov-go-libsecret-a6f4afe4910c.tar.gz \
-                    rmd160  d1833e02c728e148960113fa28dbd4828f4b2c3c \
-                    sha256  f7edbec029cace110cdf89fa29b7b3396068e41440ec529288ebfa9b4d1560fb \
-                    size    3071 \
-                    gopherjs-gopherjs-0766667cb4d1.tar.gz \
-                    rmd160  fe92e39110b5c188dcce98abb3b9aa1b64d68f94 \
-                    sha256  abe56698d0855027a1f6030a44924895d781b19526aa8f9b3ef49ed4199f7c57 \
-                    size    217261 \
-                    godbus-dbus-v4.1.0.tar.gz \
-                    rmd160  a5f33db9bdab3ed956745965c1f8c27dfe8e8292 \
-                    sha256  4fe3c261fa88573cb48bad97302ca4f81cb93e0858294165ec8c0877efa66c43 \
-                    size    53485 \
-                    dvsekhvalnov-jose2go-7f401d37b68a.tar.gz \
-                    rmd160  fb70f5cd72a98c1590fb442577400c0d3945478a \
-                    sha256  9bfee59c2e66fda0c843fc0c8949a8c7ba670fc20eca340dad2289c93d042995 \
-                    size    68074 \
-                    davecgh-go-spew-v1.1.1.tar.gz \
-                    rmd160  7c02883aa81f81aca14e13a27fdca9e7fbc136f7 \
-                    sha256  e85d6afa83e64962e0d63dd4812971eccf2b9b5445eda93f46a4406f0c177d5f \
-                    size    42171 \
-                    danieljoos-wincred-v1.0.2.tar.gz \
-                    rmd160  5c11e9a9456e95206026f046f7cf4155a1242772 \
-                    sha256  32bd65b53b328fa4fa509ed3191f95b1f30bc25bf0e379df2054a0f05a2a3510 \
-                    size    8488 \
-                    bmizerany-assert-b7ed37b82869.tar.gz \
-                    rmd160  cc0e24c59b3efd76d821706eedb45002a8d7bcaf \
-                    sha256  36b96edebdba23f599a9f7db19897fff644f10def6c1609dbaa72202ba666e0f \
-                    size    1472 \
-                    aws-aws-sdk-go-v1.25.35.tar.gz \
-                    rmd160  32e150f879bbafe06c5dd448e7e4caebd9e3ebbb \
-                    sha256  009ab1dbeddff00b1721e399fd4401c3de968d228e1aa2dfe750833647866af0 \
-                    size    12274217 \
-                    alessio-shellescape-b115ca0f9053.tar.gz \
-                    rmd160  a224327176688df4d86887bfd73ee0b63827bfd9 \
-                    sha256  c58b20cf8977f09a56c371bebc48e3ead4ef8748e09c3830b92ca6f7ebf064ed \
-                    size    3071 \
-                    99designs-keyring-v1.0.0.tar.gz \
-                    rmd160  437546bf70e8f011caf326cbeb5bf60a83033a39 \
-                    sha256  6ed1debc3e023c3175ad8519a7b55d40a62d26da80e4871231521c141c875467 \
-                    size    17891
+                        lock    v1.1.6 \
+                        rmd160  fed84ad2f3fa455b50a91c75cbbbc033d60bdb78 \
+                        sha256  b33af1f522aefa76f028853a7e4cda5fe32f5a121bdae489043339c12e0d3f61 \
+                        size    23282
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
