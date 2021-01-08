@@ -4,18 +4,18 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        ross requests-futures f6203f6
+github.setup        ross requests-futures 4529057
 
 name                py-requests-futures
-version             1.0.0_p20200913
+version             1.0.0_p20210103
 platforms           darwin
 license             apache
 maintainers         {gmail.com:audvare @Tatsh}
 description         Small add-on for the python requests http library.
 long_description    ${description}
 
-checksums           rmd160  ab69f78172150889b52dd9230a7f0d6cbf3dd283 \
-                    sha256  0ef37cfa81cd2f27f3f7cece102bd9b8e511742c75596a53d68875efcfd7cf40 \
+checksums           rmd160  79b15d74e7fb5f34825d175811ea345e36688ec5 \
+                    sha256  82ce61dc95af30eb6d4d5e69f66dcedab2d7ef1473306599ce59de916bbf3374 \
                     size    8092
 
 python.versions     27 36 37 38 39
