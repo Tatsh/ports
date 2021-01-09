@@ -4,7 +4,8 @@ cd "$DIR" || exit 1
 portindex
 while IFS=$'\n' read -r name; do
     file=$(port file "$name" | sed -r -e "s|^${DIR}/||")
-    out=$(port -q lint --nitpick "$name" 2>&1)
+    out=$(port -q lint --nitpick "$name" 2>&1 |
+          grep -Fv 'missing recommended checksum')
     if [ -n "$out" ]; then
         while IFS=$'\n' read -r message; do
             line_no=1
