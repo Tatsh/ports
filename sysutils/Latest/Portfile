@@ -47,7 +47,7 @@ xcode.destroot.settings \
 destroot.pre_args -derivedDataPath ${build.dir}/.dd
 
 if {${os.major} < 20} {
-    patchfiles available-10-15.patch
+    patchfiles patch-available-10-15.diff
 }
 
 post-extract {
