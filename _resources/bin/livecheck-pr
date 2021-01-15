@@ -13,5 +13,5 @@ done < <(
         sed -r -e 's/([^\:]+)\:.*/\1/' |
         sort -u |
         xargs -r port -v livecheck 2>&1 |
-        grep -vE '(seems to be up to date|cannot check if iTerm2 was updated)'
+        grep -vE '(seems to be up to date|cannot check if iTerm2 was updated|youtube-dl seems to have been updated)'
 )
