@@ -1,22 +1,24 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        ross requests-futures 4529057
-
 name                py-requests-futures
-version             1.0.0_p20210103
+version             1.0.0
 platforms           darwin
+supported_archs     noarch
 license             apache
 maintainers         {gmail.com:audvare @Tatsh}
 description         Small add-on for the python requests http library.
 long_description    ${description}
+homepage            https://github.com/ross/requests-futures
 
-checksums           rmd160  79b15d74e7fb5f34825d175811ea345e36688ec5 \
-                    sha256  82ce61dc95af30eb6d4d5e69f66dcedab2d7ef1473306599ce59de916bbf3374 \
-                    size    8092
+distname            ${python.rootname}-${version}
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+checksums           rmd160  4531ab2bbab75a8ba0e88a77e144391e0fa75b8e \
+                    sha256  35547502bf1958044716a03a2f47092a89efe8f9789ab0c4c528d9c9c30bc148 \
+                    size    10897
 
 python.versions     27 36 37 38 39
 
