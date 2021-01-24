@@ -5,7 +5,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Latest
-version             0.7.1
+version             0.7.2
 github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
 long_description    ${description}
@@ -15,28 +15,35 @@ categories          sysutils aqua
 
 master_sites        ${github.homepage}/tarball/${git.branch}:latest \
                     https://github.com/sparkle-project/Sparkle/archive:sparkle \
-                    https://github.com/mas-cli/mas/archive:mas
-set n_commits       440
-set latest_hash     edb391f
-set sparkle_hash    67819be18a4ef48e85ea30dbbf8de582f5ef405c
-set mas_hash        b5efb8525e3ae538d41d0102756534410e7a3c98
+                    https://github.com/mas-cli/mas/archive:mas \
+                    https://github.com/orlp/ed25519/archive:ed25519
+set n_commits       456
+set latest_hash     6559d41
+set sparkle_hash    238fd42bb39583f180ee47010bafd6bda4e236a0
+set sparkle_ed25519_hash 7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
+set mas_hash        94eb4e5523768bd9902aa1444ade90ee94b17c63
 distfiles           ${name}-${version}.tar.gz:latest \
                     ${sparkle_hash}.tar.gz:sparkle \
-                    ${mas_hash}.tar.gz:mas
+                    ${mas_hash}.tar.gz:mas \
+                    ${sparkle_ed25519_hash}.tar.gz:ed25519
 worksrcdir          mangerlahn-${name}-${latest_hash}
 
-checksums           Latest-0.7.1.tar.gz \
-                    rmd160  158a64db722c04563d52655745427cdd62b8a99c \
-                    sha256  6ea5ee84d9f72e89658332e0a462dc75640851190dc42afb9892be2b9264b65e \
-                    size    2396161 \
-                    67819be18a4ef48e85ea30dbbf8de582f5ef405c.tar.gz \
-                    rmd160  82310599396ba959a0a2b54f340fe98a31f8aabe \
-                    sha256  5a928cc6772e9abe17ce14a88eee4277ad769bdc46e01fa25769177aba3e744b \
-                    size    12145916 \
-                    b5efb8525e3ae538d41d0102756534410e7a3c98.tar.gz \
-                    rmd160  1cb049e28dd020621c761b5777b2b237859bd23c \
-                    sha256  8ba72527823c57191e35e92be1970fc14959d36fc8a4f68db4cc3878a3e3bca6 \
-                    size    3046433
+checksums           Latest-0.7.2.tar.gz \
+                    rmd160  4255baa7596f2b7729f61cd40807352ace0fa29c \
+                    sha256  ae9ea032b8986cb7152a49d813fb3dd17275c48822042f42233b0458a8756766 \
+                    size    2569812 \
+                    238fd42bb39583f180ee47010bafd6bda4e236a0.tar.gz \
+                    rmd160  aeb1fd4004cf4858c33defd02965eb69fdbf011b \
+                    sha256  541e074c919afd78f0ace81b2a9ea6df6f93da309ab500dd86fe79a3afb41438 \
+                    size    12172076 \
+                    94eb4e5523768bd9902aa1444ade90ee94b17c63.tar.gz \
+                    rmd160  0bdb5a537d95ad80276839ac988cbbcbc1471ef3 \
+                    sha256  738aa5756f7ca8099ac0971e9da1f03d4effb98dc94e0867d86adfd470c0188c \
+                    size    3322126 \
+                    7fa6712ef5d581a6981ec2b08ee623314cd1d1c4.tar.gz \
+                    rmd160  3a711fcb59cbf221a5d71672c342c65483907e00 \
+                    sha256  373923c85f61276e3cad2c0ae7a5d5cd4809ffe46c5abc1dc8276683a55782a0 \
+                    size    226683
 
 xcode.scheme        ${name}
 xcode.configuration Release
@@ -54,6 +61,8 @@ post-extract {
     file delete -force ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
     copy ${workpath}/Sparkle-${sparkle_hash} ${worksrcpath}/Frameworks/Sparkle
     copy ${workpath}/mas-${mas_hash} ${worksrcpath}/Frameworks/mas-cli
+    file delete -force ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
+    copy ${workpath}/ed25519-${sparkle_ed25519_hash} ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
 }
 
 post-patch {
