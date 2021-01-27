@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+port -q search --maintainer gmail.com:audvare |
+    xargs port file |
+    fgrep -v "${HOME}/" |
+    xargs -n 1 dirname |
+    xargs -n 1 basename |
+    sort |
+    xargs port -v livecheck |
+    grep -Fv 'seems to be up to date'
