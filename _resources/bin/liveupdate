@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+import re
+import subprocess as sp
+import sys
+from os.path import dirname
+from typing import Any, cast
+
+from lxml import etree
+import requests
+
+
+def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
+    return sp.run(((
+        'sudo',
+        'port',
+    ) + args),
+                  **kwargs,
+                  check=True,
+                  stdout=sp.PIPE,
+                  text=True)
+
+
+def main() -> int:
+    for line in sys.stdout.readlines():
+        if m := re.search(
+                r'\(port version:\s+([^,]+),\s+new version:\s+([^\)]+)\)',
+                line):
+            port = line.split(' ')[0]
+            print(f'Port: {port}', file=sys.stderr)
+            old, new = m.groups()
+            portfile = port_cmd('file', port).stdout.strip()
+            content = port_cmd('cat', port).stdout.replace(old, new)
+            if ((len(old) == 7 or len(old) > 8)
+                    and re.match(r'^[0-9a-f]+$', old)):
+                version = port_cmd('-q', 'info', '--version',
+                                   port).stdout.strip()
+                assert len(version) == 8
+                homepage = cast(
+                    str,
+                    port_cmd('-q', 'info', '--homepage', port).stdout)
+                if 'github.com' in homepage:
+                    r = requests.get(f'{homepage.strip()}/commits/master.atom')
+                    r.raise_for_status()
+                    new = [
+                        x for x in [
+                            x for x in etree.fromstring(
+                                r.text.encode()).getchildren()
+                            if x.tag.endswith('}entry')
+                        ][0].getchildren() if x.tag.endswith('}updated')
+                    ][0].text.split('T')[0].replace('-', '')
+                    content = content.replace(version, new)
+                else:
+                    raise ValueError(f'Unhandled URL: {homepage}')
+            with open(portfile, 'w') as g:
+                g.write(content)
+            cwd = dirname(portfile)
+            for action in ('clean', 'bump', 'destroot'):
+                port_cmd('-v', action, cwd=cwd)
+            sp.run(('git', 'commit', '--no-gpg-sign', '--no-verify', '-m',
+                    f'{port}: update to {new}', cwd),
+                   check=True)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
