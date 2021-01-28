@@ -34,7 +34,8 @@ def main() -> int:
                     and re.match(r'^[0-9a-f]+$', old)):
                 version = port_cmd('-q', 'info', '--version',
                                    port).stdout.strip()
-                assert len(version) == 8
+                assert len(version) == 8, \
+                    f'Unsure how to handle this version string: {version}'
                 homepage = cast(
                     str,
                     port_cmd('-q', 'info', '--homepage', port).stdout)
