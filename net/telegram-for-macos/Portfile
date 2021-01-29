@@ -3,8 +3,8 @@
 PortSystem 1.0
 
 name                telegram-for-macos
-version             7.3
-revision            1
+version             7.4
+revision            0
 categories          net aqua
 license             GPL-2
 platforms           macosx
@@ -12,12 +12,12 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         macOS native client for Telegram (official build).
 long_description    ${description}
 homepage            https://macos.telegram.org/
-distfiles           Telegram-${version}.211334.app.zip
+distfiles           Telegram-${version}.212543.app.zip
 master_sites        https://osx.telegram.org/updates/
 
-checksums           rmd160  1526bd0e3bd6a962982c581b97358ff65d289b21 \
-                    sha256  77939b6843a4e80263265ff51cb8676770334836e1c2826f3d636cea37815d27 \
-                    size    55981938
+checksums           rmd160  a2bc0beaf35c486cf4b335a664a98daeb562f189 \
+                    sha256  024c89f589567d47e30c7a5e6a0882bbbed01c0f14542fd1da4d1ee672b8d629 \
+                    size    58008242
 
 livecheck.type      regex
 livecheck.url       https://osx.telegram.org/updates/versions.xml
