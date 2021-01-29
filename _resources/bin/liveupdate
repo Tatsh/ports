@@ -1,12 +1,16 @@
 #!/usr/bin/env python
+from os.path import dirname, expanduser
+from typing import Any, cast
 import re
 import subprocess as sp
 import sys
-from os.path import dirname
-from typing import Any, cast
+import xml.etree.ElementTree as etree
 
-from lxml import etree
 import requests
+
+LOCAL_MACPORTS_PORTS = expanduser('~/dev/macports/macports-ports')
+INSTALLED_PORTS = ('/opt/local/var/macports/sources/rsync.macports.org/'
+                   'macports/release/tarballs/ports')
 
 
 def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
@@ -28,12 +32,18 @@ def main() -> int:
             port = line.split(' ')[0]
             print(f'Port: {port}', file=sys.stderr)
             old, new = m.groups()
-            portfile = port_cmd('file', port).stdout.strip()
-            content = port_cmd('cat', port).stdout.replace(old, new)
+            portfile = cast(str, port_cmd('file', port).stdout.strip())
+            is_system_port = False
+            if portfile.startswith(INSTALLED_PORTS):
+                portfile = portfile.replace(INSTALLED_PORTS,
+                                            LOCAL_MACPORTS_PORTS)
+                is_system_port = True
+            content = cast(str, port_cmd('cat', port).stdout.replace(old, new))
             if ((len(old) == 7 or len(old) > 8)
                     and re.match(r'^[0-9a-f]+$', old)):
-                version = port_cmd('-q', 'info', '--version',
-                                   port).stdout.strip()
+                version = cast(
+                    str,
+                    port_cmd('-q', 'info', '--version', port).stdout.strip())
                 assert len(version) == 8, \
                     f'Unsure how to handle this version string: {version}'
                 homepage = cast(
@@ -42,14 +52,11 @@ def main() -> int:
                 if 'github.com' in homepage:
                     r = requests.get(f'{homepage.strip()}/commits/master.atom')
                     r.raise_for_status()
-                    new = [
-                        x for x in [
-                            x for x in etree.fromstring(
-                                r.text.encode()).getchildren()
-                            if x.tag.endswith('}entry')
-                        ][0].getchildren() if x.tag.endswith('}updated')
-                    ][0].text.split('T')[0].replace('-', '')
-                    content = content.replace(version, new)
+                    updated_el = etree.fromstring(r.text).find(
+                        'entry/updated', {'': 'http://www.w3.org/2005/Atom'})
+                    assert updated_el is not None
+                    assert updated_el.text is not None
+                    content = content.replace(version, updated_el.text)
                 else:
                     raise ValueError(f'Unhandled URL: {homepage}')
             with open(portfile, 'w') as g:
@@ -57,9 +64,10 @@ def main() -> int:
             cwd = dirname(portfile)
             for action in ('clean', 'bump', 'destroot'):
                 port_cmd('-v', action, cwd=cwd)
-            sp.run(('git', 'commit', '--no-gpg-sign', '--no-verify', '-m',
-                    f'{port}: update to {new}', cwd),
-                   check=True)
+            if not is_system_port:
+                sp.run(('git', 'commit', '--no-gpg-sign', '--no-verify', '-m',
+                        f'{port}: update to {new}', cwd),
+                       check=True)
     return 0
 
 
