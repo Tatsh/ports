@@ -8,16 +8,16 @@ import xml.etree.ElementTree as etree
 
 import requests
 
-LOCAL_MACPORTS_PORTS = expanduser('~/dev/macports/macports-ports')
 INSTALLED_PORTS = ('/opt/local/var/macports/sources/rsync.macports.org/'
                    'macports/release/tarballs/ports')
+LOCAL_MACPORTS_PORTS = expanduser('~/dev/macports/macports-ports')
+RSS_NS = {'': 'http://www.w3.org/2005/Atom'}
+SUDO_PORT = ('sudo', 'port')
+VERSION_LINE_RE = r'\(port version:\s+([^,]+),\s+new version:\s+([^\)]+)\)'
 
 
 def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
-    return sp.run(((
-        'sudo',
-        'port',
-    ) + args),
+    return sp.run((SUDO_PORT + args),
                   **kwargs,
                   check=True,
                   stdout=sp.PIPE,
@@ -25,10 +25,8 @@ def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
 
 
 def main() -> int:
-    for line in sys.stdout.readlines():
-        if m := re.search(
-                r'\(port version:\s+([^,]+),\s+new version:\s+([^\)]+)\)',
-                line):
+    for line in sys.stdin.readlines():
+        if m := re.search(VERSION_LINE_RE, line):
             port = line.split(' ')[0]
             print(f'Port: {port}', file=sys.stderr)
             old, new = m.groups()
@@ -53,7 +51,7 @@ def main() -> int:
                     r = requests.get(f'{homepage.strip()}/commits/master.atom')
                     r.raise_for_status()
                     updated_el = etree.fromstring(r.text).find(
-                        'entry/updated', {'': 'http://www.w3.org/2005/Atom'})
+                        'entry/updated', RSS_NS)
                     assert updated_el is not None
                     assert updated_el.text is not None
                     content = content.replace(version, updated_el.text)
