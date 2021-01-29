@@ -3,8 +3,11 @@
 PortSystem          1.0
 
 name                Bartender
-version             4.0.33
-set major_version   [regexp -inline {\d+} $version]
+version             4.0.35
+set version_info    [regexp -all -inline {\d+} $version]
+set major_version   [lindex $version_info 0]
+set minor_version   [lindex $version_info 1]
+set patch_version   [lindex $version_info 2]
 
 categories          aqua
 license             Restrictive
@@ -15,11 +18,11 @@ long_description    Bartender lets you organize your menu bar icons, by hiding t
                     rearranging them, show hidden items with a click or keyboard shortcut and \
                     have icons show when they update.
 homepage            https://www.macbartender.com/
-master_sites        https://macbartender.com/B2/updates/${version}/
+master_sites        https://macbartender.com/B2/updates/${major_version}-${minor_version}-${patch_version}/
 
-checksums           rmd160  9bf95042f60d17f916d9e996697b4432b7eb4acd \
-                    sha256  60030c9d620f514aba7986d303420b26494d9ce38ff32a1a8cc9e6b191e31f03 \
-                    size    10220021
+checksums           rmd160  72ae3ba14f00a81b380fbadeb349b01e8625dfda \
+                    sha256  a40ff47a6a0bf4f2379a54acdd6603ff9382d7003784b460f401449cfe0374e5 \
+                    size    10469862
 
 livecheck.type      regex
 livecheck.url       https://www.macbartender.com/B2/updates/AppcastB4.xml
