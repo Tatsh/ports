@@ -36,7 +36,8 @@ def main() -> int:
                 portfile = portfile.replace(INSTALLED_PORTS,
                                             LOCAL_MACPORTS_PORTS)
                 is_system_port = True
-            content = cast(str, port_cmd('cat', port).stdout.replace(old, new))
+            old_content = cast(str, port_cmd('cat', port).stdout)
+            content = old_content.replace(old, new)
             if ((len(old) == 7 or len(old) > 8)
                     and re.match(r'^[0-9a-f]+$', old)):
                 version = cast(
@@ -57,6 +58,7 @@ def main() -> int:
                     content = content.replace(version, updated_el.text)
                 else:
                     raise ValueError(f'Unhandled URL: {homepage}')
+            assert old_content != content, 'Content of Portfile is unchanged'
             with open(portfile, 'w') as g:
                 g.write(content)
             cwd = dirname(portfile)
