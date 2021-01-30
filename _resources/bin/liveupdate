@@ -55,7 +55,9 @@ def main() -> int:
                         'entry/updated', RSS_NS)
                     assert updated_el is not None
                     assert updated_el.text is not None
-                    content = content.replace(version, updated_el.text)
+                    content = content.replace(
+                        version,
+                        updated_el.text.split('T')[0].replace('-', ''))
                 else:
                     raise ValueError(f'Unhandled URL: {homepage}')
             assert old_content != content, 'Content of Portfile is unchanged'
