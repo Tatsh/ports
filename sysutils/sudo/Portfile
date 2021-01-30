@@ -19,8 +19,7 @@ checksums           rmd160  f3ea5b8e89827fb5370035ef18ebff80eb462099 \
                     size    3504283
 
 livecheck.url       ${homepage}
-livecheck.regex     "sudo-(\\d+(?:\\.\\d+(?:\\.\\d+)?)?)/"
-
+livecheck.regex     "sudo-(\\d+(?:\\.\\d+(?:\\.\\d+)?)?)"
 
 xcode.target        "Build All"
 xcode.configuration Release
