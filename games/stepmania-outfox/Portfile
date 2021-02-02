@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem 1.0
+
+name                stepmania-outfox
+set alpha_version   4.9.6
+version             5.3-a${alpha_version}
+categories          games aqua
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         StepMania OutFox is an open source rhythm game engine.
+long_description    StepMania 5.3 \"OutFox\" provides an upgraded experience \
+                    for all players new and old. It still supports over two \
+                    decades of existing content, and lays the groundwork for \
+                    the next.
+homepage            https://projectmoon.dance/
+distfiles           Stepmania-Outfox-Alpha-${alpha_version}-MacOS-date-20201216.dmg \
+                    Stepmania-Outfox-Alpha-${alpha_version}-MacOS-M1-date-20201216.dmg
+master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF${alpha_version}/
+supported_archs     arm64 x86_64
+license             EULA
+
+checksums           Stepmania-Outfox-Alpha-${alpha_version}-MacOS-date-20201216.dmg \
+                    rmd160  9b24cb43d2a3eaa40e1c28581b7441ed86f931cc \
+                    sha256  c811d132cf69412e21a4ba7dcdaf6f42258e91cd7958e6dcf0bf3ba86d021b1a \
+                    size    109445142 \
+                    Stepmania-Outfox-Alpha-${alpha_version}-MacOS-M1-date-20201216.dmg \
+                    rmd160  bd370563c72c2656790d251b83cf0b32a3c91a80 \
+                    sha256  5c5195ee1d96f137eb37e3c7b22c6b6534519a85e9b1e7417c62ae8429e801b7 \
+                    size    105167499
+
+livecheck.type      regex
+livecheck.url       https://github.com/TeamRizu/OutFox/tags
+livecheck.version   ${alpha_version}
+livecheck.regex     "/tag/OF(\\d+\\.\\d+\\.\\d+)"
+
+use_configure       no
+use_dmg             yes
+
+if {${os.arch} eq "arm64"} {
+    extract.only Stepmania-Outfox-Alpha-${alpha_version}-MacOS-M1-date-20201216.dmg
+} else {
+    extract.only Stepmania-Outfox-Alpha-${alpha_version}-MacOS-date-20201216.dmg
+}
+extract.mkdir       no
+
+build {}
+
+set res_dirs {Announcers Appearance BackgroundEffects BackgroundTransitions
+              BGAnimations Characters Courses Data Docs Scripts Songs}
+set outdir "${destroot}/${applications_dir}/StepMania OutFox"
+
+destroot {
+    file mkdir "${outdir}"
+    copy "${worksrcpath}/StepMania.app" "${outdir}/"
+    foreach dir ${res_dirs} {
+        copy "${worksrcpath}/${dir}" "${outdir}/"
+    }
+}
