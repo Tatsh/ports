@@ -18,6 +18,7 @@ checksums           rmd160  0979b849e8d02e7ebe799d72f79821d6eb9b023d \
                     sha256  f09f8dd7a9b424990abd82eaf7d51463caaf88ca51092fb02515055a46d607db \
                     size    25384
 
+depends_build       port:pkgconfig
 depends_lib         port:libusb
 
 use_configure               no
