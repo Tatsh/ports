@@ -113,7 +113,7 @@ def main() -> int:
     except KeyError:
         version = 'VERSION'
 
-    copy_arg2 = '"${{destroot}}/${{applications_dir}}/"'
+    copy_arg2 = '"${destroot}/${applications_dir}/"'
     copy_line = f'    copy "${{worksrcpath}}/{app_name}" {copy_arg2}'
     if len(copy_line) > 79:
         copy_line = (f'    copy "${{worksrcpath}}/{app_name}"\n \\'
