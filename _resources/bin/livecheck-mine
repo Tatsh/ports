@@ -5,5 +5,5 @@ port -q search --maintainer gmail.com:audvare |
     xargs -n 1 dirname |
     xargs -n 1 basename |
     sort |
-    xargs port -v livecheck |
+    xargs port -v livecheck 2>&1 |
     grep -Fv 'seems to be up to date'
