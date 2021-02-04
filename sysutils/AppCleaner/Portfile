@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                AppCleaner
-version             3.5.1
+version             3.6
 
 license             Restrictive
 categories          sysutils aqua
@@ -25,9 +25,9 @@ use_configure       no
 use_zip             yes
 extract.only        AppCleaner_${version}.zip
 
-checksums           rmd160  b464ba2dd240d5c2a56c975f40adade7f26bb214 \
-                    sha256  64b707b4841458300b02374d4b95acfed27e453ba1bbf50f7d1fc4fb0f2d1b70 \
-                    size    2970963
+checksums           rmd160  e9b059d443a7046e12b5dfcc830feed387135230 \
+                    sha256  812bcacd845fac07e073130d3fe4c5f037815d0774a9782e0e309fced1bded1c \
+                    size    3976206
 
 build {}
 
