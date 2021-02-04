@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from os.path import dirname, expanduser
-from typing import Any, cast
+from typing import Any, Callable, cast
+import argparse
 import re
 import subprocess as sp
 import sys
@@ -14,6 +15,8 @@ LOCAL_MACPORTS_PORTS = expanduser('~/dev/macports/macports-ports')
 RSS_NS = {'': 'http://www.w3.org/2005/Atom'}
 SUDO_PORT = ('sudo', 'port')
 VERSION_LINE_RE = r'\(port version:\s+([^,]+),\s+new version:\s+([^\)]+)\)'
+VERSION_LINE_ERROR_RE = (r"extracted version '([^']+)' is older than "
+                         r"livecheck.version '([^']+)'")
 
 
 def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
@@ -24,12 +27,44 @@ def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
                   text=True)
 
 
+def bump_revision_callback(old_revision: int) -> Callable[[str], str]:
+    def cb(content: str) -> str:
+        new_revision = old_revision + 1
+        if re.search(r'revision\s+\d+', content, re.M):
+            return re.sub(r'revision(\s+)' + str(old_revision),
+                          r'revision\g<1>' + str(new_revision), content)
+        else:
+            new_content = ''
+            for content_line in content.splitlines():
+                if (m := re.match(r'^(\s+)version(\s+)', content_line)):
+                    new_content += (f'{m.group(1)}{content_line}'
+                                    f'\n{m.group(1)}revision{m.group(2)}'
+                                    f'{new_revision}\n')
+                else:
+                    new_content += f'{content_line}\n'
+            assert len(new_content) > 0
+            return new_content
+
+    return cb
+
+
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-g', '--git', help='Commit changes with Git')
+    args = parser.parse_args()
     for line in sys.stdin.readlines():
-        if m := re.search(VERSION_LINE_RE, line):
-            port = line.split(' ')[0]
+        m = re.search(VERSION_LINE_RE, line)
+        n = re.search(VERSION_LINE_ERROR_RE, line)
+        if m or n:
+            if m:
+                port = line.split(' ')[0]
+                old, new = m.groups()
+            elif n:
+                port = line.split(' ')[4].split(':')[0]
+                new, old = n.groups()
+            else:
+                continue
             print(f'Port: {port}', file=sys.stderr)
-            old, new = m.groups()
             portfile = cast(str, port_cmd('file', port).stdout.strip())
             is_system_port = False
             if portfile.startswith(INSTALLED_PORTS):
@@ -38,35 +73,48 @@ def main() -> int:
                 is_system_port = True
             old_content = cast(str, port_cmd('cat', port).stdout)
             content = old_content.replace(old, new)
+            revision_changed_callback = None
             if ((len(old) == 7 or len(old) > 8)
                     and re.match(r'^[0-9a-f]+$', old)):
                 version = cast(
                     str,
                     port_cmd('-q', 'info', '--version', port).stdout.strip())
-                assert len(version) == 8, \
-                    f'Unsure how to handle this version string: {version}'
-                homepage = cast(
-                    str,
-                    port_cmd('-q', 'info', '--homepage', port).stdout)
-                if 'github.com' in homepage:
-                    r = requests.get(f'{homepage.strip()}/commits/master.atom')
-                    r.raise_for_status()
-                    updated_el = etree.fromstring(r.text).find(
-                        'entry/updated', RSS_NS)
-                    assert updated_el is not None
-                    assert updated_el.text is not None
-                    content = content.replace(
-                        version,
-                        updated_el.text.split('T')[0].replace('-', ''))
+                if len(version) == 8:  # is a date
+                    homepage = cast(
+                        str,
+                        port_cmd('-q', 'info', '--homepage', port).stdout)
+                    if 'github.com' in homepage:
+                        r = requests.get(
+                            f'{homepage.strip()}/commits/master.atom')
+                        r.raise_for_status()
+                        updated_el = etree.fromstring(r.text).find(
+                            'entry/updated', RSS_NS)
+                        assert updated_el is not None
+                        assert updated_el.text is not None
+                        content = content.replace(
+                            version,
+                            updated_el.text.split('T')[0].replace('-', ''))
+                    else:
+                        raise ValueError(f'Unhandled URL: {homepage}')
                 else:
-                    raise ValueError(f'Unhandled URL: {homepage}')
+                    revision_changed_callback = bump_revision_callback(
+                        int(
+                            cast(
+                                str,
+                                port_cmd('-q', 'info', '--revision',
+                                         port).stdout.strip())))
             assert old_content != content, 'Content of Portfile is unchanged'
             with open(portfile, 'w') as g:
                 g.write(content)
             cwd = dirname(portfile)
             for action in ('clean', 'bump', 'destroot'):
                 port_cmd('-v', action, cwd=cwd)
-            if not is_system_port:
+                if action == 'bump' and revision_changed_callback:
+                    with open(portfile, 'r') as f:
+                        old_content = f.read()
+                    with open(portfile, 'w') as g:
+                        g.write(revision_changed_callback(old_content))
+            if not is_system_port and args.git:
                 sp.run(('git', 'commit', '--no-gpg-sign', '--no-verify', '-m',
                         f'{port}: update to {new}', cwd),
                        check=True)
