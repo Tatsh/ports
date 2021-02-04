@@ -5,8 +5,7 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 name                fastdmg
-version             1.0.2
-github.setup        sveinbjornt FastDMG 3cee2c9
+github.setup        sveinbjornt FastDMG 1.0.2
 
 categories          sysutils aqua
 license             BSD
@@ -19,16 +18,17 @@ long_description    FastDMG is a free macOS utility to mount .dmg and other \
                     annoying DiskImageMounter.
 homepage            https://sveinbjorn.org/fastdmg
 
-checksums           rmd160  fe80eaefa7b14f964b6d512bdb127b2d1b9f89f6 \
-                    sha256  36b19d015d3aa7891ede20ec2878930b037fee8e79f4c30325d4dd7d0d78b599 \
-                    size    3133686
+checksums           rmd160  b3dd5e9e2399c0b11187b4fb3deb027ed9d565c7 \
+                    sha256  b7e6ba2a4b73191072c43b6aef2f343c1d38a488c4f5073671bd7a176cc346fc \
+                    size    3133638
 
-xcode.target        FastDMG
+xcode.scheme        FastDMG
 xcode.configuration Release
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
+destroot.pre_args -derivedDataPath ${build.dir}/.dd
 
 build {}
 
