@@ -5,7 +5,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Latest
-version             0.7.2
+version             0.7.3
 github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
 long_description    ${description}
@@ -13,25 +13,23 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             CC-BY-NC-SA-4
 categories          sysutils aqua
 
-master_sites        ${github.homepage}/tarball/${git.branch}:latest \
+master_sites        ${github.homepage}/archive:latest \
                     https://github.com/sparkle-project/Sparkle/archive:sparkle \
                     https://github.com/mas-cli/mas/archive:mas \
                     https://github.com/orlp/ed25519/archive:ed25519
-set n_commits       456
-set latest_hash     6559d41
+set n_commits       461
 set sparkle_hash    238fd42bb39583f180ee47010bafd6bda4e236a0
 set sparkle_ed25519_hash 7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
 set mas_hash        94eb4e5523768bd9902aa1444ade90ee94b17c63
-distfiles           ${name}-${version}.tar.gz:latest \
+distfiles           ${version}.tar.gz:latest \
                     ${sparkle_hash}.tar.gz:sparkle \
                     ${mas_hash}.tar.gz:mas \
                     ${sparkle_ed25519_hash}.tar.gz:ed25519
-worksrcdir          mangerlahn-${name}-${latest_hash}
 
-checksums           Latest-0.7.2.tar.gz \
-                    rmd160  4255baa7596f2b7729f61cd40807352ace0fa29c \
-                    sha256  ae9ea032b8986cb7152a49d813fb3dd17275c48822042f42233b0458a8756766 \
-                    size    2569812 \
+checksums           0.7.3.tar.gz \
+                    rmd160  d763600342d31f899aedf839d35d2f5e0cab7e2a \
+                    sha256  41ebb18c93a20945525952c85a5b6693340d84ae6a537368b35988fb04f6183b \
+                    size    2569767 \
                     238fd42bb39583f180ee47010bafd6bda4e236a0.tar.gz \
                     rmd160  aeb1fd4004cf4858c33defd02965eb69fdbf011b \
                     sha256  541e074c919afd78f0ace81b2a9ea6df6f93da309ab500dd86fe79a3afb41438 \
