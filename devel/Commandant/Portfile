@@ -5,9 +5,9 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Commandant
-version             0.17.0
+version             0.18.0
 github.setup        Carthage ${name} ${version}
-revision            1
+revision            0
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,19 +16,19 @@ long_description    ${description}
 categories          devel
 
 master_sites        ${github.homepage}/tarball/${git.branch}:commandant \
-                    https://github.com/xcconfigs/xcconfigs/tarball/0.9:xcconfigs
-worksrcdir          Carthage-${name}-ab68611
+                    https://github.com/xcconfigs/xcconfigs/tarball/1.1:xcconfigs
+worksrcdir          Carthage-${name}-a1671cf
 distfiles           ${name}-${version}.tar.gz:commandant \
-                    xcconfigs-xcconfigs-0.9.tar.gz:xcconfigs
+                    xcconfigs-xcconfigs-1.1.tar.gz:xcconfigs
 
-checksums           Commandant-0.17.0.tar.gz \
-                    rmd160  50096d3dc752a11e9f6d88873074ec07ed732d7d \
-                    sha256  53bf7e77301e2a5f48cb857119cd8d3f59d4824d2959e61a9d88bfbd87f6df37 \
-                    size    23316 \
-                    xcconfigs-xcconfigs-0.9.tar.gz \
-                    rmd160  aad17ae2705c15e492e31d9f579260570c5e48f7 \
-                    sha256  2d1b42a3c2c972d398d9b9deaef4698127164114044b67bd8b43fd9c1ad0a4d1 \
-                    size    6772
+checksums           Commandant-0.18.0.tar.gz \
+                    rmd160  e9e710811f9e6d20e6fdd182f16c506bb6e2333c \
+                    sha256  fdb85375d589b486bf4e7430176e4361a584fe1c438d42f1c05f8bea5eeb6f49 \
+                    size    23604 \
+                    xcconfigs-xcconfigs-1.1.tar.gz \
+                    rmd160  8fa0eeac2acf8f4a1e188af3fe837be8f9e12d6a \
+                    sha256  b88846b6c6a48112ec3daed279e55aef028984e0bce0cf39184871f34c9e768b \
+                    size    9157
 
 xcode.target        Commandant
 xcode.configuration Release
@@ -39,13 +39,15 @@ xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 
-set gh_hash d78854b
+set gh_hash 4ced0ad
 
 pre-configure {
     file copy "${workpath}/xcconfigs-xcconfigs-${gh_hash}/Base" \
         "${worksrcpath}/Carthage/Checkouts/xcconfigs/Base"
     file copy "${workpath}/xcconfigs-xcconfigs-${gh_hash}/Mac OS X" \
         "${worksrcpath}/Carthage/Checkouts/xcconfigs/Mac OS X"
+    file copy "${workpath}/xcconfigs-xcconfigs-${gh_hash}/macOS" \
+        "${worksrcpath}/Carthage/Checkouts/xcconfigs/macOS"
 }
 
 destroot {
