@@ -52,5 +52,5 @@ pre-configure {
 
 destroot {
     file copy ${worksrcpath}/build/Release/Commandant.framework \
-        ${destroot}${prefix}/Library/Frameworks/
+        ${destroot}${frameworks_dir}
 }
