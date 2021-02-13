@@ -27,5 +27,5 @@ xcode.destroot.settings \
 
 destroot {
     file copy ${worksrcpath}/build/Release/Result.framework \
-        ${destroot}${prefix}/Library/Frameworks/
+        ${destroot}${frameworks_dir}
 }
