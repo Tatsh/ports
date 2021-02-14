@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-github.setup        mas-cli mas 1.7.1 v
+github.setup        mas-cli mas 1.8.0 v
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,9 +12,9 @@ description         Mac App Store command line interface.
 long_description    ${description}
 categories          sysutils aqua
 
-checksums           rmd160  6be44c470c1efe943c5fa9388053d201f1f0a404 \
-                    sha256  c4659f52cb6238a51e53f33570e2744411fa1f4650dde4213cab0ae28e892842 \
-                    size    3320031
+checksums           rmd160  0d5b3b3952d85211d157894952fd8161887edf80 \
+                    sha256  8efc86ed20267c700180c019b3a74215746f1ddaa526c862602644ad0d29a20d \
+                    size    3332964
 
 depends_lib         port:Commandant
 
@@ -28,7 +28,6 @@ xcode.destroot.settings \
     CODE_SIGN_STYLE=Manual
 
 patchfiles          patch-system-libs.diff
-patch.pre_args      -p1
 
 if {${os.major} < 15} {
     pre-fetch {
