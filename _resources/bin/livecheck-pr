@@ -6,6 +6,7 @@ mapfile -d $'\n' -t prs < <(
 )
 while IFS=$'\n' read -r port_line; do
     port=$(cut -d' ' -f1 <<< "$port_line")
+    [[ "$port" = 'youtube-dl' ]] && continue
     new_version=$(sed -r -e 's/.*, new version: ([^\)]+)\)/\1/' <<< "$port_line")
     ! grep -qF "${port}: update to ${new_version}" <<< "${prs[*]}" && echo "$port_line"
 done < <(
