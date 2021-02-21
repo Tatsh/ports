@@ -3,44 +3,45 @@
 PortSystem 1.0
 
 name                stepmania-outfox
-set alpha_version   4.9.6
-version             5.3-a${alpha_version}
+set alpha_version   4.9.7
+set main_version    5.3.0
+version             ${main_version}-a${alpha_version}
 categories          games aqua
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         StepMania OutFox is an open source rhythm game engine.
-long_description    StepMania 5.3 \"OutFox\" provides an upgraded experience \
+long_description    StepMania 5.3.0 \"OutFox\" provides an upgraded experience \
                     for all players new and old. It still supports over two \
                     decades of existing content, and lays the groundwork for \
                     the next.
 homepage            https://projectmoon.dance/
-distfiles           Stepmania-Outfox-Alpha-${alpha_version}-MacOS-date-20201216.dmg \
-                    Stepmania-Outfox-Alpha-${alpha_version}-MacOS-M1-date-20201216.dmg
+distfiles           OutFox-v${main_version}-alpha-${alpha_version}-MacOS-Intel-date-20210220.dmg \
+                    OutFox-v${main_version}-alpha-${alpha_version}-MacOS-M1-date-20210220.dmg
 master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF${alpha_version}/
 supported_archs     arm64 x86_64
 license             EULA
-
-checksums           Stepmania-Outfox-Alpha-${alpha_version}-MacOS-date-20201216.dmg \
-                    rmd160  9b24cb43d2a3eaa40e1c28581b7441ed86f931cc \
-                    sha256  c811d132cf69412e21a4ba7dcdaf6f42258e91cd7958e6dcf0bf3ba86d021b1a \
-                    size    109445142 \
-                    Stepmania-Outfox-Alpha-${alpha_version}-MacOS-M1-date-20201216.dmg \
-                    rmd160  bd370563c72c2656790d251b83cf0b32a3c91a80 \
-                    sha256  5c5195ee1d96f137eb37e3c7b22c6b6534519a85e9b1e7417c62ae8429e801b7 \
-                    size    105167499
 
 livecheck.type      regex
 livecheck.url       https://github.com/TeamRizu/OutFox/tags
 livecheck.version   ${alpha_version}
 livecheck.regex     "/tag/OF(\\d+\\.\\d+\\.\\d+)"
 
+checksums           OutFox-v5.3.0-alpha-4.9.7-MacOS-Intel-date-20210220.dmg \
+                    rmd160  a60639da2ab99db8bf4c99007b02525ca6abf54e \
+                    sha256  4244e807d67a22b83deb0d8e4a8f8eddb80342bc2597c572de6b5ceec2c1e2dc \
+                    size    108770569 \
+                    OutFox-v5.3.0-alpha-4.9.7-MacOS-M1-date-20210220.dmg \
+                    rmd160  fe3c4901c82747fe9de30454ec43fc540e810e68 \
+                    sha256  d75fb5c34f9e022c00bdb3ab4295cd6578b9c0c761f0e521e4166bb9cd6139a1 \
+                    size    106404275
+
 use_configure       no
 use_dmg             yes
 
 if {${os.arch} eq "arm64"} {
-    extract.only Stepmania-Outfox-Alpha-${alpha_version}-MacOS-M1-date-20201216.dmg
+    extract.only OutFox-v${main_version}-alpha-${alpha_version}-MacOS-M1-date-20210220.dmg
 } else {
-    extract.only Stepmania-Outfox-Alpha-${alpha_version}-MacOS-date-20201216.dmg
+    extract.only OutFox-v${main_version}-alpha-${alpha_version}-MacOS-date-20210220.dmg
 }
 extract.mkdir       no
 
