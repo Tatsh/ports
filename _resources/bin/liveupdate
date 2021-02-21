@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+from functools import lru_cache
 from os.path import dirname, expanduser
-from typing import Any, Callable, cast
+from typing import Any, Callable, Dict, Set, Tuple, cast
 import argparse
 import re
 import subprocess as sp
@@ -48,76 +49,104 @@ def bump_revision_callback(old_revision: int) -> Callable[[str], str]:
     return cb
 
 
+@lru_cache()
+def split_line(line: str) -> Tuple[str, str, str]:
+    m = re.search(VERSION_LINE_RE, line)
+    n = re.search(VERSION_LINE_ERROR_RE, line)
+    if m or n:
+        if m:
+            port = line.split(' ')[0]
+            old, new = m.groups()
+        else:
+            assert n is not None
+            port = line.split(' ')[4].split(':')[0]
+            new, old = n.groups()
+        return port, new, old
+    raise ValueError('Line did not match requirements')
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('-g', '--git', help='Commit changes with Git')
     args = parser.parse_args()
-    for line in sys.stdin.readlines():
-        m = re.search(VERSION_LINE_RE, line)
-        n = re.search(VERSION_LINE_ERROR_RE, line)
-        if m or n:
-            if m:
-                port = line.split(' ')[0]
-                old, new = m.groups()
-            elif n:
-                port = line.split(' ')[4].split(':')[0]
-                new, old = n.groups()
-            else:
-                continue
-            print(f'Port: {port}', file=sys.stderr)
-            portfile = cast(str, port_cmd('file', port).stdout.strip())
-            is_system_port = False
-            if portfile.startswith(INSTALLED_PORTS):
-                portfile = portfile.replace(INSTALLED_PORTS,
-                                            LOCAL_MACPORTS_PORTS)
-                is_system_port = True
-            old_content = cast(str, port_cmd('cat', port).stdout)
-            content = old_content.replace(old, new)
-            revision_changed_callback = None
-            if ((len(old) == 7 or len(old) > 8)
-                    and re.match(r'^[0-9a-f]+$', old)):
-                version = cast(
+    subport_mapping = cast(Dict[str, Set[str]], {})
+    lines = sys.stdin.readlines()[:]
+
+    @lru_cache()
+    def is_subport(s: str) -> bool:
+        for _, v in subport_mapping.items():
+            if s in v:
+                return True
+        return False
+
+    for line in lines:
+        try:
+            port, new, old = split_line(line)
+        except ValueError:
+            continue
+        subport_mapping[port] = set(
+            re.split(r',(?:\s+)?',
+                     port_cmd('-q', 'info', '--subports',
+                              port).stdout.strip()))
+
+    for line in lines:
+        try:
+            port, new, old = split_line(line)
+        except ValueError:
+            continue
+        if is_subport(port):
+            continue
+        print(f'Port: {port}', file=sys.stderr)
+        portfile = cast(str, port_cmd('file', port).stdout.strip())
+        is_system_port = False
+        if portfile.startswith(INSTALLED_PORTS):
+            portfile = portfile.replace(INSTALLED_PORTS, LOCAL_MACPORTS_PORTS)
+            is_system_port = True
+        old_content = cast(str, port_cmd('cat', port).stdout)
+        content = old_content.replace(old, new)
+        revision_changed_callback = None
+        if ((len(old) == 7 or len(old) > 8) and re.match(r'^[0-9a-f]+$', old)):
+            version = cast(
+                str,
+                port_cmd('-q', 'info', '--version', port).stdout.strip())
+            if len(version) == 8:  # is a date
+                homepage = cast(
                     str,
-                    port_cmd('-q', 'info', '--version', port).stdout.strip())
-                if len(version) == 8:  # is a date
-                    homepage = cast(
-                        str,
-                        port_cmd('-q', 'info', '--homepage', port).stdout)
-                    if 'github.com' in homepage:
-                        r = requests.get(
-                            f'{homepage.strip()}/commits/master.atom')
-                        r.raise_for_status()
-                        updated_el = etree.fromstring(r.text).find(
-                            'entry/updated', RSS_NS)
-                        assert updated_el is not None
-                        assert updated_el.text is not None
-                        content = content.replace(
-                            version,
-                            updated_el.text.split('T')[0].replace('-', ''))
-                    else:
-                        raise ValueError(f'Unhandled URL: {homepage}')
+                    port_cmd('-q', 'info', '--homepage', port).stdout)
+                if 'github.com' in homepage:
+                    r = requests.get(f'{homepage.strip()}/commits/master.atom')
+                    r.raise_for_status()
+                    updated_el = etree.fromstring(r.text).find(
+                        'entry/updated', RSS_NS)
+                    assert updated_el is not None
+                    assert updated_el.text is not None
+                    content = content.replace(
+                        version,
+                        updated_el.text.split('T')[0].replace('-', ''))
                 else:
-                    revision_changed_callback = bump_revision_callback(
-                        int(
-                            cast(
-                                str,
-                                port_cmd('-q', 'info', '--revision',
-                                         port).stdout.strip())))
-            assert old_content != content, 'Content of Portfile is unchanged'
-            with open(portfile, 'w') as g:
-                g.write(content)
-            cwd = dirname(portfile)
-            for action in ('clean', 'bump', 'destroot'):
-                port_cmd('-v', action, cwd=cwd)
-                if action == 'bump' and revision_changed_callback:
-                    with open(portfile, 'r') as f:
-                        old_content = f.read()
-                    with open(portfile, 'w') as g:
-                        g.write(revision_changed_callback(old_content))
-            if not is_system_port and args.git:
-                sp.run(('git', 'commit', '--no-gpg-sign', '--no-verify', '-m',
-                        f'{port}: update to {new}', cwd),
-                       check=True)
+                    raise ValueError(f'Unhandled URL: {homepage}')
+            else:
+                revision_changed_callback = bump_revision_callback(
+                    int(
+                        cast(
+                            str,
+                            port_cmd('-q', 'info', '--revision',
+                                     port).stdout.strip())))
+        assert old_content != content, 'Content of Portfile is unchanged'
+        with open(portfile, 'w') as g:
+            g.write(content)
+        cwd = dirname(portfile)
+        for action in ('clean', 'bump', 'destroot'):
+            port_cmd('-v', action, cwd=cwd)
+            if action == 'bump' and revision_changed_callback:
+                with open(portfile, 'r') as f:
+                    old_content = f.read()
+                with open(portfile, 'w') as g:
+                    g.write(revision_changed_callback(old_content))
+        if not is_system_port and args.git:
+            sp.run(('git', 'commit', '--no-gpg-sign', '--no-verify', '-m',
+                    f'{port}: update to {new}', cwd),
+                   check=True)
     return 0
 
 
