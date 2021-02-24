@@ -23,7 +23,7 @@ checksums           rmd160  2a6374e8adebe28b3905edfd869987cd13ed8ade \
 
 livecheck.type      regex
 livecheck.url       ${homepage}
-livecheck.regex     "<a class=\"link-gray-dark d-flex no-underline\" href=\"/googlefonts/roboto/releases/tag/v(\\d+\\.\\d+)\">"
+livecheck.regex     "<a .*href=\"/googlefonts/roboto/releases/tag/v(\\d+\\.\\d+)\">"
 
 worksrcdir
 use_configure           no
