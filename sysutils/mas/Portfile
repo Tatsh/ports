@@ -5,6 +5,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 github.setup        mas-cli mas 1.8.0 v
+revision            1
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -28,6 +29,11 @@ xcode.destroot.settings \
     CODE_SIGN_STYLE=Manual
 
 patchfiles          patch-system-libs.diff
+
+post-patch {
+    reinplace "s|@executable_path/../Frameworks |${frameworks_dir} |g" \
+        ${worksrcpath}/mas-cli.xcodeproj/project.pbxproj
+}
 
 if {${os.major} < 15} {
     pre-fetch {
