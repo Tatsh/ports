@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name                stepmania-outfox
-set alpha_version   4.9.7
+set alpha_version   "4.9.7GG"
 set main_version    5.3.0
 version             ${main_version}-a${alpha_version}
 categories          games aqua
@@ -15,8 +15,8 @@ long_description    StepMania 5.3.0 \"OutFox\" provides an upgraded experience \
                     decades of existing content, and lays the groundwork for \
                     the next.
 homepage            https://projectmoon.dance/
-distfiles           OutFox-v${main_version}-alpha-${alpha_version}-MacOS-Intel-date-20210220.dmg \
-                    OutFox-v${main_version}-alpha-${alpha_version}-MacOS-M1-date-20210220.dmg
+distfiles           StepManiaOutFox-${main_version}-alpha-${alpha_version}-MacOS-Intel-date-20210223.dmg \
+                    StepManiaOutFox-${main_version}-alpha-${alpha_version}-MacOS-M1-date-20210223.dmg
 master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF${alpha_version}/
 supported_archs     arm64 x86_64
 license             EULA
@@ -26,35 +26,27 @@ livecheck.url       https://github.com/TeamRizu/OutFox/tags
 livecheck.version   ${alpha_version}
 livecheck.regex     "/tag/OF(\\d+\\.\\d+\\.\\d+)"
 
-checksums           OutFox-v5.3.0-alpha-4.9.7-MacOS-Intel-date-20210220.dmg \
-                    rmd160  a60639da2ab99db8bf4c99007b02525ca6abf54e \
-                    sha256  4244e807d67a22b83deb0d8e4a8f8eddb80342bc2597c572de6b5ceec2c1e2dc \
-                    size    108770569 \
-                    OutFox-v5.3.0-alpha-4.9.7-MacOS-M1-date-20210220.dmg \
-                    rmd160  fe3c4901c82747fe9de30454ec43fc540e810e68 \
-                    sha256  d75fb5c34f9e022c00bdb3ab4295cd6578b9c0c761f0e521e4166bb9cd6139a1 \
-                    size    106404275
+checksums           StepManiaOutFox-5.3.0-alpha-4.9.7GG-MacOS-Intel-date-20210223.dmg \
+                    rmd160  9f85d5440b9e2ab7b6fde6946d10e1a044d59554 \
+                    sha256  8c4f2307c73d2e71ccff40131fafee616a282d80eaa583c8202427a57638d53f \
+                    size    108811552 \
+                    StepManiaOutFox-5.3.0-alpha-4.9.7GG-MacOS-M1-date-20210223.dmg \
+                    rmd160  53d04db37fb7bfc3c2d17f07bb2146c6806f78e1 \
+                    sha256  dd785d5b7dab646445f4dc1483378c479ff642b4ebf18b691d691a561ef7212b \
+                    size    106445147
 
 use_configure       no
 use_dmg             yes
 
 if {${os.arch} eq "arm64"} {
-    extract.only OutFox-v${main_version}-alpha-${alpha_version}-MacOS-M1-date-20210220.dmg
+    extract.only StepManiaOutFox-${main_version}-alpha-${alpha_version}-MacOS-M1-date-20210223.dmg
 } else {
-    extract.only OutFox-v${main_version}-alpha-${alpha_version}-MacOS-date-20210220.dmg
+    extract.only StepManiaOutFox-${main_version}-alpha-${alpha_version}-MacOS-Intel-date-20210223.dmg
 }
 extract.mkdir       no
 
 build {}
 
-set res_dirs {Announcers Appearance BackgroundEffects BackgroundTransitions
-              BGAnimations Characters Courses Data Docs Scripts Songs}
-set outdir "${destroot}/${applications_dir}/StepMania OutFox"
-
 destroot {
-    file mkdir "${outdir}"
-    copy "${worksrcpath}/StepMania.app" "${outdir}/"
-    foreach dir ${res_dirs} {
-        copy "${worksrcpath}/${dir}" "${outdir}/"
-    }
+    copy "${worksrcpath}/StepMania" "${destroot}${applications_dir}/StepMania OutFox"
 }
