@@ -1,9 +1,10 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           github 1.0
 
-name                KnockKnock
-version             2.1.1
+github.setup        objective-see KnockKnock 2.2.1 v
+github.tarball_from releases
 
 categories          aqua sysutils security
 license             Restrictive
@@ -17,15 +18,10 @@ long_description    Malware installs itself persistently, to ensure it is \
 homepage            https://objective-see.com/products/knockknock.html
 
 distfiles           ${name}_${version}.zip
-master_sites        https://bitbucket.org/objective-see/deploy/downloads/
 
-checksums           rmd160  4cd848bef8d54bdf4ea5f7cdd7cb4dc3cfba219b \
-                    sha256  c3293e6f6524b557246a9c5e06a1fb2eb3f49be2297fe671d0fa8fca7aa142fa \
-                    size    3398178
-
-livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "current version\\: (\\d+\\.\\d+\\.\\d+)"
+checksums           rmd160  c94a68540f9d6f24711b9e53f849d8f548a0c98a \
+                    sha256  9da0089743845169ce419d4233b6c5e3ac68955029efe76d079de03ccaafea82 \
+                    size    3262926
 
 use_configure       no
 use_zip             yes
