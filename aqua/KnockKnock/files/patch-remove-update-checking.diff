@@ -1,0 +1,251 @@
+diff --git AppDelegate.m AppDelegate.m
+index 264dc40..8f6fc52 100755
+--- AppDelegate.m
++++ AppDelegate.m
+@@ -134,14 +134,6 @@
+             
+         });
+     }
+-    
+-    //check for update
+-    // unless user has turn off via prefs
+-    if(YES != [defaults boolForKey:PREF_DISABLE_UPDATE_CHECK])
+-    {
+-        //check
+-        [self check4Update:nil];
+-    }
+ 
+     //kick off thread to begin enumerating shared objects
+     // ->this takes awhile, so do it now/first!
+diff --git PrefsWindowController.h PrefsWindowController.h
+index ee75447..d11e2bc 100755
+--- PrefsWindowController.h
++++ PrefsWindowController.h
+@@ -27,9 +27,6 @@
+ //button for filtering out OS componets
+ @property (weak) IBOutlet NSButton* showTrustedItemsBtn;
+ 
+-//button disabling update check
+-@property (weak) IBOutlet NSButton *disableUpdateCheckBtn;
+-
+ //button for disabling talking to VT
+ @property (weak) IBOutlet NSButton* disableVTQueriesBtn;
+ 
+@@ -42,9 +39,6 @@
+ //filter out OS/known items
+ @property BOOL showTrustedItems;
+ 
+-//no update checks
+-@property BOOL disableUpdateCheck;
+-
+ //disable talking to VT
+ @property BOOL disableVTQueries;
+ 
+diff --git PrefsWindowController.m PrefsWindowController.m
+index d2e6b17..d3469c3 100755
+--- PrefsWindowController.m
++++ PrefsWindowController.m
+@@ -19,7 +19,6 @@
+ @synthesize shouldSaveNow;
+ @synthesize disableVTQueries;
+ @synthesize showTrustedItems;
+-@synthesize disableUpdateCheck;
+ 
+ 
+ //automatically called when nib is loaded
+@@ -54,13 +53,6 @@
+         //set
+         self.showTrustedItemsBtn.state = STATE_ENABLED;
+     }
+-    
+-    //check if 'disable update check' button should be selected
+-    if(YES == self.disableUpdateCheck)
+-    {
+-        //set
+-        self.disableUpdateCheckBtn.state = STATE_ENABLED;
+-    }
+ 
+     //check if 'disable vt queries' button should be selected
+     if(YES == self.disableVTQueries)
+@@ -88,7 +80,7 @@
+ -(void)registerDefaults
+ {
+     //set defaults
+-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{PREF_SHOW_TRUSTED_ITEMS:@NO, PREF_DISABLE_UPDATE_CHECK:@NO, PREF_DISABLE_VT_QUERIRES:@NO, PREF_SAVE_OUTPUT:@NO}];
++    [[NSUserDefaults standardUserDefaults] registerDefaults:@{PREF_SHOW_TRUSTED_ITEMS:@NO, PREF_DISABLE_UPDATE_CHECK:@YES, PREF_DISABLE_VT_QUERIRES:@NO, PREF_SAVE_OUTPUT:@NO}];
+     
+     return;
+ }
+@@ -113,13 +105,6 @@
+             self.showTrustedItems = [defaults boolForKey:PREF_SHOW_TRUSTED_ITEMS];
+         }
+         
+-        //load 'disable update check'
+-        if(nil != [defaults objectForKey:PREF_DISABLE_UPDATE_CHECK])
+-        {
+-            //save
+-            self.disableUpdateCheck = [defaults boolForKey:PREF_DISABLE_UPDATE_CHECK];
+-        }
+-        
+         //load 'disable vt queries'
+         if(nil != [defaults objectForKey:PREF_DISABLE_VT_QUERIRES])
+         {
+@@ -144,9 +129,6 @@
+     //save current state of 'include os/trusted' components
+     self.showTrustedItems = self.showTrustedItemsBtn.state;
+     
+-    //save current state of 'disable update checks'
+-    self.disableUpdateCheck = self.disableUpdateCheckBtn.state;
+-    
+     //save current state of 'disable VT'
+     self.disableVTQueries = self.disableVTQueriesBtn.state;
+     
+@@ -181,7 +163,6 @@
+     //first, any prefs changed, a 'save' set
+     // ->set 'save now' flag
+     if( ((self.showTrustedItems != self.showTrustedItemsBtn.state) ||
+-         (self.disableUpdateCheck != self.disableUpdateCheckBtn.state) ||
+          (self.disableVTQueries != self.disableVTQueriesBtn.state) ||
+          (self.saveOutput != self.saveOutputBtn.state) ) &&
+          (YES == self.saveOutputBtn.state) )
+@@ -199,9 +180,6 @@
+     //save hiding OS components flag
+     self.showTrustedItems = self.showTrustedItemsBtn.state;
+     
+-    //save current state of 'disable update checks'
+-    self.disableUpdateCheck = self.disableUpdateCheckBtn.state;
+-    
+     //save disabling VT flag
+     self.disableVTQueries = self.disableVTQueriesBtn.state;
+     
+@@ -211,9 +189,6 @@
+     //save 'show trusted items'
+     [defaults setBool:self.showTrustedItems forKey:PREF_SHOW_TRUSTED_ITEMS];
+     
+-    //save 'disable update checks'
+-    [defaults setBool:self.disableUpdateCheck forKey:PREF_DISABLE_UPDATE_CHECK];
+-    
+     //save 'disable vt queries'
+     [defaults setBool:self.disableVTQueries forKey:PREF_DISABLE_VT_QUERIRES];
+     
+diff --git UI/PrefsWindow.xib UI/PrefsWindow.xib
+index 3b1a9f4..a2e303f 100644
+--- UI/PrefsWindow.xib
++++ UI/PrefsWindow.xib
+@@ -8,7 +8,6 @@
+     <objects>
+         <customObject id="-2" userLabel="File's Owner" customClass="PrefsWindowController">
+             <connections>
+-                <outlet property="disableUpdateCheckBtn" destination="dJU-Ok-N6U" id="Q9b-gF-V3d"/>
+                 <outlet property="disableVTQueriesBtn" destination="d54-mZ-jqy" id="Xx6-E1-yv0"/>
+                 <outlet property="okButton" destination="HZZ-Es-mpy" id="GKU-Jc-ENB"/>
+                 <outlet property="showTrustedItemsBtn" destination="4xV-kQ-iaT" id="aEg-d4-Orl"/>
+@@ -19,14 +18,14 @@
+         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+             <windowStyleMask key="styleMask" titled="YES" closable="YES" texturedBackground="YES"/>
+-            <rect key="contentRect" x="196" y="240" width="422" height="177"/>
+-            <rect key="screenRect" x="0.0" y="0.0" width="3440" height="1415"/>
++            <rect key="contentRect" x="196" y="240" width="422" height="126"/>
++            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
+             <view key="contentView" id="se5-gp-TjO">
+-                <rect key="frame" x="0.0" y="0.0" width="422" height="177"/>
++                <rect key="frame" x="0.0" y="0.0" width="422" height="126"/>
+                 <autoresizingMask key="autoresizingMask"/>
+                 <subviews>
+                     <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-kQ-iaT">
+-                        <rect key="frame" x="101" y="139" width="264" height="18"/>
++                        <rect key="frame" x="101" y="88.5" width="264" height="18"/>
+                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                         <buttonCell key="cell" type="check" title="Include macOS/known items." bezelStyle="regularSquare" imagePosition="left" focusRingType="none" inset="2" id="WN8-cQ-8xh">
+                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+@@ -34,23 +33,20 @@
+                         </buttonCell>
+                     </button>
+                     <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d54-mZ-jqy">
+-                        <rect key="frame" x="101" y="81" width="303" height="19"/>
++                        <rect key="frame" x="101" y="58.5" width="303" height="19"/>
+                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                         <buttonCell key="cell" type="check" title="Disable VirusTotal integration." bezelStyle="regularSquare" imagePosition="left" focusRingType="none" inset="2" id="gXW-vY-Aj1">
+                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                             <font key="font" size="13" name="Menlo-Regular"/>
+                         </buttonCell>
+                     </button>
+-                    <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dJU-Ok-N6U">
+-                        <rect key="frame" x="101" y="110" width="303" height="19"/>
++                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lEv-Wj-6S5">
++                        <rect key="frame" x="20" y="57" width="48" height="48"/>
+                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+-                        <buttonCell key="cell" type="check" title="Disable automatic update check." bezelStyle="regularSquare" imagePosition="left" focusRingType="none" inset="2" id="idJ-pd-k6U">
+-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+-                            <font key="font" size="13" name="Menlo-Regular"/>
+-                        </buttonCell>
+-                    </button>
++                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="settings" id="xKf-GK-m0k"/>
++                    </imageView>
+                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HZZ-Es-mpy">
+-                        <rect key="frame" x="326" y="13" width="82" height="32"/>
++                        <rect key="frame" x="268" y="13" width="82" height="32"/>
+                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="J9x-sM-h9S">
+                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+@@ -60,17 +56,12 @@
+                             <action selector="closeWindow:" target="-2" id="eFa-k0-zTM"/>
+                         </connections>
+                     </button>
+-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lEv-Wj-6S5">
+-                        <rect key="frame" x="20" y="79" width="48" height="48"/>
+-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="settings" id="xKf-GK-m0k"/>
+-                    </imageView>
+                 </subviews>
+             </view>
+             <connections>
+                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+             </connections>
+-            <point key="canvasLocation" x="318" y="273.5"/>
++            <point key="canvasLocation" x="318" y="248"/>
+         </window>
+     </objects>
+     <resources>
+diff --git en.lproj/MainMenu.xib en.lproj/MainMenu.xib
+index ad8e077..4da8883 100755
+--- en.lproj/MainMenu.xib
++++ en.lproj/MainMenu.xib
+@@ -30,12 +30,6 @@
+                                     <action selector="showPreferences:" target="494" id="h1a-NR-0PY"/>
+                                 </connections>
+                             </menuItem>
+-                            <menuItem title="Check For Update..." tag="2" id="m5h-Zp-Y8c">
+-                                <modifierMask key="keyEquivalentModifierMask"/>
+-                                <connections>
+-                                    <action selector="check4Update:" target="494" id="w2B-fN-g1g"/>
+-                                </connections>
+-                            </menuItem>
+                             <menuItem isSeparatorItem="YES" id="149">
+                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                             </menuItem>
+@@ -53,11 +47,11 @@
+         <window title="KnockKnock" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371" userLabel="Main Window">
+             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+             <rect key="contentRect" x="0.0" y="0.0" width="1295" height="671"/>
+-            <rect key="screenRect" x="0.0" y="0.0" width="3440" height="1415"/>
++            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
+             <value key="minSize" type="size" width="1000" height="597"/>
+             <value key="maxSize" type="size" width="2500" height="1000"/>
+-            <view key="contentView" id="372">
+-                <rect key="frame" x="0.0" y="0.0" width="1255" height="671"/>
++            <view key="contentView" misplaced="YES" id="372">
++                <rect key="frame" x="0.0" y="0.0" width="1295" height="671"/>
+                 <autoresizingMask key="autoresizingMask"/>
+                 <userGuides>
+                     <userLayoutGuide location="662" affinity="minY"/>
+@@ -659,7 +653,7 @@
+         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="gD4-T8-B0H" userLabel="Friends">
+             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+             <rect key="contentRect" x="2843" y="305" width="767" height="288"/>
+-            <rect key="screenRect" x="0.0" y="0.0" width="3440" height="1415"/>
++            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
+             <view key="contentView" id="zIY-EJ-oYy">
+                 <rect key="frame" x="0.0" y="0.0" width="767" height="288"/>
+                 <autoresizingMask key="autoresizingMask"/>

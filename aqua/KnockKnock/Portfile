@@ -2,12 +2,12 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           xcode 1.0
 
 github.setup        objective-see KnockKnock 2.2.1 v
-github.tarball_from releases
 
 categories          aqua sysutils security
-license             Restrictive
+license             GPL-3
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         See what's persistently installed on your Mac.
@@ -17,18 +17,45 @@ long_description    Malware installs itself persistently, to ensure it is \
                     order to generically reveal such malware.
 homepage            https://objective-see.com/products/knockknock.html
 
-distfiles           ${name}_${version}.zip
+set mach_o_sha      73bb2d808fb0d456ec5488a7fb68eaa745146461
+set knockknock_sha  e5a9dfd
+master_sites        ${github.homepage}/tarball/${git.branch}:KnockKnock \
+                    https://github.com/${github.author}/Mach-O/archive:mach_o
+distfiles           ${name}-${version}.tar.gz:KnockKnock \
+                    ${mach_o_sha}.tar.gz:mach_o
+worksrcdir          ${github.author}-${name}-${knockknock_sha}
 
-checksums           rmd160  c94a68540f9d6f24711b9e53f849d8f548a0c98a \
-                    sha256  9da0089743845169ce419d4233b6c5e3ac68955029efe76d079de03ccaafea82 \
-                    size    3262926
+checksums           KnockKnock-2.2.1.tar.gz \
+                    rmd160  86acbd4489bf6bd27860e9d481d0b5c141ce066a \
+                    sha256  d54b0e19f060908f99e3035ae2b9f1d2a5b24cf90338427a8365d3fda87decca \
+                    size    3345353 \
+                    73bb2d808fb0d456ec5488a7fb68eaa745146461.tar.gz \
+                    rmd160  52604b627ed220a1073c1ecf30a4ee63d224febc \
+                    sha256  8826b87dc65875d9867ce0475877205428fe3e03b2e076f216874d93742477e2 \
+                    size    21161
 
-use_configure       no
-use_zip             yes
-extract.only        ${name}_${version}.zip
-extract.mkdir       yes
-build.cmd           echo
+xcode.scheme        ${name}
+xcode.configuration Release
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
+destroot.pre_args -derivedDataPath ${worksrcpath}
 
-destroot {
-    file copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
+patchfiles      patch-remove-sentry.diff \
+                patch-remove-update-checking.diff
+
+post-extract {
+    file mkdir ${workpath}/MachO
+    file copy ${workpath}/Mach-O-${mach_o_sha}/MachOParser ${workpath}/MachO
+}
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
+
+if {${os.major} < 15} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.11 or later."
+        return -code error "incompatible OS X version"
+    }
 }
