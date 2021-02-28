@@ -2,7 +2,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            be5invis Iosevka 5.0.3 v
+github.setup            be5invis Iosevka 5.0.4 v
 github.livecheck.regex  {([0-9.]+)}
 github.tarball_from     releases
 
@@ -20,9 +20,9 @@ homepage            https://typeof.net/Iosevka/
 
 distfiles           ttf-${name}-${version}.zip
 
-checksums           rmd160  46077646389d7d5d0d80db5b04298f570cc12536 \
-                    sha256  c7fb584160f5ef3b8656fc55d792cc908868e34fa9e4f2bb5a566c09e23c3b82 \
-                    size    49041098
+checksums           rmd160  4636dedf7b39a52ecad209439ad97a0a388f7230 \
+                    sha256  7d5b8a9aa24ffa937f2dd13c3394184ff71175403cdbc6c52fe9c9b6af6bf7d2 \
+                    size    49149797
 
 worksrcdir
 use_configure           no
