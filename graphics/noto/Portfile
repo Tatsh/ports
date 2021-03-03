@@ -18,6 +18,8 @@ checksums           rmd160  1e3068a58c3ec6ddd364ed3ccac6c335b71d8855 \
                     sha256  42ae5ab70c93269ac24574505066fd0feab989d12017e0f1f6d8098f298668e9 \
                     size    900339880
 
+github.livecheck.branch main
+
 use_configure           no
 destroot.violate_mtree  yes
 
