@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                procexp
-version             201911242
+version             20191124
 
 categories          devel
 license             Restrictive
