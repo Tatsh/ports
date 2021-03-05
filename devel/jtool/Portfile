@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+PortSystem          1.0
+
+name                jtool
+version             2
+
+categories          devel
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Binary inspection tool.
+long_description    ${description}
+homepage            http://newosxbook.com/index.php
+supported_archs     arm64 x86_64
+
+distfiles           ${name}2.tgz
+master_sites        http://newosxbook.com/tools/
+
+checksums           rmd160  00b4e96945110f45176b1463437f615dfdbc2466 \
+                    sha256  b6c6abeadaf403fee0d8153775a7ca224b0f69afc8faea728f3caf6ff52c79b7 \
+                    size    1082478
+
+livecheck.type      md5
+livecheck.url       http://newosxbook.com/tools/${name}2.tgz
+livecheck.md5       6898ea97f148de2a6a0a85ae69a1d355
+
+worksrcdir
+use_configure no
+
+build {}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name}2 ${worksrcpath}/disarm \
+        ${destroot}${prefix}/bin/
+    ln -s ${prefix}/bin/jtool2 ${destroot}${prefix}/bin/jtool
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 644 ${worksrcpath}/WhatsNew.txt \
+        ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 755 -d ${destroot}${prefix}/share/${name}
+    xinstall -m 644 ${worksrcpath}/matchers.txt \
+        ${destroot}${prefix}/share/${name}
+}
