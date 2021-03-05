@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                jtool
-version             2
+version             2.1
 
 categories          devel
 license             Restrictive
