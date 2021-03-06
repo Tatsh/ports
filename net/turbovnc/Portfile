@@ -6,6 +6,7 @@ PortGroup           github 1.0
 PortGroup           java 1.0
 
 github.setup        TurboVNC turbovnc 2.2.6
+revision            1
 
 name                turbovnc-viewer
 platforms           darwin
@@ -33,6 +34,35 @@ configure.args \
     -DJAVA_INCLUDE_PATH2=${java.home}/include/darwin \
     -DJAVA_AWT_INCLUDE_PATH=${java.home}/include \
     -DTVNC_BUILDNATIVE=ON
+
+patch {
+    reinplace "s|@VERSION@|${version}|g" ${worksrcpath}/release/Info.plist.in
+    reinplace "s|@PKGVENDOR@|MacPorts|g" ${worksrcpath}/release/Info.plist.in
+    reinplace "s|@BUILD@|${version}|g" ${worksrcpath}/release/Info.plist.in
+    reinplace "s|@CMAKE_PROJECT_NAME@|TurboVNC|g" ${worksrcpath}/release/Info.plist.in
+    reinplace "s|^<dict>|<dict><key>NSHighResolutionCapable</key><true/>|" ${worksrcpath}/release/Info.plist.in
+}
+
+post-destroot {
+    set appdir "${destroot}${applications_dir}/TurboVNC Viewer.app"
+    xinstall -m 755 -d ${appdir}/Contents/MacOS
+    xinstall -m 755 -d ${appdir}/Contents/Resources/Java
+    xinstall -m 755 -d ${appdir}/Contents/Resources/Native
+    xinstall -m 644 ${worksrcpath}/release/Info.plist.in \
+        ${appdir}/Contents/Info.plist
+    xinstall -m 755 ${worksrcpath}/unix/vncviewer/JavaAppLauncher \
+        "${appdir}/Contents/MacOS/TurboVNC Viewer"
+    set chan [open ${appdir}/Contents/PkgInfo w+]
+    puts -nonewline ${chan} "APPL????"
+    close ${chan}
+    xinstall -m 644 ${worksrcpath}/release/turbovnc.icns \
+        ${worksrcpath}/release/vncviewer.icns ${appdir}/Contents/Resources/
+    xinstall -m 755 ${prefix}/lib/libturbojpeg.dylib \
+        ${cmake.build_dir}/java/libturbovnchelper.dylib \
+        ${appdir}/Contents/Resources/Native/
+    xinstall -m 644 ${cmake.build_dir}/java/VncViewer.jar \
+        ${appdir}/Contents/Resources/Java/
+}
 
 if {![file exists ${java.home}/include/jni.h]} {
     depends_lib-delete openjdk11
