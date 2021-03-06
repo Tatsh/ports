@@ -1,0 +1,73 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           java 1.0
+
+github.setup        TurboVNC turbovnc 2.2.6
+
+name                turbovnc-viewer
+platforms           darwin
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh}
+categories          net
+description         TurboVNC VNC viewer.
+long_description    ${description}
+
+checksums           rmd160  de684a6e9c2f2e1ef1f05b98229fd40269d17a7c \
+                    sha256  71a89600d1e4ffe67aa65e5ddc6b21b1659b9105892c07074e99181218dc33e8 \
+                    size    9023665
+
+depends_lib         port:openjdk11 \
+                    port:libjpeg-turbo
+
+java.version        1.8+
+java.fallback       openjdk11
+
+java_set_env
+configure.args \
+    -DTVNC_BUILDSERVER=no \
+    -DCMAKE_C_FLAGS=-I${prefix}/include \
+    -DTJPEG_JAR=${prefix}/share/java/turbojpeg.jar \
+    -DJAVA_INCLUDE_PATH=${java.home}/include \
+    -DJAVA_INCLUDE_PATH2=${java.home}/include/darwin \
+    -DJAVA_AWT_INCLUDE_PATH=${java.home}/include \
+    -DTVNC_BUILDNATIVE=ON
+
+if {![file exists ${java.home}/include/jni.h]} {
+    depends_lib-delete openjdk11
+    pre-configure {
+        ui_error "
+****
+**** ${name} requires port openjdk11 with variant +JNI.
+**** Please do the following then try installing ${name} again:
+****
+****     sudo port install openjdk11 +JNI
+****
+"
+        return -code error "incompatible openjdk11 installation"
+    }
+}
+
+if {![file exists ${prefix}/share/java/turbojpeg.jar]} {
+    depends_lib-delete libjpeg-turbo
+    pre-configure {
+        ui_error "
+****
+**** ${name} requires port libjpeg-turbo with variant +java.
+**** Please do the following then try installing ${name} again:
+****
+****     sudo port install libjpeg-turbo +java
+****
+"
+        return -code error "incompatible libjpeg-turbo installation"
+    }
+}
+
+if {${os.major} < 11} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.7 or later."
+        return -code error "incompatible OS X version"
+    }
+}
