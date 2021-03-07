@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                brave
-version             1.21.73
+version             1.21.74
 
 categories          www aqua
 license             MPL-2
@@ -20,9 +20,9 @@ set v0              [string range $version 0 0]
 set v1              [string range $version 2 end]
 master_sites        https://updates-cdn.bravesoftware.com/sparkle/Brave-Browser/stable/${v0}${v1}
 
-checksums           rmd160  bbf38d2bf4fd4a0f93778c0988f0efa5bd6eb3b3 \
-                    sha256  4f2a067a4966406adbe4a9cf6142a0d1906a0e86eee3cf8c7a890efcf9096de7 \
-                    size    113113877
+checksums           rmd160  454961f95616a8c26503fa86ff973af76c890560 \
+                    sha256  8c983660af5c6cd78f7256eafad6ffe3b94d54e6c2191714fc243c098d7346e0 \
+                    size    113136017
 
 livecheck.type      regex
 livecheck.url       https://updates.bravesoftware.com/sparkle/Brave-Browser/stable/appcast.xml
