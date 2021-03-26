@@ -136,6 +136,12 @@ def main() -> int:
         with open(portfile, 'w') as g:
             g.write(content)
         cwd = dirname(portfile)
+        distfiles = [
+            l.split(']')[1].strip() for l in port_command('-q', 'distfiles')
+            if l.startswith('[')
+        ]
+        if distfiles:
+            sp.run(['sudo', 'rm', '-f'] + distfiles, check=True)
         for action in ('clean', 'bump', 'destroot'):
             port_cmd('-v', action, cwd=cwd)
             if action == 'bump' and revision_changed_callback:
