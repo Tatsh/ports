@@ -137,7 +137,8 @@ def main() -> int:
             g.write(content)
         cwd = dirname(portfile)
         distfiles = [
-            l.split(']')[1].strip() for l in port_command('-q', 'distfiles')
+            l.split(']')[1].strip()
+            for l in port_cmd('-q', 'distfiles', cwd=cwd).stdout.split('\n')
             if l.startswith('[')
         ]
         if distfiles:
