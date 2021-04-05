@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            ycm-core ycmd de6bce1
-version                 20210310
+github.setup            ycm-core ycmd 0daf4eb
+version                 20210404
 revision                0
 categories              devel textproc
 platforms               darwin
@@ -14,9 +14,9 @@ maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        ${description}
 
-checksums           rmd160  2eb1709c1b353fc8f1f1d5c459fae76de17812ce \
-                    sha256  c82c05ee7cddf4eaf18fd9502c1f0bc98e837d542861717a75913399c9796f32 \
-                    size    2884204
+checksums           rmd160  83531a09f93a1a0b341c00aecae33452f4d92895 \
+                    sha256  49c25bda481179b9b4771d0916203bd9665606eeab373fc121787f12c650d152 \
+                    size    2884545
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
@@ -61,7 +61,7 @@ post-patch {
     reinplace -W ${patch.dir} "s|@PREFIX@|${prefix}|" \
         ycmd/completers/cpp/clangd_completer.py
     # Force finding clang-tidy in PATH
-    reinplace "423s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
+    reinplace "426s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
     # Force specific version of Python
     reinplace -E "s|Python3 \[0-9\\.\]+ REQUIRED COMPONENTS|Python3 3.8 EXACT REQUIRED COMPONENTS|" \
         CMakeLists.txt
