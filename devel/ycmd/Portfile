@@ -6,7 +6,7 @@ PortGroup           github 1.0
 
 github.setup            ycm-core ycmd 825f20d
 version                 20210409
-revision                0
+revision                1
 categories              devel textproc
 platforms               darwin
 license                 GPL-3
@@ -31,7 +31,7 @@ configure.args \
     -DPython3_ROOT_DIR=${python_framework_dir}
 
 set clang_version   11
-set core_version    44
+set core_version    45
 
 depends_lib \
     port:clang-${clang_version} \
