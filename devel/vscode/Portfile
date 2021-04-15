@@ -2,7 +2,7 @@
 PortSystem          1.0
 
 name                vscode
-version             1.55.1
+version             1.55.2
 
 categories          devel aqua
 license             Restrictive
