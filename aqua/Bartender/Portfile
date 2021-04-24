@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                Bartender
-version             4.0.44
+version             4.0.48
 set version_info    [regexp -all -inline {\d+} $version]
 set major_version   [lindex $version_info 0]
 set minor_version   [lindex $version_info 1]
@@ -20,9 +20,9 @@ long_description    Bartender lets you organize your menu bar icons, by hiding t
 homepage            https://www.macbartender.com/
 master_sites        https://macbartender.com/B2/updates/${major_version}-${minor_version}-${patch_version}/
 
-checksums           rmd160  d6a758ca8e98d34a0c3ae9bf52e3b4e4a56109c0 \
-                    sha256  27b7f5eeefc3fa380c0f9235f044b734d5d59b24bf76b9954a3183892956bbf8 \
-                    size    10731286
+checksums           rmd160  5c924383b10475d01f8aa59bb5976f854f987b06 \
+                    sha256  3e057e6052f4db6068d68f0d0ffd4df0a1d4967750985da13f81183cd9ad6a6a \
+                    size    10747476
 
 livecheck.type      regex
 livecheck.url       https://www.macbartender.com/B2/updates/AppcastB4.xml
