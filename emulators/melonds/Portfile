@@ -4,32 +4,28 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Arisotura melonDS 0.9.1
+github.setup        Arisotura melonDS 0.9.2
 
 name                melonds
 platforms           darwin
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
-categories          games emulators
+categories          emulators games
 description         Nintendo DS emulator.
 long_description    ${description}
 
-checksums           rmd160  67fc0d51a6a6a82bef753718b8519042b526a1e3 \
-                    sha256  79234895759aba878e2552cd8fab4685ae2b47908825f6efc3fd50f057486b5a \
-                    size    1311147
+checksums           rmd160  87d6585506c8abdae6bf7417708e1b30578b1927 \
+                    sha256  d20ce23725e63be5c60d42c87ed504015aa57ddf57c5161302c98e1837e9acae \
+                    size    1331032
 
-depends_lib         port:libsdl2 \
-                    port:libslirp \
+depends_lib         port:gettext \
                     port:glib2 \
-                    port:gettext \
                     port:libarchive \
+                    port:libepoxy \
                     port:libiconv \
-                    port:qt5-qtbase \
-                    port:libepoxy
-
-patchfiles      patch-1026.diff \
-                patch-fix-scaling.diff
-patch.pre_args  -p1
+                    port:libsdl2 \
+                    port:libslirp \
+                    port:qt5-qtbase
 
 destroot {
     copy ${workpath}/build/melonDS.app ${destroot}${applications_dir}
