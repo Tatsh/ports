@@ -5,11 +5,12 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        libretro RetroArch 1.9.1 v
+revision            0
 
 name                retroarch
 platforms           darwin
 license             GPL-3
-maintainers         {gmail.com:audvare @Tatsh}
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 categories          emulators games
 description         Frontend for the libretro API.
 long_description    ${description}
@@ -17,6 +18,8 @@ long_description    ${description}
 checksums           rmd160  2c4f65be5cb1be55da9f242af9721c5098fe01dc \
                     sha256  e1fb48a0c9f8ce4ca31699c9611727e3b04b127d7c7eb2de171809279681ddf3 \
                     size    39878651
+
+patchfiles          patch-${name}-library-dirs.diff
 
 xcode.project       ${worksrcpath}/pkg/apple/RetroArch.xcodeproj
 xcode.target        RetroArch
@@ -33,4 +36,8 @@ if {${os.major} < 10} {
         ui_error "${name} @${version} requires OS X 10.6 or later."
         return -code error "incompatible OS X version"
     }
+}
+
+post-install {
+    ui_msg "On first run, go to 'Online Updater' and choose each item beginning with 'Update' (e.g. 'Update Core Info Files')."
 }
