@@ -10,7 +10,7 @@ name                retroarch
 platforms           darwin
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
-categories          games emulators
+categories          emulators games
 description         Frontend for the libretro API.
 long_description    ${description}
 
