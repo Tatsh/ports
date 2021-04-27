@@ -29,10 +29,12 @@ xcode.destroot.settings \
     ENABLE_HARDENED_RUNTIME=NO \
     GCC_TREAT_WARNINGS_AS_ERRORS=NO
 
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
 
 if {${os.major} < 10} {
     pre-fetch {
+        known_fail yes
         ui_error "${name} @${version} requires OS X 10.6 or later."
         return -code error "incompatible OS X version"
     }
