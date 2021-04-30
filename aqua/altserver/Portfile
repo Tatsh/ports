@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                altserver
+version             1.4.4
+set version_info    [regexp -all -inline {\d+} $version]
+set major_version   [lindex $version_info 0]
+set minor_version   [lindex $version_info 1]
+set patch_version   [lindex $version_info 2]
+
+categories          aqua
+license             AGPL-3
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         A home for apps that push the boundaries of iOS.
+long_description    {*}${description}
+homepage            https://altstore.io/
+master_sites        https://cdn.altstore.io/file/altstore/${name}/
+
+checksums           rmd160  29a51fb9142ce9d8683290b4bb20c5c182d34e76 \
+                    sha256  18a4d37fd91fba892de8c186f176904c268125b411eeb2a19ed6e4b5a8d9de76 \
+                    size    9396350
+
+livecheck.type      regex
+livecheck.url       https://altstore.io/altserver/sparkle-macos.xml
+livecheck.regex     "<title>Version\\ (\\d+\\.\\d+(?:\\.\\d+)?)"
+
+use_zip             yes
+extract.mkdir       yes
+use_configure       no
+
+distfiles           "${major_version}_${minor_version}_${patch_version}${extract.suffix}"
+extract.only        [lindex ${distfiles} 0]
+
+if {${os.major} < 18 || (${os.major} == 17 && ${os.minor} < 4)} {
+    pre-fetch {
+        ui_error "${name} @${version} requires macOS 10.14.4 or later."
+        return -code error "incompatible macOS version"
+    }
+}
+
+build {}
+
+destroot {
+    file copy "${worksrcpath}/AltServer.app" ${destroot}${applications_dir}
+}
