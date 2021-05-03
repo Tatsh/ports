@@ -4,19 +4,19 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            ycm-core ycmd eaea755
-version                 20210425
+github.setup            ycm-core ycmd 45f89b3
+version                 20210501
 revision                0
 categories              devel textproc
 platforms               darwin
 license                 GPL-3
 maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
-long_description        ${description}
+long_description        {*}${description}
 
-checksums           rmd160  a2f572c043eab74c6081f4fb046c62aa3f901a36 \
-                    sha256  6b17e076ef9514b452c12fd71dc4a308f5f9513731b88bbba084e8c84beb8eb7 \
-                    size    2883987
+checksums           rmd160  be5c3672349313b47c9a5d70ae5bfe3e5efc4ce9 \
+                    sha256  7ce8d70467d1c49823a07367367c8e1946516e86eabc861b3ed0857e08803450 \
+                    size    2884101
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
@@ -24,19 +24,18 @@ set python_minor_version    8
 set python_framework_dir    ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set site_packages_dir       ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
 set ycm_core_file           ycm_core.cpython-3${python_minor_version}-darwin.so
-configure.pre_args-append \
-    -DCMAKE_CXX_COMPILER=clang++
-configure.args \
+set clang_version           11
+configure.compiler          macports-clang-${clang_version}
+compiler.cxx_standard       2017
+cmake.install_rpath-append  ${prefix}/libexec/llvm-${clang_version}/lib
+configure.args-append \
     -DUSE_CLANG_TIDY=ON \
     -DPython3_ROOT_DIR=${python_framework_dir}
 
-set clang_version   11
 set core_version    45
 
-depends_lib \
-    port:clang-${clang_version} \
-    port:python3${python_minor_version}
-depends_run \
+depends_lib-append      port:python3${python_minor_version}
+depends_run-append \
     port:py3${python_minor_version}-bottle \
     port:py3${python_minor_version}-waitress \
     port:py3${python_minor_version}-regex \
@@ -47,7 +46,8 @@ patch.dir       ${worksrcpath}/..
 patchfiles      patch-gopls-path.diff \
                 patch-tern-path.diff \
                 patch-utils.diff \
-                patch-clangd-path.diff
+                patch-clangd-path.diff \
+                patch-clang-tidy.diff
 
 post-patch {
     file delete -force ${patch.dir}/ycmd/tests
@@ -60,8 +60,6 @@ post-patch {
         ycmd/completers/cpp/clangd_completer.py
     reinplace -W ${patch.dir} "s|@PREFIX@|${prefix}|" \
         ycmd/completers/cpp/clangd_completer.py
-    # Force finding clang-tidy in PATH
-    reinplace "443s|NOT APPLE|APPLE|" ycm/CMakeLists.txt
     # Force specific version of Python
     reinplace -E "s|Python3 \[0-9\\.\]+ REQUIRED COMPONENTS|Python3 3.8 EXACT REQUIRED COMPONENTS|" \
         CMakeLists.txt
@@ -69,7 +67,7 @@ post-patch {
 
 post-build {
     # FIXME Hack rpath in for now
-    system \
+ #   system \
         "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../${ycm_core_file}"
     system "python -m compileall ${worksrcpath}/../ycmd"
 }

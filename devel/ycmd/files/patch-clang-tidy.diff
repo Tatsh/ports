@@ -1,0 +1,11 @@
+--- cpp/ycm/CMakeLists.txt.old	2021-05-03 04:44:57.000000000 -0400
++++ cpp/ycm/CMakeLists.txt	2021-05-03 04:45:06.000000000 -0400
+@@ -435,7 +435,7 @@
+ ###############################################################################
+ 
+ if( USE_CLANG_TIDY )
+-  if( NOT APPLE )
++  if( APPLE )
+     find_program( CLANG_TIDY NAMES clang-tidy )
+   else()
+     execute_process( COMMAND brew --prefix llvm OUTPUT_VARIABLE LLVM_ROOT )
