@@ -143,7 +143,7 @@ def main() -> int:
         ]
         if distfiles:
             sp.run(['sudo', 'rm', '-f'] + distfiles, check=True)
-        for action in ('clean', 'bump', 'destroot'):
+        for action in ('clean', 'bump'):
             port_cmd('-v', action, cwd=cwd)
             if action == 'bump' and revision_changed_callback:
                 with open(portfile, 'r') as f:
