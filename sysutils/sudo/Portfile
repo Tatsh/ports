@@ -1,11 +1,9 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           github 1.0
-PortGroup           xcode 1.0
 
-github.setup        Tatsh sudo-touchid 94 v
 name                sudo
+version             94.100.2
 categories          sysutils security
 platforms           macosx
 license             {AAPL MIT BSD}
@@ -13,20 +11,31 @@ maintainers         {gmail.com:audvare @Tatsh}
 homepage            https://opensource.apple.com/source/sudo/
 description         Allow users to run programs as other users, e.g. root (with Touch ID patch).
 long_description    ${description}
+master_sites        https://opensource.apple.com/tarballs/sudo/
+worksrcdir          ${distname}/sudo
 
-checksums           rmd160  f3ea5b8e89827fb5370035ef18ebff80eb462099 \
-                    sha256  cc9c3bbda588b8003d3bdc6c7ce4fec3866a7e8270021c061b0d071894645a77 \
-                    size    3504283
+checksums           rmd160  82fb38d0e89dfebd7065e55131d2843203904e8b \
+                    sha256  e28dff9cb6ebfc1ad695bf1232c333d976642f84964dea3da278a2e5dadb6a6d \
+                    size    4324721
 
 livecheck.url       ${homepage}
 livecheck.regex     "sudo-(\\d+(?:\\.\\d+(?:\\.\\d+)?)?)"
 
-xcode.target        "Build All"
-xcode.configuration Release
-xcode.build.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual \
-    ENABLE_HARDENED_RUNTIME=NO
+use_autoreconf      yes
+configure.args      --infodir=${prefix}/share/info \
+                    --mandir=${prefix}/share/man \
+                    --sysconfdir=${prefix}/etc \
+                    --with-env-editor \
+                    --with-tty-tickets \
+                    --with-ignore-dot \
+                    --with-rundir=${prefix}/var/run/sudo \
+                    --with-password-timeout=0 \
+                    --with-pam \
+                    --with-touch-id \
+                    --enable-asan \
+                    --enable-pie
+
+patchfiles          patch-touch-id.diff
 
 if {${os.major} < 15} {
     pre-fetch {
@@ -35,7 +44,7 @@ if {${os.major} < 15} {
     }
 }
 
-destroot {
-    xinstall -m 111 ${worksrcpath}/build/Release/visudo ${destroot}${prefix}/sbin/visudo
-    xinstall -m 4511 ${worksrcpath}/build/Release/sudo ${destroot}${prefix}/bin/sudo
-}
+#destroot {
+#    xinstall -m 111 ${worksrcpath}/build/Release/visudo ${destroot}${prefix}/sbin/visudo
+#    xinstall -m 4511 ${worksrcpath}/build/Release/sudo ${destroot}${prefix}/bin/sudo
+#}
