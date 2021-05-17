@@ -31,8 +31,9 @@ depends_build-append    port:py${python.version}-pyproject2setuppy
 depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-colorama \
                         port:py${python.version}-termcolor \
-                        port:py${python.version}-click \
                         port:py${python.version}-six
+
+patchfiles  patch-remove-click-dep.diff
 
 patch {
     file delete -force ${worksrcpath}/PyGitUp/tests
