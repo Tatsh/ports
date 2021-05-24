@@ -28,6 +28,10 @@ destroot.pre_args   -workspace ocr.xcworkspace \
                     -derivedDataPath ${worksrcpath}
 xcode.destroot.path ${prefix}/bin
 
+patch {
+    reinplace "52s/.*/request.recognitionLanguages = \[\"zh\", \"en\"]/" ocr/main.swift
+}
+
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
 
