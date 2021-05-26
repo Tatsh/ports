@@ -20,7 +20,7 @@ checksums           rmd160  8bddc47b83b4e31aab3ad9a93f879a6a0810f06c \
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
-set python_minor_version    8
+set python_minor_version    9
 set python_framework_dir    ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set site_packages_dir       ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
 set ycm_core_file           ycm_core.cpython-3${python_minor_version}-darwin.so
@@ -61,14 +61,11 @@ post-patch {
     reinplace -W ${patch.dir} "s|@PREFIX@|${prefix}|" \
         ycmd/completers/cpp/clangd_completer.py
     # Force specific version of Python
-    reinplace -E "s|Python3 \[0-9\\.\]+ REQUIRED COMPONENTS|Python3 3.8 EXACT REQUIRED COMPONENTS|" \
+    reinplace -E "s|Python3 \[0-9\\.\]+ REQUIRED COMPONENTS|Python3 3.${python_minor_version} EXACT REQUIRED COMPONENTS|" \
         CMakeLists.txt
 }
 
 post-build {
-    # FIXME Hack rpath in for now
- #   system \
-        "install_name_tool -rpath ${prefix}/lib ${prefix}/libexec/llvm-${clang_version}/lib ${worksrcpath}/../${ycm_core_file}"
     system "python -m compileall ${worksrcpath}/../ycmd"
 }
 
