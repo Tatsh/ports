@@ -20,7 +20,8 @@ description         Tool to convert pyproject.toml-based projects to setuptools.
 long_description    ${description}
 homepage            https://pypi.org/project/pyproject2setuppy/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
-python.versions     36 37 38 39
+
+python.versions         36 37 38 39
 
 checksums           rmd160  597af1cbafe183fd5cd568592609aa5e6f97d948 \
                     sha256  ffd0029784d4312fcb5b08dd9b8cab14cc746ce31da372e8576eeb991411054c \
