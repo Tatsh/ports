@@ -18,7 +18,7 @@ checksums           rmd160  38f013437bccda06cfbedcd9db75498d64bd8550 \
                     size    8346
 
 python.versions             38 39
-python.default_version      38
+python.default_version      39
 
 depends_lib-append  port:py${python.version}-argcomplete \
                     port:py${python.version}-aiohttp
