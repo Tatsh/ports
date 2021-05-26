@@ -21,7 +21,7 @@ checksums           rmd160  20405b83b2cdbf632fefd433aca7873544650479 \
                     size    7847
 
 python.versions         37 38 39
-python.default_version  38
+python.default_version  39
 
 build.cmd               echo
 
