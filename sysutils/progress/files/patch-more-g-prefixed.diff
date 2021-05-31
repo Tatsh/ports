@@ -1,0 +1,32 @@
+From ba546f2440c811190fb4b5d67b725e47280ca2dd Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Sat, 23 Jan 2016 01:26:30 -0800
+Subject: [PATCH] Add support for g-prefixed GNU coreutils
+
+Prefixed versions may be used on a system that has a base BSD
+coreutils, such as OS X where using MacPorts GNU Coreutils can be
+installed, but by default are prefixed with 'g'. Even if PATH is
+overriden, the path used contains symbolic links to the g-prefixed
+binaries, which means the g-prefixed name is what will appear in the
+process list.
+---
+ progress.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git progress.c progress.c
+index b329023..7804472 100644
+--- progress.c
++++ progress.c
+@@ -85,7 +85,8 @@ char *default_proc_names[] = {"cp", "mv", "dd", "tar", "bsdtar", "cat", "rsync",
+     "split",
+     "gpg",
+ #if defined(__APPLE__) || defined(__FreeBSD__)
+-    "gcp", "gmv",
++    "gcp", "gmv", "gdd", "gnutar", "gcat", "gcut", "gsort", "gmd5sum",
++    "gsha1sum", "gsha224sum", "gssha256sum", "gsha384sum", "gsha512sum",
+ #endif
+     NULL
+ };
+-- 
+2.31.1
+

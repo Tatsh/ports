@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh progress 0.15 v
+github.setup        Xfennec progress 0.16 v
 
 platforms           darwin linux freebsd
 license             MIT
@@ -16,11 +16,12 @@ categories          sysutils
 depends_lib         port:ncurses
 
 use_configure       no
+patchfiles          patch-more-g-prefixed.diff
 build.type          gnu
 build.target        progress
 build.post_args     CFLAGS='-O2'
 destroot.args       PREFIX=${prefix}
 
-checksums           rmd160  fa0750ac6f91a8c1f35dc6ae9dbad71b38000d9b \
-                    sha256  1ed0ac65a912ef1aa605d524eaddaacae92079cf71182096a7c65cbc61687d1b \
-                    size    58549
+checksums           rmd160  8e4c41836cc0fc2b5764232e41ecedb56099a771 \
+                    sha256  78c43540f058e8f6ee4524b6bb4e2dea50d9326af648803a3a00c4490c6fce74 \
+                    size    60011
