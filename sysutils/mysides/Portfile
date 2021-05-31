@@ -4,12 +4,15 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        Tatsh mysides 1.0.2 v
+github.setup        mosen mysides 355d010
+version             1.0.1_p20190110
+
+patchfiles             patch-macports.diff
+
+build {}
+
 xcode.target        mysides
 xcode.destroot.path ${prefix}/bin
-xcode.build.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
@@ -20,6 +23,6 @@ description         CLI tool for sidebar favourites in Finder.
 long_description    A command line application for managing macOS Finder sidebar favourites.
 categories          sysutils aqua
 
-checksums           rmd160  fa0571546c07b26fd2d930be823d07a436e6c9d6 \
-                    sha256  1ca1029afbc519b1112e64cd15c55444fa132b9ee9c3a5685a4306c212de5471 \
-                    size    8713
+checksums           rmd160  a7df0d06134d497f046164d686eb89fd9b244312 \
+                    sha256  f08ca7ed0f5731ee95c417e282c986f1be51adf4bbc39434fd06fd6127437023 \
+                    size    9528

@@ -1,0 +1,670 @@
+From 8b57a070cd0702c31a502a3bf6049b788f39aeb3 Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Tue, 23 Oct 2018 01:44:05 -0400
+Subject: [PATCH] Handle non-URI paths
+
+---
+ .gitignore                        |  10 +-
+ Tests/Info.plist                  |  24 ----
+ Tests/Tests.m                     |  31 -----
+ mysides.xcodeproj/project.pbxproj | 213 ++++++++++++++----------------
+ src/SharedFileList.h              |   5 -
+ src/SharedFileList.m              |  13 --
+ src/main.m                        |  54 +++++---
+ 7 files changed, 139 insertions(+), 211 deletions(-)
+ delete mode 100644 Tests/Info.plist
+ delete mode 100644 Tests/Tests.m
+ delete mode 100644 src/SharedFileList.h
+ delete mode 100644 src/SharedFileList.m
+
+diff --git .gitignore .gitignore
+index 67ee93a..70c64ee 100644
+--- .gitignore
++++ .gitignore
+@@ -40,7 +40,7 @@
+ 
+ #
+ # *.lock - this is used and abused by many editors for many different things.
+-#    For the main ones I use (e.g. Eclipse), it should be excluded 
++#    For the main ones I use (e.g. Eclipse), it should be excluded
+ #    from source-control, but YMMV.
+ #   (lock files are usually local-only file-synchronization on the local FS that should NOT go in git)
+ # c.f. the "OPTIONAL" section at bottom though, for tool-specific variations!
+@@ -55,7 +55,7 @@
+ 
+ ####
+ # Xcode temporary files that should never be committed
+-# 
++#
+ # NB: NIB/XIB files still exist even on Storyboard projects, so we want this...
+ 
+ *~.nib
+@@ -203,7 +203,7 @@ xcuserdata
+ # 1. Xcode 5 - VCS file
+ #
+ # "The data in this file not represent state of your project.
+-# If you'll leave this file in git - you will have merge conflicts during 
++# If you'll leave this file in git - you will have merge conflicts during
+ # pull your cahnges to other's repo"
+ #
+ #*.xccheckout
+@@ -211,4 +211,6 @@ xcuserdata
+ pkgroot
+ out
+ *.dmg
+-*.pkg
+\ No newline at end of file
++*.pkg
++
++xcshareddata/
+diff --git Tests/Info.plist Tests/Info.plist
+deleted file mode 100644
+index ba72822..0000000
+--- Tests/Info.plist
++++ /dev/null
+@@ -1,24 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+-<plist version="1.0">
+-<dict>
+-	<key>CFBundleDevelopmentRegion</key>
+-	<string>en</string>
+-	<key>CFBundleExecutable</key>
+-	<string>$(EXECUTABLE_NAME)</string>
+-	<key>CFBundleIdentifier</key>
+-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+-	<key>CFBundleInfoDictionaryVersion</key>
+-	<string>6.0</string>
+-	<key>CFBundleName</key>
+-	<string>$(PRODUCT_NAME)</string>
+-	<key>CFBundlePackageType</key>
+-	<string>BNDL</string>
+-	<key>CFBundleShortVersionString</key>
+-	<string>1.0</string>
+-	<key>CFBundleSignature</key>
+-	<string>????</string>
+-	<key>CFBundleVersion</key>
+-	<string>1</string>
+-</dict>
+-</plist>
+diff --git Tests/Tests.m Tests/Tests.m
+deleted file mode 100644
+index 5612e18..0000000
+--- Tests/Tests.m
++++ /dev/null
+@@ -1,31 +0,0 @@
+-#import <XCTest/XCTest.h>
+-
+-@interface Tests : XCTestCase
+-
+-@end
+-
+-@implementation Tests
+-
+-- (void)setUp {
+-    [super setUp];
+-    // Put setup code here. This method is called before the invocation of each test method in the class.
+-}
+-
+-- (void)tearDown {
+-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+-    [super tearDown];
+-}
+-
+-- (void)testList {
+-    sidebar_list();
+-}
+-
+-- (void)testRemoveAll {
+-    int status = sidebar_remove("all", [NSURL URLWithString:@"file:///"]);
+-}
+-
+-- (void)testAdd {
+-    int status = sidebar_add("Test", [NSURL URLWithString:@"file:///tmp"]);
+-}
+-
+-@end
+diff --git mysides.xcodeproj/project.pbxproj mysides.xcodeproj/project.pbxproj
+index fe25bd7..1f5342a 100644
+--- mysides.xcodeproj/project.pbxproj
++++ mysides.xcodeproj/project.pbxproj
+@@ -7,12 +7,7 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		3415FB891CBF76D800AB0970 /* SharedFileList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3415FB881CBF76D800AB0970 /* SharedFileList.m */; };
+-		34793C291D98AB1500C77BF2 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 34793C281D98AB1500C77BF2 /* Makefile */; };
+ 		34896F731A01FAF00056D353 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 34896F721A01FAF00056D353 /* main.m */; };
+-		34E12BA11D5AB324008B512A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E12BA01D5AB324008B512A /* Tests.m */; };
+-		34E12BA61D5AB42C008B512A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 34896F721A01FAF00056D353 /* main.m */; };
+-		34E12BA71D5AB432008B512A /* SharedFileList.m in Sources */ = {isa = PBXBuildFile; fileRef = 3415FB881CBF76D800AB0970 /* SharedFileList.m */; };
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXCopyFilesBuildPhase section */
+@@ -28,16 +23,11 @@
+ /* End PBXCopyFilesBuildPhase section */
+ 
+ /* Begin PBXFileReference section */
+-		3415FB871CBF76D800AB0970 /* SharedFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedFileList.h; sourceTree = "<group>"; };
+-		3415FB881CBF76D800AB0970 /* SharedFileList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedFileList.m; sourceTree = "<group>"; };
+ 		34793C281D98AB1500C77BF2 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+ 		34896F721A01FAF00056D353 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+ 		34896F741A01FB080056D353 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+ 		348B071C1CBF10C200A7F918 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+ 		34B1548B1A01BCAB007920BB /* mysides */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mysides; sourceTree = BUILT_PRODUCTS_DIR; };
+-		34E12B9E1D5AB324008B512A /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+-		34E12BA01D5AB324008B512A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
+-		34E12BA21D5AB324008B512A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+ /* End PBXFileReference section */
+ 
+ /* Begin PBXFrameworksBuildPhase section */
+@@ -48,13 +38,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		34E12B9B1D5AB324008B512A /* Frameworks */ = {
+-			isa = PBXFrameworksBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+@@ -62,8 +45,6 @@
+ 			isa = PBXGroup;
+ 			children = (
+ 				34896F721A01FAF00056D353 /* main.m */,
+-				3415FB871CBF76D800AB0970 /* SharedFileList.h */,
+-				3415FB881CBF76D800AB0970 /* SharedFileList.m */,
+ 			);
+ 			path = src;
+ 			sourceTree = "<group>";
+@@ -75,7 +56,6 @@
+ 				348B071C1CBF10C200A7F918 /* LICENSE */,
+ 				34896F741A01FB080056D353 /* README.md */,
+ 				34896F711A01FAF00056D353 /* src */,
+-				34E12B9F1D5AB324008B512A /* Tests */,
+ 				34B1548C1A01BCAB007920BB /* Products */,
+ 			);
+ 			sourceTree = "<group>";
+@@ -84,20 +64,10 @@
+ 			isa = PBXGroup;
+ 			children = (
+ 				34B1548B1A01BCAB007920BB /* mysides */,
+-				34E12B9E1D5AB324008B512A /* Tests.xctest */,
+ 			);
+ 			name = Products;
+ 			sourceTree = "<group>";
+ 		};
+-		34E12B9F1D5AB324008B512A /* Tests */ = {
+-			isa = PBXGroup;
+-			children = (
+-				34E12BA01D5AB324008B512A /* Tests.m */,
+-				34E12BA21D5AB324008B512A /* Info.plist */,
+-			);
+-			path = Tests;
+-			sourceTree = "<group>";
+-		};
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+@@ -118,38 +88,18 @@
+ 			productReference = 34B1548B1A01BCAB007920BB /* mysides */;
+ 			productType = "com.apple.product-type.tool";
+ 		};
+-		34E12B9D1D5AB324008B512A /* Tests */ = {
+-			isa = PBXNativeTarget;
+-			buildConfigurationList = 34E12BA51D5AB324008B512A /* Build configuration list for PBXNativeTarget "Tests" */;
+-			buildPhases = (
+-				34E12B9A1D5AB324008B512A /* Sources */,
+-				34E12B9B1D5AB324008B512A /* Frameworks */,
+-				34E12B9C1D5AB324008B512A /* Resources */,
+-			);
+-			buildRules = (
+-			);
+-			dependencies = (
+-			);
+-			name = Tests;
+-			productName = Tests;
+-			productReference = 34E12B9E1D5AB324008B512A /* Tests.xctest */;
+-			productType = "com.apple.product-type.bundle.unit-test";
+-		};
+ /* End PBXNativeTarget section */
+ 
+ /* Begin PBXProject section */
+ 		34B154831A01BCAB007920BB /* Project object */ = {
+ 			isa = PBXProject;
+ 			attributes = {
+-				LastUpgradeCheck = 0720;
++				LastUpgradeCheck = 1000;
+ 				ORGANIZATIONNAME = com.github.mosen;
+ 				TargetAttributes = {
+ 					34B1548A1A01BCAB007920BB = {
+ 						CreatedOnToolsVersion = 6.1;
+ 					};
+-					34E12B9D1D5AB324008B512A = {
+-						CreatedOnToolsVersion = 7.3.1;
+-					};
+ 				};
+ 			};
+ 			buildConfigurationList = 34B154861A01BCAB007920BB /* Build configuration list for PBXProject "mysides" */;
+@@ -165,42 +115,19 @@
+ 			projectRoot = "";
+ 			targets = (
+ 				34B1548A1A01BCAB007920BB /* mysides */,
+-				34E12B9D1D5AB324008B512A /* Tests */,
+ 			);
+ 		};
+ /* End PBXProject section */
+ 
+-/* Begin PBXResourcesBuildPhase section */
+-		34E12B9C1D5AB324008B512A /* Resources */ = {
+-			isa = PBXResourcesBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+-/* End PBXResourcesBuildPhase section */
+-
+ /* Begin PBXSourcesBuildPhase section */
+ 		34B154871A01BCAB007920BB /* Sources */ = {
+ 			isa = PBXSourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				34793C291D98AB1500C77BF2 /* Makefile in Sources */,
+-				3415FB891CBF76D800AB0970 /* SharedFileList.m in Sources */,
+ 				34896F731A01FAF00056D353 /* main.m in Sources */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		34E12B9A1D5AB324008B512A /* Sources */ = {
+-			isa = PBXSourcesBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-				34E12BA61D5AB42C008B512A /* main.m in Sources */,
+-				34E12BA11D5AB324008B512A /* Tests.m in Sources */,
+-				34E12BA71D5AB432008B512A /* SharedFileList.m in Sources */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ /* End PBXSourcesBuildPhase section */
+ 
+ /* Begin XCBuildConfiguration section */
+@@ -212,13 +139,23 @@
+ 				CLANG_CXX_LIBRARY = "libc++";
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CLANG_ENABLE_OBJC_ARC = YES;
++				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+ 				CLANG_WARN_BOOL_CONVERSION = YES;
++				CLANG_WARN_COMMA = YES;
+ 				CLANG_WARN_CONSTANT_CONVERSION = YES;
++				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+ 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+ 				CLANG_WARN_EMPTY_BODY = YES;
+ 				CLANG_WARN_ENUM_CONVERSION = YES;
++				CLANG_WARN_INFINITE_RECURSION = YES;
+ 				CLANG_WARN_INT_CONVERSION = YES;
++				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
++				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
++				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+ 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
++				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
++				CLANG_WARN_STRICT_PROTOTYPES = YES;
++				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+ 				CLANG_WARN_UNREACHABLE_CODE = YES;
+ 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+ 				COPY_PHASE_STRIP = NO;
+@@ -226,6 +163,7 @@
+ 				ENABLE_TESTABILITY = YES;
+ 				GCC_C_LANGUAGE_STANDARD = gnu99;
+ 				GCC_DYNAMIC_NO_PIC = NO;
++				GCC_NO_COMMON_BLOCKS = YES;
+ 				GCC_OPTIMIZATION_LEVEL = 0;
+ 				GCC_PREPROCESSOR_DEFINITIONS = (
+ 					"DEBUG=1",
+@@ -253,20 +191,30 @@
+ 				CLANG_CXX_LIBRARY = "libc++";
+ 				CLANG_ENABLE_MODULES = YES;
+ 				CLANG_ENABLE_OBJC_ARC = YES;
++				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+ 				CLANG_WARN_BOOL_CONVERSION = YES;
++				CLANG_WARN_COMMA = YES;
+ 				CLANG_WARN_CONSTANT_CONVERSION = YES;
++				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+ 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+ 				CLANG_WARN_EMPTY_BODY = YES;
+ 				CLANG_WARN_ENUM_CONVERSION = YES;
++				CLANG_WARN_INFINITE_RECURSION = YES;
+ 				CLANG_WARN_INT_CONVERSION = YES;
++				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
++				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
++				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+ 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
++				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
++				CLANG_WARN_STRICT_PROTOTYPES = YES;
++				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+ 				CLANG_WARN_UNREACHABLE_CODE = YES;
+ 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+ 				COPY_PHASE_STRIP = YES;
+-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+ 				ENABLE_NS_ASSERTIONS = NO;
+ 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+ 				GCC_C_LANGUAGE_STANDARD = gnu99;
++				GCC_NO_COMMON_BLOCKS = YES;
+ 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+ 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+ 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+@@ -282,7 +230,44 @@
+ 		34B154931A01BCAB007920BB /* Debug */ = {
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
++				CLANG_ANALYZER_GCD_PERFORMANCE = YES;
++				CLANG_ANALYZER_LOCALIZABILITY_EMPTY_CONTEXT = YES;
++				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
++				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
++				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
++				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
++				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
++				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_NULLABILITY = YES;
++				CLANG_WARN_ASSIGN_ENUM = YES;
++				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
++				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES_ERROR;
++				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
++				CLANG_WARN_OBJC_INTERFACE_IVARS = YES_ERROR;
++				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES_AGGRESSIVE;
++				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
++				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES_ERROR;
+ 				CURRENT_PROJECT_VERSION = 1.0.2;
++				DEAD_CODE_STRIPPING = YES;
++				GCC_C_LANGUAGE_STANDARD = gnu11;
++				GCC_ENABLE_BUILTIN_FUNCTIONS = NO;
++				GCC_ENABLE_CPP_EXCEPTIONS = NO;
++				GCC_ENABLE_CPP_RTTI = NO;
++				GCC_ENABLE_PASCAL_STRINGS = NO;
++				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
++				GCC_UNROLL_LOOPS = YES;
++				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
++				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
++				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
++				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
++				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
++				GCC_WARN_PEDANTIC = YES;
++				GCC_WARN_SHADOW = YES;
++				GCC_WARN_SIGN_COMPARE = YES;
++				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
++				GCC_WARN_UNKNOWN_PRAGMAS = YES;
++				GCC_WARN_UNUSED_LABEL = YES;
++				GCC_WARN_UNUSED_PARAMETER = YES;
++				LLVM_LTO = YES_THIN;
+ 				PRODUCT_NAME = mysides;
+ 				SDKROOT = macosx;
+ 			};
+@@ -291,44 +276,49 @@
+ 		34B154941A01BCAB007920BB /* Release */ = {
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
++				CLANG_ANALYZER_GCD_PERFORMANCE = YES;
++				CLANG_ANALYZER_LOCALIZABILITY_EMPTY_CONTEXT = YES;
++				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
++				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
++				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
++				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
++				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
++				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_NULLABILITY = YES;
++				CLANG_WARN_ASSIGN_ENUM = YES;
++				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
++				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES_ERROR;
++				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
++				CLANG_WARN_OBJC_INTERFACE_IVARS = YES_ERROR;
++				CLANG_WARN_OBJC_REPEATED_USE_OF_WEAK = YES_AGGRESSIVE;
++				CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY = YES;
++				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES_ERROR;
+ 				CURRENT_PROJECT_VERSION = 1.0.2;
++				DEAD_CODE_STRIPPING = YES;
++				GCC_C_LANGUAGE_STANDARD = gnu11;
++				GCC_ENABLE_BUILTIN_FUNCTIONS = NO;
++				GCC_ENABLE_CPP_EXCEPTIONS = NO;
++				GCC_ENABLE_CPP_RTTI = NO;
++				GCC_ENABLE_PASCAL_STRINGS = NO;
++				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
++				GCC_UNROLL_LOOPS = YES;
++				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
++				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
++				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
++				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
++				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
++				GCC_WARN_PEDANTIC = YES;
++				GCC_WARN_SHADOW = YES;
++				GCC_WARN_SIGN_COMPARE = YES;
++				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
++				GCC_WARN_UNKNOWN_PRAGMAS = YES;
++				GCC_WARN_UNUSED_LABEL = YES;
++				GCC_WARN_UNUSED_PARAMETER = YES;
++				LLVM_LTO = YES_THIN;
+ 				PRODUCT_NAME = mysides;
+ 				SDKROOT = macosx;
+ 			};
+ 			name = Release;
+ 		};
+-		34E12BA31D5AB324008B512A /* Debug */ = {
+-			isa = XCBuildConfiguration;
+-			buildSettings = {
+-				CLANG_ANALYZER_NONNULL = YES;
+-				CODE_SIGN_IDENTITY = "-";
+-				COMBINE_HIDPI_IMAGES = YES;
+-				DEBUG_INFORMATION_FORMAT = dwarf;
+-				GCC_NO_COMMON_BLOCKS = YES;
+-				INFOPLIST_FILE = Tests/Info.plist;
+-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+-				PRODUCT_BUNDLE_IDENTIFIER = com.github.mosen.Tests;
+-				PRODUCT_NAME = "$(TARGET_NAME)";
+-			};
+-			name = Debug;
+-		};
+-		34E12BA41D5AB324008B512A /* Release */ = {
+-			isa = XCBuildConfiguration;
+-			buildSettings = {
+-				CLANG_ANALYZER_NONNULL = YES;
+-				CODE_SIGN_IDENTITY = "-";
+-				COMBINE_HIDPI_IMAGES = YES;
+-				COPY_PHASE_STRIP = NO;
+-				GCC_NO_COMMON_BLOCKS = YES;
+-				INFOPLIST_FILE = Tests/Info.plist;
+-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+-				PRODUCT_BUNDLE_IDENTIFIER = com.github.mosen.Tests;
+-				PRODUCT_NAME = "$(TARGET_NAME)";
+-			};
+-			name = Release;
+-		};
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+@@ -350,15 +340,6 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		34E12BA51D5AB324008B512A /* Build configuration list for PBXNativeTarget "Tests" */ = {
+-			isa = XCConfigurationList;
+-			buildConfigurations = (
+-				34E12BA31D5AB324008B512A /* Debug */,
+-				34E12BA41D5AB324008B512A /* Release */,
+-			);
+-			defaultConfigurationIsVisible = 0;
+-			defaultConfigurationName = Release;
+-		};
+ /* End XCConfigurationList section */
+ 	};
+ 	rootObject = 34B154831A01BCAB007920BB /* Project object */;
+diff --git src/SharedFileList.h src/SharedFileList.h
+deleted file mode 100644
+index 2ccc8a0..0000000
+--- src/SharedFileList.h
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#import <Foundation/Foundation.h>
+-
+-@interface SharedFileList : NSObject
+-
+-@end
+diff --git src/SharedFileList.m src/SharedFileList.m
+deleted file mode 100644
+index 51c3cad..0000000
+--- src/SharedFileList.m
++++ /dev/null
+@@ -1,13 +0,0 @@
+-//
+-//  Sidebar.m
+-//  mysides
+-//
+-//  Created by Eamon Brosnan on 14/04/2016.
+-//  Copyright © 2016 com.github.mosen. All rights reserved.
+-//
+-
+-#import "SharedFileList.h"
+-
+-@implementation SharedFileList
+-
+-@end
+diff --git src/main.m src/main.m
+index 4d150ae..01fe3a5 100644
+--- src/main.m
++++ src/main.m
+@@ -8,8 +8,17 @@
+ #import <Foundation/Foundation.h>
+ #import <CoreServices/CoreServices.h>
+ 
+-extern CFTypeRef LSSharedFileListItemCopyAliasData(LSSharedFileListItemRef inItem);
+-extern int _IconRefIsTemplate(IconRef iconRef);
++extern CFTypeRef LSSharedFileListItemCopyAliasData(LSSharedFileListItemRef);
++extern int _IconRefIsTemplate(IconRef);
++
++NSURL *make_uri(const char *);
++void print_help(const char *);
++void print_version(const char *);
++id find_itemname(LSSharedFileListRef, NSString *);
++int sidebar_add(NSString *, NSURL *);
++int sidebar_remove(NSString *);
++int sidebar_insert(NSString *, NSURL *);
++void sidebar_list(void);
+ 
+ void print_help(char const *arg0)
+ {
+@@ -23,11 +32,11 @@ void print_help(char const *arg0)
+ 
+ void print_version(char const *arg0)
+ {
+-    printf("mysides v");
++    printf("mysides v%s\n", arg0);
+ }
+ 
+-// Find shared file list item by its display name
+-// Not responsible for allocating or releasing the list reference.
++/// Find shared file list item by its display name
++/// Not responsible for allocating or releasing the list reference.
+ id find_itemname(LSSharedFileListRef sflRef, NSString *name)
+ {
+     UInt32 seed;
+@@ -40,14 +49,14 @@ id find_itemname(LSSharedFileListRef sflRef, NSString *name)
+             if (nameRef) CFRelease(nameRef);
+             return (__bridge id)(sflItemRef);
+         }
+-    if (nameRef) CFRelease(nameRef);
++        if (nameRef) CFRelease(nameRef);
+     }
+     return nil;
+ }
+ 
+-// Append an item to the sidebar
+-// Return the new index of the item added.
+-int sidebar_add(NSString *name, NSURL *uri, id after)
++/// Append an item to the sidebar
++/// Return the new index of the item added.
++int sidebar_add(NSString *name, NSURL *uri)
+ {
+     LSSharedFileListRef sflRef = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListFavoriteItems, NULL);
+     if (!sflRef) {
+@@ -61,8 +70,8 @@ int sidebar_add(NSString *name, NSURL *uri, id after)
+     return 0;
+ }
+ 
+-// Remove named item from the sidebar
+-int sidebar_remove(NSString *name, NSURL *uri)
++/// Remove named item from the sidebar
++int sidebar_remove(NSString *name)
+ {
+     LSSharedFileListRef sflRef = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListFavoriteItems, NULL);
+     if (!sflRef) {
+@@ -104,7 +113,7 @@ int sidebar_remove(NSString *name, NSURL *uri)
+     return 1;
+ }
+ 
+-int sidebar_insert(NSString *name, NSURL *uri, id before)
++int sidebar_insert(NSString *name, NSURL *uri)
+ {
+     LSSharedFileListRef sflRef = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListFavoriteItems, NULL);
+     if (!sflRef) {
+@@ -145,12 +154,22 @@ void sidebar_list()
+             printf("%s -> %s\n",
+                [(NSString *) CFBridgingRelease(nameRef) UTF8String],
+                [(NSString *) CFBridgingRelease(CFURLGetString(urlRef)) UTF8String]);
++            CFRelease(urlRef);
+         }
+     }
+     
+     CFRelease(sflRef);
+ }
+ 
++NSURL *make_uri(const char *orig) {
++    NSString *path = [NSString stringWithUTF8String:orig];
++    if (![path hasPrefix:@"file:///"]) {
++        char newPath[PATH_MAX+1];
++        realpath(orig, newPath);
++        path = [@"file://" stringByAppendingString:[NSString stringWithUTF8String:newPath]];
++    }
++    return [NSURL URLWithString:path];
++}
+ 
+ int main (int argc, char const *argv[])
+ {
+@@ -170,9 +189,9 @@ int main (int argc, char const *argv[])
+                 return 1;
+             }
+             NSString *name = [NSString stringWithUTF8String:argv[2]];
+-            NSURL *uri = [NSURL URLWithString:[NSString stringWithUTF8String:argv[3]]];
++            NSURL *uri = make_uri(argv[3]);
+             
+-            return sidebar_add(name, uri, nil);
++            return sidebar_add(name, uri);
+         }
+         
+         if (strcmp(argv[1], "insert") == 0) {
+@@ -185,9 +204,9 @@ int main (int argc, char const *argv[])
+                 return 1;
+             }
+             NSString *name = [NSString stringWithUTF8String:argv[2]];
+-            NSURL *uri = [NSURL URLWithString:[NSString stringWithUTF8String:argv[3]]];
++            NSURL *uri = make_uri(argv[3]);
+             
+-            return sidebar_insert(name, uri, nil);
++            return sidebar_insert(name, uri);
+         }
+         
+         if (strcmp(argv[1], "remove") == 0) {
+@@ -196,8 +215,7 @@ int main (int argc, char const *argv[])
+                 return 1;
+             }
+         NSString *name = [NSString stringWithUTF8String:argv[2]];
+-        NSURL *uri = [NSURL URLWithString:@"file:///"]; // temporary not used
+-        return sidebar_remove(name, uri);
++        return sidebar_remove(name);
+         }
+     } else {
+         print_help(argv[0]);
+-- 
+2.31.1
+
