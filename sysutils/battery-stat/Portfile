@@ -3,10 +3,10 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh battery_stat 1ea692b
+github.setup        rpetrich battery_stat f3336c0
 
 name                battery-stat
-version             20200308
+version             20190814
 platforms           macosx
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -15,12 +15,13 @@ long_description    Simple program to read Apple battery information as json, \
                     text or in a format suitable for a shell prompt.
 categories          sysutils
 
+patchfiles          patch-enhancements.diff
 use_configure       no
 build.target        battery_stat
 
-checksums           rmd160  815681e94e2c1bd2ed0192524360e0eb7861c5a9 \
-                    sha256  1f18e37c488b3e073a2a05771dc7565b75c18067f1dae16420d96fb3b9364576 \
-                    size    3504
+checksums           rmd160  13b9c91ba13b70a0f511be562db58c859579207d \
+                    sha256  1fec93ccbd569389c9fa3df5a1e053b3cffb05c3105f9e37eb455b53d9eb3921 \
+                    size    1475
 
 destroot {
     xinstall -m 755 ${worksrcpath}/battery_stat ${destroot}${prefix}/bin/battery-stat
