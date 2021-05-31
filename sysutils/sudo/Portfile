@@ -43,8 +43,3 @@ if {${os.major} < 15} {
         return -code error "incompatible OS X version"
     }
 }
-
-#destroot {
-#    xinstall -m 111 ${worksrcpath}/build/Release/visudo ${destroot}${prefix}/sbin/visudo
-#    xinstall -m 4511 ${worksrcpath}/build/Release/sudo ${destroot}${prefix}/bin/sudo
-#}
