@@ -2,7 +2,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            be5invis Iosevka 6.1.3 v
+github.setup            be5invis Iosevka 7.0.2 v
 github.livecheck.regex  {([0-9.]+)}
 github.tarball_from     releases
 
@@ -20,9 +20,9 @@ homepage            https://typeof.net/Iosevka/
 
 distfiles           ttf-${name}-${version}.zip
 
-checksums           rmd160  da81067e00196cd6c882bffc9b009405a7304c1b \
-                    sha256  17dbe347a40b6fc52909e014158a1af41ab74914f3b03ab70df3eb265098f0e3 \
-                    size    57318979
+checksums           rmd160  9640037e83792580f10e88b150c39d27441fcf4a \
+                    sha256  ea458340cc6775424a04478facbea6025988847567fb552ca1fb5f5e2d41f545 \
+                    size    71655928
 
 worksrcdir
 use_configure           no
@@ -42,14 +42,14 @@ destroot {
 
 subport ${name}-term {
     distfiles ttf-${name}-term-${version}.zip
-    checksums           rmd160  eb08111cdd3255a301a80f97823dcb578b77cd3b \
-                        sha256  50ebe0cc63c2b61072ebc6d309acb383bb67fb7e39f26df668401d6e4bcfa02e \
-                        size    57368034
+    checksums           rmd160  a89b73c4b06b34900abec22c168b9cf2a87efa7f \
+                        sha256  a61b83473299b1c1f9788320478075d174d811b2e641b84bab6283b05f3c1dcb \
+                        size    71720955
 }
 
 subport ${name}-fixed {
     distfiles ttf-${name}-fixed-${version}.zip
-    checksums           rmd160  5aaf50f8eb00609a8f2d3263f5bb8d1243d5a8ff \
-                        sha256  85fa89f1563f8c56874010a4c676a548dcf1b126a6e17657417bd35196551792 \
-                        size    43221749
+    checksums           rmd160  145b53477556cf72861a0d0648ab31e3720aeeb9 \
+                        sha256  554e0fc200781b71a48f13a81f67c90f285b7b89b23a2335ca7b620a27569f70 \
+                        size    56763780
 }
