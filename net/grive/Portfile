@@ -4,10 +4,10 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        vitalif grive2 d55fe7f
+github.setup        vitalif grive2 e6fcc63
 
 name                grive
-version             0.5.2_p20210514
+version             0.5.2_p20210527
 platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -21,9 +21,9 @@ depends_lib         port:yajl \
                     port:boost \
                     port:expat
 
-checksums           rmd160  c035ab0fb8a4e31b4a57d5404e20f3c3d93aea1c \
-                    sha256  5762f4a5648476b52c27d4c7ed9f40cbfd4a90617531e13be6d8d126e7979929 \
-                    size    171359
+checksums           rmd160  f808f18f173590e81a219316d2042920edb5687f \
+                    sha256  93fc753863b05d23ce9907cddc0d9afa373503113b7dfd8612833742b25c9e04 \
+                    size    171414
 
 patchfiles      patch-307.diff \
                 patch-330.diff \
