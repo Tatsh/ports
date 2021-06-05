@@ -116,13 +116,15 @@ def main() -> int:
                 if 'github.com' in homepage:
                     r = requests.get(f'{homepage.strip()}/commits/master.atom')
                     r.raise_for_status()
-                    updated_el = etree.fromstring(r.text).find(
+                    updated_els = etree.fromstring(r.text).findall(
                         'entry/updated', RSS_NS)
-                    assert updated_el is not None
-                    assert updated_el.text is not None
-                    content = content.replace(
-                        version,
-                        updated_el.text.split('T')[0].replace('-', ''))
+                    last_dates = sorted(
+                        (updated_el.text.split('T')[0].replace('-', '')
+                         for updated_el in updated_els if updated_el.text),
+                        reverse=True)
+                    if not last_dates:
+                        raise RuntimeError('Could not retrieve commit dates')
+                    content = content.replace(version, last_dates[0])
                 else:
                     raise ValueError(f'Unhandled URL: {homepage}')
             else:
@@ -137,9 +139,9 @@ def main() -> int:
             g.write(content)
         cwd = dirname(portfile)
         distfiles = [
-            l.split(']')[1].strip()
-            for l in port_cmd('-q', 'distfiles', cwd=cwd).stdout.split('\n')
-            if l.startswith('[')
+            line.split(']')[1].strip()
+            for line in port_cmd('-q', 'distfiles', cwd=cwd).stdout.split('\n')
+            if line.startswith('[')
         ]
         if distfiles:
             sp.run(['sudo', 'rm', '-f'] + distfiles, check=True)
