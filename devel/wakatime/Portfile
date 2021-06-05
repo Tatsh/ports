@@ -34,10 +34,6 @@ depends_run-append  port:py${python.version}-requests \
                     port:py${python.version}-tz \
                     port:py${python.version}-tzlocal
 
-# variant ntlm description {NTLM support} {
-#     depends_run-append port:py${python.version}-requests-ntlm
-# }
-
 if {$subport ne $name} {
     livecheck.type none
 }
