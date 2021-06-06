@@ -9,5 +9,5 @@ sed -r -e "s/github.setup(\s+)be5invis Iosevka.*/github.setup\1be5invis Iosevka 
 for i in iosevka iosevka-{term,fixed}; do
     sudo port -v bump subport=${i}
 done
-popd
+popd || exit 1
 portindex
