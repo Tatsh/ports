@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                macprefs
-version             0.1.0
+version             0.2.0
 platforms           darwin
 license             MIT
 supported_archs     noarch
@@ -22,9 +22,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  4dcec7ad0d1bc7b7da962f7d8febd82871d6af47 \
-                    sha256  e98f1187531d558254216b5be9bf71eb215b24f55fb820218016351ceedc0810 \
-                    size    13576
+checksums           rmd160  5af78b49c9ab3dc9d4c98a01de985536efb92ced \
+                    sha256  70c4dc6aab01cbb2b5fae91307f65b8824a318f32e38d898400be8142219718d \
+                    size    13727
 
 if {$subport ne $name} {
     livecheck.type none
