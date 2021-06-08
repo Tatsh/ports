@@ -22,6 +22,6 @@ build.target        progress
 build.post_args     CFLAGS='-O2'
 destroot.args       PREFIX=${prefix}
 
-checksums           rmd160  8e4c41836cc0fc2b5764232e41ecedb56099a771 \
-                    sha256  78c43540f058e8f6ee4524b6bb4e2dea50d9326af648803a3a00c4490c6fce74 \
-                    size    60011
+checksums           rmd160  e99f05498a359284aab2fc0433bf45505efbcc06 \
+                    sha256  59944ee35f8ae6d62ed4f9b643eee2ae6d03825da288d9779dc43de41164c834 \
+                    size    59982
