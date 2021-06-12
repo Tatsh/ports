@@ -4,6 +4,7 @@ cd "$DIR" || exit 1
 portindex
 grep -E '^[a-zA-Z0-9_-]+ [0-9]+$' PortIndex |
     awk '{ print $1 }' |
+    grep -Fv iosevka |
     sort |
     xargs port -v livecheck 2>&1 |
     grep -Fv 'seems to be up to date' |
