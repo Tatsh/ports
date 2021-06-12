@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                vscode
-version             1.56.2
+version             1.57.0
 revision            0
 
 categories          devel aqua
@@ -24,7 +24,7 @@ checksums           rmd160  02bd3ce7ca9e114e4791d9eac1f388bb41eeab75 \
                     size    109376110
 
 livecheck.type      regex
-set update_sha      cc0baacfefc65f9caad1a498753154c1f456cbb3
+set update_sha      b4c1bd0a9b03c749ea011b06c6d2676c8091a70c
 livecheck.url       https://update.code.visualstudio.com/api/update/darwin/stable/${update_sha}/
 livecheck.regex     "\"productVersion\"\\:\"(\\d+\\.\\d+\\.\\d+)\""
 
