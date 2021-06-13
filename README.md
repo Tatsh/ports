@@ -13,3 +13,9 @@
 
    Note the line is a `file://` URL and must be a complete path.
 4. Now installing a port from this source should work. Try running `port search battery-stat` and you should see a result.
+
+## Policy on new macOS versions and compatible software
+
+Pre-release macOS versions are not supported, similar to MacPorts.
+
+If a package needs an update only to support a pre-release macOS version, it will not be present here until that version of macOS is officially released.
