@@ -25,7 +25,7 @@ checksums           rmd160  70dd6bb37bb28959f49f71fb34d890c2cb5e571d \
 
 use_configure       no
 build.cmd           echo
-depends_run-append  bin:vim:vim port:wakatime
+depends_run-append  bin:vim:vim port:wakatime-cli
 
 destroot {
     xinstall -m 755 -d ${destroot}${prefix}/share/vim/vimfiles/plugin
