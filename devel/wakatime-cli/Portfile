@@ -4,12 +4,13 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/wakatime/wakatime-cli 1.7.4 v
+revision            1
 categories          devel
 maintainers         {gmail.com:audvare @Tatsh}
 license             BSD
 
-description
-long_description
+description         Time tracking for coding.
+long_description    ${description}
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    9f266ea9e77c \
@@ -444,5 +445,5 @@ build.cmd       make
 
 destroot {
     xinstall -m 0755 {*}[glob ${worksrcpath}/build/${name}-darwin-*] \
-        ${destroot}${prefix}/bin/[string range ${name} 0 end-4]
+        ${destroot}${prefix}/bin/${name}
 }
