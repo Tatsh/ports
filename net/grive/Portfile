@@ -20,7 +20,6 @@ long_description    ${description}
 depends_lib         port:yajl \
                     port:curl \
                     port:libgcrypt \
-                    port:[boost::depends_portname] \
                     port:expat
 
 checksums           rmd160  f808f18f173590e81a219316d2042920edb5687f \
