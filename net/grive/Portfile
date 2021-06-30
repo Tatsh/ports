@@ -31,5 +31,3 @@ patchfiles      patch-307.diff \
                 patch-330.diff \
                 patch-print-times.diff
 patch.pre_args  -p1
-
-configure.args-append -DBOOST_ROOT=[boost::install_area]
