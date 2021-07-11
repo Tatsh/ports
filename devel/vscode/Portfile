@@ -24,7 +24,7 @@ checksums           rmd160  87686cb2c09ada705d915ebb4ee3eeac34e9136a \
                     size    110189288
 
 livecheck.type      regex
-set update_sha      2d23c42a936db1c7b3b06f918cde29561cc47cd6
+set update_sha      cc0baacfefc65f9caad1a498753154c1f456cbb3
 livecheck.url       https://update.code.visualstudio.com/api/update/darwin/stable/${update_sha}/
 livecheck.regex     "\"productVersion\"\\:\"(\\d+\\.\\d+\\.\\d+)\""
 
