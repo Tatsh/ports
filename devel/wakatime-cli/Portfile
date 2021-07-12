@@ -3,19 +3,15 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/wakatime/wakatime-cli v1.18.7
-revision            1
+go.setup            github.com/wakatime/wakatime-cli v1.18.9
+github.livecheck.regex  {v([0-9]+\.[0-9]+\.[0-9]+)}
+revision            0
 categories          devel
 maintainers         {gmail.com:audvare @Tatsh}
 license             BSD
 
 description         Time tracking for coding.
 long_description    ${description}
-
-checksums           ${distname}${extract.suffix} \
-                        rmd160  e0aae7b8a2b366c3139f0a9740bdaca761ace762 \
-                        sha256  4baac41abccee6a917adaa2cd0f21657aa4237fc7b3f6c0ae04f80479586fe9d \
-                        size    201244
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    496545a6307b \
@@ -239,10 +235,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  0ff7e70a3c8a7b828f007c296d4152b334eaf79715122a5e9bf19f404c901044 \
                         size    8130
 
-checksums           wakatime-cli-v1.18.7.tar.gz \
-                    rmd160  e0aae7b8a2b366c3139f0a9740bdaca761ace762 \
-                    sha256  4baac41abccee6a917adaa2cd0f21657aa4237fc7b3f6c0ae04f80479586fe9d \
-                    size    201244 \
+checksums           wakatime-cli-v1.18.9.tar.gz \
+                    rmd160  ea4a78dec0fe109525584900ae2a24e8f5a879a5 \
+                    sha256  2af8ccc40900b62081f3d458fd37a666268088dc0f6ecc21a98ec19c157deabb \
+                    size    205544 \
                     go-yaml-yaml-496545a6307b.tar.gz \
                     rmd160  16a43936d8ae6243895e23465132977d3a1193c2 \
                     sha256  333e78b3b9cb73b3572d62f692d32426a8554b86c93025ea032f779395869e84 \
