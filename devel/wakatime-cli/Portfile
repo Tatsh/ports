@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/wakatime/wakatime-cli v1.18.9
-github.livecheck.regex  {v([0-9]+\.[0-9]+\.[0-9]+)}
+go.setup            github.com/wakatime/wakatime-cli 1.18.9 v
+github.livecheck.regex  {([0-9]+\.[0-9]+\.[0-9]+)}
 revision            0
 categories          devel
 maintainers         {gmail.com:audvare @Tatsh}
@@ -235,7 +235,7 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  0ff7e70a3c8a7b828f007c296d4152b334eaf79715122a5e9bf19f404c901044 \
                         size    8130
 
-checksums           wakatime-cli-v1.18.9.tar.gz \
+checksums           wakatime-cli-1.18.9.tar.gz \
                     rmd160  ea4a78dec0fe109525584900ae2a24e8f5a879a5 \
                     sha256  2af8ccc40900b62081f3d458fd37a666268088dc0f6ecc21a98ec19c157deabb \
                     size    205544 \
