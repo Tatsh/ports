@@ -96,6 +96,13 @@ def main() -> int:
             continue
         if is_subport(port):
             continue
+        if port == 'iosevka':
+            sp.run(('bash', './_resources/bin/update-iosevka', new),
+                   check=True)
+            continue
+        if port == 'vscode':
+            sp.run(('bash', './_resources/bin/update-vscode', new), check=True)
+            continue
         print(f'Port: {port}', file=sys.stderr)
         portfile = cast(str, port_cmd('file', port).stdout.strip())
         is_system_port = False

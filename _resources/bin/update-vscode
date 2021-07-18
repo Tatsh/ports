@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+if [ -z "$1" ]; then
+    echo 'Must pass version argument (without v)'
+    exit 1
+fi
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
+new=$1
+[ -z "$new" ] && exit 1
+pushd "${DIR}/devel/vscode" || exit 1
+current_sha=$(grep -E '^set sha' Portfile | awk '{ print $3 }')
+update_sha=$(grep -E '^set update_sha' Portfile | awk '{ print $3 }')
+new_sha=$(jq -r .version < <(curl -q "https://update.code.visualstudio.com/api/update/darwin/stable/${update_sha}"))
+old_version=$(grep -E '^version' Portfile | awk '{print $2}')
+sudo rm -f "$(port -q distfiles | head -n 1 | awk '{ print $2 }')"
+sed -r -e "s/^set sha(\s+).*/set sha\1${new_sha}/" \
+    -e "s/${old_version}/${new}/g" \
+    -i Portfile
+sudo port -v bump
+popd || exit 1
+portindex
