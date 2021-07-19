@@ -3,11 +3,9 @@ if [ -z "$1" ]; then
     echo 'Must pass version argument (without v)'
     exit 1
 fi
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
 new=$1
-[ -z "$new" ] && exit 1
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
 pushd "${DIR}/devel/vscode" || exit 1
-current_sha=$(grep -E '^set sha' Portfile | awk '{ print $3 }')
 update_sha=$(grep -E '^set update_sha' Portfile | awk '{ print $3 }')
 new_sha=$(jq -r .version < <(curl -q "https://update.code.visualstudio.com/api/update/darwin/stable/${update_sha}"))
 old_version=$(grep -E '^version' Portfile | awk '{print $2}')
