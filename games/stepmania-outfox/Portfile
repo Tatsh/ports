@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name                stepmania-outfox
-set alpha_version   "4.9.8"
+set alpha_version   4.9.10
 set main_version    5.3.0
 version             ${main_version}-a${alpha_version}
 categories          games aqua
@@ -15,9 +15,8 @@ long_description    StepMania \"OutFox\" provides an upgraded experience \
                     decades of existing content, and lays the groundwork for \
                     the next.
 homepage            https://projectmoon.dance/
-set version_date    20210425
-distfiles           OutFox-${main_version}-alpha-${alpha_version}-MacOS-Intel-date-${version_date}.dmg \
-                    OutFox-${main_version}-alpha-${alpha_version}-MacOS-M1-date-${version_date}.dmg
+set version_date    20210827
+distfiles           OutFox-${main_version}-alpha-${alpha_version}-macOS-Universal-date-${version_date}.dmg
 master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF${alpha_version}/
 supported_archs     arm64 x86_64
 license             EULA
@@ -27,27 +26,16 @@ livecheck.url       https://github.com/TeamRizu/OutFox/tags
 livecheck.version   ${alpha_version}
 livecheck.regex     "/tag/OF(\\d+\\.\\d+\\.\\d+(?:\[A-Z\]+|-(?:\[fF\]inal|rc)(?:\[0-9\]+)?)?)"
 
-checksums           OutFox-5.3.0-alpha-4.9.8-MacOS-Intel-date-20210425.dmg \
-                    rmd160  d547f0ac65413d537bc6a001bb38735fa9503407 \
-                    sha256  a03a855fd25e91ee9bd4d667b7bf4027afd346308b1a50ac3bb2a654caab07a0 \
-                    size    113745633 \
-                    OutFox-5.3.0-alpha-4.9.8-MacOS-M1-date-20210425.dmg \
-                    rmd160  22c455cd2ace669d7ae83127de1c6b93abb046cd \
-                    sha256  1ebd97954cfba215bf29be1bd41693ad151f4c3f80d4befa592b97c53d36ccca \
-                    size    111401385
+checksums           rmd160  682f05adaa35591565ba0e7a9afe8e45e3847f1b \
+                    sha256  763478cdae1e20695da3539f23354ea4f1bcaf7e815424a48fb592b7962e2b75 \
+                    size    133051999
 
 use_configure       no
 use_dmg             yes
-
-if {${os.arch} eq "arm64"} {
-    extract.only OutFox-${main_version}-alpha-${alpha_version}-MacOS-M1-date-${version_date}.dmg
-} else {
-    extract.only OutFox-${main_version}-alpha-${alpha_version}-MacOS-Intel-date-${version_date}.dmg
-}
 extract.mkdir       no
 
 build {}
 
 destroot {
-    copy ${worksrcpath}/StepMania "${destroot}${applications_dir}/StepMania OutFox"
+    copy ${worksrcpath}/OutFox "${destroot}${applications_dir}/StepMania OutFox"
 }
