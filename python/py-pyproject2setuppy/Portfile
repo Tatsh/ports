@@ -7,9 +7,9 @@ name                py-pyproject2setuppy
 
 # add .0 to version to make `port lint --nitpick` not trigger warning due to python.versions
 # https://trac.macports.org/ticket/61980
-version             9.0
-distname            ${python.rootname}-[string index ${version} 0]
-livecheck.version   [string index ${version} 0]
+version             20.0
+distname            ${python.rootname}-[string index ${version} 0][string index ${version} end-2]
+livecheck.version   [string index ${version} 0][string index ${version} end-2]
 
 categories          python devel
 platforms           darwin linux freebsd
@@ -23,9 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 python.versions         36 37 38 39
 
-checksums           rmd160  597af1cbafe183fd5cd568592609aa5e6f97d948 \
-                    sha256  ffd0029784d4312fcb5b08dd9b8cab14cc746ce31da372e8576eeb991411054c \
-                    size    14456
+checksums           rmd160  d074aa4ce57ed5e25b46c3a56ae86b037d74a0dd \
+                    sha256  fc8a4a0207721e00ba4ba2e2e54680d78f46658ef66c415d7f329a782bd0d5ad \
+                    size    12317
 
 if {$subport ne $name} {
     livecheck.type      none
