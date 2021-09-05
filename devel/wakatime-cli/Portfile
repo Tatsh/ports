@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/wakatime/wakatime-cli 1.19.0 v
+go.setup            github.com/wakatime/wakatime-cli 1.22.1 v
 github.livecheck.regex  {([0-9]+\.[0-9]+\.[0-9]+)}
 revision            0
 categories          devel
@@ -14,9 +14,9 @@ description         Time tracking for coding.
 long_description    ${description}
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  76a212272eabbcf358529b285fd6d04dd0ae4d93 \
-                    sha256  360e064501cfa132ca5fb8e5bc54054e3f744ec0ca3ffc463db240d13baa7d0c \
-                    size    206075 \
+                    rmd160  9d82a728ffb8bc508ede5feac2425c2f51777012 \
+                    sha256  1b2f0a915c1d47b565f6ec636d464e8dc93931b0bc9bf1220b5a6536efd1baed \
+                    size    206129 \
                     go-yaml-yaml-496545a6307b.tar.gz \
                     rmd160  16a43936d8ae6243895e23465132977d3a1193c2 \
                     sha256  333e78b3b9cb73b3572d62f692d32426a8554b86c93025ea032f779395869e84 \
@@ -53,10 +53,10 @@ checksums           ${distname}${extract.suffix} \
                     rmd160  1e9d84624b6615c6e47bc465f2d127bc5c8a63e2 \
                     sha256  813e433d921800bd80427593f744e6c1da3892b6f23b85242dc0125e59c7227c \
                     size    3318 \
-                    wakatime-goInfo-v0.1.0-wakatime.2.tar.gz \
-                    rmd160  bc6b22656b263ae817d0a71ba48f5e0c89999973 \
-                    sha256  baf3d5729616a8c0cbd042c4f9ba7c72a3954e94427c4c4932700233a496d8ca \
-                    size    2507 \
+                    wakatime-goInfo-v0.1.0-wakatime.6.tar.gz \
+                    rmd160  a8a3fae07194005f15b97296d048ae8f09d26a86 \
+                    sha256  4d95fc150c6585b233c5ad887f3a8ddfa47f66d8beb117f39ba38b6b42404c2a \
+                    size    2555 \
                     wakatime-chroma-v0.8.2-wakatime.7.tar.gz \
                     rmd160  ccee9b3287ddcf7b9bc708b60f247cf20e61c344 \
                     sha256  2286caa1150ef3bf4618ffc4b6b9c7151959fa5c80e252ce951f1c982fcfc3c2 \
@@ -241,10 +241,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  813e433d921800bd80427593f744e6c1da3892b6f23b85242dc0125e59c7227c \
                         size    3318 \
                     github.com/wakatime/goInfo \
-                        lock    v0.1.0-wakatime.2 \
-                        rmd160  bc6b22656b263ae817d0a71ba48f5e0c89999973 \
-                        sha256  baf3d5729616a8c0cbd042c4f9ba7c72a3954e94427c4c4932700233a496d8ca \
-                        size    2507 \
+                        lock    v0.1.0-wakatime.6 \
+                        rmd160  a8a3fae07194005f15b97296d048ae8f09d26a86 \
+                        sha256  4d95fc150c6585b233c5ad887f3a8ddfa47f66d8beb117f39ba38b6b42404c2a \
+                        size    2555 \
                     github.com/wakatime/chroma \
                         lock    v0.8.2-wakatime.7 \
                         rmd160  ccee9b3287ddcf7b9bc708b60f247cf20e61c344 \
@@ -415,6 +415,7 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  74dcc3f7e70c2dbdf032390bd8734e0fc514ce65 \
                         sha256  0ff7e70a3c8a7b828f007c296d4152b334eaf79715122a5e9bf19f404c901044 \
                         size    8130
+
 pre-build {
     file mkdir ${workpath}/gopath/src/github.com/matishsiao
     ln -s ${workpath}/gopath/src/github.com/wakatime/goInfo \
