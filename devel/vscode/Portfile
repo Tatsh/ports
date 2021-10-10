@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                vscode
-version             1.60.2
+version             1.61.0
 revision            0
 
 categories          devel aqua
@@ -16,12 +16,12 @@ homepage            https://code.visualstudio.com/
 supported_archs     x86_64
 
 distfiles           VSCode-darwin.zip
-set sha             7f6ab5485bbc008386c4386d08766667e155244e
+set sha             ee8c7def80afc00dd6e593ef12f37756d8f504ea
 master_sites        https://az764295.vo.msecnd.net/stable/${sha}
 
-checksums           rmd160  567e3f617b861f889c5d5c9bb6d0943ca2a04485 \
-                    sha256  40ea0d829a8a7144a074bdf84da7b08b147dd2d3a33b2eca757b85b33b3c1b01 \
-                    size    107809342
+checksums           rmd160  17348b90a42b0c5a30d107f33d0f5f7b0f2c2d0a \
+                    sha256  790d20e26b5e01c74f6fe562dfda58698c84275ab3071341831424f6bde3c564 \
+                    size    108425292
 
 livecheck.type      regex
 set update_sha      cc0baacfefc65f9caad1a498753154c1f456cbb3
