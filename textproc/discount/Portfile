@@ -12,9 +12,9 @@ description         An implementation of the Markdown markup language.
 long_description    ${description}
 categories          textproc
 
-checksums           rmd160  74a4a65f60d713cba7e020681922c333ae3dd759 \
-                    sha256  4e698a3c9fb0e81b0a751770db0d1e5c4a7f4c9515c77a9ddeb5f44e1a085b94 \
-                    size    128853
+checksums           rmd160  9731bf7610e7481e6d844be163d2bc302d8704c9 \
+                    sha256  72c1325ddfc40871d6810f1e272cf2d45b361f26357eb38f170fd04d737bb9f2 \
+                    size    128805
 
 cmake.source_dir    ${worksrcpath}/cmake
 
