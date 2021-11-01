@@ -50,7 +50,7 @@ index 8198119..7c17672 100644
  clean:
  	rm battery_stat battery_stat.o
 diff --git battery_stat.c battery_stat.c
-index 95c238b..ccc53d0 100644
+index 95c238b..edd0e27 100644
 --- battery_stat.c
 +++ battery_stat.c
 @@ -2,81 +2,132 @@
@@ -109,7 +109,7 @@ index 95c238b..ccc53d0 100644
 +                             bool print_debugging) {
 +    bool result = false;
 +    io_service_t batteryService = IOServiceGetMatchingService(
-+        kIOMasterPortDefault, IOServiceMatching("AppleSmartBattery"));
++        kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"));
 +    if (batteryService) {
 +        CFMutableDictionaryRef properties = NULL;
 +        if (IORegistryEntryCreateCFProperties(

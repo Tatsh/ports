@@ -7,6 +7,7 @@ github.setup        rpetrich battery_stat f3336c0
 
 name                battery-stat
 version             20190814
+revision            1
 platforms           macosx
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
