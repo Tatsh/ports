@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                QuickRes
-version             4.8
+version             4.9
 
 categories          aqua
 license             Restrictive
@@ -15,7 +15,7 @@ long_description    The best way to change between screen resolutions on your \
 homepage            https://www.thnkdev.com/QuickRes/
 supported_archs     x86_64
 
-set number          37
+set number          40
 distfiles           ${name}.zip
 master_sites        https://thnkdev.com/QuickRes/
 
@@ -23,9 +23,9 @@ livecheck.type      regex
 livecheck.url       https://thnkdev.com/QuickRes/appcast.xml
 livecheck.regex     "<enclosure .*sparkle:shortVersionString=\"(\[^\"\]+)\""
 
-checksums           rmd160  e4493df31b6aa4b6dcd1019de75b4c43fc3771b5 \
-                    sha256  3f11f4ed044a6df9819c8a1fde84dcb9fef3397630810d00bc0bd5e8e2601212 \
-                    size    7057023
+checksums           rmd160  35a3959807e83f98c04efa965a6e12cac0020f61 \
+                    sha256  d95596d91515191bd877ff7267886219034aa11f9dc1f36ead435da7ad04e6f3 \
+                    size    7362984
 
 worksrcdir
 use_configure           no
