@@ -1,0 +1,76 @@
+diff --git Overkill/LaunchStarter.swift Overkill/LaunchStarter.swift
+index b288f31..1d441c1 100644
+--- Overkill/LaunchStarter.swift
++++ Overkill/LaunchStarter.swift
+@@ -9,15 +9,14 @@ func applicationIsInStartUpItems() -> Bool {
+ }
+ 
+ func itemReferencesInLoginItems() -> (existingReference: LSSharedFileListItem?, lastReference: LSSharedFileListItem?) {
+-    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue()
+-    
+-    guard let loginItems = LSSharedFileListCopySnapshot(loginItemsRef, nil).takeRetainedValue() as? [LSSharedFileListItem],
++    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil)?.takeRetainedValue()
++    guard let loginItems = LSSharedFileListCopySnapshot(loginItemsRef!, nil)?.takeRetainedValue() as? [LSSharedFileListItem],
+         let lastItemRef = loginItems.last else {
+             return (nil, nil)
+     }
+     
+     let appURL = NSURL.fileURL(withPath: Bundle.main.bundlePath) as NSURL
+-    let currentItemRef = loginItems.first { currentItemRef in
++    let currentItemRef = loginItems.first { currentItemRef -> Bool in
+         if let itemURL = url(currentItemRef) {
+             return itemURL.isEqual(appURL)
+         }
+@@ -30,30 +29,30 @@ func itemReferencesInLoginItems() -> (existingReference: LSSharedFileListItem?,
+ func toggleLaunchAtStartup() {
+     let itemReferences = itemReferencesInLoginItems()
+     let appUrl = NSURL.fileURL(withPath: Bundle.main.bundlePath)
+-    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue()
++    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil)?.takeRetainedValue()
+     
+     guard let existingReference = itemReferences.existingReference else {
+         if let lastReference = itemReferences.lastReference {
+-            LSSharedFileListInsertItemURL(loginItemsRef, lastReference, nil, nil, appUrl as CFURL, nil, nil)
++            LSSharedFileListInsertItemURL(loginItemsRef!, lastReference, nil, nil, appUrl as CFURL, nil, nil)
+         }
+         return
+     }
+     
+     if let itemURL = url(existingReference) {
+-        LSSharedFileListItemRemove(loginItemsRef, get(item: itemURL))
++        LSSharedFileListItemRemove(loginItemsRef!, get(item: itemURL)!)
+     }
+ }
+ 
+ // MARK - Private functions
+ 
+ private func get(item byURL: NSURL) -> LSSharedFileListItem? {
+-    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil).takeRetainedValue()
++    let loginItemsRef = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil)?.takeRetainedValue()
+     
+-    guard let loginItems = LSSharedFileListCopySnapshot(loginItemsRef, nil).takeRetainedValue() as? [LSSharedFileListItem] else {
++    guard let loginItems = LSSharedFileListCopySnapshot(loginItemsRef!, nil)?.takeRetainedValue() as? [LSSharedFileListItem] else {
+         return nil
+     }
+     
+-    let item = loginItems.first { currentItemRef in
++    let item = loginItems.first { currentItemRef -> Bool in
+         if let itemURL = url(currentItemRef) {
+             return itemURL.isEqual(byURL)
+         }
+@@ -64,9 +63,12 @@ private func get(item byURL: NSURL) -> LSSharedFileListItem? {
+ 
+ private func url(_ item: LSSharedFileListItem?) -> NSURL? {
+     var error: Unmanaged<CFError>? = nil
+-    let ret = LSSharedFileListItemCopyResolvedURL(item, 0, &error)
+-    if error == nil {
+-        return ret!.takeRetainedValue() as NSURL
++    var ret: Unmanaged<CFURL>? = nil
++    if let unwItem = item {
++        ret = LSSharedFileListItemCopyResolvedURL(unwItem, 0, &error)
++    }
++    if error == nil, let unwRet = ret {
++        return unwRet.takeRetainedValue() as NSURL
+     }
+     // Normally: Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist."
+     return nil

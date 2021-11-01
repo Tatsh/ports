@@ -25,6 +25,8 @@ checksums           rmd160  28b9c245641d6372fa272ca339ded790aab03b91 \
 xcode.target        Overkill
 xcode.configuration Release
 
+patchfiles          patch-swift-fixes.diff
+
 if {${os.major} < 14} {
     pre-fetch {
         ui_error "${name} @${version} requires OS X 10.10 or later."
