@@ -6,6 +6,7 @@ PortGroup           github 1.0
 
 name                Latest
 version             0.7.3
+revision            1
 github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
 long_description    ${description}
@@ -17,7 +18,7 @@ master_sites        ${github.homepage}/archive:latest \
                     https://github.com/sparkle-project/Sparkle/archive:sparkle \
                     https://github.com/mas-cli/mas/archive:mas \
                     https://github.com/orlp/ed25519/archive:ed25519
-set n_commits       461
+set n_commits       462
 set sparkle_hash    238fd42bb39583f180ee47010bafd6bda4e236a0
 set sparkle_ed25519_hash 7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
 set mas_hash        94eb4e5523768bd9902aa1444ade90ee94b17c63
@@ -49,11 +50,12 @@ xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
-destroot.pre_args -derivedDataPath ${build.dir}/.dd
+destroot.pre_args -derivedDataPath ${worksrcpath}
 
 if {${os.major} < 20} {
     patchfiles patch-available-10-15.diff
 }
+patchfiles-append patch-add-imageio.diff
 
 post-extract {
     file delete -force ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
