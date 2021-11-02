@@ -4,9 +4,8 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        thompsonate Shifty 1.1.2 v
+github.setup        thompsonate Shifty 1.2 v
 
-revision            2
 categories-append   sysutils
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -14,9 +13,9 @@ description         A macOS menu bar app that gives you more control over Night 
 long_description    ${description}
 homepage            https://shifty.natethompson.io/en/
 
-checksums           rmd160  f6069f2b440b0df0e1aa270afd61a6c4d89b8dc3 \
-                    sha256  534b285a8ec6bf3a8dbc713325bdaa4861b9c5616b99c7b10f7c0f956fe095c3 \
-                    size    25522694
+checksums           rmd160  0e1673809727d9d9a7686c957498dfc7fe961b82 \
+                    sha256  69eaf76fa83da25a25749086525c3ba277dfd298f20de01aa581f96986b980a0 \
+                    size    59296370
 
 xcode.scheme        Shifty
 xcode.configuration Release
