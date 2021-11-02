@@ -29,11 +29,6 @@ destroot.pre_args   -workspace Shifty.xcworkspace \
 patchfiles      patch-macports.diff
 patch.pre_args  -p1
 
-post-patch {
-    # This is fixed in newer versions
-    reinplace "s|≤||g" ${name}/en.lproj/InfoPlist.strings
-}
-
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
 
