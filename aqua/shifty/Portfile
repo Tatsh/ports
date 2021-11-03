@@ -32,9 +32,9 @@ patch.pre_args  -p1
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
 
-if {${os.major} < 16} {
+if {${os.major} < 21} {
     pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.12 or later."
-        return -code error "incompatible OS X version"
+        ui_error "Building ${name} @${version} requires macOS 12 or later."
+        return -code error "incompatible macOS version"
     }
 }
