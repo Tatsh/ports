@@ -76,7 +76,9 @@ destroot {
         set dir_basename [lrange [split ${dir} /] end end]
         foreach file [glob -nocomplain -directory ${worksrcpath}/hinted/ttf/${dir_basename} *.ttf] {
             set basename [lrange [split ${file} /] end end]
-            copy ${file} ${destroot}/Library/Fonts/${basename}
+            if {![file exists ${destroot}/Library/Fonts/${basename}]} {
+                copy ${file} ${destroot}/Library/Fonts/${basename}
+            }
         }
     }
 }
