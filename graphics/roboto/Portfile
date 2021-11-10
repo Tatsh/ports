@@ -15,8 +15,10 @@ long_description    Google’s signature family of fonts, the default font on \
                     Google’s visual language, Material Design.
 homepage            https://github.com/googlefonts/roboto
 
-distfiles           ${name}-android.zip
-master_sites        https://github.com/googlefonts/${name}/releases/download/v${version}
+extract.suffix      .zip
+use_zip             yes
+distfiles           ${name}-${version}${extract.suffix}
+master_sites        https://github.com/googlefonts/${name}/releases/download/v${version}/${name}-android${extract.suffix}?dummy=
 
 checksums           rmd160  2a6374e8adebe28b3905edfd869987cd13ed8ade \
                     sha256  c825453253f590cfe62557733e7173f9a421fff103b00f57d33c4ad28ae53baf \
@@ -28,7 +30,6 @@ livecheck.regex     "<a .*href=\"/googlefonts/roboto/releases/tag/v(\\d+\\.\\d+)
 
 worksrcdir
 use_configure           no
-use_zip                 yes
 destroot.violate_mtree  yes
 
 build {}
