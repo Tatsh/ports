@@ -20,8 +20,8 @@ supported_archs     x86_64
 
 set special_dmg     ${name}${version_dmg}.dmg
 set app_name        "UI Browser.app"
-distfiles           ${special_dmg}
-master_sites        https://pfiddlesoft.com/uibrowser/downloads/
+distfiles           ${name}-${version}.dmg
+master_sites        https://pfiddlesoft.com/uibrowser/downloads/${special_dmg}?dummy=
 
 checksums           rmd160  5a538b01a08b059986c4027ee132ad9ec9b3d254 \
                     sha256  a5695d3046a2230a0e56cbda68829802801d74afc39d4320161fef668b3a0376 \
