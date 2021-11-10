@@ -16,8 +16,9 @@ homepage            https://www.thnkdev.com/QuickRes/
 supported_archs     x86_64
 
 set number          40
-distfiles           ${name}.zip
-master_sites        https://thnkdev.com/QuickRes/
+extract.suffix      .zip
+distfiles           ${name}-${version}${extract.suffix}
+master_sites        https://thnkdev.com/QuickRes/${name}${extract.suffix}?dummy=
 
 livecheck.type      regex
 livecheck.url       https://thnkdev.com/QuickRes/appcast.xml
