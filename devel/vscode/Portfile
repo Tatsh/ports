@@ -15,9 +15,10 @@ long_description    ${description}
 homepage            https://code.visualstudio.com/
 supported_archs     x86_64
 
-distfiles           VSCode-darwin.zip
+extract.suffix      .zip
+distfiles           ${name}-${version}${extract.suffix}
 set sha             b3318bc0524af3d74034b8bb8a64df0ccf35549a
-master_sites        https://az764295.vo.msecnd.net/stable/${sha}
+master_sites        https://az764295.vo.msecnd.net/stable/${sha}/VSCode-darwin${extract.suffix}?dummy=
 
 checksums           rmd160  bb3b328b546c4adccabbd53bae8c0c02a58fe666 \
                     sha256  130472776b786ef294d745aebc3c60256a4b3de74e24de0170fa05327894a06f \
