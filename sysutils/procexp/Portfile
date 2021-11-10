@@ -14,8 +14,8 @@ long_description    ${description}
 homepage            http://newosxbook.com/index.php
 supported_archs     arm64 x86_64
 
-distfiles           ${name}.tgz
-master_sites        http://newosxbook.com/tools/
+distfiles           ${name}-${version}.tgz
+master_sites        http://newosxbook.com/tools/${name}.tgz?dummy=
 
 checksums           rmd160  00b4e96945110f45176b1463437f615dfdbc2466 \
                     sha256  b6c6abeadaf403fee0d8153775a7ca224b0f69afc8faea728f3caf6ff52c79b7 \
