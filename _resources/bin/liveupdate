@@ -18,6 +18,7 @@ SUDO_PORT = ('sudo', 'port')
 VERSION_LINE_RE = r'\(port version:\s+([^,]+),\s+new version:\s+([^\)]+)\)'
 VERSION_LINE_ERROR_RE = (r"extracted version '([^']+)' is older than "
                          r"livecheck.version '([^']+)'")
+DISTFILES_REMOVE_FIRST_PACKAGES = ('Bartender', 'Bartender3',)
 
 
 def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
@@ -150,7 +151,7 @@ def main() -> int:
             for line in port_cmd('-q', 'distfiles', cwd=cwd).stdout.split('\n')
             if line.startswith('[')
         ]
-        if distfiles:
+        if distfiles and port in DISTFILES_REMOVE_FIRST_PACKAGES:
             sp.run(['sudo', 'rm', '-f'] + distfiles, check=True)
         for action in ('clean', 'bump'):
             port_cmd('-v', action, cwd=cwd)
