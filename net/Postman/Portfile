@@ -13,8 +13,9 @@ description         The collaboration platform for API development.
 long_description    ${description}
 homepage            https://www.postman.com/
 
-distfiles           osx_64
-master_sites        https://dl.pstmn.io/download/version/${version}/
+extract.suffix      .zip
+distfiles           ${name}-${version}${extract.suffix}
+master_sites        https://dl.pstmn.io/download/version/${version}/osx_64?dummy=
 
 checksums           rmd160  08f7c81d9b63f67010534eac72d79618b56f411e \
                     sha256  9c379089493792539cf0f67f0793d2ac2f1e3bddf25572d48a1002ddfb9c75a2 \
