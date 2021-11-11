@@ -14,32 +14,33 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             CC-BY-NC-SA-4
 categories          sysutils aqua
 
-master_sites        ${github.homepage}/archive:latest \
-                    https://github.com/sparkle-project/Sparkle/archive:sparkle \
-                    https://github.com/mas-cli/mas/archive:mas \
-                    https://github.com/orlp/ed25519/archive:ed25519
-set n_commits       462
 set sparkle_hash    238fd42bb39583f180ee47010bafd6bda4e236a0
 set sparkle_ed25519_hash 7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
 set mas_hash        94eb4e5523768bd9902aa1444ade90ee94b17c63
-distfiles           ${version}.tar.gz:latest \
-                    ${sparkle_hash}.tar.gz:sparkle \
-                    ${mas_hash}.tar.gz:mas \
-                    ${sparkle_ed25519_hash}.tar.gz:ed25519
 
-checksums           0.7.3.tar.gz \
+master_sites        ${github.homepage}/archive/${version}.tar.gz?dummy=:latest \
+                    https://github.com/sparkle-project/Sparkle/archive/${sparkle_hash}.tar.gz?dummy=:sparkle \
+                    https://github.com/mas-cli/mas/archive/${mas_hash}.tar.gz?dummy=:mas \
+                    https://github.com/orlp/ed25519/archive/${sparkle_ed25519_hash}.tar.gz?dummy=:ed25519
+set n_commits       462
+distfiles           ${name}-${version}.tar.gz:latest \
+                    sparkle-${sparkle_hash}.tar.gz:sparkle \
+                    mas-${mas_hash}.tar.gz:mas \
+                    mas-ed25519-${sparkle_ed25519_hash}.tar.gz:ed25519
+
+checksums           Latest-0.7.3.tar.gz \
                     rmd160  d763600342d31f899aedf839d35d2f5e0cab7e2a \
                     sha256  41ebb18c93a20945525952c85a5b6693340d84ae6a537368b35988fb04f6183b \
                     size    2569767 \
-                    238fd42bb39583f180ee47010bafd6bda4e236a0.tar.gz \
+                    sparkle-238fd42bb39583f180ee47010bafd6bda4e236a0.tar.gz \
                     rmd160  aeb1fd4004cf4858c33defd02965eb69fdbf011b \
                     sha256  541e074c919afd78f0ace81b2a9ea6df6f93da309ab500dd86fe79a3afb41438 \
                     size    12172076 \
-                    94eb4e5523768bd9902aa1444ade90ee94b17c63.tar.gz \
+                    mas-94eb4e5523768bd9902aa1444ade90ee94b17c63.tar.gz \
                     rmd160  0bdb5a537d95ad80276839ac988cbbcbc1471ef3 \
                     sha256  738aa5756f7ca8099ac0971e9da1f03d4effb98dc94e0867d86adfd470c0188c \
                     size    3322126 \
-                    7fa6712ef5d581a6981ec2b08ee623314cd1d1c4.tar.gz \
+                    mas-ed25519-7fa6712ef5d581a6981ec2b08ee623314cd1d1c4.tar.gz \
                     rmd160  3a711fcb59cbf221a5d71672c342c65483907e00 \
                     sha256  373923c85f61276e3cad2c0ae7a5d5cd4809ffe46c5abc1dc8276683a55782a0 \
                     size    226683
