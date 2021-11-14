@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/wakatime/wakatime-cli 1.28.1 v
+go.setup            github.com/wakatime/wakatime-cli 1.28.3 v
 github.livecheck.regex  {([0-9]+\.[0-9]+\.[0-9]+)}
 revision            0
 categories          devel
@@ -13,11 +13,14 @@ license             BSD
 description         Time tracking for coding.
 long_description    ${description}
 
-checksums           wakatime-cli-1.28.1.tar.gz \
-                    rmd160  0aa3f49bdfa3b1d5874cdb9c5c2bf514e8e455ad \
-                    sha256  3b2133c2a0d6cc41045c053840b2b0a41c84fb504059d6480cb0bb3e654b67ca \
-                    size    209596 \
+checksums           wakatime-cli-1.28.3.tar.gz \
+                    rmd160  10236aa0d04b53be9943fe2c81f168f0134a70c9 \
+                    sha256  60b866bc9608dd4c4fc169cf836105b351a91e5cbd375f5140fef1f58a97d20a \
+                    size    209878 \
                     go-yaml-yaml-496545a6307b.tar.gz \
+                    rmd160  16a43936d8ae6243895e23465132977d3a1193c2 \
+                    sha256  333e78b3b9cb73b3572d62f692d32426a8554b86c93025ea032f779395869e84 \
+                    size    90145 \
                     rmd160  16a43936d8ae6243895e23465132977d3a1193c2 \
                     sha256  333e78b3b9cb73b3572d62f692d32426a8554b86c93025ea032f779395869e84 \
                     size    90145 \
@@ -25,7 +28,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  66e9feb7944b3804efa63155ed9b618717b8955c \
                     sha256  72812077e7f20278003de6ab0d85053d89131d64c443f39115a022114fd032b6 \
                     size    73231 \
+                    rmd160  66e9feb7944b3804efa63155ed9b618717b8955c \
+                    sha256  72812077e7f20278003de6ab0d85053d89131d64c443f39115a022114fd032b6 \
+                    size    73231 \
                     go-ini-ini-v1.62.0.tar.gz \
+                    rmd160  70c98aa78bb3ead6de8c1dc2d17265e183e7a5d0 \
+                    sha256  501dd9bad8bedbe8db250306c996c442fb19668430beb64ae313958f34d5f6be \
+                    size    50323 \
                     rmd160  70c98aa78bb3ead6de8c1dc2d17265e183e7a5d0 \
                     sha256  501dd9bad8bedbe8db250306c996c442fb19668430beb64ae313958f34d5f6be \
                     size    50323 \
@@ -33,7 +42,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  1e5543a8e6a3159296ee63e28cbde9931a04f6b3 \
                     sha256  c41575a73d10809f89b05ef9e783f2d53facdc6573697770d30efb05a9d2dc28 \
                     size    31612 \
+                    rmd160  1e5543a8e6a3159296ee63e28cbde9931a04f6b3 \
+                    sha256  c41575a73d10809f89b05ef9e783f2d53facdc6573697770d30efb05a9d2dc28 \
+                    size    31612 \
                     golang-text-v0.3.5.tar.gz \
+                    rmd160  2bc41a433ef7cbbf321afed39256a65d43ef3c8b \
+                    sha256  148ec80befd0392454a5d7756abcebeb74f863e6e4b1e1ff63bbe06c2b49e120 \
+                    size    8349629 \
                     rmd160  2bc41a433ef7cbbf321afed39256a65d43ef3c8b \
                     sha256  148ec80befd0392454a5d7756abcebeb74f863e6e4b1e1ff63bbe06c2b49e120 \
                     size    8349629 \
@@ -41,7 +56,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  74f33ca839fd9c6e779377720814c36bd7965159 \
                     sha256  a86d29dc9b7ceff0c69c72362e1c9423bc823836d3b5c417e49e9981eff0d8a6 \
                     size    1192496 \
+                    rmd160  74f33ca839fd9c6e779377720814c36bd7965159 \
+                    sha256  a86d29dc9b7ceff0c69c72362e1c9423bc823836d3b5c417e49e9981eff0d8a6 \
+                    size    1192496 \
                     golang-crypto-75b288015ac9.tar.gz \
+                    rmd160  d0df189672060fb880ac1bd440bfe94a5fc3e6d9 \
+                    sha256  290dc7a301e9ad139c8a5bd91bc0fd9936c60e2d7e7f9361eb3766e8b5947e86 \
+                    size    1729939 \
                     rmd160  d0df189672060fb880ac1bd440bfe94a5fc3e6d9 \
                     sha256  290dc7a301e9ad139c8a5bd91bc0fd9936c60e2d7e7f9361eb3766e8b5947e86 \
                     size    1729939 \
@@ -49,7 +70,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  95dffb4bbbeec637c46a4ddd0ee218fa2fa4c3c8 \
                     sha256  ca218846d724343915b264d1c246c34eb39e81ed14535931f370c2db838d4d99 \
                     size    96543 \
+                    rmd160  95dffb4bbbeec637c46a4ddd0ee218fa2fa4c3c8 \
+                    sha256  ca218846d724343915b264d1c246c34eb39e81ed14535931f370c2db838d4d99 \
+                    size    96543 \
                     yookoala-realpath-v1.0.0.tar.gz \
+                    rmd160  1e9d84624b6615c6e47bc465f2d127bc5c8a63e2 \
+                    sha256  813e433d921800bd80427593f744e6c1da3892b6f23b85242dc0125e59c7227c \
+                    size    3318 \
                     rmd160  1e9d84624b6615c6e47bc465f2d127bc5c8a63e2 \
                     sha256  813e433d921800bd80427593f744e6c1da3892b6f23b85242dc0125e59c7227c \
                     size    3318 \
@@ -57,7 +84,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  a8a3fae07194005f15b97296d048ae8f09d26a86 \
                     sha256  4d95fc150c6585b233c5ad887f3a8ddfa47f66d8beb117f39ba38b6b42404c2a \
                     size    2555 \
+                    rmd160  a8a3fae07194005f15b97296d048ae8f09d26a86 \
+                    sha256  4d95fc150c6585b233c5ad887f3a8ddfa47f66d8beb117f39ba38b6b42404c2a \
+                    size    2555 \
                     wakatime-chroma-v0.8.2-wakatime.7.tar.gz \
+                    rmd160  ccee9b3287ddcf7b9bc708b60f247cf20e61c344 \
+                    sha256  2286caa1150ef3bf4618ffc4b6b9c7151959fa5c80e252ce951f1c982fcfc3c2 \
+                    size    723755 \
                     rmd160  ccee9b3287ddcf7b9bc708b60f247cf20e61c344 \
                     sha256  2286caa1150ef3bf4618ffc4b6b9c7151959fa5c80e252ce951f1c982fcfc3c2 \
                     size    723755 \
@@ -65,7 +98,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  359083733ab5db2a09169c8d6d070b03463aef60 \
                     sha256  01fc25c8959371d006a0460132b72710ac120d5400fceebbc1d321d2e9bcd4a0 \
                     size    7375 \
+                    rmd160  359083733ab5db2a09169c8d6d070b03463aef60 \
+                    sha256  01fc25c8959371d006a0460132b72710ac120d5400fceebbc1d321d2e9bcd4a0 \
+                    size    7375 \
                     stretchr-testify-v1.7.0.tar.gz \
+                    rmd160  adae5096e8c4cfcc8e3f6d096646d1165b5ef49a \
+                    sha256  f7dde97d0c9634483ae6ea273968f80f3105c22382a1f841886cd20d57586642 \
+                    size    91096 \
                     rmd160  adae5096e8c4cfcc8e3f6d096646d1165b5ef49a \
                     sha256  f7dde97d0c9634483ae6ea273968f80f3105c22382a1f841886cd20d57586642 \
                     size    91096 \
@@ -73,7 +112,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  7b0aab67ee3d0f7eba8112584ac2b18bafdadeea \
                     sha256  417b1f4bdd86f4d07360d3ef5e645a735ce7e3006924735e65bb7301d0b74165 \
                     size    94702 \
+                    rmd160  7b0aab67ee3d0f7eba8112584ac2b18bafdadeea \
+                    sha256  417b1f4bdd86f4d07360d3ef5e645a735ce7e3006924735e65bb7301d0b74165 \
+                    size    94702 \
                     spf13-pflag-v1.0.5.tar.gz \
+                    rmd160  2ce81608a38c6f383a35bccd24d64361df5828c9 \
+                    sha256  7f41acdcba65b1fab5b9b633947a139f9915b60f94bdab486cdbe9d90c54f61e \
+                    size    50815 \
                     rmd160  2ce81608a38c6f383a35bccd24d64361df5828c9 \
                     sha256  7f41acdcba65b1fab5b9b633947a139f9915b60f94bdab486cdbe9d90c54f61e \
                     size    50815 \
@@ -81,7 +126,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  390db06ec6993dd9479d7fbfeaff1144d4fbc6e9 \
                     sha256  b75cd39c9d41c3f7e147225b3dbcb077d5e7a5688dc441ec15179bb1a4c6b941 \
                     size    6870 \
+                    rmd160  390db06ec6993dd9479d7fbfeaff1144d4fbc6e9 \
+                    sha256  b75cd39c9d41c3f7e147225b3dbcb077d5e7a5688dc441ec15179bb1a4c6b941 \
+                    size    6870 \
                     spf13-cobra-v1.1.1.tar.gz \
+                    rmd160  dedb212124abd6a8ce40e9b1e6e083266a633e6f \
+                    sha256  ac9e1ecebe2ec52aecad8a9bb474c6b9fc828f3c2ae3dcc1ed10e35493527360 \
+                    size    143436 \
                     rmd160  dedb212124abd6a8ce40e9b1e6e083266a633e6f \
                     sha256  ac9e1ecebe2ec52aecad8a9bb474c6b9fc828f3c2ae3dcc1ed10e35493527360 \
                     size    143436 \
@@ -89,7 +140,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  d4ab928edfe2ad8aafbc3248287b788c65ec155f \
                     sha256  a33b9fbe9c9dd9cc2bb54f43bcd9a4b5503666c028448bc1b600d46961ffb604 \
                     size    11103 \
+                    rmd160  d4ab928edfe2ad8aafbc3248287b788c65ec155f \
+                    sha256  a33b9fbe9c9dd9cc2bb54f43bcd9a4b5503666c028448bc1b600d46961ffb604 \
+                    size    11103 \
                     spf13-afero-v1.6.0.tar.gz \
+                    rmd160  c1cdb6299cb5c301898f5564cb0d7023412ded4a \
+                    sha256  2508e52fc0fbf2295d19234380c2b81c4e6a42c38feefff82a0946280d5175d5 \
+                    size    62151 \
                     rmd160  c1cdb6299cb5c301898f5564cb0d7023412ded4a \
                     sha256  2508e52fc0fbf2295d19234380c2b81c4e6a42c38feefff82a0946280d5175d5 \
                     size    62151 \
@@ -97,7 +154,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  a3dfad6131b94d809efad84d30ce45828c6da756 \
                     sha256  a03963296bb6d031934a651c1e637e8ab2ce9604ce6a16c158ff551e44e7ba79 \
                     size    1478824 \
+                    rmd160  a3dfad6131b94d809efad84d30ce45828c6da756 \
+                    sha256  a03963296bb6d031934a651c1e637e8ab2ce9604ce6a16c158ff551e44e7ba79 \
+                    size    1478824 \
                     smartystreets-assertions-b2de0cb4f26d.tar.gz \
+                    rmd160  32d7082172ea8c4a03119f3ffb803f8aad9744ce \
+                    sha256  469875871db96f87e62f76f0bfc4b3b0b9e4761c2a14d4ce12f246797a7c342c \
+                    size    52177 \
                     rmd160  32d7082172ea8c4a03119f3ffb803f8aad9744ce \
                     sha256  469875871db96f87e62f76f0bfc4b3b0b9e4761c2a14d4ce12f246797a7c342c \
                     size    52177 \
@@ -105,7 +168,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  59b167ff15ffc5a0c164b6b3bda3e4f760f5bb66 \
                     sha256  24a0bab91a74ccb205bbbbe7671c9f152e90496423ffc5a6e1da71d9ac99f593 \
                     size    17812 \
+                    rmd160  59b167ff15ffc5a0c164b6b3bda3e4f760f5bb66 \
+                    sha256  24a0bab91a74ccb205bbbbe7671c9f152e90496423ffc5a6e1da71d9ac99f593 \
+                    size    17812 \
                     sirupsen-logrus-v1.8.1.tar.gz \
+                    rmd160  aeb4e5f2ea8112e787a72fba611605c4c87f42b5 \
+                    sha256  931c31f624d05136760b41a63f6bc146b79ac91776b4642cbd2026c2792e3aca \
+                    size    47184 \
                     rmd160  aeb4e5f2ea8112e787a72fba611605c4c87f42b5 \
                     sha256  931c31f624d05136760b41a63f6bc146b79ac91776b4642cbd2026c2792e3aca \
                     size    47184 \
@@ -113,7 +182,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  6449feb5884c316206f256e55b81aba3e6a78a9f \
                     sha256  026d3d6db40ad086954214a7f3f84b66e352d47ce259bb59b7c2b9bd843b9935 \
                     size    43569 \
+                    rmd160  6449feb5884c316206f256e55b81aba3e6a78a9f \
+                    sha256  026d3d6db40ad086954214a7f3f84b66e352d47ce259bb59b7c2b9bd843b9935 \
+                    size    43569 \
                     pmezard-go-difflib-v1.0.0.tar.gz \
+                    rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
+                    sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
+                    size    11409 \
                     rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
                     sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
                     size    11409 \
@@ -121,7 +196,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  eb37925e72501a22403c440d777f16b37f911afe \
                     sha256  4aabf01ed003a6922128bc287951973916ecba9710775bb555e5793b9fd80f0a \
                     size    106403 \
+                    rmd160  eb37925e72501a22403c440d777f16b37f911afe \
+                    sha256  4aabf01ed003a6922128bc287951973916ecba9710775bb555e5793b9fd80f0a \
+                    size    106403 \
                     mitchellh-mapstructure-v1.4.1.tar.gz \
+                    rmd160  3c8e5e2a7fa3bcd56296a0ecb06f58d39bdda015 \
+                    sha256  df941cb0c512d5b3cf14d3243bdc28375a34e8fb41923b9acf0c391ad5ceb5c5 \
+                    size    27838 \
                     rmd160  3c8e5e2a7fa3bcd56296a0ecb06f58d39bdda015 \
                     sha256  df941cb0c512d5b3cf14d3243bdc28375a34e8fb41923b9acf0c391ad5ceb5c5 \
                     size    27838 \
@@ -129,7 +210,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  44b3985e40e5bbb22d11f8622c340f9ed727ea91 \
                     sha256  024c8a57316c7fbc0eb23cdbfd57f72a74b51beb83d714034d67ee9aba48100c \
                     size    3366 \
+                    rmd160  44b3985e40e5bbb22d11f8622c340f9ed727ea91 \
+                    sha256  024c8a57316c7fbc0eb23cdbfd57f72a74b51beb83d714034d67ee9aba48100c \
+                    size    3366 \
                     mattn-go-isatty-v0.0.12.tar.gz \
+                    rmd160  4f55aecbddbee6089cbac8456d2932bce2cb57e7 \
+                    sha256  d4d1912998d401389e06ee1dbed06e32a8db95350416f227fbe6a59ac84f0651 \
+                    size    4549 \
                     rmd160  4f55aecbddbee6089cbac8456d2932bce2cb57e7 \
                     sha256  d4d1912998d401389e06ee1dbed06e32a8db95350416f227fbe6a59ac84f0651 \
                     size    4549 \
@@ -137,7 +224,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  b311fe21542d64d5a6c6ef38ff616045af745299 \
                     sha256  15ee374fddab7a4db77bc011564729886be13ba37f1a3070ae334808a5cf78d1 \
                     size    30512 \
+                    rmd160  b311fe21542d64d5a6c6ef38ff616045af745299 \
+                    sha256  15ee374fddab7a4db77bc011564729886be13ba37f1a3070ae334808a5cf78d1 \
+                    size    30512 \
                     kr-text-v0.1.0.tar.gz \
+                    rmd160  0b3c78459e227170a3b80a0103d87a3eef77ed88 \
+                    sha256  5ed970aad0da3cba3cffacdb4d154a162a8968655ee6d6f7b627e71b869efaf6 \
+                    size    8691 \
                     rmd160  0b3c78459e227170a3b80a0103d87a3eef77ed88 \
                     sha256  5ed970aad0da3cba3cffacdb4d154a162a8968655ee6d6f7b627e71b869efaf6 \
                     size    8691 \
@@ -145,7 +238,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  9aa7a5aad4c48840eecfd0f80186d1fb5ded0fd6 \
                     sha256  f6c3f89667c63e5b7f1fc6ee2c06b6a6bfdce88f3a965ccd395b64c6f95c9a47 \
                     size    8553 \
+                    rmd160  9aa7a5aad4c48840eecfd0f80186d1fb5ded0fd6 \
+                    sha256  f6c3f89667c63e5b7f1fc6ee2c06b6a6bfdce88f3a965ccd395b64c6f95c9a47 \
+                    size    8553 \
                     jtolds-gls-v4.20.0.tar.gz \
+                    rmd160  31d8656bd6c1426338ceaac9535198244248b254 \
+                    sha256  04069406ca336d355eab62b4ab9e84b820ac968ac1e20bd3777efec2d3843446 \
+                    size    7305 \
                     rmd160  31d8656bd6c1426338ceaac9535198244248b254 \
                     sha256  04069406ca336d355eab62b4ab9e84b820ac968ac1e20bd3777efec2d3843446 \
                     size    7305 \
@@ -153,7 +252,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  5c617a09f1432fc543672a0e0c1e13d3752030c2 \
                     sha256  0e6bae2849f13d12fe361ecac087728e4e97f3482f4cec44f6e7a2c53bb9cd0c \
                     size    2291 \
+                    rmd160  5c617a09f1432fc543672a0e0c1e13d3752030c2 \
+                    sha256  0e6bae2849f13d12fe361ecac087728e4e97f3482f4cec44f6e7a2c53bb9cd0c \
+                    size    2291 \
                     hashicorp-hcl-v1.0.0.tar.gz \
+                    rmd160  ad8d0b523bb708fd6ae77df8bb414c103a75aa92 \
+                    sha256  4fc0e87ac9d3d6cd042f044df2db2703bed569051fb8c179d505edeb4433e96e \
+                    size    70636 \
                     rmd160  ad8d0b523bb708fd6ae77df8bb414c103a75aa92 \
                     sha256  4fc0e87ac9d3d6cd042f044df2db2703bed569051fb8c179d505edeb4433e96e \
                     size    70636 \
@@ -161,7 +266,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  fe92e39110b5c188dcce98abb3b9aa1b64d68f94 \
                     sha256  abe56698d0855027a1f6030a44924895d781b19526aa8f9b3ef49ed4199f7c57 \
                     size    217261 \
+                    rmd160  fe92e39110b5c188dcce98abb3b9aa1b64d68f94 \
+                    sha256  abe56698d0855027a1f6030a44924895d781b19526aa8f9b3ef49ed4199f7c57 \
+                    size    217261 \
                     fsnotify-fsnotify-v1.4.9.tar.gz \
+                    rmd160  4660b5721da8aea4c890786e49d7cec39c2e04d3 \
+                    sha256  7920cf1e5ccf268962fcff0b501398ed6c28ed75b1e1281fb17b19a8b0e4db5c \
+                    size    31910 \
                     rmd160  4660b5721da8aea4c890786e49d7cec39c2e04d3 \
                     sha256  7920cf1e5ccf268962fcff0b501398ed6c28ed75b1e1281fb17b19a8b0e4db5c \
                     size    31910 \
@@ -169,7 +280,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  673e956248ad25816b7c1c1b5b3d03a76d60ebc8 \
                     sha256  8398ba62190ac9a14cc3d2f57cffbaaed0e6a4dc6773531aa1de52923d67b38d \
                     size    205581 \
+                    rmd160  673e956248ad25816b7c1c1b5b3d03a76d60ebc8 \
+                    sha256  8398ba62190ac9a14cc3d2f57cffbaaed0e6a4dc6773531aa1de52923d67b38d \
+                    size    205581 \
                     davecgh-go-spew-v1.1.1.tar.gz \
+                    rmd160  7c02883aa81f81aca14e13a27fdca9e7fbc136f7 \
+                    sha256  e85d6afa83e64962e0d63dd4812971eccf2b9b5445eda93f46a4406f0c177d5f \
+                    size    42171 \
                     rmd160  7c02883aa81f81aca14e13a27fdca9e7fbc136f7 \
                     sha256  e85d6afa83e64962e0d63dd4812971eccf2b9b5445eda93f46a4406f0c177d5f \
                     size    42171 \
@@ -177,7 +294,13 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  19ae7b520847e16b0e8ac23ee5e6c51db3831f46 \
                     sha256  2b045b8a716e3ca32d2a930781cd421b042d0e861fa3d36a79ed5535b2e5308a \
                     size    4960 \
+                    rmd160  19ae7b520847e16b0e8ac23ee5e6c51db3831f46 \
+                    sha256  2b045b8a716e3ca32d2a930781cd421b042d0e861fa3d36a79ed5535b2e5308a \
+                    size    4960 \
                     alecthomas-repr-bb82daffcca2.tar.gz \
+                    rmd160  6ae16731fc21463cbb727c8a08ae596356085fbf \
+                    sha256  c25a1113237196bcce4cee877646a8f5ad57e1c1d3671ab2e026d79b81352ea5 \
+                    size    6324 \
                     rmd160  6ae16731fc21463cbb727c8a08ae596356085fbf \
                     sha256  c25a1113237196bcce4cee877646a8f5ad57e1c1d3671ab2e026d79b81352ea5 \
                     size    6324 \
@@ -185,11 +308,20 @@ checksums           wakatime-cli-1.28.1.tar.gz \
                     rmd160  082c43f8ea81b343b9f321e5626e068fafd885df \
                     sha256  2806193b9ee410124ef28e7861a47d35a143d2db87d3d0920bec4bac098d5df8 \
                     size    3529 \
+                    rmd160  082c43f8ea81b343b9f321e5626e068fafd885df \
+                    sha256  2806193b9ee410124ef28e7861a47d35a143d2db87d3d0920bec4bac098d5df8 \
+                    size    3529 \
                     alecthomas-assert-405dbfeb8e38.tar.gz \
                     rmd160  5d141a90e1e313657b558c19d51c3bdd65b0e5e5 \
                     sha256  8c445be2c7daa6b680bfbf96823192076bbf9c0f514642687d6487fd95630a5e \
                     size    71075 \
+                    rmd160  5d141a90e1e313657b558c19d51c3bdd65b0e5e5 \
+                    sha256  8c445be2c7daa6b680bfbf96823192076bbf9c0f514642687d6487fd95630a5e \
+                    size    71075 \
                     Azure-go-ntlmssp-66371956d46c.tar.gz \
+                    rmd160  74dcc3f7e70c2dbdf032390bd8734e0fc514ce65 \
+                    sha256  0ff7e70a3c8a7b828f007c296d4152b334eaf79715122a5e9bf19f404c901044 \
+                    size    8130 \
                     rmd160  74dcc3f7e70c2dbdf032390bd8734e0fc514ce65 \
                     sha256  0ff7e70a3c8a7b828f007c296d4152b334eaf79715122a5e9bf19f404c901044 \
                     size    8130
