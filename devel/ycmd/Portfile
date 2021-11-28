@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            ycm-core ycmd 768a5fe
-version                 20211114
+github.setup            ycm-core ycmd a472855
+version                 20211128
 revision                0
 categories              devel textproc
 platforms               darwin
@@ -14,9 +14,9 @@ maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        {*}${description}
 
-checksums           rmd160  21a18a7f75de28d1f8fc350567a447b047cbb95e \
-                    sha256  f8fe1141c0e47ff2722e2414121727be119c4f4e401d5f4e51eb3345000fa4f8 \
-                    size    2951125
+checksums           rmd160  52ce34f02ee4db9bf7c8f38bf3bb56dcd16c1b3f \
+                    sha256  5a5ffe6a0db3c4f6d9422719eff524719bb8853d138758266df10e6a0c1af290 \
+                    size    2953216
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
