@@ -4,6 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 github.setup        wakatime vim-wakatime 9.0.1
+revision            1
 
 patchfiles          patch-${name}-python.diff
 patch.pre_args      -p1

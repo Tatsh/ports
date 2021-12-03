@@ -11,3 +11,110 @@ index c0be41a..dfe03aa 100644
              endif
              let paths = paths + ['python']
              let index = 0
+diff --git a/plugin/wakatime.vim b/plugin/wakatime.vim
+index 2cb3cec..7f181e2 100644
+--- a/plugin/wakatime.vim
++++ b/plugin/wakatime.vim
+@@ -143,78 +143,6 @@ let s:VERSION = '9.0.1'
+ 
+     endfunction
+ 
+-    function! s:InstallCLI(use_external_python)
+-        if !s:autoupdate_cli && filereadable(s:wakatime_cli)
+-            return
+-        endif
+-
+-        let python_bin = s:false
+-        if a:use_external_python
+-            let python_bin = s:GetPythonBinary()
+-        endif
+-
+-        " First try install wakatime-cli in background, then using Vim's Python
+-        if python_bin != ""
+-            let install_script = s:plugin_root_folder . '/scripts/install_cli.py'
+-            let cmd = [python_bin, '-W', 'ignore', install_script, s:home]
+-            if s:has_async
+-                if s:IsWindows()
+-                    let job_cmd = [&shell, &shellcmdflag] + cmd
+-                else
+-                    let job_cmd = [&shell, &shellcmdflag, s:JoinArgs(cmd)]
+-                endif
+-                let job = job_start(job_cmd, {
+-                    \ 'stoponexit': '',
+-                    \ 'callback': {channel, output -> s:AsyncInstallHandler(output)}})
+-            elseif s:nvim_async
+-                if s:IsWindows()
+-                    let job_cmd = cmd
+-                else
+-                    let job_cmd = [&shell, &shellcmdflag, s:JoinArgs(cmd)]
+-                endif
+-                let s:nvim_async_output = ['']
+-                let job = jobstart(job_cmd, {
+-                    \ 'detach': 1,
+-                    \ 'on_stdout': function('s:NeovimAsyncInstallOutputHandler'),
+-                    \ 'on_stderr': function('s:NeovimAsyncInstallOutputHandler'),
+-                    \ 'on_exit': function('s:NeovimAsyncInstallExitHandler')})
+-            elseif s:IsWindows()
+-                if s:is_debug_on
+-                    let stdout = system('(' . s:JoinArgs(cmd) . ')')
+-                else
+-                    exec 'silent !start /b cmd /c "' . s:JoinArgs(cmd) . ' > nul 2> nul"'
+-                endif
+-            else
+-                if s:is_debug_on
+-                    let stdout = system(s:JoinArgs(cmd))
+-                else
+-                    let stdout = system(s:JoinArgs(cmd) . ' &')
+-                endif
+-            endif
+-        elseif has('python3')
+-            python3 << EOF
+-import sys
+-import vim
+-from os.path import abspath, join
+-sys.path.insert(0, abspath(join(vim.eval('s:plugin_root_folder'), 'scripts')))
+-from install_cli import main
+-main(home=vim.eval('s:home'))
+-EOF
+-        elseif has('python')
+-            python << EOF
+-import sys
+-import vim
+-from os.path import abspath, join
+-sys.path.insert(0, abspath(join(vim.eval('s:plugin_root_folder'), 'scripts')))
+-from install_cli import main
+-main(home=vim.eval('s:home'))
+-EOF
+-        else
+-            let url = printf('https://github.com/wakatime/wakatime-cli/releases/latest/download/wakatime-cli-%s-%s.zip', s:osname, s:architecture)
+-            echo printf("Download wakatime-cli and extract into the ~/.wakatime/ folder:\n%s", url)
+-        endif
+-    endfunction
+-
+ " }}}
+ 
+ 
+@@ -761,7 +689,6 @@ EOF
+     function! s:AsyncInstallHandler(output)
+         if s:is_debug_on && s:StripWhitespace(a:output != '')
+             echoerr '[WakaTime] ' . a:output
+-            call s:InstallCLI(s:false)
+         endif
+     endfunction
+ 
+@@ -774,7 +701,6 @@ EOF
+         let output = s:StripWhitespace(join(s:nvim_async_output, "\n"))
+         if s:is_debug_on && (a:exit_code != 0 || output != '')
+             echoerr printf('[WakaTime] %d: %s', a:exit_code, output)
+-            call s:InstallCLI(s:false)
+         endif
+     endfunction
+ 
+@@ -782,7 +708,6 @@ EOF
+ 
+ 
+ call s:Init()
+-call s:InstallCLI(s:true)
+ 
+ 
+ " Autocommand Events {{{
