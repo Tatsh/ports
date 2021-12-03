@@ -14,9 +14,9 @@ description         Time tracking for coding.
 long_description    ${description}
 
 checksums           wakatime-cli-1.28.6.tar.gz \
-                    rmd160  10236aa0d04b53be9943fe2c81f168f0134a70c9 \
-                    sha256  60b866bc9608dd4c4fc169cf836105b351a91e5cbd375f5140fef1f58a97d20a \
-                    size    209878 \
+                    rmd160  a1fa8af382b45a98b9578e3ecd545a4408a5c705 \
+                    sha256  0d566a29c58a280bc3d8352edf4ab3b024e5a4918bf2fd3c5150ebb1b5ea60e8 \
+                    size    209969 \
                     go-yaml-yaml-496545a6307b.tar.gz \
                     rmd160  16a43936d8ae6243895e23465132977d3a1193c2 \
                     sha256  333e78b3b9cb73b3572d62f692d32426a8554b86c93025ea032f779395869e84 \
