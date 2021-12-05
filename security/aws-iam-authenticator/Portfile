@@ -747,7 +747,7 @@ checksums           aws-iam-authenticator-0.5.3.tar.gz \
 pre-build {
     # FIXME How to correctly set the working directory to cmd/${name}? This seems hacky. Setting
     # go.package with appended cmd/${name} does not seem to work.
-    file rename {*}[glob -nocomplain -directory ${worksrcpath}/cmd/${name} *.go] ${worksrcpath}/
+    move {*}[glob -nocomplain -directory ${worksrcpath}/cmd/${name} *.go] ${worksrcpath}/
 }
 
 build.env-append    CGO_ENABLED=0
