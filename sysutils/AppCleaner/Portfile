@@ -32,5 +32,5 @@ checksums           rmd160  e9b059d443a7046e12b5dfcc830feed387135230 \
 build {}
 
 destroot {
-    file copy "${workpath}/AppCleaner.app" "${destroot}/${applications_dir}"
+    copy "${workpath}/AppCleaner.app" "${destroot}/${applications_dir}"
 }
