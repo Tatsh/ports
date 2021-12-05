@@ -36,5 +36,5 @@ extract.mkdir       yes
 build.cmd           echo
 
 destroot {
-    file copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
+    copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
 }
