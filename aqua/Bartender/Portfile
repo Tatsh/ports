@@ -62,5 +62,5 @@ if {$subport eq $name && ${os.major} < 20} {
 build {}
 
 destroot {
-    file copy "${worksrcpath}/Bartender ${major_version}.app" "${destroot}/${applications_dir}/"
+    copy "${worksrcpath}/Bartender ${major_version}.app" "${destroot}/${applications_dir}/"
 }
