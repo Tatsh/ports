@@ -41,7 +41,7 @@ extract {
     copy ${mountpoint}/${app_name} ${worksrcpath}
     copy "${mountpoint}/GUI Scripting" ${worksrcpath}
     copy "${mountpoint}/Read Me.rtf" ${worksrcpath}
-    file delete "${worksrcpath}/GUI Scripting/.DS_Store" \
+    delete "${worksrcpath}/GUI Scripting/.DS_Store" \
         "${worksrcpath}/GUI Scripting/GUI Scripting Library/.DS_Store" \
         "${worksrcpath}/GUI Scripting/UI Element Scripts (PFiddlesoft)/.DS_Store"
     my_detach_disk_image ${mountpoint}
@@ -69,7 +69,7 @@ proc my_attach_disk_image {disk_image} {
 # Unmounts a disk image.
 proc my_detach_disk_image {mountpoint} {
     system "hdiutil detach ${mountpoint} -force"
-    file delete -force ${mountpoint}
+    delete ${mountpoint}
 }
 
 if {${os.major} < 14} {
