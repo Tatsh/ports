@@ -24,7 +24,7 @@ post-extract {
     foreach item {
         Headers Modules PrivateHeaders Resources Versions/A/Resources/fr_CA.lproj
         Versions/A/Resources/pt.lproj Versions/Current} {
-        file delete ${worksrcpath}/3rd-party/Sparkle.framework/${item}
+        delete ${worksrcpath}/3rd-party/Sparkle.framework/${item}
     }
 }
 
