@@ -37,8 +37,8 @@ use_configure no
 patchfiles      patch-python-path.diff
 
 post-patch {
-    file delete -force ${worksrcpath}/python/ycm/tests
-    file delete -force ${worksrcpath}/third_party
+    delete ${worksrcpath}/python/ycm/tests
+    delete ${worksrcpath}/third_party
     reinplace "s|@PYTHON_SITE_PACKAGES_DIR@|${python_site_packages_dir}|" \
         ${worksrcpath}/python/ycm/paths.py
 }
