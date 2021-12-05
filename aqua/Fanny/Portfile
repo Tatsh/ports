@@ -41,8 +41,8 @@ xcode.destroot.settings \
     CODE_SIGN_STYLE=Manual
 
 pre-configure {
-    file delete -force ${worksrcpath}/Submodules/Internal/SMC
-    file copy ${workpath}/SMC-${smc_hash} \
+    delete ${worksrcpath}/Submodules/Internal/SMC
+    copy ${workpath}/SMC-${smc_hash} \
         ${worksrcpath}/Submodules/Internal/SMC
 }
 
