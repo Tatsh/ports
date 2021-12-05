@@ -36,5 +36,5 @@ if {$subport ne $name} {
 
 patch {
     file mkdir ${worksrcpath}/cmakelang/doc
-    file copy ${worksrcpath}/README.rst ${worksrcpath}/cmakelang/doc/README.rst
+    copy ${worksrcpath}/README.rst ${worksrcpath}/cmakelang/doc/README.rst
 }
