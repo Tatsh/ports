@@ -43,5 +43,5 @@ if {${os.major} < 18 || (${os.major} == 17 && ${os.minor} < 4)} {
 build {}
 
 destroot {
-    file copy "${worksrcpath}/AltServer.app" ${destroot}${applications_dir}
+    copy "${worksrcpath}/AltServer.app" ${destroot}${applications_dir}
 }
