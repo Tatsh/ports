@@ -36,7 +36,7 @@ depends_lib-append      port:py${python.version}-gitpython \
 patchfiles  patch-remove-click-dep.diff
 
 patch {
-    file delete -force ${worksrcpath}/PyGitUp/tests
+    delete ${worksrcpath}/PyGitUp/tests
     system "cd \"${worksrcpath}\" && ${python.bin} -m pyproject2setuppy.main build"
     reinplace "s|, 'PyGitUp.tests'||" ${worksrcpath}/setup.py
     reinplace "s|'click>.*||" ${worksrcpath}/setup.py
