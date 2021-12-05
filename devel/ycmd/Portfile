@@ -50,8 +50,8 @@ patchfiles      patch-gopls-path.diff \
                 patch-clang-tidy.diff
 
 post-patch {
-    file delete -force ${patch.dir}/ycmd/tests
-    file delete -force ${patch.dir}/third_party
+    delete ${patch.dir}/ycmd/tests
+    delete ${patch.dir}/third_party
     reinplace -W ${patch.dir} \
         "s|@LIBCLANG_DIR@|${prefix}/libexec/llvm-${clang_version}/lib|" \
         ycmd/utils.py
