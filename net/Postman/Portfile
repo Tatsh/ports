@@ -33,5 +33,5 @@ extract.mkdir       yes
 build {}
 
 destroot {
-    file copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
+    copy "${worksrcpath}/${name}.app" "${destroot}/${applications_dir}/"
 }
