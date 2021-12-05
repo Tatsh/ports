@@ -59,10 +59,10 @@ if {${os.major} < 20} {
 patchfiles-append patch-add-imageio.diff
 
 post-extract {
-    file delete -force ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
+    delete ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
     copy ${workpath}/Sparkle-${sparkle_hash} ${worksrcpath}/Frameworks/Sparkle
     copy ${workpath}/mas-${mas_hash} ${worksrcpath}/Frameworks/mas-cli
-    file delete -force ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
+    delete ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
     copy ${workpath}/ed25519-${sparkle_ed25519_hash} ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
 }
 
