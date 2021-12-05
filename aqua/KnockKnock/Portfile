@@ -47,7 +47,7 @@ patchfiles      patch-remove-sentry.diff \
 
 post-extract {
     file mkdir ${workpath}/MachO
-    file copy ${workpath}/Mach-O-${mach_o_sha}/MachOParser ${workpath}/MachO
+    copy ${workpath}/Mach-O-${mach_o_sha}/MachOParser ${workpath}/MachO
 }
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
