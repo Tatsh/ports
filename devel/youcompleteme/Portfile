@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            ycm-core YouCompleteMe 9ee19df
+github.setup            ycm-core YouCompleteMe ab28bd7
 name                    youcompleteme
-version                 20211125
+version                 20211204
 revision                0
 platforms               darwin linux freebsd
 license                 GPL-3
@@ -14,9 +14,9 @@ maintainers             {gmail.com:audvare @Tatsh}
 description             A code-completion engine for Vim.
 long_description        {*}${description}
 
-checksums           rmd160  dbe8476fb0d95695a67304c7a8955b1af4492f5e \
-                    sha256  b0edb4f728f929f38453d69d9caeca5c9c4f7c54cac552b97c70b1266d8632c7 \
-                    size    304858
+checksums           rmd160  59c7729cea651c7f277b8ae91da889ce872172c9 \
+                    sha256  fccec3682ab2354ed48eeca1143d9c2cb9a319ff7b2bb668a479340a75d0f802 \
+                    size    304982
 
 set python_minor_version 9
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
