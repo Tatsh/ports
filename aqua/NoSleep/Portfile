@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        integralpro NoSleep 1.5.1
+github.setup        integralpro NoSleep 1.5.2
 
 maintainers         {gmail.com:audvare @Tatsh}
 license             GPL-2
 description         Prevent sleep when you close the lid.
 long_description    ${description}
 
-checksums           rmd160  36731caa87a9a6a7705f0adbeb207d297c5e4e5b \
-                    sha256  34b8ba94829dfb3c5198f557df42b0c46b7ba2e8a0885a432b022c4fb1afb71e \
-                    size    3786372
+checksums           rmd160  f0d3bce370096b080173d887ed8288ec29679dce \
+                    sha256  f3687f2067c430a2cdeb10df4ba8181b2aedf7ded468a5ed6206e4802f66cc58 \
+                    size    3548431
 
 depends_run-append  port:${name}-kext
 
@@ -29,14 +29,11 @@ post-extract {
 }
 
 patchfiles \
-    patch-0002-Project-updates-including-automated-ones-from-Xcode.diff \
-    patch-0003-Completely-remove-Sparkle-and-related-UI.diff \
-    patch-0004-NoSleepPref.xib-fix-all-constraint-issues.diff \
-    patch-0005-Project-update.diff \
+    patch-0001-fixes.diff \
     patch-0006-NoSleepHelper-not-loading-kext-this-way.diff \
     patch-0007-Clean-up-kextloader-stuff.diff \
-    patch-0008-Skip-installs.diff
-patch.pre_args  -t -p2
+    patch-0008-pref-xib.diff
+patch.pre_args -p1
 
 xcode.scheme            ${name}
 xcode.configuration     Release
@@ -48,7 +45,7 @@ xcode.build.settings \
 build.pre_args          -derivedDataPath ${build.dir}/.dd
 xcode.destroot.type     not-app-not-framework
 
-worksrcdir  ${github.author}-${github.project}-c049515/${github.project}
+worksrcdir  ${github.author}-${github.project}-8200833/${github.project}
 
 destroot {
     copy ${worksrcpath}/build/${xcode.configuration}/${github.project}.app \

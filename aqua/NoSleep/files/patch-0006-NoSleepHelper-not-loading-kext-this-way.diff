@@ -9,8 +9,8 @@ Subject: [PATCH 6/7] NoSleepHelper: not loading kext this way
 
 diff --git a/NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m b/NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
 index 371b73d..196f7e7 100644
---- a/NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
-+++ b/NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
+--- NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
++++ NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
 @@ -74,8 +74,6 @@ static void handleSIGTERM(int signum) {
      signal(SIGTERM, handleSIGTERM);
      //[updater setUpdateCheckInterval:60*60*24*7];

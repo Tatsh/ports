@@ -9,8 +9,8 @@ Subject: [PATCH 7/7] Clean up kextloader stuff
 
 diff --git a/NoSleep/NoSleep.xcodeproj/project.pbxproj b/NoSleep/NoSleep.xcodeproj/project.pbxproj
 index 71d8e15..1d7e437 100644
---- a/NoSleep/NoSleep.xcodeproj/project.pbxproj
-+++ b/NoSleep/NoSleep.xcodeproj/project.pbxproj
+--- NoSleep/NoSleep.xcodeproj/project.pbxproj
++++ NoSleep/NoSleep.xcodeproj/project.pbxproj
 @@ -11,10 +11,8 @@
  		921A63221688F20200BCB825 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921A631E1688D45900BCB825 /* Security.framework */; };
  		921A632D1688F29300BCB825 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921A631E1688D45900BCB825 /* Security.framework */; };
