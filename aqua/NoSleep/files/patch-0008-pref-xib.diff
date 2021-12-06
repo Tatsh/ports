@@ -1,5 +1,71 @@
+diff --git NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
+index 21c759c..6571a95 100644
+--- NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
++++ NoSleep/NoSleepHelper/NoSleep_ControlAppDelegate.m
+@@ -21,11 +21,7 @@
+ @synthesize window;
+ @synthesize statusItemMenu;
+ 
+-static void handleSIGTERM(int signum) {
+-    if([[((NoSleep_ControlAppDelegate *)[NSApp delegate]) updater] updateInProgress]) {
+-        return;
+-    }
+-    
++static void handleSIGTERM(int signum) {    
+     signal(signum, SIG_DFL);
+     raise(signum);
+ }
+diff --git NoSleep/NoSleepPref/NoSleepPreferences.m NoSleep/NoSleepPref/NoSleepPreferences.m
+index dec43f9..1ccb53a 100644
+--- NoSleep/NoSleepPref/NoSleepPreferences.m
++++ NoSleep/NoSleepPref/NoSleepPreferences.m
+@@ -19,24 +19,17 @@ NSBundle *getMainAppBundle() {
+ 
+ - (IBAction)updateNow:(id)sender {
+     [self willChangeValueForKey:@"lastUpdateDate"];
+-    [[self updater] checkForUpdates:sender];
+ }
+ 
+ - (BOOL)autoUpdate {
+-    return [[self updater] automaticallyChecksForUpdates];
++    return NO;
+ }
+ 
+ - (void)setAutoUpdate:(BOOL)value {
+-    [[self updater] setAutomaticallyChecksForUpdates:value];
+ }
+ 
+ - (NSString *)lastUpdateDate {
+-    if([[self updater] lastUpdateCheckDate] == nil)
+-        return @"Never";
+-    
+-    return [NSDateFormatter localizedStringFromDate:[[self updater] lastUpdateCheckDate]
+-                                          dateStyle:NSDateFormatterFullStyle
+-                                          timeStyle:NSDateFormatterFullStyle];
++    return @"Never";
+ }
+ 
+ - (BOOL)isBWEnabled {
+@@ -139,8 +132,6 @@ NSBundle *getMainAppBundle() {
+     if(!m_noSleepInterface) {
+         SHOW_UI_ALERT_KEXT_NOT_LOADED();           
+     }
+-    
+-    [[self updater] setDelegate:self];
+ }
+ 
+ - (void)didUnselect {
+@@ -148,8 +139,6 @@ NSBundle *getMainAppBundle() {
+         [m_noSleepInterface release];
+         m_noSleepInterface = nil;
+     }
+-    
+-    [[self updater] setDelegate:nil];
+ }
+ 
+ - (IBAction)checkboxEnableACClicked:(id)sender {
 diff --git NoSleep/NoSleepPref/en.lproj/NoSleepPref.xib NoSleep/NoSleepPref/en.lproj/NoSleepPref.xib
-index abe681f..b3ada99 100644
+index abe681f..3154ace 100644
 --- NoSleep/NoSleepPref/en.lproj/NoSleepPref.xib
 +++ NoSleep/NoSleepPref/en.lproj/NoSleepPref.xib
 @@ -1,9 +1,9 @@
@@ -275,3 +341,11 @@ index abe681f..b3ada99 100644
              <buttonCell key="cell" type="check" title="Use black and white menu bar icons" bezelStyle="regularSquare" imagePosition="left" alignment="left" enabled="NO" state="on" transparent="YES" inset="2" id="257">
                  <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                  <font key="font" metaFont="system"/>
+@@ -206,6 +185,7 @@
+             <connections>
+                 <binding destination="-2" name="value" keyPath="isBWEnabled" id="265"/>
+             </connections>
++            <point key="canvasLocation" x="138" y="237"/>
+         </button>
+     </objects>
+     <resources>
