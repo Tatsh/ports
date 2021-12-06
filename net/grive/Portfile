@@ -8,7 +8,7 @@ PortGroup           github 1.0
 github.setup        vitalif grive2 6901fbb
 
 name                grive
-version             0.5.2_p20210527
+version             0.5.2_p20211128
 revision            0
 platforms           darwin linux freebsd
 license             GPL-2
