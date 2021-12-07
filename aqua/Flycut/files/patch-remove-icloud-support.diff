@@ -1,3 +1,163 @@
+diff --git AppController.h AppController.h
+index 0ccfead..db17349 100755
+--- AppController.h
++++ AppController.h
+@@ -115,8 +115,6 @@
+ -(IBAction) switchMenuIcon:(id)sender;
+ -(IBAction) toggleLoadOnStartup:(id)sender;
+ -(IBAction) toggleMainHotKey:(id)sender;
+--(IBAction) toggleICloudSyncSettings:(id)sender;
+--(IBAction) toggleICloudSyncClippings:(id)sender;
+ -(IBAction) setSavePreference:(id)sender;
+ -(void) setHotKeyPreferenceForRecorder:(SRRecorderControl *)aRecorder;
+ 
+diff --git AppController.m AppController.m
+index 7d308f8..9efee3f 100755
+--- AppController.m
++++ AppController.m
+@@ -19,7 +19,6 @@
+ #import "UKLoginItemRegistry.h"
+ #import "NSWindow+TrueCenter.h"
+ #import "NSWindow+ULIZoomEffect.h"
+-#import "MJCloudKitUserDefaultsSync/MJCloudKitUserDefaultsSync.h"
+ #import <ApplicationServices/ApplicationServices.h>
+ #import <CoreFoundation/CoreFoundation.h>
+ #import <ServiceManagement/ServiceManagement.h>
+@@ -68,12 +67,6 @@
+         @"suppressAccessibilityAlert",
+         nil]];
+ 
+-	/* For testing, the ability to force initial values of the sync settings:
+-	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]
+-											 forKey:@"syncSettingsViaICloud"];
+-	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]
+-											 forKey:@"syncClippingsViaICloud"];*/
+-
+ 	settingsSyncList = @[@"displayNum",
+ 						 @"displayLen",
+ 						 @"menuIcon",
+@@ -97,25 +90,6 @@
+ 	return [super init];
+ }
+ 
+-- (void)registerOrDeregisterICloudSync
+-{
+-	if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"syncSettingsViaICloud"] ) {
+-		[[MJCloudKitUserDefaultsSync sharedSync] removeNotificationsFor:MJSyncNotificationChanges forTarget:self];
+-		[[MJCloudKitUserDefaultsSync sharedSync] addNotificationFor:MJSyncNotificationChanges withSelector:@selector(checkPreferencesChanges:) withTarget: self];
+-		// Not registering for conflict notifications, since we just sync settings, and if the settings are conflictingly adjusted simultaneously on two systems there is nothing to say which setting is better.
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] startWithKeyMatchList:settingsSyncList
+-					withContainerIdentifier:kiCloudId];
+-	}
+-	else {
+-		[[MJCloudKitUserDefaultsSync sharedSync] stopForKeyMatchList:settingsSyncList];
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] removeNotificationsFor:MJSyncNotificationChanges forTarget:self];
+-	}
+-
+-	[flycutOperator registerOrDeregisterICloudSync];
+-}
+-
+ - (void)showAccessibilityAlert {
+     BOOL suppressAlert = [[NSUserDefaults standardUserDefaults] boolForKey:@"suppressAccessibilityAlert"];
+     NSDictionary* options = @{(id) (kAXTrustedCheckOptionPrompt): @NO};
+@@ -243,7 +217,6 @@
+         }
+ #endif
+     });
+-    [self registerOrDeregisterICloudSync];
+ 
+     // Check if  the app has Accessibility permission
+     [NSApp activateIgnoringOtherApps: YES];
+@@ -1008,13 +981,11 @@
+ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+ 	// Forward the token to your provider, using a custom method.
+ 	NSLog(@"Registered for remote notifications.");
+-	[[MJCloudKitUserDefaultsSync sharedSync] setRemoteNotificationsEnabled:YES];
+ }
+ 
+ - (void)application:(NSApplication *)application
+ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+ 	NSLog(@"Remote notification support is unavailable due to error: %@", error);
+-	[[MJCloudKitUserDefaultsSync sharedSync] setRemoteNotificationsEnabled:NO];
+ }
+ 
+ - (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+@@ -1108,73 +1079,8 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+ 	[[SGHotKeyCenter sharedCenter] registerHotKey:mainHotKey];
+ }
+ 
+-- (IBAction)toggleICloudSyncSettings:(id)sender
+-{
+-	if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"syncSettingsViaICloud"] ) {
+-		NSAlert *alert = [[NSAlert alloc] init];
+-		[alert setMessageText:@"Warning"];
+-		[alert addButtonWithTitle:@"Ok"];
+-		[alert addButtonWithTitle:@"Cancel"];
+-		[alert setInformativeText:@"Enabling iCloud Settings Sync will overwrite local settings if your iCloud account already has Flycut settings.  If you have never enabled this in Flycut on any computer, your current settings will be retained and loaded into iCloud."];
+-		if ( [alert runModal] != NSAlertFirstButtonReturn )
+-		{
+-			[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]
+-													 forKey:@"syncSettingsViaICloud"];
+-		}
+-		[alert release];
+-		// Add option to overwrite iCloud.
+-	}
+-
+-	[self registerOrDeregisterICloudSync];
+-}
+-
+-- (IBAction)toggleICloudSyncClippings:(id)sender
+-{
+-	if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"syncClippingsViaICloud"] ) {
+-		if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"savePreference"] < 2 ) {
+-			// Must set syncClippingsViaICloud = 2
+-			NSAlert *alert = [[NSAlert alloc] init];
+-			[alert setMessageText:@"Settings Change"];
+-			[alert addButtonWithTitle:@"Ok"];
+-			[alert addButtonWithTitle:@"Cancel"];
+-			[alert setInformativeText:@"iCloud Clippings Sync will set 'Save: After each clip'."];
+-			if ( [alert runModal] == NSAlertFirstButtonReturn )
+-			{
+-				[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:2]
+-														 forKey:@"savePreference"];
+-			} else {
+-				[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]
+-														 forKey:@"syncClippingsViaICloud"];
+-			}
+-			[alert release];
+-		}
+-	}
+-
+-	[self registerOrDeregisterICloudSync];
+-}
+-
+ - (IBAction)setSavePreference:(id)sender
+ {
+-	if ( [[NSUserDefaults standardUserDefaults] integerForKey:@"savePreference"] < 2 ) {
+-		if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"syncClippingsViaICloud"] ) {
+-			// Must disable syncClippingsViaICloud
+-			NSAlert *alert = [[NSAlert alloc] init];
+-			[alert setMessageText:@"Settings Change"];
+-			[alert addButtonWithTitle:@"Ok"];
+-			[alert addButtonWithTitle:@"Cancel"];
+-			[alert setInformativeText:@"Disabling 'Save: After each clip' will disable iCloud Clippings Sync."];
+-
+-			if ( [alert runModal] == NSAlertFirstButtonReturn )
+-			{
+-				[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]];
+-			}
+-			else
+-			{
+-				[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:2]];
+-			}
+-			[alert release];
+-		}
+-	}
+ }
+ 
+ -(IBAction)clearClippingList:(id)sender {
 diff --git English.lproj/MainMenu.nib/designable.nib English.lproj/MainMenu.nib/designable.nib
 index bf73366..aeeb9d5 100644
 --- English.lproj/MainMenu.nib/designable.nib
@@ -1539,10 +1699,53 @@ zwMT2O);_KMS_iZaYQ?l-TZgs|YaQM?qIFd3nAWIPT<fIPnAVxC_*QCb^8b~#^yt;=
 Pe-pdofAjypt+M|IpTiyq
 
 diff --git Flycut.xcodeproj/project.pbxproj Flycut.xcodeproj/project.pbxproj
-index 253cf66..ef5fc52 100755
+index 253cf66..bc2e1ea 100755
 --- Flycut.xcodeproj/project.pbxproj
 +++ Flycut.xcodeproj/project.pbxproj
-@@ -1598,7 +1598,6 @@
+@@ -59,8 +59,6 @@
+ 		77A4F3B3139BD72300F39666 /* SGKeyCombo.h in Headers */ = {isa = PBXBuildFile; fileRef = 77A4F3AB139BD72300F39666 /* SGKeyCombo.h */; };
+ 		77A4F3B4139BD72300F39666 /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A4F3AC139BD72300F39666 /* SGKeyCombo.m */; };
+ 		77AE72BD23CAE81A00F6A44B /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77AE72BC23CAE81A00F6A44B /* ApplicationServices.framework */; };
+-		77AE730623D2D49100F6A44B /* MJCloudKitUserDefaultsSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF82B3B2098F9CA00E2A1B9 /* MJCloudKitUserDefaultsSync.framework */; };
+-		77AE730723D2D49100F6A44B /* MJCloudKitUserDefaultsSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF82B3B2098F9CA00E2A1B9 /* MJCloudKitUserDefaultsSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+ 		77DA6B921CB9549B0077917F /* FlycutStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DA6B8E1CB9549B0077917F /* FlycutStore.m */; };
+ 		77DA6B931CB9549B0077917F /* FlycutStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 77DA6B8F1CB9549B0077917F /* FlycutStore.h */; };
+ 		77DA6B941CB9549B0077917F /* FlycutClipping.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DA6B901CB9549B0077917F /* FlycutClipping.m */; };
+@@ -200,17 +198,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		77AE730823D2D49100F6A44B /* Embed Frameworks */ = {
+-			isa = PBXCopyFilesBuildPhase;
+-			buildActionMask = 2147483647;
+-			dstPath = "";
+-			dstSubfolderSpec = 10;
+-			files = (
+-				77AE730723D2D49100F6A44B /* MJCloudKitUserDefaultsSync.framework in Embed Frameworks */,
+-			);
+-			name = "Embed Frameworks";
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		8DCE826C1F4550AA00124117 /* Embed Frameworks */ = {
+ 			isa = PBXCopyFilesBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -379,7 +366,6 @@
+ 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+ 				77192A3823D6EADF00EDB9BC /* ServiceManagement.framework in Frameworks */,
+ 				AAFAC85F0A1BD9DD00DC6025 /* Carbon.framework in Frameworks */,
+-				77AE730623D2D49100F6A44B /* MJCloudKitUserDefaultsSync.framework in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -780,7 +766,6 @@
+ 				8D11072C0486CEB800E47090 /* Sources */,
+ 				8D11072E0486CEB800E47090 /* Frameworks */,
+ 				AAE2036C0A27B2B9002DCC2A /* Headers */,
+-				77AE730823D2D49100F6A44B /* Embed Frameworks */,
+ 				77192A3923D6F45F00EDB9BC /* CopyFiles */,
+ 			);
+ 			buildRules = (
+@@ -1598,7 +1583,6 @@
  			isa = XCBuildConfiguration;
  			buildSettings = {
  				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1550,7 +1753,7 @@ index 253cf66..ef5fc52 100755
  				CODE_SIGN_IDENTITY = "Apple Development";
  				COMBINE_HIDPI_IMAGES = YES;
  				COPY_PHASE_STRIP = NO;
-@@ -1632,7 +1631,6 @@
+@@ -1632,7 +1616,6 @@
  			isa = XCBuildConfiguration;
  			buildSettings = {
  				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1558,3 +1761,134 @@ index 253cf66..ef5fc52 100755
  				CODE_SIGN_IDENTITY = "Apple Development";
  				COMBINE_HIDPI_IMAGES = YES;
  				COPY_PHASE_STRIP = NO;
+diff --git FlycutOperator.h FlycutOperator.h
+index 41bd80b..f3a60e1 100644
+--- FlycutOperator.h
++++ FlycutOperator.h
+@@ -76,7 +76,6 @@
+ // Save and load
+ -(void) saveEngine;
+ -(bool) loadEngineFromPList;
+--(void) registerOrDeregisterICloudSync;
+ -(void) checkCloudKitUpdates;
+ 
+ // Preference related
+diff --git FlycutOperator.m FlycutOperator.m
+index 7a880d7..86ffade 100644
+--- FlycutOperator.m
++++ FlycutOperator.m
+@@ -14,7 +14,6 @@
+ 
+ #import <Foundation/Foundation.h>
+ #import "FlycutOperator.h"
+-#import "MJCloudKitUserDefaultsSync/MJCloudKitUserDefaultsSync/MJCloudKitUserDefaultsSync.h"
+ 
+ @implementation FlycutOperator
+ 
+@@ -45,10 +44,6 @@
+         @"removeDuplicates",
+         [NSNumber numberWithBool:NO],
+         @"pasteMovesToTop",
+-        [NSNumber numberWithBool:NO],
+-        @"syncSettingsViaICloud",
+-        [NSNumber numberWithBool:NO],
+-        @"syncClippingsViaICloud",
+         nil]];
+ 
+ 	settingsSyncList = @[@"rememberNum",
+@@ -78,8 +73,6 @@
+ 
+ 	// Stack position starts @ 0 by default
+ 	stackPosition = favoritesStackPosition = stashedStackPosition = 0;
+-
+-	[self registerOrDeregisterICloudSync];
+ }
+ 
+ -(FlycutStore*) allocInitFlycutStoreRemembering:(int) remembering
+@@ -559,48 +552,6 @@
+     }
+ }
+ 
+--(void) registerOrDeregisterICloudSync
+-{
+-	if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"syncSettingsViaICloud"] ) {
+-		[[MJCloudKitUserDefaultsSync sharedSync] startWithKeyMatchList:settingsSyncList
+-								  withContainerIdentifier:kiCloudId];
+-	}
+-	else {
+-		[[MJCloudKitUserDefaultsSync sharedSync] stopForKeyMatchList:settingsSyncList];
+-	}
+-
+-	BOOL syncClippings = [[NSUserDefaults standardUserDefaults] boolForKey:@"syncClippingsViaICloud"];
+-	BOOL changedSyncClippings = ( ![[NSUserDefaults standardUserDefaults] objectForKey:@"previousSyncClippingsViaICloud"]
+-								 || syncClippings != [[NSUserDefaults standardUserDefaults] boolForKey:@"previousSyncClippingsViaICloud"] );
+-
+-	if ( changedSyncClippings )
+-		[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:syncClippings]
+-												 forKey:@"previousSyncClippingsViaICloud"];
+-
+-	// We will enable / disable regardless of changedSyncClippings because this gets called at app launch, where the feature was previously enabled but needs to be registered.
+-	if ( syncClippings ) {
+-		if ( changedSyncClippings )
+-			firstClippingsSyncAfterEnabling = YES;
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] removeNotificationsFor:MJSyncNotificationChanges forTarget:self];
+-		[[MJCloudKitUserDefaultsSync sharedSync] addNotificationFor:MJSyncNotificationChanges withSelector:@selector(checkPreferencesChanges:) withTarget: self];
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] removeNotificationsFor:MJSyncNotificationConflicts forTarget:self];
+-		[[MJCloudKitUserDefaultsSync sharedSync] addNotificationFor:MJSyncNotificationConflicts withSelector:@selector(checkPreferencesConflicts:) withTarget: self];
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] removeNotificationsFor:MJSyncNotificationSaveSuccess forTarget:self];
+-		[[MJCloudKitUserDefaultsSync sharedSync] addNotificationFor:MJSyncNotificationSaveSuccess withSelector:@selector(checkPreferencesSaveSuccess:) withTarget: self];
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] startWithKeyMatchList:@[@"store"]
+-								  withContainerIdentifier:kiCloudId];
+-	}
+-	else {
+-		[[MJCloudKitUserDefaultsSync sharedSync] removeNotificationsFor:MJSyncNotificationChanges forTarget:self];
+-
+-		[[MJCloudKitUserDefaultsSync sharedSync] stopForKeyMatchList:@[@"store"]];
+-	}
+-}
+-
+ -(NSDictionary*) checkPreferencesChanges:(NSDictionary*)changes
+ {
+ 	if ( [changes valueForKey:@"store"] )
+@@ -617,8 +568,6 @@
+ 
+ 	[self integrateStoreAtKey:@"jcList" into:clippingStore descriptiveName:@""];
+ 	// It is possible that the user would disable sync rather than merge the main clippings store.  They would have a poor user experience if they were then asked the same question about the favorites store after believing that they had disabled sync, so check setting before integrating.
+-	if ( [[NSUserDefaults standardUserDefaults] boolForKey:@"syncClippingsViaICloud"] )
+-		[self integrateStoreAtKey:@"favoritesList" into:favoritesStore descriptiveName:@"favorites "];
+ 	DLog(@"integrating stores complete");
+ 
+ 	inhibitSaveEngineAfterListModification = NO;
+@@ -717,10 +666,7 @@
+ 					}
+ 					else if ( [choice isEqualToString:@"Disable Sync"] )
+ 					{
+-						[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO]
+-																 forKey:@"syncClippingsViaICloud"];
+ 						[newContent release];
+-						[self registerOrDeregisterICloudSync];
+ 						[self actionAfterListModification]; // To overwrite what sync put in the defaults.
+ 						return;
+ 					}
+@@ -748,9 +694,7 @@
+ 							else
+ 							{
+ 								// This should be impossible, so cover it with disabling sync.
+-								[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:NO] forKey:@"syncClippingsViaICloud"];
+ 								[newContent release];
+-								[self registerOrDeregisterICloudSync];
+ 								[self actionAfterListModification]; // To overwrite what sync put in the defaults.
+ 								return;
+ 							}
+@@ -917,7 +861,6 @@
+ 
+ -(void) checkCloudKitUpdates
+ {
+-	[[MJCloudKitUserDefaultsSync sharedSync] checkCloudKitUpdates];
+ }
+ 
+ -(bool) loadEngineFrom:(NSDictionary*)loadDict key:(NSString*)listKey into:(FlycutStore*)store
