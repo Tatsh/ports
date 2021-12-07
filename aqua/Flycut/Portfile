@@ -5,6 +5,7 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        TermiT Flycut 1.9.6
+revision            1
 
 categories-append   sysutils
 license             GPL-3
@@ -16,17 +17,15 @@ checksums           rmd160  1840df6ca97f77b1342778ed19be0a7892dc5750 \
                     sha256  72b5da825b73da3d18381c49229c1d6a9258bad015717e5fbb4523fb4e447515 \
                     size    3104683
 
+patchfiles          patch-remove-icloud-support.diff
+
 xcode.scheme        ${name}
 xcode.configuration Release
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
-destroot.pre_args -derivedDataPath ${worksrcpath}
-
-post-patch {
-    reinplace "/.*CODE_SIGN_ENTITLEMENTS =.*/d" "${name}.xcodeproj/project.pbxproj"
-}
+destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
