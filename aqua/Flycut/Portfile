@@ -5,7 +5,7 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        TermiT Flycut 1.9.6
-revision            2
+revision            3
 
 categories-append   sysutils
 license             GPL-3
@@ -17,6 +17,10 @@ checksums           rmd160  1840df6ca97f77b1342778ed19be0a7892dc5750 \
                     sha256  72b5da825b73da3d18381c49229c1d6a9258bad015717e5fbb4523fb4e447515 \
                     size    3104683
 
+depends_build       port:git
+
+patch.cmd           ${prefix}/bin/git
+patch.pre_args      apply --binary -p0 -
 patchfiles          patch-remove-icloud-support.diff
 
 xcode.scheme        ${name}
