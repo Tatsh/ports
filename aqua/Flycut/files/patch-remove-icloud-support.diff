@@ -1,3 +1,21 @@
+From 7f14a9e9bfaf92b2fa484e4122785f8a28435c98 Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Thu, 9 Dec 2021 04:51:01 -0500
+Subject: [PATCH] MacPorts changes
+
+* Remove iCloud support and entitlements
+---
+ AppController.h                               |   2 -
+ AppController.m                               |  94 ------------------
+ English.lproj/MainMenu.nib/designable.nib     |  47 ++-------
+ .../MainMenu.nib/keyedobjects-101300.nib      | Bin 0 -> 37891 bytes
+ English.lproj/MainMenu.nib/keyedobjects.nib   | Bin 46302 -> 47454 bytes
+ Flycut.xcodeproj/project.pbxproj              |  17 ----
+ FlycutOperator.h                              |   1 -
+ FlycutOperator.m                              |  57 -----------
+ 8 files changed, 7 insertions(+), 211 deletions(-)
+ create mode 100644 English.lproj/MainMenu.nib/keyedobjects-101300.nib
+
 diff --git AppController.h AppController.h
 index 0ccfead..db17349 100755
 --- AppController.h
@@ -1774,7 +1792,7 @@ index 41bd80b..f3a60e1 100644
  
  // Preference related
 diff --git FlycutOperator.m FlycutOperator.m
-index 7a880d7..86ffade 100644
+index c7153d8..f369157 100644
 --- FlycutOperator.m
 +++ FlycutOperator.m
 @@ -14,7 +14,6 @@
@@ -1805,7 +1823,7 @@ index 7a880d7..86ffade 100644
  }
  
  -(FlycutStore*) allocInitFlycutStoreRemembering:(int) remembering
-@@ -559,48 +552,6 @@
+@@ -560,48 +553,6 @@
      }
  }
  
@@ -1854,7 +1872,7 @@ index 7a880d7..86ffade 100644
  -(NSDictionary*) checkPreferencesChanges:(NSDictionary*)changes
  {
  	if ( [changes valueForKey:@"store"] )
-@@ -617,8 +568,6 @@
+@@ -618,8 +569,6 @@
  
  	[self integrateStoreAtKey:@"jcList" into:clippingStore descriptiveName:@""];
  	// It is possible that the user would disable sync rather than merge the main clippings store.  They would have a poor user experience if they were then asked the same question about the favorites store after believing that they had disabled sync, so check setting before integrating.
@@ -1863,7 +1881,7 @@ index 7a880d7..86ffade 100644
  	DLog(@"integrating stores complete");
  
  	inhibitSaveEngineAfterListModification = NO;
-@@ -717,10 +666,7 @@
+@@ -718,10 +667,7 @@
  					}
  					else if ( [choice isEqualToString:@"Disable Sync"] )
  					{
@@ -1874,7 +1892,7 @@ index 7a880d7..86ffade 100644
  						[self actionAfterListModification]; // To overwrite what sync put in the defaults.
  						return;
  					}
-@@ -748,9 +694,7 @@
+@@ -749,9 +695,7 @@
  							else
  							{
  								// This should be impossible, so cover it with disabling sync.
@@ -1884,7 +1902,7 @@ index 7a880d7..86ffade 100644
  								[self actionAfterListModification]; // To overwrite what sync put in the defaults.
  								return;
  							}
-@@ -917,7 +861,6 @@
+@@ -918,7 +862,6 @@
  
  -(void) checkCloudKitUpdates
  {
@@ -1892,3 +1910,6 @@ index 7a880d7..86ffade 100644
  }
  
  -(bool) loadEngineFrom:(NSDictionary*)loadDict key:(NSString*)listKey into:(FlycutStore*)store
+-- 
+2.34.1
+
