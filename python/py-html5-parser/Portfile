@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-html5-parser
+version             0.4.10
+
+platforms           darwin
+license             Apache-2.0
+maintainers         openmaintainer
+description         Fast C based HTML 5 parsing for Python.
+long_description    ${description}
+
+checksums           rmd160  066421330656bd66ca088ad3b2ba58f03689a351 \
+                    sha256  f9294418c0da95c2d5facc19d3dc32941093a6b8e3b3e4b36cc7b5a1697fbca4 \
+                    size    272814
+
+python.versions     38 39 310
+
+if {${name} ne ${subport}} {
+    depends_build-append port:pkgconfig
+    depends_lib-append port:libxml2
+    depends_run-append \
+        port:py-chardet \
+        port:py-lxml
+
+    configure.env PKGCONFIG_EXE=${prefix}/bin/pkg-config
+
+    livecheck.type  none
+}
