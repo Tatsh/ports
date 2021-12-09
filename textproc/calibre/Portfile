@@ -1,0 +1,106 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                    calibre
+version                 5.33.2
+homepage                https://calibre-ebook.com/
+categories              textproc
+platforms               darwin
+license                 GPL-3
+maintainers             {gmail.com:audvare @Tatsh}
+description             An ebook manager.
+long_description        {*}${description}
+master_sites            https://download.calibre-ebook.com/${version}/
+use_xz                  yes
+
+checksums           rmd160  46412c927a4fd839b74372f7654583cb493fca10 \
+                    sha256  c2db77b9c09a16af702e4efd09e0b3db4b4c33a01b2ed6782e7e93c4ec7476f2 \
+                    size    37081104
+
+depends_build \
+    port:py-pyqt5 \
+    port:py-pyqt5-sip \
+    port:py-pyqt-builder \
+    port:py-sip \
+    port:py-setuptools \
+    port:pkgconfig
+depends_lib \
+    port:fontconfig \
+    port:freetype \
+    port:glib2 \
+    port:hunspell \
+    port:hyphen \
+    port:icu \
+    port:libmtp \
+    port:libstemmer \
+    port:libusb \
+    port:libwmf \
+    port:optipng \
+    port:podofo \
+    port:py-apsw \
+    port:py-beautifulsoup4 \
+    port:py-cchardet \
+    port:py-chardet \
+    port:py-cssselect \
+    port:py-css-parser \
+    port:py-dateutil \
+    port:py-dnspython \
+    port:py-feedparser \
+    port:py-html2text \
+    port:py-html5-parser \
+    port:py-lxml \
+    port:py-markdown \
+    port:py-mechanize \
+    port:py-msgpack \
+    port:py-netifaces \
+    port:py-pillow \
+    port:py-psutil \
+    port:py-chm \
+    port:py-pycryptodome \
+    port:py-pygments \
+    port:py-pyqt5 \
+    port:py-regex \
+    port:py-snowballstemmer \
+    port:py-zeroconf \
+    port:zlib
+    # port:pyqt5-webengine
+
+patchfiles \
+    patch-calibre-2.9.0-no_updates_dialog.diff \
+    patch-calibre-disable_plugins.diff \
+    patch-force-install.diff \
+    patch-paths.diff
+
+post-patch {
+    reinplace "s:if os.geteuid() == 0:if False and os.geteuid() == 0:" \
+        setup/install.py
+}
+
+build.env \
+    SW=${prefix} \
+    QMAKE=${prefix}/libexec/qt5/bin/qmake
+build.cmd   ${python.bin}
+build.pre_args setup.py build
+
+destroot.cmd ${python.bin}
+destroot.env-append \
+    QMAKE=${prefix}/libexec/qt5/bin/qmake \
+    LC_ALL=C.utf8 \
+    PODOFO_INC_DIR=${prefix}/include/podofo \
+    PODOFO_LIB_DIR=${prefix}/lib \
+    CALIBRE_PY3_PORT=1
+destroot.pre_args \
+    setup.py \
+    install \
+    --make-errors-fatal \
+    --root=${destroot} \
+    --prefix=${prefix} \
+    --libdir=${prefix}/lib \
+    --staging-root=${destroot}${prefix} \
+    --staging-libdir=${destroot}${prefix}/lib
+destroot.args
+destroot.post_args
+destroot.destdir
+destroot.target
