@@ -1,0 +1,105 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        gao-sun eul 1.6.2 v
+
+categories          aqua sysutils
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             GPL-2
+supported_archs     arm64 x86_64
+
+description         macOS status monitoring app written in SwiftUI.
+long_description    ${description}
+
+
+set main_distfile       ${distfiles}
+
+set systemkit_version 0.0.12
+set systemkit_distfile gao-sun-SystemKit-v${systemkit_version}.tar.gz
+set systemkit_mastersite https://github.com/${github.author}/SystemKit/archive/refs/tags/v${systemkit_version}.tar.gz?dummy=
+
+set swiftyjson_version 5.0.0
+set swiftyjson_distfile swiftyjson-${swiftyjson_version}.tar.gz
+set swiftyjson_mastersite https://github.com/SwiftyJSON/SwiftyJSON/archive/refs/tags/${swiftyjson_version}.tar.gz?dummy=
+
+set localize_swift_version 3.1.0
+set localize_swift_distfile localize-swift-${localize_swift_version}.tar.gz
+set localize_swift_mastersite https://github.com/marmelroy/Localize-Swift/archive/refs/tags/${localize_swift_version}.tar.gz?dummy=
+
+set launchatlogin_version 4.0.0
+set launchatlogin_distfile launchatlogin-${launchatlogin_version}.tar.gz
+set launchatlogin_mastersite https://github.com/sindresorhus/LaunchAtLogin/archive/refs/tags/v${launchatlogin_version}.tar.gz?dummy=
+
+distfiles           ${name}-${version}.tar.gz:main \
+                    ${systemkit_distfile}:systemkit \
+                    ${swiftyjson_distfile}:swiftyjson \
+                    ${localize_swift_distfile}:localize_swift \
+                    ${launchatlogin_distfile}:launchatlogin
+
+master_sites        ${github.homepage}/archive/refs/tags/${git.branch}.tar.gz?dummy=:main \
+                    ${systemkit_mastersite}:systemkit \
+                    ${swiftyjson_mastersite}:swiftyjson \
+                    ${localize_swift_mastersite}:localize_swift \
+                    ${launchatlogin_mastersite}:launchatlogin
+
+checksums           eul-1.6.2.tar.gz \
+                    rmd160  fb9d03559c23ba44cc968146568aedc5f7cbb932 \
+                    sha256  59bc2c263552e9779c52a7b9efcccddf3070087205fe8ad7edc3599d39e38886 \
+                    size    1188553 \
+                    gao-sun-SystemKit-v0.0.12.tar.gz \
+                    rmd160  7e81f17576db7f873a5509ae977602392c7bfe66 \
+                    sha256  5cc265aab8bd4fba4f530c90b78202357da9fade67b96ba6bbe20c8d3df90ba9 \
+                    size    20384 \
+                    swiftyjson-5.0.0.tar.gz \
+                    rmd160  c9d7d35de9ba4d0335ce075841e585d710e9fdd9 \
+                    sha256  00578c2c4cfeb29fa81c6c22abdede5733cf84aaf246b907bc7351adbda6952c \
+                    size    59161 \
+                    localize-swift-3.1.0.tar.gz \
+                    rmd160  004e0de743d7f98cafd28c5cd6022c3c69b9cba9 \
+                    sha256  3fa3b6285a9cc1ccb99e40d25522fb40b744d31369992f35d5a9960131de6b48 \
+                    size    29170 \
+                    launchatlogin-4.0.0.tar.gz \
+                    rmd160  95443482fd1718a8f04609ce684d544c9d23d6e6 \
+                    sha256  31d618671d4ee1382f2654f8c5405e75ab9a9c8bcc8b6ceda813bb6ac3b9e29c \
+                    size    3351532
+
+if {${os.major} < 19} {
+    known_fail      yes
+    pre-fetch {
+        ui_error "${name} requires macOS 10.15 or later."
+        return -code error "incompatible macOS version"
+    }
+}
+
+post-extract {
+    file mkdir ${worksrcpath}/cloned
+    file mkdir ${worksrcpath}/cloned/checkouts
+    file mkdir ${worksrcpath}/cloned/repositories
+    copy ${filespath}/workspace-state.json ${worksrcpath}/cloned/
+    copy ${filespath}/checkouts-state.json ${worksrcpath}/cloned/repositories/
+    move ${workpath}/SystemKit-${systemkit_version} ${worksrcpath}/cloned/checkouts/SystemKit
+    move ${workpath}/SwiftyJSON-${swiftyjson_version} ${worksrcpath}/cloned/checkouts/SwiftyJSON
+    move ${workpath}/Localize-Swift-${localize_swift_version} ${worksrcpath}/cloned/checkouts/Localize-Swift
+    move ${workpath}/LaunchAtLogin-${launchatlogin_version} ${worksrcpath}/cloned/checkouts/LaunchAtLogin
+}
+
+xcode.configuration Release
+xcode.scheme        ${name}
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO
+destroot.pre_args \
+    -clonedSourcePackagesDirPath ${worksrcpath}/cloned \
+    -derivedDataPath ${worksrcpath} \
+    -disableAutomaticPackageResolution \
+    -disablePackageRepositoryCache
+destroot.env HOME=${worksrcpath}/.home
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
