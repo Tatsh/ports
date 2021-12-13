@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                Postman
-version             9.3.1
+version             9.4.1
 
 categories          net aqua devel
 license             Restrictive
@@ -17,9 +17,9 @@ extract.suffix      .zip
 distfiles           ${name}-${version}${extract.suffix}
 master_sites        https://dl.pstmn.io/download/version/${version}/osx_64?dummy=
 
-checksums           rmd160  4fa91796036eb92a1f108843c7585a420e0a1f5a \
-                    sha256  d83b40d60538e46c5ba53f7e046ccb5ee097c6e740747eddaad0a8821d84fbcf \
-                    size    153897265
+checksums           rmd160  8cf8c8112efbb73884ad68139e22ec4d50fe0b84 \
+                    sha256  800e4afab118a06723fb08e2297bee326b42f602c0ac2711cc77376025fefdb9 \
+                    size    154023580
 
 livecheck.type      regex
 livecheck.url       https://dl.pstmn.io/api/version/latest?platform=osx&channel=stable
