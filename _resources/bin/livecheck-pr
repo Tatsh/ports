@@ -2,7 +2,7 @@
 mapfile -d $'\n' -t prs < <(
     curl 'https://api.github.com/search/issues?q=author%3ATatsh+type%3Apr' 2> /dev/null |
         jq -r '.items[]|select(.repository_url|contains("macports/macports-ports"))|.title' |
-        sed -r -e 's/^py-/py38-/' |
+        sed -r -e 's/^py-/py39-/' -e 's|nodejs16/17|nodejs16|' |
         grep -Fv 'update libmwaw, libreoffice' |
         grep -Ev '^Revert'
 )
