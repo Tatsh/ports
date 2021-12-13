@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-css-parser
-version             1.0.6
+version             1.0.7
 
 platforms           darwin
 license             GPL-3
@@ -12,9 +12,9 @@ maintainers         openmaintainer
 description         A CSS Cascading Style Sheets library (fork of cssutils).
 long_description    ${description}
 
-checksums           rmd160  464106abcb6975607295fb3cf9a58ed4cdab84e8 \
-                    sha256  4ed448a8a5622edb1d30d616bbc4bd3d30f11be922343d7a92d7e418e324af2e \
-                    size    336932
+checksums           rmd160  49106bed8b0ed066dc870bb9a908f86b5f8f32ed \
+                    sha256  25e096c63262dd249010ce36dab4cacd9595783ee09b5ed699ef12ab864ebbd1 \
+                    size    348843
 
 python.versions     38 39
 
