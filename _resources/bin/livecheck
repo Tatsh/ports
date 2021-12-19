@@ -2,11 +2,16 @@
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
 cd "$DIR" || exit 1
 portindex
+filters=(
+    '(seems to be up to date)'
+    '(\bbeta\b)'
+    "(py-mechanize: extracted version '0.2.5' is older)"
+    '(Shifty seems to have been updated \(port version: 1\.2, new version: 1\.2b1\))'
+    '(calibre seems to have been updated \(port version: 5\.33\.2, new version: 64\))'
+)
+join-by() { local IFS="$1"; shift; echo "$*"; }
 grep -E '^[a-zA-Z0-9_-]+ [0-9]+$' PortIndex |
     awk '{ print $1 }' |
     sort |
     xargs port -v livecheck 2>&1 |
-    grep -Fv 'seems to be up to date' |
-    {
-        grep -Ev '\bbeta\b' || true
-    }
+    { grep -Ev "$(join-by '|' "${filters[@]}")" || true; }
