@@ -27,7 +27,6 @@ livecheck.regex     "\"version\"\\:\"(\\d+\\.\\d+\\.\\d+)\""
 
 use_configure       no
 use_zip             yes
-extract.only        osx_64
 extract.mkdir       yes
 
 build {}
