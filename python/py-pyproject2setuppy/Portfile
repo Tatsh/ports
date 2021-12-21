@@ -7,9 +7,9 @@ name                py-pyproject2setuppy
 
 # add .0 to version to make `port lint --nitpick` not trigger warning due to python.versions
 # https://trac.macports.org/ticket/61980
-version             20.0
-distname            ${python.rootname}-[string index ${version} 0][string index ${version} end-2]
-livecheck.version   [string index ${version} 0][string index ${version} end-2]
+version             22.0
+distname            v[string range ${version} 0 end-2]
+livecheck.version   v[string range ${version} 0 end-2]
 
 categories          python devel
 platforms           darwin linux freebsd
@@ -18,14 +18,14 @@ supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to convert pyproject.toml-based projects to setuptools.
 long_description    ${description}
-homepage            https://pypi.org/project/pyproject2setuppy/
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+homepage            https://github.com/mgorny/${name}
+master_sites        https://github.com/mgorny/${name}/archive/refs/tags/
 
 python.versions         36 37 38 39
 
-checksums           rmd160  d074aa4ce57ed5e25b46c3a56ae86b037d74a0dd \
-                    sha256  fc8a4a0207721e00ba4ba2e2e54680d78f46658ef66c415d7f329a782bd0d5ad \
-                    size    12317
+checksums           rmd160  f71facac741ad7e83e06b0c8cb762848da90397f \
+                    sha256  95591f7abfbcd9b72b7a976da8ddcbd084590a92cdf4cec6afb24a241e093410 \
+                    size    13046
 
 if {$subport ne $name} {
     livecheck.type      none
