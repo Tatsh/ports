@@ -10,7 +10,7 @@ name                py-${github.project}
 # add .0 to version to make `port lint --nitpick` not trigger warning due to python.versions
 # https://trac.macports.org/ticket/61980
 version             ${github.version}.0
-livecheck.version   ${github.tag_prefix}${github.version}
+livecheck.version   ${github.version}
 
 categories          python devel
 platforms           darwin linux freebsd
