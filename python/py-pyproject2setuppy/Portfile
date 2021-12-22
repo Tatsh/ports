@@ -1,15 +1,16 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           github 1.0
 PortGroup           python 1.0
 
-name                py-pyproject2setuppy
+github.setup        mgorny pyproject2setuppy 22 v
+name                py-${github.project}
 
 # add .0 to version to make `port lint --nitpick` not trigger warning due to python.versions
 # https://trac.macports.org/ticket/61980
-version             22.0
-distname            v[string range ${version} 0 end-2]
-livecheck.version   v[string range ${version} 0 end-2]
+version             ${github.version}.0
+livecheck.version   ${github.tag_prefix}${github.version}
 
 categories          python devel
 platforms           darwin linux freebsd
@@ -18,14 +19,12 @@ supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to convert pyproject.toml-based projects to setuptools.
 long_description    ${description}
-homepage            https://github.com/mgorny/${name}
-master_sites        https://github.com/mgorny/${name}/archive/refs/tags/
 
 python.versions         36 37 38 39
 
-checksums           rmd160  f71facac741ad7e83e06b0c8cb762848da90397f \
-                    sha256  95591f7abfbcd9b72b7a976da8ddcbd084590a92cdf4cec6afb24a241e093410 \
-                    size    13046
+checksums           rmd160  9596645f5fe3413c982443fff5710c6b3c92640f \
+                    sha256  1b3b56568feb7ad3a6aedd3d7d0e52ad4ae9007db7e455dbb057985123e6b53a \
+                    size    13049
 
 if {$subport ne $name} {
     livecheck.type      none
