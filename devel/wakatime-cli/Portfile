@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/wakatime/wakatime-cli 1.31.0 v
+go.setup            github.com/wakatime/wakatime-cli 1.35.0 v
 github.livecheck.regex  {([0-9]+\.[0-9]+\.[0-9]+)}
 revision            0
 categories          devel
@@ -14,10 +14,9 @@ description         Time tracking for coding.
 long_description    ${description}
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  fa03f23e24e92567d3f8e9cce045124e45e78c74 \
-                        sha256  7a04750082b4006670953ea914de480b952cbc4f0adf9c41e3a456e1a6abf5de \
-                        size    218554
-
+                        rmd160  fcac407568f9b6851f9151108b9dda23b0b41566 \
+                        sha256  06feb6c83e0715e422800313343c37298434a2cd4809f1b06a22997bedcd2e56 \
+                        size    224378
 go.vendors          gopkg.in/yaml.v3 \
                         lock    496545a6307b \
                         rmd160  16a43936d8ae6243895e23465132977d3a1193c2 \
@@ -39,10 +38,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  98ec7bd0dc7d4bcee7dcafe02efab29f14dc392f43b227e517beef064e9b6369 \
                         size    32368 \
                     golang.org/x/text \
-                        lock    v0.3.5 \
-                        rmd160  2bc41a433ef7cbbf321afed39256a65d43ef3c8b \
-                        sha256  148ec80befd0392454a5d7756abcebeb74f863e6e4b1e1ff63bbe06c2b49e120 \
-                        size    8349629 \
+                        lock    v0.3.6 \
+                        rmd160  e3da48fcc60d98e202458228188bf6dac408e309 \
+                        sha256  6b2d69df22b5ba1634bc6730c3f03404db499536a96c48b8016da80ced804450 \
+                        size    8356058 \
                     golang.org/x/sys \
                         lock    1d35b9e2eb4e \
                         rmd160  1d786ecdc43231da66a13fbc671ea7ce7a7484db \
@@ -54,10 +53,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  040b4c1ba1728fdac35bba3f4b89d823e1f8c4cf5e8716c969a684fa920ad6ab \
                         size    1249385 \
                     golang.org/x/crypto \
-                        lock    5c72a883971a \
-                        rmd160  090821b28d0329a087b91a964a53937f3ce0047a \
-                        sha256  a82c522eb9ec32fd6d5511793d1325495caf63371fffc5ac82f1fea63e99664a \
-                        size    1732437 \
+                        lock    e495a2d5b3d3 \
+                        rmd160  448a8bdb5d0c31b4e45cad4d05b869e105aca88c \
+                        sha256  b6efc939d461cfb863bf6481a63af5a9050930e4c5f3916c13fe6f8bbe1bccd7 \
+                        size    1734201 \
                     go.etcd.io/bbolt \
                         repo    github.com/etcd-io/bbolt \
                         lock    v1.3.5 \
@@ -139,6 +138,11 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
                         sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
                         size    11409 \
+                    github.com/pkg/sftp \
+                        lock    v1.13.4 \
+                        rmd160  b2107f0cae9f328c64a5267854981b4075569811 \
+                        sha256  6fa68c7e0b492528143e717a593115b9d4f656bb2211a2d625878c06b4e4c0a6 \
+                        size    115085 \
                     github.com/pelletier/go-toml \
                         lock    v1.9.3 \
                         rmd160  eb37925e72501a22403c440d777f16b37f911afe \
@@ -174,6 +178,11 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  eaf5b58a46b962079cbafddbc3ef83bdbf02b31e \
                         sha256  253c4a190c9337800e08aba66b77ea3db0835e3ae61289d80093995a649eb7ae \
                         size    8769 \
+                    github.com/kr/fs \
+                        lock    v0.1.0 \
+                        rmd160  8abd3fd492702ff682f7eecce8af4f40f36a4b27 \
+                        sha256  815510d12f36bbb2a45cd45021c65d1eaf7b035942c6694629a188ceb3ef43bf \
+                        size    4410 \
                     github.com/juju/version \
                         lock    2015802527a8 \
                         rmd160  be58b9bab8b0e2fbd64baaeed249e3bb89d756b8 \
