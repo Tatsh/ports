@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-github.setup        exelban stats 2.6.26 v
+github.setup        exelban stats 2.6.27 v
 description         macOS system monitor in your menu bar.
 long_description    ${description}
 maintainers         {gmail.com:audvare @Tatsh}
@@ -19,7 +19,7 @@ distfiles       ${name}-v${version}.tar.gz:main \
 master_sites    https://codeload.github.com/${github.author}/${github.project}/legacy.tar.gz/${github.tag_prefix}${github.version}?dummy=:main \
                 https://codeload.github.com/malcommac/Repeat/legacy.tar.gz/${repeat_sha}?dummy=:repeat
 
-checksums           stats-v2.6.26.tar.gz \
+checksums           stats-v2.6.27.tar.gz \
                     rmd160  5395e83bff747aee53c1bf369a49b9e765eae778 \
                     sha256  9a14e169f351d926269e179f1a3408eb84ee36831406dbdf1d25f28d2e5b8a7f \
                     size    13289659 \
