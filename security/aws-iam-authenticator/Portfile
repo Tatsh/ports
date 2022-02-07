@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/kubernetes-sigs/aws-iam-authenticator 0.5.3 v
+go.setup            github.com/kubernetes-sigs/aws-iam-authenticator 0.5.4 v
 categories          security net
 maintainers         {gmail.com:audvare @Tatsh}
 license             Apache-2
@@ -423,10 +423,10 @@ go.vendors          sigs.k8s.io/yaml \
                         sha256  8cc9e5dc68e247554227973d0b4e023b27bbd9ba5a26e4fb40f44743afcb35f1 \
                         size    42087
 
-checksums           aws-iam-authenticator-0.5.3.tar.gz \
-                    rmd160  4e37f08bef3188f7392da4d9bf0807e11cb9e644 \
-                    sha256  514cd1cca2cdd501a291c64ab59f2b65d44537d8777ad56e803359da560675fd \
-                    size    6075933 \
+checksums           aws-iam-authenticator-0.5.4.tar.gz \
+                    rmd160  d2cf8e3da41ef926e1ed36730b790c3c4cc10bce \
+                    sha256  879ca539b4115f16c260e6acb82a14a552d1127921d123ddb934d3fe9f45b283 \
+                    size    6884099 \
                     kubernetes-sigs-yaml-v1.1.0.tar.gz \
                     rmd160  63330fda26d3fd3f647451bce6db93e93752ffaf \
                     sha256  143f8101199ff36a2724a9aceef7b14689a812436ced01e63d969b3bebc2f37b \
@@ -452,9 +452,9 @@ checksums           aws-iam-authenticator-0.5.3.tar.gz \
                     sha256  7a5896f82289fa5faf39f9ce221984cb14f2bbd4d94a002e802aa747fde2dd0b \
                     size    79904 \
                     kubernetes-component-base-v0.16.8.tar.gz \
-                    rmd160  338922b7248409957e4d556b402a37b57d021f9a \
-                    sha256  70d91735b4eed9ad2a1ece9523245895c6c45c92154abed9ea00227c923c8a3e \
-                    size    55830 \
+                    rmd160  c6ea48b585a86b53e49d1b4d6e867d02f09fa513 \
+                    sha256  1284f66716e9399d0d9041aa991c6f978e17c7b6a5aa8a10ac43959ef4b53bd2 \
+                    size    55831 \
                     kubernetes-code-generator-v0.16.8.tar.gz \
                     rmd160  c1b9f27e09788eddd9eca4c34780decef7b40d21 \
                     sha256  749d97097616f8e4c98dca6e6cbec206363cabddff2409ab18c9a3119ac85405 \
@@ -743,7 +743,6 @@ checksums           aws-iam-authenticator-0.5.3.tar.gz \
                     rmd160  fb9650e2d16525153645e5547626f242f3800149 \
                     sha256  8cc9e5dc68e247554227973d0b4e023b27bbd9ba5a26e4fb40f44743afcb35f1 \
                     size    42087
-
 pre-build {
     # FIXME How to correctly set the working directory to cmd/${name}? This seems hacky. Setting
     # go.package with appended cmd/${name} does not seem to work.
