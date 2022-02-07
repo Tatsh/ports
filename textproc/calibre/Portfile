@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                    calibre
-version                 5.33.2
+version                 5.36.0
 homepage                https://calibre-ebook.com/
 categories              textproc
 platforms               darwin
@@ -14,13 +14,13 @@ description             An ebook manager.
 long_description        {*}${description}
 master_sites            https://download.calibre-ebook.com/${version}/
 use_xz                  yes
+python.versions         310
 
-checksums           rmd160  46412c927a4fd839b74372f7654583cb493fca10 \
-                    sha256  c2db77b9c09a16af702e4efd09e0b3db4b4c33a01b2ed6782e7e93c4ec7476f2 \
-                    size    37081104
+checksums           rmd160  7c7151229c4e6268cd18ec41b1f2fa316a9c00e2 \
+                    sha256  b3292dd608aabbbd74c4ce66774a01ff7cc88dfebf0b961202b8d3632b3603b0 \
+                    size    38199520
 
 depends_build \
-    port:py-pyqt5 \
     port:py-pyqt5-sip \
     port:py-pyqt-builder \
     port:py-sip \
@@ -55,6 +55,7 @@ depends_lib \
     port:py-mechanize \
     port:py-msgpack \
     port:py-netifaces \
+    port:py-pyqt5 \
     port:py-pillow \
     port:py-psutil \
     port:py-chm \
