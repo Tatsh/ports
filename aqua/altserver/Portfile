@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                altserver
-version             1.4.8
+version             1.4.9
 set version_info    [regexp -all -inline {\d+} $version]
 set major_version   [lindex $version_info 0]
 set minor_version   [lindex $version_info 1]
@@ -18,9 +18,9 @@ long_description    {*}${description}
 homepage            https://altstore.io/
 master_sites        https://cdn.altstore.io/file/altstore/${name}/
 
-checksums           rmd160  7176d519f10f0229db7e0310186a207a94e5b03c \
-                    sha256  4c6c6bc6c0d409aa6eef98cb157f1aa4375439fde6dc2a395af79fdd43530054 \
-                    size    5882920
+checksums           rmd160  f86db307e6e5be37e26613078592eab566bbea3a \
+                    sha256  50b26b0ac3c472456d1a9d04b4790a5978a8be755f2cf0568b128d6473f91bf4 \
+                    size    5882684
 
 livecheck.type      regex
 livecheck.url       https://altstore.io/altserver/sparkle-macos.xml
