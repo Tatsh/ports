@@ -5,7 +5,7 @@ PortGroup           github 1.0
 
 github.setup        googlefonts noto-fonts 97e5bf0
 name                noto
-version             20211102
+version             20220207
 revision            0
 
 categories          graphics
