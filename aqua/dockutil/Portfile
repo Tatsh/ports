@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        kcrawford dockutil 2.0.5
+github.setup        kcrawford dockutil 3.0.0b
 
-version             2.0.5
+version             3.0.0b
 license             Apache-2
 supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
@@ -15,9 +15,9 @@ description         dockutil is a command line utility for managing macOS \
 long_description    ${description}
 platforms           macosx
 
-checksums           rmd160  6bc291768f107b275fd44e73fb2674e4d24a2f68 \
-                    sha256  8d18972a7dfe09bcfb94411c36a252ca30559e209f2269a66405eaf6f6273a19 \
-                    size    9509
+checksums           rmd160  6b93abd3485b8ed4cf9a25720ef214d92a638d0d \
+                    sha256  fd1618f78897fc2c8100cb9e6dea85e82bdd166f18227080628c5b55d08d25cb \
+                    size    9757
 
 use_configure       no
 
