@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        googlefonts noto-fonts 21d2deb
+github.setup        googlefonts noto-fonts 1fae1c2
 name                noto
-version             20220218
+version             20220226
 revision            0
 
 categories          graphics
@@ -17,9 +17,9 @@ description         Google's font family that aims to support all the world's \
 long_description    ${description}
 homepage            https://github.com/googlefonts/noto-fonts
 
-checksums           rmd160  17c75a6b7890e879a6a8bcd8a604531776850ee3 \
-                    sha256  eaa7f9cff737cdaa28d2da035aa7221d4180daeab942a4702df091e74ef27275 \
-                    size    959898033
+checksums           rmd160  1ba0456513d00a8ed8263e018da73d6c3aa09030 \
+                    sha256  dd4bd6e46da0c05b8f01d31be07d11f589e4d5c4441e95bc566dffdc732f1b89 \
+                    size    960271847
 
 github.livecheck.branch main
 
