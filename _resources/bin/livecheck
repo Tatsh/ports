@@ -7,7 +7,7 @@ filters=(
     '(\bbeta\b)'
     "(py-mechanize: extracted version '0.2.5' is older)"
     '(Shifty seems to have been updated \(port version: 1\.2, new version: 1\.2b1\))'
-    '(calibre seems to have been updated \(port version: 5\.33\.2, new version: 64\))'
+    '(calibre seems to have been updated \(port version: [^,]+, new version: 64\))'
 )
 join-by() { local IFS="$1"; shift; echo "$*"; }
 grep -E '^[a-zA-Z0-9_-]+ [0-9]+$' PortIndex |
