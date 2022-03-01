@@ -5,37 +5,26 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 github.setup        exelban stats 2.7.5 v
+categories-append   aqua
 description         macOS system monitor in your menu bar.
 long_description    ${description}
 maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 categories          sysutils aqua
 
-set stats_sha   8580cc6
-set repeat_sha  9df757d0936c15dfd9d01067766fab87e927f838
-
-distfiles       ${name}-v${version}.tar.gz:main \
-                Repeat-${repeat_sha}.tar.gz:repeat
-master_sites    https://codeload.github.com/${github.author}/${github.project}/legacy.tar.gz/${github.tag_prefix}${github.version}?dummy=:main \
-                https://codeload.github.com/malcommac/Repeat/legacy.tar.gz/${repeat_sha}?dummy=:repeat
-
-checksums           stats-v2.7.5.tar.gz \
-                    rmd160  4a2c02e70b7f0f6992a16391131d96d462da2322 \
+checksums           rmd160  4a2c02e70b7f0f6992a16391131d96d462da2322 \
                     sha256  e929edf07a71909be9e82c1046e2de7ef9a483779a01239cee06bc3dcb46e63b \
-                    size    13264384 \
-                    Repeat-9df757d0936c15dfd9d01067766fab87e927f838.tar.gz \
-                    rmd160  957ec320079bbadab65a363fe3d1c04d15d7391c \
-                    sha256  0617d0cbcc19ff5680a4142454f74868473de62fe9a35c65d05bfc3ed26fd294 \
-                    size    20785
+                    size    13264384
 
-worksrcdir          ${github.author}-${github.project}-${stats_sha}
-destroot.pre_args   -derivedDataPath ${worksrcpath}
+destroot.pre_args   -derivedDataPath ${worksrcpath}/.dd
 xcode.scheme        Stats
 xcode.configuration Release
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
+
+patchfiles patch-deps.diff
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}

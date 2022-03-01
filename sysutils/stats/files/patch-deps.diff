@@ -1,0 +1,215 @@
+diff --git Kit/Widgets/Sensors.swift Kit/Widgets/Sensors.swift
+index 1695076..9bcb2f4 100644
+--- Kit/Widgets/Sensors.swift
++++ Kit/Widgets/Sensors.swift
+@@ -180,14 +180,14 @@ public class SensorsWidget: WidgetWrapper {
+         
+         view.addArrangedSubview(selectSettingsRow(
+             title: localizedString("Display mode"),
+-            action: #selector(changeMode),
++            action: #selector(changeMode(_:)),
+             items: SensorsWidgetMode,
+             selected: self.modeState
+         ))
+         
+         view.addArrangedSubview(toggleSettingRow(
+             title: localizedString("Static width"),
+-            action: #selector(toggleSize),
++            action: #selector(toggleSize(_:)),
+             state: self.fixedSizeState
+         ))
+         
+diff --git Modules/Sensors/bridge.h Modules/Sensors/bridge.h
+index e46e26b..6d169d6 100644
+--- Modules/Sensors/bridge.h
++++ Modules/Sensors/bridge.h
+@@ -28,7 +28,7 @@ typedef float IOHIDFloat;
+ IOHIDEventSystemClientRef IOHIDEventSystemClientCreate(CFAllocatorRef allocator);
+ int IOHIDEventSystemClientSetMatching(IOHIDEventSystemClientRef client, CFDictionaryRef match);
+ IOHIDEventRef IOHIDServiceClientCopyEvent(IOHIDServiceClientRef, int64_t , int32_t, int64_t);
+-CFStringRef IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef property);
++CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef property);
+ IOHIDFloat IOHIDEventGetFloatValue(IOHIDEventRef event, int32_t field);
+ 
+ NSDictionary*AppleSiliconSensors(int page, int usage, int32_t type);
+diff --git Stats.xcodeproj/project.pbxproj Stats.xcodeproj/project.pbxproj
+index 60d8169..192f0a0 100644
+--- Stats.xcodeproj/project.pbxproj
++++ Stats.xcodeproj/project.pbxproj
+@@ -3,10 +3,11 @@
+ 	archiveVersion = 1;
+ 	classes = {
+ 	};
+-	objectVersion = 52;
++	objectVersion = 50;
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
++		2636922227CDF68C00343FD1 /* Repeat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2636922127CDF68C00343FD1 /* Repeat.framework */; };
+ 		9A045EB72594F8D100ED58F2 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A045EB62594F8D100ED58F2 /* Dashboard.swift */; };
+ 		9A11AAD6266FD77F000C1C05 /* Bluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; };
+ 		9A11AAD7266FD77F000C1C05 /* Bluetooth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A11AACF266FD77F000C1C05 /* Bluetooth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+@@ -31,7 +32,6 @@
+ 		9A28477B2666AA5000EC1F6D /* popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847762666AA5000EC1F6D /* popup.swift */; };
+ 		9A28477C2666AA5000EC1F6D /* reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847772666AA5000EC1F6D /* reader.swift */; };
+ 		9A28477D2666AA5000EC1F6D /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2847782666AA5000EC1F6D /* widget.swift */; };
+-		9A2847AB2666AA7B00EC1F6D /* Repeat in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2847AA2666AA7B00EC1F6D /* Repeat */; };
+ 		9A2847C22666AA8700EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
+ 		9A2847C72666AA8C00EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
+ 		9A2847CC2666AA9100EC1F6D /* Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2846F72666A9CC00EC1F6D /* Kit.framework */; };
+@@ -304,6 +304,7 @@
+ /* End PBXCopyFilesBuildPhase section */
+ 
+ /* Begin PBXFileReference section */
++		2636922127CDF68C00343FD1 /* Repeat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Repeat.framework; path = ../../../../../../opt/local/Library/Frameworks/Repeat.framework; sourceTree = "<group>"; };
+ 		2658929724FC0F3B00FB3B6A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+ 		30370F8F253DCBC0006404D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+ 		40BE2B202745D63800AE9396 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+@@ -456,6 +457,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				2636922227CDF68C00343FD1 /* Repeat.framework in Frameworks */,
+ 				9AF9EE0924648751005D2270 /* Disk.framework in Frameworks */,
+ 				9AE29ADC249A50350071B02D /* Sensors.framework in Frameworks */,
+ 				9ABFF8FD248BEBCB00C9041A /* Battery.framework in Frameworks */,
+@@ -472,7 +474,6 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				9A2847AB2666AA7B00EC1F6D /* Repeat in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -757,6 +758,7 @@
+ 		9A998CD622A199920087ADE7 /* Frameworks */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				2636922127CDF68C00343FD1 /* Repeat.framework */,
+ 				9ADE7005265D039300D2FBA8 /* IOKit.framework */,
+ 				9A97CE2A25371B2300742D8F /* IntelPowerGadget.framework */,
+ 				9A998CD922A199970087ADE7 /* ServiceManagement.framework */,
+@@ -981,7 +983,6 @@
+ 			);
+ 			name = Kit;
+ 			packageProductDependencies = (
+-				9A2847AA2666AA7B00EC1F6D /* Repeat */,
+ 			);
+ 			productName = Kit;
+ 			productReference = 9A2846F72666A9CC00EC1F6D /* Kit.framework */;
+@@ -1258,7 +1259,6 @@
+ 			);
+ 			mainGroup = 9A1410EC229E721100D29793;
+ 			packageReferences = (
+-				9A27D4D72538A38A001BB651 /* XCRemoteSwiftPackageReference "Repeat" */,
+ 			);
+ 			productRefGroup = 9A1410F6229E721100D29793 /* Products */;
+ 			projectDirPath = "";
+@@ -1882,11 +1882,13 @@
+ 					"$(inherited)",
+ 					"$(PROJECT_DIR)",
+ 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				INFOPLIST_FILE = "$(SRCROOT)/Stats/Supporting Files/Info.plist";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+ 				MARKETING_VERSION = 2.7.5;
+@@ -1894,6 +1896,7 @@
+ 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				PROVISIONING_PROFILE_SPECIFIER = "";
++				SWIFT_INCLUDE_PATHS = "";
+ 				SWIFT_OBJC_BRIDGING_HEADER = "";
+ 				SWIFT_VERSION = 5.0;
+ 			};
+@@ -1915,11 +1918,13 @@
+ 					"$(inherited)",
+ 					"$(PROJECT_DIR)",
+ 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				INFOPLIST_FILE = "$(SRCROOT)/Stats/Supporting Files/Info.plist";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+ 				MARKETING_VERSION = 2.7.5;
+@@ -1927,6 +1932,7 @@
+ 				PRODUCT_BUNDLE_IDENTIFIER = eu.exelban.Stats;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				PROVISIONING_PROFILE_SPECIFIER = "";
++				SWIFT_INCLUDE_PATHS = "";
+ 				SWIFT_OBJC_BRIDGING_HEADER = "";
+ 				SWIFT_VERSION = 5.0;
+ 			};
+@@ -1945,6 +1951,7 @@
+ 				DYLIB_COMPATIBILITY_VERSION = 1;
+ 				DYLIB_CURRENT_VERSION = 1;
+ 				DYLIB_INSTALL_NAME_BASE = "@rpath";
++				FRAMEWORK_SEARCH_PATHS = /opt/local/Library/Frameworks;
+ 				INFOPLIST_FILE = "Kit/Supporting Files/Info.plist";
+ 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+@@ -1977,6 +1984,7 @@
+ 				DYLIB_COMPATIBILITY_VERSION = 1;
+ 				DYLIB_CURRENT_VERSION = 1;
+ 				DYLIB_INSTALL_NAME_BASE = "@rpath";
++				FRAMEWORK_SEARCH_PATHS = /opt/local/Library/Frameworks;
+ 				INFOPLIST_FILE = "Kit/Supporting Files/Info.plist";
+ 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+@@ -2653,25 +2661,6 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
+-
+-/* Begin XCRemoteSwiftPackageReference section */
+-		9A27D4D72538A38A001BB651 /* XCRemoteSwiftPackageReference "Repeat" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/malcommac/Repeat";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 0.6.0;
+-			};
+-		};
+-/* End XCRemoteSwiftPackageReference section */
+-
+-/* Begin XCSwiftPackageProductDependency section */
+-		9A2847AA2666AA7B00EC1F6D /* Repeat */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 9A27D4D72538A38A001BB651 /* XCRemoteSwiftPackageReference "Repeat" */;
+-			productName = Repeat;
+-		};
+-/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 9A1410ED229E721100D29793 /* Project object */;
+ }
+diff --git Stats.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved Stats.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+deleted file mode 100644
+index cab2095..0000000
+--- Stats.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ /dev/null
+@@ -1,16 +0,0 @@
+-{
+-  "object": {
+-    "pins": [
+-      {
+-        "package": "Repeat",
+-        "repositoryURL": "https://github.com/malcommac/Repeat",
+-        "state": {
+-          "branch": null,
+-          "revision": "9df757d0936c15dfd9d01067766fab87e927f838",
+-          "version": "0.6.0"
+-        }
+-      }
+-    ]
+-  },
+-  "version": 1
+-}
