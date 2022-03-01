@@ -2,10 +2,10 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           xcode 1.0
 
 github.setup        kcrawford dockutil 3.0.0b2
 
-version             3.0.0b2
 license             Apache-2
 supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
@@ -15,15 +15,24 @@ description         dockutil is a command line utility for managing macOS \
 long_description    ${description}
 platforms           macosx
 
+depends_lib-append  port:swift-argument-parser
+
 checksums           rmd160  ced9094f39605c5f37199896f86246ed6ffdf27f \
                     sha256  d745c186479af98dcafbdbf5484e3f9d37611a22c7c8dce22390dbffc94faf2a \
                     size    44298
 
-use_configure       no
+destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+xcode.configuration Release
+xcode.scheme ${name}
+xcode.destroot.path ${prefix}/bin
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO \
+    ARCHS=x86_64 \
+    SWIFT_INCLUDE_PATHS=${prefix}/lib/swift/macosx
 
+patchfiles patch-argparse.diff
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
-
-destroot {
-    xinstall -m 0755 ${worksrcpath}/scripts/${name} \
-        ${destroot}${prefix}/bin/${name}
-}

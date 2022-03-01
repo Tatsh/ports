@@ -1,0 +1,173 @@
+diff --git dockutil.xcodeproj/project.pbxproj dockutil.xcodeproj/project.pbxproj
+index e891131..2879354 100644
+--- dockutil.xcodeproj/project.pbxproj
++++ dockutil.xcodeproj/project.pbxproj
+@@ -3,10 +3,11 @@
+ 	archiveVersion = 1;
+ 	classes = {
+ 	};
+-	objectVersion = 52;
++	objectVersion = 50;
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
++		26F2CDE427CDE2BD006BC87E /* libArgumentParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 26F2CDE327CDE2BD006BC87E /* libArgumentParser.dylib */; };
+ 		4A0940A427BB88A800A1F9D7 /* DockUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0940A327BB88A800A1F9D7 /* DockUtil.swift */; };
+ 		4AE244C4249C586900836787 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE244C3249C586900836787 /* main.swift */; };
+ 		4AE244D4249C5CF700836787 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE244D3249C5CF700836787 /* Tests.swift */; };
+@@ -14,7 +15,6 @@
+ 		4AE244DB249C5DC000836787 /* Dock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE244D9249C5DC000836787 /* Dock.swift */; };
+ 		4AE244E0249C637900836787 /* DockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE244DF249C637900836787 /* DockTile.swift */; };
+ 		4AE244E1249C637900836787 /* DockTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE244DF249C637900836787 /* DockTile.swift */; };
+-		4AE244E4249C6D0800836787 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 4AE244E3249C6D0800836787 /* ArgumentParser */; };
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXCopyFilesBuildPhase section */
+@@ -30,6 +30,7 @@
+ /* End PBXCopyFilesBuildPhase section */
+ 
+ /* Begin PBXFileReference section */
++		26F2CDE327CDE2BD006BC87E /* libArgumentParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libArgumentParser.dylib; path = ../../../../../../opt/local/lib/swift/macosx/libArgumentParser.dylib; sourceTree = "<group>"; };
+ 		4A0940A327BB88A800A1F9D7 /* DockUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockUtil.swift; sourceTree = "<group>"; };
+ 		4AE244C0249C586900836787 /* dockutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dockutil; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		4AE244C3249C586900836787 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+@@ -46,7 +47,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				4AE244E4249C6D0800836787 /* ArgumentParser in Frameworks */,
++				26F2CDE427CDE2BD006BC87E /* libArgumentParser.dylib in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -60,12 +61,21 @@
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
++		26F2CDE227CDE2BD006BC87E /* Frameworks */ = {
++			isa = PBXGroup;
++			children = (
++				26F2CDE327CDE2BD006BC87E /* libArgumentParser.dylib */,
++			);
++			name = Frameworks;
++			sourceTree = "<group>";
++		};
+ 		4AE244B7249C586900836787 = {
+ 			isa = PBXGroup;
+ 			children = (
+ 				4AE244C2249C586900836787 /* dockutil */,
+ 				4AE244D2249C5CF700836787 /* Tests */,
+ 				4AE244C1249C586900836787 /* Products */,
++				26F2CDE227CDE2BD006BC87E /* Frameworks */,
+ 			);
+ 			sourceTree = "<group>";
+ 		};
+@@ -113,11 +123,9 @@
+ 			buildRules = (
+ 			);
+ 			dependencies = (
+-				4A0940A627C47DBF00A1F9D7 /* PBXTargetDependency */,
+ 			);
+ 			name = dockutil;
+ 			packageProductDependencies = (
+-				4AE244E3249C6D0800836787 /* ArgumentParser */,
+ 			);
+ 			productName = dockutil;
+ 			productReference = 4AE244C0249C586900836787 /* dockutil */;
+@@ -168,7 +176,6 @@
+ 			);
+ 			mainGroup = 4AE244B7249C586900836787;
+ 			packageReferences = (
+-				4AE244E2249C6D0800836787 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+ 			);
+ 			productRefGroup = 4AE244C1249C586900836787 /* Products */;
+ 			projectDirPath = "";
+@@ -214,13 +221,6 @@
+ 		};
+ /* End PBXSourcesBuildPhase section */
+ 
+-/* Begin PBXTargetDependency section */
+-		4A0940A627C47DBF00A1F9D7 /* PBXTargetDependency */ = {
+-			isa = PBXTargetDependency;
+-			productRef = 4A0940A527C47DBF00A1F9D7 /* ArgumentParser */;
+-		};
+-/* End PBXTargetDependency section */
+-
+ /* Begin XCBuildConfiguration section */
+ 		4AE244C5249C586900836787 /* Debug */ = {
+ 			isa = XCBuildConfiguration;
+@@ -343,6 +343,10 @@
+ 				DEVELOPMENT_TEAM = Z5J8CJBUWC;
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				INFOPLIST_FILE = "$(SRCROOT)/dockutil/Info.plist";
++				LIBRARY_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/lib/swift/macosx,
++				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				MARKETING_VERSION = "3.0.0-beta.3";
+ 				PRODUCT_BUNDLE_IDENTIFIER = dockutil.cli.tool;
+@@ -360,6 +364,10 @@
+ 				DEVELOPMENT_TEAM = Z5J8CJBUWC;
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				INFOPLIST_FILE = "$(SRCROOT)/dockutil/Info.plist";
++				LIBRARY_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/lib/swift/macosx,
++				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				MARKETING_VERSION = "3.0.0-beta.3";
+ 				PRODUCT_BUNDLE_IDENTIFIER = dockutil.cli.tool;
+@@ -436,30 +444,6 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
+-
+-/* Begin XCRemoteSwiftPackageReference section */
+-		4AE244E2249C6D0800836787 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/apple/swift-argument-parser";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 1.0.0;
+-			};
+-		};
+-/* End XCRemoteSwiftPackageReference section */
+-
+-/* Begin XCSwiftPackageProductDependency section */
+-		4A0940A527C47DBF00A1F9D7 /* ArgumentParser */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 4AE244E2249C6D0800836787 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+-			productName = ArgumentParser;
+-		};
+-		4AE244E3249C6D0800836787 /* ArgumentParser */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 4AE244E2249C6D0800836787 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+-			productName = ArgumentParser;
+-		};
+-/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 4AE244B8249C586900836787 /* Project object */;
+ }
+diff --git dockutil.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved dockutil.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+deleted file mode 100644
+index 73f5636..0000000
+--- dockutil.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ /dev/null
+@@ -1,16 +0,0 @@
+-{
+-  "object": {
+-    "pins": [
+-      {
+-        "package": "swift-argument-parser",
+-        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+-        "state": {
+-          "branch": null,
+-          "revision": "e1465042f195f374b94f915ba8ca49de24300a0d",
+-          "version": "1.0.2"
+-        }
+-      }
+-    ]
+-  },
+-  "version": 1
+-}
