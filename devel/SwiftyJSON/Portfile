@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        SwiftyJSON SwiftyJSON 5.0.0
+
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+description         The better way to deal with JSON data in Swift.
+long_description    ${description}
+platforms           macosx
+
+checksums           rmd160  a1ed9ab6d857ddeb3d55d4bfd9104d25e2dd9438 \
+                    sha256  2e5f9823edf666e3728f2c9fa4b36341850f1346fdc6e0372dbdcaa84f056520 \
+                    size    59173
+
+destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+xcode.configuration Release
+xcode.scheme "${name} macOS"
+xcode.destroot.type framework
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO \
+    SKIP_INSTALL=NO
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
