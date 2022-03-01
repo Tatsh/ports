@@ -7,7 +7,6 @@ PortGroup           xcode 1.0
 github.setup        kcrawford dockutil 3.0.0b2
 
 license             Apache-2
-supported_archs     noarch
 maintainers         {gmail.com:audvare @Tatsh}
 categories          aqua sysutils
 description         dockutil is a command line utility for managing macOS \
@@ -25,16 +24,6 @@ destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
 xcode.scheme ${name}
 xcode.destroot.path ${prefix}/bin
-pre-configure {
-    if {${os.arch} eq "i386"} {
-        configure.build_arch x86_64
-    } elseif {${os.arch} eq "arm"} {
-        configure.build_arch arm64
-    } else {
-        ui_error "Unsupported architecture"
-        return -code error
-    }
-}
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
