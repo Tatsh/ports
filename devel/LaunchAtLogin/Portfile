@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        sindresorhus LaunchAtLogin 4.2.0 v
+
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+description         Add Launch at Login functionality to your macOS app in \
+                    seconds.
+long_description    ${description}
+platforms           macosx
+
+checksums           rmd160  06f81e06fefc602538c6c27e0e01d66014f71850 \
+                    sha256  e19c3ed30b795ef51673d561c3414ceff4c66d6733fdadbf6d958471fc367e13 \
+                    size    3432341
+
+destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+xcode.configuration Release
+xcode.scheme ${name}
+xcode.destroot.type framework
+xcode.destroot.settings \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    ENABLE_HARDENED_RUNTIME=NO \
+    SKIP_INSTALL=NO
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
