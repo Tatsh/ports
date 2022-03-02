@@ -20,6 +20,12 @@ checksums           rmd160  0e87a2219bad6638d56f7291127aa7bae1645e23 \
                     sha256  7092b0f9be7e7c888e621cc024946d93bb725484bb541cf763f66e9d56be1f52 \
                     size    1188588
 
+depends_lib \
+    port:SystemKit \
+    port:SwiftyJSON \
+    port:Localize-Swift \
+    port:LaunchAtLogin
+
 if {${os.major} < 19} {
     known_fail      yes
     pre-fetch {
