@@ -1,0 +1,150 @@
+diff --git Blurred.xcodeproj/project.pbxproj Blurred.xcodeproj/project.pbxproj
+index 0e4a3ac..905fdca 100644
+--- Blurred.xcodeproj/project.pbxproj
++++ Blurred.xcodeproj/project.pbxproj
+@@ -3,7 +3,7 @@
+ 	archiveVersion = 1;
+ 	classes = {
+ 	};
+-	objectVersion = 52;
++	objectVersion = 50;
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+@@ -15,7 +15,6 @@
+ 		0850B62A2420ABED00717EDE /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0850B6292420ABED00717EDE /* AboutViewController.swift */; };
+ 		0851749B23FD099400B3B84F /* SettingObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0851749923FD099400B3B84F /* SettingObservable.swift */; };
+ 		0851749C23FD099400B3B84F /* GeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0851749A23FD099400B3B84F /* GeneralView.swift */; };
+-		085174A123FD2E9700B3B84F /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = 085174A023FD2E9700B3B84F /* HotKey */; };
+ 		085174A323FD2EF300B3B84F /* GlobalKeyBindPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085174A223FD2EF300B3B84F /* GlobalKeyBindPreferences.swift */; };
+ 		0853667723C4C0AC00567AA8 /* WindowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0853667623C4C0AC00567AA8 /* WindowInfo.swift */; };
+ 		0853667923C58F1E00567AA8 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0853667823C58F1E00567AA8 /* Collection+Extension.swift */; };
+@@ -29,6 +28,7 @@
+ 		08FF678D23A9156A00EACD58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FF678C23A9156A00EACD58 /* AppDelegate.swift */; };
+ 		08FF679123A9156C00EACD58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08FF679023A9156C00EACD58 /* Assets.xcassets */; };
+ 		08FF679423A9156C00EACD58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08FF679223A9156C00EACD58 /* Main.storyboard */; };
++		2622B04027CF3E4F00FA9525 /* HotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2622B03F27CF3E4F00FA9525 /* HotKey.framework */; };
+ 		5515742323C43FC5006BE18F /* StatusBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515742223C43FC5006BE18F /* StatusBarController.swift */; };
+ 		5515742523C46FE8006BE18F /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5515742423C46FE8006BE18F /* UserDefaults+Extension.swift */; };
+ 		553B8D1B23C2E43D0009CA0F /* DimManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553B8D1A23C2E43D0009CA0F /* DimManager.swift */; };
+@@ -77,6 +77,7 @@
+ 		08FF679023A9156C00EACD58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+ 		08FF679323A9156C00EACD58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+ 		08FF679523A9156C00EACD58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
++		2622B03F27CF3E4F00FA9525 /* HotKey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HotKey.framework; path = ../../../../../../opt/local/Library/Frameworks/HotKey.framework; sourceTree = "<group>"; };
+ 		5515742223C43FC5006BE18F /* StatusBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
+ 		5515742423C46FE8006BE18F /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
+ 		553B8D1A23C2E43D0009CA0F /* DimManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DimManager.swift; sourceTree = "<group>"; };
+@@ -101,7 +102,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				085174A123FD2E9700B3B84F /* HotKey in Frameworks */,
++				2622B04027CF3E4F00FA9525 /* HotKey.framework in Frameworks */,
+ 				0889D11423C4738900E867FF /* ServiceManagement.framework in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+@@ -144,6 +145,7 @@
+ 		0889D11223C4738900E867FF /* Frameworks */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				2622B03F27CF3E4F00FA9525 /* HotKey.framework */,
+ 				0889D11323C4738900E867FF /* ServiceManagement.framework */,
+ 			);
+ 			name = Frameworks;
+@@ -247,7 +249,6 @@
+ 			);
+ 			name = Blurred;
+ 			packageProductDependencies = (
+-				085174A023FD2E9700B3B84F /* HotKey */,
+ 			);
+ 			productName = "Dimmer Bar";
+ 			productReference = 08FF678923A9156A00EACD58 /* Blurred.app */;
+@@ -282,7 +283,6 @@
+ 			);
+ 			mainGroup = 08FF678023A9156A00EACD58;
+ 			packageReferences = (
+-				0851749F23FD2E9700B3B84F /* XCRemoteSwiftPackageReference "HotKey" */,
+ 			);
+ 			productRefGroup = 08FF678A23A9156A00EACD58 /* Products */;
+ 			projectDirPath = "";
+@@ -555,10 +555,15 @@
+ 				CURRENT_PROJECT_VERSION = 3;
+ 				DEVELOPMENT_TEAM = VGURA84Q2L;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = Blurred/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				MARKETING_VERSION = 1.2.0;
+@@ -580,10 +585,15 @@
+ 				CURRENT_PROJECT_VERSION = 3;
+ 				DEVELOPMENT_TEAM = VGURA84Q2L;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = Blurred/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				MARKETING_VERSION = 1.2.0;
+@@ -625,25 +635,6 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
+-
+-/* Begin XCRemoteSwiftPackageReference section */
+-		0851749F23FD2E9700B3B84F /* XCRemoteSwiftPackageReference "HotKey" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/soffes/HotKey";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 0.1.3;
+-			};
+-		};
+-/* End XCRemoteSwiftPackageReference section */
+-
+-/* Begin XCSwiftPackageProductDependency section */
+-		085174A023FD2E9700B3B84F /* HotKey */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 0851749F23FD2E9700B3B84F /* XCRemoteSwiftPackageReference "HotKey" */;
+-			productName = HotKey;
+-		};
+-/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 08FF678123A9156A00EACD58 /* Project object */;
+ }
+diff --git Blurred.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved Blurred.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+deleted file mode 100644
+index 2525f86..0000000
+--- Blurred.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ /dev/null
+@@ -1,16 +0,0 @@
+-{
+-  "object": {
+-    "pins": [
+-      {
+-        "package": "HotKey",
+-        "repositoryURL": "https://github.com/soffes/HotKey",
+-        "state": {
+-          "branch": null,
+-          "revision": "c13662730cb5bc28de4a799854bbb018a90649bf",
+-          "version": "0.1.3"
+-        }
+-      }
+-    ]
+-  },
+-  "version": 1
+-}
