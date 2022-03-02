@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                sideloadly
+version             0.24
+categories          sysutils aqua
+license             Restrictive
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh}
+description         Sideload apps on non-jailbroken iOS and Apple Silicon Macs.
+long_description    The new & best way to sideload your favorite games and \
+                    apps to your Non-Jailbroken iOS device, or Apple Silicon \
+                    Mac!
+homepage            https://sideloadly.io/
+supported_archs     x86_64
+
+set special_dmg     SideloadlySetup.dmg
+distfiles           ${special_dmg}
+master_sites        https://sideloadly.io/
+
+livecheck.type      regex
+livecheck.url       https://sideloadly.io/exe/darwin-amd64.json
+livecheck.regex     "\"Version\": \"(\[^\"\]+)\""
+
+checksums           rmd160  4dccdcb1cbcb05118ad1f2da3216654844c9c993 \
+                    sha256  98ef0f877f1bda21b1829d90e93c9343e4a1637fb2c3048b67e798100b24e6b8 \
+                    size    32874067
+
+depends_extract     bin:expect:expect
+
+use_configure           no
+configure.cxx_stdlib    libstdc++
+
+extract {
+    file mkdir ${worksrcpath}
+    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    copy ${mountpoint}/Sideloadly.app ${worksrcpath}
+    my_detach_disk_image ${mountpoint}
+}
+
+build {}
+
+destroot {
+    copy ${worksrcpath}/Sideloadly.app ${destroot}${applications_dir}
+}
+
+# Mounts a disk image.
+proc my_attach_disk_image {disk_image} {
+    global filespath name
+    set mountpoint [mkdtemp /tmp/${name}.XXXXXXXX]
+    # Use this expect script instead of using hdiutil directly, because the
+    # disk image has a license agreement we must agree to.
+    system "expect ${filespath}/attach.exp '${disk_image}' '${mountpoint}'"
+    return ${mountpoint}
+}
+
+# Unmounts a disk image.
+proc my_detach_disk_image {mountpoint} {
+    system "hdiutil detach ${mountpoint} -force"
+    delete ${mountpoint}
+}
+
+if {${os.major} < 16} {
+    pre-fetch {
+        ui_error "${name} @${version} requires OS X 10.12 or later."
+        return -code error "incompatible OS X version"
+    }
+}
