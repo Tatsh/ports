@@ -1,0 +1,596 @@
+diff --git eul.xcodeproj/project.pbxproj eul.xcodeproj/project.pbxproj
+index 0ca0819..6cfc6ab 100644
+--- eul.xcodeproj/project.pbxproj
++++ eul.xcodeproj/project.pbxproj
+@@ -3,10 +3,19 @@
+ 	archiveVersion = 1;
+ 	classes = {
+ 	};
+-	objectVersion = 54;
++	objectVersion = 50;
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
++		26A76CD227CEEBEE00377330 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD127CEEBEE00377330 /* SwiftyJSON.framework */; };
++		26A76CD427CEEBFC00377330 /* Localize_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD327CEEBFC00377330 /* Localize_Swift.framework */; };
++		26A76CD627CEEC0E00377330 /* LaunchAtLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD527CEEC0E00377330 /* LaunchAtLogin.framework */; };
++		26A76CD727CEEC1700377330 /* Localize_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD327CEEBFC00377330 /* Localize_Swift.framework */; };
++		26A76CD827CEEC2300377330 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD127CEEBEE00377330 /* SwiftyJSON.framework */; };
++		26A76CDA27CEEC2B00377330 /* SystemKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD927CEEC2B00377330 /* SystemKit.framework */; };
++		26A76CDB27CEEC3A00377330 /* Localize_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD327CEEBFC00377330 /* Localize_Swift.framework */; };
++		26A76CDC27CEEC4A00377330 /* Localize_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD327CEEBFC00377330 /* Localize_Swift.framework */; };
++		26A76CDD27CEEC5400377330 /* Localize_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A76CD327CEEBFC00377330 /* Localize_Swift.framework */; };
+ 		62F2125925BBF5B700642EE8 /* TopStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F2125825BBF5B700642EE8 /* TopStore.swift */; };
+ 		6C02715F25BD40EA006C54E6 /* SystemProfiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02715E25BD40EA006C54E6 /* SystemProfiler.swift */; };
+ 		6C02716325BD55C4006C54E6 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02716225BD55C4006C54E6 /* String.swift */; };
+@@ -14,7 +23,6 @@
+ 		6C02716925BD5719006C54E6 /* GpuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02716825BD5719006C54E6 /* GpuView.swift */; };
+ 		6C02716C25BD6491006C54E6 /* GpuTextComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02716B25BD6491006C54E6 /* GpuTextComponent.swift */; };
+ 		6C02718525C0717C006C54E6 /* Usage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C02718425C0717C006C54E6 /* Usage.swift */; };
+-		6C07E8A825167DBF00F728F9 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 6C07E8A725167DBF00F728F9 /* LaunchAtLogin */; };
+ 		6C15933F257241DB00FDE7EA /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C15933E257241DB00FDE7EA /* Collection.swift */; };
+ 		6C16BEEC2552EC9700CCF5B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C58053F250CC6B8007F467A /* Localizable.strings */; };
+ 		6C16BF0C2552F21C00CCF5B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C5F8542249FACE200CF0EF8 /* Assets.xcassets */; };
+@@ -94,7 +102,6 @@
+ 		6C5DAD0A2556B2FF005F67C3 /* NetworkWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6C5DAD042556B2FE005F67C3 /* NetworkWidget.intentdefinition */; };
+ 		6C5DAD0D2556B2FF005F67C3 /* NetworkWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6C5DACFE2556B2FE005F67C3 /* NetworkWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+ 		6C5DAD162556B340005F67C3 /* NetworkEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5DAD152556B340005F67C3 /* NetworkEntry.swift */; };
+-		6C5DAD202556B42C005F67C3 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 6C5DAD1F2556B42C005F67C3 /* Localize_Swift */; };
+ 		6C5DAD252556B58D005F67C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C5F8542249FACE200CF0EF8 /* Assets.xcassets */; };
+ 		6C5DAD2A2556B59C005F67C3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C58053F250CC6B8007F467A /* Localizable.strings */; };
+ 		6C5DAD2F2556B73D005F67C3 /* ByteUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DB6D624E7A85C00133B06 /* ByteUnit.swift */; };
+@@ -111,7 +118,6 @@
+ 		6C7A8D8A25578F8100FF52ED /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7A8D8925578F8100FF52ED /* LineChart.swift */; };
+ 		6C7A8D8D255802FF00FF52ED /* EulComponentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7A8D8C255802FF00FF52ED /* EulComponentConfig.swift */; };
+ 		6C7A8D9125581E7D00FF52ED /* ComponentConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7A8D9025581E7D00FF52ED /* ComponentConfigStore.swift */; };
+-		6C7CF45725568E1E00CEC263 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7CF45625568E1E00CEC263 /* Localize_Swift */; };
+ 		6C7CF45D25568E6200CEC263 /* MemoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7CF45C25568E6200CEC263 /* MemoryEntry.swift */; };
+ 		6C7CF4642556910D00CEC263 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C5F8542249FACE200CF0EF8 /* Assets.xcassets */; };
+ 		6C7CF4672556910F00CEC263 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C58053F250CC6B8007F467A /* Localizable.strings */; };
+@@ -124,7 +130,6 @@
+ 		6C7CF47D25569B8200CEC263 /* BatteryWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6C7CF46E25569B8100CEC263 /* BatteryWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+ 		6C7CF48525569C6D00CEC263 /* BatteryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7CF48425569C6D00CEC263 /* BatteryEntry.swift */; };
+ 		6C7CF48A25569E2B00CEC263 /* StandardProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7CF48925569E2B00CEC263 /* StandardProvider.swift */; };
+-		6C7CF48F25569F7500CEC263 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7CF48E25569F7500CEC263 /* Localize_Swift */; };
+ 		6C7CF4962556A53800CEC263 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C5F8542249FACE200CF0EF8 /* Assets.xcassets */; };
+ 		6C7CF49A2556A53A00CEC263 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C58053F250CC6B8007F467A /* Localizable.strings */; };
+ 		6C7DB6CF24E02F0600133B06 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DB6CE24E02F0600133B06 /* Shell.swift */; };
+@@ -142,10 +147,7 @@
+ 		6C7E1F0B2552EB2700287D08 /* CpuWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E1F062552EB2600287D08 /* CpuWidget.intentdefinition */; };
+ 		6C7E1F0C2552EB2700287D08 /* CpuWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E1F062552EB2600287D08 /* CpuWidget.intentdefinition */; };
+ 		6C7E1F0F2552EB2700287D08 /* CpuWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6C7E1EFD2552EB2600287D08 /* CpuWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+-		6C7E1F162552EB4300287D08 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7E1F152552EB4300287D08 /* SwiftyJSON */; };
+-		6C7E1F182552EB4600287D08 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7E1F172552EB4600287D08 /* Localize_Swift */; };
+ 		6C831369253DCF1F00914BB0 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C831368253DCF1F00914BB0 /* Print.swift */; };
+-		6C86924C251665A50009A784 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 6C86924B251665A50009A784 /* Localize_Swift */; };
+ 		6C993B8A2517868B00586C6B /* FanMenuBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C993B892517868B00586C6B /* FanMenuBlockView.swift */; };
+ 		6C993B8C25178D3B00586C6B /* MemoryMenuBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C993B8B25178D3B00586C6B /* MemoryMenuBlockView.swift */; };
+ 		6C993B8E2517909200586C6B /* MiniSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C993B8D2517909200586C6B /* MiniSectionView.swift */; };
+@@ -179,12 +181,10 @@
+ 		6CDEF07625D69E8100B4C913 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CDEF07525D69E8100B4C913 /* Preview Assets.xcassets */; };
+ 		6CDEF07925D69E8100B4C913 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CDEF07725D69E8100B4C913 /* Main.storyboard */; };
+ 		6CE33C7F25260E3D00831857 /* PreferenceRefreshRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE33C7E25260E3D00831857 /* PreferenceRefreshRateView.swift */; };
+-		6CE7969325166916008BEB2B /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 6CE7969225166916008BEB2B /* SwiftyJSON */; };
+ 		6CEF48A2255C33CE002E4D73 /* FramePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEF48A1255C33CE002E4D73 /* FramePreferenceKey.swift */; };
+ 		6CEF48A6255C366A002E4D73 /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEF48A5255C366A002E4D73 /* SizePreferenceKey.swift */; };
+ 		6CEF771224DD94C8007C3640 /* BatteryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEF771124DD94C8007C3640 /* BatteryStore.swift */; };
+ 		6CEF771424DD95D7007C3640 /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEF771324DD95D7007C3640 /* BatteryView.swift */; };
+-		6CF28D0925168B8200EBE9CB /* SystemKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6CF28D0825168B8200EBE9CB /* SystemKit */; };
+ 		6CF28D0D251758EE00EBE9CB /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF28D0C251758EE00EBE9CB /* StatusBarView.swift */; };
+ 		6CFAB7F925BC10E6002F5F48 /* DiskMenuBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFAB7F825BC10E6002F5F48 /* DiskMenuBlockView.swift */; };
+ 		6CFAB7FC25BC12E1002F5F48 /* MenuInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFAB7FB25BC12E1002F5F48 /* MenuInfoView.swift */; };
+@@ -350,6 +350,10 @@
+ /* Begin PBXFileReference section */
+ 		07580066265EA20F00D8ACB6 /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/Localizable.strings; sourceTree = "<group>"; };
+ 		153727D22659346C006D94B3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
++		26A76CD127CEEBEE00377330 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = ../../../../../../opt/local/Library/Frameworks/SwiftyJSON.framework; sourceTree = "<group>"; };
++		26A76CD327CEEBFC00377330 /* Localize_Swift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Localize_Swift.framework; path = ../../../../../../opt/local/Library/Frameworks/Localize_Swift.framework; sourceTree = "<group>"; };
++		26A76CD527CEEC0E00377330 /* LaunchAtLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LaunchAtLogin.framework; path = ../../../../../../opt/local/Library/Frameworks/LaunchAtLogin.framework; sourceTree = "<group>"; };
++		26A76CD927CEEC2B00377330 /* SystemKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemKit.framework; path = ../../../../../../opt/local/Library/Frameworks/SystemKit.framework; sourceTree = "<group>"; };
+ 		62F2125825BBF5B700642EE8 /* TopStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopStore.swift; sourceTree = "<group>"; };
+ 		6C02715E25BD40EA006C54E6 /* SystemProfiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemProfiler.swift; sourceTree = "<group>"; };
+ 		6C02716225BD55C4006C54E6 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+@@ -543,7 +547,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				6C7CF45725568E1E00CEC263 /* Localize_Swift in Frameworks */,
++				26A76CDB27CEEC3A00377330 /* Localize_Swift.framework in Frameworks */,
+ 				6C45750725568DCB00A2AD84 /* SwiftUI.framework in Frameworks */,
+ 				6C45750625568DCB00A2AD84 /* WidgetKit.framework in Frameworks */,
+ 				6C9A10C12556C4FB000459E1 /* SharedLibrary.framework in Frameworks */,
+@@ -554,7 +558,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				6C5DAD202556B42C005F67C3 /* Localize_Swift in Frameworks */,
++				26A76CDD27CEEC5400377330 /* Localize_Swift.framework in Frameworks */,
+ 				6C5DAD002556B2FE005F67C3 /* SwiftUI.framework in Frameworks */,
+ 				6C5DACFF2556B2FE005F67C3 /* WidgetKit.framework in Frameworks */,
+ 				6C9A10CB2556C502000459E1 /* SharedLibrary.framework in Frameworks */,
+@@ -565,11 +569,11 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				6CE7969325166916008BEB2B /* SwiftyJSON in Frameworks */,
+-				6C07E8A825167DBF00F728F9 /* LaunchAtLogin in Frameworks */,
++				26A76CDA27CEEC2B00377330 /* SystemKit.framework in Frameworks */,
++				26A76CD827CEEC2300377330 /* SwiftyJSON.framework in Frameworks */,
++				26A76CD727CEEC1700377330 /* Localize_Swift.framework in Frameworks */,
++				26A76CD627CEEC0E00377330 /* LaunchAtLogin.framework in Frameworks */,
+ 				6C2688F52556762B00FB7306 /* SharedLibrary.framework in Frameworks */,
+-				6CF28D0925168B8200EBE9CB /* SystemKit in Frameworks */,
+-				6C86924C251665A50009A784 /* Localize_Swift in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -577,7 +581,7 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				6C7CF48F25569F7500CEC263 /* Localize_Swift in Frameworks */,
++				26A76CDC27CEEC4A00377330 /* Localize_Swift.framework in Frameworks */,
+ 				6C7CF47025569B8100CEC263 /* SwiftUI.framework in Frameworks */,
+ 				6C7CF46F25569B8100CEC263 /* WidgetKit.framework in Frameworks */,
+ 				6C9A10C62556C4FF000459E1 /* SharedLibrary.framework in Frameworks */,
+@@ -588,8 +592,8 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				6C7E1F162552EB4300287D08 /* SwiftyJSON in Frameworks */,
+-				6C7E1F182552EB4600287D08 /* Localize_Swift in Frameworks */,
++				26A76CD427CEEBFC00377330 /* Localize_Swift.framework in Frameworks */,
++				26A76CD227CEEBEE00377330 /* SwiftyJSON.framework in Frameworks */,
+ 				6C26890A255676D300FB7306 /* SharedLibrary.framework in Frameworks */,
+ 				6C7E1F022552EB2600287D08 /* SwiftUI.framework in Frameworks */,
+ 				6C7E1F002552EB2600287D08 /* WidgetKit.framework in Frameworks */,
+@@ -882,6 +886,10 @@
+ 		6C7E1EFE2552EB2600287D08 /* Frameworks */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				26A76CD927CEEC2B00377330 /* SystemKit.framework */,
++				26A76CD527CEEC0E00377330 /* LaunchAtLogin.framework */,
++				26A76CD327CEEBFC00377330 /* Localize_Swift.framework */,
++				26A76CD127CEEBEE00377330 /* SwiftyJSON.framework */,
+ 				6C7E1EFF2552EB2600287D08 /* WidgetKit.framework */,
+ 				6C7E1F012552EB2600287D08 /* SwiftUI.framework */,
+ 			);
+@@ -1048,7 +1056,6 @@
+ 			);
+ 			name = MemoryWidgetExtension;
+ 			packageProductDependencies = (
+-				6C7CF45625568E1E00CEC263 /* Localize_Swift */,
+ 			);
+ 			productName = MemoryWidgetExtension;
+ 			productReference = 6C45750525568DCB00A2AD84 /* MemoryWidgetExtension.appex */;
+@@ -1070,7 +1077,6 @@
+ 			);
+ 			name = NetworkWidgetExtension;
+ 			packageProductDependencies = (
+-				6C5DAD1F2556B42C005F67C3 /* Localize_Swift */,
+ 			);
+ 			productName = NetworkWidgetExtension;
+ 			productReference = 6C5DACFE2556B2FE005F67C3 /* NetworkWidgetExtension.appex */;
+@@ -1080,7 +1086,6 @@
+ 			isa = PBXNativeTarget;
+ 			buildConfigurationList = 6C5F854E249FACE200CF0EF8 /* Build configuration list for PBXNativeTarget "eul" */;
+ 			buildPhases = (
+-				6C9667DA250E3DA200E51ABB /* SwiftFormat */,
+ 				6C5F8537249FACE000CF0EF8 /* Sources */,
+ 				6C5F8538249FACE000CF0EF8 /* Frameworks */,
+ 				6C5F8539249FACE000CF0EF8 /* Resources */,
+@@ -1101,10 +1106,6 @@
+ 			);
+ 			name = eul;
+ 			packageProductDependencies = (
+-				6C86924B251665A50009A784 /* Localize_Swift */,
+-				6CE7969225166916008BEB2B /* SwiftyJSON */,
+-				6C07E8A725167DBF00F728F9 /* LaunchAtLogin */,
+-				6CF28D0825168B8200EBE9CB /* SystemKit */,
+ 			);
+ 			productName = eul;
+ 			productReference = 6C5F853B249FACE000CF0EF8 /* eul.app */;
+@@ -1126,7 +1127,6 @@
+ 			);
+ 			name = BatteryWidgetExtension;
+ 			packageProductDependencies = (
+-				6C7CF48E25569F7500CEC263 /* Localize_Swift */,
+ 			);
+ 			productName = BatteryWidgetExtension;
+ 			productReference = 6C7CF46E25569B8100CEC263 /* BatteryWidgetExtension.appex */;
+@@ -1148,8 +1148,6 @@
+ 			);
+ 			name = CpuWidgetExtension;
+ 			packageProductDependencies = (
+-				6C7E1F152552EB4300287D08 /* SwiftyJSON */,
+-				6C7E1F172552EB4600287D08 /* Localize_Swift */,
+ 			);
+ 			productName = CpuWidgetExtension;
+ 			productReference = 6C7E1EFD2552EB2600287D08 /* CpuWidgetExtension.appex */;
+@@ -1236,10 +1234,6 @@
+ 			);
+ 			mainGroup = 6C5F8532249FACE000CF0EF8;
+ 			packageReferences = (
+-				6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */,
+-				6CE7969125166916008BEB2B /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+-				6C07E8A625167DBF00F728F9 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+-				6CF28D0725168B8200EBE9CB /* XCRemoteSwiftPackageReference "SystemKit" */,
+ 			);
+ 			productRefGroup = 6C5F853C249FACE000CF0EF8 /* Products */;
+ 			projectDirPath = "";
+@@ -1328,25 +1322,6 @@
+ /* End PBXResourcesBuildPhase section */
+ 
+ /* Begin PBXShellScriptBuildPhase section */
+-		6C9667DA250E3DA200E51ABB /* SwiftFormat */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			alwaysOutOfDate = 1;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputFileListPaths = (
+-			);
+-			inputPaths = (
+-			);
+-			name = SwiftFormat;
+-			outputFileListPaths = (
+-			);
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "cd BuildTools\nSDKROOT=macosx\n#swift package update #Uncomment this line temporarily to update the version used to the latest matching your BuildTools/Package.swift file\nswift run -c release swiftformat \"$SRCROOT\"\n";
+-		};
+ 		6CC0798D250CEE96000D7DAC /* Copy LaunchAtLogin helper */ = {
+ 			isa = PBXShellScriptBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -1362,8 +1337,8 @@
+ 			outputPaths = (
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
++			shellPath = /bin/bash;
++			shellScript = "set -e\norigin_helper_path=/opt/local/Library/Frameworks/LaunchAtLoginHelper.app\nhelper_dir=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH/Library/LoginItems\"\nhelper_path=\"$helper_dir/LaunchAtLoginHelper.app\"\nrm -rf \"$helper_path\"\nmkdir -p \"$helper_dir\"\ncp -r \"$origin_helper_path\" \"$helper_dir/\"\ndefaults write \"$helper_path/Contents/Info\" CFBundleIdentifier -string \"$PRODUCT_BUNDLE_IDENTIFIER-LaunchAtLoginHelper\"\n\nif [[ -n $CODE_SIGN_ENTITLEMENTS ]]; then\n        codesign --force --entitlements=\"$(dirname \"$origin_helper_path\")/LaunchAtLogin.framework/Resources/LaunchAtLogin.entitlements\" --options=runtime --sign=\"$EXPANDED_CODE_SIGN_IDENTITY_NAME\" \"$helper_path\"\nelse\n        codesign --force --options=runtime --sign=\"$EXPANDED_CODE_SIGN_IDENTITY_NAME\" \"$helper_path\"\nfi\n";
+ 		};
+ /* End PBXShellScriptBuildPhase section */
+ 
+@@ -1671,6 +1646,7 @@
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+ 					"@loader_path/Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				MARKETING_VERSION = 1.0.6;
+@@ -1702,6 +1678,7 @@
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+ 					"@loader_path/Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				MARKETING_VERSION = 1.0.6;
+@@ -1725,11 +1702,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = MemoryWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -1751,11 +1732,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = MemoryWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -1777,11 +1762,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = NetworkWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -1803,11 +1792,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = NetworkWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -1950,10 +1943,14 @@
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				ENABLE_PREVIEWS = YES;
+-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = eul/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
++					/opt/local/Library/Frameworks,
+ 					"@executable_path/../Frameworks",
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+@@ -1981,10 +1978,14 @@
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				ENABLE_PREVIEWS = YES;
+-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = eul/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
++					/opt/local/Library/Frameworks,
+ 					"@executable_path/../Frameworks",
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+@@ -2007,11 +2008,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = BatteryWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -2033,11 +2038,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = BatteryWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -2059,11 +2068,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = CpuWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -2085,11 +2098,15 @@
+ 				CURRENT_PROJECT_VERSION = 52;
+ 				DEVELOPMENT_TEAM = M8G2RFZVFV;
+ 				ENABLE_HARDENED_RUNTIME = YES;
++				FRAMEWORK_SEARCH_PATHS = (
++					"$(inherited)",
++					/opt/local/Library/Frameworks,
++				);
+ 				INFOPLIST_FILE = CpuWidget/Info.plist;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+-					"@executable_path/../../../../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+ 				MARKETING_VERSION = 1.6.2;
+@@ -2115,6 +2132,7 @@
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.gaosun.eul.SelfUpdate;
+@@ -2139,6 +2157,7 @@
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
++					/opt/local/Library/Frameworks,
+ 				);
+ 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.gaosun.eul.SelfUpdate;
+@@ -2224,89 +2243,6 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
+-
+-/* Begin XCRemoteSwiftPackageReference section */
+-		6C07E8A625167DBF00F728F9 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 4.0.0;
+-			};
+-		};
+-		6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/marmelroy/Localize-Swift";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 3.1.0;
+-			};
+-		};
+-		6CE7969125166916008BEB2B /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 5.0.0;
+-			};
+-		};
+-		6CF28D0725168B8200EBE9CB /* XCRemoteSwiftPackageReference "SystemKit" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/gao-sun/SystemKit";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 0.0.12;
+-			};
+-		};
+-/* End XCRemoteSwiftPackageReference section */
+-
+-/* Begin XCSwiftPackageProductDependency section */
+-		6C07E8A725167DBF00F728F9 /* LaunchAtLogin */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6C07E8A625167DBF00F728F9 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+-			productName = LaunchAtLogin;
+-		};
+-		6C5DAD1F2556B42C005F67C3 /* Localize_Swift */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+-			productName = Localize_Swift;
+-		};
+-		6C7CF45625568E1E00CEC263 /* Localize_Swift */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+-			productName = Localize_Swift;
+-		};
+-		6C7CF48E25569F7500CEC263 /* Localize_Swift */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+-			productName = Localize_Swift;
+-		};
+-		6C7E1F152552EB4300287D08 /* SwiftyJSON */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6CE7969125166916008BEB2B /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+-			productName = SwiftyJSON;
+-		};
+-		6C7E1F172552EB4600287D08 /* Localize_Swift */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+-			productName = Localize_Swift;
+-		};
+-		6C86924B251665A50009A784 /* Localize_Swift */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6C86924A251665A50009A784 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+-			productName = Localize_Swift;
+-		};
+-		6CE7969225166916008BEB2B /* SwiftyJSON */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6CE7969125166916008BEB2B /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+-			productName = SwiftyJSON;
+-		};
+-		6CF28D0825168B8200EBE9CB /* SystemKit */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 6CF28D0725168B8200EBE9CB /* XCRemoteSwiftPackageReference "SystemKit" */;
+-			productName = SystemKit;
+-		};
+-/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 6C5F8533249FACE000CF0EF8 /* Project object */;
+ }
+diff --git eul.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved eul.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+deleted file mode 100644
+index 415e7a1..0000000
+--- eul.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ /dev/null
+@@ -1,43 +0,0 @@
+-{
+-  "object": {
+-    "pins": [
+-      {
+-        "package": "LaunchAtLogin",
+-        "repositoryURL": "https://github.com/sindresorhus/LaunchAtLogin",
+-        "state": {
+-          "branch": null,
+-          "revision": "0f39982b9d6993eef253b81219d3c39ba1e680f3",
+-          "version": "4.0.0"
+-        }
+-      },
+-      {
+-        "package": "Localize_Swift",
+-        "repositoryURL": "https://github.com/marmelroy/Localize-Swift",
+-        "state": {
+-          "branch": null,
+-          "revision": "f2d0c6d790b8af64ae54377ad93494e8d3e46b17",
+-          "version": "3.1.0"
+-        }
+-      },
+-      {
+-        "package": "SwiftyJSON",
+-        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON",
+-        "state": {
+-          "branch": null,
+-          "revision": "2b6054efa051565954e1d2b9da831680026cd768",
+-          "version": "5.0.0"
+-        }
+-      },
+-      {
+-        "package": "SystemKit",
+-        "repositoryURL": "https://github.com/gao-sun/SystemKit",
+-        "state": {
+-          "branch": null,
+-          "revision": "60fbc2e3ccb54850046703d4e32ab6ecccbaf046",
+-          "version": "0.0.12"
+-        }
+-      }
+-    ]
+-  },
+-  "version": 1
+-}
