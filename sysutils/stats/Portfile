@@ -16,6 +16,8 @@ checksums           rmd160  4a2c02e70b7f0f6992a16391131d96d462da2322 \
                     sha256  e929edf07a71909be9e82c1046e2de7ef9a483779a01239cee06bc3dcb46e63b \
                     size    13264384
 
+depends_lib         Repeat
+
 destroot.pre_args   -derivedDataPath ${worksrcpath}/.dd
 xcode.scheme        Stats
 xcode.configuration Release
