@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        cxnder ktool 65fba13
+version             1.0.0_p20220503
+
+categories          devel
+platforms           darwin linux freebsd
+maintainers         @Tatsh
+description         Cross-platform toolkit for MachO/ObjC analysis.
+long_description    Fully cross-platform toolkit (and library!) for \
+                    MachO+Obj-C editing/analysis. Includes a curses GUI, \
+                    ObjC header dumping, and much more.
+license             MIT
+supported_archs     noarch
+
+checksums           rmd160  cf5ea98638e1f152c27e0a2617c1fafaf85cb4af \
+                    sha256  c46a7c903552f07fb6b651b0edd3850ad6b14c8f366fc4bc2cbcb92679071aa1 \
+                    size    34707460
+
+python.versions             36 37 38 39 310
+python.default_version      39
+
+depends_lib-append port:py${python.version}-pygments \
+                   port:py${python.version}-pyaes \
+                   port:py${python.version}-kimg4
+
+patch {
+    move ${worksrcpath}/.legacy_setup.py ${worksrcpath}/setup.py
+}
