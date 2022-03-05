@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        SwiftyJSON SwiftyJSON 5.0.0
+github.setup        SwiftyJSON SwiftyJSON 5.0.1
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,9 +12,9 @@ description         The better way to deal with JSON data in Swift.
 long_description    ${description}
 platforms           macosx
 
-checksums           rmd160  a1ed9ab6d857ddeb3d55d4bfd9104d25e2dd9438 \
-                    sha256  2e5f9823edf666e3728f2c9fa4b36341850f1346fdc6e0372dbdcaa84f056520 \
-                    size    59173
+checksums           rmd160  ee499172053480ee2b3aca2276b2e189b35b57eb \
+                    sha256  06bbff1af631ba655bcadba5f23cbffc256d395a91000cc697b6612fc6f27a52 \
+                    size    59097
 
 destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
