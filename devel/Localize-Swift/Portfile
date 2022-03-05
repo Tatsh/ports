@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        marmelroy Localize-Swift 3.1.0
+github.setup        marmelroy Localize-Swift 3.2.0
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -13,13 +13,13 @@ description         Swift friendly localization and i18n with in-app language \
 long_description    ${description}
 platforms           macosx
 
-checksums           rmd160  905d875b3b19946c3111d64d9452bb054874b131 \
-                    sha256  574b0408ffaa4e12ee38e9426889b876ed595b216b95f16244f0d02886587fd7 \
-                    size    29165
+checksums           rmd160  a820e4f29904888d1574a4d6a9bc29fec00f102a \
+                    sha256  cb9521a49222e255e9e47ee458c6b6a752181d7decc20dc3ddba9fbdf7f9abbc \
+                    size    28076
 
 destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
-xcode.scheme [string map {- _} ${name}]
+xcode.scheme "[string map {- _} ${name}] OSX"
 xcode.destroot.type framework
 xcode.destroot.settings \
     CODE_SIGN_IDENTITY=- \
