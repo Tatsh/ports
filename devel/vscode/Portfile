@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                vscode
-version             1.64.2
+version             1.65.0
 revision            0
 
 categories          devel aqua
@@ -17,12 +17,12 @@ supported_archs     x86_64
 
 extract.suffix      .zip
 distfiles           ${name}-${version}${extract.suffix}
-set sha             f80445acd5a3dadef24aa209168452a3d97cc326
+set sha             b5205cc8eb4fbaa726835538cd82372cc0222d43
 master_sites        https://az764295.vo.msecnd.net/stable/${sha}/VSCode-darwin${extract.suffix}?dummy=
 
-checksums           rmd160  d8e94855f6c4be7e01557f9e0c137f58213c50c4 \
-                    sha256  c1210200d57742ba28e4938e1b1b897a6b6e0a709caecc86a0637540404947c7 \
-                    size    107509250
+checksums           rmd160  e6588850b1f982e5d5855f44a96378a932123e20 \
+                    sha256  93aea28776f9853f3c1c6b09afccc8a390bf3f2c3a2a1891e51a26a802acc010 \
+                    size    104795122
 
 livecheck.type      regex
 set update_sha      cc0baacfefc65f9caad1a498753154c1f456cbb3
