@@ -19,19 +19,6 @@ index 1695076..9bcb2f4 100644
              state: self.fixedSizeState
          ))
          
-diff --git Modules/Sensors/bridge.h Modules/Sensors/bridge.h
-index e46e26b..6d169d6 100644
---- Modules/Sensors/bridge.h
-+++ Modules/Sensors/bridge.h
-@@ -28,7 +28,7 @@ typedef float IOHIDFloat;
- IOHIDEventSystemClientRef IOHIDEventSystemClientCreate(CFAllocatorRef allocator);
- int IOHIDEventSystemClientSetMatching(IOHIDEventSystemClientRef client, CFDictionaryRef match);
- IOHIDEventRef IOHIDServiceClientCopyEvent(IOHIDServiceClientRef, int64_t , int32_t, int64_t);
--CFStringRef IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef property);
-+CFTypeRef _Nullable IOHIDServiceClientCopyProperty(IOHIDServiceClientRef service, CFStringRef property);
- IOHIDFloat IOHIDEventGetFloatValue(IOHIDEventRef event, int32_t field);
- 
- NSDictionary*AppleSiliconSensors(int page, int usage, int32_t type);
 diff --git Stats.xcodeproj/project.pbxproj Stats.xcodeproj/project.pbxproj
 index 60d8169..192f0a0 100644
 --- Stats.xcodeproj/project.pbxproj
