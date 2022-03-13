@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        kcrawford dockutil 3.0.0b3
+github.setup        kcrawford dockutil 3.0.2
 
 license             Apache-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,9 +16,9 @@ platforms           macosx
 
 depends_lib-append  port:swift-argument-parser
 
-checksums           rmd160  f0b6e6ee3cef0bf70ae43393adc0cd18fb331c13 \
-                    sha256  4e4f6334508de8b585ad3ae401393ef62de8436bd1671fcfec7ce285a3935cbb \
-                    size    47314
+checksums           rmd160  00845b2bf36bedcc859a9d2448c2ca7955fa5f40 \
+                    sha256  9f42cb59fa6120985fa05756b414a63bb2373f650d86fd1085dd83975cddd547 \
+                    size    47065
 
 destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
