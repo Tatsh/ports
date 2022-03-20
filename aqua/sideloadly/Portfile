@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                sideloadly
-version             0.24
+version             0.25.1
 categories          sysutils aqua
 license             Restrictive
 platforms           macosx
@@ -23,9 +23,9 @@ livecheck.type      regex
 livecheck.url       https://sideloadly.io/exe/darwin-amd64.json
 livecheck.regex     "\"Version\": \"(\[^\"\]+)\""
 
-checksums           rmd160  4dccdcb1cbcb05118ad1f2da3216654844c9c993 \
-                    sha256  98ef0f877f1bda21b1829d90e93c9343e4a1637fb2c3048b67e798100b24e6b8 \
-                    size    32874067
+checksums           rmd160  0d0b3465c6031f396ef88e7c9b47cde1333c1f59 \
+                    sha256  b0e877dcaa47e799a6841b718e4529cb148cc61889cdf34f507cdc22a81779b0 \
+                    size    33084111
 
 depends_extract     bin:expect:expect
 
