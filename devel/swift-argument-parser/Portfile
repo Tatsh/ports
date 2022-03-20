@@ -20,6 +20,6 @@ cmake.generator Ninja
 configure.args-append -DBUILD_EXAMPLES=NO -DBUILD_TESTING=NO
 
 post-destroot {
-    ln -s ${prefix}/lib/swift/macosx/libArgumentParser.dylib ${prefix}/lib/
-    ln -s ${prefix}/lib/swift/macosx/libArgumentParserToolInfo.dylib ${prefix}/lib
+    ln -s ${prefix}/lib/swift/macosx/libArgumentParser.dylib ${destroot}${prefix}/lib/
+    ln -s ${prefix}/lib/swift/macosx/libArgumentParserToolInfo.dylib ${destroot}${prefix}/lib/
 }
