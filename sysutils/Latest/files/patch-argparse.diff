@@ -1,0 +1,203 @@
+diff --git Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj
+index 1668e1b3..5e425c87 100644
+--- Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj
++++ Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj
+@@ -3,7 +3,7 @@
+ 	archiveVersion = 1;
+ 	classes = {
+ 	};
+-	objectVersion = 52;
++	objectVersion = 47;
+ 	objects = {
+ 
+ /* Begin PBXAggregateTarget section */
+@@ -53,6 +53,10 @@
+ 		14958C6E19AEBC950061B14F /* signed-test-file.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14958C6B19AEBC530061B14F /* signed-test-file.txt */; };
+ 		14958C6F19AEBC980061B14F /* test-pubkey.pem in Resources */ = {isa = PBXBuildFile; fileRef = 14958C6C19AEBC610061B14F /* test-pubkey.pem */; };
+ 		1EAA4C8B2132C7BF00604473 /* ReleaseNotesColorStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 1EAA4C8A2132C7BF00604473 /* ReleaseNotesColorStyle.css */; };
++		26DE4E8727E85374006A51E3 /* libArgumentParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DE4E8627E85374006A51E3 /* libArgumentParser.dylib */; };
++		26DE4E8827E85382006A51E3 /* libArgumentParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DE4E8627E85374006A51E3 /* libArgumentParser.dylib */; };
++		26DE4E8927E85385006A51E3 /* libArgumentParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DE4E8627E85374006A51E3 /* libArgumentParser.dylib */; };
++		26DE4E8A27E8538B006A51E3 /* libArgumentParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 26DE4E8627E85374006A51E3 /* libArgumentParser.dylib */; };
+ 		3772FEA913DE0B6B00F79537 /* SUVersionDisplayProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3772FEA813DE0B6B00F79537 /* SUVersionDisplayProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+ 		55C14BEF136EF21700649790 /* SUStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55C14BD8136EF00C00649790 /* SUStatus.xib */; };
+ 		55C14F06136EF6DB00649790 /* SULog.h in Headers */ = {isa = PBXBuildFile; fileRef = 55C14F04136EF6DB00649790 /* SULog.h */; };
+@@ -221,7 +225,6 @@
+ 		725B81FB2781CD930041746F /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 725B81F92781AEA40041746F /* libcompression.tbd */; };
+ 		725B81FC2781CDC20041746F /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 725B81F92781AEA40041746F /* libcompression.tbd */; };
+ 		725C2EAA2782EC61007CB7B5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725C2EA92782EC61007CB7B5 /* main.swift */; };
+-		725C2EAC2782EF3C007CB7B5 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 725C2EAB2782EF3C007CB7B5 /* ArgumentParser */; };
+ 		725CB9571C7120410064365A /* SPUUserDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 725CB9561C7120410064365A /* SPUUserDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+ 		725CB95A1C7121830064365A /* SPUStandardUserDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 725CB9581C7121830064365A /* SPUStandardUserDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+ 		725CB95B1C7121830064365A /* SPUStandardUserDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 725CB9591C7121830064365A /* SPUStandardUserDriver.m */; };
+@@ -325,9 +328,6 @@
+ 		726F2CE81BC9C48F001971A4 /* SUConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 61299A5F09CA6EB100B7442F /* SUConstants.m */; };
+ 		726F2CE91BC9C499001971A4 /* SUOperatingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 726F2CE41BC9C33D001971A4 /* SUOperatingSystem.m */; };
+ 		726F2CEB1BC9C733001971A4 /* SUConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 61299A5F09CA6EB100B7442F /* SUConstants.m */; };
+-		727DBAE526B5BBFD00111F0C /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 727DBAE426B5BBFD00111F0C /* ArgumentParser */; };
+-		727DBAE726B5C47800111F0C /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 727DBAE626B5C47800111F0C /* ArgumentParser */; };
+-		727DBAE926B5C48A00111F0C /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 727DBAE826B5C48A00111F0C /* ArgumentParser */; };
+ 		727F340B2605321D00020E85 /* SULog+NSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 727F340A2605321D00020E85 /* SULog+NSError.m */; };
+ 		727F340D2605321D00020E85 /* SULog+NSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 727F340A2605321D00020E85 /* SULog+NSError.m */; };
+ 		727F340E2605321D00020E85 /* SULog+NSError.m in Sources */ = {isa = PBXBuildFile; fileRef = 727F340A2605321D00020E85 /* SULog+NSError.m */; };
+@@ -875,6 +875,7 @@
+ 		149B78631B7D3A0C00D7D62C /* ConfigCommonCoverage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ConfigCommonCoverage.xcconfig; sourceTree = "<group>"; };
+ 		149B78641B7D3A4800D7D62C /* ConfigUnitTestCoverage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ConfigUnitTestCoverage.xcconfig; sourceTree = "<group>"; };
+ 		1EAA4C8A2132C7BF00604473 /* ReleaseNotesColorStyle.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = ReleaseNotesColorStyle.css; sourceTree = "<group>"; };
++		26DE4E8627E85374006A51E3 /* libArgumentParser.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libArgumentParser.dylib; path = "/Users/tatsh/dev/macports/patched-src-repos/Latest/../../../../../../opt/local/liFrameworks/Sparkle/swift/macosx/libArgumentParser.dylib"; sourceTree = "<absolute>"; };
+ 		3772FEA813DE0B6B00F79537 /* SUVersionDisplayProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUVersionDisplayProtocol.h; sourceTree = "<group>"; };
+ 		4607BEA21948443800EF8DA4 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Sparkle.strings; sourceTree = "<group>"; };
+ 		525A278F133D6AE900FD8D70 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+@@ -1424,7 +1425,7 @@
+ 			files = (
+ 				EA1E281922B645D9004AA304 /* libbsdiff.a in Frameworks */,
+ 				5D06E9050FD68D7D005AE3F6 /* Foundation.framework in Frameworks */,
+-				725C2EAC2782EF3C007CB7B5 /* ArgumentParser in Frameworks */,
++				26DE4E8A27E8538B006A51E3 /* libArgumentParser.dylib in Frameworks */,
+ 				5D06E8FF0FD68D6D005AE3F6 /* libbz2.dylib in Frameworks */,
+ 				5D1AF58B0FD7678C0065DB48 /* libxar.1.dylib in Frameworks */,
+ 				5D1AF5900FD767AD0065DB48 /* libxml2.dylib in Frameworks */,
+@@ -1467,9 +1468,9 @@
+ 			buildActionMask = 2147483647;
+ 			files = (
+ 				EA1E285622B6619B004AA304 /* libed25519.a in Frameworks */,
++				26DE4E8727E85374006A51E3 /* libArgumentParser.dylib in Frameworks */,
+ 				EA1E281A22B645F4004AA304 /* libbsdiff.a in Frameworks */,
+ 				7205C4641E1306BE00E370AE /* libbz2.tbd in Frameworks */,
+-				727DBAE526B5BBFD00111F0C /* ArgumentParser in Frameworks */,
+ 				7205C4631E1306B500E370AE /* libxar.tbd in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+@@ -1570,8 +1571,8 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				727DBAE726B5C47800111F0C /* ArgumentParser in Frameworks */,
+ 				EA1E286A22B6653D004AA304 /* libed25519.a in Frameworks */,
++				26DE4E8827E85382006A51E3 /* libArgumentParser.dylib in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -1579,8 +1580,8 @@
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+-				727DBAE926B5C48A00111F0C /* ArgumentParser in Frameworks */,
+ 				EA1E287E22B66705004AA304 /* libed25519.a in Frameworks */,
++				26DE4E8927E85385006A51E3 /* libArgumentParser.dylib in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -1638,6 +1639,7 @@
+ 			isa = PBXGroup;
+ 			children = (
+ 				725B81F92781AEA40041746F /* libcompression.tbd */,
++				26DE4E8627E85374006A51E3 /* libArgumentParser.dylib */,
+ 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+ 				721BC2081D17A553002BC71E /* Carbon.framework */,
+ 				525A278F133D6AE900FD8D70 /* Cocoa.framework */,
+@@ -2537,7 +2539,6 @@
+ 			);
+ 			name = BinaryDelta;
+ 			packageProductDependencies = (
+-				725C2EAB2782EF3C007CB7B5 /* ArgumentParser */,
+ 			);
+ 			productName = BinaryDelta;
+ 			productReference = 5D06E8D00FD68C7C005AE3F6 /* BinaryDelta */;
+@@ -2598,7 +2599,6 @@
+ 			);
+ 			name = generate_appcast;
+ 			packageProductDependencies = (
+-				727DBAE426B5BBFD00111F0C /* ArgumentParser */,
+ 			);
+ 			productName = generate_appcast;
+ 			productReference = 7205C43E1E13049400E370AE /* generate_appcast */;
+@@ -2838,7 +2838,6 @@
+ 			);
+ 			name = generate_keys;
+ 			packageProductDependencies = (
+-				727DBAE626B5C47800111F0C /* ArgumentParser */,
+ 			);
+ 			productName = generate_keys;
+ 			productReference = EA1E285E22B66487004AA304 /* generate_keys */;
+@@ -2858,7 +2857,6 @@
+ 			);
+ 			name = sign_update;
+ 			packageProductDependencies = (
+-				727DBAE826B5C48A00111F0C /* ArgumentParser */,
+ 			);
+ 			productName = sign_update;
+ 			productReference = EA1E287622B666EB004AA304 /* sign_update */;
+@@ -3003,7 +3001,6 @@
+ 			);
+ 			mainGroup = 0867D691FE84028FC02AAC07 /* Sparkle */;
+ 			packageReferences = (
+-				727DBAE326B5BBFD00111F0C /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+ 			);
+ 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+ 			projectDirPath = "";
+@@ -3964,6 +3961,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = 149B78631B7D3A0C00D7D62C /* ConfigCommonCoverage.xcconfig */;
+ 			buildSettings = {
++				SKIP_INSTALL = YES;
+ 			};
+ 			name = Coverage;
+ 		};
+@@ -4025,6 +4023,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = FA1941CF0D94A70100DD942E /* ConfigCommonDebug.xcconfig */;
+ 			buildSettings = {
++				SKIP_INSTALL = YES;
+ 			};
+ 			name = Debug;
+ 		};
+@@ -4032,6 +4031,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = FA1941CC0D94A70100DD942E /* ConfigCommonRelease.xcconfig */;
+ 			buildSettings = {
++				SKIP_INSTALL = YES;
+ 			};
+ 			name = Release;
+ 		};
+@@ -4619,40 +4619,6 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
+-
+-/* Begin XCRemoteSwiftPackageReference section */
+-		727DBAE326B5BBFD00111F0C /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 0.4.3;
+-			};
+-		};
+-/* End XCRemoteSwiftPackageReference section */
+-
+-/* Begin XCSwiftPackageProductDependency section */
+-		725C2EAB2782EF3C007CB7B5 /* ArgumentParser */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 727DBAE326B5BBFD00111F0C /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+-			productName = ArgumentParser;
+-		};
+-		727DBAE426B5BBFD00111F0C /* ArgumentParser */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 727DBAE326B5BBFD00111F0C /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+-			productName = ArgumentParser;
+-		};
+-		727DBAE626B5C47800111F0C /* ArgumentParser */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 727DBAE326B5BBFD00111F0C /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+-			productName = ArgumentParser;
+-		};
+-		727DBAE826B5C48A00111F0C /* ArgumentParser */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 727DBAE326B5BBFD00111F0C /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+-			productName = ArgumentParser;
+-		};
+-/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+ }

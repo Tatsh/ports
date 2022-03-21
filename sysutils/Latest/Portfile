@@ -14,33 +14,28 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             CC-BY-NC-SA-4
 categories          sysutils aqua
 
-set sparkle_hash    238fd42bb39583f180ee47010bafd6bda4e236a0
-set sparkle_ed25519_hash 7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
-set mas_hash        94eb4e5523768bd9902aa1444ade90ee94b17c63
+depends_lib-append  port:swift-argument-parser
+
+set sparkle_hash            286edd1fa22505a9e54d170e9fd07d775ea233f2
+set sparkle_ed25519_hash    7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
 
 master_sites        ${github.homepage}/archive/${version}.tar.gz?dummy=:latest \
                     https://github.com/sparkle-project/Sparkle/archive/${sparkle_hash}.tar.gz?dummy=:sparkle \
-                    https://github.com/mas-cli/mas/archive/${mas_hash}.tar.gz?dummy=:mas \
                     https://github.com/orlp/ed25519/archive/${sparkle_ed25519_hash}.tar.gz?dummy=:ed25519
-set n_commits       462
+set n_commits       487
 distfiles           ${name}-${version}.tar.gz:latest \
                     sparkle-${sparkle_hash}.tar.gz:sparkle \
-                    mas-${mas_hash}.tar.gz:mas \
-                    mas-ed25519-${sparkle_ed25519_hash}.tar.gz:ed25519
+                    sparkle-ed25519-${sparkle_ed25519_hash}.tar.gz:ed25519
 
 checksums           Latest-0.8.tar.gz \
                     rmd160  2a523ee0543828eb08f55ca5b0b5b4dc038b9853 \
                     sha256  ebd78587ae1f4569f086e50254338be95b0f304b85424025cd8e287238744001 \
                     size    2573149 \
-                    sparkle-238fd42bb39583f180ee47010bafd6bda4e236a0.tar.gz \
-                    rmd160  aeb1fd4004cf4858c33defd02965eb69fdbf011b \
-                    sha256  541e074c919afd78f0ace81b2a9ea6df6f93da309ab500dd86fe79a3afb41438 \
-                    size    12172076 \
-                    mas-94eb4e5523768bd9902aa1444ade90ee94b17c63.tar.gz \
-                    rmd160  0bdb5a537d95ad80276839ac988cbbcbc1471ef3 \
-                    sha256  738aa5756f7ca8099ac0971e9da1f03d4effb98dc94e0867d86adfd470c0188c \
-                    size    3322126 \
-                    mas-ed25519-7fa6712ef5d581a6981ec2b08ee623314cd1d1c4.tar.gz \
+                    sparkle-286edd1fa22505a9e54d170e9fd07d775ea233f2.tar.gz \
+                    rmd160  aa382270031d44fe9ed95b7429df6c42ae248483 \
+                    sha256  37b47c10bf3dbdf45eb11340fc66deb8e6f4359ab490bb49c6ff55b69ff2a84d \
+                    size    15049377 \
+                    sparkle-ed25519-7fa6712ef5d581a6981ec2b08ee623314cd1d1c4.tar.gz \
                     rmd160  3a711fcb59cbf221a5d71672c342c65483907e00 \
                     sha256  373923c85f61276e3cad2c0ae7a5d5cd4809ffe46c5abc1dc8276683a55782a0 \
                     size    226683
@@ -56,12 +51,11 @@ destroot.pre_args -derivedDataPath ${worksrcpath}
 if {${os.major} < 20} {
     patchfiles patch-available-10-15.diff
 }
-patchfiles-append patch-add-imageio.diff
+patchfiles-append patch-argparse.diff
 
 post-extract {
-    delete ${worksrcpath}/Frameworks/Sparkle ${worksrcpath}/Frameworks/mas-cli
+    delete ${worksrcpath}/Frameworks/Sparkle
     copy ${workpath}/Sparkle-${sparkle_hash} ${worksrcpath}/Frameworks/Sparkle
-    copy ${workpath}/mas-${mas_hash} ${worksrcpath}/Frameworks/mas-cli
     delete ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
     copy ${workpath}/ed25519-${sparkle_ed25519_hash} ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
 }
