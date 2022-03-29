@@ -5,9 +5,10 @@ PortGroup           python 1.0
 PortGroup           github 1.0
 
 name                py-apsw
-github.setup        rogerbinns apsw 3.37.0-r1
-revision            0
+github.setup        rogerbinns apsw 3.38.1-r1
+revision            1
 
+version             3.38.1
 platforms           darwin
 license             zlib
 maintainers         nomaintainer
@@ -15,9 +16,9 @@ maintainers         nomaintainer
 description         Another Python SQLite wrapper
 long_description    APSW is a Python wrapper for the SQLite embedded relational database engine.
 
-checksums           rmd160  257d524679e5f9f69f8c212432819699cc97043c \
-                    sha256  2ff1f227ebeec13c5f928250cb96349e073e06a6065d11a6c37c6c2a9740c22a \
-                    size    321901
+checksums           rmd160  f386f9970be5e63dfc6a267b0879ac91714b302e \
+                    sha256  aa67d6ad9bc3ef485e417b1f6e44d7c11aada1df861f0cfe5a12014c1a8b5f6d \
+                    size    339041
 
 python.versions     27 35 36 37 38 39 310
 
