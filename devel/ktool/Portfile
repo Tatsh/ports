@@ -21,7 +21,7 @@ checksums           rmd160  e7a8d5c06ad4bb0038854f22b0e23c8ff8d9fd0f \
                     size    34723406
 
 python.versions             36 37 38 39 310
-python.default_version      39
+python.default_version      310
 
 depends_lib-append port:py${python.version}-pygments \
                    port:py${python.version}-pyaes \
