@@ -7,6 +7,8 @@ PortGroup           github 1.0
 # This project has submodules, but none are used in the Apple variant of the
 # code
 github.setup        vusec ridl bdcc1a7
+compiler.c_standard 2011
+supported_archs     x86_64
 
 name                mdstool
 version             2020609
