@@ -17,6 +17,7 @@ long_description    Ripcord is a desktop chat client for group-centric \
                     it has a small resource footprint, responds quickly to \
                     input, and gets out of your way.
 homepage            https://cancel.fm/ripcord/
+supported_archs    x86_64
 
 distfiles           ${name}_Mac_${version}.zip
 master_sites        https://cancel.fm/dl/
