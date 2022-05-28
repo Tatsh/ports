@@ -10,8 +10,8 @@ license             MIT
 supported_archs     noarch
 categories          devel python
 
-python.versions         35 36 37 38 39
-python.default_version  39
+python.versions         35 36 37 38 39 310
+python.default_version  310
 
 maintainers         {gmail.com:audvare @Tatsh}
 
