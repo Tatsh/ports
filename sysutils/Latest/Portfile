@@ -5,7 +5,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Latest
-version             0.8
+version             0.8.3
 revision            0
 github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
@@ -27,7 +27,7 @@ distfiles           ${name}-${version}.tar.gz:latest \
                     sparkle-${sparkle_hash}.tar.gz:sparkle \
                     sparkle-ed25519-${sparkle_ed25519_hash}.tar.gz:ed25519
 
-checksums           Latest-0.8.tar.gz \
+checksums           Latest-0.8.3.tar.gz \
                     rmd160  2a523ee0543828eb08f55ca5b0b5b4dc038b9853 \
                     sha256  ebd78587ae1f4569f086e50254338be95b0f304b85424025cd8e287238744001 \
                     size    2573149 \
