@@ -2,9 +2,8 @@
 
 PortSystem 1.0
 
-name                stepmania-outfox
-set alpha_version   4.14.1
-version             0.${alpha_version}
+name                outfox
+version             0.4.18.1
 categories          games aqua
 platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
@@ -14,20 +13,19 @@ long_description    StepMania \"OutFox\" provides an upgraded experience \
                     decades of existing content, and lays the groundwork for \
                     the next.
 homepage            https://projectmoon.dance/
-set version_date    20220327
-distfiles           OutFox-alpha-0.${alpha_version}HF-MacOS-date-${version_date}.dmg
-master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF${alpha_version}/
+set version_date    20221101
+distfiles           OutFox-${version}.LTS-MacOS-date-${version_date}.dmg
+master_sites        https://github.com/TeamRizu/OutFox/releases/download/${version}/
 supported_archs     arm64 x86_64
 license             EULA
 
 livecheck.type      regex
 livecheck.url       https://github.com/TeamRizu/OutFox/tags
-livecheck.version   ${alpha_version}
 livecheck.regex     "/tag/OF(\\d+\\.\\d+\\.\\d+(?:\[A-Z\]+|-(?:\[fF\]inal|rc)(?:\[0-9\]+)?)?)"
 
-checksums           rmd160  b6bf65eb9622e91186f9b54e9ed15354d4020677 \
-                    sha256  1ed9c047c6c6c23cafec81e4bf1e18a91c5cfe32e4f6fcc4cb419bf7b5d0eaad \
-                    size    128905559
+checksums           rmd160  0a75baa818c85267ce6314efbdef083ead35c981 \
+                    sha256  650441b2c81d01a368b0e8596e4204d07fdd70f1cb28bf9d9d514e033f0977bb \
+                    size    135182847
 
 use_configure       no
 use_dmg             yes
