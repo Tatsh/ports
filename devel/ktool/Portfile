@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        cxnder ktool 1.1.4
+github.setup        cxnder ktool 1.3.0
 
 categories          devel
 platforms           darwin linux freebsd
@@ -16,9 +16,9 @@ long_description    Fully cross-platform toolkit (and library!) for \
 license             MIT
 supported_archs     noarch
 
-checksums           rmd160  e7a8d5c06ad4bb0038854f22b0e23c8ff8d9fd0f \
-                    sha256  a7ab93c02a1da64b51311c5db6e448e2cab01abf490686801662b6d6d6a03a94 \
-                    size    34723406
+checksums           rmd160  0f56e7027d92d6a11d97fbfc953ed81570ac6359 \
+                    sha256  6c475bc688b29ca57d25727fc36546cfe28114bd7452372034be3a98eaf6ae4d \
+                    size    851699
 
 python.versions             36 37 38 39 310
 python.default_version      310
