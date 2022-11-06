@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-github.setup        exelban stats 2.7.10 v
+github.setup        exelban stats 2.7.41 v
 categories-append   aqua
 description         macOS system monitor in your menu bar.
 long_description    ${description}
@@ -12,9 +12,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 categories          sysutils aqua
 
-checksums           rmd160  22bcf69989955b660da071edbccd99ff93e8e7ad \
-                    sha256  5452fae5373f70476eeb96b6ab96b102260015ac465d2c7e6fc54d4e4e969080 \
-                    size    13270857
+checksums           rmd160  3899e62640b59558123c699606d1d39fc6e63537 \
+                    sha256  74164d87df359f38f78a9d21397e7c053d4661ea485bf3d79a8743998233abb6 \
+                    size    13345067
 
 depends_lib         port:Repeat
 
