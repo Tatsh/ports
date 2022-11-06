@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        schappim macOCR ac7665b
+github.setup        schappim macOCR 161913f
 
-version             20220228
+version             20220422
 categories-append   sysutils
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -14,9 +14,9 @@ description         Get any text on your screen into your clipboard.
 long_description    ${description}
 homepage            https://github.com/schappim/macOCR
 
-checksums           rmd160  750dd67e0285f5e329de91ad5a47624406b5d568 \
-                    sha256  d784926945e4bd1717b9ccf123463824f4d68ea9efee61df00c37d1a715dfc4d \
-                    size    84805
+checksums           rmd160  2c3380f935a6430b0dd4523024f642387d501254 \
+                    sha256  65f8905647f7b226c0b302bed97877b794df00ae7e79e186bc106d9de2bb2a90 \
+                    size    85138
 
 xcode.scheme        ocr
 xcode.configuration Release
