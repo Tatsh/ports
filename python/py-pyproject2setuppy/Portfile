@@ -20,11 +20,11 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to convert pyproject.toml-based projects to setuptools.
 long_description    ${description}
 
-python.versions         36 37 38 39
+python.versions         36 37 38 39 310 311
 
-checksums           rmd160  9596645f5fe3413c982443fff5710c6b3c92640f \
-                    sha256  1b3b56568feb7ad3a6aedd3d7d0e52ad4ae9007db7e455dbb057985123e6b53a \
-                    size    13049
+checksums           rmd160  e3055947544bb1ec245138e95c5ff4e2c9f149cd \
+                    sha256  b8f17ff4947c2e59d96e5fe5ffcbd3d34a6a4acdc56e9ee0702ca60c2729959c \
+                    size    13052
 
 if {$subport ne $name} {
     livecheck.type      none
