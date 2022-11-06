@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-css-parser
-version             1.0.7
+version             1.0.8
 
 platforms           darwin
 license             GPL-3
