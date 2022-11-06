@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-zeroconf
-version             0.38.4
+version             0.39.4
 
 platforms           darwin
 license             LGPL-2.1
