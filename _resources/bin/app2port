@@ -6,8 +6,7 @@ import re
 import subprocess as sp
 import sys
 
-version_keys = ('CFBundleShortVersionString', 'CFBundleVersion',
-                'CFBundleGetInfoString')
+version_keys = ('CFBundleShortVersionString', 'CFBundleVersion', 'CFBundleGetInfoString')
 
 
 def has_libstdcxx(start: str) -> bool:
@@ -21,9 +20,7 @@ def has_libstdcxx(start: str) -> bool:
             except FileNotFoundError:
                 continue
             if is_exec:
-                proc = sp.run(['otool', '-L', fpath],
-                              capture_output=True,
-                              text=True)
+                proc = sp.run(['otool', '-L', fpath], capture_output=True, text=True)
                 if 'libstdc++' in proc.stdout:
                     return True
     return False
