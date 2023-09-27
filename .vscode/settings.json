@@ -2,6 +2,7 @@
   "[tcl]": {
     "editor.tabSize": 4
   },
+  "editor.formatOnSave": true,
   "files.associations": {
     "Portfile": "tcl",
     "cargo2port": "tcl"
@@ -9,10 +10,5 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "python.formatting.provider": "yapf",
-  "python.linting.enabled": true,
-  "python.linting.flake8Enabled": false,
-  "python.linting.pylintEnabled": false,
-  "python.pythonPath": "/opt/local/bin/python",
   "python.testing.pytestEnabled": false
 }
