@@ -15,4 +15,4 @@ sed -r -e "s/^set sha(\s+).*/set sha\1${new_sha}/" \
     -i Portfile
 sudo port -v bump
 popd || exit 1
-portindex
+sudo portindex
