@@ -1,0 +1,38 @@
+{
+  "contributors": [
+    "Andrew Udvare <audvare@gmail.com>"
+  ],
+  "devDependencies": {
+    "@prettier/plugin-xml": "^3.2.0",
+    "cspell": "^7.3.5",
+    "markdownlint-cli2": "^0.9.2",
+    "prettier": "^3.0.3",
+    "prettier-plugin-ini": "^1.1.0",
+    "prettier-plugin-sort-json": "^3.0.1",
+    "prettier-plugin-toml": "^1.0.0"
+  },
+  "license": "MIT",
+  "name": "ports",
+  "prettier": {
+    "endOfLine": "lf",
+    "iniSpaceAroundEquals": true,
+    "jsonRecursiveSort": true,
+    "plugins": [
+      "@prettier/plugin-xml",
+      "prettier-plugin-ini",
+      "prettier-plugin-sort-json",
+      "prettier-plugin-toml"
+    ],
+    "printWidth": 100,
+    "singleQuote": true
+  },
+  "repository": "git@github.com:Tatsh/ports.git",
+  "scripts": {
+    "check-formatting": "yarn prettier -c . && poetry run isort . --check && poetry run yapf -prd . && markdownlint-cli2 '**/*.md' '#node_modules'",
+    "format": "yarn prettier -w . && poetry run isort . && poetry run yapf -pri . && markdownlint-cli2 --fix '**/*.md' '#node_modules'",
+    "mypy": "for package in _resources/bin/*2port _resources/bin/liveupdate; do poetry run mypy \"$package\" || exit 1; done",
+    "qa": "yarn mypy && yarn ruff && yarn check-formatting",
+    "ruff": "poetry run ruff check ."
+  },
+  "version": "0.0.1"
+}
