@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from os.path import basename, join as path_join, realpath
-from typing import Any, Final
+from typing import Any, Final, cast
 import argparse
 import os
 import plistlib
@@ -25,23 +25,20 @@ def has_libstdcxx(start: str) -> bool:
             except FileNotFoundError:
                 continue
             if is_exec:
-                proc = sp.run(['otool', '-L', fpath],
-                              capture_output=True,
-                              text=True)
+                proc = sp.run(['otool', '-L', fpath], capture_output=True, text=True)
                 if 'libstdc++' in proc.stdout:
                     return True
     return False
 
 
 def hdiutil_info() -> dict[str, Any]:
-    return plistlib.loads(sp.check_output(['hdiutil', 'info', '-plist']))
+    return cast(dict[str, Any], plistlib.loads(sp.check_output(['hdiutil', 'info', '-plist'])))
 
 
 def mount_dmg(mountroot: str, dmg: str) -> None:
     sp.check_call([
-        'hdiutil', 'attach', '-noverify', '-noautofsck', '-noautoopen',
-        '-private', '-nobrowse', '-readonly', '-mount', 'required',
-        '-mountroot', mountroot, '-quiet', dmg
+        'hdiutil', 'attach', '-noverify', '-noautofsck', '-noautoopen', '-private', '-nobrowse',
+        '-readonly', '-mount', 'required', '-mountroot', mountroot, '-quiet', dmg
     ])
 
 
