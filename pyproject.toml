@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ports"
+version = "0.0.1"
+description = ""
+authors = ["Andrew Udvare <audvare@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.31.0"
+
+[tool.poetry.group.dev.dependencies]
+types-requests = "^2.31.0.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
