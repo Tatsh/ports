@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from functools import lru_cache
 from os.path import dirname, expanduser
-from typing import Any, Callable, Dict, Set, Tuple, cast
+from typing import Any, Callable, cast
 import argparse
 import re
 import subprocess as sp
@@ -21,7 +21,7 @@ VERSION_LINE_ERROR_RE = (r"extracted version '([^']+)' is older than "
 DISTFILES_REMOVE_FIRST_PACKAGES = ('Bartender', 'Bartender3',)
 
 
-def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess:
+def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess[str]:
     return sp.run((SUDO_PORT + args),
                   **kwargs,
                   check=True,
@@ -51,7 +51,7 @@ def bump_revision_callback(old_revision: int) -> Callable[[str], str]:
 
 
 @lru_cache()
-def split_line(line: str) -> Tuple[str, str, str]:
+def split_line(line: str) -> tuple[str, str, str]:
     m = re.search(VERSION_LINE_RE, line)
     n = re.search(VERSION_LINE_ERROR_RE, line)
     if m or n:
@@ -70,7 +70,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('-g', '--git', help='Commit changes with Git')
     args = parser.parse_args()
-    subport_mapping = cast(Dict[str, Set[str]], {})
+    subport_mapping = cast(dict[str, set[str]], {})
     lines = sys.stdin.readlines()[:]
 
     @lru_cache()
@@ -105,22 +105,18 @@ def main() -> int:
             sp.run(('bash', './_resources/bin/update-vscode', new), check=True)
             continue
         print(f'Port: {port}', file=sys.stderr)
-        portfile = cast(str, port_cmd('file', port).stdout.strip())
+        portfile = port_cmd('file', port).stdout.strip()
         is_system_port = False
         if portfile.startswith(INSTALLED_PORTS):
             portfile = portfile.replace(INSTALLED_PORTS, LOCAL_MACPORTS_PORTS)
             is_system_port = True
-        old_content = cast(str, port_cmd('cat', port).stdout)
+        old_content = port_cmd('cat', port).stdout
         content = old_content.replace(old, new)
         revision_changed_callback = None
         if ((len(old) == 7 or len(old) > 8) and re.match(r'^[0-9a-f]+$', old)):
-            version = cast(
-                str,
-                port_cmd('-q', 'info', '--version', port).stdout.strip())
+            version = port_cmd('-q', 'info', '--version', port).stdout.strip()
             if len(version) == 8:  # is a date
-                homepage = cast(
-                    str,
-                    port_cmd('-q', 'info', '--homepage', port).stdout)
+                homepage = port_cmd('-q', 'info', '--homepage', port).stdout
                 if 'github.com' in homepage:
                     r = requests.get(f'{homepage.strip()}/commits/master.atom')
                     r.raise_for_status()
@@ -138,10 +134,8 @@ def main() -> int:
             else:
                 revision_changed_callback = bump_revision_callback(
                     int(
-                        cast(
-                            str,
                             port_cmd('-q', 'info', '--revision',
-                                     port).stdout.strip())))
+                                     port).stdout.strip()))
         assert old_content != content, 'Content of Portfile is unchanged'
         with open(portfile, 'w') as g:
             g.write(content)
