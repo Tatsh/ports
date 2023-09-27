@@ -18,15 +18,11 @@ SUDO_PORT = ('sudo', 'port')
 VERSION_LINE_RE = r'\(port version:\s+([^,]+),\s+new version:\s+([^\)]+)\)'
 VERSION_LINE_ERROR_RE = (r"extracted version '([^']+)' is older than "
                          r"livecheck.version '([^']+)'")
-DISTFILES_REMOVE_FIRST_PACKAGES = ('Bartender', 'Bartender3',)
+DISTFILES_REMOVE_FIRST_PACKAGES = ('Bartender', 'Bartender3')
 
 
 def port_cmd(*args: Any, **kwargs: Any) -> sp.CompletedProcess[str]:
-    return sp.run((SUDO_PORT + args),
-                  **kwargs,
-                  check=True,
-                  stdout=sp.PIPE,
-                  text=True)
+    return sp.run((SUDO_PORT + args), **kwargs, check=True, stdout=sp.PIPE, text=True)
 
 
 def bump_revision_callback(old_revision: int) -> Callable[[str], str]:
@@ -87,8 +83,7 @@ def main() -> int:
             continue
         subport_mapping[port] = set(
             re.split(r',(?:\s+)?',
-                     port_cmd('-q', 'info', '--subports',
-                              port).stdout.strip()))
+                     port_cmd('-q', 'info', '--subports', port).stdout.strip()))
 
     for line in lines:
         try:
@@ -98,8 +93,7 @@ def main() -> int:
         if is_subport(port):
             continue
         if port == 'iosevka':
-            sp.run(('bash', './_resources/bin/update-iosevka', new),
-                   check=True)
+            sp.run(('bash', './_resources/bin/update-iosevka', new), check=True)
             continue
         if port == 'vscode':
             sp.run(('bash', './_resources/bin/update-vscode', new), check=True)
@@ -120,12 +114,10 @@ def main() -> int:
                 if 'github.com' in homepage:
                     r = requests.get(f'{homepage.strip()}/commits/master.atom')
                     r.raise_for_status()
-                    updated_els = etree.fromstring(r.text).findall(
-                        'entry/updated', RSS_NS)
-                    last_dates = sorted(
-                        (updated_el.text.split('T')[0].replace('-', '')
-                         for updated_el in updated_els if updated_el.text),
-                        reverse=True)
+                    updated_els = etree.fromstring(r.text).findall('entry/updated', RSS_NS)
+                    last_dates = sorted((updated_el.text.split('T')[0].replace('-', '')
+                                         for updated_el in updated_els if updated_el.text),
+                                        reverse=True)
                     if not last_dates:
                         raise RuntimeError('Could not retrieve commit dates')
                     content = content.replace(version, last_dates[0])
@@ -133,9 +125,7 @@ def main() -> int:
                     raise ValueError(f'Unhandled URL: {homepage}')
             else:
                 revision_changed_callback = bump_revision_callback(
-                    int(
-                            port_cmd('-q', 'info', '--revision',
-                                     port).stdout.strip()))
+                    int(port_cmd('-q', 'info', '--revision', port).stdout.strip()))
         assert old_content != content, 'Content of Portfile is unchanged'
         with open(portfile, 'w') as g:
             g.write(content)
