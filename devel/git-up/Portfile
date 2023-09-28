@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                git-up
-version             2.1.0
+version             2.2.0
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
 categories          devel python
 
 python.versions         35 36 37 38 39 310 311
-python.default_version  310
+python.default_version  311
 
 maintainers         {gmail.com:audvare @Tatsh}
 
@@ -22,22 +22,23 @@ long_description    PyGitUp is a Python port of aanand/git-up. It not only fully
 
 homepage            https://pypi.org/project/git-up/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+distfiles           git_up-${version}.tar.gz
+worksrcdir          git_up-${version}
 
-checksums           rmd160  ce12a71198bb8bc5e520a221babc3a5bd7ce36f8 \
-                    sha256  6e677d91aeb4de37e62bdc166042243313ec873c3caf9938911ac2e7f52a0652 \
-                    size    23444
+checksums           rmd160  3ad2fd595b2b3223878ebf32d90d74d319694030 \
+                    sha256  1935f62162d0e3cc967cf9e6b446bd1c9e6e9902edb6a81396065095a5a0784e \
+                    size    23972
 
-depends_build-append    port:py${python.version}-pyproject2setuppy
+depends_build-append    port:py${python.version}-pyproject2setuppy \
+                        port:py${python.version}-flit_core
 depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-colorama \
+                        port:py${python.version}-click \
                         port:py${python.version}-termcolor \
                         port:py${python.version}-six
-
-patchfiles  patch-remove-click-dep.diff
 
 patch {
     delete ${worksrcpath}/PyGitUp/tests
     system "cd \"${worksrcpath}\" && ${python.bin} -m pyproject2setuppy.main build"
     reinplace "s|, 'PyGitUp.tests'||" ${worksrcpath}/setup.py
-    reinplace "s|'click>.*||" ${worksrcpath}/setup.py
 }
