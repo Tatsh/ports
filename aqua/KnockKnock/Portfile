@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        objective-see KnockKnock 2.3.0 v
+github.setup        objective-see KnockKnock 2.4.2 v
 
 categories          aqua sysutils security
 license             GPL-3
@@ -18,21 +18,23 @@ long_description    Malware installs itself persistently, to ensure it is \
 homepage            https://objective-see.com/products/knockknock.html
 
 set mach_o_sha      73bb2d808fb0d456ec5488a7fb68eaa745146461
-set knockknock_sha  7fb16ac
+set knockknock_sha  6190e78
 master_sites        ${github.homepage}/tarball/${git.branch}:KnockKnock \
                     https://github.com/${github.author}/Mach-O/archive:mach_o
 distfiles           ${name}-${version}.tar.gz:KnockKnock \
                     ${mach_o_sha}.tar.gz:mach_o
 worksrcdir          ${github.author}-${name}-${knockknock_sha}
 
-checksums           KnockKnock-2.3.0.tar.gz \
-                    rmd160  7d1db26244e4a237ca8b2350c0bcf7b147f193b5 \
-                    sha256  00f73d0ac25bb34944f39166beaaa6922085fd0c6f8d9d24775c5149132d4945 \
-                    size    3718336 \
+checksums           KnockKnock-2.4.2.tar.gz \
+                    rmd160  6aa81ca74dd87c0877d6181acd95e0f37b0998ab \
+                    sha256  0994acf16bf0a358a6f63876bc97a1e986754907fa7c87368cc9f7b5666a5313 \
+                    size    4102921 \
                     73bb2d808fb0d456ec5488a7fb68eaa745146461.tar.gz \
                     rmd160  52604b627ed220a1073c1ecf30a4ee63d224febc \
                     sha256  8826b87dc65875d9867ce0475877205428fe3e03b2e076f216874d93742477e2 \
                     size    21161
+
+patch.pre_args -t -p0
 
 xcode.scheme        ${name}
 xcode.configuration Release
@@ -42,8 +44,7 @@ xcode.destroot.settings \
     ENABLE_HARDENED_RUNTIME=NO
 destroot.pre_args -derivedDataPath ${worksrcpath}
 
-patchfiles      patch-remove-sentry.diff \
-                patch-remove-update-checking.diff
+patchfiles      patch-remove-update-checking.diff
 
 post-extract {
     file mkdir ${workpath}/MachO
