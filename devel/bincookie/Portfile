@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Tatsh bincookie 0.1.0 v
+github.setup        Tatsh bincookie 0.1.6 v
 name                bincookie
-version             0.1.0
+version             0.1.6
 platforms           darwin linux freebsd
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -15,8 +15,12 @@ long_description    ${description}
 categories          devel
 compiler.c_standard 2011
 
-checksums           rmd160  0ba7dc33383c1311002a0afc7007027f96df0d2c \
-                    sha256  fc1f39e72d6eb44a0f166c86814063cb1d8556888ee17850f6f6cd1d0559141e \
-                    size    36526
+checksums           rmd160  5632d13ce04a564eaa077d7b7fd9dc09a8b78ac7 \
+                    sha256  b782f9ab993d9b551adac82370f7933f3540809d527b5cdf610cdceeadf43669 \
+                    size    46514
+
+patch {
+    reinplace "s|3\.26|3.24|" CMakeLists.txt
+}
 
 configure.args-append -DWITH_EXAMPLES=yes
