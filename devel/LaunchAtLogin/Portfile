@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        sindresorhus LaunchAtLogin 4.2.0 v
+github.setup        sindresorhus LaunchAtLogin 5.0.0 v
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -13,9 +13,9 @@ description         Add Launch at Login functionality to your macOS app in \
 long_description    ${description}
 platforms           macosx
 
-checksums           rmd160  06f81e06fefc602538c6c27e0e01d66014f71850 \
-                    sha256  e19c3ed30b795ef51673d561c3414ceff4c66d6733fdadbf6d958471fc367e13 \
-                    size    3432341
+checksums           rmd160  c44333c05dd1499bb64f62cdc3c4813d9f0281f8 \
+                    sha256  57aa2b5827f0dc8336f37dcccab82a6828f5d26e45fb5a2965fdbac8bd92f6cf \
+                    size    3432079
 
 destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
