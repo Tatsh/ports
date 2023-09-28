@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh dbeaver-creds 35a83a6
-version             20201208
+github.setup        Tatsh dbeaver-creds f83911e
+version             20230922
 platforms           linux darwin freebsd
 maintainers         {gmail.com:audvare @Tatsh}
 description         Recover your DBeaver saved credentials.
@@ -13,9 +13,9 @@ license             MIT
 categories          databases sysutils security
 revision            0
 
-checksums           rmd160  bdf0883070af3a19b8bc46f307bdbad974dbe275 \
-                    sha256  3d3e03fd9a9e829e81c3fcfed3e855ae0cb2a77a52545a528f922b463bb31a46 \
-                    size    1869
+checksums           rmd160  be7405077cb455ece57431219e993d1dd0cac3eb \
+                    sha256  f1a90987980375b38f3b323771113225adf27a2019bafd391df17e4e468d2384 \
+                    size    33763
 use_configure       no
 
 build {}
