@@ -29,8 +29,7 @@ checksums           rmd160  3ad2fd595b2b3223878ebf32d90d74d319694030 \
                     sha256  1935f62162d0e3cc967cf9e6b446bd1c9e6e9902edb6a81396065095a5a0784e \
                     size    23972
 
-depends_build-append    port:py${python.version}-pyproject2setuppy \
-                        port:py${python.version}-flit_core
+depends_build-append    port:py${python.version}-flit_core
 depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-colorama \
                         port:py${python.version}-click \
@@ -39,6 +38,4 @@ depends_lib-append      port:py${python.version}-gitpython \
 
 patch {
     delete ${worksrcpath}/PyGitUp/tests
-    system "cd \"${worksrcpath}\" && ${python.bin} -m pyproject2setuppy.main build"
-    reinplace "s|, 'PyGitUp.tests'||" ${worksrcpath}/setup.py
 }
