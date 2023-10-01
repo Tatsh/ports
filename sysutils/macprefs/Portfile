@@ -4,13 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                macprefs
-version             0.2.2
+version             0.3.3
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions         39 310
-python.default_version  310
+python.versions         310 311
+python.default_version  311
 
 maintainers         {gmail.com:audvare @Tatsh}
 
@@ -22,10 +22,17 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  05ce69012c3f42a4c9b2a4887423df4effc15974 \
-                    sha256  f2a2f5fa36424681c5b040bdf144b4ea20c1a6ced67dd414c6f9e0a83bb73eb8 \
-                    size    13789
+checksums           rmd160  c94623e4e66b57a751481d87661a7adf0aa44fa5 \
+                    sha256  bb946a5a61c8020333b7762bda96266cf8ad77e017514d8e589d4471d64a0b5f \
+                    size    16894
+
+depends_lib-append  port:py${python.version}-click \
+                    port:py${python.version}-loguru
 
 if {$subport ne $name} {
     livecheck.type none
+}
+
+post-destroot {
+    xinstall -m 0644 ${worksrcpath}/man/${name}.1 ${destroot}${prefix}/share/man/man1
 }
