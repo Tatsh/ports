@@ -21,15 +21,11 @@ supported_archs     x86_64
 set special_dmg     ${name}${version_dmg}.dmg
 set app_name        "UI Browser.app"
 distfiles           ${name}-${version}.dmg
-master_sites        https://pfiddlesoft.com/uibrowser/downloads/${special_dmg}?dummy=
+master_sites        https://s3.amazonaws.com/latenightsw.com/UIBrowser/${special_dmg}?dummy=
 
 checksums           rmd160  5a538b01a08b059986c4027ee132ad9ec9b3d254 \
                     sha256  a5695d3046a2230a0e56cbda68829802801d74afc39d4320161fef668b3a0376 \
                     size    4047348
-
-livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "UI Browser (\\d+\\.\\d+\\.\\d+)</a></h3>"
 
 depends_extract     bin:expect:expect
 
@@ -37,7 +33,7 @@ use_configure       no
 
 extract {
     file mkdir ${worksrcpath}
-    set mountpoint [my_attach_disk_image ${distpath}/${special_dmg}]
+    set mountpoint [my_attach_disk_image ${distpath}/${name}-${version}.dmg]
     copy ${mountpoint}/${app_name} ${worksrcpath}
     copy "${mountpoint}/GUI Scripting" ${worksrcpath}
     copy "${mountpoint}/Read Me.rtf" ${worksrcpath}
