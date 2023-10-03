@@ -4,6 +4,7 @@ PortSystem          1.0
 
 name                jtool
 version             2.1
+revision            1
 
 categories          devel
 license             Restrictive
@@ -11,7 +12,7 @@ platforms           macosx
 maintainers         {gmail.com:audvare @Tatsh}
 description         Binary inspection tool.
 long_description    ${description}
-homepage            http://newosxbook.com/index.php
+homepage            https://newosxbook.com/tools/jtool.html
 supported_archs     arm64 x86_64
 
 distfiles           ${name}-${version}.tgz
@@ -23,7 +24,7 @@ checksums           rmd160  00b4e96945110f45176b1463437f615dfdbc2466 \
 
 livecheck.type      md5
 livecheck.url       http://newosxbook.com/tools/${name}2.tgz
-livecheck.md5       6898ea97f148de2a6a0a85ae69a1d355
+livecheck.md5       b485f2458f165fd1c28e6bbad9873a4e
 
 worksrcdir
 use_configure no
