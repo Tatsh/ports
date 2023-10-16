@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Xfennec progress 0.16 v
+github.setup        Xfennec progress 0.17 v
 
 platforms           darwin linux freebsd
 license             MIT
@@ -22,6 +22,11 @@ build.target        progress
 build.post_args     CFLAGS='-O2'
 destroot.args       PREFIX=${prefix}
 
-checksums           rmd160  e99f05498a359284aab2fc0433bf45505efbcc06 \
-                    sha256  59944ee35f8ae6d62ed4f9b643eee2ae6d03825da288d9779dc43de41164c834 \
-                    size    59982
+checksums           rmd160  a94b0d2f131f118b6593391d74f1f35034405eb1 \
+                    sha256  ee9538fce98895dcf0d108087d3ee2e13f5c08ed94c983f0218a7a3d153b725d \
+                    size    60357
+
+post-patch {
+    # Disable the zsh completion till this is fixed along with creating the directory as needed
+    reinplace "s|install -Dpm|echo install -pm|" Makefile
+}
