@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-zeroconf
-version             0.115.1
+version             0.118.0
 
 platforms           darwin
 license             LGPL-2.1
@@ -12,9 +12,9 @@ maintainers         openmaintainer
 description         Pure Python Multicast DNS Service Discovery Library (Bonjour/Avahi compatible)
 long_description    ${description}
 
-checksums           rmd160  52c0f70ef5174bdd5208017be752c800f1ec6fde \
-                    sha256  401d737689565401ad0f36952eeabbbcd43e00498287b716e1bb6a50c2394238 \
-                    size    156318
+checksums           rmd160  3a4068c92af8d7471f45517466965aab98549ea6 \
+                    sha256  d0254229b9fde339e6578caeb76d0a8d0ec7c768bb194308a006f9001467cbea \
+                    size    156789
 
 python.versions     38 39 310 311
 
