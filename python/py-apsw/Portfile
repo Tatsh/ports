@@ -16,9 +16,9 @@ maintainers         nomaintainer
 description         Another Python SQLite wrapper
 long_description    APSW is a Python wrapper for the SQLite embedded relational database engine.
 
-checksums           rmd160  e030080908bd48926772f7daf46556da06549d88 \
-                    sha256  369c796688b1dea8ca82fc4f12db1c7c99c29de83baab07308ca81a0a694143a \
-                    size    901393
+checksums           rmd160  38636d97668e5c02aee58200c17ae65e76a9b729 \
+                    sha256  6d51d80ad001af83886201a92357429f35a5a78747be08e9cea9aca845897d80 \
+                    size    908330
 
 python.versions     27 35 36 37 38 39 310 311
 
