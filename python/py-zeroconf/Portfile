@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-zeroconf
-version             0.118.0
+version             0.120.0
 
 platforms           darwin
 license             LGPL-2.1
@@ -16,7 +16,7 @@ checksums           rmd160  3a4068c92af8d7471f45517466965aab98549ea6 \
                     sha256  d0254229b9fde339e6578caeb76d0a8d0ec7c768bb194308a006f9001467cbea \
                     size    156789
 
-python.versions     38 39 310 311
+python.versions     38 39 310 311 312
 
 if {${name} ne ${subport}} {
     depends_run-append port:py-ifaddr
