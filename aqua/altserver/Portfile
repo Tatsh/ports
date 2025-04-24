@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                altserver
-version             1.7
+version             1.7.2
 set version_info    [regexp -all -inline {\d+} $version]
 set major_version   [lindex $version_info 0]
 set minor_version   [lindex $version_info 1]
