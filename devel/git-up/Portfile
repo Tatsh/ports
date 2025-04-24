@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                git-up
-version             2.2.0
+version             2.3.0
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
 categories          devel python
 
-python.versions         35 36 37 38 39 310 311
-python.default_version  311
+python.versions         35 36 37 38 39 310 311 312
+python.default_version  312
 
 maintainers         {gmail.com:audvare @Tatsh}
 
@@ -25,11 +25,11 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 distfiles           git_up-${version}.tar.gz
 worksrcdir          git_up-${version}
 
-checksums           rmd160  3ad2fd595b2b3223878ebf32d90d74d319694030 \
-                    sha256  1935f62162d0e3cc967cf9e6b446bd1c9e6e9902edb6a81396065095a5a0784e \
-                    size    23972
+checksums           rmd160  3ffdf5372b0760f6b7707caf45265306eaebc753 \
+                    sha256  4a771b9cae8bc6c95e2916bfb120a6ffc76c80fc3f5c91af61f91c21e5980f2e \
+                    size    22414
 
-depends_build-append    port:py${python.version}-flit_core
+depends_build-append    port:py${python.version}-poetry-core
 depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-colorama \
                         port:py${python.version}-click \
