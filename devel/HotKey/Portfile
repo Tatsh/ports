@@ -4,7 +4,8 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        soffes HotKey 0.2.0 v
+github.setup        soffes HotKey 0.2.1 v
+github.tarball_from archive
 
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,9 +13,9 @@ description         Simple global shortcuts in macOS
 long_description    ${description}
 platforms           macosx
 
-checksums           rmd160  fef19858749dc53cb9a62a1b3006ddd653907e51 \
-                    sha256  c5495c8de664ec3dd5f2489dff504e281d3a3ae3da2e4dadba4b8f0c95f996c3 \
-                    size    24152
+checksums           rmd160  7db732c45811a109479d9e1d5b0fbf141b90f3ac \
+                    sha256  45e6dfc0c88bc82c4993b6dbe16e07f065136279ee4003daa6166e4befd1a18f \
+                    size    24178
 
 destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
