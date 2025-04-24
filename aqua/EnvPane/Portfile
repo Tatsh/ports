@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           xcode 1.0
 
-github.setup        hschmidt EnvPane 467af65
+github.setup        hschmidt EnvPane cb277da
 
 version             0.6_p2018107
 categories-append   sysutils
@@ -13,9 +13,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Tool to set environment variables for an Aqua session.
 long_description    ${description}
 
-checksums           rmd160  8a8704576c62d57ae63d6fda95ba62de1d11b59f \
-                    sha256  9d66d16db519c45685db2f23bd76aacb4e755e5984f39fd9d69da907615e8872 \
-                    size    60381
+checksums           rmd160  1d9ba59fad14cb8517f3b6d0a693776f852020d3 \
+                    sha256  c3e9de3bf83cee158d2d0f080d01334eb4dbfb6684379bbd95d27476e05e890e \
+                    size    76370
 
 depends_lib-append  port:discount
 xcode.target        ${name}
@@ -27,7 +27,7 @@ xcode.destroot.settings \
     GCC_TREAT_WARNINGS_AS_ERRORS=NO
 
 patchfiles      patch-macports.diff
-patch.pre_args  -p1
+patch.pre_args  -p1 -t
 
 build {}
 
