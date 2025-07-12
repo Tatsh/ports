@@ -23,3 +23,9 @@ Pre-release macOS versions are not supported, similar to MacPorts.
 
 If a package needs an update only to support a pre-release macOS version, it will not be present
 here until that version of macOS is officially released.
+
+## Note on licence
+
+The BSD-3-Clause licence only applies to port descriptions (that is, Portfiles, PortGroups, etc). It
+may not apply to patches included in this tree, which are derivative works of the ports to which
+they apply.

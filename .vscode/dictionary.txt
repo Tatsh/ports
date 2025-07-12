@@ -227,6 +227,7 @@ pngdefry
 podofo
 popd
 portfile
+portfiles
 portindex
 proc
 procexp
