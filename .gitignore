@@ -37,3 +37,4 @@ Thumbs.db
 /.vscode/tags
 node_modules/
 .ruff_cache/
+.cspellcache

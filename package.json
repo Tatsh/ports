@@ -2,6 +2,44 @@
   "contributors": [
     "Andrew Udvare <audvare@gmail.com>"
   ],
+  "cspell": {
+    "cache": {
+      "useCache": true
+    },
+    "dictionaryDefinitions": [
+      {
+        "name": "main",
+        "path": ".vscode/dictionary.txt"
+      }
+    ],
+    "enableFileTypes": {
+      "*": true
+    },
+    "enableGlobDot": true,
+    "files": [
+      "*"
+    ],
+    "ignorePaths": [
+      "*.1",
+      "*.diff",
+      "*.har",
+      "*.lock",
+      ".git/**",
+      ".yarn/**/*.cjs",
+      ".vscode/extensions.json",
+      "man/**"
+    ],
+    "language": "en-GB",
+    "languageSettings": [
+      {
+        "dictionaries": [
+          "main"
+        ],
+        "languageId": "*"
+      }
+    ],
+    "useGitignore": true
+  },
   "devDependencies": {
     "@prettier/plugin-xml": "^3.4.2",
     "cspell": "^9.1.3",
