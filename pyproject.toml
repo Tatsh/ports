@@ -12,7 +12,7 @@ requests = "^2.32.5"
 [tool.poetry.group.dev.dependencies]
 isort = "^6.1.0"
 mypy = "^1.19.1"
-ruff = "^0.14.10"
+ruff = "^0.14.11"
 types-requests = "^2.32.4.20260107"
 yapf = "^0.43.0"
 
