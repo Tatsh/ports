@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                procexp
-version             20191124
+version             unknown
 
 categories          sysutils devel
 license             Restrictive
@@ -21,9 +21,9 @@ checksums           rmd160  00b4e96945110f45176b1463437f615dfdbc2466 \
                     sha256  b6c6abeadaf403fee0d8153775a7ca224b0f69afc8faea728f3caf6ff52c79b7 \
                     size    1082478
 
-checksums           rmd160  68557461b116599724e3d734bc88484de744d830 \
-                    sha256  72e6d8f5609fa2ccec2b891b66cda69c8f5a719e6c71a8d708df6588446da5a0 \
-                    size    961714
+checksums           rmd160  c36395e94f47420ebc48ff22a9e376120f9d6577 \
+                    sha256  31cfcc3811f78ac2f1f922e0574301db9ea6d8e43cb699a73b2be39b96237c12 \
+                    size    108644
 
 livecheck.type      md5
 livecheck.url       http://newosxbook.com/tools/${name}.tgz
