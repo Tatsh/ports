@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                macprefs
-version             0.3.3
+version             0.4.2
 platforms           darwin
 license             MIT
 supported_archs     noarch
@@ -22,9 +22,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  c94623e4e66b57a751481d87661a7adf0aa44fa5 \
-                    sha256  bb946a5a61c8020333b7762bda96266cf8ad77e017514d8e589d4471d64a0b5f \
-                    size    16894
+checksums           rmd160  6a4853c03c194459a0757b3f5214fe014868bbf9 \
+                    sha256  c63a9254ad62a5b7d1cca8694a4b1fe982088cecdfc5245cfe5296e90a614299 \
+                    size    30724
 
 depends_lib-append  port:py${python.version}-click \
                     port:py${python.version}-loguru
