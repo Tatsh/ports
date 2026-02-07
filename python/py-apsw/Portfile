@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           github 1.0
 
 name                py-apsw
-github.setup        rogerbinns apsw 3.43.2.0
+github.setup        rogerbinns apsw 3.51.2.0
 revision            0
 
 version             3.38.1
