@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                sudo
-version             94.141.1
+version             114.60.3
 categories          sysutils security
 platforms           macosx
 license             {AAPL MIT BSD}
@@ -14,9 +14,9 @@ long_description    ${description}
 master_sites        https://opensource.apple.com/tarballs/sudo/
 worksrcdir          ${distname}/sudo
 
-checksums           rmd160  3fe738a585fd177c8ff9018e9f173ca8d90d25b3 \
-                    sha256  919bbeceafb700627d5a9fbf9d361f709a37857258be8ae466d825d893b55171 \
-                    size    4324739
+checksums           rmd160  de60d075383ae0042b10dc896d3028765c61260f \
+                    sha256  c375f769a9fbcaca0d4f515acbe839be66b01d116ffd507818c4cc7041674377 \
+                    size    5785803
 
 livecheck.url       ${homepage}
 livecheck.regex     "sudo-(\\d+(?:\\.\\d+(?:\\.\\d+)?)?)"
