@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-requests-futures
-version             1.0.1
+version             1.0.2
 platforms           darwin
 supported_archs     noarch
 license             apache
