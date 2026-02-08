@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            apple swift-argument-parser 1.1.4
+github.setup            apple swift-argument-parser 1.2.3
 categories              devel
 platforms               darwin
 license                 Apache-2.0
@@ -12,9 +12,9 @@ maintainers             {gmail.com:audvare @Tatsh}
 description             Straightforward, type-safe argument parsing for Swift
 long_description        {*}${description}
 
-checksums           rmd160  44ca830eef6483048c5070ac6bac18d37936f1c2 \
-                    sha256  8bbfeead01d16480c967d6abc9f4a265cdaa4b3439b3fa6cb3ffa8a4441239c9 \
-                    size    634354
+checksums           rmd160  010b6a5677a5f775068eee158e713510d1b2edcf \
+                    sha256  4a10bbef290a2167c5cc340b39f1f7ff6a8cf4e1b5433b68548bf5f1e542e908 \
+                    size    645638
 
 cmake.generator Ninja
 configure.args-append -DBUILD_EXAMPLES=NO -DBUILD_TESTING=NO
