@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        wakatime vim-wakatime 9.0.1
-revision            1
+github.setup        wakatime vim-wakatime 10.0.0
+revision            0
 
 patchfiles          patch-${name}-python.diff
 patch.pre_args      -p1
@@ -19,9 +19,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 description         Keep track of coding with WakaTime (Vim plugin).
 long_description    ${description}
 
-checksums           rmd160  320cf5106dd4ae9cbdab9e5bc547d7cb1dc962b9 \
-                    sha256  7867aec037597c7b0edf1e9585863361d46fbf9fb5b9b93e3ac2887adf7caa53 \
-                    size    18884
+checksums           rmd160  04765eb518aadae495cbabfefc4c3fa23a131c50 \
+                    sha256  74fd35621612b8918d68e600e1fed2816d5ded91147d88793aec8cb20a646d46 \
+                    size    20986
 
 use_configure       no
 build.cmd           echo
