@@ -19,8 +19,8 @@ checksums           rmd160  574c1fafcdd4d10aeef8c68bdb52b93a4856ba0d \
                     sha256  7e216da47bbe260b6fd35a1617d74687031bc3a666bd344d9e673b6ee9c308da \
                     size    93126
 
-python.versions             310 311
-python.default_version      311
+python.versions             310 311 312 313 314
+python.default_version      313
 
 depends_lib-append port:py${python.version}-benc \
                    port:py${python.version}-unidecode \
