@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tatsh bpmdetect 0.8.9 v
+github.tarball_from archive
+
+platforms           darwin linux freebsd
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh}
+description         Automatic BPM (beats per minute) detection utility.
+long_description   Uses SoundTouch for BPM detection, ffmpeg for reading/writing tags, Qt for GUI.
+categories          audio
+supported_archs     x86_64 arm64
+
+checksums           rmd160  6518c643f37fb1f555777826add9aec2cb78f163 \
+                    sha256  50432f5d488666dc998e75cbe0ff889d3ef6087c2981c5bcd8090425c6e3a295 \
+                    size    3785843
+
+depends_build       port:cmake \
+                    port:extra-cmake-modules
+depends_lib         port:qt6 \
+                    port:ffmpeg7 \
+                    port:soundtouch
+
+# MacPorts: use FHS layout and find Qt6/ffmpeg via libexec (see project README)
+configure.env-append \
+    CMAKE_PREFIX_PATH=${prefix}/libexec/qt6\;${prefix}/libexec/ffmpeg7
+configure.args-append \
+    -DNON_PORTABLE_MACOS_BUNDLE=ON
+
+# Optional: enable tests (off by default)
+# configure.args-append -DBUILD_TESTS=ON

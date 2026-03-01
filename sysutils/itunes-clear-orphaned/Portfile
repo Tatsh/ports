@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Tatsh itunes-clear-orphaned 0.0.5 v
+github.tarball_from archive
+
+name                itunes-clear-orphaned
+version             0.0.5
+platforms           darwin
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+description         Utility to remove orphaned files from iTunes/Music library.
+long_description   ${description}
+homepage            https://github.com/Tatsh/itunes-clear-orphaned
+categories          sysutils aqua
+
+checksums           rmd160  4b8662ea95b0d9665d5a8efd6352382e061d3ff9 \
+                    sha256  a1718389c09863af24eff4d1597197da5ff3a70a5202a8f08a708f1f59e8a903 \
+                    size    1174103
+
+# Prebuilt dist/index.js only; no build.
+build {}
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/dist/index.js ${destroot}${prefix}/bin/${name}
+}

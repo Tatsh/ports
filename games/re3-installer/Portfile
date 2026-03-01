@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tatsh re3-installer 0.2.3 v
+github.tarball_from archive
+
+name                re3-installer
+version             0.2.3
+platforms           darwin linux freebsd
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh}
+description         Install GTA III files from ISO or directories for use with re3.
+long_description    Extracts game data from GTA III (or Vice City for reVC) ISO or directory; \
+                    supports two-disc layout with Audio from second disc.
+homepage            https://github.com/Tatsh/re3-installer
+categories          games
+
+checksums           rmd160  b05b10b2785ce43ebc3ce14986c768547cbeeef6 \
+                    sha256  2ccd23272ec0b83ca646741f3fc1e6b5a5944368d73d54066fc4c3c7095d10e2 \
+                    size    1122365
+
+depends_build       port:cmake \
+                    port:pkgconfig
+depends_lib         port:libcdio \
+                    port:unshield

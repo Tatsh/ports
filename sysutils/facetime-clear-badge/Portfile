@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Tatsh facetime-clear-badge 0.0.4 v
+github.tarball_from archive
+
+name                facetime-clear-badge
+version             0.0.4
+platforms           darwin
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+description         Utility to clear the FaceTime.app badge.
+long_description   ${description}
+homepage            https://github.com/Tatsh/facetime-clear-badge
+categories          sysutils aqua
+
+checksums           rmd160  281420a394458b28f5be24caca2c60d5d78b3530 \
+                    sha256  43c06d874972b73e09af70f227b07cba981a29279d1b7a47ceb54a18616f9104 \
+                    size    1163027
+
+# Prebuilt dist/index.js only; no build.
+build {}
+destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/dist/index.js ${destroot}${prefix}/bin/${name}
+}

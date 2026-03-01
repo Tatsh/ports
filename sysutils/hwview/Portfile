@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tatsh hwview 0.0.2 v
+github.tarball_from archive
+
+platforms           darwin linux freebsd
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh}
+description         Hardware information utility, inspired by Redmond.
+long_description   Cross-platform hardware viewer: devices by type/connection/driver, resources, export/import; optional CLI-only build.
+categories          sysutils
+supported_archs     x86_64 arm64
+
+checksums           rmd160  4533ec2f7b5057715bdd1aa2e22d35f385960416 \
+                    sha256  47873739849ce34a0c9953ebfb6d3247e06e817ec6903d5eac2a34d13ee546bc \
+                    size    5822630
+
+depends_build       port:cmake
+depends_lib         port:qt6
+
+# Linux: libudev for device enumeration
+if {[string match "*linux*" ${os.platform}]} {
+    depends_lib-append port:libudev
+}
+
+# MacPorts: use FHS-style layout and find Qt6 via libexec
+configure.env-append \
+    CMAKE_PREFIX_PATH=${prefix}/libexec/qt6
+configure.args-append \
+    -DNON_PORTABLE_MACOS_BUNDLE=ON
