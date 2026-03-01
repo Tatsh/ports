@@ -1,7 +1,7 @@
-diff --git dockutil.xcodeproj/project.pbxproj dockutil.xcodeproj/project.pbxproj
+diff --git a/dockutil.xcodeproj/project.pbxproj b/dockutil.xcodeproj/project.pbxproj
 index e891131..2879354 100644
---- dockutil.xcodeproj/project.pbxproj
-+++ dockutil.xcodeproj/project.pbxproj
+--- a/dockutil.xcodeproj/project.pbxproj
++++ b/dockutil.xcodeproj/project.pbxproj
 @@ -3,10 +3,11 @@
  	archiveVersion = 1;
  	classes = {
@@ -105,7 +105,7 @@ index e891131..2879354 100644
 +					/opt/local/lib/swift/macosx,
 +				);
  				MACOSX_DEPLOYMENT_TARGET = 10.15;
- 				MARKETING_VERSION = "3.0.0-beta.3";
+ 				MARKETING_VERSION = 3.0.2;
  				PRODUCT_BUNDLE_IDENTIFIER = dockutil.cli.tool;
 @@ -360,6 +364,10 @@
  				DEVELOPMENT_TEAM = Z5J8CJBUWC;
@@ -116,7 +116,7 @@ index e891131..2879354 100644
 +					/opt/local/lib/swift/macosx,
 +				);
  				MACOSX_DEPLOYMENT_TARGET = 10.15;
- 				MARKETING_VERSION = "3.0.0-beta.3";
+ 				MARKETING_VERSION = 3.0.2;
  				PRODUCT_BUNDLE_IDENTIFIER = dockutil.cli.tool;
 @@ -436,30 +444,6 @@
  			defaultConfigurationName = Release;
@@ -149,25 +149,3 @@ index e891131..2879354 100644
  	};
  	rootObject = 4AE244B8249C586900836787 /* Project object */;
  }
-diff --git dockutil.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved dockutil.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-deleted file mode 100644
-index 73f5636..0000000
---- dockutil.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-+++ /dev/null
-@@ -1,16 +0,0 @@
--{
--  "object": {
--    "pins": [
--      {
--        "package": "swift-argument-parser",
--        "repositoryURL": "https://github.com/apple/swift-argument-parser",
--        "state": {
--          "branch": null,
--          "revision": "e1465042f195f374b94f915ba8ca49de24300a0d",
--          "version": "1.0.2"
--        }
--      }
--    ]
--  },
--  "version": 1
--}

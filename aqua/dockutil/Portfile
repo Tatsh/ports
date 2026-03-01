@@ -5,6 +5,11 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        kcrawford dockutil 3.0.2
+# Use archive URL so fetch works (release tarball can return 403)
+github.tarball_from archive
+master_sites        ${github.homepage}/archive/
+distfiles           3.0.2.tar.gz
+distname            dockutil-3.0.2
 
 license             Apache-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,21 +21,25 @@ platforms           macosx
 
 depends_lib-append  port:swift-argument-parser
 
-checksums           rmd160  00845b2bf36bedcc859a9d2448c2ca7955fa5f40 \
-                    sha256  9f42cb59fa6120985fa05756b414a63bb2373f650d86fd1085dd83975cddd547 \
-                    size    47065
+checksums           rmd160  3c9891e0e0643a725aa55ef7c227d3d5a7c0f31d \
+                    sha256  8d0117fccd836a14782107bdd3619df17dd4708470e3522f5b2ab0456769ba79 \
+                    size    47032
 
-destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+destroot.pre_args   -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
-xcode.scheme ${name}
+xcode.scheme        ${name}
 xcode.destroot.path ${prefix}/bin
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO \
-    SWIFT_INCLUDE_PATHS=${prefix}/lib/swift/macosx
+    SWIFT_INCLUDE_PATHS=${prefix}/lib/swift/macosx \
+    LIBRARY_SEARCH_PATHS=${prefix}/lib
 
-patchfiles patch-argparse.diff
+patchfiles          patch-argparse.diff
+patch.pre_args      -p1
+
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
