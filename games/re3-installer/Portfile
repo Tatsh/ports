@@ -13,8 +13,8 @@ platforms           darwin linux freebsd
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
 description         Install GTA III files from ISO or directories for use with re3.
-long_description    Extracts game data from GTA III (or Vice City for reVC) ISO or directory; \
-                    supports two-disc layout with Audio from second disc.
+long_description    {Extracts game data from GTA III (or Vice City for reVC) ISO or directory; \
+                    supports two-disc layout with Audio from second disc.}
 homepage            https://github.com/Tatsh/re3-installer
 categories          games
 
