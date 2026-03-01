@@ -1,8 +1,8 @@
-diff --git a/EnvLib/launch_priv.h b/EnvLib/launch_priv.h
+diff --git EnvLib/launch_priv.h EnvLib/launch_priv.h
 new file mode 100644
 index 0000000..16e0aad
 --- /dev/null
-+++ b/EnvLib/launch_priv.h
++++ EnvLib/launch_priv.h
 @@ -0,0 +1,173 @@
 +/*
 + * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
@@ -177,169 +177,102 @@ index 0000000..16e0aad
 +
 +
 +#endif /* __LAUNCH_PRIVATE_H__ */
-diff --git a/EnvPane.xcodeproj/project.pbxproj b/EnvPane.xcodeproj/project.pbxproj
-index 1894441..c1cbcb7 100644
---- a/EnvPane.xcodeproj/project.pbxproj
-+++ b/EnvPane.xcodeproj/project.pbxproj
-@@ -7,6 +7,7 @@
- 	objects = {
- 
- /* Begin PBXBuildFile section */
-+		260781D025514590007E4092 /* launch_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = 260781CF25514590007E4092 /* launch_priv.h */; };
- 		B7029183584278C1D9B5576C /* EnvVarsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7029A4E2AA97B125DE739E5 /* EnvVarsTableView.m */; };
- 		B70291B6793B2D8BF84745C3 /* NSMutableAttributedString+EnvLib.m in Sources */ = {isa = PBXBuildFile; fileRef = B7029EDB4586D0BF20D58F38 /* NSMutableAttributedString+EnvLib.m */; };
- 		B70292979BAB4283068DE2E2 /* Interpolator.m in Sources */ = {isa = PBXBuildFile; fileRef = B70297B8369424DF08AD5FBF /* Interpolator.m */; };
-@@ -114,6 +115,7 @@
- /* End PBXCopyFilesBuildPhase section */
- 
- /* Begin PBXFileReference section */
-+		260781CF25514590007E4092 /* launch_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = launch_priv.h; sourceTree = "<group>"; };
- 		47A7E83A08C3B78F00D0011D /* EnvAgent */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EnvAgent; sourceTree = BUILT_PRODUCTS_DIR; };
- 		B7029626002676DF1876ED2A /* EnvVarsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnvVarsTableView.h; sourceTree = "<group>"; };
- 		B70297B8369424DF08AD5FBF /* Interpolator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Interpolator.m; sourceTree = "<group>"; };
-@@ -294,6 +296,7 @@
- 		D1C85DB5167FC234007C2CE7 /* EnvLib */ = {
- 			isa = PBXGroup;
- 			children = (
-+				260781CF25514590007E4092 /* launch_priv.h */,
- 				D1334E3816858FFC0018F00D /* Environment.h */,
- 				D1334E3916858FFC0018F00D /* Environment.m */,
- 				D1F739A0168D3E6B009F8342 /* Constants.h */,
-@@ -365,6 +368,7 @@
- 			files = (
- 				D1334E3A16858FFC0018F00D /* Environment.h in Headers */,
- 				D1F739A2168D3E6B009F8342 /* Constants.h in Headers */,
-+				260781D025514590007E4092 /* launch_priv.h in Headers */,
- 				D167214D1E1B039900743608 /* launchd_xpc.h in Headers */,
- 				D18C420A16CC1DC700EF620B /* Error.h in Headers */,
- 				D154535116CC4045008A3ADB /* NSFileManager+EnvLib.h in Headers */,
-@@ -465,6 +469,16 @@
- 				TargetAttributes = {
- 					D14EB1951E231B6F000BAD4A = {
- 						CreatedOnToolsVersion = 7.3.1;
-+						ProvisioningStyle = Manual;
-+					};
-+					D19BDB5B1671286100C6467B = {
-+						ProvisioningStyle = Manual;
-+					};
-+					D1C85DAE167FC18A007C2CE7 = {
-+						ProvisioningStyle = Manual;
-+					};
-+					E2ADE0B0083950E7000B79B2 = {
-+						ProvisioningStyle = Manual;
- 					};
- 				};
- 			};
-@@ -473,6 +487,7 @@
- 			developmentRegion = English;
- 			hasScannedForEncodings = 0;
- 			knownRegions = (
-+				English,
- 				en,
- 			);
- 			mainGroup = E2ADE09E08395023000B79B2;
-@@ -614,6 +629,7 @@
- 		47BFFDF108902CAE003DA0CC /* Development */ = {
+diff --git EnvPane.xcodeproj/project.pbxproj EnvPane.xcodeproj/project.pbxproj
+index bad7cf2..f670990 100644
+--- EnvPane.xcodeproj/project.pbxproj
++++ EnvPane.xcodeproj/project.pbxproj
+@@ -645,7 +645,7 @@
  			isa = XCBuildConfiguration;
  			buildSettings = {
-+				DEVELOPMENT_TEAM = "";
+ 				DEAD_CODE_STRIPPING = YES;
+-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 4LMPAN643V;
++				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				PRODUCT_BUNDLE_IDENTIFIER = net.hannesschmidt.EnvPane;
  				PRODUCT_NAME = EnvAgent;
- 				SKIP_INSTALL = YES;
- 			};
-@@ -622,6 +638,7 @@
- 		47BFFDF208902CAE003DA0CC /* Deployment */ = {
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
-+				DEVELOPMENT_TEAM = "";
- 				PRODUCT_NAME = EnvAgent;
- 				SKIP_INSTALL = YES;
- 			};
-@@ -630,6 +647,7 @@
- 		47BFFDF308902CAE003DA0CC /* Default */ = {
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
-+				DEVELOPMENT_TEAM = "";
- 				PRODUCT_NAME = EnvAgent;
- 				SKIP_INSTALL = YES;
- 			};
-@@ -654,14 +672,15 @@
- 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+@@ -679,7 +679,8 @@
+ 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
  				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
  				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
--				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt";
+-				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt (4LMPAN643V)";
 +				CODE_SIGN_IDENTITY = "-";
 +				CODE_SIGN_STYLE = Manual;
  				COPY_PHASE_STRIP = NO;
-+				DEVELOPMENT_TEAM = "";
- 				ENABLE_TESTABILITY = YES;
- 				GCC_OPTIMIZATION_LEVEL = 0;
- 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
- 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
- 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
--				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
- 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
- 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
- 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
-@@ -714,10 +733,11 @@
- 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+ 				CURRENT_PROJECT_VERSION = 0.8;
+ 				DEAD_CODE_STRIPPING = YES;
+@@ -708,23 +709,22 @@
+ 				GCC_WARN_UNUSED_LABEL = YES;
+ 				GCC_WARN_UNUSED_PARAMETER = NO;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+-				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
++				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+ 				MACOSX_DEPLOYMENT_TARGET = 12.4;
+ 				MARKETING_VERSION = 0.8;
+ 				ONLY_ACTIVE_ARCH = YES;
+ 				OTHER_LDFLAGS = "-all_load";
+ 				USER_HEADER_SEARCH_PATHS = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=arm64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=x86_64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 				WARNING_CFLAGS = (
+@@ -760,7 +760,8 @@
+ 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
  				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
  				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
--				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt";
+-				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt (4LMPAN643V)";
 +				CODE_SIGN_IDENTITY = "-";
 +				CODE_SIGN_STYLE = Manual;
-+				DEVELOPMENT_TEAM = "";
- 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
- 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
--				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
- 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
- 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
- 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
-@@ -769,10 +789,11 @@
- 				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
- 				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
- 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
--				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt";
-+				CODE_SIGN_IDENTITY = "-";
-+				CODE_SIGN_STYLE = Manual;
-+				DEVELOPMENT_TEAM = "";
- 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
- 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
--				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
- 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
- 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
- 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
-@@ -811,6 +832,7 @@
- 				COMBINE_HIDPI_IMAGES = YES;
- 				COPY_PHASE_STRIP = NO;
- 				DEBUG_INFORMATION_FORMAT = dwarf;
-+				DEVELOPMENT_TEAM = "";
- 				ENABLE_TESTABILITY = YES;
- 				INFOPLIST_FILE = Tests/Info.plist;
- 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-@@ -826,6 +848,7 @@
- 				COMBINE_HIDPI_IMAGES = YES;
- 				COPY_PHASE_STRIP = NO;
- 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-+				DEVELOPMENT_TEAM = "";
- 				INFOPLIST_FILE = Tests/Info.plist;
- 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
- 				MTL_ENABLE_DEBUG_INFO = NO;
-@@ -840,6 +863,7 @@
- 				COMBINE_HIDPI_IMAGES = YES;
- 				COPY_PHASE_STRIP = NO;
- 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-+				DEVELOPMENT_TEAM = "";
- 				INFOPLIST_FILE = Tests/Info.plist;
- 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
- 				MTL_ENABLE_DEBUG_INFO = NO;
-@@ -853,11 +877,14 @@
- 			buildSettings = {
- 				COMBINE_HIDPI_IMAGES = YES;
+ 				CURRENT_PROJECT_VERSION = 0.8;
+ 				DEAD_CODE_STRIPPING = YES;
+ 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+@@ -785,24 +786,23 @@
+ 				GCC_WARN_UNUSED_LABEL = YES;
+ 				GCC_WARN_UNUSED_PARAMETER = NO;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+-				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
+-				"LIBRARY_SEARCH_PATHS[arch=arm64]" = /opt/homebrew/lib;
+-				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = /usr/local/lib;
++				LIBRARY_SEARCH_PATHS = /opt/local/lib;
++				"LIBRARY_SEARCH_PATHS[arch=arm64]" = /opt/local/lib;
++				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = /opt/local/lib;
+ 				MACOSX_DEPLOYMENT_TARGET = 12.4;
+ 				MARKETING_VERSION = 0.8;
+ 				OTHER_LDFLAGS = "-all_load";
+ 				USER_HEADER_SEARCH_PATHS = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=arm64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=x86_64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 				WARNING_CFLAGS = (
+@@ -860,8 +860,10 @@
  				DEPLOYMENT_LOCATION = YES;
-+				DEVELOPMENT_TEAM = "";
+ 				DEVELOPMENT_ASSET_PATHS = "";
  				DSTROOT = /;
- 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
- 				GCC_PREFIX_HEADER = "EnvPane/EnvPane-Prefix.pch";
 +				HEADER_SEARCH_PATHS = /opt/local/include;
  				INFOPLIST_FILE = "EnvPane/EnvPane-Info.plist";
  				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
@@ -347,13 +280,12 @@ index 1894441..c1cbcb7 100644
  				OTHER_LDFLAGS = (
  					"-lmarkdown",
  					"$(inherited)",
-@@ -872,10 +899,13 @@
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
+@@ -878,9 +880,11 @@
  				COMBINE_HIDPI_IMAGES = YES;
-+				DEVELOPMENT_TEAM = "";
- 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
- 				GCC_PREFIX_HEADER = "EnvPane/EnvPane-Prefix.pch";
+ 				DEAD_CODE_STRIPPING = YES;
+ 				DEVELOPMENT_ASSET_PATHS = "";
+-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 4LMPAN643V;
++				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 +				HEADER_SEARCH_PATHS = /opt/local/include;
  				INFOPLIST_FILE = "EnvPane/EnvPane-Info.plist";
  				INSTALL_PATH = /;
@@ -361,41 +293,3 @@ index 1894441..c1cbcb7 100644
  				OTHER_LDFLAGS = (
  					"-lmarkdown",
  					"$(inherited)",
-@@ -891,10 +921,13 @@
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
- 				COMBINE_HIDPI_IMAGES = YES;
-+				DEVELOPMENT_TEAM = "";
- 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
- 				GCC_PREFIX_HEADER = "EnvPane/EnvPane-Prefix.pch";
-+				HEADER_SEARCH_PATHS = /opt/local/include;
- 				INFOPLIST_FILE = "EnvPane/EnvPane-Info.plist";
- 				INSTALL_PATH = /;
-+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
- 				OTHER_LDFLAGS = (
- 					"-lmarkdown",
- 					"$(inherited)",
-@@ -909,6 +942,7 @@
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
- 				COMBINE_HIDPI_IMAGES = YES;
-+				DEVELOPMENT_TEAM = "";
- 				EXECUTABLE_PREFIX = lib;
- 				PRODUCT_NAME = EnvLib;
- 				SKIP_INSTALL = YES;
-@@ -919,6 +953,7 @@
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
- 				COMBINE_HIDPI_IMAGES = YES;
-+				DEVELOPMENT_TEAM = "";
- 				EXECUTABLE_PREFIX = lib;
- 				PRODUCT_NAME = EnvLib;
- 				SKIP_INSTALL = YES;
-@@ -929,6 +964,7 @@
- 			isa = XCBuildConfiguration;
- 			buildSettings = {
- 				COMBINE_HIDPI_IMAGES = YES;
-+				DEVELOPMENT_TEAM = "";
- 				EXECUTABLE_PREFIX = lib;
- 				PRODUCT_NAME = EnvLib;
- 				SKIP_INSTALL = YES;

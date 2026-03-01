@@ -18,9 +18,9 @@ long_description    Did iTunes ever launch without you opening it? Use Overkill 
                     interrupted.
 homepage            https://github.com/KrauseFx/overkill-for-mac
 
-checksums           rmd160  a8dc5b76f377fed55a9bea8fb0587fc090817a30 \
-                    sha256  b786a2970b9bf7d4157dc75872fc2d357ed193915c2d8d84f2f03ffba0bf78f6 \
-                    size    119790
+checksums           rmd160  6b4a87c68165cb8ff04ec87759b5d04791ac1187 \
+                    sha256  15f42201965b46d3bb1bbaa8fe7a7fa5641c1f08c76dc62d870bbc8abdc9a9e8 \
+                    size    119849
 
 xcode.target        Overkill
 xcode.configuration Release
