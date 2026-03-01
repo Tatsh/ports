@@ -16,7 +16,7 @@ checksums           rmd160  8b9ae0149ed1994866b6350b7602869b3dc27bc8 \
                     sha256  85bb16faa3cdf3c6c6842e0cb2ce02807cbaefc6e3bb0f3b8e18dabe51070763 \
                     size    270735
 
-python.versions     38 39 310 311 312
+python.versions     38 39 310 311 312 313 314
 
 if {${name} ne ${subport}} {
     depends_build-append port:pkgconfig
