@@ -11,7 +11,7 @@ platforms           darwin linux freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
 description         Hardware information utility, inspired by Redmond.
-long_description   Cross-platform hardware viewer: devices by type/connection/driver, resources, export/import; optional CLI-only build.
+long_description   {Cross-platform hardware viewer: devices by type/connection/driver, resources, export/import; optional CLI-only build.}
 categories          sysutils
 supported_archs     x86_64 arm64
 
