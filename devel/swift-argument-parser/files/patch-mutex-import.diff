@@ -1,0 +1,14 @@
+--- Sources/ArgumentParser/Utilities/Mutex.swift
++++ Sources/ArgumentParser/Utilities/Mutex.swift
+@@ -10,9 +10,9 @@
+ //===----------------------------------------------------------------------===//
+ 
+ #if canImport(os)
+-internal import os
++import os
+ #if canImport(C.os.lock)
+-internal import C.os.lock
++import C.os.lock
+ #endif
+ #elseif canImport(Bionic)
+ @preconcurrency import Bionic

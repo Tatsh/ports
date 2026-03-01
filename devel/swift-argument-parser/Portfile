@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup            apple swift-argument-parser 1.2.3
+github.setup            apple swift-argument-parser 1.7.0
 # Use archive URL so fetch works (codeload can return 403)
 github.tarball_from     archive
 master_sites            ${github.homepage}/archive/
-distfiles               1.2.3.tar.gz
-distname                swift-argument-parser-1.2.3
+distfiles               1.7.0.tar.gz
+distname                swift-argument-parser-1.7.0
 categories              devel
 platforms               darwin
 license                 Apache-2.0
@@ -18,14 +18,23 @@ homepage                https://github.com/apple/swift-argument-parser
 description             Straightforward, type-safe argument parsing for Swift
 long_description        {*}${description}
 
-checksums           rmd160  010b6a5677a5f775068eee158e713510d1b2edcf \
-                    sha256  4a10bbef290a2167c5cc340b39f1f7ff6a8cf4e1b5433b68548bf5f1e542e908 \
-                    size    645638
+checksums           rmd160  57f9dfaa480c5634068015a2b16ddea8b6f8af2a \
+                    sha256  84e685f0ca4d069a60193c9e477b6ec5a44016dc789db01e0b17c38b400a922e \
+                    size    695009
 
 cmake.generator Ninja
 configure.args-append -DBUILD_EXAMPLES=NO -DBUILD_TESTING=NO
 
+# 1.7.0 uses "internal import os" (Swift 6); patch to plain import for Swift 5.9
+patchfiles patch-mutex-import.diff
+patch.pre_args -p0
+
 post-destroot {
-    ln -s ${prefix}/lib/swift/macosx/libArgumentParser.dylib ${destroot}${prefix}/lib/
-    ln -s ${prefix}/lib/swift/macosx/libArgumentParserToolInfo.dylib ${destroot}${prefix}/lib/
+    # Create symlinks in lib/ if dylibs are only in lib/swift/macosx/ (e.g. older releases)
+    if {![file exists ${destroot}${prefix}/lib/libArgumentParser.dylib]} {
+        ln -s ${prefix}/lib/swift/macosx/libArgumentParser.dylib ${destroot}${prefix}/lib/
+    }
+    if {![file exists ${destroot}${prefix}/lib/libArgumentParserToolInfo.dylib]} {
+        ln -s ${prefix}/lib/swift/macosx/libArgumentParserToolInfo.dylib ${destroot}${prefix}/lib/
+    }
 }
