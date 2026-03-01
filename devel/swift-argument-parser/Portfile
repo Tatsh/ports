@@ -26,7 +26,8 @@ cmake.generator Ninja
 configure.args-append -DBUILD_EXAMPLES=NO -DBUILD_TESTING=NO
 
 # 1.7.0 uses "internal import os" (Swift 6); patch to plain import for Swift 5.9
-patchfiles patch-mutex-import.diff
+# Install ArgumentParserToolInfo.swiftmodule for clients (e.g. dockutil)
+patchfiles patch-mutex-import.diff patch-install-toolinfo.diff
 patch.pre_args -p0
 
 post-destroot {
@@ -36,5 +37,11 @@ post-destroot {
     }
     if {![file exists ${destroot}${prefix}/lib/libArgumentParserToolInfo.dylib]} {
         ln -s ${prefix}/lib/swift/macosx/libArgumentParserToolInfo.dylib ${destroot}${prefix}/lib/
+    }
+    # Copy ToolInfo swiftmodule to swift/macosx so clients need only one -I path
+    set toolinfo_src ${destroot}${prefix}/lib/swift_static/macosx/ArgumentParserToolInfo.swiftmodule
+    set toolinfo_dst ${destroot}${prefix}/lib/swift/macosx/ArgumentParserToolInfo.swiftmodule
+    if {[file exists $toolinfo_src] && ![file exists $toolinfo_dst]} {
+        file copy -force $toolinfo_src $toolinfo_dst
     }
 }
