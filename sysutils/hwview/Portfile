@@ -7,11 +7,11 @@ PortGroup           github 1.0
 github.setup        Tatsh hwview 0.0.2 v
 github.tarball_from archive
 
-platforms           darwin linux freebsd
+platforms           darwin freebsd
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh}
 description         Hardware information utility, inspired by Redmond.
-long_description   {Cross-platform hardware viewer: devices by type/connection/driver, resources, export/import; optional CLI-only build.}
+long_description    {Cross-platform hardware viewer: devices by type/connection/driver, resources, export/import; optional CLI-only build.}
 categories          sysutils
 supported_archs     x86_64 arm64
 
@@ -19,13 +19,14 @@ checksums           rmd160  4533ec2f7b5057715bdd1aa2e22d35f385960416 \
                     sha256  47873739849ce34a0c9953ebfb6d3247e06e817ec6903d5eac2a34d13ee546bc \
                     size    5822630
 
-depends_build       port:cmake
-depends_lib         port:qt6
+depends_lib         port:qt67-qtbase
 
-# Linux: libudev for device enumeration
-if {[string match "*linux*" ${os.platform}]} {
-    depends_lib-append port:libudev
-}
+# C++23 and <expected> require Clang 16+ with libc++ 16+
+depends_build-append port:clang-16
+configure.compiler  macports-clang-16
+compiler.cxx_standard       2023
+cmake.set_cxx_standard      yes
+cmake.build_type            Release
 
 # MacPorts: use FHS-style layout and find Qt6 via libexec
 configure.env-append \
