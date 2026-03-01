@@ -12,7 +12,10 @@ Update a port to a newer upstream version: run livecheck, update the Portfile (v
 
 2. **Run livecheck**
    - Run: `port livecheck`
-   - Note the current version (from the Portfile) and the new version reported. If no update is reported or livecheck fails, resolve or stop.
+   - Note the current version (from the Portfile) and the new version reported.
+   - **If livecheck fails or reports no update:** Visit the package homepage (from the Portfile `homepage`) to find the current version; follow other pages as needed (e.g. downloads, releases).
+   - **On GitHub:** If the port uses a **commit SHA**, check the latest commit on the **default branch** for the new revision. Otherwise use the **latest stable release tag** (not pre-releases unless intended).
+   - Once the new version or commit is identified, proceed to update the Portfile and checksums.
 
 3. **Update the port and checksums**
    - Update the Portfile with the new version (and any `distname`/distfile name changes).
