@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name                outfox
-version             5.0.0
+version             0.5.0
 revision            0
 categories          games aqua
 platforms           macosx
