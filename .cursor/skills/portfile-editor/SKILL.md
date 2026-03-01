@@ -110,6 +110,12 @@ For example, if the package is a Python package, it will likely go into `python`
 look at packages there. If the package uses CMake to build, search for packages that use the `cmake`
 PortGroup.
 
+Check the list of PortGroups in
+`/opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports/_resources/port1.0/group/`
+to see if one can make creating a Portfile easier before considering writing any phases. In many
+cases, for simpler packages, when a PortGroup is used only metadata is required and no phases have
+to be written.
+
 These are the basic parts of a Portfile, in order:
 
 1. Modeline
