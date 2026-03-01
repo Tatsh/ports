@@ -6,8 +6,12 @@ fi
 new=$1
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." > /dev/null 2>&1 && pwd)"
 pushd "${DIR}/devel/vscode" || exit 1
-update_sha=$(grep -E '^set update_sha' Portfile | awk '{ print $3 }')
-new_sha=$(jq -r .version < <(curl -q "https://update.code.visualstudio.com/api/update/darwin/stable/${update_sha}"))
+sha=$(grep -E '^set sha\s' Portfile | awk '{ print $3 }')
+new_sha=$(jq -r .version < <(curl -q "https://update.code.visualstudio.com/api/update/darwin/stable/${sha}"))
+if [ -z "$new_sha" ] || [ "$new_sha" = "null" ]; then
+    echo 'No update available from API (already on latest or bad response).'
+    exit 1
+fi
 old_version=$(grep -E '^version' Portfile | awk '{print $2}')
 sudo rm -f "$(port -q distfiles | head -n 1 | awk '{ print $2 }')"
 sed -r -e "s/^set sha(\s+).*/set sha\1${new_sha}/" \
