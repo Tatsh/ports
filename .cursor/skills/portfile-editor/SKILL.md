@@ -421,8 +421,7 @@ repository and update it.
 After determining that a port will not build and with certainty that it is not because of an issue
 in the Portfile, minimal patches should be made to the repository cloned or set up in
 `~/dev/macports/patched-src-repos` then committed with Git. Then use
-`git diff ${target_tag_or_commit}` to get the difference. Commits should be a logical grouping of
-changes.
+`git diff ${target_tag_or_commit}` to get the difference. Commits should be a logical grouping of changes.
 
 Each commit should be a separate patch. To get all patches in order, use the following in the
 source repository:
