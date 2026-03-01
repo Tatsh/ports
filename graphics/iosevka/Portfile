@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            be5invis Iosevka 27.3.4 v
+github.setup            be5invis Iosevka 34.2.1 v
 github.livecheck.regex  {([0-9.]+)}
 github.tarball_from     releases
 
@@ -19,11 +19,11 @@ long_description    Iosevka is an open-source, sans-serif + slab-serif, \
                     technical documents.
 homepage            https://typeof.net/Iosevka/
 
-distfiles           ttf-${name}-${version}.zip
+distfiles           PkgTTC-SGr-Iosevka-${version}.zip
 
-checksums           rmd160  3d60b2a0d077cc6ede674897a06ee0f36797cd4b \
-                    sha256  43b8871dcf66200d485c88345da7219231c1a04cc02febd224cef694f71fadac \
-                    size    128979851
+checksums           rmd160  f286625dde4ecac7d32c5d5ad81907596f133354 \
+                    sha256  9f1731d2f871e360e93dff1d8cf3e438644085023c3fcc4e907d56f2ae9c4cce \
+                    size    154804063
 
 worksrcdir
 use_configure           no
@@ -35,22 +35,15 @@ build {}
 
 destroot {
     xinstall -d -m 755 ${destroot}/Library/Fonts
-    foreach file [glob -nocomplain -directory ${worksrcpath} *.ttf] {
+    foreach file [glob -nocomplain -directory ${worksrcpath} *.ttc] {
         set basename [lrange [split ${file} /] end end]
         copy ${file} ${destroot}/Library/Fonts/${basename}
     }
 }
 
 subport ${name}-term {
-    distfiles ttf-${name}-term-${version}.zip
-    checksums           rmd160  1d783b022e700333010c9e0664a9de847b7b6189 \
-                        sha256  c282471b96b62a46b74c4dc7636aaf1c1b010b2e30a1dde27eff4dab23434514 \
-                        size    128989996
-}
-
-subport ${name}-fixed {
-    distfiles ttf-${name}-fixed-${version}.zip
-    checksums           rmd160  d696961db3555ee90b94776799727bfa6d41610b \
-                        sha256  9a6b7fffe5408c03c8b65db73fb3f3b1606c57074224051500c719a66fe02fd9 \
-                        size    104790746
+    distfiles           PkgTTC-SGr-IosevkaTerm-${version}.zip
+    checksums           rmd160  666a84d06135910bdc7a3ed51895c3acf8ba8c4d \
+                        sha256  50d4e58dcb880d0e57a37b05a918c3419ca12f556f54570d2f187b85bc38ad13 \
+                        size    154787462
 }
