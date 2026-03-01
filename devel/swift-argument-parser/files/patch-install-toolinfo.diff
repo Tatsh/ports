@@ -1,0 +1,9 @@
+--- Sources/ArgumentParserToolInfo/CMakeLists.txt
++++ Sources/ArgumentParserToolInfo/CMakeLists.txt
+@@ -10,5 +10,6 @@ target_compile_options(ArgumentParserToolInfo PRIVATE
+  $<$:-enable-testing>)
+ 
+ 
++_install_target(ArgumentParserToolInfo)
+ set_property(GLOBAL APPEND PROPERTY ArgumentParser_EXPORTS ArgumentParserToolInfo)
+ 
