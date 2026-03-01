@@ -5,10 +5,16 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 
 github.setup            apple swift-argument-parser 1.2.3
+# Use archive URL so fetch works (codeload can return 403)
+github.tarball_from     archive
+master_sites            ${github.homepage}/archive/
+distfiles               1.2.3.tar.gz
+distname                swift-argument-parser-1.2.3
 categories              devel
 platforms               darwin
 license                 Apache-2.0
 maintainers             {gmail.com:audvare @Tatsh}
+homepage                https://github.com/apple/swift-argument-parser
 description             Straightforward, type-safe argument parsing for Swift
 long_description        {*}${description}
 
