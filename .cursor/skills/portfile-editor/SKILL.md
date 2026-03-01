@@ -99,6 +99,10 @@ If applicable, clone the package repository to `~/dev/macports/patched-src-repos
 SSH URIs over HTTPS. After cloning, checkout to the target tag or commit and then checkout to a new
 branch `macports`.
 
+If a project uses Swift Package Manager (SPM) for dependencies or build, that version cannot be
+packaged for MacPorts. Use the version prior to the switch to SPM if it exists; that is the highest
+usable version.
+
 If the source is provided only as a tarball, downloadn and unpack the tarball into
 `~/dev/macports/patched-src-repos/name-of-package` (create subdirectory `name-of-package` if
 necessary). Run `git init` and create the first commit containing the source unchanged.
