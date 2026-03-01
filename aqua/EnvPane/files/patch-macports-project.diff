@@ -1,0 +1,134 @@
+diff --git a/EnvPane.xcodeproj/project.pbxproj b/EnvPane.xcodeproj/project.pbxproj
+index bad7cf2..f4d95ff 100644
+--- a/EnvPane.xcodeproj/project.pbxproj
++++ b/EnvPane.xcodeproj/project.pbxproj
+@@ -645,7 +645,7 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				DEAD_CODE_STRIPPING = YES;
+-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 4LMPAN643V;
++				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
+ 				ENABLE_HARDENED_RUNTIME = YES;
+ 				PRODUCT_BUNDLE_IDENTIFIER = net.hannesschmidt.EnvPane;
+ 				PRODUCT_NAME = EnvAgent;
+@@ -658,6 +658,7 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ALWAYS_SEARCH_USER_PATHS = NO;
++				SDKROOT = macosx;
+ 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+ 				CLANG_ENABLE_OBJC_ARC = YES;
+ 				CLANG_LINK_OBJC_RUNTIME = NO;
+@@ -679,7 +680,8 @@
+ 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+ 				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
+ 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+-				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt (4LMPAN643V)";
++				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_STYLE = Manual;
+ 				COPY_PHASE_STRIP = NO;
+ 				CURRENT_PROJECT_VERSION = 0.8;
+ 				DEAD_CODE_STRIPPING = YES;
+@@ -708,23 +710,22 @@
+ 				GCC_WARN_UNUSED_LABEL = YES;
+ 				GCC_WARN_UNUSED_PARAMETER = NO;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+-				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
+-				MACOSX_DEPLOYMENT_TARGET = 12.4;
++				LIBRARY_SEARCH_PATHS = /opt/local/lib;
++				MACOSX_DEPLOYMENT_TARGET = 13.0;
+ 				MARKETING_VERSION = 0.8;
+ 				ONLY_ACTIVE_ARCH = YES;
+ 				OTHER_LDFLAGS = "-all_load";
+ 				USER_HEADER_SEARCH_PATHS = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=arm64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=x86_64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 				WARNING_CFLAGS = (
+@@ -739,6 +740,7 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ALWAYS_SEARCH_USER_PATHS = NO;
++				SDKROOT = macosx;
+ 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+ 				CLANG_ENABLE_OBJC_ARC = YES;
+ 				CLANG_LINK_OBJC_RUNTIME = NO;
+@@ -760,7 +762,8 @@
+ 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+ 				CLANG_WARN_UNREACHABLE_CODE = YES_AGGRESSIVE;
+ 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+-				CODE_SIGN_IDENTITY = "Developer ID Application: Hannes Schmidt (4LMPAN643V)";
++				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_STYLE = Manual;
+ 				CURRENT_PROJECT_VERSION = 0.8;
+ 				DEAD_CODE_STRIPPING = YES;
+ 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+@@ -785,24 +788,23 @@
+ 				GCC_WARN_UNUSED_LABEL = YES;
+ 				GCC_WARN_UNUSED_PARAMETER = NO;
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+-				LIBRARY_SEARCH_PATHS = /opt/homebrew/lib;
+-				"LIBRARY_SEARCH_PATHS[arch=arm64]" = /opt/homebrew/lib;
+-				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = /usr/local/lib;
+-				MACOSX_DEPLOYMENT_TARGET = 12.4;
++				LIBRARY_SEARCH_PATHS = /opt/local/lib;
++				"LIBRARY_SEARCH_PATHS[arch=arm64]" = /opt/local/lib;
++				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = /opt/local/lib;
++				MACOSX_DEPLOYMENT_TARGET = 13.0;
+ 				MARKETING_VERSION = 0.8;
+ 				OTHER_LDFLAGS = "-all_load";
+ 				USER_HEADER_SEARCH_PATHS = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=arm64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/opt/homebrew/include,
++					/opt/local/include,
+ 				);
+ 				"USER_HEADER_SEARCH_PATHS[arch=x86_64]" = (
+ 					"$(launchd_source_dir)/liblaunch",
+-					/usr/local/include,
++					/opt/local/include,
+ 				);
+ 				VERSIONING_SYSTEM = "apple-generic";
+ 				WARNING_CFLAGS = (
+@@ -860,8 +862,10 @@
+ 				DEPLOYMENT_LOCATION = YES;
+ 				DEVELOPMENT_ASSET_PATHS = "";
+ 				DSTROOT = /;
++				HEADER_SEARCH_PATHS = /opt/local/include;
+ 				INFOPLIST_FILE = "EnvPane/EnvPane-Info.plist";
+ 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
++				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+ 				OTHER_LDFLAGS = (
+ 					"-lmarkdown",
+ 					"$(inherited)",
+@@ -878,9 +882,11 @@
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				DEAD_CODE_STRIPPING = YES;
+ 				DEVELOPMENT_ASSET_PATHS = "";
+-				"DEVELOPMENT_TEAM[sdk=macosx*]" = 4LMPAN643V;
++				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
++				HEADER_SEARCH_PATHS = /opt/local/include;
+ 				INFOPLIST_FILE = "EnvPane/EnvPane-Info.plist";
+ 				INSTALL_PATH = /;
++				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+ 				OTHER_LDFLAGS = (
+ 					"-lmarkdown",
+ 					"$(inherited)",
