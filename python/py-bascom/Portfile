@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-bascom
+version             0.1.2
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python devel
+maintainers         {gmail.com:audvare @Tatsh}
+description         Core library that my tools use.
+long_description    ${description}
+homepage            https://github.com/Tatsh/bascom
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  9011f887e0149c7f2a3db475374a8a89e855b712 \
+                    sha256  92b339fe44b40e0d7155413cf372c67b3a96156ca3dfe425ea27a718634ccba0 \
+                    size    7327
+
+python.versions         310 311 312
+
+if {$subport ne $name} {
+    livecheck.type none
+    depends_run-append \
+        port:py${python.version}-colorlog \
+        port:py${python.version}-typing-extensions
+}

@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-youtube-unofficial
+version             0.3.1
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python net
+maintainers         {gmail.com:audvare @Tatsh}
+description         Access parts of your account unavailable through normal YouTube API access.
+long_description    ${description}
+homepage            https://github.com/Tatsh/youtube-unofficial
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            youtube_unofficial-${version}
+
+checksums           rmd160  8c44abc92a53735e8908e670e81037991ca42956 \
+                    sha256  c42e083cd5a925f2a03bec8474eb99841be8f90b82b67a6f1b6d920809267abe \
+                    size    26627
+
+python.versions         310 311 312
+
+if {$subport ne $name} {
+    livecheck.type none
+    depends_run-append \
+        port:py${python.version}-bascom \
+        port:py${python.version}-beautifulsoup4 \
+        port:py${python.version}-click \
+        port:py${python.version}-html5lib \
+        port:py${python.version}-more-itertools \
+        port:py${python.version}-requests \
+        port:py${python.version}-typing-extensions \
+        port:py${python.version}-yt-dlp-utils
+}
