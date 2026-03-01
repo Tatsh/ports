@@ -13,8 +13,8 @@ supported_archs     noarch
 categories          sysutils python
 revision            2
 
-python.versions         37 38 39 310
-python.default_version  310
+python.versions         37 38 39 310 311 312 313 314
+python.default_version  313
 
 maintainers         {gmail.com:audvare @Tatsh}
 
