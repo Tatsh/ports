@@ -1,0 +1,133 @@
+From 5a9e1ab5cc0a7c167c590f1714fd6906f0042a30 Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Sun, 1 Mar 2026 15:55:27 -0500
+Subject: [PATCH] Remove Sparkle: drop SPM dependency and Sparkle update
+ checker
+
+Made-with: Cursor
+---
+ Latest.xcodeproj/project.pbxproj          | 33 -----------------------
+ Latest/Model/UpdateCheckCoordinator.swift |  1 -
+ 2 files changed, 34 deletions(-)
+
+diff --git a/Latest.xcodeproj/project.pbxproj b/Latest.xcodeproj/project.pbxproj
+index 78c23bb..f1d3714 100644
+--- a/Latest.xcodeproj/project.pbxproj
++++ b/Latest.xcodeproj/project.pbxproj
+@@ -41,7 +41,6 @@
+ 		508323E3257824AA000BBA13 /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E0257824A9000BBA13 /* DisplayLink.swift */; };
+ 		508323E4257824AA000BBA13 /* UpdateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E1257824A9000BBA13 /* UpdateButton.swift */; };
+ 		508323E5257824AA000BBA13 /* UpdateButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E2257824AA000BBA13 /* UpdateButtonCell.swift */; };
+-		5087CD2D22F6E06B0013354C /* SparkleUpdateOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5087CD2C22F6E06B0013354C /* SparkleUpdateOperation.swift */; };
+ 		508A40552D56962400A02DF1 /* SupportStatusButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508A40542D56961400A02DF1 /* SupportStatusButtonCell.swift */; };
+ 		5093EF9C2B913A1C0041E6C1 /* AppDirectoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5093EF9B2B913A1C0041E6C1 /* AppDirectoryCellView.swift */; };
+ 		509512141FF362A1003D2D7F /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509512101FF362A1003D2D7F /* Version.swift */; };
+@@ -53,7 +52,6 @@
+ 		509512341FF36380003D2D7F /* UpdateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509512321FF36380003D2D7F /* UpdateTableViewController.swift */; };
+ 		509512361FF36388003D2D7F /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509512351FF36388003D2D7F /* MainWindowController.swift */; };
+ 		509735502798D17E00FFE809 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097354F2798D17E00FFE809 /* Observable.swift */; };
+-		509B30EE28DBB17D00DDAA2E /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 509B30ED28DBB17D00DDAA2E /* Sparkle */; };
+ 		509C4ABC2AD1FFCC00E9C2E1 /* FailableDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509C4ABB2AD1FFCC00E9C2E1 /* FailableDecodable.swift */; };
+ 		50A86BBD27EA6BF4007A5F80 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 50A86BBC27EA6BF4007A5F80 /* Credits.rtf */; };
+ 		50A8D2B327D2B063004DBA05 /* ReleaseNotesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8D2B227D2B063004DBA05 /* ReleaseNotesProvider.swift */; };
+@@ -71,8 +69,6 @@
+ 		50C8C85C208A0EE9004FF5D5 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 50C8C85B208A0EE9004FF5D5 /* dsa_pub.pem */; };
+ 		50C9F0F5234637BD00FD1802 /* UpdateCheckerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9F0F4234637BD00FD1802 /* UpdateCheckerOperation.swift */; };
+ 		50C9F10A2346386B00FD1802 /* MacAppStoreCheckerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9F1092346386B00FD1802 /* MacAppStoreCheckerOperation.swift */; };
+-		50C9F10C234641E000FD1802 /* SparkleCheckerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9F10B234641E000FD1802 /* SparkleCheckerOperation.swift */; };
+-		50D6EF5F281461A3002D7006 /* Sparkle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D6EF5E281461A3002D7006 /* Sparkle.swift */; };
+ 		50DAEF4021047E5100B32E8A /* UpdateTableView+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAEF3F21047E5100B32E8A /* UpdateTableView+TouchBar.swift */; };
+ 		50DAEF4421047FA900B32E8A /* UpdateItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DAEF4321047FA900B32E8A /* UpdateItemView.swift */; };
+ 		50E4EB072B17DACB00A70A7D /* VersionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E4EB062B17DACB00A70A7D /* VersionParser.swift */; };
+@@ -341,7 +337,6 @@
+ 			buildActionMask = 2147483647;
+ 			files = (
+ 				5048574222C81DF900C52C48 /* StoreFoundation.framework in Frameworks */,
+-				509B30EE28DBB17D00DDAA2E /* Sparkle in Frameworks */,
+ 				5048574022C81DD000C52C48 /* CommerceKit.framework in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+@@ -764,9 +759,6 @@
+ 			dependencies = (
+ 			);
+ 			name = Latest;
+-			packageProductDependencies = (
+-				509B30ED28DBB17D00DDAA2E /* Sparkle */,
+-			);
+ 			productName = Latest;
+ 			productReference = 50290E711E53EB6A00133E3D /* Latest.app */;
+ 			productType = "com.apple.product-type.application";
+@@ -864,9 +856,6 @@
+ 				ja,
+ 			);
+ 			mainGroup = 50290E681E53EB6A00133E3D;
+-			packageReferences = (
+-				509B30EC28DBB17D00DDAA2E /* XCRemoteSwiftPackageReference "Sparkle" */,
+-			);
+ 			productRefGroup = 50290E721E53EB6A00133E3D /* Products */;
+ 			projectDirPath = "";
+ 			projectRoot = "";
+@@ -948,14 +937,12 @@
+ 				5040D45C28DBB753009BF379 /* HomebrewCheckerOperation.swift in Sources */,
+ 				5093EF9C2B913A1C0041E6C1 /* AppDirectoryCellView.swift in Sources */,
+ 				509512341FF36380003D2D7F /* UpdateTableViewController.swift in Sources */,
+-				50C9F10C234641E000FD1802 /* SparkleCheckerOperation.swift in Sources */,
+ 				50E4EB072B17DACB00A70A7D /* VersionParser.swift in Sources */,
+ 				50290E751E53EB6A00133E3D /* AppDelegate.swift in Sources */,
+ 				5039DE8D22CAA2790088B39B /* MacAppStoreUpdateOperation.swift in Sources */,
+ 				507375572789AB0300F371D8 /* AppListSnapshot.swift in Sources */,
+ 				501EF8ED2B9A665A00F0D759 /* BundleCollector.swift in Sources */,
+ 				50C9F0F5234637BD00FD1802 /* UpdateCheckerOperation.swift in Sources */,
+-				50D6EF5F281461A3002D7006 /* Sparkle.swift in Sources */,
+ 				50ACE3F221D58DAD002FB72D /* UpdateTableView+Search.swift in Sources */,
+ 				502929EF2120621B00F00D1C /* ReleaseNotesTextViewController.swift in Sources */,
+ 				501EF8EF2B9A77B400F0D759 /* AppDirectory.swift in Sources */,
+@@ -983,7 +970,6 @@
+ 				50366E5227DFD14100D4E247 /* Source.swift in Sources */,
+ 				50B016982C38986300590339 /* AppDirectoryStore.swift in Sources */,
+ 				509512151FF362A1003D2D7F /* Update.swift in Sources */,
+-				5087CD2D22F6E06B0013354C /* SparkleUpdateOperation.swift in Sources */,
+ 				50C59D6D2D1F54BF005BC36B /* GeneralSettingsViewController.swift in Sources */,
+ 				50C857402B25CF7500F5BF0B /* UpdateRepositoryCache.swift in Sources */,
+ 				50A8D2B327D2B063004DBA05 /* ReleaseNotesProvider.swift in Sources */,
+@@ -1455,25 +1441,6 @@
+ 			defaultConfigurationName = Release;
+ 		};
+ /* End XCConfigurationList section */
+-
+-/* Begin XCRemoteSwiftPackageReference section */
+-		509B30EC28DBB17D00DDAA2E /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+-			requirement = {
+-				kind = exactVersion;
+-				version = 2.5.1;
+-			};
+-		};
+-/* End XCRemoteSwiftPackageReference section */
+-
+-/* Begin XCSwiftPackageProductDependency section */
+-		509B30ED28DBB17D00DDAA2E /* Sparkle */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 509B30EC28DBB17D00DDAA2E /* XCRemoteSwiftPackageReference "Sparkle" */;
+-			productName = Sparkle;
+-		};
+-/* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 50290E691E53EB6A00133E3D /* Project object */;
+ }
+diff --git a/Latest/Model/UpdateCheckCoordinator.swift b/Latest/Model/UpdateCheckCoordinator.swift
+index ea9c732..b4b5017 100644
+--- a/Latest/Model/UpdateCheckCoordinator.swift
++++ b/Latest/Model/UpdateCheckCoordinator.swift
+@@ -144,7 +144,6 @@ extension UpdateCheckCoordinator {
+ 	private static var availableOperations: [UpdateCheckerOperation.Type] {
+ 		return [
+ 			MacAppStoreUpdateCheckerOperation.self,
+-			SparkleUpdateCheckerOperation.self,
+ 			HomebrewCheckerOperation.self
+ 		]
+ 	}
+-- 
+2.53.0
+
