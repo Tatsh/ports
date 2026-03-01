@@ -16,7 +16,7 @@ checksums           rmd160  9b4369398bc48a4926613a30d6750f2ef2cd9cc6 \
                     sha256  52b25a4ed92de21d10d768c92ab5a9765a88a2ed43dea1260d67bf22734dc951 \
                     size    157789
 
-python.versions     38 39 310 311 312
+python.versions     38 39 310 311 312 313 314
 
 if {${name} ne ${subport}} {
     depends_run-append port:py-ifaddr
