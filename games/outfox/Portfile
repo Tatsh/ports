@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name                outfox
-version             0.4.19
+version             5.0.0
 revision            0
 categories          games aqua
 platforms           macosx
@@ -14,10 +14,9 @@ long_description    StepMania \"OutFox\" provides an upgraded experience \
                     decades of existing content, and lays the groundwork for \
                     the next.
 homepage            https://projectoutfox.com/
-set version_date    "20230414"
-set pre             0[string range ${version} 7 9]
-distfiles           OutFox-${version}.LTS-MacOS-date-${version_date}.dmg
-master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF[string range ${version} 2 5].0/
+set version_date    20250907
+distfiles           OutFox-alpha-0.5.0-pre-043-Final-MacOS-date-${version_date}.dmg
+master_sites        https://github.com/TeamRizu/OutFox/releases/download/OF5.0.0-043/
 supported_archs     arm64 x86_64
 license             EULA
 
@@ -25,9 +24,9 @@ livecheck.type      regex
 livecheck.url       https://github.com/TeamRizu/OutFox/tags
 livecheck.regex     "/tag/OF(\\d+\\.\\d+\\.\\d+(?:\[A-Z\]+|-(?:\[fF\]inal|rc)(?:\[0-9\]+)?)?)"
 
-checksums           rmd160  57e3321225613a81e648d3e115ca8f9690e7ed2e \
-                    sha256  ee323dd47b7c85f9ca46157953f2820103047069350e0dd882ac5744505ab563 \
-                    size    134648945
+checksums           rmd160  5bf1ee55efa0cecaf6f94febf5ed3de8e7e3e76b \
+                    sha256  696bc9d8079edde3a7d73d4140b2baa61919538a163541a51ed34cf32d8a505e \
+                    size    201390203
 
 use_configure       no
 use_dmg             yes
