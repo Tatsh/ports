@@ -9,8 +9,8 @@ platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions         310 311
-python.default_version  311
+python.versions         310 311 312 313 314
+python.default_version  313
 
 maintainers         {gmail.com:audvare @Tatsh}
 
