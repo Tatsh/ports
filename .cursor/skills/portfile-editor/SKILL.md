@@ -116,6 +116,10 @@ to see if one can make creating a Portfile easier before considering writing any
 cases, for simpler packages, when a PortGroup is used only metadata is required and no phases have
 to be written.
 
+Note that a lot of time, Xcode-based projects must perform several tasks in a single phase. We
+usually make `build` a blank phase and allow `xcodebuild` to run in `destroot`. This is demonstrated
+in several packages such as `aqua/Flycut/Portfile`.
+
 These are the basic parts of a Portfile, in order:
 
 1. Modeline
