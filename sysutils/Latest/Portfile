@@ -5,7 +5,7 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 name                Latest
-version             0.9
+version             0.11
 revision            0
 github.setup        mangerlahn ${name} ${version}
 description         A utility to check for available updates.
@@ -14,35 +14,20 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             CC-BY-NC-SA-4
 categories          sysutils aqua
 
-depends_lib-append  port:swift-argument-parser
-
-set sparkle_hash            286edd1fa22505a9e54d170e9fd07d775ea233f2
-set sparkle_ed25519_hash    7fa6712ef5d581a6981ec2b08ee623314cd1d1c4
-
-master_sites        ${github.homepage}/archive/${version}.tar.gz?dummy=:latest \
-                    https://github.com/sparkle-project/Sparkle/archive/${sparkle_hash}.tar.gz?dummy=:sparkle \
-                    https://github.com/orlp/ed25519/archive/${sparkle_ed25519_hash}.tar.gz?dummy=:ed25519
 set n_commits       487
-distfiles           ${name}-${version}.tar.gz:latest \
-                    sparkle-${sparkle_hash}.tar.gz:sparkle \
-                    sparkle-ed25519-${sparkle_ed25519_hash}.tar.gz:ed25519
+master_sites        ${github.homepage}/archive/:latest
+distfiles           ${version}.tar.gz:latest
+distname            ${name}-${version}
 
-checksums           Latest-0.9.tar.gz \
-                    rmd160  b228628e7a5a6c4699b7edd708f0c694252e0b10 \
-                    sha256  6beae2243c3cb53e3a7ac9bfe1b9a0b256f624fbc7fa87e40bc0c79c86c80002 \
-                    size    2639612 \
-                    sparkle-286edd1fa22505a9e54d170e9fd07d775ea233f2.tar.gz \
-                    rmd160  aa382270031d44fe9ed95b7429df6c42ae248483 \
-                    sha256  37b47c10bf3dbdf45eb11340fc66deb8e6f4359ab490bb49c6ff55b69ff2a84d \
-                    size    15049377 \
-                    sparkle-ed25519-7fa6712ef5d581a6981ec2b08ee623314cd1d1c4.tar.gz \
-                    rmd160  3a711fcb59cbf221a5d71672c342c65483907e00 \
-                    sha256  373923c85f61276e3cad2c0ae7a5d5cd4809ffe46c5abc1dc8276683a55782a0 \
-                    size    226683
+checksums           ${version}.tar.gz \
+                    rmd160  8261e2a9dbf9cc6f90ec789f7168940c8ebbc2df \
+                    sha256  3b20dc1299356faf091757e6e2dfcfc88cac2e21b1dae9e984e8a4b497d8f5a9 \
+                    size    2703513
 
 xcode.scheme        ${name}
 xcode.configuration Release
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
@@ -51,18 +36,10 @@ destroot.pre_args -derivedDataPath ${worksrcpath}
 if {${os.major} < 20} {
     patchfiles patch-available-10-15.diff
 }
-patchfiles-append patch-argparse.diff
-
-post-extract {
-    delete ${worksrcpath}/Frameworks/Sparkle
-    copy ${workpath}/Sparkle-${sparkle_hash} ${worksrcpath}/Frameworks/Sparkle
-    delete ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
-    copy ${workpath}/ed25519-${sparkle_ed25519_hash} ${worksrcpath}/Frameworks/Sparkle/Vendor/ed25519
-}
+patchfiles-append   patch-no-sparkle.diff
+patch.pre_args      -p1
 
 post-patch {
-    reinplace "s|ln -sfh|/bin/ln -sfh|" \
-        ${worksrcpath}/Frameworks/Sparkle/Sparkle.xcodeproj/project.pbxproj
     reinplace "s/\\\$number_of_commits/${n_commits}/" \
         ${worksrcpath}/Latest.xcodeproj/project.pbxproj
 }
