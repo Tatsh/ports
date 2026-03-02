@@ -27,5 +27,5 @@ if {$subport ne $name} {
     livecheck.type none
     depends_run-append \
         port:py${python.version}-colorlog \
-        port:py${python.version}-typing-extensions
+        port:py${python.version}-typing_extensions
 }
