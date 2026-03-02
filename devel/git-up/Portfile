@@ -29,7 +29,7 @@ checksums           rmd160  58bc673450230a8720081091256a905ef7416b90 \
                     sha256  aee933884d9f78eaa92fec41b0ef646dc41d38b95a6a248a548c9e2fe87e6ff9 \
                     size    21954
 
-depends_build-append    port:py${python.version}-poetry-core
+depends_build-append    port:py${python.version}-hatchling
 depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-colorama \
                         port:py${python.version}-click \
