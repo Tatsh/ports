@@ -25,16 +25,19 @@ checksums           rmd160  16788d7e4bbd2f3fcdea41cd5f8925298196fa5a \
                     size    1236155
 
 python.versions             310 311 312 313 314
-python.default_version      313
+python.default_version      314
 
-depends_lib-append port:py${python.version}-benc \
-                   port:py${python.version}-unidecode \
-                   port:py${python.version}-argcomplete \
-                   port:py${python.version}-cached-property \
-                   port:py${python.version}-humanize \
-                   port:py${python.version}-lockfile \
-                   port:py${python.version}-paramiko \
+depends_lib-append port:py${python.version}-unidecode \
                    port:py${python.version}-requests \
-                   port:py${python.version}-requests-futures \
-                   port:py${python.version}-typing_extensions \
-                   port:py${python.version}-importlib-metadata
+                   port:py${python.version}-fabric \
+                   port:py${python.version}-mutagen \
+                   port:py${python.version}-keyring \
+                   port:py${python.version}-click \
+                   port:py${python.version}-bascom \
+                   port:py${python.version}-html5lib \
+                   port:py${python.version}-beautifulsoup4 \
+                   port:py${python.version}-ratelimit \
+                   port:py${python.version}-yaml \
+                   port:py${python.version}-platformdirs \
+                   port:py${python.version}-tabulate \
+                   port:py${python.version}-typing_extensions
