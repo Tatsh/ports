@@ -1,6 +1,6 @@
 ---
 name: portfile-editor
-descritpion: Create or edit a Portfile for a package, creating patches where necessary.
+description: Create or edit a Portfile for a package, creating patches where necessary.
 ---
 
 # Portfile editor
@@ -64,13 +64,13 @@ are used for:
 - `emulators` - Any kind of emulator such as a video game console emulator.
 - `fonts`
 - `games`
-- `graphcs` - Graphics-related utilities.
+- `graphics` - Graphics-related utilities.
 - `java` - Libraries for Java.
 - `kde` - Applications that use the KDE frameworks.
 - `lang` - Interpreters and compilers.
 - `llm`
 - `lua` - Lua libraries.
-- `math` - Maths-relaetd tools and libraries.
+- `math` - Maths-related tools and libraries.
 - `multimedia` - Tools that support video and audio such as a `ffmpeg`.
 - `net` - Network non-WWW utilities such as `ngrep`.
 - `office` - Packages related to office work including LibreOffice.
@@ -103,7 +103,7 @@ If a project uses Swift Package Manager (SPM) for dependencies or build, that ve
 packaged for MacPorts. Use the version prior to the switch to SPM if it exists; that is the highest
 usable version.
 
-If the source is provided only as a tarball, downloadn and unpack the tarball into
+If the source is provided only as a tarball, download and unpack the tarball into
 `~/dev/macports/patched-src-repos/name-of-package` (create subdirectory `name-of-package` if
 necessary). Run `git init` and create the first commit containing the source unchanged.
 
