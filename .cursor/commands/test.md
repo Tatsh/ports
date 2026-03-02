@@ -2,7 +2,10 @@
 
 ## Overview
 
-Test a port by cleaning, running the destroot phase (and test phase if present), then reporting whether destroot succeeded, whether the destroot content looks correct, and—if the port has a test phase—whether the tests passed. Anything you type after `/test` (e.g. a port path like `net/wget`) is passed as context—use it to specify which port to test.
+Test a port by cleaning, running the destroot phase (and test phase if present), then reporting
+whether destroot succeeded, whether the destroot content looks correct, and—if the port has a test
+phase—whether the tests passed. Anything you type after `/test` (e.g. a port path like `net/wget`)
+is passed as context—use it to specify which port to test.
 
 ## Steps
 

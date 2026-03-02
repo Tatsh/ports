@@ -2,6 +2,7 @@
   "default": true,
   "line-length": {
     "code_blocks": false,
-    "line_length": 100
+    "line_length": 100,
+    "tables": false
   }
 }

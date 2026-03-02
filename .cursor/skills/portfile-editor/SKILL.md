@@ -184,13 +184,13 @@ These are the basic parts of a Portfile, in order:
    ```tcl
    long_description    RRDtool is a system to store and display time-series \
                        data.
-    ```
+   ```
 
 1. Homepage:
 
    ```tcl
     homepage            https://people.ee.ethz.ch/~oetiker/webtools/rrdtool/
-    ```
+   ```
 
 1. Port's download URLs: These are the download location or mirrors without the package filename.
 
@@ -456,19 +456,29 @@ They must be added to the port with the `patchfiles` or `patchfiles-append` comm
 
 ## Portfile Best Practices
 
-*Source: [MacPorts Guide - Portfile Best Practices](https://guide.macports.org/chunked/development.practices.html)*
+_Source: [MacPorts Guide - Portfile Best Practices](https://guide.macports.org/chunked/development.practices.html)_
 
-Practical guidelines for creating Portfiles that install smoothly and provide consistency between ports.
+Practical guidelines for creating Portfiles that install smoothly and provide consistency between
+ports.
 
 ### Port Style
 
-Portfiles may be thought of as a set of declarations rather than a piece of code. Format the Portfile as if it were a table consisting of keys and values. The two columns should be separated by spaces (not tabs); set your editor to use soft tabs. By default, the top line of all Portfiles should use a modeline:
+Portfiles may be thought of as a set of declarations rather than a piece of code. Format the
+Portfile as if it were a table consisting of keys and values. The two columns should be separated
+by spaces (not tabs); set your editor to use soft tabs. By default, the top line of all Portfiles
+should use a modeline:
 
 ```tcl
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 ```
 
-The left column should consist of single words, separated from the right side by spaces in multiples of four. When items require multiple lines with line continuation, indent additional lines to the same column that the right side begins on. When a key item such as a phase or variant requires braces, the opening brace should appear on the same line and the closing brace on its own line; the block is indented. Braces merely quoting strings (e.g. variant descriptions) stay on the same line. For multiple items in the second column, place each on a new line with backslash continuation and indent.
+The left column should consist of single words, separated from the right side by spaces in
+multiples of four. When items require multiple lines with line continuation, indent additional
+lines to the same column that the right side begins on. When a key item such as a phase or variant
+requires braces, the opening brace should appear on the same line and the closing brace on its own
+line; the block is indented. Braces merely quoting strings (e.g. variant descriptions) stay on the
+same line. For multiple items in the second column, place each on a new line with backslash
+continuation and indent.
 
 ### Don't Overwrite Config Files
 
@@ -490,18 +500,22 @@ post-activate {
 
 ### Use Variables
 
-Set variables so changing paths may be done in one place; use them anytime it makes updates simpler (e.g. `distname ${name}-src-${version}`).
+Set variables so changing paths may be done in one place; use them anytime it makes updates
+simpler (e.g. `distname ${name}-src-${version}`).
 
 ### Renaming or replacing a port
 
 If you need to replace a port with another or rename it, mark the port with `replaced_by`.
 
-1. Add `replaced_by foo` (where foo is the replacement port); on upgrade MacPorts will install the replacement.
+1. Add `replaced_by foo` (where foo is the replacement port); on upgrade MacPorts will install the
+   replacement.
 2. Increase version, revision, or epoch so `port outdated` will suggest an upgrade.
 3. Clear distfiles (`distfiles` with no value), delete `master_sites`, set `livecheck.type none`.
-4. Add a `pre-configure` block with `ui_error` and `return -code error` so users who try to install the old port see a clear message.
+4. Add a `pre-configure` block with `ui_error` and `return -code error` so users who try to
+   install the old port see a clear message.
 
-**Shortcut:** Use the PortGroup `obsolete` to define a stub port that only informs users to switch to another port:
+**Shortcut:** Use the PortGroup `obsolete` to define a stub port that only informs users to
+switch to another port:
 
 ```tcl
 PortSystem          1.0
@@ -516,78 +530,93 @@ categories          kde finance
 
 ### Removing a port
 
-Consider replacing it by an alternative (see above). It is recommended to wait one year before removing the port directory from the tree. If there is no replacement, the port can be deleted immediately.
+Consider replacing it by an alternative (see above). It is recommended to wait one year before
+removing the port directory from the tree. If there is no replacement, the port can be deleted
+immediately.
 
 ---
 
 ## Portfile Reference
 
-*Source: [MacPorts Guide - Portfile Reference](https://guide.macports.org/chunked/reference.html)*
+_Source: [MacPorts Guide - Portfile Reference](https://guide.macports.org/chunked/reference.html)_
 
-Reference for the major elements of a Portfile: port phases, dependencies, StartupItems, variables, keywords, and Tcl extensions.
+Reference for the major elements of a Portfile: port phases, dependencies, StartupItems, variables,
+keywords, and Tcl extensions.
 
 ### Global Keywords
 
-Keywords are used in the "global" and "variant" sections of Portfiles, not inside phase declarations.
+Keywords are used in the "global" and "variant" sections of Portfiles, not inside phase
+declarations.
 
-| Keyword | Description |
-|--------|-------------|
-| **PortSystem** | First non-comment line; defines Portfile interpreter version (e.g. `1.0`). |
-| **name** | Port name; use only alphanumeric, underscores, dashes, periods. For "+" in names use "x" (e.g. libstdcxx). |
-| **version** | Software version; match upstream format; omit leading "v". When a library's install_name changes, bump revision of dependents. |
-| **revision** | Optional integer (default 0); increment when the port is updated without a version change. Set explicitly (even to 0) for clarity. Increase when installed files or behavior change; do not increase for build fixes, comment changes, or adding non-default variants. |
-| **epoch** | Optional integer (default 0); increase when the new version compares *less* than the old (e.g. 2.0-rc1 → 2.0, or 1.10 → 1.2). Once set, never remove. |
-| **categories** | Category list; first should match the directory name. |
-| **maintainers** | GitHub usernames (e.g. `@user`) or obfuscated email (`example.org:account`). `nomaintainer` / `openmaintainer` have special meaning. |
-| **description** | Short sentence fragment. |
-| **long_description** | One or more sentences; can use `\n` for newlines. |
-| **homepage** | Primary project URL; prefer final URL (e.g. https, no redirect). |
-| **platforms** | List of platforms: `darwin`, `macosx`, `freebsd`, `linux`, etc. Can use version ranges, e.g. `{darwin >= 12}` or `{darwin >= 10 < 20}`. |
-| **supported_archs** | CPU archs (e.g. arm64, x86_64); use `noarch` if no arch-specific files. |
-| **license** | License name and version (e.g. `GPL-3`); use `+` for "or any later version". |
-| **license_noconflict** | List of dependencies that do not form a derivative work for binary distribution. |
-| **use_xcode** | Set `yes` if the port needs Xcode (e.g. xcodebuild). |
-| **known_fail** | Set `yes` if the port is known not to work. |
-| **macosx_deployment_target** | macOS release to target. |
-| **installs_libs** | Set `no` if the port does not install libraries/headers for dependents. |
-| **add_users** | List of usernames and settings (group, realname, home, shell, etc.) for user creation. |
+| Keyword                      | Description                                                                                                                                                                                                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **PortSystem**               | First non-comment line; defines Portfile interpreter version (e.g. `1.0`).                                                                                                                                                                                             |
+| **name**                     | Port name; use only alphanumeric, underscores, dashes, periods. For "+" in names use "x" (e.g. libstdcxx).                                                                                                                                                             |
+| **version**                  | Software version; match upstream format; omit leading "v". When a library's install_name changes, bump revision of dependents.                                                                                                                                         |
+| **revision**                 | Optional integer (default 0); increment when the port is updated without a version change. Set explicitly (even to 0) for clarity. Increase when installed files or behavior change; do not increase for build fixes, comment changes, or adding non-default variants. |
+| **epoch**                    | Optional integer (default 0); increase when the new version compares _less_ than the old (e.g. 2.0-rc1 → 2.0, or 1.10 → 1.2). Once set, never remove.                                                                                                                  |
+| **categories**               | Category list; first should match the directory name.                                                                                                                                                                                                                  |
+| **maintainers**              | GitHub usernames (e.g. `@user`) or obfuscated email (`example.org:account`). `nomaintainer` / `openmaintainer` have special meaning.                                                                                                                                   |
+| **description**              | Short sentence fragment.                                                                                                                                                                                                                                               |
+| **long_description**         | One or more sentences; can use `\n` for newlines.                                                                                                                                                                                                                      |
+| **homepage**                 | Primary project URL; prefer final URL (e.g. https, no redirect).                                                                                                                                                                                                       |
+| **platforms**                | List of platforms: `darwin`, `macosx`, `freebsd`, `linux`, etc. Can use version ranges, e.g. `{darwin >= 12}` or `{darwin >= 10 < 20}`.                                                                                                                                |
+| **supported_archs**          | CPU archs (e.g. arm64, x86_64); use `noarch` if no arch-specific files.                                                                                                                                                                                                |
+| **license**                  | License name and version (e.g. `GPL-3`); use `+` for "or any later version".                                                                                                                                                                                           |
+| **license_noconflict**       | List of dependencies that do not form a derivative work for binary distribution.                                                                                                                                                                                       |
+| **use_xcode**                | Set `yes` if the port needs Xcode (e.g. xcodebuild).                                                                                                                                                                                                                   |
+| **known_fail**               | Set `yes` if the port is known not to work.                                                                                                                                                                                                                            |
+| **macosx_deployment_target** | macOS release to target.                                                                                                                                                                                                                                               |
+| **installs_libs**            | Set `no` if the port does not install libraries/headers for dependents.                                                                                                                                                                                                |
+| **add_users**                | List of usernames and settings (group, realname, home, shell, etc.) for user creation.                                                                                                                                                                                 |
 
 ### Global Variables
 
 Available to any Portfile; all except `prefix` are read-only.
 
-| Variable | Description |
-|----------|-------------|
-| **prefix** | Installation prefix (e.g. `/opt/local`). |
-| **portpath** | Full path to the Portfile. |
-| **filesdir** | Path to files dir relative to portpath (default `files`). |
-| **filespath** | Full path to files directory. |
-| **workpath** | Full path to work directory. |
-| **worksrcpath** | Full path to extracted source. |
-| **destroot** | Path into which software is destrooted. |
-| **distpath** | Location for downloaded distfiles. |
-| **install.user** / **install.group** | User/group at install time. |
-| **os.platform** | e.g. darwin, freebsd. |
-| **os.arch** | powerpc, i386, arm. |
-| **os.version** | OS version (e.g. 12.3.0). |
-| **os.major** | Major OS version. |
-| **macos_version** | Full macOS version (e.g. 10.15.7). |
-| **xcodeversion** / **xcodecltversion** | Xcode / Command Line Tools version. |
-| **universal_possible** | Whether universal binaries are possible. |
+| Variable                               | Description                                               |
+| -------------------------------------- | --------------------------------------------------------- |
+| **prefix**                             | Installation prefix (e.g. `/opt/local`).                  |
+| **portpath**                           | Full path to the Portfile.                                |
+| **filesdir**                           | Path to files dir relative to portpath (default `files`). |
+| **filespath**                          | Full path to files directory.                             |
+| **workpath**                           | Full path to work directory.                              |
+| **worksrcpath**                        | Full path to extracted source.                            |
+| **destroot**                           | Path into which software is destrooted.                   |
+| **distpath**                           | Location for downloaded distfiles.                        |
+| **install.user** / **install.group**   | User/group at install time.                               |
+| **os.platform**                        | e.g. darwin, freebsd.                                     |
+| **os.arch**                            | powerpc, i386, arm.                                       |
+| **os.version**                         | OS version (e.g. 12.3.0).                                 |
+| **os.major**                           | Major OS version.                                         |
+| **macos_version**                      | Full macOS version (e.g. 10.15.7).                        |
+| **xcodeversion** / **xcodecltversion** | Xcode / Command Line Tools version.                       |
+| **universal_possible**                 | Whether universal binaries are possible.                  |
 
 ### Port Phases
 
-Main phases: **fetch** (download distfiles) → **checksum** → **extract** → **patch** → **configure** → **build** → **test** (optional) → **destroot** → **install** (archive) → **activate** (extract to prefix). Phases can be augmented with pre-/post- blocks or overridden in the Portfile. The destroot phase stages files into an intermediate location; MacPorts then archives and activates them.
+Main phases: **fetch** (download distfiles) → **checksum** → **extract** → **patch** →
+**configure** → **build** → **test** (optional) → **destroot** → **install** (archive) →
+**activate** (extract to prefix). Phases can be augmented with pre-/post- blocks or overridden in
+the Portfile. The destroot phase stages files into an intermediate location; MacPorts then
+archives and activates them.
 
-**Keyword list modifiers:** `-append`, `-delete`, `-replace`, `-strsed`. Use `-append` for configure flags and PortGroup dependencies so you don't overwrite defaults (e.g. `configure.cflags-append`, `depends_lib-append`).
+**Keyword list modifiers:** `-append`, `-delete`, `-replace`, `-strsed`. Use `-append` for
+configure flags and PortGroup dependencies so you don't overwrite defaults (e.g.
+`configure.cflags-append`, `depends_lib-append`).
 
 **Important phase-related keywords (summary):**
 
-- **Fetch:** `master_sites`, `master_sites.mirror_subdir`, `patch_sites`, `distname`, `distfiles`, `dist_subdir`, `worksrcdir`, `fetch.type` (standard|git|svn|hg|cvs|bzr), and type-specific options (e.g. `git.url`, `git.branch`).
+- **Fetch:** `master_sites`, `master_sites.mirror_subdir`, `patch_sites`, `distname`, `distfiles`,
+  `dist_subdir`, `worksrcdir`, `fetch.type` (standard|git|svn|hg|cvs|bzr), and type-specific
+  options (e.g. `git.url`, `git.branch`).
 - **Checksum:** `checksums` (rmd160, sha256, size per file).
-- **Extract:** `extract.suffix`, `extract.cmd`, `extract.args`/`pre_args`/`post_args`, `use_bzip2`, `use_xz`, `use_zip`, etc.
+- **Extract:** `extract.suffix`, `extract.cmd`, `extract.args`/`pre_args`/`post_args`, `use_bzip2`,
+  `use_xz`, `use_zip`, etc.
 - **Patch:** `patchfiles`, `patch.dir`, `patch.cmd`, `patch.pre_args` (e.g. -p1).
-- **Configure:** `use_configure`, `configure.cmd`, `configure.args`, `configure.env`, `configure.cflags`/`configure.ldflags`/`configure.cppflags` (prefer `-append`), `configure.cc`/`configure.cxx`, etc.
+- **Configure:** `use_configure`, `configure.cmd`, `configure.args`, `configure.env`,
+  `configure.cflags`/`configure.ldflags`/`configure.cppflags` (prefer `-append`),
+  `configure.cc`/`configure.cxx`, etc.
 - **Build:** `build.cmd`, `build.args`, `build.target`.
 - **Destroot:** `destroot.target`, `destroot.destdir`, `destroot.keepdirs`.
 
@@ -600,13 +629,14 @@ Main phases: **fetch** (download distfiles) → **checksum** → **extract** →
 - **depends_test** — only for phase `test` when `test.run yes`.
 - **depends_run** — needed at runtime only.
 
-Prefer port dependencies: `port:name`. File dependencies: `bin:progname:port`, `lib:libname:port`, `path:path/relative/to/prefix:port`.
+Prefer port dependencies: `port:name`. File dependencies: `bin:progname:port`, `lib:libname:port`,
+`path:path/relative/to/prefix:port`.
 
 ---
 
 ## MacPorts Internals
 
-*Source: [MacPorts Guide - MacPorts Internals](https://guide.macports.org/chunked/internals.html)*
+_Source: [MacPorts Guide - MacPorts Internals](https://guide.macports.org/chunked/internals.html)_
 
 File layout, configuration files, and fundamental port installation concepts.
 
@@ -622,17 +652,24 @@ Under `${prefix}` (default `/opt/local/`):
 - **Library/Frameworks/** — Native macOS frameworks
 - **sbin/** — System/administration utilities
 - **share/** — Architecture-independent data (doc, examples, info, locale, man, misc, src)
-- **var/** — Logs, temp, spool; under var: **macports/** (build, distfiles, registry, software, sources, spool, log, run), **db/**, **www/**
+- **var/** — Logs, temp, spool; under var: **macports/** (build, distfiles, registry, software,
+  sources, spool, log, run), **db/**, **www/**
 - **/Applications/MacPorts/** — Native macOS applications
 
-`${prefix}/var/macports`: `build/` (where ports are built and destrooted), `distfiles/`, `registry/` (sqlite registry), `software/` (installed port files), `sources/` (ports tree and base).
+`${prefix}/var/macports`: `build/` (where ports are built and destrooted), `distfiles/`,
+`registry/` (sqlite registry), `software/` (installed port files), `sources/` (ports tree and base).
 
 ### Configuration Files
 
 All in `${prefix}/etc/macports`. Format: key/value pairs; lines starting with `#` are comments.
 
-**macports.conf** — Bootstrap and general behavior: `prefix`, `portdbpath`, `build_arch`, `applications_dir`, `frameworks_dir`, `developer_dir`, `buildfromsource` (always|never|ifneeded), `portarchivetype`, `buildmakejobs`, `rsync_server`, `rsync_dir`, `binpath`, `host_blacklist`, `preferred_hosts`, `universal_archs`, `startupitem_type`, `startupitem_install`, etc.
+**macports.conf** — Bootstrap and general behavior: `prefix`, `portdbpath`, `build_arch`,
+`applications_dir`, `frameworks_dir`, `developer_dir`, `buildfromsource` (always|never|ifneeded),
+`portarchivetype`, `buildmakejobs`, `rsync_server`, `rsync_dir`, `binpath`, `host_blacklist`,
+`preferred_hosts`, `universal_archs`, `startupitem_type`, `startupitem_install`, etc.
 
-**sources.conf** — Defines ports tree sources. Default: `rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]`. Local repos: `file:///path/to/ports`.
+**sources.conf** — Defines ports tree sources. Default:
+`rsync://rsync.macports.org/macports/release/tarballs/ports.tar [default]`. Local repos:
+`file:///path/to/ports`.
 
 **variants.conf** — Optional; global variants to apply; unsupported variants are ignored.
