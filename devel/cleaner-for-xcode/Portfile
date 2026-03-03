@@ -9,7 +9,8 @@ if {${os.major} < 20} {
     version             3.1.1
     livecheck.type      none
 } else {
-    github.setup        waylybaye XcodeCleaner-SwiftUI 4e94554
+    # This SHA supports Xcode 15.2.
+    github.setup        waylybaye XcodeCleaner-SwiftUI cc9a4b9
     version             4.0.6
     revision            0
 }
@@ -24,9 +25,9 @@ description         This app helps you to make your Xcode faster by removing \
 long_description    ${description}
 
 if {${os.major} >= 20} {
-    checksums           rmd160  92cd24c722d2819520fd9d4563a84a887d7dc5d9 \
-                        sha256  0f686e5ce8d2e0638323154322e14f55b49d36a18d43c971edf957a87f88a040 \
-                        size    3280675
+    checksums           rmd160  e87b7ad4a2b2745c48c487ece17ee73cfb6575df \
+                        sha256  15b5002e8bdbdad3759c5abc21a4b2777711ec1fc11be69b15492b0e20e6328a \
+                        size    3281107
 } else {
     checksums           rmd160  bb90fbe23852eb579d60ec89e9a4858a0e8e62d3 \
                         sha256  9b78e03e67a177aea561b7b47dd45a39932345659f007e2bb908d3e45d95d416 \
