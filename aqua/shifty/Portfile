@@ -5,6 +5,8 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        thompsonate Shifty 1.2 v
+# Use source tarball from tag; release asset returns 404
+github.tarball_from tarball
 
 categories-append   sysutils
 license             GPL-3
@@ -19,10 +21,51 @@ checksums           rmd160  0e1673809727d9d9a7686c957498dfc7fe961b82 \
 
 xcode.scheme        Shifty
 xcode.configuration Release
-xcode.destroot.settings \
+xcode.build.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
+    PROVISIONING_PROFILE_SPECIFIER= \
+    DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
+xcode.destroot.settings \
+    SDKROOT=macosx \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    PROVISIONING_PROFILE_SPECIFIER= \
+    DEVELOPMENT_TEAM= \
+    ENABLE_HARDENED_RUNTIME=NO
+# Fix PublicSuffix pod: rename var to avoid collision with URL in newer SDK
+# Fix CocoaPods embed script: resolve framework symlinks relative to symlink dir
+# so ../../UninstalledProducts/macosx works with -derivedDataPath in worksrcpath
+pre-configure {
+    reinplace "s/private var applicationSupportDirectory/private var pslAppSupportDir/" \
+        ${worksrcpath}/Pods/PublicSuffix/PublicSuffix/PublicSuffix.swift
+    reinplace "s/etld_path = applicationSupportDirectory/etld_path = pslAppSupportDir/g" \
+        ${worksrcpath}/Pods/PublicSuffix/PublicSuffix/PublicSuffix.swift
+    set embed_sh [file join ${worksrcpath} "Pods" "Target Support Files" "Pods-Shifty" "Pods-Shifty-frameworks.sh"]
+    set f [open ${embed_sh} r]
+    set content [read $f]
+    close $f
+    set old {  if [ -L "${source}" ]; then
+    echo "Symlinked..."
+    source="$(readlink "${source}")"
+  fi}
+    set new {  if [ -L "${source}" ]; then
+    echo "Symlinked..."
+    link_target="$(readlink "${source}")"
+    source_dir="$(cd "$(dirname "${source}")" && pwd)"
+    case "${link_target}" in
+      /*) source="${link_target}" ;;
+      *) source="${source_dir}/${link_target}" ;;
+    esac
+  fi}
+    set content [string map [list $old $new] $content]
+    set f [open ${embed_sh} w]
+    puts -nonewline $f $content
+    close $f
+}
+
 destroot.pre_args   -workspace Shifty.xcworkspace \
                     -derivedDataPath ${worksrcpath}
 
