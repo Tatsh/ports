@@ -5,6 +5,7 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        nicklockwood SwiftFormat 0.52.6
+github.tarball_from tarball
 
 name                swiftformat
 categories          devel
