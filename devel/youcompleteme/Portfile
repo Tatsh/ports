@@ -6,7 +6,7 @@ PortGroup           github 1.0
 github.setup            ycm-core YouCompleteMe 6a52780
 name                    youcompleteme
 version                 20260130
-revision                0
+revision                1
 platforms               darwin linux freebsd
 license                 GPL-3
 categories              devel textproc
@@ -18,14 +18,11 @@ checksums           rmd160  15b5f0a8a09f07672c2f3ee3edad6ef20c7dc8d4 \
                     sha256  d3666a51a663944b474f23365aa198e4e9e1421af95a126cf02a9dcacdfceabd \
                     size    335984
 
-set python_minor_version 9
+set python_minor_version 11
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set python_site_packages_dir ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
-set clang_version 11
 
-depends_lib \
-    port:clang-${clang_version} \
-    port:python3${python_minor_version}
+depends_lib             port:python3${python_minor_version}
 depends_run \
     port:py3${python_minor_version}-requests-futures \
     port:py3${python_minor_version}-requests \
@@ -44,7 +41,7 @@ post-patch {
 }
 
 build {
-    system "python -m compileall ${worksrcpath}/python/ycm"
+    system "${prefix}/bin/python3.${python_minor_version} -m compileall ${worksrcpath}/python/ycm"
 }
 
 destroot {
