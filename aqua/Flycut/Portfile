@@ -29,6 +29,7 @@ xcode.scheme        ${name}
 xcode.configuration Release
 xcode.build.settings \
     SDKROOT=macosx \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     PROVISIONING_PROFILE_SPECIFIER= \
@@ -36,17 +37,17 @@ xcode.build.settings \
     ENABLE_HARDENED_RUNTIME=NO
 xcode.destroot.settings \
     SDKROOT=macosx \
+    OBJROOT=${workpath}/obj \
+    SYMROOT=${workpath}/sym \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     PROVISIONING_PROFILE_SPECIFIER= \
     DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
 
-# Use workpath for all build outputs so actool and other tools write to a single
-# consistently-owned directory (avoids permission/sandbox issues with root-owned build dirs).
-destroot.pre_args -derivedDataPath ${workpath}/.dd
-
-# Override build dirs via env so xcodebuild/actool write under workpath (consistent ownership).
+# Use workpath for build outputs so actool and other tools write to writable dirs.
+destroot.pre_args   -derivedDataPath ${workpath}/.dd
 destroot.env-append \
     OBJROOT=${workpath}/obj \
     SYMROOT=${workpath}/sym \
@@ -55,6 +56,7 @@ pre-destroot {
     foreach d { .dd obj sym tmp } {
         file mkdir ${workpath}/${d}
     }
+    catch { exec chmod -R u+rwx,g+rwx,o+rwx ${workpath}/obj ${workpath}/sym ${workpath}/.dd ${workpath}/tmp }
 }
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
