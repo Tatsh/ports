@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+name                py-aiohttp-retry
+version             2.9.1
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python net
+maintainers         {gmail.com:audvare @Tatsh}
+description         Simple retry client for aiohttp.
+long_description    ${description}
+homepage            https://github.com/inyutin/aiohttp_retry
+
+github.tarball_from tarball
+github.setup        inyutin aiohttp_retry 2.9.1 v
+
+checksums           rmd160  d463e773d43c70699c523fed2678ed15ce33b75d \
+                    sha256  46e63a7c83762f43ace57ccd99e85b78506852a4365e6fe8be6c9fbd23a46249 \
+                    size    12449
+
+python.versions     310 311 312 313 314
+
+if {$subport ne $name} {
+    livecheck.type  none
+    depends_build-append port:py${python.version}-setuptools
+    depends_run-append  port:py${python.version}-aiohttp
+}
