@@ -24,9 +24,9 @@ description         This app helps you to make your Xcode faster by removing \
 long_description    ${description}
 
 if {${os.major} >= 20} {
-    checksums           rmd160  8a98cfba7fbebc3f21e3b89bb0ea5c7b54a53d23 \
-                        sha256  1915a27c78700b361d98921f0d55792470023845755d983b98f396fde8dbc198 \
-                        size    3280927
+    checksums           rmd160  b25095fa97b78f2f251f7eb85e5865352720393e \
+                        sha256  c51a192920f2128555f135e0d5650bbedf6e411adf9ed2cd7395a3f3baebff8f \
+                        size    3281110
 } else {
     checksums           rmd160  bb90fbe23852eb579d60ec89e9a4858a0e8e62d3 \
                         sha256  9b78e03e67a177aea561b7b47dd45a39932345659f007e2bb908d3e45d95d416 \
@@ -35,7 +35,9 @@ if {${os.major} >= 20} {
 
 xcode.target        "Cleaner for Xcode"
 xcode.configuration Release
+xcode.build.settings    SDKROOT=macosx
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 
