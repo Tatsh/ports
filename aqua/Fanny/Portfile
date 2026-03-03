@@ -74,7 +74,7 @@ post-install {
     ui_msg "* again and then remove and re-add the widget to your Notification Centre:"
     ui_msg "*"
     ui_msg "*   killall '${name}' '${name}Widget'"
-    ui_msg "*   open '${applications_dir}/${name}.app'"
+    ui_msg "*   open '/Applications/MacPorts/${name}.app'"
     ui_msg "*"
     ui_msg "******************************************************"
 }
