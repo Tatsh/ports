@@ -37,7 +37,8 @@ patchfiles          patch-${name}-swift-fix.diff
 
 build.pre_args          -derivedDataPath "${build.dir}/.dd" \
                         -workspace "${worksrcpath}/${name}.xcworkspace"
-xcode.build.settings    CODE_SIGN_IDENTITY=- \
+xcode.build.settings    SDKROOT=macosx \
+                        CODE_SIGN_IDENTITY=- \
                         CODE_SIGN_STYLE=Manual \
                         ENABLE_HARDENED_RUNTIME=NO
 xcode.scheme            "Make Release & Package"
