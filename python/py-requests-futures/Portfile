@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           python 1.0
+PortGroup           github 1.0
 
 name                py-requests-futures
 version             1.0.2
@@ -13,12 +14,12 @@ description         Small add-on for the python requests http library.
 long_description    ${description}
 homepage            https://github.com/ross/requests-futures
 
-distname            ${python.rootname}-${version}
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+github.tarball_from tarball
+github.setup        ross requests-futures 1.0.2 v
 
-checksums           rmd160  48a596fb5d82a1572b7c6fd9ebbab703a7e83d8a \
-                    sha256  f55a4ef80070e2858e7d1e73123d2bfaeaf25b93fd34384d8ddf148e2b676373 \
-                    size    9921
+checksums           rmd160  95b4f71fe3a24b05515a355cf537f80a8335b0d9 \
+                    sha256  15cac2b534ba9a735aeab5d78a8bfd1e7f2497f0afd95d92e2da7ba7fca54518 \
+                    size    12620
 
 python.versions         27 36 37 38 39 310 311 312 313 314
 
