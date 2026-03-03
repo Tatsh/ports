@@ -21,14 +21,18 @@ checksums           rmd160  6518c643f37fb1f555777826add9aec2cb78f163 \
 
 depends_build       port:cmake \
                     port:kde-extra-cmake-modules
-depends_lib         port:qt6 \
+depends_lib         port:qt67-qtbase \
+                    port:qt67-qtmultimedia \
+                    port:qt67-qttools \
                     port:ffmpeg7 \
                     port:soundtouch
 
-# MacPorts: use FHS layout and find Qt6/ffmpeg via libexec (see project README)
-configure.env-append \
-    CMAKE_PREFIX_PATH=${prefix}/libexec/qt6\;${prefix}/libexec/ffmpeg7
+patchfiles          patch-av_dict_get.diff
+patch.pre_args      -p1
+
+# MacPorts: use FHS layout; Qt6 via libexec, ffmpeg/soundtouch via pkg-config
 configure.args-append \
+    -DCMAKE_PREFIX_PATH=${prefix}/libexec/qt6 \
     -DNON_PORTABLE_MACOS_BUNDLE=ON
 
 # Optional: enable tests (off by default)

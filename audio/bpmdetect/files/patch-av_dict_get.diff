@@ -1,0 +1,30 @@
+--- a/src/ffmpegutils.cpp
++++ b/src/ffmpegutils.cpp
+@@ -438,22 +438,22 @@
+                                 name.contains(kNameM4a) ? kBpmKeyTmpo :
+                                                           kBpmKeyBpm;
+             qCDebug(gLogBpmDetect) << "Using metadata key for BPM:" << bpmKey;
+-            const AVDictionaryEntry *e = nullptr;
+-            while ((e = av_dict_iterate(fmt_ctx->metadata, e))) {
++            AVDictionaryEntry *e = nullptr;
++            while ((e = av_dict_get(fmt_ctx->metadata, "", e, AV_DICT_IGNORE_SUFFIX))) {
+                 // LCOV_EXCL_START
+                 auto key = QString::fromUtf8(e->key).toLower();
+                 qCDebug(gLogBpmDetect) << "Metadata key:" << key;
+                 if (key == bpmKey) {
+                     returnTags[kBpmKeyBpm] = QString::fromUtf8(e->value).toDouble();
+                 } else if (key == keyArtist || key == keyTitle) {
+                     returnTags[key] = QString::fromUtf8(e->value);
+                 }
+                 // LCOV_EXCL_STOP
+             }
+             if ((!returnTags[kBpmKeyBpm].toInt() || returnTags[keyArtist].toString().isEmpty() ||
+                  returnTags[keyTitle].toString().isEmpty()) &&
+                 fmt_ctx->nb_streams > 0 && fmt_ctx->streams[0] && fmt_ctx->streams[0]->metadata) {
+                 // Get the first stream's metadata if there is no global metadata.
+                 e = nullptr;
+-                while ((e = av_dict_iterate(fmt_ctx->streams[0]->metadata, e))) {
++                while ((e = av_dict_get(fmt_ctx->streams[0]->metadata, "", e, AV_DICT_IGNORE_SUFFIX))) {
+                     // LCOV_EXCL_START
+                     auto key = QString::fromUtf8(e->key).toLower();
+                     qCDebug(gLogBpmDetect) << "Stream Metadata key:" << key;
