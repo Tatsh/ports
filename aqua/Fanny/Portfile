@@ -31,19 +31,30 @@ checksums           Fanny-2.3.0.tar.gz \
                     sha256  3d666514336e3cf9de2f285ce711cd980848aaf57b0d77b68b15cb365240c620 \
                     size    15864
 
+patchfiles         patch-signing.diff
+patch.pre_args     -p2
+
 xcode.target        ${name}
 xcode.configuration Release
 xcode.build.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
+    CODE_SIGN_STYLE=Automatic \
+    DEVELOPMENT_TEAM= \
+    CODE_SIGN_ENTITLEMENTS=
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
+    CODE_SIGN_STYLE=Automatic \
+    DEVELOPMENT_TEAM= \
+    CODE_SIGN_ENTITLEMENTS=
 
 pre-configure {
     delete ${worksrcpath}/Submodules/Internal/SMC
     copy ${workpath}/SMC-${smc_hash} \
         ${worksrcpath}/Submodules/Internal/SMC
+    # Empty development team so Xcode does not require a provisioning profile
+    reinplace "s/DEVELOPMENT_TEAM = XXXXXXXXXX/DEVELOPMENT_TEAM =/" ${worksrcpath}/DEVELOPMENT_TEAM.xcconfig
 }
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
