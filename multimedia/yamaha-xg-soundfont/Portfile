@@ -32,6 +32,6 @@ build {}
 destroot {
     xinstall -d ${destroot}${prefix}/share/sounds
     xinstall -d ${destroot}${prefix}/share/sounds/sf2
-    xinstall -m 644 ${distpath}/Yamaha_XG_Sound_Set.sf2 \
+    xinstall -m 644 ${distpath}/${name}-${version}.sf2 \
         ${destroot}${prefix}/share/sounds/sf2/yamaha_xg.sf2
 }
