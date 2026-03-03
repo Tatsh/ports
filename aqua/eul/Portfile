@@ -6,6 +6,8 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        gao-sun eul 1.6.2 v
+# Release asset returns 403; use source tarball from tag
+github.tarball_from tarball
 
 categories          aqua sysutils
 platforms           macosx
@@ -38,7 +40,9 @@ patchfiles patch-deps.diff
 
 xcode.configuration Release
 xcode.scheme        ${name}
+xcode.build.settings    SDKROOT=macosx
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
