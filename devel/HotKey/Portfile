@@ -21,7 +21,9 @@ destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 xcode.configuration Release
 xcode.scheme ${name}
 xcode.destroot.type framework
+xcode.build.settings    SDKROOT=macosx
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO \
