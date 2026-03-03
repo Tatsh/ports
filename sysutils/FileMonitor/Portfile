@@ -23,6 +23,7 @@ checksums           rmd160  52a476d140509db5e1826036eb034da8fcae5965 \
 xcode.scheme        FileMonitor
 xcode.configuration Release
 xcode.build.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO \
@@ -33,6 +34,7 @@ xcode.destroot.settings \
     ENABLE_HARDENED_RUNTIME=NO \
     CODE_SIGN_ENTITLEMENTS=
 destroot.pre_args -workspace FileMonitor.xcworkspace \
+    -sdk macosx \
     -derivedDataPath ${worksrcpath}/derivedData
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
