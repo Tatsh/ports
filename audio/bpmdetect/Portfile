@@ -31,9 +31,11 @@ patchfiles          patch-av_dict_get.diff
 patch.pre_args      -p1
 
 # MacPorts: use FHS layout; Qt6 via libexec, ffmpeg/soundtouch via pkg-config
+# Install app bundle to Applications/MacPorts (not under prefix)
 configure.args-append \
     -DCMAKE_PREFIX_PATH=${prefix}/libexec/qt6 \
-    -DNON_PORTABLE_MACOS_BUNDLE=ON
+    -DNON_PORTABLE_MACOS_BUNDLE=ON \
+    -DBUNDLE_INSTALL_PREFIX=/Applications/MacPorts
 
 # Optional: enable tests (off by default)
 # configure.args-append -DBUILD_TESTS=ON
