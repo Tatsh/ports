@@ -40,13 +40,41 @@ patchfiles patch-deps.diff
 
 xcode.configuration Release
 xcode.scheme        ${name}
-xcode.build.settings    SDKROOT=macosx
+xcode.build.settings    SDKROOT=macosx \
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS=NO \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO
 xcode.destroot.settings \
     SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
-    ENABLE_HARDENED_RUNTIME=NO
-destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+    ENABLE_HARDENED_RUNTIME=NO \
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS=NO \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO \
+    OBJROOT=/tmp/eul-build \
+    SYMROOT=/tmp/eul-build
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+# Use /tmp for DSTROOT so actool (sandboxed) can write; then copy to real destroot.
 build {}
+
+pre-destroot {
+    catch {file delete -force /tmp/eul-build}
+    file mkdir /tmp/eul-build/Release
+    catch {file delete -force /tmp/eul-destroot}
+    file mkdir /tmp/eul-destroot
+}
+
+destroot {
+    set tmp_dstroot /tmp/eul-destroot
+    set xcode_settings "INSTALL_PATH=${applications_dir} OBJROOT=/tmp/eul-build SYMROOT=/tmp/eul-build DSTROOT=${tmp_dstroot} MACOSX_DEPLOYMENT_TARGET=${macosx_deployment_target} ARCHS=${configure.build_arch} SDKROOT=${configure.sdkroot} GCC_VERSION=com.apple.compilers.llvm.clang.1_0 CLANG_CXX_LIBRARY=libc++ SDKROOT=macosx CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual ENABLE_HARDENED_RUNTIME=NO ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS=NO ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO"
+    system "cd ${worksrcpath} && ${xcodebuildcmd} -derivedDataPath ${worksrcpath}/.dd -scheme ${name} -configuration ${xcode.configuration} install ${xcode_settings}"
+    file mkdir ${destroot}${applications_dir}
+    foreach f [glob -nocomplain ${tmp_dstroot}${applications_dir}/*] {
+        file copy -force $f ${destroot}${applications_dir}/
+    }
+}
+
+post-destroot {
+    catch {file delete -force /tmp/eul-build}
+    catch {file delete -force /tmp/eul-destroot}
+}
