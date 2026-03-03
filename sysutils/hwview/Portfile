@@ -29,7 +29,9 @@ cmake.set_cxx_standard      yes
 cmake.build_type            Release
 
 # MacPorts: use FHS-style layout and find Qt6 via libexec
+# Install app bundle to Applications/MacPorts (not under prefix)
 configure.env-append \
     CMAKE_PREFIX_PATH=${prefix}/libexec/qt6
 configure.args-append \
-    -DNON_PORTABLE_MACOS_BUNDLE=ON
+    -DNON_PORTABLE_MACOS_BUNDLE=ON \
+    -DBUNDLE_INSTALL_PREFIX=/Applications/MacPorts
