@@ -34,15 +34,46 @@ if {${os.major} < 19} {
 
 patchfiles patch-deps.diff
 
-xcode.configuration Release
-xcode.scheme        Blurred
-xcode.build.settings    SDKROOT=macosx
+# Build and install under /tmp so actool/ibtool can write (sandbox blocks writes under /opt/local).
+set tmpbuild /tmp/macports-${name}-build
+set tmpdest  ${tmpbuild}/destroot
+destroot.dir          ${tmpbuild}/${name}-${version}
+destroot.destdir      DSTROOT=${tmpdest}
 xcode.destroot.settings \
     SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
-    ENABLE_HARDENED_RUNTIME=NO
-destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+    ENABLE_HARDENED_RUNTIME=NO \
+    OBJROOT=${tmpbuild}/obj \
+    SYMROOT=${tmpbuild}/sym \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO
+destroot.pre_args -derivedDataPath ${tmpbuild}/.dd
+destroot.env-append   TMPDIR=${tmpbuild}/tmp
+
+xcode.configuration Release
+xcode.scheme        Blurred
+xcode.build.settings    SDKROOT=macosx
+
+pre-destroot {
+    file delete -force ${tmpbuild}
+    file mkdir ${tmpbuild}
+    file mkdir ${tmpdest}
+    file copy -force ${worksrcpath} ${tmpbuild}/${name}-${version}
+    foreach d { obj sym .dd tmp } {
+        file mkdir ${tmpbuild}/${d}
+    }
+}
+
+post-destroot {
+    # Copy xcode install from tmp destroot into real destroot (actool/ibtool cannot write under /opt/local).
+    set app_src ${tmpdest}/Applications/MacPorts/Blurred.app
+    set app_dst ${destroot}/Applications/MacPorts/Blurred.app
+    if {[file exists ${app_src}]} {
+        xinstall -d ${destroot}/Applications/MacPorts
+        file copy -force ${app_src} ${app_dst}
+    }
+    catch { file delete -force ${tmpbuild} }
+}
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
