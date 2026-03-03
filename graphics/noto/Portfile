@@ -17,9 +17,9 @@ description         Google's font family that aims to support all the world's \
 long_description    ${description}
 homepage            https://github.com/googlefonts/noto-fonts
 
-checksums           rmd160  ad6a3eb4e4ed5200e67e53117f30e85f8b86a8be \
-                    sha256  2d6d6aa75b0a88586633576024c580a807fad07def4370c40db01dd2c9a696ba \
-                    size    1013912295
+checksums           rmd160  8913c471f3025808769d7f1bed02ff6a92ed9218 \
+                    sha256  e1106ebaa366eafbe7cf20296396b63c0d648336c6ba5f2eba0e253edee7136f \
+                    size    1014256312
 
 github.livecheck.branch main
 
