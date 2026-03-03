@@ -2,12 +2,12 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           xcode 1.0
 
-github.setup        Tatsh torbrowser-launcher-mac 9362345
+github.setup        Tatsh torbrowser-launcher-mac 0.1.0 v
+# Use source tarball from tag; release has no .tar.gz asset (only arch-specific DMG/ZIP).
+github.tarball_from tarball
 
 name                torbrowser-launcher
-version             0.0.1_p20201121
 categories          net aqua
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -18,18 +18,55 @@ long_description    This package exists so that official Tor Browser builds \
                     installation can be maintained by a package manager.
 homepage            https://github.com/Tatsh/torbrowser-launcher-mac
 
-checksums           rmd160  8d48b55357429632c13b3cbb6d49ce6f09511bad \
-                    sha256  0650d4f6dcedeb0dd0e7dd5c5f500f1e4f941ebe0352c3db1674d7617f9161ca \
-                    size    2552610
+checksums           rmd160  40ca1fba80a55e0602408d368aab7a9d0449995a \
+                    sha256  6d030e4090e22ec87df6316946f147d823b8e7e269ccb33cd21b2c8ef95bb759 \
+                    size    2550217
 
-xcode.target        "Tor Browser Launcher"
-xcode.configuration Release
-xcode.build.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
-xcode.destroot.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
+depends_build       port:cmake
+
+use_configure       no
+# So sandbox allows writes to portdbpath/home/Library/Developer/Xcode (DerivedData)
+build.type          xcode
+
+build {
+    set bdir ${workpath}/build
+    file mkdir $bdir
+    system "cd $bdir && cmake -G Xcode \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_OSX_ARCHITECTURES=${build_arch} \
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+        -DBUNDLE_INSTALL_PREFIX=/Applications/MacPorts \
+        ${worksrcpath}"
+    system "cd $bdir && xcodebuild -target TorBrowserLauncher -configuration Release \
+        CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual"
+}
+
+destroot {
+    xinstall -d ${destroot}/Applications/MacPorts
+    # CMake Xcode generator puts target output under build/<target>/Release/
+    set bundle [glob -nocomplain ${workpath}/build/TorBrowserLauncher/Release/Tor\ Browser\ Launcher.app]
+    if {$bundle eq ""} {
+        set bundle [glob -nocomplain ${workpath}/build/TorBrowserLauncher/Release/*.app]
+    }
+    if {$bundle eq ""} {
+        set bundle [glob -nocomplain ${workpath}/build/Release/Tor\ Browser\ Launcher.app]
+    }
+    if {$bundle eq ""} {
+        set bundle [glob -nocomplain ${workpath}/build/Release/*.app]
+    }
+    if {$bundle ne ""} {
+        copy [lindex $bundle 0] ${destroot}/Applications/MacPorts/
+    } else {
+        return -code error "built app bundle not found"
+    }
+}
+
+# Swift + CMake Xcode generator requires full Xcode (xcodebuild), not just CLT
+pre-build {
+    if {[catch {exec xcodebuild -version} err]} {
+        return -code error "Building ${name} requires full Xcode (xcode-select -s /Applications/Xcode.app). Command Line Tools alone are not sufficient for Swift."
+    }
+}
 
 if {${os.major} < 19} {
     pre-fetch {
@@ -37,6 +74,3 @@ if {${os.major} < 19} {
         return -code error "incompatible OS X version"
     }
 }
-
-# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
-build {}
