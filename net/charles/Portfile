@@ -43,6 +43,9 @@ build {}
 
 destroot {
     copy ${worksrcpath}/Charles.app ${destroot}${applications_dir}
+    set macos_dir ${destroot}${applications_dir}/Charles.app/Contents/MacOS
+    # Fix libkeywindowpatch.dylib reference to libvaqua.dylib (relative path causes rev-upgrade failure)
+    system "install_name_tool -change libvaqua.dylib @loader_path/libvaqua.dylib ${macos_dir}/libkeywindowpatch.dylib"
 }
 
 # Mounts a disk image.
