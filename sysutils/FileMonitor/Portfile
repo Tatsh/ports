@@ -16,9 +16,9 @@ long_description    A macOS file monitor (based on Apple's new Endpoint \
                     Security Framework).
 homepage            https://objective-see.com/products/utilities.html#FileMonitor
 
-checksums           rmd160  eaad3699c54b82335cf5708d95dab7604c21b3c9 \
-                    sha256  d80c216059b1e5cd3acf91093c2b8ecc8a572908099223709787c9553b888799 \
-                    size    372555
+checksums           rmd160  52a476d140509db5e1826036eb034da8fcae5965 \
+                    sha256  0f09a20e973d4e3aa2c04320698835c8398b8611c2469fa4acb6a81bc7e3d060 \
+                    size    372657
 
 xcode.scheme        FileMonitor
 xcode.configuration Release
