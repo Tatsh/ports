@@ -29,6 +29,6 @@ if {$subport ne $name} {
         port:py${python.version}-aiohttp \
         port:py${python.version}-aiohttp-retry \
         port:py${python.version}-requests \
-        port:py${python.version}-typing-extensions \
+        port:py${python.version}-typing_extensions \
         port:yt-dlp
 }
