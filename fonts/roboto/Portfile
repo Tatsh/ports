@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                roboto
-version             2.138
+version             3.015
 
 categories          graphics
 license             OFL-1.1
@@ -13,20 +13,20 @@ description         Google's signature family of fonts.
 long_description    Google’s signature family of fonts, the default font on \
                     Android and Chrome OS, and the recommended font for \
                     Google’s visual language, Material Design.
-homepage            https://github.com/googlefonts/roboto
+homepage            https://github.com/googlefonts/roboto-3-classic
 
 extract.suffix      .zip
 use_zip             yes
-distfiles           ${name}-${version}${extract.suffix}
-master_sites        https://github.com/googlefonts/${name}/releases/download/v${version}/${name}-android${extract.suffix}?dummy=
+distfiles           Roboto_v${version}${extract.suffix}
+master_sites        https://github.com/googlefonts/${name}-3-classic/releases/download/v${version}
 
-checksums           rmd160  2a6374e8adebe28b3905edfd869987cd13ed8ade \
-                    sha256  c825453253f590cfe62557733e7173f9a421fff103b00f57d33c4ad28ae53baf \
-                    size    3927471
+checksums           rmd160  36df9735e1adad451ff7a7e67441436d48d17ce6 \
+                    sha256  bee3e9334ea86dd63e184598f31fb16750881c2da1a6f097a66e0f66a95b3d54 \
+                    size    28917974
 
 livecheck.type      regex
 livecheck.url       ${homepage}
-livecheck.regex     "<a .*href=\"/googlefonts/roboto/releases/tag/v(\\d+\\.\\d+)\">"
+livecheck.regex     "<a .*href=\"/googlefonts/roboto-3-classic/releases/tag/v(\\d+\\.\\d+)\">"
 
 worksrcdir
 use_configure           no
@@ -36,7 +36,7 @@ build {}
 
 destroot {
     xinstall -d -m 755 ${destroot}/Library/Fonts
-    foreach file [glob -nocomplain -directory ${worksrcpath} *.ttf] {
+    foreach file [glob -nocomplain -directory ${worksrcpath}/hinted/static *.ttf] {
         set basename [lrange [split ${file} /] end end]
         copy ${file} ${destroot}/Library/Fonts/${basename}
     }
