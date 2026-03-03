@@ -5,6 +5,8 @@ PortGroup           xcode 1.0
 PortGroup           github 1.0
 
 github.setup        exelban stats 2.9.8 v
+# Use tag archive; release asset URL returns 403. Archive has different layout; use patch-deps-archive.diff.
+github.tarball_from archive
 categories-append   aqua
 description         macOS system monitor in your menu bar.
 long_description    ${description}
@@ -18,15 +20,32 @@ checksums           rmd160  61192c9d361f11159bd7ba3377b33f5dd35c4616 \
 
 depends_lib         port:Repeat
 
-destroot.pre_args   -derivedDataPath ${worksrcpath}/.dd
+# Build to /tmp so actool/xcodebuild can write regardless of workpath ownership.
+set stats.builddir /tmp/stats-destroot-build-[pid]
+destroot.pre_args   -derivedDataPath ${stats.builddir}/.dd
+destroot.env-append \
+    OBJROOT=${stats.builddir}/obj \
+    SYMROOT=${stats.builddir}/sym \
+    TMPDIR=${stats.builddir}/tmp
 xcode.scheme        Stats
 xcode.configuration Release
 xcode.destroot.settings \
+    SDKROOT=macosx \
+    OBJROOT=${stats.builddir}/obj \
+    SYMROOT=${stats.builddir}/sym \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
+    CODE_SIGN_ENTITLEMENTS= \
+    PROVISIONING_PROFILE_SPECIFIER= \
+    DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
 
-patchfiles patch-deps.diff
+patchfiles patch-deps-archive.diff
+
+pre-destroot {
+    file mkdir ${stats.builddir}/.dd ${stats.builddir}/obj ${stats.builddir}/sym ${stats.builddir}/tmp
+    catch { exec chmod -R u+rwx,g+rwx,o+rwx ${stats.builddir} }
+}
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
