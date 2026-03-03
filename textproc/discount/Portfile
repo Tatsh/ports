@@ -5,6 +5,8 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 
 github.setup        Orc discount 3.0.0a v
+# Use tag archive tarball; project has no GitHub releases (403 on release asset)
+github.tarball_from archive
 platforms           darwin linux freebsd
 license             BSD
 maintainers         {gmail.com:audvare @Tatsh}
@@ -12,9 +14,9 @@ description         An implementation of the Markdown markup language.
 long_description    ${description}
 categories          textproc
 
-checksums           rmd160  fca041bee84ef5b7c2ac78a1af5b59790631dc2a \
-                    sha256  81a33c218e37d3f2c8ddd905cec84b127acb00d095922b143a293362ab7e6789 \
-                    size    140263
+checksums           rmd160  817d53917839f0165c8fbf2edefd053d488c32c0 \
+                    sha256  9a20af1ee09d2369543a421ba65e6fc1fd482ad3a5b1828132441f2c8dd98afc \
+                    size    140250
 
 cmake.source_dir    ${worksrcpath}/cmake
 
