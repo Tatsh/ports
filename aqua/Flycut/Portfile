@@ -41,7 +41,21 @@ xcode.destroot.settings \
     PROVISIONING_PROFILE_SPECIFIER= \
     DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
-destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
+
+# Use workpath for all build outputs so actool and other tools write to a single
+# consistently-owned directory (avoids permission/sandbox issues with root-owned build dirs).
+destroot.pre_args -derivedDataPath ${workpath}/.dd
+
+# Override build dirs via env so xcodebuild/actool write under workpath (consistent ownership).
+destroot.env-append \
+    OBJROOT=${workpath}/obj \
+    SYMROOT=${workpath}/sym \
+    TMPDIR=${workpath}/tmp
+pre-destroot {
+    foreach d { .dd obj sym tmp } {
+        file mkdir ${workpath}/${d}
+    }
+}
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
