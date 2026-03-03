@@ -40,7 +40,9 @@ build.pre_args          -derivedDataPath "${build.dir}/.dd" \
 xcode.build.settings    SDKROOT=macosx \
                         CODE_SIGN_IDENTITY=- \
                         CODE_SIGN_STYLE=Manual \
+                        DEVELOPMENT_TEAM= \
                         ENABLE_HARDENED_RUNTIME=NO
+build.env-append        CI=1
 xcode.scheme            "Make Release & Package"
 xcode.configuration     Release
 
@@ -48,6 +50,13 @@ pre-configure {
     delete "${worksrcpath}/Packages/SwiftCLI-2.0.3"
     copy "${workpath}/Lord-Kamina-SwiftCLI-${swiftcli_sha}" \
         "${worksrcpath}/Packages/SwiftCLI-2.0.3"
+}
+
+pre-build {
+    ui_msg "******************************************************"
+    ui_msg "* The build may fail over SSH; there is no workaround."
+    ui_msg "* This package must be built while physically logged into the machine."
+    ui_msg "******************************************************"
 }
 
 if {${os.major} < 16} {
