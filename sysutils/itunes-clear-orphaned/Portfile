@@ -20,6 +20,7 @@ checksums           rmd160  4b8662ea95b0d9665d5a8efd6352382e061d3ff9 \
                     sha256  a1718389c09863af24eff4d1597197da5ff3a70a5202a8f08a708f1f59e8a903 \
                     size    1174103
 
+use_configure       no
 # Prebuilt dist/index.js only; no build.
 build {}
 destroot {
