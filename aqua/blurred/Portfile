@@ -6,6 +6,8 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        dwarvesf blurred 1.2.0 v
+# Release asset is .dmg only; use source tarball from tag
+github.tarball_from tarball
 
 categories          aqua sysutils
 platforms           macosx
@@ -34,7 +36,9 @@ patchfiles patch-deps.diff
 
 xcode.configuration Release
 xcode.scheme        Blurred
+xcode.build.settings    SDKROOT=macosx
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
