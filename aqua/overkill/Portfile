@@ -46,9 +46,9 @@ pre-build {
 }
 destroot {
     xcode::fix_resource_dependencies
-    xinstall -m 755 -d ${destroot}${prefix}/Applications/MacPorts
+    xinstall -m 755 -d ${destroot}/Applications/MacPorts
     file copy ${workpath}/sym/Release/Overkill.app \
-        ${destroot}${prefix}/Applications/MacPorts/
+        ${destroot}/Applications/MacPorts/
 }
 
 patchfiles          patch-swift-fixes.diff
