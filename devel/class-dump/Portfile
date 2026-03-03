@@ -29,15 +29,17 @@ xcode.target        class-dump deprotect
 xcode.configuration Release
 xcode.destroot.path ${prefix}/bin
 xcode.build.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 xcode.destroot.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual
 
-checksums           rmd160  54fd5833f97deb49f8bb4bb8398525d04dac3c6c \
-                    sha256  3781f40e9a274778a79f91c3912a88742cc46c1a6451459176f0c42fdbe382c8 \
-                    size    130989
+checksums           rmd160  8b27e193ea75426097496d9028b0c4b8f1ac5eae \
+                    sha256  1ecbf471d8c28b085c9dafb7399f3d26213de00ea097134fbc102e05c99feb14 \
+                    size    131089
 
 if {${os.major} < 12} {
     pre-fetch {
