@@ -20,9 +20,9 @@ patchfiles          patch-enhancements.diff
 use_configure       no
 build.target        battery_stat
 
-checksums           rmd160  13b9c91ba13b70a0f511be562db58c859579207d \
-                    sha256  1fec93ccbd569389c9fa3df5a1e053b3cffb05c3105f9e37eb455b53d9eb3921 \
-                    size    1475
+checksums           rmd160  28877ae40622624ca6a22bdbe5eeb50c9cc2f85e \
+                    sha256  afa7ccec2b956c8ffbd87e444ed505bc9911c78d24073103dae790d508b070c7 \
+                    size    1466
 
 destroot {
     xinstall -m 755 ${worksrcpath}/battery_stat ${destroot}${prefix}/bin/battery-stat
