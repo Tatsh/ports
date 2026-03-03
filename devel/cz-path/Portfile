@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           python 1.0
 
-name                py-cz-path
+name                cz-path
 version             0.0.4
 platforms           darwin linux freebsd
 license             MIT
@@ -21,12 +21,10 @@ checksums           rmd160  19aa47b36f84570eca2c2750641edf5f66a8a87c \
                     sha256  d40c1d571def8c03324776212bb274022b3ee42cbfe0a804d6a5bbaaae340414 \
                     size    7316
 
-python.versions         310 311 312 313 314
+python.default_version  310
+python.pep517_backend   poetry
 
-if {$subport ne $name} {
-    livecheck.type none
-    depends_run-append \
-        port:py${python.version}-commitizen \
-        port:py${python.version}-gitpython \
-        port:py${python.version}-typing-extensions
-}
+depends_run-append \
+    port:commitizen \
+    port:py${python.version}-gitpython \
+    port:py${python.version}-typing_extensions
