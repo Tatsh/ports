@@ -3,6 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
+github.tarball_from tarball
 github.setup        dubhater vapoursynth-nnedi3 12 v
 
 name                vapoursynth-nnedi3-weights
