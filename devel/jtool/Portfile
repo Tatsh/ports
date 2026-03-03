@@ -18,9 +18,9 @@ supported_archs     arm64 x86_64
 distfiles           ${name}-${version}.tgz
 master_sites        http://newosxbook.com/tools/${name}2.tgz?dummy=
 
-checksums           rmd160  00b4e96945110f45176b1463437f615dfdbc2466 \
-                    sha256  b6c6abeadaf403fee0d8153775a7ca224b0f69afc8faea728f3caf6ff52c79b7 \
-                    size    1082478
+checksums           rmd160  2bdbd04c17161f76a4b2b838823e6f670ce03fbd \
+                    sha256  99945deb45258a6199877b573c78559b8b8e74ccc4070a41afb65d54cbca1ca9 \
+                    size    832413
 
 livecheck.type      md5
 livecheck.url       http://newosxbook.com/tools/${name}2.tgz
