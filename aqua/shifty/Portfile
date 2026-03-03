@@ -28,7 +28,12 @@ xcode.build.settings \
     PROVISIONING_PROFILE_SPECIFIER= \
     DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
+# Build and install to /tmp so sandboxed ibtool can write NIBs (avoids "Operation not permitted" under /opt).
+set _xcode_build_dir /tmp/Shifty-build-[pid]
+set _xcode_destroot_tmp /tmp/Shifty-destroot-[pid]
 xcode.destroot.settings \
+    OBJROOT=${_xcode_build_dir} \
+    SYMROOT=${_xcode_build_dir} \
     SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
@@ -67,10 +72,17 @@ pre-configure {
 }
 
 destroot.pre_args   -workspace Shifty.xcworkspace \
-                    -derivedDataPath ${worksrcpath}
+                    -derivedDataPath ${_xcode_build_dir}
+# Override DSTROOT last so sandboxed ibtool can write (port base appends DSTROOT=destroot otherwise).
+destroot.post_args  DSTROOT=${_xcode_destroot_tmp}
 
 patchfiles      patch-macports.diff
 patch.pre_args  -p1
+
+# Copy from temp DSTROOT (used so sandboxed ibtool can write) into real destroot.
+post-destroot {
+    system "rsync -a ${_xcode_destroot_tmp}/ ${destroot}/"
+}
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
