@@ -28,13 +28,34 @@ checksums           rmd160  a7797c5e76a7bd6e59d72c6a886eeb0820c61b51 \
 
 worksrcdir          ${distname}
 
+# Build and install to /tmp so sandboxed ibtool can write NIBs (avoids
+# "Operation not permitted" when writing under /opt or workpath as root).
+set _xcode_build_dir    /tmp/fastdmg-build-[pid]
+set _xcode_destroot_tmp /tmp/fastdmg-destroot-[pid]
+
 xcode.scheme        FastDMG
 xcode.configuration Release
 xcode.destroot.settings \
+    OBJROOT=${_xcode_build_dir} \
+    SYMROOT=${_xcode_build_dir} \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
-destroot.pre_args -derivedDataPath ${worksrcdir}
+
+destroot.pre_args   -derivedDataPath ${_xcode_build_dir}
+# Override DSTROOT so xcodebuild install writes to /tmp (ibtool can write there).
+destroot.post_args  DSTROOT=${_xcode_destroot_tmp}
+
+# Ensure work tree is writable when privileges are dropped (e.g. CompileXIB).
+post-extract {
+    system "chmod -R a+rwX ${workpath}"
+}
+
+# Copy from temp DSTROOT (where ibtool could write) into real destroot.
+post-destroot {
+    system "rsync -a ${_xcode_destroot_tmp}/ ${destroot}/"
+}
 
 build {}
 
