@@ -5,7 +5,9 @@ PortGroup           github 1.0
 PortGroup           xcode 1.0
 
 github.setup        TermiT Flycut 1.9.6
-revision            3
+# Use source tarball from tag; release asset returns 404
+github.tarball_from tarball
+revision            4
 
 categories-append   sysutils
 license             GPL-3
@@ -25,9 +27,19 @@ patchfiles          patch-remove-icloud-support.diff
 
 xcode.scheme        ${name}
 xcode.configuration Release
-xcode.destroot.settings \
+xcode.build.settings \
+    SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
+    PROVISIONING_PROFILE_SPECIFIER= \
+    DEVELOPMENT_TEAM= \
+    ENABLE_HARDENED_RUNTIME=NO
+xcode.destroot.settings \
+    SDKROOT=macosx \
+    CODE_SIGN_IDENTITY=- \
+    CODE_SIGN_STYLE=Manual \
+    PROVISIONING_PROFILE_SPECIFIER= \
+    DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
 destroot.pre_args -derivedDataPath ${worksrcpath}/.dd
 
