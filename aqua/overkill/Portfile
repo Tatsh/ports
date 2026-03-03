@@ -23,13 +23,33 @@ checksums           rmd160  6b4a87c68165cb8ff04ec87759b5d04791ac1187 \
                     size    119849
 
 xcode.target        Overkill
+xcode.scheme        Overkill
 xcode.configuration Release
-xcode.build.settings    SDKROOT=macosx
+xcode.build.settings    SDKROOT=macosx \
+    OBJROOT=${workpath}/obj \
+    SYMROOT=${workpath}/sym \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO
 xcode.destroot.settings \
     SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
     CODE_SIGN_STYLE=Manual \
     ENABLE_HARDENED_RUNTIME=NO
+
+# Build in build phase (writes to workpath); destroot only copies (avoids ibtool "Operation not permitted" on install).
+build.pre_args      -derivedDataPath ${workpath}/.dd
+build.env-append    TMPDIR=${workpath}/tmp
+pre-build {
+    foreach d { .dd obj sym tmp } {
+        file mkdir ${workpath}/${d}
+    }
+    catch { exec chmod -R u+rwx,g+rwx,o+rwx ${workpath}/obj ${workpath}/sym ${workpath}/.dd ${workpath}/tmp }
+}
+destroot {
+    xcode::fix_resource_dependencies
+    xinstall -m 755 -d ${destroot}${prefix}/Applications/MacPorts
+    file copy ${workpath}/sym/Release/Overkill.app \
+        ${destroot}${prefix}/Applications/MacPorts/
+}
 
 patchfiles          patch-swift-fixes.diff
 
@@ -40,5 +60,4 @@ if {${os.major} < 14} {
     }
 }
 
-# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
-build {}
+# Build in build phase; destroot only copies (see destroot {} above).
