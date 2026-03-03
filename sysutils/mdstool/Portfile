@@ -19,9 +19,9 @@ description         A tool to check whether your system is affected by Micro-arc
 long_description    ${description}
 categories          sysutils
 
-checksums           rmd160  f0a4a735f9216755db0ef9e9437798c4e3b1f540 \
-                    sha256  0aeac6a9ce7f6ffe22b33ae4279e88ad558a2ba00212ff2a69cb7ea7173159e4 \
-                    size    3260022
+checksums           rmd160  94e2540febe222c96d0ac14b58a34c4389dbf12b \
+                    sha256  fdff47036f8e86a444bbd0c25d9240562c58ae4202e2ca4e3665d0bb509634d1 \
+                    size    3260065
 
 worksrcdir          ${distname}/tool
 
