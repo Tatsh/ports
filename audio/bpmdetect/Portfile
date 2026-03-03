@@ -20,7 +20,7 @@ checksums           rmd160  6518c643f37fb1f555777826add9aec2cb78f163 \
                     size    3785843
 
 depends_build       port:cmake \
-                    port:extra-cmake-modules
+                    port:kde-extra-cmake-modules
 depends_lib         port:qt6 \
                     port:ffmpeg7 \
                     port:soundtouch
