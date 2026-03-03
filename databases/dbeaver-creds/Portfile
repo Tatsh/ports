@@ -4,6 +4,8 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 github.setup        Tatsh dbeaver-creds v0.0.3
+# Release asset returns 403; use source tarball from tag
+github.tarball_from tarball
 platforms           linux darwin freebsd
 maintainers         {gmail.com:audvare @Tatsh}
 description         Recover your DBeaver saved credentials.
