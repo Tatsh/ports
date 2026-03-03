@@ -20,7 +20,7 @@ checksums           rmd160  281420a394458b28f5be24caca2c60d5d78b3530 \
                     sha256  43c06d874972b73e09af70f227b07cba981a29279d1b7a47ceb54a18616f9104 \
                     size    1163027
 
-# Prebuilt dist/index.js only; no build.
+configure {}
 build {}
 destroot {
     xinstall -m 755 -d ${destroot}${prefix}/bin
