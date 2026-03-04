@@ -27,11 +27,19 @@ livecheck.url       https://altstore.io/altserver/sparkle-macos.xml
 livecheck.regex     "<title>Version\\ (\\d+\\.\\d+(?:\\.\\d+)?)"
 
 use_zip             yes
-extract.mkdir       yes
+extract.mkdir       no
 use_configure       no
 
 distfiles           "${major_version}_${minor_version}${extract.suffix}"
 extract.only        [lindex ${distfiles} 0]
+worksrcdir          {}
+
+# Unzip can leave app bundle empty; ditto extracts correctly on macOS.
+extract {
+    set distfile [lindex [option extract.only] 0]
+    set zippath [option distpath]/${distfile}
+    system "ditto -xk \"${zippath}\" \"${workpath}\""
+}
 
 if {${os.major} < 18 || (${os.major} == 17 && ${os.minor} < 4)} {
     pre-fetch {
@@ -43,5 +51,8 @@ if {${os.major} < 18 || (${os.major} == 17 && ${os.minor} < 4)} {
 build {}
 
 destroot {
-    copy "${worksrcpath}/AltServer.app" ${destroot}${applications_dir}
+    xinstall -m 755 -d ${destroot}/Applications/MacPorts
+    system "ditto \"${worksrcpath}/AltServer.app\" \"${destroot}/Applications/MacPorts/AltServer.app\""
+    # Zip has drwx------; make app readable/executable by all.
+    system "chmod -R a+rX \"${destroot}/Applications/MacPorts/AltServer.app\""
 }
