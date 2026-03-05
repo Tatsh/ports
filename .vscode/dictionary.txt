@@ -89,6 +89,7 @@ dubhater
 dvsekhvalnov
 dwarvesf
 dwith
+dyld
 dylib
 dylibs
 ehthumbs
