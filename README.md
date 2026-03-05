@@ -11,9 +11,23 @@
 
 ## How to use
 
+### One-line setup
+
+**Always read shell scripts before executing them.** You can review the script [in the repo](https://github.com/Tatsh/ports/blob/master/_resources/bin/setup-macports-source)
+or download and inspect it before running.
+
+```shell
+curl -fsSL https://raw.githubusercontent.com/Tatsh/ports/master/_resources/bin/setup-macports-source | sudo zsh
+```
+
+The script clones to `~/tatsh-ports` by default; set `PORTS_TREE` to use a different path (e.g.
+`PORTS_TREE=~/ports curl -fsSL ... | sudo zsh`).
+
+### Manual setup
+
 1. Clone this repo to somewhere permanent.
-2. In a terminal, go to the directory where you cloned this repository, and run `portindex`.
-3. Edit `/opt/local/etc/macports/sources.conf` to contain the path where you cloned this repository
+1. In a terminal, go to the directory where you cloned this repository, and run `portindex`.
+1. Edit `/opt/local/etc/macports/sources.conf` to contain the path where you cloned this repository
    before the line with `[default]`. Example:
 
    ```plain
@@ -23,7 +37,7 @@
 
    Note the line is a `file://` URL and must be a complete path.
 
-4. Now installing a port from this source should work. Try running `port search battery-stat` and
+1. Now installing a port from this source should work. Try running `port search battery-stat` and
    you should see a result.
 
 ## Policy on new macOS versions and compatible software

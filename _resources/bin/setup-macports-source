@@ -1,0 +1,35 @@
+#!/usr/bin/env zsh
+# Set up this MacPorts ports tree as a source (clone if needed, run portindex, add to sources.conf).
+# Usage: run directly, or: curl -fsSL https://raw.githubusercontent.com/Tatsh/ports/master/_resources/bin/setup-macports-source | sudo zsh
+
+set -e
+
+REPO_URL='https://github.com/Tatsh/ports.git'
+SOURCES_CONF="${MACPORTS_PREFIX:-/opt/local}/etc/macports/sources.conf"
+PORTS_TREE="${PORTS_TREE:-${HOME}/tatsh-ports}"
+
+if [[ ! -d "$PORTS_TREE/.git" ]]; then
+  echo "Cloning ${REPO_URL} to ${PORTS_TREE} ..."
+  git clone "$REPO_URL" "$PORTS_TREE"
+fi
+
+PORTS_TREE_ABS=$(cd "$PORTS_TREE" && pwd)
+echo "Running portindex in ${PORTS_TREE_ABS} ..."
+(cd "$PORTS_TREE_ABS" && portindex)
+
+FILE_ENTRY="file://${PORTS_TREE_ABS}"
+if grep -qF "$FILE_ENTRY" "$SOURCES_CONF" 2>/dev/null; then
+  echo "Source already present in ${SOURCES_CONF}"
+else
+  echo "Adding source to ${SOURCES_CONF} ..."
+  cp "$SOURCES_CONF" "${SOURCES_CONF}.bak"
+  # Insert our file:// line before the line containing [default]
+  if grep -q '\[default\]' "$SOURCES_CONF" 2>/dev/null; then
+    sed -i '' "/\[default\]/i\\
+${FILE_ENTRY}
+" "$SOURCES_CONF"
+  else
+    echo "$FILE_ENTRY" >> "$SOURCES_CONF"
+  fi
+  echo "Done. Try: port search battery-stat"
+fi
