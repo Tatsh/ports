@@ -34,6 +34,7 @@ brona
 buildfromsource
 buildmakejobs
 cchardet
+cddb
 cflags
 chardet
 clangd
@@ -112,6 +113,7 @@ fiddlesoft
 filesdir
 filespath
 findall
+flacted
 flycut
 fnmatch
 fontconfig
@@ -236,6 +238,7 @@ matishsiao
 mattn
 mbix
 mdstool
+metaflac
 metavar
 michaeldfallen
 mitchellh
@@ -330,6 +333,7 @@ realroot
 reinplace
 repr
 ridl
+ripcd
 roboto
 rogerbinns
 rogpeppe
