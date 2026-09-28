@@ -435,6 +435,11 @@
   resolved "https://registry.yarnpkg.com/@cspell/url/-/url-10.3.3.tgz#c39889a2e163f05deeb641aa5bab74e022f99cbb"
   integrity sha512-ZhsdSzfwXA/TuyqDb0nl+A9Kfd0W+rBIDdPxeXLvVsKFCtxVDa0zUYyhWhrtT9RtsPZQfRqPTkr+DsfWOzu4EA==
 
+"@dual-bundle/import-meta-resolve@^4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@dual-bundle/import-meta-resolve/-/import-meta-resolve-4.2.1.tgz#cd0b25b3808cd9e684cd6cd549bbf8e1dcf05ee7"
+  integrity sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -468,17 +473,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/merge-streams/-/merge-streams-4.0.0.tgz#abb11d99aeb6d27f1b563c38147a72d50058e339"
   integrity sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==
 
-"@taplo/core@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@taplo/core/-/core-0.2.0.tgz#a256aef743307c853de08e2199e295fa3266122f"
-  integrity sha512-r8bl54Zj1In3QLkiW/ex694bVzpPJ9EhwqT9xkcUVODnVUGirdB1JTsmiIv0o1uwqZiwhi8xNnTOQBRQCpizrQ==
-
-"@taplo/lib@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@taplo/lib/-/lib-0.5.0.tgz#0d98cf5c1fa676148fcb29846a84aaba76535e8a"
-  integrity sha512-+xIqpQXJco3T+VGaTTwmhxLa51qpkQxCjRwezjFZgr+l21ExlywJFcDfTrNmL6lG6tqb0h8GyJKO3UPGPtSCWg==
-  dependencies:
-    "@taplo/core" "^0.2.0"
+"@tombi-toml/wasm-lib@^1.5.5":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@tombi-toml/wasm-lib/-/wasm-lib-1.5.5.tgz#d0610bd8489f359b7e53b59136f8eb7953e4720b"
+  integrity sha512-KFWLTDwNnAsyBqtCmijXxkvfvYVotyEAsT+vt+tZ4ICblklRfpfCI2fxkrSTAwpFYL/u9Ll/iHEf13hEzvFD9Q==
 
 "@types/debug@^4.0.0":
   version "4.1.13"
@@ -1277,12 +1275,14 @@ prettier-plugin-sort-json@^4.2.0:
   resolved "https://registry.yarnpkg.com/prettier-plugin-sort-json/-/prettier-plugin-sort-json-4.2.0.tgz#94e5e361b9b9998b0cf3daa60d13773c1a91958f"
   integrity sha512-jK1w3/7otTvHtv1eoLji2U9mEoOGeyl7QQQ/afLnjht1YtRLSUUk8o0rIIC/HUVXhoGPCFe4SVZbRGYjjUVgvA==
 
-prettier-plugin-toml@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-toml/-/prettier-plugin-toml-2.0.6.tgz#d581512a585143975efebf89303272a359c3124a"
-  integrity sha512-12N/wBuHa9jd/KVy9pRP20NMKxQfQLMseQCt66lIbLaPLItvGUcSIryE1eZZMJ7loSws6Ig3M2Elc2EreNh76w==
+prettier-plugin-toml@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-toml/-/prettier-plugin-toml-3.0.2.tgz#bf5b404e0515b4e434849427519127c7965b2023"
+  integrity sha512-1t1FOSGaXNy7xN6ffE7ND71VqsnbUtanGEKAD1hTwFDrGIH1cwZ0KH6lMThDVItjdV/UUJWqD3f1+16AHG3eUQ==
   dependencies:
-    "@taplo/lib" "^0.5.0"
+    "@dual-bundle/import-meta-resolve" "^4.2.1"
+    "@tombi-toml/wasm-lib" "^1.5.5"
+    smol-toml "^1.8.0"
 
 prettier@>=3.0.0-alpha.3, prettier@^3.9.8:
   version "3.9.8"
