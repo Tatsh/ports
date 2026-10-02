@@ -65,7 +65,17 @@
       "prettier-plugin-toml"
     ],
     "printWidth": 100,
-    "singleQuote": true
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": [
+          "*.toml"
+        ],
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
   },
   "repository": "git@github.com:Tatsh/ports.git",
   "scripts": {
