@@ -16,10 +16,6 @@ ruff = ">=0.15.8,<0.17.0"
 types-requests = "^2.32.4.20260107"
 yapf = "^0.43.0"
 
-[build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
-
 [tool.isort]
 case_sensitive = true
 combine_as_imports = true
@@ -118,3 +114,7 @@ use_tabs = false
 
 [tool.yapfignore]
 ignore_patterns = ["node_modules/**"]
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
