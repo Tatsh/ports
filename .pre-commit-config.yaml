@@ -1,0 +1,69 @@
+ci:
+  skip:
+    - 'check-formatting-markdown'
+    - 'check-formatting-prettier'
+    - 'check-formatting-python'
+    - 'cspell'
+    - 'mypy'
+repos:
+  - hooks:
+      - id: 'check-added-large-files'
+      - id: 'check-case-conflict'
+      - id: 'check-executables-have-shebangs'
+      - id: 'check-json'
+      - id: 'check-merge-conflict'
+      # Port payload scripts are run by the Portfile (for example `expect ${filespath}/x.exp`).
+      - exclude: '/files/'
+        id: 'check-shebang-scripts-are-executable'
+      - id: 'check-symlinks'
+      - id: 'check-toml'
+      - id: 'check-yaml'
+      - id: 'detect-private-key'
+      # Patch files must keep their whitespace exactly or they no longer apply.
+      - exclude: '\.diff$'
+        id: 'end-of-file-fixer'
+      - exclude: '\.diff$'
+        id: 'mixed-line-ending'
+      - exclude: '\.diff$'
+        id: 'trailing-whitespace'
+    repo: 'https://github.com/pre-commit/pre-commit-hooks'
+    rev: 'v6.0.0'
+  - hooks:
+      # Match `ruff check .`, which does not lint the extensionless scripts in _resources/bin.
+      - files: '\.pyi?$'
+        id: 'ruff-check'
+    repo: 'https://github.com/astral-sh/ruff-pre-commit'
+    rev: 'v0.16.9'
+  - hooks:
+      - entry: 'yarn prettier -c'
+        id: 'check-formatting-prettier'
+        language: 'system'
+        name: 'check files are formatted with Prettier'
+        types_or:
+          - 'json'
+          - 'markdown'
+          - 'toml'
+          - 'yaml'
+      - entry: "yarn markdownlint-cli2 '#node_modules'"
+        id: 'check-formatting-markdown'
+        language: 'system'
+        name: 'check Markdown files are formatted'
+        types:
+          - 'markdown'
+      - entry: 'bash -c ''poetry run isort --check "$@" && poetry run yapf -pd "$@"'' --'
+        files: '\.pyi?$'
+        id: 'check-formatting-python'
+        language: 'system'
+        name: 'check Python files are formatted'
+      - entry: 'yarn mypy'
+        id: 'mypy'
+        language: 'system'
+        name: 'type-check the port helper scripts'
+        pass_filenames: false
+        types:
+          - 'python'
+      - entry: 'yarn cspell --no-progress --no-must-find-files'
+        id: 'cspell'
+        language: 'system'
+        name: 'cspell'
+    repo: 'local'
