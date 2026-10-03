@@ -2,9 +2,7 @@ ci:
   skip:
     - 'check-formatting-markdown'
     - 'check-formatting-prettier'
-    - 'check-formatting-python'
     - 'cspell'
-    - 'mypy'
 repos:
   - hooks:
       - id: 'check-added-large-files'
@@ -29,11 +27,41 @@ repos:
     repo: 'https://github.com/pre-commit/pre-commit-hooks'
     rev: 'v6.0.0'
   - hooks:
-      # Match `ruff check .`, which does not lint the extensionless scripts in _resources/bin.
+      # Match `ruff check .`, which does not lint the scripts without a suffix in _resources/bin.
       - files: '\.pyi?$'
         id: 'ruff-check'
     repo: 'https://github.com/astral-sh/ruff-pre-commit'
     rev: 'v0.16.9'
+  - hooks:
+      - files: '\.pyi?$'
+        id: 'isort'
+    repo: 'https://github.com/PyCQA/isort'
+    rev: '6.1.0'
+  - hooks:
+      - files: '\.pyi?$'
+        id: 'yapf'
+        name: 'check Python files are formatted'
+    repo: 'https://github.com/google/yapf'
+    rev: 'v0.43.0'
+  - hooks:
+      - additional_dependencies:
+          - 'types-requests'
+        files: '^_resources/bin/(.+2port|liveupdate)$'
+        id: 'mypy'
+    repo: 'https://github.com/pre-commit/mirrors-mypy'
+    rev: 'v1.19.1'
+  - hooks:
+      - id: 'check-github-workflows'
+    repo: 'https://github.com/python-jsonschema/check-jsonschema'
+    rev: '0.38.2'
+  - hooks:
+      - id: 'zizmor'
+    repo: 'https://github.com/zizmorcore/zizmor-pre-commit'
+    rev: 'v1.30.1'
+  - hooks:
+      - id: 'cspell'
+    repo: 'https://github.com/streetsidesoftware/cspell-cli'
+    rev: 'v10.2.0'
   - hooks:
       - entry: 'yarn prettier -c'
         id: 'check-formatting-prettier'
@@ -50,20 +78,4 @@ repos:
         name: 'check Markdown files are formatted'
         types:
           - 'markdown'
-      - entry: 'bash -c ''poetry run isort --check "$@" && poetry run yapf -pd "$@"'' --'
-        files: '\.pyi?$'
-        id: 'check-formatting-python'
-        language: 'system'
-        name: 'check Python files are formatted'
-      - entry: 'yarn mypy'
-        id: 'mypy'
-        language: 'system'
-        name: 'type-check the port helper scripts'
-        pass_filenames: false
-        types:
-          - 'python'
-      - entry: 'yarn cspell --no-progress --no-must-find-files'
-        id: 'cspell'
-        language: 'system'
-        name: 'cspell'
     repo: 'local'

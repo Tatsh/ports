@@ -434,3 +434,4 @@ yookoala
 youcompleteme
 zeroconf
 zippath
+zizmor
