@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           mpv_plugin 1.0
+
+name                mpv-shader-krig-bilateral
+version             20231027
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         KrigBilateral chroma scaling shader for mpv.
+long_description    ${description} Installed into mpv's shaders directory, for use with \
+                    --glsl-shaders=~~/shaders/<file>.
+homepage            https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637
+master_sites        https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637/archive/
+distname            038064821c5f768dfc6c00261535018d5932cdd5
+use_zip             yes
+dist_subdir         ${name}/${version}
+worksrcdir          a015fc885d5c22e6891820ad89555637-038064821c5f768dfc6c00261535018d5932cdd5
+
+checksums           rmd160  102e065d008a857937b6fd185e5e6d21aa3654e2 \
+                    sha256  e1c27d100dbfb5b962715b078900b7bc77c772130350517741701966bfa95db7 \
+                    size    3369
+
+mpv_plugin.shaders  KrigBilateral.glsl
