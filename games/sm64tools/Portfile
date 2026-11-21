@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        queueRAM sm64tools 81de9e5a8f0fa96686a16441d5b9f25742f4d17d
+github.tarball_from archive
+version             0.3.2.20180902
+categories          games devel
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Collection of tools for Super Mario 64 ROM hacking (and others).
+long_description    ${description} Includes n64split, sm64extend, sm64compress, mio0, \
+                    n64cksum, n64graphics, mipsdisasm, f3d, f3d2obj, sm64geo and sm64walk.
+
+checksums           rmd160  2ee807011bbd779ea66e180dad485568242ab491 \
+                    sha256  2b4a771e30a9e7bb052de83bf52cc975e7cdb4494d041d696b17a5cc7d6aa433 \
+                    size    451194
+
+depends_lib-append  port:capstone \
+                    port:libyaml \
+                    port:zlib
+
+use_configure       no
+
+# Drop GNU-only linker flags and use the MacPorts flags; look for configs in the installed location.
+post-patch {
+    reinplace -E {s/-Wall -Wextra -Wno-format-overflow //; s/ -O2 / /} ${worksrcpath}/Makefile
+    reinplace -E {s/^LDFLAGS( +)= .*/LDFLAGS = /} ${worksrcpath}/Makefile
+    reinplace -E "s|^#define CONFIGS_DIR.*|#define CONFIGS_DIR \"${prefix}/share/${name}/configs\"|" \
+        ${worksrcpath}/n64split.c
+}
+
+build.args          CC="${configure.cc} [get_canonical_archflags cc]" \
+                    CPPFLAGS="${configure.cppflags}" \
+                    LDFLAGS="${configure.ldflags}"
+build.post_args-append \
+                    CFLAGS="${configure.cflags} -I./ext ${configure.cppflags} -MMD -I${prefix}/include"
+
+set tools {f3d f3d2obj mio0 mipsdisasm n64cksum n64graphics n64split sm64compress sm64extend \
+           sm64geo sm64walk}
+
+destroot {
+    foreach t ${tools} {
+        xinstall -m 0755 ${worksrcpath}/${t} ${destroot}${prefix}/bin/
+    }
+    xinstall -d ${destroot}${prefix}/share/${name}
+    copy ${worksrcpath}/configs ${destroot}${prefix}/share/${name}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} README.md TODO release/sm64extend.README.txt \
+        release/n64split.README.txt ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
