@@ -35,3 +35,13 @@ configure.env-append \
 configure.args-append \
     -DNON_PORTABLE_MACOS_BUNDLE=ON \
     -DBUNDLE_INSTALL_PREFIX=/Applications/MacPorts
+
+# Upstream builds its Qt Test suite only with -DBUILD_TESTS=ON; enable it just for the test
+# phase so normal installs do not build the tests.
+test.run            yes
+test.env-append     QT_QPA_PLATFORM=offscreen
+test {
+    system -W ${build.dir} "${configure.cmd} -DBUILD_TESTS=ON ."
+    system -W ${build.dir} "${build.cmd} ${build.pre_args}"
+    system -W ${build.dir} "[join ${test.env}] ${prefix}/bin/ctest --output-on-failure"
+}
