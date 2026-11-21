@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ShiftaDeband wayback-machine-downloader b81381396827521b4a1fa88b40fc4c27b3ec31e2
+github.tarball_from archive
+version             2.3.1.20240208
+categories          www ruby
+license             MIT
+platforms           any
+supported_archs     noarch
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Download an entire website from the Wayback Machine.
+long_description    ${description} This is a maintained fork of hartator's original.
+
+checksums           rmd160  664cbab486d60952d9b20d7a19a0f89bf88e7d0a \
+                    sha256  35068ca7b1c1935c3ec9898746b630e96623462dc3ddb7eef6476bd713ee5775 \
+                    size    10929
+
+set ruby_branch     3.4
+depends_run-append  port:ruby[string map {. {}} ${ruby_branch}]
+
+use_configure       no
+build {}
+
+# The script loads its library relative to itself, so keep bin/ and lib/ together and run it
+# through a wrapper.
+destroot {
+    set dest ${destroot}${prefix}/libexec/${name}
+    set dest_rel ${prefix}/libexec/${name}
+    xinstall -d ${dest}/bin
+    copy ${worksrcpath}/lib ${dest}/
+    xinstall -m 0755 ${worksrcpath}/bin/wayback_machine_downloader ${dest}/bin/
+    reinplace "1s|^#!.*|#!${prefix}/bin/ruby${ruby_branch}|" ${dest}/bin/wayback_machine_downloader
+    set fd [open ${destroot}${prefix}/bin/wayback_machine_downloader w]
+    puts ${fd} "#!/bin/sh\nexec ${dest_rel}/bin/wayback_machine_downloader \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/wayback_machine_downloader -permissions 0755
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
