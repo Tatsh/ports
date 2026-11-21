@@ -1,10 +1,12 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           app 1.0
 PortGroup           github 1.0
 
 github.setup        lemon32767 ccleste 1.4.0 v
 github.tarball_from archive
+revision            1
 categories          games
 platforms           darwin linux freebsd
 license             Restrictive
@@ -44,3 +46,8 @@ destroot {
     xinstall -m 0755 ${filespath}/ccleste.sh ${destroot}${prefix}/bin/ccleste
     reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/bin/ccleste
 }
+
+# A Finder-launchable app bundle for the game, which runs the installed program.
+app.name            Celeste Classic
+app.executable      ccleste
+app.icon            icon.png
