@@ -29,3 +29,8 @@ python.pep517_backend       poetry
 depends_lib-append  port:py${python.version}-aiohttp \
                     port:py${python.version}-bascom \
                     port:py${python.version}-click
+
+test.run            yes
+depends_test-append \
+    port:py${python.version}-pytest-mock \
+    port:py${python.version}-pytest-asyncio
