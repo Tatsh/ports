@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        chaoticgd ccc 2.1 v
+github.tarball_from archive
+categories          devel games
+platforms           darwin linux freebsd
+license             MIT GPL-2+ LGPL-2.1+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Parser and dumper for debugging symbols from PlayStation 2 games.
+long_description    ${description} Installs stdump, uncc, ccc-objdump and ccc-demangle.
+
+checksums           rmd160  89b5b54c65c4ba192a499e33cd208c3b76476707 \
+                    sha256  9eb27ada037e70f68d68043db7ab40d6ec449a369dc08c374955281ac20c2e15 \
+                    size    4322877
+
+depends_build-append port:rapidjson
+
+# Use the system RapidJSON and GoogleTest, and stamp the release version.
+patchfiles          patch-system-libraries.diff \
+                    patch-version.diff
+patch.pre_args-replace -p0 -p1
+
+compiler.cxx_standard 2020
+
+post-patch {
+    file delete -force ${worksrcpath}/thirdparty/rapidjson ${worksrcpath}/thirdparty/googletest
+}
+
+# Upstream defines no install rules. objdump and demangle are too generic to install under those
+# names.
+destroot {
+    xinstall -m 0755 ${build.dir}/stdump ${build.dir}/uncc ${destroot}${prefix}/bin/
+    xinstall -m 0755 ${build.dir}/objdump ${destroot}${prefix}/bin/ccc-objdump
+    xinstall -m 0755 ${build.dir}/demangle ${destroot}${prefix}/bin/ccc-demangle
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} README.md CHANGELOG.md ${destroot}${prefix}/share/doc/${name}/
+    copy ${worksrcpath}/docs ${destroot}${prefix}/share/doc/${name}/
+}
+
+test.run            yes
+depends_test-append port:gtest
+test {
+    system -W ${build.dir} "${build.cmd} tests"
+    system -W ${build.dir} "./tests ${worksrcpath}/testdata"
+}
