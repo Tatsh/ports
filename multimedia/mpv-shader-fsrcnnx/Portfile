@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           mpv_plugin 1.0
+
+name                mpv-shader-fsrcnnx
+version             1.1
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         FSRCNNX luma upscaling shaders for mpv.
+long_description    ${description} Installed into mpv's shaders directory, for use with \
+                    --glsl-shaders=~~/shaders/<file>.
+homepage            https://github.com/igv/FSRCNN-TensorFlow
+master_sites        https://github.com/igv/FSRCNN-TensorFlow/releases/download/${version}/
+distfiles           FSRCNNX_x2_16-0-4-1.glsl FSRCNNX_x2_8-0-4-1.glsl
+dist_subdir         ${name}/${version}
+extract.only
+
+checksums           FSRCNNX_x2_16-0-4-1.glsl \
+                    rmd160  d3a9c593675a73205a58857927e77cb3f9f6738c \
+                    sha256  d5a24a271e5d9a3f7f7a053b150c460a44c25b3cf7f770857d57cc3a2e1c9965 \
+                    size    246868 \
+                    FSRCNNX_x2_8-0-4-1.glsl \
+                    rmd160  6ef2ea9a0aa67a6f3d6664f40ccf70bd87455287 \
+                    sha256  e800dbc5c1c95185cc82216c597724533ff5f2880179f256eef600f03e8dc2ae \
+                    size    71296
+
+mpv_plugin.shaders  ${distpath}/FSRCNNX_x2_16-0-4-1.glsl ${distpath}/FSRCNNX_x2_8-0-4-1.glsl
