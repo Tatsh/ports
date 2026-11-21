@@ -4,9 +4,13 @@ PortSystem          1.0
 PortGroup           xcode 1.0
 PortGroup           github 1.0
 
-github.setup        exelban stats 2.9.8 v
-# Use tag archive; release asset URL returns 403. Archive has different layout; use patch-deps-archive.diff.
+github.setup        exelban stats 2.12.16 v
+# Use tag archive; release asset URL returns 403.
 github.tarball_from archive
+# 3.x needs Xcode 26 (Icon Composer) for its icons; stay on 2.x.
+livecheck.type      regex
+livecheck.url       https://api.github.com/repos/exelban/stats/releases?per_page=100
+livecheck.regex     {"tag_name": *"v(2\.[0-9.]+)"}
 categories-append   aqua
 description         macOS system monitor in your menu bar.
 long_description    ${description}
@@ -14,11 +18,9 @@ maintainers         {gmail.com:audvare @Tatsh}
 license             MIT
 categories          sysutils aqua
 
-checksums           rmd160  61192c9d361f11159bd7ba3377b33f5dd35c4616 \
-                    sha256  7ed9a91244e31ec9d1ae17505fe8e7402b72e7e987c613a9c37b55c1095a575e \
-                    size    14728288
-
-depends_lib         port:Repeat
+checksums           rmd160  134928ab240c77e3ea1979e92a9a310b1b83288e \
+                    sha256  1f8011ea71608688ed2e0aeab3e9be8d2de7c94a0e15be72f320a9f9e5215421 \
+                    size    15348410
 
 # Build to /tmp so actool/xcodebuild can write regardless of workpath ownership.
 set stats.builddir /tmp/stats-destroot-build-[pid]
@@ -40,7 +42,9 @@ xcode.destroot.settings \
     DEVELOPMENT_TEAM= \
     ENABLE_HARDENED_RUNTIME=NO
 
-patchfiles patch-deps-archive.diff
+# Backport Swift 6 / macOS 15 SDK-only syntax for Xcode 15, and gate the macOS 14
+# widgets so the extension builds at the host deployment target.
+patchfiles          patch-swift5.9-compat.diff
 
 pre-destroot {
     file mkdir ${stats.builddir}/.dd ${stats.builddir}/obj ${stats.builddir}/sym ${stats.builddir}/tmp

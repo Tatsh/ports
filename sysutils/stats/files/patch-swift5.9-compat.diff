@@ -1,0 +1,112 @@
+--- Kit/extensions.swift
++++ Kit/extensions.swift
+@@ -36,7 +36,7 @@
+     }
+ }
+ 
+-extension String: @retroactive LocalizedError {
++extension String: LocalizedError {
+     public var errorDescription: String? { return self }
+     
+     public var digits: String {
+--- Kit/plugins/SystemKit.swift
++++ Kit/plugins/SystemKit.swift
+@@ -198,7 +198,7 @@
+     public var model: model_s = model_s(
+         name: localizedString("Unknown"),
+         year: Calendar.current.component(.year, from: Date()),
+-        type: .unknown,
++        type: .unknown
+     )
+     public var arch: String = "unknown"
+     public var serialNumber: String? = nil
+--- Modules/GPU/main.swift
++++ Modules/GPU/main.swift
+@@ -138,7 +138,7 @@
+             settings: self.settingsView,
+             portal: self.portalView,
+             notifications: self.notificationsView,
+-            preview: self.previewView,
++            preview: self.previewView
+         )
+         guard self.available else { return }
+         
+--- Modules/Net/readers.swift
++++ Modules/Net/readers.swift
+@@ -15,7 +15,7 @@
+ import CoreWLAN
+ 
+ // swiftlint:disable control_statement
+-extension CWPHYMode: @retroactive CustomStringConvertible {
++extension CWPHYMode: CustomStringConvertible {
+     public var description: String {
+         switch(self) {
+         case .mode11a:  return "802.11a"
+@@ -24,14 +24,14 @@
+         case .mode11g:  return "802.11g"
+         case .mode11n:  return "802.11n"
+         case .mode11ax: return "802.11ax"
+-        case .mode11be: return "802.11be"
+         case .modeNone: return "none"
+-        @unknown default: return "unknown"
++        // .mode11be (raw value 7) is not in the macOS 14 SDK.
++        @unknown default: return self.rawValue == 7 ? "802.11be" : "unknown"
+         }
+     }
+ }
+ 
+-extension CWInterfaceMode: @retroactive CustomStringConvertible {
++extension CWInterfaceMode: CustomStringConvertible {
+     public var description: String {
+         switch(self) {
+         case .hostAP:       return "AP"
+@@ -43,7 +43,7 @@
+     }
+ }
+ 
+-extension CWSecurity: @retroactive CustomStringConvertible {
++extension CWSecurity: CustomStringConvertible {
+     public var description: String {
+         switch(self) {
+         case .none:               return "none"
+@@ -66,7 +66,7 @@
+     }
+ }
+ 
+-extension CWChannelBand: @retroactive CustomStringConvertible {
++extension CWChannelBand: CustomStringConvertible {
+     public var description: String {
+         switch(self) {
+         case .band2GHz:     return "2 GHz"
+@@ -78,7 +78,7 @@
+     }
+ }
+ 
+-extension CWChannelWidth: @retroactive CustomStringConvertible {
++extension CWChannelWidth: CustomStringConvertible {
+     public var description: String {
+         switch(self) {
+         case .width20MHz:   return "20 MHz"
+--- Widgets/widgets.swift
++++ Widgets/widgets.swift
+@@ -20,11 +20,14 @@
+ @main
+ struct WidgetsBundle: WidgetBundle {
+     var body: some Widget {
+-        CPUWidget()
+-        GPUWidget()
+-        RAMWidget()
+-        DiskWidget()
+-        NetworkWidget()
+-        UnitedWidget()
++        // The widgets require macOS 14; MacPorts builds with the host's deployment target.
++        if #available(macOS 14.0, *) {
++            CPUWidget()
++            GPUWidget()
++            RAMWidget()
++            DiskWidget()
++            NetworkWidget()
++            UnitedWidget()
++        }
+     }
+ }
