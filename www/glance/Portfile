@@ -1,0 +1,161 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/glanceapp/glance 0.8.8 v
+categories          www
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             AGPL-3
+
+description         Self-hosted dashboard that puts all your feeds in one place.
+
+long_description    ${description}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  198d45e42c335c5e1ba002bb47c1e28ca598c977 \
+                        sha256  1e17fb7d029f03a7958000fce961044218add66f7961e946717f5325558db417 \
+                        size    16814439
+
+go.vendors          gopkg.in/yaml.v3 \
+                        lock    v3.0.1 \
+                        rmd160  e85ac1368fb7f9ef945b7fd7bd608a1f0d261c12 \
+                        sha256  f3ea6be3f405ec25f8799773355aba54f8831d11f5315a01155bdc69b92eca7b \
+                        size    91208 \
+                    golang.org/x/text \
+                        lock    v0.43.0 \
+                        rmd160  c41d464475010b28049f857a1835cfc11659d489 \
+                        sha256  9c0870bb9fcf5822f6ca770669ba5f1095f82b37dc0e4ce731bea533cdfda54b \
+                        size    6768792 \
+                    golang.org/x/sys \
+                        lock    v0.49.0 \
+                        rmd160  6ed878be1d13d77e0d3edddde72f331e07838490 \
+                        sha256  a3b736fb807cc342af8da79303e000c845e6d7a3acda8b6404de1477dad0d580 \
+                        size    1574657 \
+                    golang.org/x/net \
+                        lock    v0.62.0 \
+                        rmd160  13f9bc6560d6795f99ad79586796f474c6fb916d \
+                        sha256  0ea78263404d044cce6ab2ab1d0421e298c0d8a2723cd682e59dfdb809a5bcea \
+                        size    1414886 \
+                    golang.org/x/crypto \
+                        lock    v0.58.0 \
+                        rmd160  d28a3b1db2bae18ae35d0360cfc88a219e208cdc \
+                        sha256  ff0fd89fb74658f3648ad504dd7c09225742f53dc3476cf9123b44419349ea51 \
+                        size    2192966 \
+                    github.com/yusufpapurcu/wmi \
+                        lock    v1.2.4 \
+                        rmd160  23599ad98727cca3e1678e909a1014e212d41fc7 \
+                        sha256  05d3cee4c74f456174ea5538ee95fba675aeb520fd7bdd3872860a3c7dcafa11 \
+                        size    12672 \
+                    github.com/tklauser/numcpus \
+                        lock    v0.12.0 \
+                        rmd160  f250ba1562b9941c3255a27ce12446c427cea974 \
+                        sha256  3a5ee679c0d79b303798aa04e0aaac8f04ee3592ad32083dae9c474206ef31e9 \
+                        size    10329 \
+                    github.com/tklauser/go-sysconf \
+                        lock    v0.4.0 \
+                        rmd160  2d5147bb789bad7bcc1d022cf5f757f6b4cafcbb \
+                        sha256  8c4c54e1fd6e39ce751835ee870af646f6945a73943767fe0ccf1ef4d9948ea1 \
+                        size    30499 \
+                    github.com/tidwall/pretty \
+                        lock    v1.2.1 \
+                        rmd160  68d91cf13a8012fbb254bb214661a52258af8575 \
+                        sha256  4b4f55ff61e2ceee462ff49e19b531041a7888d85358654b2f16d3dfd2be64d2 \
+                        size    11281 \
+                    github.com/tidwall/match \
+                        lock    v1.2.0 \
+                        rmd160  d255ee8fdbecfef028c47d8f42d0d5cc9d7bcff7 \
+                        sha256  a6e7d8aaa7dc27053fc5c77744640edf62dd2a6af805e0ce8e27b814a5bd82af \
+                        size    6208 \
+                    github.com/tidwall/gjson \
+                        lock    v1.19.0 \
+                        rmd160  b373a51ef7a56fb9a2d01db714700f656b072a72 \
+                        sha256  504f9d8d0740fe7877627cb0303c7f04397b68f5d651616b1332294a59baa030 \
+                        size    74605 \
+                    github.com/shirou/gopsutil/v4 \
+                        lock    v4.26.8 \
+                        rmd160  b0865512051fe000eafaf6c732898f5ec5e27938 \
+                        sha256  8d44155773f812445eff907ab16f03179197bf099910540cb31818cf9a4dc9c2 \
+                        size    229368 \
+                    github.com/refraction-networking/utls \
+                        lock    v1.8.2 \
+                        rmd160  9d42d3821b1ff002d214b3ba4c76a0ed77ae5576 \
+                        sha256  6445fc3efc666f292ac3e8f711ec75e83847ad9c4d48b637f6d1d9925fd853a7 \
+                        size    706546 \
+                    github.com/power-devops/perfstat \
+                        lock    88456608a4f6 \
+                        rmd160  4effec7e4b05b34edb21c32176fc571bc8a97634 \
+                        sha256  be92e9a04b0b7dcf1a0aacb61493fc4b750145010357d3940fb14073b763d31b \
+                        size    38049 \
+                    github.com/mmcdole/goxpp/v2 \
+                        lock    v2.0.0 \
+                        rmd160  a7cd00845af7c3145c610b1002adc9deead1f682 \
+                        sha256  fe0d7e7a481a9ff2dd380bbe988e65da7fb95595aa6bafcbe11b5c41fe5e1337 \
+                        size    11433 \
+                    github.com/mmcdole/gofeed \
+                        lock    v1.4.2 \
+                        rmd160  0edb1c1072af685b4c6c9a7c2ddbbbc326558d12 \
+                        sha256  8478a7b82eed73779994ebd80a31f0654095896197f7f7a5b2172f61f8773b62 \
+                        size    151216 \
+                    github.com/lufia/plan9stats \
+                        lock    341c2f0c90b5 \
+                        rmd160  cc927f2815a2499feaff5d17f734d868510ce843 \
+                        sha256  f43ddaa3c68df0477e72f31ceec2d689ce4b24d5f46cc35d058abd3a9e784ab0 \
+                        size    11335 \
+                    github.com/klauspost/compress \
+                        lock    v1.20.0 \
+                        rmd160  1346d89fa688c0d7a60199d34559c5054cf549ef \
+                        sha256  00f7f4df610e23ef85496b7753e64d2184e56ad58bca9b4a35928b4542b63436 \
+                        size    39212051 \
+                    github.com/go-ole/go-ole \
+                        lock    v1.3.0 \
+                        rmd160  7080182feca14a6bea1be4e854c1e4c82415c366 \
+                        sha256  7520bd87b1d52a28b98c5fa4243338c5c7cf5185fdd058f55ff6d670c455b13e \
+                        size    53295 \
+                    github.com/fsnotify/fsnotify \
+                        lock    v1.10.1 \
+                        rmd160  b588a8981513c3c51232591edc94fe223aee7e7c \
+                        sha256  e4a21cb263e96a4598bdfa662e315a0a227b8be58a6525f94c8b531afdbfe66e \
+                        size    76945 \
+                    github.com/ebitengine/purego \
+                        lock    v0.11.0 \
+                        rmd160  f89321268687a5e19321c3e75848c8fdaee69237 \
+                        sha256  d1da62a4e25905ce67d6c5e79b97e8fb5e3ddf2f3e59e76c95d40516bc695732 \
+                        size    172668 \
+                    github.com/andybalholm/brotli \
+                        lock    v1.2.3 \
+                        rmd160  9cf898d888983ef39ddfe9e3d3001bd3ccbb19fc \
+                        sha256  dd0e8861d84b51e89c385b7fe3a6ead8fc814df0080065670216217e111d98fc \
+                        size    1849570
+
+build.args          -ldflags=-X=github.com/glanceapp/glance/internal/glance.buildVersion=v${version}
+
+add_users           _glance group=_glance realname=Glance\ Dashboard
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/etc/${name} ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/docs/glance.yml ${destroot}${prefix}/etc/${name}/glance.yml.sample
+    xinstall -m 0644 {*}[glob ${worksrcpath}/docs/*.md] ${worksrcpath}/README.md \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+post-activate {
+    if {![file exists ${prefix}/etc/${name}/glance.yml]} {
+        copy ${prefix}/etc/${name}/glance.yml.sample ${prefix}/etc/${name}/glance.yml
+    }
+}
+
+startupitem.create  yes
+startupitem.user    _glance
+startupitem.group   _glance
+startupitem.executable \
+                    ${prefix}/bin/${name} --config ${prefix}/etc/${name}/glance.yml
+
+notes "
+Edit ${prefix}/etc/${name}/glance.yml, then start the dashboard (port 8080 by default) with:
+    sudo port load ${name}
+"
+
+test.run            yes
+test.target         ./...
