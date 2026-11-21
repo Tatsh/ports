@@ -26,3 +26,14 @@ patch {
     reinplace "s|^#define _CONFIG_D 1|#define _CONFIG_D 1\\\n#ifndef MAX_RECURSION\\\n#define MAX_RECURSION 200\\\n#endif|" \
         ${worksrcpath}/cmake/config.h.in
 }
+
+# Upstream's test suite (tests/*.t) needs helper programs that only its configure.sh build
+# makes, so run that build and `make test` on a copy of the patched sources.
+test.run            yes
+test {
+    set tdir ${workpath}/test-build
+    delete ${tdir}
+    copy ${worksrcpath} ${tdir}
+    system -W ${tdir} "./configure.sh"
+    system -W ${tdir} "${build.cmd} test"
+}
