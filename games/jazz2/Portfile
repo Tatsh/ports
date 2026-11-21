@@ -1,11 +1,13 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           app 1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
 github.setup        deathkiller jazz2-native 3.9.0
 github.tarball_from archive
+revision            1
 name                jazz2
 categories          games
 platforms           darwin linux freebsd
@@ -73,3 +75,9 @@ destroot {
     copy ${worksrcpath}/Content ${destroot}${prefix}/share/${name}/
     xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
 }
+
+# A Finder-launchable app bundle for the game, which runs the installed program.
+app.name            Jazz² Resurrection
+app.identifier      tk.deat.jazz2
+app.executable      jazz2
+app.icon            Sources/Icons/1024px.png
