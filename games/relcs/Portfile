@@ -1,0 +1,78 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+
+name                relcs
+version             20210902
+set commit          33abd1b4e7a7b19e2d09c796c481c3325c1e2902
+set librw_commit    5501c4fdc7425ff926be59369a13593bb6c81b54
+categories          games
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Grand Theft Auto: Liberty City Stories, decompiled and rebuilt.
+long_description    ${description} The game files from a copy of Grand Theft Auto: Liberty City Stories are required.
+homepage            https://web.archive.org/web/20210903220219/https://github.com/GTAmodding/re3
+
+master_sites        https://web.archive.org/web/20210903220219/https://github.com/GTAmodding/re3/archive/:main \
+                    https://github.com/aap/librw/archive/:librw
+distfiles           ${commit}.zip:main \
+                    ${librw_commit}.tar.gz:librw
+dist_subdir         ${name}/${version}
+extract.only        ${commit}.zip
+use_zip             yes
+worksrcdir          re3-${commit}
+
+checksums           33abd1b4e7a7b19e2d09c796c481c3325c1e2902.zip \
+                    rmd160  f044463a114cb4bdc87c14c53e5205e8ae08623d \
+                    sha256  8328c05870bcdbdfdbe38c2f0027a1f31bb650722ed38cb1503a87333dd47dd5 \
+                    size    8612885 \
+                    5501c4fdc7425ff926be59369a13593bb6c81b54.tar.gz \
+                    rmd160  1f68886e20de0cbd063e50fdee28bf40af72f0a6 \
+                    sha256  6d7fd1ffc8051d0ab670d4a07a6ae21abfbe2f7edbb2a6845c7b2b83977b40e2 \
+                    size    2111111
+
+depends_build-append bin:unzip:unzip
+depends_lib-append  port:glew \
+                    port:glfw \
+                    port:libopus \
+                    port:libsndfile \
+                    port:mpg123 \
+                    port:openal-soft \
+                    port:opusfile
+
+post-extract {
+    system -W ${worksrcpath}/vendor "tar -xzf ${distpath}/${librw_commit}.tar.gz"
+    file delete -force ${worksrcpath}/vendor/librw
+    file rename ${worksrcpath}/vendor/librw-${librw_commit} ${worksrcpath}/vendor/librw
+}
+
+post-patch {
+    foreach d {libsndfile mpg123 openal-soft} {
+        file delete -force ${worksrcpath}/vendor/${d}
+    }
+}
+
+compiler.cxx_standard 2011
+
+configure.args-append \
+                    -DLIBRW_PLATFORM=GL3 \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DLIBRW_TOOLS=OFF \
+                    -DRELCS_WITH_LIBSNDFILE=ON \
+                    -DRELCS_WITH_OPUS=ON \
+                    -DRELCS_AUDIO=OAL \
+                    -DRELCS_VENDORED_LIBRW=ON \
+                    -DRELCS_INSTALL=ON \
+                    -DCMAKE_INSTALL_PREFIX=${prefix}/share/${name}
+
+post-destroot {
+    ln -s ../share/${name}/reLCS ${destroot}${prefix}/bin/relcs
+}
+
+notes "
+Copy the files of your Grand Theft Auto: Liberty City Stories installation into the directory you run relcs from. The re3-installer port can extract them from the discs.
+"
+
+livecheck.type      none
