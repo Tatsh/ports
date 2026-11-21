@@ -4,13 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                macprefs
-version             0.4.2
+version             0.4.3
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
 python.versions         310 311 312 313 314
 python.default_version  313
+python.pep517_backend   hatch
 
 maintainers         {gmail.com:audvare @Tatsh}
 
@@ -22,12 +23,16 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  6a4853c03c194459a0757b3f5214fe014868bbf9 \
-                    sha256  c63a9254ad62a5b7d1cca8694a4b1fe982088cecdfc5245cfe5296e90a614299 \
-                    size    30724
+checksums           rmd160  06b3ea31955c4d91f75c891e6cd66186cd4b0ce0 \
+                    sha256  64880cb680560c48d539f94b9ce17765e521db63f2fd142793392d065e5ceeb8 \
+                    size    29218
 
-depends_lib-append  port:py${python.version}-click \
-                    port:py${python.version}-loguru
+depends_lib-append  port:py${python.version}-anyio \
+                    port:py${python.version}-bascom \
+                    port:py${python.version}-click \
+                    port:py${python.version}-platformdirs \
+                    port:py${python.version}-tomlkit \
+                    port:py${python.version}-typing_extensions
 
 if {$subport ne $name} {
     livecheck.type none
