@@ -1,0 +1,98 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libdragon-gcc
+set gcc_version     16.2.0
+set newlib_version  4.4.0.20231231
+version             ${gcc_version}.20261005
+categories          cross devel games
+platforms           darwin
+license             GPL-3+ LGPL-3+ Permissive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         GCC and newlib for libdragon Nintendo 64 development (mips64-libdragon-elf).
+long_description    ${description}
+homepage            https://libdragon.dev/
+master_sites        gnu:gcc/gcc-${gcc_version}:gcc \
+                    https://sourceware.org/pub/newlib/:newlib
+distfiles           gcc-${gcc_version}.tar.xz:gcc \
+                    newlib-${newlib_version}.tar.gz:newlib
+dist_subdir         ${name}/${version}
+worksrcdir          gcc-${gcc_version}
+
+checksums           gcc-16.2.0.tar.xz \
+                    rmd160  405146366b7c601dccb1da19ed1a337f836a46f9 \
+                    sha256  e6738e29597f733270731aa90600f37ffdc045079dfc27ec7e8192cc81085c3e \
+                    size    107200820 \
+                    newlib-4.4.0.20231231.tar.gz \
+                    rmd160  042b0b8e4984678b38db9c728578b76bcfa32705 \
+                    sha256  0c166a39e1bf0951dfafcd68949fe0e4b6d3658081d6282f39aeefc6310f2f13 \
+                    size    9022406
+
+depends_build-append port:gsed \
+                    port:texinfo
+depends_lib-append  port:gmp \
+                    port:libdragon-binutils \
+                    port:libmpc \
+                    port:mpfr \
+                    port:zlib
+
+# libdragon's changes for the N64 target.
+patchfiles          patch-n64.diff
+patch.pre_args-replace -p0 -p1
+
+set target          mips64-libdragon-elf
+set stage           ${workpath}/stage
+
+# libgcc's t-hardfp splits function names with GNU sed alternation (\|).
+configure {}
+
+# The default pre-arguments include the all target, which the staged steps below name explicitly.
+build.pre_args      -w
+
+build {
+    set env(PATH) "${stage}${prefix}/bin:${prefix}/libexec/gnubin:$env(PATH)"
+    file mkdir ${workpath}/build
+    system -W ${workpath}/build "env [join ${configure.env}] CFLAGS_FOR_TARGET='-O2 -g' \
+        CXXFLAGS_FOR_TARGET='-O2 -g' ${worksrcpath}/configure --prefix=${prefix} --target=${target} \
+        --with-sysroot=${prefix}/${target} --with-build-sysroot=${stage}${prefix}/${target} \
+        --with-native-system-header-dir=/include --with-arch=vr4300 --with-tune=vr4300 \
+        --enable-languages=c,c++ --enable-multilib --with-newlib \
+        --with-python-dir=share/${target}/python --with-system-zlib --with-gmp=${prefix} \
+        --with-mpfr=${prefix} --with-mpc=${prefix} --without-headers --without-isl \
+        --without-zstd --disable-libcc1 --disable-libquadmath --disable-libssp --disable-nls \
+        --disable-shared --disable-werror"
+    system -W ${workpath}/build "${build.cmd} ${build.pre_args} all-gcc all-target-libgcc"
+    system -W ${workpath}/build "${build.cmd} DESTDIR=${stage} install-gcc install-target-libgcc"
+    file mkdir ${stage}${prefix}/${target}
+    file delete -force ${stage}${prefix}/${target}/bin
+    ln -s ${prefix}/${target}/bin ${stage}${prefix}/${target}/bin
+
+    file mkdir ${workpath}/build-newlib
+    system -W ${workpath}/build-newlib "CFLAGS_FOR_TARGET='-DHAVE_ASSERT_FUNC -O2 -fpermissive' \
+        CC_FOR_TARGET=${target}-gcc ${workpath}/newlib-${newlib_version}/configure \
+        --prefix=${prefix} --target=${target} --with-cpu=mips64vr4300 --disable-libssp \
+        --disable-werror --enable-newlib-io-c99-formats --enable-newlib-multithread \
+        --enable-newlib-retargetable-locking"
+    system -W ${workpath}/build-newlib "${build.cmd} ${build.pre_args}"
+    system -W ${workpath}/build-newlib "${build.cmd} DESTDIR=${stage} install"
+
+    system -W ${workpath}/build "${build.cmd} ${build.pre_args} all"
+}
+
+destroot {
+    set env(PATH) "${stage}${prefix}/bin:$env(PATH)"
+    system -W ${workpath}/build-newlib "${build.cmd} DESTDIR=${destroot} install"
+    system -W ${workpath}/build "${build.cmd} DESTDIR=${destroot} install-strip"
+    file delete -force ${destroot}${prefix}/share/info ${destroot}${prefix}/share/man/man7
+    fs-traverse f [list ${destroot}${prefix}/libexec] {
+        if {[file extension ${f}] eq ".la"} {
+            file delete ${f}
+        }
+    }
+    set fd [open ${destroot}${prefix}/${target}/include/toolchain.version w]
+    puts ${fd} "\{\n  \"host\": \"${build_arch}-apple-darwin${os.major}\",\n  \"binutils\": \"2.45\",\n  \"gcc\": \"${gcc_version}\",\n  \"newlib\": \"${newlib_version}\"\n\}"
+    close ${fd}
+}
+
+livecheck.type      none
