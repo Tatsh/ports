@@ -1,0 +1,132 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ps2dev gcc df77d03bc1bd5765b40de554918a5ff541202548
+github.tarball_from archive
+name                ps2-ee-gcc
+version             15.2.0.20260519
+categories          cross devel games
+platforms           darwin
+license             GPL-3+ LGPL-3+ Permissive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         GCC, newlib and pthreads for the PlayStation 2 Emotion Engine.
+long_description    ${description} Targets mips64r5900el-ps2-elf. Part of the ps2dev toolchain.
+dist_subdir         ${name}/${version}
+
+set newlib_commit   58fb6406408a541e0c826f47487315b485d4db56
+set pthread_commit  b1746fd2b52d5aeafc1173761eb50e0958e8994b
+master_sites-append https://github.com/ps2dev/newlib/archive/${newlib_commit}.tar.gz?dummy=:newlib \
+                    https://github.com/ps2dev/pthread-embedded/archive/${pthread_commit}.tar.gz?dummy=:pthread
+distfiles-append    newlib-${newlib_commit}.tar.gz:newlib \
+                    pthread-embedded-${pthread_commit}.tar.gz:pthread
+
+checksums           gcc-df77d03bc1bd5765b40de554918a5ff541202548.tar.gz \
+                    rmd160  3ac0f39ee0d24edb8f51cbcd0b15479f24175ba5 \
+                    sha256  96131e8cf93fefc4a3b33a5b3b771dc894d7b88c856aa4c000a83bac8e18e60b \
+                    size    151810119 \
+                    newlib-58fb6406408a541e0c826f47487315b485d4db56.tar.gz \
+                    rmd160  c41dc539b4583b39dc208cb0b9d33c32b7b395d2 \
+                    sha256  ebb3cc1fb49b80d483af7e1f29b05f7b2d82b986c5f179d87709da72f0f5df9a \
+                    size    12564433 \
+                    pthread-embedded-b1746fd2b52d5aeafc1173761eb50e0958e8994b.tar.gz \
+                    rmd160  12b1187c59071641decac6592a14bc9ae0c4d8be \
+                    sha256  0bd0f6332e1a795c601c25e93a163f1e09f5b4fffba2bfff4dfdeb4626fead58 \
+                    size    202690
+
+depends_build-append port:flex \
+                    port:gsed \
+                    port:texinfo
+depends_lib-append  port:gmp \
+                    port:libmpc \
+                    port:mpfr \
+                    port:ps2-ee-binutils \
+                    port:zlib
+
+set target          mips64r5900el-ps2-elf
+set stage           ${workpath}/stage
+set newlib          ${workpath}/newlib-${newlib_commit}
+set pthread         ${workpath}/pthread-embedded-${pthread_commit}
+
+post-patch {
+    reinplace -E {s/ -Werror([[:space:]]|$)/\1/g} ${pthread}/platform/ps2/Makefile
+}
+
+configure.cxxflags-append -fno-char8_t
+
+proc ps2ee_configure {src dir args} {
+    global workpath target prefix configure.env
+    file mkdir ${workpath}/${dir}
+    system -W ${workpath}/${dir} "env [join ${configure.env}] \
+        CFLAGS_FOR_TARGET='-O2 -gdwarf-2' CXXFLAGS_FOR_TARGET='-O2 -gdwarf-2' \
+        ${src}/configure --target=${target} [join ${args}]"
+}
+
+set gcc_common      {--with-float=hard --with-system-zlib --without-isl --without-zstd \
+                     --disable-libcc1 --disable-libssp --disable-multilib --disable-nls --disable-tls}
+
+# libgcc's t-hardfp splits function names with GNU sed alternation (\|).
+configure {}
+
+# Upstream's ps2toolchain-ee order: a C-only GCC, newlib (and newlib-nano), pthread-embedded, then
+# the full C/C++ GCC against that sysroot.
+build {
+    set path "${stage}${prefix}/bin:${prefix}/libexec/gnubin:$env(PATH)"
+    set env_path "env PATH=${path}"
+    ps2ee_configure ${worksrcpath} build-stage1 --prefix=${prefix} --with-gmp=${prefix} \
+        --with-mpfr=${prefix} --with-mpc=${prefix} {*}${gcc_common} --enable-languages=c \
+        --without-headers --without-newlib --disable-libatomic --disable-libgcc \
+        --disable-libgomp --disable-libquadmath --disable-shared --disable-threads
+    system -W ${workpath}/build-stage1 "${build.cmd} ${build.pre_args} all-gcc"
+    system -W ${workpath}/build-stage1 "${build.cmd} DESTDIR=${stage} install-gcc"
+    file mkdir ${stage}${prefix}/${target}
+    file delete -force ${stage}${prefix}/${target}/bin
+    ln -s ${prefix}/${target}/bin ${stage}${prefix}/${target}/bin
+
+    set env(PATH) ${path}
+    ps2ee_configure ${newlib} build-newlib --prefix=${prefix} --with-sysroot=${prefix}/${target} \
+        --enable-newlib-io-c99-formats --enable-newlib-multithread \
+        --enable-newlib-retargetable-locking
+    system -W ${workpath}/build-newlib "${build.cmd} ${build.pre_args}"
+    system -W ${workpath}/build-newlib "${build.cmd} DESTDIR=${stage} install-strip"
+
+    ps2ee_configure ${newlib} build-newlib-nano --prefix=${prefix} --with-sysroot=${prefix}/${target} \
+        --disable-newlib-fseek-optimization --disable-newlib-fvwrite-in-streamio \
+        --disable-newlib-supplied-syscalls --disable-newlib-unbuf-stream-opt \
+        --disable-newlib-wide-orient --disable-nls --enable-lite-exit \
+        --enable-newlib-global-atexit --enable-newlib-multithread \
+        --enable-newlib-nano-formatted-io --enable-newlib-nano-malloc \
+        --enable-newlib-reent-small --enable-newlib-retargetable-locking
+    system -W ${workpath}/build-newlib-nano "${build.cmd} ${build.pre_args}"
+    system -W ${workpath}/build-newlib-nano "${build.cmd} DESTDIR=${workpath}/nano install-strip"
+
+    system -W ${pthread}/platform/ps2 "${build.cmd} DESTDIR=${stage}${prefix}/${target} all install"
+
+    ps2ee_configure ${worksrcpath} build-stage2 --prefix=${prefix} --with-gmp=${prefix} \
+        --with-mpfr=${prefix} --with-mpc=${prefix} {*}${gcc_common} --enable-languages=c,c++ \
+        --with-sysroot=${prefix}/${target} --with-build-sysroot=${stage}${prefix}/${target} \
+        --with-native-system-header-dir=/include --with-newlib --disable-libquadmath \
+        --enable-cxx-flags=-G0 --enable-threads=posix --with-python-dir=share/${target}/python
+    system -W ${workpath}/build-stage2 "${build.cmd} ${build.pre_args} all"
+}
+
+destroot {
+    set sysroot ${destroot}${prefix}/${target}
+    system -W ${workpath}/build-newlib "${build.cmd} DESTDIR=${destroot} install-strip"
+    foreach lib {c g m} {
+        file copy ${workpath}/nano${prefix}/${target}/lib/lib${lib}.a ${sysroot}/lib/lib${lib}_nano.a
+    }
+    system -W ${pthread}/platform/ps2 "${build.cmd} DESTDIR=${sysroot} install"
+    system -W ${workpath}/build-stage2 "env PATH=${stage}${prefix}/bin:$env(PATH) \
+        ${build.cmd} DESTDIR=${destroot} install-strip"
+    file delete -force ${sysroot}/lib/crt0.o ${destroot}${prefix}/share/info \
+        ${destroot}${prefix}/share/man/man7
+    fs-traverse f [list ${destroot}${prefix}/libexec] {
+        if {[file extension ${f}] eq ".la"} {
+            file delete ${f}
+        }
+    }
+}
+
+livecheck.type      none
