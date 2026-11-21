@@ -6,7 +6,7 @@ PortGroup           github 1.0
 github.setup            ycm-core YouCompleteMe d4c9143
 name                    youcompleteme
 version                 20260703
-revision                0
+revision                1
 platforms               darwin linux freebsd
 license                 GPL-3
 categories              devel textproc
@@ -18,7 +18,8 @@ checksums           rmd160  cab6b94d5c6cd5fc1fb9ea7a6cf7cb13c705e011 \
                     sha256  b30dd31ebbc2ae2bdcb5aaf5fdaf294c0a42572a15134aeab809028a170f6e10 \
                     size    336043
 
-set python_minor_version 11
+# Must match the Python that MacPorts vim (+python313) embeds, and ycmd (3.12+).
+set python_minor_version 13
 set python_framework_dir ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set python_site_packages_dir ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
 
@@ -34,7 +35,6 @@ use_configure no
 patchfiles      patch-python-path.diff
 
 post-patch {
-    delete ${worksrcpath}/python/ycm/tests
     delete ${worksrcpath}/third_party
     reinplace "s|@PYTHON_SITE_PACKAGES_DIR@|${python_site_packages_dir}|" \
         ${worksrcpath}/python/ycm/paths.py
@@ -50,6 +50,8 @@ destroot {
     xinstall -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}
     xinstall -d ${destroot}${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
     copy ${worksrcpath}/python/ycm ${destroot}${python_site_packages_dir}
+    # The tests are kept for the test phase but not installed.
+    delete ${destroot}${python_site_packages_dir}/ycm/tests
     xinstall -d ${destroot}${prefix}/share/vim
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles/plugin
@@ -62,6 +64,16 @@ destroot {
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/doc/${name}.txt \
         ${destroot}${prefix}/share/doc/${name}/
+}
+
+# Upstream's Python suite (it starts the installed ycmd for some tests).
+test.run            yes
+depends_test-append port:py3${python_minor_version}-pyhamcrest \
+                    port:py3${python_minor_version}-pytest \
+                    port:ycmd
+test {
+    system -W ${worksrcpath} "env PYTHONPATH=${worksrcpath}/python \
+        ${prefix}/bin/python3.${python_minor_version} -m pytest -p no:cacheprovider python/ycm/tests"
 }
 
 post-activate {
