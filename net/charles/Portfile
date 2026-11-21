@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                charles
-version             5.0.3
+version             5.2.3
 
 categories          net devel aqua
 license             Restrictive
@@ -18,9 +18,9 @@ set special_dmg     ${name}-proxy-${version}.dmg
 distfiles           ${special_dmg}
 master_sites        https://www.charlesproxy.com/assets/release/${version}/
 
-checksums           rmd160  5b3509e6537b584241b111bcee54000c90e6f191 \
-                    sha256  2dc3535b295ff5b3214d474fb310c2a3fd42433f11d145a5d069c88de1b0dbe0 \
-                    size    75044265
+checksums           rmd160  084568108aed542eb62cbb63bf5236fd67e62719 \
+                    sha256  c6f08d40d39fc865b0d4e4989f89c428f43ba25b0e5404c7943bd981317ff0d2 \
+                    size    83212317
 
 livecheck.type      regex
 livecheck.url       https://www.charlesproxy.com/latest-release/download.do
