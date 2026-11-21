@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           github 1.0
 
 name                py-requests-futures
-version             1.0.2
+version             1.1.0
 platforms           darwin
 supported_archs     noarch
 license             apache
@@ -15,20 +15,16 @@ long_description    ${description}
 homepage            https://github.com/ross/requests-futures
 
 github.tarball_from tarball
-github.setup        ross requests-futures 1.0.2 v
+github.setup        ross requests-futures 1.1.0 v
 
-checksums           rmd160  95b4f71fe3a24b05515a355cf537f80a8335b0d9 \
-                    sha256  15cac2b534ba9a735aeab5d78a8bfd1e7f2497f0afd95d92e2da7ba7fca54518 \
-                    size    12620
+checksums           rmd160  556258d17a32e18124e98a7c388359d2a04f3628 \
+                    sha256  d04a928ffafc46e38c1635232645115c8dc215f588529d8d14c8f0def7a667d6 \
+                    size    28513
 
-python.versions         27 36 37 38 39 310 311 312 313 314
+python.versions         310 311 312 313 314
 
 if {${name} ne ${subport}} {
     livecheck.type          none
     depends_build-append    port:py${python.version}-setuptools
     depends_run-append      port:py${python.version}-requests
-}
-
-if {${subport} eq "py27-requests-futures"} {
-    depends_run-append port:py27-futures
 }
