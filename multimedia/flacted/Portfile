@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                flacted
-version             0.0.2
+version             0.0.3
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -17,17 +17,18 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  89fd3c3eb1c706caea6ba4fa503487c399589c25 \
-                    sha256  8f8729c3f94af3679b5cae1e9660d7bb37a55d2bfb52a11782ef8adeb816274f \
-                    size    1253816
+checksums           rmd160  b92a871ee58c443becb566c8df35265ad245bd56 \
+                    sha256  e3e9928ee71802de294df51f1c28ca93e5f2fbcf9230f38151544f89cd7fb3b6 \
+                    size    8183
 
 python.default_version  313
+python.pep517_backend   hatch
 
 depends_run-append \
     port:py${python.version}-bascom \
     port:py${python.version}-click \
     port:py${python.version}-deltona \
-    port:py${python.version}-typing-extensions
+    port:py${python.version}-typing_extensions
 
 post-destroot {
     xinstall -m 0444 ${worksrcpath}/man/flacted.1 ${destroot}${prefix}/share/man/man1
