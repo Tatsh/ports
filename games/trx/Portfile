@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           meson 1.0
+
+github.setup        LostArtefacts TRX 1.12 trx-
+github.tarball_from archive
+name                trx
+categories          games
+platforms           darwin linux freebsd
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Reimplementation of the Tomb Raider 1 and 2 engines.
+long_description    ${description} The game files from a copy of Tomb Raider I or II are \
+                    required.
+
+checksums           rmd160  511deae51970dbe8be1268aecc7d2c01c3b0fe47 \
+                    sha256  f84c9db89b558ad566b3b2e4cb40de3a6928bd4ce5a6ba0b0bfe5acd7cd708ec \
+                    size    31134343
+
+depends_build-append port:pkgconfig \
+                    port:uthash
+depends_lib-append  path:lib/libavcodec.dylib:ffmpeg \
+                    port:glew \
+                    port:libsdl2 \
+                    port:lua54 \
+                    port:pcre2 \
+                    port:zlib
+
+worksrcdir          TRX-trx-${version}/src
+
+# The sources use C23 nullptr, which Apple clang gained only after Xcode 15.
+compiler.blacklist-append {clang < 1600}
+
+# MacPorts' Lua pkg-config file is versioned. The static dependency mode is for upstream's own
+# self-contained release bundles.
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+post-patch {
+    reinplace "s|  dep_opengl = dependency('GL')|  dep_opengl = dependency('appleframeworks', modules: \['OpenGL'\])|" \
+        ${worksrcpath}/meson.build
+}
+
+# MacPorts installs uthash.h into its own include directory.
+configure.cppflags-append -I${prefix}/include/uthash
+
+configure.args-append \
+                    -Dlua_dep=lua5.4 \
+                    -Dstaticdeps=false
+
+# On macOS upstream's install rules assemble an app bundle (copying in the dylibs it links).
+# TRX looks for its data beside the executable, so install both together.
+destroot {
+    set dest ${destroot}${prefix}/libexec/${name}
+    xinstall -d ${dest}
+    xinstall -m 0755 ${build.dir}/TRX ${dest}/
+    system "/bin/cp -R ${workpath}/TRX-trx-${version}/data/trx/ship/. ${dest}/"
+    ln -s ../libexec/${name}/TRX ${destroot}${prefix}/bin/trx
+}
