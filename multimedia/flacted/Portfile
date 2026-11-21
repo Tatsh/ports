@@ -33,3 +33,7 @@ depends_run-append \
 post-destroot {
     xinstall -m 0444 ${worksrcpath}/man/flacted.1 ${destroot}${prefix}/share/man/man1
 }
+
+test.run            yes
+depends_test-append \
+    port:py${python.version}-pytest-mock
