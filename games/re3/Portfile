@@ -1,10 +1,12 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           app 1.0
 PortGroup           cmake 1.1
 
 name                re3
 version             20210902
+revision            1
 set commit          3233ffe1c4b99e8efb4c41c6794b4fce880cf503
 set librw_commit    5501c4fdc7425ff926be59369a13593bb6c81b54
 categories          games
@@ -83,3 +85,7 @@ Copy the files of your Grand Theft Auto III installation into the directory you 
 "
 
 livecheck.type      none
+
+# A Finder-launchable app bundle for the game, which runs the installed program.
+app.name            re3
+app.executable      ${prefix}/share/${name}/re3
