@@ -33,3 +33,10 @@ xcode.destroot.settings \
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
+
+# Upstream's XCTest suite, via SwiftPM (the package has no external dependencies).
+test.run            yes
+test {
+    xinstall -d ${workpath}/test-home
+    system -W ${worksrcpath} "env HOME=${workpath}/test-home /usr/bin/xcrun swift test --disable-sandbox"
+}
