@@ -232,6 +232,7 @@ davidmz
 dbeaver
 dbuild
 dbundle
+dcapstone
 dccleste
 dchest
 dclang
@@ -504,6 +505,7 @@ hashstructure
 hasura
 havsfunc
 hcli
+headerpad
 heapless
 hephaest
 hetelek
@@ -637,6 +639,7 @@ libavcodec
 libbotan
 libbz
 libc
+libcapstone
 libcc
 libcdio
 libchdr
@@ -647,6 +650,7 @@ libcst
 libdragon
 libdragon's
 libexec
+libexp
 libfl
 libfmt
 libfuzzer
@@ -960,6 +964,7 @@ portaudio
 portdbpath
 portfile
 portfiles
+portgroup
 porthier
 portindex
 portname
@@ -1107,6 +1112,7 @@ ruamel
 rubygems
 runewidth
 rustc
+rustflags
 rusticata
 rustix
 rustls
