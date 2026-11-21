@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        mooncat-greenpy Ghidra_GolangAnalyzerExtension 1.4.0
+github.tarball_from archive
+name                ghidra-golang-analyzer
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra extension that analyzes Go binaries: functions, types and file names.
+long_description    ${description}
+
+checksums           rmd160  0c9319311d746cf39350fe85095d59aca05828e3 \
+                    sha256  e33023c31f2d76bd89289b84f7dd56b66989d493f18628bf80ee235626015211 \
+                    size    12305851
+
+ghidra_extension.name GolangAnalyzerExtension
+worksrcdir          ${distname}/GolangAnalyzerExtension
