@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Tatsh re3-installer 0.2.3 v
+github.setup        Tatsh re3-installer 0.2.6 v
 github.tarball_from archive
 
 name                re3-installer
-version             0.2.3
+version             0.2.6
 platforms           darwin linux freebsd
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh}
@@ -18,11 +18,19 @@ long_description    {Extracts game data from GTA III (or Vice City for reVC) ISO
 homepage            https://github.com/Tatsh/re3-installer
 categories          games
 
-checksums           rmd160  b05b10b2785ce43ebc3ce14986c768547cbeeef6 \
-                    sha256  2ccd23272ec0b83ca646741f3fc1e6b5a5944368d73d54066fc4c3c7095d10e2 \
-                    size    1122365
+checksums           rmd160  9ef861b6c16cfaa5377c3f43949f83925edac089 \
+                    sha256  77259ad288e035680e096296930444ccc4a6c248c1f2d681282349a31666ac8f \
+                    size    1188884
 
 depends_build       port:cmake \
                     port:pkgconfig
 depends_lib         port:libcdio \
                     port:unshield
+
+post-destroot {
+    # Upstream's macOS install rule copies runtime dependencies (libcdio, unshield, openssl,
+    # etc.) next to the binary for standalone use; those belong to their own ports here.
+    foreach f [glob -nocomplain -directory ${destroot}${prefix}/lib *.dylib] {
+        delete ${f}
+    }
+}
