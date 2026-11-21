@@ -1,0 +1,75 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        stepmania stepmania 21bb8dcd6c7e3782f23d5f4e01b6ee4c82cccc71
+github.tarball_from archive
+version             5.1.0.20260709
+categories          games
+platforms           darwin
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Advanced rhythm game, designed for both home and arcade use.
+long_description    ${description}
+homepage            https://www.stepmania.com/
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  02184e504d06b0022140ee5880ab258c7a6d9b3b \
+                    sha256  f43c782c857182c6d89074de3e64699cd21288ee3837352d210e4474603e6dfc \
+                    size    200539803
+
+depends_build-append port:pkgconfig \
+                    port:yasm
+depends_lib-append  path:lib/libavcodec.dylib:ffmpeg \
+                    port:glew \
+                    port:jpeg \
+                    port:libmad \
+                    port:libogg \
+                    port:libtomcrypt \
+                    port:libtommath \
+                    port:libvorbis \
+                    port:pcre \
+                    port:zlib
+
+# Build against current FFmpeg.
+patchfiles          patch-ffmpeg-6.diff \
+                    patch-ffmpeg-7.diff \
+                    patch-ffmpeg-8.diff \
+                    patch-macos-system-ffmpeg.diff
+patch.pre_args-replace -p0 -p1
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+configure.args-append \
+                    -DWITH_FFMPEG=yes \
+                    -DWITH_SYSTEM_FFMPEG=yes \
+                    -DWITH_FULL_RELEASE=yes \
+                    -DWITH_PORTABLE_TOMCRYPT=no \
+                    -DWITH_SYSTEM_GLEW=yes \
+                    -DWITH_SYSTEM_TOMCRYPT=yes \
+                    -DWITH_SYSTEM_TOMMATH=yes \
+                    -DWITH_SYSTEM_MAD=yes \
+                    -DWITH_SYSTEM_ZLIB=yes \
+                    -DWITH_SYSTEM_JSONCPP=no \
+                    -DWITH_SYSTEM_PNG=no \
+                    -DWITH_SYSTEM_JPEG=yes \
+                    -DWITH_SYSTEM_PCRE=yes \
+                    -DWITH_SYSTEM_OGG=yes \
+                    -DWITH_CRASH_HANDLER=no
+
+# The macOS build makes StepMania.app in the source tree and has no install rules. StepMania reads
+# its game data from the directory that contains the app bundle.
+destroot {
+    set dest "${destroot}${applications_dir}/StepMania 5.1"
+    xinstall -d ${dest}
+    copy ${worksrcpath}/StepMania.app ${dest}
+    foreach d {Announcers BGAnimations BackgroundEffects BackgroundTransitions Characters \
+            Courses Data NoteSkins Scripts Songs Themes} {
+        copy ${worksrcpath}/${d} ${dest}
+    }
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    copy {*}[glob ${worksrcpath}/Docs/*] ${destroot}${prefix}/share/doc/${name}
+}
