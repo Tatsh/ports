@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup            Tatsh open-in-mpv 0.1.3 v
+github.setup            Tatsh open-in-mpv 0.2.3 v
 github.tarball_from     archive
 master_sites            ${github.homepage}/archive/
-distfiles               v0.1.3.tar.gz
-distname                open-in-mpv-0.1.3
+distfiles               v0.2.3.tar.gz
+distname                open-in-mpv-0.2.3
 description             Host-side script for interacting with the 'Open in mpv' Chrome extension.
 long_description        ${description}
 categories              multimedia sysutils
@@ -16,13 +16,14 @@ maintainers             {gmail.com:audvare @Tatsh}
 license                 MIT
 platforms               darwin
 
-checksums           rmd160  d47e8a785fc73459f67680c7edce882536ee2ed3 \
-                    sha256  30cbba216b4d86498c220da4a172597750aad0472a57123a7f225d38ada3e94f \
-                    size    1296670
+checksums           rmd160  6fa3ea11386ce82cc1a4c7cb65d97c8221937a8b \
+                    sha256  76b27d90721606b041d96300b1abed6ddef428fcbf2998becca5bff1e700ed73 \
+                    size    1401318
 
 worksrcdir              ${distname}
-depends_lib-append port:py${python.version}-click \
-                   port:py${python.version}-loguru \
-                   port:py${python.version}-psutil \
-                   port:py${python.version}-pyxdg \
-                   port:py${python.version}-requests
+python.pep517_backend   hatch
+
+depends_lib-append port:py${python.version}-bascom \
+                   port:py${python.version}-click \
+                   port:py${python.version}-platformdirs \
+                   port:py${python.version}-typing_extensions
