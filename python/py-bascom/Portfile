@@ -31,3 +31,9 @@ if {$subport ne $name} {
         port:py${python.version}-colorlog \
         port:py${python.version}-typing_extensions
 }
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    depends_test-append \
+        port:py${python.version}-pytest-mock
+}
