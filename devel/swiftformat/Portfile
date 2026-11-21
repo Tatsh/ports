@@ -2,9 +2,8 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           xcode 1.0
 
-github.setup        nicklockwood SwiftFormat 0.52.6
+github.setup        nicklockwood SwiftFormat 0.64.7
 github.tarball_from tarball
 
 name                swiftformat
@@ -16,19 +15,26 @@ description         Formatter for Swift (CLI only).
 long_description    ${description}
 homepage            https://github.com/nicklockwood/SwiftFormat
 
-checksums           rmd160  c4938bea351b5c61ad052efa9f8608639de0d6c0 \
-                    sha256  e2d1da0223f8690000451a6500fe8502eb59dd19e82a9c9dbc141a8d1495ef1c \
-                    size    2889461
+checksums           rmd160  6ad33e51c61d435b1a41a6ccc3f7ba3c5dde22dc \
+                    sha256  5cc0321695069dc0da994eab9bae6990019b26929b59cf729fa38e17eda72c2e \
+                    size    1948385
 
-xcode.target        CommandLineTool
-xcode.configuration Release
-xcode.destroot.path ${prefix}/bin
-xcode.build.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
-xcode.destroot.settings \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
+use_configure       no
+
+# Newer releases ship an Xcode 16 (objectVersion 70) project that older Xcode cannot read; the
+# Swift package has no external dependencies, so build with SwiftPM instead.
+build.cmd           /usr/bin/xcrun swift build
+build.target
+build.args          -c release --disable-sandbox --product ${name}
+build.env-append    HOME=${workpath}/home
+
+pre-build {
+    file mkdir ${workpath}/home
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/.build/release/${name} ${destroot}${prefix}/bin/${name}
+}
 
 if {${os.major} < 19} {
     pre-fetch {
@@ -36,6 +42,3 @@ if {${os.major} < 19} {
         return -code error "incompatible OS X version"
     }
 }
-
-# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
-build {}
