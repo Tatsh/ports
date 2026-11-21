@@ -29,3 +29,7 @@ depends_run-append \
     port:commitizen \
     port:py${python.version}-gitpython \
     port:py${python.version}-typing_extensions
+
+test.run            yes
+depends_test-append \
+    port:py${python.version}-pytest-mock
