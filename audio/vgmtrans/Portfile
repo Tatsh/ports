@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        vgmtrans vgmtrans 1.3 v
+github.tarball_from archive
+categories          audio aqua
+platforms           darwin
+license             Zlib BSD LGPL-3 MIT Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Convert sequenced video game music to standard formats.
+long_description    ${description} Installs the VGMTrans application (which plays music with the \
+                    bundled, proprietary BASS library) and the vgmtrans-cli command.
+
+set libchdr_commit  8bba7745d758627258b315997a860039244cedaf
+master_sites-append https://github.com/rtissera/libchdr/archive/${libchdr_commit}.tar.gz?dummy=:libchdr
+distfiles-append    libchdr-${libchdr_commit}.tar.gz:libchdr
+
+checksums           vgmtrans-1.3.tar.gz \
+                    rmd160  19fe8e81038761ece8abf6e468c67b18c1fe96ba \
+                    sha256  37d5f77e2934dac824b3a121df2b7a3380f4a4afa32e28d0d2ac3b2eebcc3aa5 \
+                    size    2491939 \
+                    libchdr-8bba7745d758627258b315997a860039244cedaf.tar.gz \
+                    rmd160  ee445c51128a1075311c74fb5d8053b6d73d8dab \
+                    sha256  169e3d2edf86d5501434301fa2505319ebd40aae83d4a5eedf05f6becbf13a3b \
+                    size    4222665
+
+depends_build-append port:nlohmann-json \
+                    port:pkgconfig
+depends_lib-append  port:libfmt12 \
+                    port:minizip \
+                    port:spdlog \
+                    port:zlib
+qt6.depends_lib-append qtsvg
+
+# Use the packaged libraries instead of bundled copies.
+patchfiles          patch-system-libs.diff
+patch.pre_args-replace -p0 -p1
+
+post-extract {
+    file delete -force ${worksrcpath}/lib/libchdr
+    file rename ${workpath}/libchdr-${libchdr_commit} ${worksrcpath}/lib/libchdr
+    file delete -force ${worksrcpath}/lib/nlohmann
+}
+
+# The About dialog embeds the licences of bundled copies that are not used here.
+post-patch {
+    reinplace {/legal\/zlib/d; /legal\/spdlog/d} ${worksrcpath}/src/ui/qt/resources/resources.qrc
+}
+
+compiler.cxx_standard 2020
+
+# The tarball is not a git checkout.
+configure.args-append \
+                    -DCMAKE_DISABLE_FIND_PACKAGE_Git=ON \
+                    -DENABLE_CLI=ON \
+                    -DENABLE_UI_QT=ON \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+destroot {
+    xinstall -m 0755 ${build.dir}/bin/vgmtrans-cli ${destroot}${prefix}/bin/
+    foreach app [glob -nocomplain -directory ${build.dir}/bin *.app] {
+        copy ${app} ${destroot}${applications_dir}/
+    }
+}
