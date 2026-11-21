@@ -1,0 +1,87 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        microsoft DirectXShaderCompiler 1.9.2609 v
+github.tarball_from archive
+name                directx-shader-compiler
+categories          devel graphics
+platforms           darwin
+license             {Apache-2 NCSA} BSD
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Microsoft DirectX Shader Compiler (dxc), based on LLVM and Clang.
+long_description    ${description} Compiles HLSL to DXIL and SPIR-V.
+
+# The DirectX-Headers, SPIRV-Headers and SPIRV-Tools git submodules.
+set dxh_commit      980971e835876dc0cde415e8f9bc646e64667bf7
+set spvh_commit     496543121ce6419f23d6fa5d7194ba66c36212d2
+set spvt_commit     ef96ed763b43b59b33b31b362f09a02b729fa1c9
+master_sites-append https://github.com/microsoft/DirectX-Headers/archive/${dxh_commit}.tar.gz?dummy=:dxh \
+                    https://github.com/KhronosGroup/SPIRV-Headers/archive/${spvh_commit}.tar.gz?dummy=:spvh \
+                    https://github.com/KhronosGroup/SPIRV-Tools/archive/${spvt_commit}.tar.gz?dummy=:spvt
+distfiles-append    DirectX-Headers-${dxh_commit}.tar.gz:dxh \
+                    SPIRV-Headers-${spvh_commit}.tar.gz:spvh \
+                    SPIRV-Tools-${spvt_commit}.tar.gz:spvt
+
+checksums           DirectXShaderCompiler-1.9.2609.tar.gz \
+                    rmd160  9030135e4693bc4475f27c005f4eac5268f7cac1 \
+                    sha256  05b8e9622f9b147156998e6aab38d71997ec8391038e7302c703e9ca2448dfed \
+                    size    25102605 \
+                    DirectX-Headers-980971e835876dc0cde415e8f9bc646e64667bf7.tar.gz \
+                    rmd160  66096f3e3c4268052d8e6cd3858e6dc7c7a85eb3 \
+                    sha256  b5a4b6d8806ff7f29f19879f83d015dbe8740676d4ca0b48647a789cc7773c4e \
+                    size    326310 \
+                    SPIRV-Headers-496543121ce6419f23d6fa5d7194ba66c36212d2.tar.gz \
+                    rmd160  6c1ff552bcc8c25e57b64d18a1d34c3d774b789d \
+                    sha256  a9bb9c48713245eacf97cc539b6f1d45405a92d8813f8b82e635f0a085ee9898 \
+                    size    594379 \
+                    SPIRV-Tools-ef96ed763b43b59b33b31b362f09a02b729fa1c9.tar.gz \
+                    rmd160  f9ed476ef77b26988c4307f7ee908c72462e080f \
+                    sha256  82c62146083fd558735a3171cf97cfc47903ca7d368482e87f94bd44883c0f00 \
+                    size    3559528
+
+depends_build-append path:bin/python3:python313
+depends_lib-append  port:libffi \
+                    port:zlib
+
+post-extract {
+    foreach {dir commit} [list DirectX-Headers ${dxh_commit} SPIRV-Headers ${spvh_commit} SPIRV-Tools ${spvt_commit}] {
+        file delete -force ${worksrcpath}/external/${dir}
+        file rename ${workpath}/${dir}-${commit} ${worksrcpath}/external/${dir}
+    }
+}
+
+set dxc_prefix      ${prefix}/libexec/${name}
+
+configure.pre_args-replace -DCMAKE_INSTALL_PREFIX="${prefix}" -DCMAKE_INSTALL_PREFIX="${dxc_prefix}"
+configure.pre_args-replace -DCMAKE_INSTALL_NAME_DIR="${prefix}/lib" -DCMAKE_INSTALL_NAME_DIR="${dxc_prefix}/lib"
+configure.cxxflags-append -fno-strict-aliasing
+
+# Without git the generated version is 1.9.0.0; the release's version.inc reports the real one.
+# Regenerated sources would differ from the checked-in copies, so use those.
+configure.args-append \
+                    -C ${worksrcpath}/cmake/caches/PredefinedParams.cmake \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DHLSL_ENABLE_FIXED_VER=ON \
+                    -DHLSL_DISABLE_SOURCE_GENERATION=ON \
+                    -DHLSL_INCLUDE_TESTS=OFF \
+                    -DLLVM_BUILD_DOCS=OFF \
+                    -DLLVM_BUILD_TOOLS=OFF \
+                    -DLLVM_ENABLE_WERROR=OFF \
+                    -DLLVM_INCLUDE_TESTS=OFF \
+                    -DLLVM_VERSION_SUFFIX=dxc \
+                    -DSPIRV_BUILD_TESTS=OFF \
+                    -DSPIRV_WARN_EVERYTHING=OFF \
+                    -DSPIRV_WERROR=OFF
+
+post-destroot {
+    fs-traverse f [list ${destroot}${dxc_prefix}] {
+        if {[file extension ${f}] eq ".a"} {
+            file delete ${f}
+        }
+    }
+    file delete -force ${destroot}${dxc_prefix}/share/llvm
+    ln -s ../libexec/${name}/bin/dxc ${destroot}${prefix}/bin/dxc
+}
