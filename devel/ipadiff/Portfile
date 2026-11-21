@@ -1,0 +1,95 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/Xplo8E/ipadiff fda9b001d9b38122e544ecfa5ad4e53c97b694f8
+version             20260522
+categories          devel
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             MIT
+
+description         Diff two iOS .ipa bundles.
+
+long_description    ${description} The optional hermes-diff sidecar (for Hermes bytecode in \
+                    React Native bundles) is not packaged, and ipadiff skips that step without it.
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  12e3cea850eb177f1b02b1dafef0609b9435b4d5 \
+                        sha256  3127fa87d9bd4cff1adf94e5e8104d90633fce57cee7ab6efeebabe5c67875fc \
+                        size    64579
+
+go.vendors          golang.org/x/sys \
+                        lock    v0.42.0 \
+                        rmd160  9bf28fd4fb2566093e52db9828dace0cad68ece6 \
+                        sha256  95cce678922f8cd653b53365de74085c97ca91d3f0c1ac20d96df2f0657d4e02 \
+                        size    1540175 \
+                    github.com/spf13/pflag \
+                        lock    v1.0.9 \
+                        rmd160  d4d57de66f1e75d7398a6d6a703c2050454b24ba \
+                        sha256  afc6ee76d0a69c8761f339ac7916c38d997b19c50627ceb9d69df89d8de9e543 \
+                        size    63041 \
+                    github.com/spf13/cobra \
+                        lock    v1.10.2 \
+                        rmd160  88d3b436be943e051ed95bb512ad07508cffab97 \
+                        sha256  35dc1e3b51a9ef4bee86dc22d335293a1d9d9cae242a6efc605fee8f75808d31 \
+                        size    201456 \
+                    github.com/sergi/go-diff \
+                        lock    v1.4.0 \
+                        rmd160  79ede584428f1cd21c595341e9634d0c214e3716 \
+                        sha256  3323a0544f377d4d60b29937a236b2f73ccc93c4dc6522feae4998fc71f9993a \
+                        size    1332279 \
+                    github.com/pkg/errors \
+                        lock    v0.8.1 \
+                        rmd160  a33afa0fbe2e76b7a621d25bdb4bf0b964b18bb5 \
+                        sha256  1ec95b0705f5ac6ea502266b4e6bf177041b7832148a4bf090686243b0f9aa59 \
+                        size    11018 \
+                    github.com/mattn/go-isatty \
+                        lock    v0.0.20 \
+                        rmd160  ef20ccdf87de8b704c0c7118625b2beb31d8f1b4 \
+                        sha256  397549e98cf5d40df585f31dc7902f017c37be88c64311dd2b4aeccab4009949 \
+                        size    4717 \
+                    github.com/mattn/go-colorable \
+                        lock    v0.1.14 \
+                        rmd160  5b6117d2728f6478faf0be5b8790425fed6c4ad8 \
+                        sha256  6661917405b168f0c8b92a2be524e668ee1c29b393353639453cb8f9c2f7eff8 \
+                        size    9806 \
+                    github.com/inconshreveable/mousetrap \
+                        lock    v1.1.0 \
+                        rmd160  88f9577df93ac0f8801d8960adc7f28e38867f3e \
+                        sha256  f69af10ff08c0e87f92dac3ee5172d8ed02463725b74edfc8943ef018a1a632d \
+                        size    5343 \
+                    github.com/fatih/color \
+                        lock    v1.19.0 \
+                        rmd160  a64620e5587b3d1eb425e15d7fc1ccc7b0a280f2 \
+                        sha256  1203fa77d5f8d487636a021778e626c37c37e4eeb103c580f722339c400ae039 \
+                        size    13341 \
+                    github.com/blacktop/go-plist \
+                        lock    v1.0.2 \
+                        rmd160  bf56c1598ee7cef9ce2266f267ea9ec3e3592c77 \
+                        sha256  57741e21e3eb587434739b0e97026f3ab8c07b5b2cebbaf1f95e847e6d782cec \
+                        size    42934 \
+                    github.com/blacktop/go-macho \
+                        lock    v1.1.272 \
+                        rmd160  5a8d97d90f1b730e731db61651da0d941db060a5 \
+                        sha256  473249cc09b3452c66eef50de8a7c03895420c42c5b5b9f0713d0429ba6d064e \
+                        size    243951 \
+                    github.com/blacktop/go-dwarf \
+                        lock    v1.0.14 \
+                        rmd160  36d63ac46f49e72bea5ee2dfa8e2e81a3ae2c1d7 \
+                        sha256  5f05ca3cbae657ca7cd153c59119ab40a7aa15d076280b40e199e3171e9d8069 \
+                        size    133998 \
+                    github.com/apex/log \
+                        lock    v1.9.0 \
+                        rmd160  db8d16bcf0b7ea316e152eaef95aee474984ffb9 \
+                        sha256  b098424ff812ffe08b754327356f22fc03a8053f4642a7b35f5262950523a222 \
+                        size    31993
+
+build.args          -o ${name} ./cmd/${name}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+test.run            yes
+test.target         ./...
