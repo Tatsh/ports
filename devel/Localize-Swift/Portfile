@@ -33,3 +33,15 @@ xcode.destroot.settings \
 
 # Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
 build {}
+
+# Upstream's XCTest suite. CODE_SIGNING_ALLOWED=NO keeps xcodebuild from evaluating
+# provisioning, which looks up developer accounts in a keychain and crashes when none is
+# usable (as root, or over SSH).
+test.run            yes
+test {
+    system -W ${worksrcpath} "/usr/bin/xcodebuild test -project Localize_Swift.xcodeproj -scheme Localize_SwiftTests \
+        -destination platform=macOS -derivedDataPath ${workpath}/test-dd \
+        MACOSX_DEPLOYMENT_TARGET=${macosx_deployment_target} CODE_SIGN_IDENTITY=- \
+        CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= PROVISIONING_PROFILE_SPECIFIER= \
+        ENABLE_HARDENED_RUNTIME=NO CODE_SIGNING_ALLOWED=NO"
+}
