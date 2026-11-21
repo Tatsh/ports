@@ -1,0 +1,64 @@
+--- Package.swift
++++ Package.swift
+@@ -1,4 +1,4 @@
+-// swift-tools-version:6.0
++// swift-tools-version:5.9
+ //===----------------------------------------------------------------------===//
+ //
+ // This source file is part of the Swift Argument Parser open source project
+@@ -18,12 +18,8 @@
+     .library(
+       name: "ArgumentParser",
+       targets: ["ArgumentParser"]),
+-    .plugin(
+-      name: "GenerateDoccReference",
+-      targets: ["GenerateDoccReference"]),
+-    .plugin(
+-      name: "GenerateManual",
+-      targets: ["GenerateManual"]),
++    
++    
+   ],
+   dependencies: [],
+   targets: [
+@@ -41,25 +37,8 @@
+       exclude: ["CMakeLists.txt"]),
+ 
+     // Plugins
+-    .plugin(
+-      name: "GenerateDoccReference",
+-      capability: .command(
+-        intent: .custom(
+-          verb: "generate-docc-reference",
+-          description:
+-            "Generate a documentation reference for a specified target."),
+-        permissions: [
+-          .writeToPackageDirectory(
+-            reason: "This command generates documentation.")
+-        ]),
+-      dependencies: ["generate-docc-reference"]),
+-    .plugin(
+-      name: "GenerateManual",
+-      capability: .command(
+-        intent: .custom(
+-          verb: "generate-manual",
+-          description: "Generate a manual entry for a specified target.")),
+-      dependencies: ["generate-manual"]),
++    
++    
+ 
+     // Examples
+     .executableTarget(
+@@ -112,11 +91,7 @@
+       name: "ArgumentParserGenerateManualTests",
+       dependencies: ["ArgumentParserTestHelpers"],
+       exclude: ["Snapshots"]),
+-    .testTarget(
+-      name: "ArgumentParserPackageManagerTests",
+-      dependencies: ["ArgumentParser", "ArgumentParserTestHelpers"],
+-      exclude: ["CMakeLists.txt"]),
+-    .testTarget(
++        .testTarget(
+       name: "ArgumentParserToolInfoTests",
+       dependencies: ["ArgumentParserToolInfo"],
+       exclude: ["Examples"]),

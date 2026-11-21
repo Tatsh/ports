@@ -46,3 +46,17 @@ post-destroot {
         file copy -force $toolinfo_src $toolinfo_dst
     }
 }
+
+# Upstream's XCTest suite runs through SwiftPM. Its manifest needs Swift 6 tools only for the
+# PackagePlugin API used by the plugins, which the tests do not use, so test a copy with
+# test-manifest.diff applied (tools 5.9, plugins removed).
+use_xcode           yes
+test.run            yes
+test {
+    set tdir ${workpath}/test-src
+    delete ${tdir}
+    copy ${worksrcpath} ${tdir}
+    system -W ${tdir} "/usr/bin/patch -p0 < ${filespath}/test-manifest.diff"
+    xinstall -d ${workpath}/test-home
+    system -W ${tdir} "env HOME=${workpath}/test-home CFFIXED_USER_HOME=${workpath}/test-home /usr/bin/xcrun swift test --disable-sandbox"
+}
