@@ -1,11 +1,13 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           app 1.0
 PortGroup           github 1.0
 PortGroup           meson 1.0
 
 github.setup        LostArtefacts TRX 1.12 trx-
 github.tarball_from archive
+revision            1
 name                trx
 categories          games
 platforms           darwin linux freebsd
@@ -57,3 +59,8 @@ destroot {
     system "/bin/cp -R ${workpath}/TRX-trx-${version}/data/trx/ship/. ${dest}/"
     ln -s ../libexec/${name}/TRX ${destroot}${prefix}/bin/trx
 }
+
+# A Finder-launchable app bundle for the game, which runs the installed program.
+app.name            TRX
+app.executable      trx
+app.icon            ${workpath}/TRX-trx-${version}/data/trx/mac/icon.icns
