@@ -1,0 +1,60 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/Kethsar/ytarchive 0.5.0 v
+categories          multimedia
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             MIT
+
+description         Garbage YouTube livestream downloader.
+
+long_description    ${description}
+
+depends_run-append  path:bin/ffmpeg:ffmpeg
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  81b96b6d757051943102463edea1675609bb446b \
+                        sha256  0945f919c066a8309c0d45fa35847001318f2a65d67da7af185185080f34f63c \
+                        size    40012
+
+go.vendors          golang.org/x/sys \
+                        lock    v0.3.0 \
+                        rmd160  17c78e6210a6f938db21fa772584ab8c7d4e06c1 \
+                        sha256  b04ddf676ead57e0d3e367e9aa17db1b11fc20af719e479d1ca56873a2bdf06b \
+                        size    1411264 \
+                    golang.org/x/net \
+                        lock    4163338589ed \
+                        rmd160  9d3ff5ca23bad47d9fd98740d3d45321c178ae36 \
+                        sha256  683a495a5ef2377040356e6e277d156403b98dbd91728640736ac640e3a39b00 \
+                        size    1252172 \
+                    github.com/xhit/go-str2duration/v2 \
+                        lock    v2.1.0 \
+                        rmd160  26539ee5e101f9a4f60f2d4492e35fbb68eb580e \
+                        sha256  e1a0c70328717b9e9e1f6260317e27c1023676ada66b0d959d41aaa1f7eb03be \
+                        size    5855 \
+                    github.com/mattn/go-isatty \
+                        lock    v0.0.14 \
+                        rmd160  8ebfd3a6f2898a729e41dff6b5359e88959c46e1 \
+                        sha256  dc141c207a7f4eb83992df90ca087841a0a3aab5a4f2b528bf81d42a186bcc1e \
+                        size    4705 \
+                    github.com/mattn/go-colorable \
+                        lock    v0.1.11 \
+                        rmd160  8c86c57e575979c1544343e23053b73be022cfe5 \
+                        sha256  4b8c7305e79232b627217d894382b7c3cd35371347e3fc7231fbce13500d0a38 \
+                        size    9808 \
+                    github.com/dannav/hhmmss \
+                        lock    v1.0.0 \
+                        rmd160  b60a9259ad4237288eb598e280923c6e28395601 \
+                        sha256  ec763c671e64c190d4a518e407b6c2d0ffb12d1d6ebb710356cd4e2e58891847 \
+                        size    5544 \
+                    github.com/alessio/shellescape \
+                        lock    v1.4.1 \
+                        rmd160  669d9a26af060752e544e09551b8835dc89b336a \
+                        sha256  ab26daceb19d4973dd1bf37105473f8d27697b5a04b124d790fd45124450b9a2 \
+                        size    7552
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
