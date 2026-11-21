@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-niquests-cache
+version             0.2.4
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python net
+maintainers         {gmail.com:audvare @Tatsh}
+description         Cached niquests sessions with pluggable storage backends.
+long_description    ${description}
+homepage            https://github.com/Tatsh/niquests-cache
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            niquests_cache-${version}
+
+checksums           rmd160  2f8c95cc0e9b4fa6a922a5fec7b4d785e87046eb \
+                    sha256  7542faf2a0b6f9ef3e7e531c89daa24a4bf69f88f3d6fb1d8112c3975f8239e1 \
+                    size    24030
+
+python.versions         313 314
+python.pep517_backend   hatch
+
+if {$subport ne $name} {
+    livecheck.type none
+    depends_run-append \
+        port:py${python.version}-aiosqlite \
+        port:py${python.version}-anyio \
+        port:py${python.version}-niquests \
+        port:py${python.version}-platformdirs \
+        port:py${python.version}-typing_extensions
+}
