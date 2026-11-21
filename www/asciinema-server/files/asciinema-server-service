@@ -1,0 +1,12 @@
+#!/bin/sh
+# Run the asciinema server (started by the launchd startup item). The release does not bundle the
+# Erlang runtime, so the MacPorts one must be on PATH.
+set -a
+. "@PREFIX@/etc/asciinema-server/server.env"
+set +a
+export PATH="@PREFIX@/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export LANG="${LANG:-en_US.UTF-8}"
+export RELEASE_TMP="@PREFIX@/var/db/asciinema-server/tmp"
+cd "@PREFIX@/var/db/asciinema-server" || exit 1
+"@PREFIX@/libexec/asciinema-server/bin/migrate" || exit 1
+exec "@PREFIX@/libexec/asciinema-server/bin/server"

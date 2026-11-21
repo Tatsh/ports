@@ -1,0 +1,197 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cargo_fetch 1.0
+PortGroup           github 1.0
+
+github.setup        asciinema asciinema-server 20260626 v
+github.tarball_from archive
+revision            0
+categories          www
+platforms           darwin
+# Apache-2 is upstream's own. The rest cover the crates linked into the three Rust NIFs.
+license             Apache-2 ISC MIT Unicode-3 Zlib
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Platform for hosting and sharing terminal session recordings.
+long_description    The server behind asciinema.org, for hosting and sharing terminal session \
+                    recordings. It needs PostgreSQL. This port runs it as a launchd service.
+homepage            https://docs.asciinema.org/manual/server/
+dist_subdir         ${name}/${version}
+
+# Mix and npm resolve over the network, so the dependency trees are fetched ahead of time and
+# shipped whole (the same distfiles tatsh-overlay uses). Hex is a Mix archive that mix installs by
+# downloading it, and mix cannot read a lock file full of :hex entries without it. The stylesheet
+# is built with the standalone Tailwind CSS CLI.
+set hex_version     2.5.1
+set tailwind_version 3.4.3
+if {${build_arch} eq "arm64"} {
+    set tailwind_bin tailwindcss-macos-arm64
+} else {
+    set tailwind_bin tailwindcss-macos-x64
+}
+master_sites-append https://github.com/Tatsh/tatsh-overlay/releases/download/__distfiles__/:overlay \
+                    https://github.com/tailwindlabs/tailwindcss/releases/download/v${tailwind_version}/:tailwind
+distfiles-append    hex-${hex_version}-mix-home.tar.xz:overlay \
+                    ${name}-${version}-deps.tar.xz:overlay \
+                    ${name}-${version}-node_modules.tar.xz:overlay \
+                    ${tailwind_bin}:tailwind
+
+checksums           asciinema-server-20260626.tar.gz \
+                    rmd160  4ca78febe73089c638ff016fcb02e09400d7e88d \
+                    sha256  f344d46ab3c0a450ba2efa235b371ee66a976d18068ba6e4029b0b6c6e0f3600 \
+                    size    8378793 \
+                    hex-2.5.1-mix-home.tar.xz \
+                    rmd160  26b4863c4cc8f32a828ee7386da34f35ea3f7bce \
+                    sha256  1d78f113d69dae314893dd25819290ab27e081b6d55e043f0a5839310e9e83d1 \
+                    size    1675568 \
+                    asciinema-server-20260626-deps.tar.xz \
+                    rmd160  24bbc119901aed57bfaebc1925591cdd4db24740 \
+                    sha256  e897fb19abc02b5f197edc713ef207dd524f3e14fd88bb6a2208d91581f180be \
+                    size    4639132 \
+                    asciinema-server-20260626-node_modules.tar.xz \
+                    rmd160  c37eddef4c308f9d58b01fc05c473df1f4f6c73a \
+                    sha256  03a8351034278383dd5edba47ddeb89f6eec74555b8b0e347f8d0c03412075f6 \
+                    size    669500 \
+                    tailwindcss-macos-x64 \
+                    rmd160  83b075a780c13a25328b4f74f389f0b23b485d39 \
+                    sha256  bd56c3beedd1eba030099820ef9935323a76a15b2b91d317b6a1c0e6c740084a \
+                    size    53066912 \
+                    tailwindcss-macos-arm64 \
+                    rmd160  24c6f0f0682c0c7d7eb87d0b3ba28f5d4e6860f3 \
+                    sha256  5accace886a0abf77038a6fe86d316a2c2cbe756e53f1c6adcf5fc8a8675519c \
+                    size    47175984
+
+cargo.crates \
+    adler2           2.0.1    320119579fcad9c21884f5c4861d16174d0e06250625266f50fe6898340abefa \
+    avt              0.17.0   fa0f99f7bcce0e99d842c94947f8d0ab5f6f3abc08424e1a4b58a8a7ae30f7c7 \
+    bytemuck         1.24.0   1fbdf580320f38b612e485521afda1ee26d10cc9884efaaa750d383e13e3c5f4 \
+    cfg-if           1.0.4    9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801 \
+    crc32fast        1.5.0    9481c1c90cbf2ac953f07c8d4a58aa3945c425b7185c9154d67a65e4230da511 \
+    equivalent       1.0.2    877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f \
+    flate2           1.1.9    843fba2746e448b37e26a819579957415c8cef339bf08564fe8b7ddbd959573c \
+    hashbrown        0.16.0   5419bdc4f6a9207fbeba6d11b604d481addf78ecd10c11ad51e76c2f6482748d \
+    heck             0.5.0    2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea \
+    indexmap         2.12.0   6717a8d2a5a929a1a2eb43a12812498ed141a0bcfb7e8f7844fbdbe4303bba9f \
+    inventory        0.3.21   bc61209c082fbeb19919bee74b176221b27223e27b65d781eb91af24eb1fb46e \
+    libloading       0.8.9    d7c4b02199fee7c5d21a5ae7d8cfa79a6ef5bb2fc834d6e9058e89c825efdc55 \
+    miniz_oxide      0.8.9    1fa76a2c86f704bdb222d66965fb3d63269ce38518b83cb0575fca855ebb6316 \
+    proc-macro2      1.0.103  5ee95bc4ef87b8d5ba32e8b7714ccc834865276eab0aed5c9958d00ec45f49e8 \
+    quote            1.0.41   ce25767e7b499d1b604768e7cde645d14cc8584231ea6b295e9c9eb22c02e1d1 \
+    regex-lite       0.1.8    8d942b98df5e658f56f20d592c7f868833fe38115e65c33003d8cd224b0155da \
+    rgb              0.8.52   0c6a884d2998352bb4daf0183589aec883f16a6da1f4dde84d8e2e9a5409a1ce \
+    rustler          0.37.0   fb867bb35b291ef105abbe0a0d04bd4d7af372e023d08845698687bc254f222b \
+    rustler_codegen  0.37.0   90993223c5ac0fb580ff966fb9477289c4e8a610a2f4639912a2639c5e7b5095 \
+    rustversion      1.0.22   b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d \
+    simd-adler32     0.3.8    e320a6c5ad31d271ad523dcf3ad13e2767ad8b1cb8f047f75a8aeaf8da139da2 \
+    syn              2.0.108  da58917d35242480a05c2897064da0a80589a2a0476c9a3f2fdc83b53502e917 \
+    unicode-ident    1.0.20   462eeb75aeb73aea900253ce739c8e18a67423fadf006037cd3ff27e82748a06 \
+    unicode-width    0.1.14   7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af \
+    windows-link     0.2.1    f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5 \
+    zlib-rs          0.6.0    a7948af682ccbc3342b6e9420e8c51c1fe5d7bf7756002b4a3c6cabfe96a7e3c
+
+depends_build-append \
+                    port:cargo \
+                    port:esbuild \
+                    port:rust
+depends_lib-append  port:elixir \
+                    port:erlang
+
+patchfiles          patch-security-updates.diff \
+                    patch-system-tooling.diff
+patch.pre_args-replace -p0 -p1
+
+post-extract {
+    foreach f [list hex-${hex_version}-mix-home ${name}-${version}-deps ${name}-${version}-node_modules] {
+        system -W ${workpath} "tar -xJf ${distpath}/${f}.tar.xz"
+    }
+    # The two vendored trees unpack at the top of the work directory. mix and the asset build
+    # expect them inside the source tree.
+    delete ${worksrcpath}/deps ${worksrcpath}/assets/node_modules
+    move ${workpath}/deps ${worksrcpath}/deps
+    move ${workpath}/node_modules ${worksrcpath}/assets/node_modules
+    xinstall -m 0755 ${distpath}/${tailwind_bin} ${workpath}/tailwindcss
+}
+
+use_configure       no
+
+# Neither mix nor Hex may reach the network or write outside the work directory. Cargo finds the
+# vendored crates through the configuration cargo_fetch writes to the build home.
+build.env-append    MIX_ENV=prod \
+                    HEX_OFFLINE=1 \
+                    HEX_HOME=${workpath}/hex \
+                    MIX_HOME=${workpath}/mix-home \
+                    ESBUILD_PATH=${prefix}/bin/esbuild \
+                    TAILWIND_PATH=${workpath}/tailwindcss \
+                    CARGO_NET_OFFLINE=true \
+                    LANG=en_US.UTF-8 \
+                    LC_ALL=en_US.UTF-8
+
+build {
+    set mix_env {}
+    foreach e ${build.env} {
+        lappend mix_env [shellescape ${e}]
+    }
+    foreach step {{deps.compile --no-deps-check} {compile --no-deps-check} assets.deploy
+            {release --no-deps-check}} {
+        system -W ${worksrcpath} "env [join ${mix_env}] ${prefix}/bin/mix ${step}"
+    }
+}
+
+destroot {
+    set dest ${destroot}${prefix}/libexec/${name}
+    xinstall -d ${dest}
+    copy {*}[glob ${worksrcpath}/_build/prod/rel/asciinema/*] ${dest}/
+    delete ${dest}/bin/asciinema.bat
+    xinstall -d ${destroot}${prefix}/etc/${name}
+    xinstall -m 0644 ${filespath}/server.env.sample ${destroot}${prefix}/etc/${name}/
+    xinstall -m 0755 ${filespath}/asciinema-server-service ${dest}/
+    reinplace "s|@PREFIX@|${prefix}|g" ${dest}/asciinema-server-service
+    xinstall -d -o _asciinema -g _asciinema -m 0750 ${destroot}${prefix}/var/db/${name} \
+        ${destroot}${prefix}/var/db/${name}/tmp
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
+}
+destroot.keepdirs   ${destroot}${prefix}/var/db/${name}/tmp
+
+add_users           _asciinema group=_asciinema realname=asciinema\ server
+
+post-activate {
+    set conf ${prefix}/etc/${name}/server.env
+    if {![file exists ${conf}]} {
+        set key [exec /usr/bin/openssl rand -base64 48]
+        set in [open ${conf}.sample r]
+        set text [read ${in}]
+        close ${in}
+        set out [open ${conf} w 0640]
+        puts -nonewline ${out} [string map [list @SECRET_KEY_BASE@ ${key}] ${text}]
+        close ${out}
+        file attributes ${conf} -group _asciinema
+    }
+}
+
+startupitem.create  yes
+startupitem.user    _asciinema
+startupitem.group   _asciinema
+startupitem.executable \
+                    ${prefix}/libexec/${name}/asciinema-server-service
+
+notes "
+Before starting the service:
+
+  1. Create the PostgreSQL database and role, for example:
+       createuser asciinema
+       createdb -O asciinema asciinema
+  2. Set DATABASE_URL and URL_HOST in ${prefix}/etc/${name}/server.env (a SECRET_KEY_BASE was\
+ generated for you).
+  3. Start the server with:
+       sudo port load ${name}
+
+The service runs the database migrations before it starts the server.
+
+Two of the locked dependencies carry published advisories that cannot be resolved by updating\
+ them: cowlib 2.20.0 (header and cookie injection in the HTTP layer, no fixed release exists) and\
+ earmark 1.4.49 (stored XSS, mitigated here because rendered Markdown is sanitised). Consider\
+ whether to expose this server directly to the internet.
+"
+
+livecheck.type      none
