@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        seregonwar ShadPKG f294146cbe7cad375c4a28ce16885621b0e00288
+github.tarball_from archive
+name                shadpkg
+version             2.1.0.20261028
+categories          games sysutils
+platforms           darwin linux freebsd
+license             GPL-2+ MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Derive keys from and extract PlayStation 4 PKG files.
+long_description    ${description} Only the command line tool is built.
+
+checksums           rmd160  92a9aa3e30acf17c6ca5612b62d6ff51fda32f22 \
+                    sha256  f269fe7e3faf119026294ab062c2084e734ac2744e3730d2232ed2549c4de396 \
+                    size    1391348
+
+depends_build-append \
+                    port:nlohmann-json \
+                    port:pkgconfig
+depends_lib-append  port:capstone \
+                    port:libcryptopp \
+                    port:libfmt12 \
+                    port:zlib
+
+# Use pkg-config for capstone and Crypto++ instead of Conan's CMake packages.
+patchfiles          patch-system-deps.diff
+
+compiler.cxx_standard 2023
+
+# The GUI needs imgui with the GLFW and OpenGL backends.
+configure.args-append \
+                    -DBUILD_GUI=OFF \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+# Upstream defines no install rules.
+destroot {
+    xinstall -m 0755 ${build.dir}/shadpkg ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
