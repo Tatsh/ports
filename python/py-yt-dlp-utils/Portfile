@@ -36,3 +36,10 @@ if {$subport ne $name} {
     # yt-dlp is a single port with python3xx variants; its module must match this subport.
     require_active_variants yt-dlp python${python.version}
 }
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    depends_test-append \
+        port:py${python.version}-pytest-mock \
+        port:py${python.version}-pytest-asyncio
+}
