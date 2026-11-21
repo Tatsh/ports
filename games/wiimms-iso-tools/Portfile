@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Wiimm wiimms-iso-tools fc1c0b840cb3ac41ca6e4f1d5e16da12b47eab58
+github.tarball_from archive
+version             3.05a
+categories          games sysutils
+platforms           darwin linux freebsd
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Command line tools to manipulate Wii and GameCube ISO images and WBFS containers.
+long_description    Wiimms ISO Tools: wit (Wiimms ISO Tool), wwt (Wiimms WBFS Tool) and wdf, \
+                    with the wdf-cat and wdf-dump links. wfuse is not built.
+homepage            https://wit.wiimm.de/
+
+checksums           rmd160  6210e3123067669ce57ac731320c7960442413d8 \
+                    sha256  ebcff01c6d674f21a8c63ef0530d0516616d082e1d5041863ebc744549f937ea \
+                    size    2669192
+
+depends_lib-append  path:lib/libssl.dylib:openssl \
+                    port:ncurses \
+                    port:zlib
+
+worksrcdir          ${distname}/project
+use_configure       no
+
+post-patch {
+    reinplace -E {s/@\$\(CC\)/$(CC)/g; s/-O3\b//g; s/^CC[[:space:]]+=(.*)/CC ?=\1/} \
+        ${worksrcpath}/Makefile
+}
+
+build.target        tools
+build.args          CC="${configure.cc} [get_canonical_archflags cc]" \
+                    XFLAGS="${configure.cflags} ${configure.cppflags}" \
+                    LDFLAGS="${configure.ldflags}" \
+                    INSTALL_PATH=${prefix} \
+                    HAVE_FUSE=0
+
+set share_files {magic.txt system-menu.txt titles.txt titles-de.txt titles-es.txt titles-fr.txt \
+                 titles-it.txt titles-ja.txt titles-ko.txt titles-nl.txt titles-pt.txt \
+                 titles-ru.txt titles-zhcn.txt titles-zhtw.txt}
+
+destroot {
+    foreach t {wit wwt wdf} {
+        xinstall -m 0755 ${worksrcpath}/${t} ${destroot}${prefix}/bin/
+    }
+    foreach l {wdf-cat wdf-dump} {
+        ln -s wdf ${destroot}${prefix}/bin/${l}
+    }
+    xinstall -d ${destroot}${prefix}/share/wit ${destroot}${prefix}/share/doc/${name}
+    foreach f ${share_files} {
+        xinstall -m 0644 ${worksrcpath}/share/${f} ${destroot}${prefix}/share/wit/
+    }
+    xinstall -m 0644 ${worksrcpath}/../README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
