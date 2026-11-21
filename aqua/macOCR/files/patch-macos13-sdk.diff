@@ -1,0 +1,12 @@
+--- ocr/main.swift
++++ ocr/main.swift
+@@ -923,7 +923,8 @@
+             // put on the clipboard for those, so say so rather than drop them
+             // silently, and hand the bytes over in JSON where they can be decoded.
+             var note = "Note: skipped a \(symbologyName(observation.symbology)) code whose payload is not text"
+-            if #available(macOS 14.0, *), let data = observation.payloadData {
++            // payloadData is not in the macOS 13 SDK; read it via KVC (only reached on macOS 14+).
++            if #available(macOS 14.0, *), let data = observation.value(forKey: "payloadData") as? Data {
+                 record["payloadBase64"] = data.base64EncodedString()
+                 note += asJSON ? "; it is in the JSON as payloadBase64." : "; run again with --json to get it as base64."
+             } else {
