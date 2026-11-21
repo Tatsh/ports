@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        Gekkio GhidraBoy 20250830
+github.tarball_from archive
+name                ghidraboy
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra extension for Game Boy ROMs: Sharp SM83 processor module and loader.
+long_description    ${description}
+
+checksums           rmd160  41dfef6289b9181884334cdca80f432cbbfcbfd5 \
+                    sha256  8410bb68196695681f63640f3b409c5b6ae2b7d9ef2c89788b5af1f400fd872f \
+                    size    148695
+
+ghidra_extension.name GhidraBoy
+
+patchfiles          patch-ghidra-12.2.diff \
+                    patch-ghidra-12.diff
+patch.pre_args-replace -p0 -p1
+
+# Upstream generates extension.properties from its Gradle build.
+post-extract {
+    set fd [open ${worksrcpath}/extension.properties w]
+    puts ${fd} "name=GhidraBoy\ndescription=Support for Sharp SM83 / Game Boy\nauthor=Gekkio\ncreatedOn=2025-08-30\nversion=0"
+    close ${fd}
+}
