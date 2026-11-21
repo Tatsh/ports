@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-elementpath
+version             5.1.4
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         XPath 1.0/2.0/3.0/3.1 parsers and selectors for ElementTree and lxml.
+long_description    ${description}
+homepage            https://github.com/sissaschool/elementpath
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            elementpath-${version}
+
+checksums           rmd160  252b064186192eae820b6e2bc48fff9897b9adc3 \
+                    sha256  3c912a9c41311ac5244c038867670d7c0b0fec0e444813608e5b846dbb3428ac \
+                    size    381114
+
+python.versions         313 314
+python.pep517_backend   setuptools
+
+if {$subport ne $name} {
+    livecheck.type      none
+}
