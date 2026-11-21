@@ -6,6 +6,7 @@ PortGroup           github 1.0
 github.setup        DerKoun bsnes-hd f46b6d6368ea93943a30b5d4e79e8ed51c2da5e8
 github.tarball_from archive
 version             10.6
+revision            1
 categories          emulators games aqua
 platforms           darwin
 license             GPL-3
@@ -29,5 +30,12 @@ build.args          platform=macos \
                     local=false
 
 destroot {
-    copy ${build.dir}/out/bsnes.app ${destroot}${applications_dir}/bsnes-hd.app
+    set app ${destroot}${applications_dir}/bsnes-hd.app
+    copy ${build.dir}/out/bsnes.app ${app}
+    # The bundle ships with plain bsnes's name and identifier. Give it its own so it does not clash
+    # with bsnes.
+    set plist ${app}/Contents/Info.plist
+    set pb /usr/libexec/PlistBuddy
+    system "${pb} -c 'Set :CFBundleIdentifier io.github.derkoun.bsnes-hd' -c 'Set :CFBundleDisplayName bsnes-hd' ${plist}"
+    system "${pb} -c 'Add :CFBundleName string bsnes-hd' -c 'Add :CFBundlePackageType string APPL' -c 'Add :CFBundleShortVersionString string ${version}' -c 'Add :CFBundleVersion string ${version}' ${plist}"
 }
