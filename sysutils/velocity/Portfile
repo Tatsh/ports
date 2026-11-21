@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        hetelek Velocity 1.0.0 v
+github.tarball_from archive
+name                velocity
+categories          sysutils games aqua
+platforms           darwin
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Browse and edit Xbox 360 files such as STFS packages and FATX drives.
+long_description    ${description}
+
+checksums           rmd160  95dcc4021af5a63620c2cfde1a469fee10125800 \
+                    sha256  f4821c03df6b23463b0f20a58cc4e6ce443c2e8e0b6db8c876122e23a77c020c \
+                    size    1118282
+
+depends_lib-append  port:botan
+
+compiler.cxx_standard 2020
+
+# Point the Botan paths, hard-coded for Homebrew, at MacPorts, and respect the MacPorts flags.
+# (Botan's pkg-config file carries -arch flags that qmake mangles.)
+post-patch {
+    reinplace {/^QMAKE_CXXFLAGS = -O3$/d} ${worksrcpath}/XboxInternals/XboxInternals.pro
+    foreach pro {XboxInternals/XboxInternals.pro Velocity/Velocity.pro} {
+        reinplace "s|/opt/homebrew/include/botan-3|${prefix}/include/botan-3|" ${worksrcpath}/${pro}
+        reinplace "s|/opt/homebrew/lib/libbotan-3.a|-L${prefix}/lib -lbotan-3|" ${worksrcpath}/${pro}
+        reinplace -E {/^[[:space:]]*PRE_TARGETDEPS \+= .*libbotan-3/d} ${worksrcpath}/${pro}
+    }
+}
+
+configure {
+    foreach dir {XboxInternals Velocity} {
+        system -W ${worksrcpath}/${dir} "[option qt6.dir]/bin/qmake CONFIG+=release \
+            QMAKE_MACOSX_DEPLOYMENT_TARGET=${macosx_deployment_target}"
+    }
+}
+
+# Velocity links against the static XboxInternals library.
+build {
+    system -W ${worksrcpath}/XboxInternals "${build.cmd} ${build.pre_args}"
+    system -W ${worksrcpath}/Velocity "${build.cmd} ${build.pre_args}"
+}
+
+destroot {
+    copy ${worksrcpath}/Velocity/build/Velocity-OSX/release/Velocity.app ${destroot}${applications_dir}/
+    ln -s ${applications_dir}/Velocity.app/Contents/MacOS/Velocity ${destroot}${prefix}/bin/velocity
+}
