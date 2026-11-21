@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        alex-free aprip 1.0.9 v
+github.tarball_from archive
+categories          games sysutils
+platforms           darwin linux freebsd
+license             BSD
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Remove additional copy protection found in some later PS1 games.
+long_description    ${description}
+homepage            https://alex-free.github.io/aprip/
+
+checksums           rmd160  7cd5a79281c324907c77a547b01e55dac0bce89b \
+                    sha256  6379e0b6ccb6ce4e39a64cc15ff793dec7c875bf9ce8f44aa74d75213be62110 \
+                    size    3897561
+
+use_configure       no
+
+# The ap-type-checker and cd-command-logger helper scripts read DuckStation's Linux log path, so they
+# are not installed.
+
+# Upstream links statically, which macOS does not support. Pass the flags through the environment so
+# the Makefile can still append its version define.
+post-patch {
+    reinplace -E {s/^(COMPILER|COMPILER_FLAGS)=/\1?=/} ${worksrcpath}/variables.mk
+}
+
+build.target        aprip
+build.env-append    COMPILER=${configure.cc} \
+                    "COMPILER_FLAGS=[get_canonical_archflags cc] ${configure.cflags} ${configure.ldflags}"
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/build/aprip ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} readme.md changelog.md license.md \
+        ${destroot}${prefix}/share/doc/${name}/
+}
