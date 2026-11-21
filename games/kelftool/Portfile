@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        parrado kelftool 6b9b471388626c4a576c7d7d67b8664c00fcd024
+github.tarball_from archive
+version             20191126
+categories          games sysutils
+platforms           darwin linux freebsd
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Decrypt, encrypt and sign PS2 and PSX KELF files.
+long_description    ${description}
+
+checksums           rmd160  748b8f5971646e8ece96afc89ff40814f1e2779b \
+                    sha256  918711250411583fdcb7efa6d762219717f750a667c1fb82d54366e8c716d602 \
+                    size    22768
+
+depends_lib-append  path:lib/libssl.dylib:openssl
+
+compiler.cxx_standard 2017
+use_configure       no
+
+build.args          CXX="${configure.cxx} [get_canonical_archflags cxx]" \
+                    CPPFLAGS="${configure.cppflags}" \
+                    LDFLAGS="${configure.ldflags}"
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/build/kelftool.elf ${destroot}${prefix}/bin/kelftool
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
