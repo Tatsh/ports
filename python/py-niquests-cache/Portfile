@@ -33,3 +33,11 @@ if {$subport ne $name} {
         port:py${python.version}-platformdirs \
         port:py${python.version}-typing_extensions
 }
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    test.env-append     PYTHONPATH=${worksrcpath}
+    depends_test-append \
+        port:py${python.version}-pytest-mock \
+        port:py${python.version}-pytest-asyncio
+}
