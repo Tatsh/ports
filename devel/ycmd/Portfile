@@ -6,7 +6,7 @@ PortGroup           github 1.0
 
 github.setup            ycm-core ycmd a290328
 version                 20260301
-revision                0
+revision                3
 categories              devel textproc
 platforms               darwin
 license                 GPL-3
@@ -20,7 +20,8 @@ checksums           rmd160  4e973b821d993773b9ee611f96ca6a26187f5993 \
 
 worksrcdir  ${github.project}-${github.version}/cpp
 
-set python_minor_version    11
+# ycmd requires Python 3.12+ (its __main__ exits with status 8 on older versions).
+set python_minor_version    13
 set python_framework_dir    ${frameworks_dir}/Python.framework/Versions/3.${python_minor_version}
 set site_packages_dir       ${python_framework_dir}/lib/python3.${python_minor_version}/site-packages
 set ycm_core_file           ycm_core.cpython-3${python_minor_version}-darwin.so
@@ -33,7 +34,6 @@ configure.args-append \
     -DUSE_CLANG_TIDY=ON \
     -DPython3_ROOT_DIR=${python_framework_dir}
 
-set core_version    45
 
 depends_lib-append      port:python3${python_minor_version}
 depends_run-append \
@@ -56,6 +56,8 @@ post-patch {
     reinplace -W ${patch.dir} \
         "s|@LIBCLANG_DIR@|${prefix}/libexec/llvm-${clang_version}/lib|" \
         ycmd/utils.py
+    # The expected core version must match the CORE_VERSION file of this ycmd revision.
+    set core_version [string trim [exec cat ${patch.dir}/CORE_VERSION]]
     reinplace -W ${patch.dir} "s|@CORE_VERSION@|${core_version}|" ycmd/utils.py
     reinplace -W ${patch.dir} "s|@LLVM_VERSION@|${clang_version}|" \
         ycmd/completers/cpp/clangd_completer.py
@@ -79,6 +81,11 @@ destroot {
     xinstall -m 0755 ${worksrcpath}/../${ycm_core_file} \
         ${destroot}${site_packages_dir}
     copy ${worksrcpath}/../ycmd ${destroot}${site_packages_dir}/
+    # YouCompleteMe launches ycmd with the interpreter named here (upstream's build.py writes
+    # it); without it, it falls back to the first python3 on PATH, which may be too old.
+    set fp [open ${destroot}${site_packages_dir}/PYTHON_USED_DURING_BUILDING w]
+    puts $fp ${python_framework_dir}/bin/python3.${python_minor_version}
+    close $fp
 }
 
 # Upstream's C++ core suite (what `build.py --core-tests` runs). The tests subdirectory is only
