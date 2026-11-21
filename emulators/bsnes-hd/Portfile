@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        DerKoun bsnes-hd f46b6d6368ea93943a30b5d4e79e8ed51c2da5e8
+github.tarball_from archive
+version             10.6
+categories          emulators games aqua
+platforms           darwin
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Fork of the bsnes Super Nintendo emulator that adds HD video features.
+long_description    ${description} Adds HD Mode 7, widescreen and true colour rendering.
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  058398445b6c7b95ceba46f3e4d1ed4258e2abef \
+                    sha256  d46ee8fdf68d971536ee3edc6f48917a83dc9c919583e58ec0abe78724401e8f \
+                    size    6993461
+
+compiler.cxx_standard 2017
+use_configure       no
+
+# The macOS target builds an app bundle with the Cocoa toolkit and native audio and video drivers.
+build.dir           ${worksrcpath}/bsnes
+build.target
+build.args          platform=macos \
+                    compiler=${configure.cxx} \
+                    local=false
+
+destroot {
+    copy ${build.dir}/out/bsnes.app ${destroot}${applications_dir}/bsnes-hd.app
+}
