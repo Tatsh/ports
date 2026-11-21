@@ -36,3 +36,8 @@ depends_run-append \
 post-destroot {
     xinstall -m 0644 ${worksrcpath}/man/${name}.1 ${destroot}${prefix}/share/man/man1
 }
+
+test.run            yes
+depends_test-append \
+    port:py${python.version}-pytest-mock \
+    port:py${python.version}-pytest-asyncio
