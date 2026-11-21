@@ -1,0 +1,24 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           mpv_plugin 1.0
+
+name                mpv-shader-ssim-downscaler
+version             20240905
+license             LGPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         SSimDownscaler perceptually based downscaling shader for mpv.
+long_description    ${description} Installed into mpv's shaders directory, for use with \
+                    --glsl-shaders=~~/shaders/<file>.
+homepage            https://gist.github.com/igv/36508af3ffc84410fe39761d6969be10
+master_sites        https://gist.github.com/igv/36508af3ffc84410fe39761d6969be10/archive/
+distname            38992bce7f9ff844f800820df0908692b65bb74a
+use_zip             yes
+dist_subdir         ${name}/${version}
+worksrcdir          36508af3ffc84410fe39761d6969be10-38992bce7f9ff844f800820df0908692b65bb74a
+
+checksums           rmd160  75973326a9e37fac63de283df805cdc1b8c0437d \
+                    sha256  ac02b78a7a5816f6053f7573c8ca30e13b8d1f83b3a21b665d153709f8908abe \
+                    size    2052
+
+mpv_plugin.shaders  SSimDownscaler.glsl
