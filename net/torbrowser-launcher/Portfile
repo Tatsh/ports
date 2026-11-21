@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh torbrowser-launcher-mac 0.1.0 v
+github.setup        Tatsh torbrowser-launcher-mac 0.1.2 v
 # Use source tarball from tag; release has no .tar.gz asset (only arch-specific DMG/ZIP).
 github.tarball_from tarball
 
@@ -18,9 +18,9 @@ long_description    This package exists so that official Tor Browser builds \
                     installation can be maintained by a package manager.
 homepage            https://github.com/Tatsh/torbrowser-launcher-mac
 
-checksums           rmd160  40ca1fba80a55e0602408d368aab7a9d0449995a \
-                    sha256  6d030e4090e22ec87df6316946f147d823b8e7e269ccb33cd21b2c8ef95bb759 \
-                    size    2550217
+checksums           rmd160  a61f4b69b609d95c5a37ec59734b2b3a09d43c9d \
+                    sha256  a638cebf454dad1375e8216220f9f2ccee7c1b8a79a88e90d47b33c7dec25795 \
+                    size    2573114
 
 depends_build       port:cmake
 
