@@ -79,10 +79,10 @@ go.vendors          golang.org/x/text \
                         sha256  a68a54423370e136bf03e4217d2fba807b4d041f873f6ebbcfc8ad4ba9925f5d \
                         size    47132
 
-build.args          -o nanomdm ./cmd/nanomdm
+build.args          -ldflags=-X=main.version=v${version} -o nanomdm ./cmd/nanomdm
 
 post-build {
-    system -W ${worksrcpath} "env [join ${build.env}] ${go.bin} build -o nano2nano ./cmd/nano2nano"
+    system -W ${worksrcpath} "env [join ${build.env}] ${go.bin} build -ldflags=-X=main.version=v${version} -o nano2nano ./cmd/nano2nano"
 }
 
 destroot {
