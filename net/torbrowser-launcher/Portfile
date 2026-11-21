@@ -74,3 +74,25 @@ if {${os.major} < 19} {
         return -code error "incompatible OS X version"
     }
 }
+
+# Upstream's XCTest suite (a bundle for the launcher library, run by ctest via xctest). Build it
+# in its own directory; CODE_SIGNING_ALLOWED=NO keeps xcodebuild away from the keychain.
+test.run            yes
+test {
+    set tdir ${workpath}/test-build
+    file mkdir ${tdir}
+    system "cd ${tdir} && cmake -G Xcode -DBUILD_TESTS=ON \
+        -DCMAKE_OSX_ARCHITECTURES=${build_arch} -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+        ${worksrcpath}"
+    system "cd ${tdir} && xcodebuild -target TorBrowserLauncherTests -configuration Debug \
+        CODE_SIGNING_ALLOWED=NO"
+    # ctest finds no tests with the Xcode generator, so run the bundle with xctest directly.
+    # DMGManagerTest creates and mounts a disk image with hdiutil, which the build sandbox
+    # does not allow; run the other classes with a writable home for Application Support.
+    set bundle [glob ${tdir}/TorBrowserLauncherTests/Debug/*.xctest]
+    set thome ${workpath}/test-home
+    xinstall -d ${thome}
+    system "env HOME=${thome} CFFIXED_USER_HOME=${thome} /usr/bin/xcrun xctest \
+        -XCTest TorBrowserLauncherTests.UtilsTest,TorBrowserLauncherTests.BaseInstallerTests,TorBrowserLauncherTests.SettingsTest,TorBrowserLauncherTests.DownloaderTest \
+        [shellescape ${bundle}]"
+}
