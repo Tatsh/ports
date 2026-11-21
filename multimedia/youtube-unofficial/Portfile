@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                youtube-unofficial
-version             0.3.1
+version             0.4.0
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -17,20 +17,21 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            youtube_unofficial-${version}
 
-checksums           rmd160  8c44abc92a53735e8908e670e81037991ca42956 \
-                    sha256  c42e083cd5a925f2a03bec8474eb99841be8f90b82b67a6f1b6d920809267abe \
-                    size    26627
+checksums           rmd160  a8470e68d79ef07512e80cc1c8cd01d9540ef865 \
+                    sha256  68fe8e7d25ea1e440d32d6879a2939cab8691b3bd781011c2d23367e214fcb17 \
+                    size    29614
 
-python.versions             310 311 312 313 314
-python.default_version      313
-python.pep517_backend       poetry
+python.versions             313 314
+python.default_version      314
+python.pep517_backend       hatch
 
 depends_run-append \
+    port:py${python.version}-anyio \
     port:py${python.version}-bascom \
     port:py${python.version}-beautifulsoup4 \
     port:py${python.version}-click \
     port:py${python.version}-html5lib \
     port:py${python.version}-more-itertools \
-    port:py${python.version}-requests \
+    port:py${python.version}-niquests-cache \
     port:py${python.version}-typing_extensions \
     port:py${python.version}-yt-dlp-utils
