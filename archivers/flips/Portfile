@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Sir-Walrus Flips 198 v
+github.tarball_from archive
+name                flips
+categories          archivers games
+platforms           darwin linux freebsd
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Floating IPS, a patcher for IPS and BPS files.
+long_description    ${description} Only the command line version is built.
+
+checksums           rmd160  9f510f5dc8ebedf2072d337052ab26f7cf4c225e \
+                    sha256  5745b0bad8cd8d99b76ef8c9c77988266cb0c75450c74a42bce5bf83f17caeed \
+                    size    44533257
+
+use_configure       no
+build.args          TARGET=cli \
+                    CXX="${configure.cxx} [get_canonical_archflags cxx]" \
+                    CFLAGS="${configure.cxxflags}" \
+                    LFLAGS="${configure.ldflags}"
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/flips ${destroot}${prefix}/bin/
+}
