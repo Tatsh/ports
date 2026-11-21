@@ -1,0 +1,5 @@
+#!/bin/sh
+# Run Django management commands (migrate, createsuperuser, ...) for the MacPorts minchoc site.
+export DJANGO_SETTINGS_MODULE=minchoc_site
+export PYTHONPATH="@PREFIX@/share/minchoc/site${PYTHONPATH:+:${PYTHONPATH}}"
+exec "@PYTHON@" -m django "$@"

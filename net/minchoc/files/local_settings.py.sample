@@ -1,0 +1,6 @@
+# Settings for the minchoc service, read after the defaults in
+# @PREFIX@/share/minchoc/site/minchoc_site.py. A SECRET_KEY was generated when the port was
+# activated.
+SECRET_KEY = '@SECRET_KEY@'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOW_PACKAGE_DELETION = False
