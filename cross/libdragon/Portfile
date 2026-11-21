@@ -1,0 +1,55 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        n64brew libdragon 98154dafd5ac50e74ee09a5de1035d24a53f54f0
+github.tarball_from archive
+version             20261005
+categories          cross devel games
+platforms           darwin
+license             Unlicense Permissive Zlib
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Open source Nintendo 64 SDK and asset tools.
+long_description    ${description} Builds the library with libdragon-gcc and installs the host \
+                    asset tools (mksprite, audioconv64, n64tool and others). Set N64_INST to \
+                    ${prefix}.
+homepage            https://libdragon.dev/
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  ce31fac0fc537821c233ccbfadb93c6d4d764bc6 \
+                    sha256  0aec54ef231099392eb3566ad6cbb1618a1cc4e99a44663e38d93c3650346c09 \
+                    size    11851917
+
+depends_lib-append  port:libdragon-gcc
+
+set target          mips64-libdragon-elf
+
+post-patch {
+    foreach f {n64.mk boot/Makefile tools/Makefile} {
+        reinplace -E {s/ -Werror([[:space:]]|$)/\1/g} ${worksrcpath}/${f}
+    }
+}
+
+use_configure       no
+
+# The library is built with the cross compiler, so the host flags stay out of it.
+build {
+    system -W ${worksrcpath} "env -u CFLAGS -u CXXFLAGS -u CPPFLAGS -u LDFLAGS -u ASFLAGS \
+        ${build.cmd} ${build.pre_args} N64_INST=${prefix} N64_TARGET=${target} libdragon"
+    system -W ${worksrcpath} "${build.cmd} ${build.pre_args} -C tools N64_INST=${prefix} \
+        N64_TARGET=${target} CC=${configure.cc} CXX=${configure.cxx}"
+}
+
+destroot {
+    system -W ${worksrcpath} "env -u CFLAGS -u CXXFLAGS -u CPPFLAGS -u LDFLAGS -u ASFLAGS \
+        ${build.cmd} N64_INST=${prefix} N64_TARGET=${target} INSTALLDIR=${destroot}${prefix} install"
+    system -W ${worksrcpath} "${build.cmd} -C tools N64_INST=${prefix} N64_TARGET=${target} \
+        CC=${configure.cc} CXX=${configure.cxx} INSTALLDIR=${destroot}${prefix} install"
+}
+
+notes "
+Set N64_INST=${prefix} (and N64_TARGET=${target}) when building with libdragon.
+"
+
+livecheck.type      none
