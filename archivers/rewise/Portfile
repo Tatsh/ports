@@ -1,0 +1,28 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+
+name                rewise
+version             0.4.0
+categories          archivers
+platforms           darwin linux freebsd
+license             GPL-3+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Extract files from Wise installers without executing them.
+long_description    ${description}
+homepage            https://codeberg.org/CYBERDEV/REWise
+master_sites        ${homepage}/archive/
+distfiles           v${version}${extract.suffix}
+dist_subdir         ${name}/${version}
+worksrcdir          ${name}
+
+checksums           rmd160  fe1e44b6b877d9cd198d584a2cb7337dee3623db \
+                    sha256  4c5d3d40d79adc4b6c0c544bc41f39efed236e23a1a0757c793af2495ab9e1cd \
+                    size    1974539
+
+depends_lib-append  port:zlib
+
+livecheck.type      regex
+livecheck.url       https://codeberg.org/api/v1/repos/CYBERDEV/REWise/tags
+livecheck.regex     {"name":"v([0-9.]+)"}
