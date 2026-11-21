@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Orc discount 3.0.1.2 v
+github.setup        Orc discount 3.0.2.0 v
 # Use tag archive tarball; project has no GitHub releases (403 on release asset)
 github.tarball_from archive
 platforms           darwin linux freebsd
@@ -14,12 +14,15 @@ description         An implementation of the Markdown markup language.
 long_description    ${description}
 categories          textproc
 
-checksums           rmd160  5e06c2a33108df0dfca1c777ea7b352f699ba083 \
-                    sha256  4ea6cc8782c6508b3051c469ed7a1b6ca20b023c2a0c26ccd9c83bc7e61dfc16 \
-                    size    143419
+checksums           rmd160  a576400c4cf95e1211d1332e599bbe4bcdb21bae \
+                    sha256  99f6db36d3fff6c99acd21d4c6096176d4ac8785eab319d0faf77ad995b8b7c5 \
+                    size    144283
 
 cmake.source_dir    ${worksrcpath}/cmake
 
 patch {
     reinplace "s|DESTRUCTOR||g" ${worksrcpath}/setup.c
+    # configure.sh defines MAX_RECURSION (default 200) but the CMake config header does not.
+    reinplace "s|^#define _CONFIG_D 1|#define _CONFIG_D 1\\\n#ifndef MAX_RECURSION\\\n#define MAX_RECURSION 200\\\n#endif|" \
+        ${worksrcpath}/cmake/config.h.in
 }
