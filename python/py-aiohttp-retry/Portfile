@@ -17,6 +17,9 @@ homepage            https://github.com/inyutin/aiohttp_retry
 
 github.tarball_from tarball
 github.setup        inyutin aiohttp_retry 2.9.1 v
+# The official py-aiohttp-retry port mirrors a different (PyPI) aiohttp_retry-2.9.1.tar.gz under the
+# same name, so keep this GitHub tarball in its own subdirectory.
+dist_subdir         ${name}/github
 
 checksums           rmd160  d463e773d43c70699c523fed2678ed15ce33b75d \
                     sha256  46e63a7c83762f43ace57ccd99e85b78506852a4365e6fe8be6c9fbd23a46249 \
@@ -28,4 +31,9 @@ if {$subport ne $name} {
     livecheck.type  none
     depends_build-append port:py${python.version}-setuptools
     depends_run-append  port:py${python.version}-aiohttp
+}
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    depends_test-append port:py${python.version}-pytest-aiohttp
 }
