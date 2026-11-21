@@ -1,0 +1,96 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/micromdm/nanomdm 0.9.0 v
+categories          net
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             MIT
+
+description         Minimalist Apple MDM server.
+
+long_description    ${description}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  115b546a49be99603c964c056a3261df5707a307 \
+                        sha256  dc84b9ae7b26eff4ed6dcc2b4a8bc40de5b9aeb862f76548ed10cf1dddffcefb \
+                        size    128152
+
+go.vendors          golang.org/x/text \
+                        lock    v0.22.0 \
+                        rmd160  81e66eb6e6535b437ea51b57c30a1c436fa0311c \
+                        sha256  45b47148593c730547081bf7f496a80ca839837a94190b43d01529bb2770cb3c \
+                        size    8966982 \
+                    golang.org/x/net \
+                        lock    v0.34.0 \
+                        rmd160  5609c9c7086d6f0b41e1e2af999ac22d6ff24536 \
+                        sha256  4550d7866f0a6c597f00974e84625b6a2e643bcddd43b808f3525a376e814efc \
+                        size    1466343 \
+                    golang.org/x/crypto \
+                        lock    v0.33.0 \
+                        rmd160  a9bb37694af13af0618980c934387320bab1234a \
+                        sha256  e8755fe2f1785cb6047c52b28f48b4565f8d6ca32be675cb36b330b6a33d1ba9 \
+                        size    1840770 \
+                    github.com/smallstep/pkcs7 \
+                        lock    v0.2.1 \
+                        rmd160  79d2fd9b757fac038fa933b505591bc6bf343cac \
+                        sha256  31d590337fc42ae579832e44532f1e070052e8d3226ff0caa67bf6353afd741b \
+                        size    97808 \
+                    github.com/peterbourgon/diskv/v3 \
+                        lock    v3.0.1 \
+                        rmd160  42b12cdc8b3e31e85dfbbe1142dba13ded5a10c6 \
+                        sha256  0c7eb13cd916a0f7215aa886ecf7509efb708f3e7995f00fb177726e587c59ac \
+                        size    19975 \
+                    github.com/micromdm/plist \
+                        lock    v0.2.1 \
+                        rmd160  5a2299feeb090d22b0c92733ee8ac4d5b76f42e2 \
+                        sha256  19f507c93523f45266f82086378cf7f9634e61b1426d213867f104ffc5b74bfb \
+                        size    27650 \
+                    github.com/micromdm/nanolib \
+                        lock    v0.5.0 \
+                        rmd160  c770f31fa2a5fcd9eeb03482f4ef7b563a217c98 \
+                        sha256  f2b70185ca1dda2ec7ad8ca1b7f0b233a84dc21f9c5e4743b959990cb51cef3f \
+                        size    20239 \
+                    github.com/lib/pq \
+                        lock    v1.10.9 \
+                        rmd160  beb0e233773f49d8d08ee991abf23bc8febf69d0 \
+                        sha256  08610bf0370b202bee369b7303c3085e02c7f6fdfd42a3f58e8f033088151eea \
+                        size    114528 \
+                    github.com/google/btree \
+                        lock    v1.0.0 \
+                        rmd160  c2395f47de2a7298ceb23d28e7312943e6bd8059 \
+                        sha256  5868eb263fe25b76eccc998d95128503433832d032670ad97e6696de358a392a \
+                        size    15296 \
+                    github.com/go-sql-driver/mysql \
+                        lock    v1.8.1 \
+                        rmd160  f32a15ddd5c0a9e628bf1d6fa236f0865b1f1697 \
+                        sha256  a3d9fcb9479ffb100441dee59ebcefeb6306f6dd3549f7c429b91c5e9399a80d \
+                        size    105661 \
+                    github.com/RobotsAndPencils/buford \
+                        lock    v0.14.0 \
+                        rmd160  5be7b31c7f4506b40607f5f5e01b95ee65ec3e3e \
+                        sha256  3573a521a2ad40976fb7d45f9a52897d117b8d159bb66680953a8f8573555619 \
+                        size    37046 \
+                    filippo.io/edwards25519 \
+                        repo    github.com/FiloSottile/edwards25519 \
+                        lock    v1.1.0 \
+                        rmd160  32e76862168e566190f9be95e5a88dcb10b3a6a2 \
+                        sha256  a68a54423370e136bf03e4217d2fba807b4d041f873f6ebbcfc8ad4ba9925f5d \
+                        size    47132
+
+build.args          -o nanomdm ./cmd/nanomdm
+
+post-build {
+    system -W ${worksrcpath} "env [join ${build.env}] ${go.bin} build -o nano2nano ./cmd/nano2nano"
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/nanomdm ${worksrcpath}/nano2nano ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    copy ${worksrcpath}/docs ${destroot}${prefix}/share/doc/${name}/
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+test.run            yes
+test.target         ./...
