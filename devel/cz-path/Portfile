@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                cz-path
-version             0.0.4
+version             0.0.7
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -17,12 +17,12 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            cz_path-${version}
 
-checksums           rmd160  19aa47b36f84570eca2c2750641edf5f66a8a87c \
-                    sha256  d40c1d571def8c03324776212bb274022b3ee42cbfe0a804d6a5bbaaae340414 \
-                    size    7316
+checksums           rmd160  23d3df29c5b879cb931617576f7d86eec71a9cb9 \
+                    sha256  0929af7ecab5cd4af65e8656ad031d61259ac2fc027421d1aaffacbcca358464 \
+                    size    8175
 
 python.default_version  310
-python.pep517_backend   poetry
+python.pep517_backend   hatch
 
 depends_run-append \
     port:commitizen \
