@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-bascom
-version             0.1.2
+version             0.2.0
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -17,15 +17,17 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  9011f887e0149c7f2a3db475374a8a89e855b712 \
-                    sha256  92b339fe44b40e0d7155413cf372c67b3a96156ca3dfe425ea27a718634ccba0 \
-                    size    7327
+checksums           rmd160  beb4c9ae151a23a0c3bd7dea3bb4ed9089100ff0 \
+                    sha256  c5fbe250a036dbc3994167c3e2eb2672bd92bb8b9ac300e036c7b6766cb07df6 \
+                    size    9051
 
 python.versions         310 311 312 313 314
+python.pep517_backend   hatch
 
 if {$subport ne $name} {
     livecheck.type none
     depends_run-append \
+        port:py${python.version}-click \
         port:py${python.version}-colorlog \
         port:py${python.version}-typing_extensions
 }
