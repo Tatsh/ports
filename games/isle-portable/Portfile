@@ -1,0 +1,94 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        isledecomp isle-portable 6711f1a17b1cc9c6e904b6ce610f89445b972a80
+github.tarball_from archive
+version             20261116
+categories          games
+platforms           darwin
+license             LGPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Portable reimplementation of LEGO Island.
+long_description    ${description} The data files from an original LEGO Island install are \
+                    required.
+dist_subdir         ${name}/${version}
+
+# The libsmacker, miniaudio and SIEdit (libweaver) dependencies.
+set libsmacker_commit b3d4e97e0c95d5259d858495a5addd2d93bce5f4
+set miniaudio_commit 9634bedb5b5a2ca38c1ee7108a9358a4e233f14d
+set siedit_commit   abb6d47139d7a03c5c1bad9b89e2267849e27904
+master_sites-append https://github.com/foxtacles/libsmacker/archive/${libsmacker_commit}.tar.gz?dummy=:libsmacker \
+                    https://github.com/mackron/miniaudio/archive/${miniaudio_commit}.tar.gz?dummy=:miniaudio \
+                    https://github.com/isledecomp/SIEdit/archive/${siedit_commit}.tar.gz?dummy=:siedit
+distfiles-append    libsmacker-${libsmacker_commit}.tar.gz:libsmacker \
+                    miniaudio-${miniaudio_commit}.tar.gz:miniaudio \
+                    SIEdit-${siedit_commit}.tar.gz:siedit
+
+checksums           isle-portable-6711f1a17b1cc9c6e904b6ce610f89445b972a80.tar.gz \
+                    rmd160  73342be268cb92d0ada85a168da830a40385f7c4 \
+                    sha256  d81dfbf71aa193793c98da0f3fa8b2ce3cbd0d48f61577020ca3ecad107615b9 \
+                    size    25573697 \
+                    libsmacker-b3d4e97e0c95d5259d858495a5addd2d93bce5f4.tar.gz \
+                    rmd160  4be75f5b2c4e405cba4a32c8112ca4bc283f3eb8 \
+                    sha256  03864482a4a13ebec4ccae84b9eb72828ebbeaf66fb0fe7d0d1dbbcf107f7e01 \
+                    size    28081 \
+                    miniaudio-9634bedb5b5a2ca38c1ee7108a9358a4e233f14d.tar.gz \
+                    rmd160  baa15b4cf1f56aa941694851049443da7b86c2be \
+                    sha256  1a3a79b80fc6f0b0cc155e28b954a598e0ddfa2db64e2afa8466be88c476fa55 \
+                    size    4553616 \
+                    SIEdit-abb6d47139d7a03c5c1bad9b89e2267849e27904.tar.gz \
+                    rmd160  3e8a409971a705fe502c56d58ccdb380c1bc3ac4 \
+                    sha256  ca3085fd0ec5b274b4080d2a0b7bab1553148f854f412defa95f41e6c1511a47 \
+                    size    784735
+
+depends_build-append path:bin/python3:python313
+depends_lib-append  port:iniparser \
+                    port:libwebsockets \
+                    port:SDL3
+
+post-extract {
+    file delete -force ${worksrcpath}/3rdparty/libsmacker ${worksrcpath}/3rdparty/miniaudio
+    file rename ${workpath}/libsmacker-${libsmacker_commit} ${worksrcpath}/3rdparty/libsmacker
+    file rename ${workpath}/miniaudio-${miniaudio_commit} ${worksrcpath}/3rdparty/miniaudio
+}
+
+# Build libweaver from the SIEdit sources instead of fetching it.
+patchfiles          patch-vendor-libweaver.diff
+patch.pre_args-replace -p0 -p1
+post-patch {
+    reinplace "s|@LIBWEAVER_SOURCE_DIR@|${workpath}/SIEdit-${siedit_commit}|" \
+        ${worksrcpath}/3rdparty/CMakeLists.txt
+}
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+compiler.cxx_standard 2017
+
+# Resolve SDL3, iniparser and libwebsockets from MacPorts instead of fetching them.
+configure.args-append \
+                    -DDOWNLOAD_DEPENDENCIES=OFF \
+                    -DISLE_BUILD_ASSETS=OFF
+
+# The install rules run BundleUtilities, which cannot resolve the shared game library. Install the
+# library once and point both apps at it.
+destroot {
+    set libdir ${prefix}/libexec/${name}
+    xinstall -d ${destroot}${libdir}
+    xinstall -m 0755 ${build.dir}/liblego1.dylib ${destroot}${libdir}/
+    system "install_name_tool -id ${libdir}/liblego1.dylib ${destroot}${libdir}/liblego1.dylib"
+    foreach app {isle isle-config} {
+        copy ${build.dir}/${app}.app ${destroot}${applications_dir}/
+        system "install_name_tool -change @rpath/liblego1.dylib ${libdir}/liblego1.dylib \
+            ${destroot}${applications_dir}/${app}.app/Contents/MacOS/${app}"
+    }
+}
+
+notes "
+LEGO Island needs the data files from an original LEGO Island install. Run isle-config to point it
+at them.
+"
