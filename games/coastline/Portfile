@@ -1,0 +1,107 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tatsh coastline 0.0.4 v
+github.tarball_from archive
+categories          games
+platforms           darwin linux freebsd
+license             MIT Zlib
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Reconstructed source of the Nintendo 64 game Top Gear Rally.
+long_description    ${description} Builds the native SDL port of the game.
+homepage            https://coastline.readthedocs.org/
+
+# meshoptimizer is not packaged, and the argparse wanted is p-ranav's, whose headers clash with
+# MacPorts' cpp-argparse-dev.
+set meshoptimizer_version 1.3
+set argparse_version 3.2
+master_sites-append https://github.com/zeux/meshoptimizer/archive/refs/tags/v${meshoptimizer_version}.tar.gz?dummy=:meshoptimizer \
+                    https://github.com/p-ranav/argparse/archive/refs/tags/v${argparse_version}.tar.gz?dummy=:argparse
+distfiles-append    meshoptimizer-${meshoptimizer_version}.tar.gz:meshoptimizer \
+                    argparse-${argparse_version}.tar.gz:argparse
+
+checksums           coastline-0.0.4.tar.gz \
+                    rmd160  aaa741e5f9f73776da807b14ba936441dc389b50 \
+                    sha256  b763185817640baa2a7be7e2fee58cec19b3c2f89bf3b6da820eeb5ed0026d11 \
+                    size    6712342 \
+                    meshoptimizer-1.3.tar.gz \
+                    rmd160  091baa333cabb264c92ee8b89aa13e36e2353b31 \
+                    sha256  ca4f47d451201593904b9e3067fa54b65db94bc34ab5173864950862b748a145 \
+                    size    609460 \
+                    argparse-3.2.tar.gz \
+                    rmd160  767bfadc992b0c1016087981bf019c8f469f1239 \
+                    sha256  9dcb3d8ce0a41b2a48ac8baa54b51a9f1b6a2c52dd374e28cc713bab0568ec98 \
+                    size    123731
+
+depends_build-append port:glslang \
+                    port:nlohmann-json \
+                    port:pkgconfig \
+                    port:spirv-cross
+depends_lib-append  path:lib/libavcodec.dylib:ffmpeg \
+                    port:bzip2 \
+                    port:flac \
+                    port:libfmt12 \
+                    port:SDL3 \
+                    port:zlib
+
+# A socket path too long for sun_path ended the search for the Discord client instead of skipping
+# to the next candidate.
+patchfiles          patch-discord-long-socket-path.diff
+patch.pre_args-replace -p0 -p1
+
+# FLAC installs only pkg-config files, and the build looks it up in CMake config mode. On macOS the
+# install step copies every non-system library into the app bundle; MacPorts provides them instead.
+post-patch {
+    set f ${worksrcpath}/src/sdl/CMakeLists.txt
+    set fd [open ${f} r]
+    set text [read ${fd}]
+    close ${fd}
+    if {[regsub {\nif\(APPLE\)\n  # Every library the game links.*?\n    \]\]\)\nendif\(\)\n} ${text} "\n" text] != 1} {
+        return -code error "could not remove the bundle fixup from ${f}"
+    }
+    set fd [open ${f} w]
+    puts -nonewline ${fd} ${text}
+    close ${fd}
+
+    file mkdir ${workpath}/flac-cmake
+    set fd [open ${workpath}/flac-cmake/FLACConfig.cmake w]
+    puts ${fd} "find_package(PkgConfig REQUIRED)\npkg_check_modules(FLAC REQUIRED IMPORTED_TARGET GLOBAL flac)\nadd_library(FLAC::FLAC ALIAS PkgConfig::FLAC)"
+    close ${fd}
+}
+
+compiler.cxx_standard 2023
+# The sources rely on parenthesized aggregate initialization (P0960), which Apple clang gained only
+# after Xcode 15.
+compiler.blacklist-append {clang < 1600}
+# <expected> and std::views::split are missing from the libc++ of the macOS 13 SDK.
+if {${os.platform} eq "darwin" && ${os.major} == 22} {
+    configure.sdk_version 14
+}
+
+configure.args-append \
+                    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+                    -DFETCHCONTENT_SOURCE_DIR_MESHOPTIMIZER=${workpath}/meshoptimizer-${meshoptimizer_version} \
+                    -DFETCHCONTENT_SOURCE_DIR_ARGPARSE=${workpath}/argparse-${argparse_version} \
+                    -DFLAC_DIR=${workpath}/flac-cmake \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -DUSE_SYSTEM_BZIP2=ON \
+                    -DUSE_SYSTEM_FLAC=ON \
+                    -DUSE_SYSTEM_FMT=ON \
+                    -DUSE_SYSTEM_GLSLANG=ON \
+                    -DUSE_SYSTEM_NLOHMANN_JSON=ON \
+                    -DUSE_SYSTEM_SDL3=ON \
+                    -DUSE_SYSTEM_SPIRV_CROSS=ON \
+                    -DUSE_SYSTEM_ZLIB=ON \
+                    -DCOASTLINE_DISCORD=ON \
+                    -DCOASTLINE_VIDEO=ON \
+                    -DTGR_ENABLE_PATCHES=ON \
+                    -DTGR_PLATFORM=sdl
+
+# The tests link with GNU ld's --wrap to substitute stubs, which the macOS linker lacks.
+
+post-destroot {
+    file rename ${destroot}${prefix}/Coastline.app ${destroot}${applications_dir}/Coastline.app
+}
