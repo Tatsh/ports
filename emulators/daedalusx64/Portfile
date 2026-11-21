@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        DaedalusX64 daedalus 4f5c6fb045358044b64173fac619db5496cc2328
+github.tarball_from archive
+name                daedalusx64
+version             20261010
+categories          emulators games
+platforms           darwin linux freebsd
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Nintendo 64 emulator.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  06ac383e25053d433884df50c115bf332a8b26ff \
+                    sha256  a9894936b7f7619a785be727cd3a6d409b694b54a64967e14dde3430b2be8f1d \
+                    size    1630386
+
+depends_lib-append  port:glew \
+                    port:libfmt12 \
+                    port:libpng \
+                    port:libsdl2 \
+                    port:libsdl2_ttf \
+                    port:zlib
+
+# Install into the prefix with XDG data paths, and fix resource lookups and a few bugs there.
+patchfiles          patch-fhs-xdg.diff \
+                    patch-shader-load-return.diff \
+                    patch-language-path.diff \
+                    patch-font-path.diff \
+                    patch-resource-path.diff \
+                    patch-glew-no-glx-display.diff \
+                    patch-draw-wrapped-line.diff \
+                    patch-desktop-key-names.diff \
+                    patch-pause-menu-key.diff \
+                    patch-cheat-file-path.diff
+patch.pre_args-replace -p0 -p1
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+compiler.cxx_standard 2020
+# std::format needs a newer libc++ than the macOS 13 SDK's, and macOS 13.3 or later at run time.
+if {${os.platform} eq "darwin" && ${os.major} == 22} {
+    configure.sdk_version 14
+    macosx_deployment_target 13.3
+    # The libc++ of Xcode 15 still keeps std::format behind its experimental switch.
+    configure.cxxflags-append -fexperimental-library
+}
+
+configure.args-append \
+                    -DDAEDALUS_FHS=ON \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+notes "
+Put ROMs in ~/.local/share/DaedalusX64/Roms. Saves and save states are written beside them.
+"
