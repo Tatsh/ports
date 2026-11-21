@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Tatsh bpmdetect 0.8.9 v
+github.setup        Tatsh bpmdetect 0.8.11 v
 github.tarball_from archive
 
 platforms           darwin linux freebsd
@@ -15,9 +15,9 @@ long_description   Uses SoundTouch for BPM detection, ffmpeg for reading/writing
 categories          audio
 supported_archs     x86_64 arm64
 
-checksums           rmd160  6518c643f37fb1f555777826add9aec2cb78f163 \
-                    sha256  50432f5d488666dc998e75cbe0ff889d3ef6087c2981c5bcd8090425c6e3a295 \
-                    size    3785843
+checksums           rmd160  2e10319dec85e6b02eccfc34076d4ceb47a0303c \
+                    sha256  d79255c9a3bb11584401b2b7fbf9d4d6ab01a3a0c852b74f1b0aca465928b74a \
+                    size    3811215
 
 depends_build       port:cmake \
                     port:kde-extra-cmake-modules
