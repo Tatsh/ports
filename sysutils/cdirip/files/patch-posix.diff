@@ -1,0 +1,34 @@
+diff -ru a/audio.c b/audio.c
+--- audio.c	2026-11-21 05:30:18
++++ audio.c	2026-11-21 05:30:34
+@@ -3,6 +3,7 @@
+ #include <math.h>
+ #include <string.h>
+ #include "audio.h"
++#include "common.h"
+ 
+ 
+ 
+diff -ru a/buffer.c b/buffer.c
+--- buffer.c	2026-11-21 05:30:18
++++ buffer.c	2026-11-21 05:30:34
+@@ -1,5 +1,6 @@
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include "buffer.h"
+ 
+ 
+diff -ru a/cdirip.c b/cdirip.c
+--- cdirip.c	2026-11-21 05:30:18
++++ cdirip.c	2026-11-21 05:30:34
+@@ -3,6 +3,9 @@
+ #include <string.h>
+ #include <errno.h>
+ #include <limits.h>
++#ifndef _WIN32
++#include <unistd.h>
++#endif
+ #ifdef _WIN32
+ #include <windows.h>
+ #include <shlobj.h>
