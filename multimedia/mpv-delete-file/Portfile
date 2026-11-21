@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           mpv_plugin 1.0
+
+github.setup        zenyd mpv-scripts 62f4bb313c6cb6366672e78dea940e9da8fec84a
+github.tarball_from archive
+name                mpv-delete-file
+version             20251206
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Queue files for deletion on quit in mpv.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  5cc9cec1dfa212ed69d9035c0b6495d641f43c73 \
+                    sha256  8a921bd41ac37d95da820da131f09b1cc8259c67872fd6b712baf1e6d4e07778 \
+                    size    24733
+
+mpv_plugin.files    delete_file.lua
+mpv_plugin.docs     README.md
