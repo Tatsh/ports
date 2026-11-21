@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup            be5invis Iosevka 34.2.1 v
+github.setup            be5invis Iosevka 34.9.1 v
 github.livecheck.regex  {([0-9.]+)}
 github.tarball_from     releases
 
@@ -21,9 +21,9 @@ homepage            https://typeof.net/Iosevka/
 
 distfiles           PkgTTC-SGr-Iosevka-${version}.zip
 
-checksums           rmd160  f286625dde4ecac7d32c5d5ad81907596f133354 \
-                    sha256  9f1731d2f871e360e93dff1d8cf3e438644085023c3fcc4e907d56f2ae9c4cce \
-                    size    154804063
+checksums           rmd160  03550d6d88a1157a72ebc040270f1a9099d81057 \
+                    sha256  9f408da27df5044f96e1b900b15e0cccfb8cf4b7bb574622e278152a4720da64 \
+                    size    133292300
 
 worksrcdir
 use_configure           no
@@ -43,7 +43,7 @@ destroot {
 
 subport ${name}-term {
     distfiles           PkgTTC-SGr-IosevkaTerm-${version}.zip
-    checksums           rmd160  666a84d06135910bdc7a3ed51895c3acf8ba8c4d \
-                        sha256  50d4e58dcb880d0e57a37b05a918c3419ca12f556f54570d2f187b85bc38ad13 \
-                        size    154787462
+    checksums           rmd160  2ec619c207e99fb2dfa71555d6fd1987844589d9 \
+                        sha256  bba0a947dabf4221769edacca357d80dac0f1e00903759fd45e19944d6e9d401 \
+                        size    133253863
 }
