@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        SciresM hactool 1d64a83450e025622f3468c28fc4164dad2c5ef6
+github.tarball_from archive
+version             1.4.0.20231011
+categories          games sysutils
+platforms           darwin linux freebsd
+license             ISC
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Tool to view information about, decrypt, and extract common file formats for \
+                    the Nintendo Switch.
+long_description    ${description}
+
+checksums           rmd160  3c22052a1c097857f439e21df43224b8e79d60db \
+                    sha256  f7148daad624ba909f5ae253210734b1a0ce19e89a7914b6cf71401f7134ebbc \
+                    size    2556329
+
+use_configure       no
+
+post-patch {
+    file rename ${worksrcpath}/config.mk.template ${worksrcpath}/config.mk
+}
+
+build.args          CC="${configure.cc} [get_canonical_archflags cc]"
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/hactool ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
