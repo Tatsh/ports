@@ -1,0 +1,18 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           meson 1.0
+
+github.setup        ps2homebrew pfsshell 1.1.1 v
+github.tarball_from archive
+categories          games sysutils
+platforms           darwin linux freebsd
+license             AFL-2 GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Shell for reading and writing PlayStation 2 HDD PFS filesystems.
+long_description    ${description} Also installs libps2hdd.
+
+checksums           rmd160  59fdbb3f15002401b75a71fb70394485e1f56d2c \
+                    sha256  4dca228a957ee2198fe9832a69b10341ca6bb6dbf311922a2d70e07ddd6bba20 \
+                    size    87652
