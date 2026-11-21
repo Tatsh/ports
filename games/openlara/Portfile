@@ -1,12 +1,14 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           app 1.0
 PortGroup           github 1.0
 
 github.setup        libretro OpenLara e4ce52edec5a9a6ad22b69d08c687bf070e68876
 github.tarball_from archive
 name                openlara
 version             20260624
+revision            1
 categories          games
 platforms           darwin linux freebsd
 license             BSD
@@ -43,3 +45,8 @@ destroot {
 }
 
 livecheck.type      none
+
+# A Finder-launchable app bundle for the game, which runs the installed program.
+app.name            OpenLara
+app.executable      openlara
+app.icon            src/platform/osx/Assets.xcassets/AppIcon.appiconset/icon128x128.png
