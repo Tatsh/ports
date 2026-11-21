@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tatsh bfcodec 0.0.6 v
+github.tarball_from archive
+categories          archivers
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Tools and a C/C++ library to manipulate BFCodec-encrypted content.
+long_description    ${description}
+
+# The argparse wanted is p-ranav's, which clashes with the headers of MacPorts' cpp-argparse-dev
+# (a different library), so it is used from its own distfile instead.
+set argparse_version 3.2
+master_sites-append https://github.com/p-ranav/argparse/archive/refs/tags/v${argparse_version}.tar.gz?dummy=:argparse
+distfiles-append    argparse-${argparse_version}.tar.gz:argparse
+
+checksums           bfcodec-0.0.6.tar.gz \
+                    rmd160  56e7f1bed8cf2bf64beba53aa74715c8ccbb19c6 \
+                    sha256  6a6dd49843d669bae91f8fe29c2085f8f9286f23f8432767a5b1625bfb50f276 \
+                    size    1156738 \
+                    argparse-3.2.tar.gz \
+                    rmd160  767bfadc992b0c1016087981bf019c8f469f1239 \
+                    sha256  9dcb3d8ce0a41b2a48ac8baa54b51a9f1b6a2c52dd374e28cc713bab0568ec98 \
+                    size    123731
+
+depends_build-append port:pkgconfig
+depends_lib-append  port:libplist \
+                    port:libzip \
+                    port:spdlog
+
+compiler.cxx_standard 2023
+# <expected> is header-only, but the macOS 13 SDK's libc++ predates it.
+if {${os.platform} eq "darwin" && ${os.major} == 22} {
+    configure.sdk_version 14
+}
+
+configure.args-append \
+                    -DBUILD_TOOLS=ON \
+                    -DFORCE_PKGCONFIG_LIBPLIST=ON \
+                    -DARGPARSE_INCLUDE_DIR=${workpath}/argparse-${argparse_version}/include \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+# Upstream bundles its dependencies' dylibs beside the tools on macOS (for standalone installs).
+post-destroot {
+    foreach f [glob -nocomplain ${destroot}${prefix}/lib/*.dylib] {
+        delete ${f}
+    }
+}
+
+# The suite fetches googletest with FetchContent; point that at a shim using MacPorts' gtest.
+test.run            yes
+depends_test-append port:gtest
+test {
+    set shim ${workpath}/gtest-shim
+    file mkdir ${shim}
+    set fd [open ${shim}/CMakeLists.txt w]
+    puts ${fd} "find_package(GTest REQUIRED GLOBAL)\nadd_library(gtest_main INTERFACE)\ntarget_link_libraries(gtest_main INTERFACE GTest::gtest_main)"
+    close ${fd}
+    system -W ${build.dir} "${configure.cmd} -DBUILD_TESTS=ON -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+        -DFETCHCONTENT_SOURCE_DIR_GOOGLETEST=${shim} ."
+    system -W ${build.dir} "${build.cmd} ${build.pre_args}"
+    system -W ${build.dir} "${prefix}/bin/ctest --output-on-failure"
+}
