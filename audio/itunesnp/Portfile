@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Tatsh itunesnp 0.1.2 v
+github.tarball_from archive
+
+platforms           macosx
+supported_archs     noarch
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh}
+description         Print the currently playing Music.app track in 'Now Playing' format.
+long_description    ${description}
+categories          audio aqua
+
+checksums           rmd160  348883f5eff4d73855da87545ba28d963c09c663 \
+                    sha256  54f08c98d5bdb8b9b2c0bac4695df0df1f14fca3810d21bf6e20bc43235e267b \
+                    size    1439327
+
+# JXA script run by osascript; upstream ships the built dist/index.js.
+use_configure       no
+build {}
+destroot {
+    xinstall -m 0755 ${worksrcpath}/dist/index.js ${destroot}${prefix}/bin/${name}
+    xinstall -m 0644 ${worksrcpath}/man/${name}.1 ${destroot}${prefix}/share/man/man1
+}
