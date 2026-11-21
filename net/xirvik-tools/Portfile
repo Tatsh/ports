@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        Tatsh xirvik-tools 0.5.3 v
+github.setup        Tatsh xirvik-tools 0.6.0 v
 github.tarball_from archive
 master_sites        ${github.homepage}/archive/
 distfiles           v${version}.tar.gz
@@ -20,9 +20,9 @@ license             MIT
 supported_archs     noarch
 revision            0
 
-checksums           rmd160  16788d7e4bbd2f3fcdea41cd5f8925298196fa5a \
-                    sha256  b83abef6bfebcab521dcbe98075cd6f7d7269a9ba5c6a18321d3c3df94729fab \
-                    size    1236155
+checksums           rmd160  203da06964188a7772fca75ddb14b836c8d26695 \
+                    sha256  dd8adcf98baa0b2e6feacbc4490d80bfefd22162ebd086fb10c89b9be4985b8e \
+                    size    1353391
 
 python.versions             310 311 312 313 314
 python.default_version      314
