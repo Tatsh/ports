@@ -203,7 +203,6 @@ createsuperuser
 createuser
 creds
 cstdint
-cstdio
 cstdlib
 ctest
 ctutils
@@ -288,7 +287,6 @@ djava
 dlclark
 dlib
 dlibrw
-dlith
 dllvm
 dlmalloc
 dlua
@@ -303,7 +301,6 @@ dockutil
 docstrfmt
 docstrings
 dotenv
-dqcoro
 dreamcast
 dredumper
 drelcs
@@ -713,7 +710,6 @@ linuxkms
 listdir
 litellm
 litemap
-lith
 litrs
 livecheck
 liveupdate
@@ -977,6 +973,7 @@ profglue
 progname
 progressbar
 prost
+protoc
 protocolbuffers
 psutil
 psvpfsparser
@@ -1033,14 +1030,11 @@ pytimeparse
 pytun
 pytype
 pyvboxmanage
-qcoro
 qtbase
-qtdeclarative
 qtmultimedia
 qtserialport
 qtsvg
 qttools
-qtwebsockets
 quic
 rabbitizer
 ranav's
