@@ -20,6 +20,7 @@ long_description    Fully cross-platform toolkit (and library!) for \
                     ObjC header dumping, and much more.
 license             MIT
 supported_archs     noarch
+revision            1
 
 checksums           rmd160  550a22f4019f2aec739133169299d42684f0dd82 \
                     sha256  d15d468ec21675633f3cb44190482420c74d61205904f98c29b2783f80d92bac \
@@ -31,8 +32,20 @@ python.pep517_backend       poetry
 
 depends_lib-append port:py${python.version}-pygments \
                    port:py${python.version}-pyaes \
-                   port:py${python.version}-kimg4
+                   port:py${python.version}-kimg4 \
+                   port:py${python.version}-packaging
 
-patch {
+# pkg_resources was removed from setuptools; use importlib.metadata.
+patchfiles          patch-importlib-metadata.diff
+
+post-patch {
     move ${worksrcpath}/.legacy_setup.py ${worksrcpath}/setup.py
+}
+
+test.run            yes
+depends_test-append port:ninja
+test.env-append     PYTHONPATH=${worksrcpath}/src
+test.args           -s tests/unit.py
+pre-test {
+    system -W ${worksrcpath}/tests "${prefix}/bin/ninja"
 }
