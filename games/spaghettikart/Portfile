@@ -1,0 +1,206 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           app 1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        HarbourMasters SpaghettiKart 1.0.0
+github.tarball_from archive
+name                spaghettikart
+categories          games
+platforms           darwin
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Mario Kart 64 port to modern platforms.
+long_description    ${description} Assets are extracted from a US Mario Kart 64 ROM on first run.
+
+# The libultraship and Torch submodules, and what the build would otherwise download.
+master_sites-append https://github.com/briaguya-ai/single-header-metal-cpp/archive/refs/tags/macOS13_iOS16.tar.gz?dummy=:metalcpp \
+                    https://github.com/Kenix3/libultraship/archive/f40cfd33b8bc6237d635d4ed82838a7e3f785386.tar.gz?dummy=:libultraship \
+                    https://github.com/HarbourMasters/Torch/archive/2d474ddb8da8b213fbdbb49d0273ce31fa955f35.tar.gz?dummy=:Torch \
+                    https://github.com/mackron/dr_libs/archive/da35f9d6c7374a95353fd1df1d394d44ab66cf01.tar.gz?dummy=:dr_libs \
+                    https://github.com/marzer/tomlplusplus/archive/refs/tags/v3.4.0.tar.gz?dummy=:tomlplusplus \
+                    https://github.com/ocornut/imgui/archive/refs/tags/v1.91.9b-docking.tar.gz?dummy=:imgui \
+                    https://github.com/KiritoDv/prism-processor/archive/bbcbc7e3f890a5806b579361e7aa0336acd547e7.tar.gz?dummy=:prism_processor \
+                    https://github.com/bshoshany/thread-pool/archive/refs/tags/v4.1.0.tar.gz?dummy=:thread_pool \
+                    https://github.com/glankk/libgfxd/archive/96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf.tar.gz?dummy=:libgfxd \
+                    https://github.com/leethomason/tinyxml2/archive/refs/tags/10.0.0.tar.gz?dummy=:tinyxml2 \
+                    https://github.com/jbeder/yaml-cpp/archive/2f86d13775d119edbb69af52e5f566fd65c6953b.tar.gz?dummy=:yaml_cpp \
+                    https://raw.githubusercontent.com/Neargye/semver/refs/tags/v1.0.0-rc/include/:semver \
+                    https://github.com/nothings/stb/raw/0bc88af4de5fb022db643c2d8e549a0927749354/:stb \
+                    https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/5a12daa568d19344f9b6e9286ef5929833b25c7c/:gcdb
+distfiles-append    single-header-metal-cpp-macOS13_iOS16.tar.gz:metalcpp \
+                    libultraship-f40cfd33b8bc6237d635d4ed82838a7e3f785386.tar.gz:libultraship \
+                    Torch-2d474ddb8da8b213fbdbb49d0273ce31fa955f35.tar.gz:Torch \
+                    dr_libs-da35f9d6c7374a95353fd1df1d394d44ab66cf01.tar.gz:dr_libs \
+                    tomlplusplus-3.4.0.tar.gz:tomlplusplus \
+                    imgui-1.91.9b-docking.tar.gz:imgui \
+                    prism-processor-bbcbc7e3f890a5806b579361e7aa0336acd547e7.tar.gz:prism_processor \
+                    thread-pool-4.1.0.tar.gz:thread_pool \
+                    libgfxd-96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf.tar.gz:libgfxd \
+                    tinyxml2-10.0.0.tar.gz:tinyxml2 \
+                    yaml-cpp-2f86d13775d119edbb69af52e5f566fd65c6953b.tar.gz:yaml_cpp \
+                    semver.hpp:semver \
+                    stb_image.h:stb \
+                    gamecontrollerdb.txt:gcdb
+dist_subdir         ${name}/${version}
+extract.only        ${distname}${extract.suffix} single-header-metal-cpp-macOS13_iOS16.tar.gz libultraship-f40cfd33b8bc6237d635d4ed82838a7e3f785386.tar.gz Torch-2d474ddb8da8b213fbdbb49d0273ce31fa955f35.tar.gz dr_libs-da35f9d6c7374a95353fd1df1d394d44ab66cf01.tar.gz tomlplusplus-3.4.0.tar.gz imgui-1.91.9b-docking.tar.gz prism-processor-bbcbc7e3f890a5806b579361e7aa0336acd547e7.tar.gz thread-pool-4.1.0.tar.gz libgfxd-96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf.tar.gz tinyxml2-10.0.0.tar.gz yaml-cpp-2f86d13775d119edbb69af52e5f566fd65c6953b.tar.gz
+
+checksums           SpaghettiKart-1.0.0.tar.gz \
+                    rmd160  1c52624f68c0ec4fc9c3327a342465bc75fc6f42 \
+                    sha256  8000025feb798488432e7fb6024ac42ca9b281aa070b4e1e58d361efe0e5b10e \
+                    size    27867624 \
+                    single-header-metal-cpp-macOS13_iOS16.tar.gz \
+                    rmd160  4314261ebd55c9f4f2e41cd945ee637a27eda7d7 \
+                    sha256  89b6012769eb4cb49d0894aafd5988896450ee2e63340c7d6f40d089aa03c9b4 \
+                    size    83364 \
+                    libultraship-f40cfd33b8bc6237d635d4ed82838a7e3f785386.tar.gz \
+                    rmd160  7e46eb508dd735b7b323eabf85e2e5d7fcf479d6 \
+                    sha256  abe8cfe0b0c3cf6654abb01fc5704faa7c77272f7e31f707e3a659aa72c3c87c \
+                    size    480858 \
+                    Torch-2d474ddb8da8b213fbdbb49d0273ce31fa955f35.tar.gz \
+                    rmd160  5719afd5d1998abe50e03797498c6837adc394ee \
+                    sha256  5d57aac6d7051485207a049eb385c9eeb71d013240720fbd17a35522e0ae4aa0 \
+                    size    1114055 \
+                    dr_libs-da35f9d6c7374a95353fd1df1d394d44ab66cf01.tar.gz \
+                    rmd160  a7f18a6a72d89e116f375d234a930120a624a48e \
+                    sha256  2704d347f480ca1bc92233fb01747e4550cc8031735b6ea62ca9990ebb8851ae \
+                    size    518741 \
+                    tomlplusplus-3.4.0.tar.gz \
+                    rmd160  acf4b95c7d15ca78e060bf33a11f8fd06f5de076 \
+                    sha256  8517f65938a4faae9ccf8ebb36631a38c1cadfb5efa85d9a72e15b9e97d25155 \
+                    size    1294731 \
+                    imgui-1.91.9b-docking.tar.gz \
+                    rmd160  3d482f6d5db3e3c47e38ff4e3dc99f5e1cb10b0b \
+                    sha256  466fdef9b18de15f0bb6e288e3d00ffa3d82200ec458ce5e4f724a161d9528a5 \
+                    size    2006500 \
+                    prism-processor-bbcbc7e3f890a5806b579361e7aa0336acd547e7.tar.gz \
+                    rmd160  688889d83b6092f92150ae1d31659132e7b150d3 \
+                    sha256  9a874ff4e7e3c630d0d326fcf6b33a3f2d5c4b0559d50eb2c067e2d7c4d6c17d \
+                    size    21246 \
+                    thread-pool-4.1.0.tar.gz \
+                    rmd160  4441a73d5e493e22926127acd9a3c6903d89f4f3 \
+                    sha256  be7abecbc420bb87919eeef729b13ff7c29d5ce547bdae284923296c695415bd \
+                    size    82513 \
+                    libgfxd-96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf.tar.gz \
+                    rmd160  97b1e84833cf4ee4d806cdf228e649de031001ff \
+                    sha256  96d830f6ff9c8a91c8052b51ca02ffdfd1d44ab0a9d20f899f65d4c931073696 \
+                    size    48340 \
+                    tinyxml2-10.0.0.tar.gz \
+                    rmd160  3cd309d75245c8fca70645f3971959217d227091 \
+                    sha256  3bdf15128ba16686e69bce256cc468e76c7b94ff2c7f391cc5ec09e40bff3839 \
+                    size    642421 \
+                    yaml-cpp-2f86d13775d119edbb69af52e5f566fd65c6953b.tar.gz \
+                    rmd160  917aebcb10a5cc29ae87cdd2e1bf02f47f22ccdf \
+                    sha256  923b2298148581b14ef21d9ce29d83eca102ff671a547dfdbd227245a199bcd8 \
+                    size    1050633 \
+                    semver.hpp \
+                    rmd160  245fc60f1e3957952c4b8c28cd88db9297fb57f2 \
+                    sha256  af2c0c53124dc7f52c58a7205e458ad3efbac2f61ce55addf9c8f94338a04182 \
+                    size    31366 \
+                    stb_image.h \
+                    rmd160  cfd21332530ed8ee869f5b9bbb5ce7a76dcc8378 \
+                    sha256  c54b15a689e6a1f32c75e2ec23afa442e3e0e37e894b73c1974d08679b20dd5c \
+                    size    282848 \
+                    gamecontrollerdb.txt \
+                    rmd160  9b8c305225942b56cc1b62325256bc8feb0aa723 \
+                    sha256  07ec5b753e685c4829987919b27905cc3c45c8e18c11b3046e275fcf38b0f3cb \
+                    size    608491
+
+depends_build-append path:bin/python3:python313 \
+                    port:nlohmann-json
+depends_lib-append  port:glew \
+                    port:libogg \
+                    port:libsdl2 \
+                    port:libsdl2_net \
+                    port:libvorbis \
+                    port:libzip \
+                    port:spdlog
+
+post-extract {
+    file delete -force ${worksrcpath}/libultraship ${worksrcpath}/torch
+    file rename ${workpath}/libultraship-f40cfd33b8bc6237d635d4ed82838a7e3f785386 ${worksrcpath}/libultraship
+    file rename ${workpath}/Torch-2d474ddb8da8b213fbdbb49d0273ce31fa955f35 ${worksrcpath}/torch
+}
+
+# Build Torch as part of this build and run it as a command, and use portable file dialogs.
+patchfiles          patch-torch-single-build.diff \
+                    patch-use-torch-cli.diff \
+                    patch-dialogs-via-pfd.diff
+patch.pre_args-replace -p0 -p1
+
+# The build downloads stb_image.h and semver.hpp with file(DOWNLOAD); copy the distfiles instead.
+# FETCHCONTENT_SOURCE_DIR_* skips the patch step, so apply upstream's ImGui patch here.
+post-patch {
+    foreach {file url local var} [list \
+            ${worksrcpath}/libultraship/cmake/dependencies/common.cmake \
+            https://github.com/nothings/stb/raw/ stb_image.h STB_DIR \
+            ${worksrcpath}/CMakeLists.txt \
+            https://raw.githubusercontent.com/Neargye/semver/ semver.hpp SEMVER_DIR] {
+        set fd [open ${file} r]
+        set text [read ${fd}]
+        close ${fd}
+        set pattern "file\\(DOWNLOAD \"[string map [list . {\.}] ${url}]\[^\"\]*\" "
+        set replacement "file(MAKE_DIRECTORY \"\$\{${var}\}\")\nfile(COPY_FILE \"${distpath}/${local}\" "
+        if {[regsub ${pattern} ${text} ${replacement} text] != 1} {
+            return -code error "could not redirect the ${local} download in ${file}"
+        }
+        set fd [open ${file} w]
+        puts -nonewline ${fd} ${text}
+        close ${fd}
+    }
+    system -W ${workpath}/imgui-1.91.9b-docking "patch -p1 < ${worksrcpath}/libultraship/cmake/dependencies/patches/imgui-fixes-and-config.patch"
+}
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+compiler.cxx_standard 2020
+# Brace initializers narrow out-of-range constants into s16, which GCC only warns about.
+configure.cxxflags-append -Wno-c++11-narrowing
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+                    -DFETCHCONTENT_SOURCE_DIR_DR_LIBS=${workpath}/dr_libs-da35f9d6c7374a95353fd1df1d394d44ab66cf01 \
+                    -DFETCHCONTENT_SOURCE_DIR_METALCPP=${workpath}/single-header-metal-cpp-macOS13_iOS16 \
+                    -DFETCHCONTENT_SOURCE_DIR_IMGUI=${workpath}/imgui-1.91.9b-docking \
+                    -DFETCHCONTENT_SOURCE_DIR_LIBGFXD=${workpath}/libgfxd-96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf \
+                    -DFETCHCONTENT_SOURCE_DIR_PRISM=${workpath}/prism-processor-bbcbc7e3f890a5806b579361e7aa0336acd547e7 \
+                    -DFETCHCONTENT_SOURCE_DIR_THREADPOOL=${workpath}/thread-pool-4.1.0 \
+                    -DFETCHCONTENT_SOURCE_DIR_TINYXML2=${workpath}/tinyxml2-10.0.0 \
+                    -DFETCHCONTENT_SOURCE_DIR_TOMLPLUSPLUS=${workpath}/tomlplusplus-3.4.0 \
+                    -DFETCHCONTENT_SOURCE_DIR_YAML-CPP=${workpath}/yaml-cpp-2f86d13775d119edbb69af52e5f566fd65c6953b
+
+# spaghetti.o2r holds the port's own assets; it is built by a target that is not part of all.
+post-build {
+    system -W ${build.dir} "${build.cmd} GenerateO2R"
+}
+
+# libultraship looks for its assets and the controller database beside the executable and writes
+# everything else relative to the working directory, so a wrapper picks the writable directory.
+destroot {
+    set dest ${destroot}${prefix}/libexec/${name}
+    xinstall -d ${dest}
+    foreach f [glob -nocomplain -directory ${build.dir} Spaghettify Spaghettify.app] {
+        copy ${f} ${dest}/
+    }
+    xinstall -m 0644 ${build.dir}/spaghetti.o2r ${distpath}/gamecontrollerdb.txt ${worksrcpath}/config.yml ${dest}/
+    copy ${worksrcpath}/meta ${worksrcpath}/yamls ${dest}/
+    xinstall -m 0755 ${filespath}/spaghettikart.sh ${destroot}${prefix}/bin/spaghettikart
+    reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/bin/spaghettikart
+}
+
+notes "
+Run spaghettikart once and it will ask for a US Mario Kart 64 ROM, then write the extracted assets\
+and saves to ~/.local/share/spaghettikart.
+"
+
+livecheck.type      none
+
+# A Finder-launchable app bundle, which runs the installed program.
+app.name            SpaghettiKart
+app.executable      spaghettikart
+app.icon            icon.png
