@@ -80,3 +80,13 @@ destroot {
         ${destroot}${site_packages_dir}
     copy ${worksrcpath}/../ycmd ${destroot}${site_packages_dir}/
 }
+
+# Upstream's C++ core suite (what `build.py --core-tests` runs). The tests subdirectory is only
+# configured when YCM_TESTRUN is set; use MacPorts' gtest instead of fetching one.
+test.run            yes
+depends_test-append port:gtest
+test {
+    system -W ${build.dir} "env YCM_TESTRUN=1 ${configure.cmd} -DUSE_SYSTEM_GMOCK=ON ."
+    system -W ${build.dir} "${build.cmd} ${build.pre_args} ycm_core_tests"
+    system -W ${build.dir} "${build.dir}/ycm/tests/ycm_core_tests --gtest_brief=1"
+}
