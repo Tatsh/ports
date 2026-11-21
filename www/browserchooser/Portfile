@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        Tatsh browserchooser 0.0.2 v
+github.tarball_from archive
+revision            0
+categories          www aqua
+platforms           darwin
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Pick a browser to use for a URL opened from a non-browser.
+long_description    Browser Chooser registers itself as a web browser. When a link is opened from \
+                    another application, it asks which installed browser (and which Chrome or \
+                    Firefox profile) to open it in, and can remember the choice per domain. Set \
+                    it as the default web browser in System Settings to use it.
+homepage            https://github.com/Tatsh/browserchooser
+
+checksums           rmd160  8dfc49c9b004f0acda79f2be8a3e0818e01934dd \
+                    sha256  7d9fd8d29c2ddb820b4ded8d1de9a501a89e4f0a96ea887d327db358abc2a821 \
+                    size    1985035
+
+depends_build-append port:kde-extra-cmake-modules
+
+qt6.find_method     prefix_path
+
+compiler.cxx_standard 2023
+# std::expected is in the macOS 14 SDK's libc++ headers but not the macOS 13 SDK's.
+if {${os.platform} eq "darwin" && ${os.major} == 22} {
+    configure.sdk_version 14
+}
+
+# Install the bundle into the MacPorts applications directory, linked against the MacPorts Qt
+# rather than with a private copy of Qt deployed into it.
+post-patch {
+    reinplace {s|^  install(SCRIPT ${deploy_script})|  # install(SCRIPT ${deploy_script})|} \
+        ${worksrcpath}/src/CMakeLists.txt
+}
+
+configure.args-append \
+                    -DBUILD_TESTS=OFF \
+                    -DBUNDLE_INSTALL_PREFIX=${applications_dir}
