@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-extruct
+version             0.18.0
+platforms           darwin linux freebsd
+license             BSD
+supported_archs     noarch
+categories          python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Extract embedded metadata from HTML markup.
+long_description    ${description}
+homepage            https://github.com/scrapinghub/extruct
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            extruct-${version}
+
+checksums           rmd160  db5fe4b38abb8a86a2b90b4752da0ebb204e1729 \
+                    sha256  b5b48d459003b27c05ee91527b14a5a31735231aaf85d2b1f331d4db879318dd \
+                    size    44170
+
+python.versions         313 314
+python.pep517_backend   setuptools
+
+if {$subport ne $name} {
+    livecheck.type      none
+    depends_run-append \
+        port:py${python.version}-html-text \
+        port:py${python.version}-jstyleson \
+        port:py${python.version}-lxml \
+        port:py${python.version}-lxml_html_clean \
+        port:py${python.version}-mf2py \
+        port:py${python.version}-pyrdfa3 \
+        port:py${python.version}-rdflib \
+        port:py${python.version}-w3lib
+}
