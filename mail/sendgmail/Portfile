@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/google/gmail-oauth2-tools 0c865b7b590292d5d8a197529127166e9d7d7d2d
+name                sendgmail
+version             20250718
+categories          mail
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             Apache-2
+
+description         Use Gmail to mimic sendmail for git send-email.
+long_description    sendgmail is a tool that uses Gmail (with OAuth2) in order to mimic sendmail \
+                    for git send-email.
+homepage            https://github.com/google/gmail-oauth2-tools/tree/master/go/sendgmail
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  44ade9e05089016b541ada0e9ffebb3c602d40f9 \
+                        sha256  b14fb81582184ffc9348f415d5e903dab17c11fc7112649a3de370073076a3e6 \
+                        size    24888
+
+go.vendors          github.com/google/uuid \
+                        lock    v1.4.0 \
+                        rmd160  e3df69ea34c000b36df5f1ab34f7896b28a7ee1f \
+                        sha256  a97568748e80b2ad6c0c033b9b82c3409d2b4ef92862825d5dfed62cc6b4e865 \
+                        size    17960 \
+                    golang.org/x/oauth2 \
+                        lock    v0.27.0 \
+                        rmd160  81067bad6c15fd2b67ba1a4965dd9f58e7c8a166 \
+                        sha256  6b8d54e20faa033ca0df60e5386f1264a660d168c81a882c5d58815c700ceb6e \
+                        size    98996 \
+                    cloud.google.com/go/compute/metadata \
+                        repo    github.com/googleapis/google-cloud-go \
+                        lock    compute/metadata/v0.3.0 \
+                        rmd160  9bf98f586c122b02f55db150c0a6f7b6297a8d0f \
+                        sha256  3b779d651ebf4f08849d11f49573f69a42c8427e674ad5c86c9348a7a642c58d \
+                        size    27431555 \
+                    github.com/google/go-cmp \
+                        lock    v0.6.0 \
+                        rmd160  2c9f5dab93f8a0895591466fe4a07c5dd9166ae2 \
+                        sha256  0d550825fae514f8a947ab7e42fcb874f509d9cbfa3ad2711d7570a25f31571a \
+                        size    104795
+
+build.dir           ${worksrcpath}/go/sendgmail
+
+destroot {
+    xinstall -m 0755 ${build.dir}/sendgmail ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${build.dir}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
