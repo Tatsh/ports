@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        JJTech0130 TrollRestore 082f2520556b9aa8e2b8d6661b81a954ee35966b
+github.tarball_from archive
+name                trollrestore
+version             1.0.20241028
+categories          devel
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         TrollStore installer for iOS 15.2 - 16.7 RC and 17.0.
+long_description    ${description} Restores a backup that replaces a system app with the \
+                    TrollStore helper, using pymobiledevice3.
+
+checksums           rmd160  fa614f930bccd90d1d0faff286c183800219e743 \
+                    sha256  8a40345497e7edf4b8843cba6ef1630da8725ddba74dd7f20d39fc0359679bb9 \
+                    size    9937
+
+python.default_version  313
+python.pep517       no
+
+depends_run-append  port:pymobiledevice3 \
+                    port:py${python.version}-click \
+                    port:py${python.version}-packaging \
+                    port:py${python.version}-requests
+
+# pymobiledevice3 made its services asynchronous.
+patchfiles          patch-pymobiledevice3-async.diff
+patch.pre_args-replace -p0 -p1
+
+build {}
+
+destroot {
+    xinstall -d ${destroot}${python.pkgd}
+    copy ${worksrcpath}/sparserestore ${destroot}${python.pkgd}/
+    set fd [open ${worksrcpath}/trollstore.py r]
+    set script [read ${fd}]
+    close ${fd}
+    set fd [open ${destroot}${prefix}/bin/trollrestore w]
+    puts -nonewline ${fd} "#!${python.bin}\n${script}"
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/trollrestore -permissions 0755
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
