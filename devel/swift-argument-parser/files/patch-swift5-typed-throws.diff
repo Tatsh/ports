@@ -1,0 +1,172 @@
+--- Sources/ArgumentParser/Completions/BashCompletionsGenerator.swift
++++ Sources/ArgumentParser/Completions/BashCompletionsGenerator.swift
+@@ -9,7 +9,7 @@
+ //
+ //===----------------------------------------------------------------------===//
+ 
+-internal import ArgumentParserToolInfo
++import ArgumentParserToolInfo
+ 
+ extension ToolInfoV0 {
+   var bashCompletionScript: String {
+--- Sources/ArgumentParser/Completions/CompletionsGenerator.swift
++++ Sources/ArgumentParser/Completions/CompletionsGenerator.swift
+@@ -9,7 +9,7 @@
+ //
+ //===----------------------------------------------------------------------===//
+ 
+-internal import ArgumentParserToolInfo
++import ArgumentParserToolInfo
+ 
+ /// A shell for which the parser can generate a completion script.
+ public struct CompletionShell: RawRepresentable, Hashable, CaseIterable,
+--- Sources/ArgumentParser/Completions/FishCompletionsGenerator.swift
++++ Sources/ArgumentParser/Completions/FishCompletionsGenerator.swift
+@@ -9,7 +9,7 @@
+ //
+ //===----------------------------------------------------------------------===//
+ 
+-internal import ArgumentParserToolInfo
++import ArgumentParserToolInfo
+ 
+ extension ToolInfoV0 {
+   var fishCompletionScript: String {
+--- Sources/ArgumentParser/Completions/ZshCompletionsGenerator.swift
++++ Sources/ArgumentParser/Completions/ZshCompletionsGenerator.swift
+@@ -9,7 +9,7 @@
+ //
+ //===----------------------------------------------------------------------===//
+ 
+-internal import ArgumentParserToolInfo
++import ArgumentParserToolInfo
+ 
+ extension ToolInfoV0 {
+   var zshCompletionScript: String {
+--- Sources/ArgumentParser/Parsing/CommandParser.swift
++++ Sources/ArgumentParser/Parsing/CommandParser.swift
+@@ -302,7 +302,7 @@
+   /// - Throws: A `CommandError` if an error is detected during parsing.
+   mutating func parse(
+     arguments: [String]
+-  ) throws(CommandError) -> ParsableCommand {
++  ) throws -> ParsableCommand {
+     #if DEBUG
+     if #available(macOS 10.15, macCatalyst 13, iOS 13, tvOS 13, watchOS 6, *),
+       self.rootCommand is AsyncParsableCommand.Type,
+@@ -357,7 +357,7 @@
+   @available(macOS 10.15, macCatalyst 13, iOS 13, tvOS 13, watchOS 6, *)
+   mutating func parse(
+     arguments: [String]
+-  ) async throws(CommandError) -> ParsableCommand {
++  ) async throws -> ParsableCommand {
+     do {
+       if let (argument, arguments) = try parseCustomCompletion(from: arguments)
+       {
+@@ -388,7 +388,7 @@
+ 
+   private mutating func parseBesidesCustomCompletion(
+     arguments: [String]
+-  ) throws(CommandError) -> ParsableCommand {
++  ) throws -> ParsableCommand {
+     var split: SplitArguments
+     do {
+       split = try SplitArguments(arguments: arguments)
+@@ -443,7 +443,7 @@
+ extension CommandParser {
+   func checkForCompletionScriptRequest(
+     _ split: inout SplitArguments
+-  ) throws(CommandError) {
++  ) throws {
+     // Pseudo-commands don't support `--generate-completion-script` flag
+     guard rootCommand.configuration._superCommandName == nil else {
+       return
+@@ -480,7 +480,7 @@
+ 
+   func parseCustomCompletion(
+     from arguments: [String]
+-  ) throws(ParserError) -> (argument: ArgumentDefinition, arguments: [String])?
++  ) throws -> (argument: ArgumentDefinition, arguments: [String])?
+   {
+     // Completion functions use a custom format:
+     //
+@@ -556,7 +556,7 @@
+   private func customCompleteSync(
+     _ argument: ArgumentDefinition,
+     forArguments args: [String]
+-  ) throws(ParserError) -> [String]? {
++  ) throws -> [String]? {
+     if let completionShellName = Platform.Environment[.shellName] {
+       let shell = CompletionShell(rawValue: completionShellName)
+       CompletionShell._requesting.withLock { $0 = shell }
+@@ -586,7 +586,7 @@
+ 
+   private func throwCompletionScriptCustomResponse(
+     for completions: [String]
+-  ) throws(ParserError) {
++  ) throws {
+     // Parsing and retrieval successful! We don't want to continue with any
+     // other parsing here, so after printing the result of the completion
+     // function, exit with a success code.
+@@ -599,7 +599,7 @@
+ 
+ private func parseCustomCompletionArguments(
+   from args: [String]
+-) throws(ParserError) -> ([String], Int, String) {
++) throws -> ([String], Int, String) {
+   var args = args.dropFirst(0)
+   guard
+     let s = args.popFirst(),
+--- Sources/ArgumentParser/Parsing/SplitArguments.swift
++++ Sources/ArgumentParser/Parsing/SplitArguments.swift
+@@ -626,7 +626,7 @@
+   }
+ }
+ 
+-func parseIndividualArg(_ arg: String, at position: Int) throws(ParserError)
++func parseIndividualArg(_ arg: String, at position: Int) throws
+   -> [SplitArguments.Element]
+ {
+   let index = SplitArguments.Index(inputIndex: .init(rawValue: position))
+@@ -720,7 +720,7 @@
+ 
+   fileprivate init(
+     longArgWithSingleDashRemainder remainder: Substring
+-  ) throws(ParserError) {
++  ) throws {
+     try self.init(
+       longArgRemainder: remainder,
+       makeName: {
+@@ -739,7 +739,7 @@
+ 
+   fileprivate init(
+     longArgRemainder remainder: Substring, makeName: (Substring) -> Name
+-  ) throws(ParserError) {
++  ) throws {
+     if let equalIdx = remainder.firstIndex(of: "=") {
+       let name = remainder[remainder.startIndex..<equalIdx]
+       guard !name.isEmpty else {
+--- Sources/ArgumentParser/Usage/DumpHelpGenerator.swift
++++ Sources/ArgumentParser/Usage/DumpHelpGenerator.swift
+@@ -9,7 +9,7 @@
+ //
+ //===----------------------------------------------------------------------===//
+ 
+-internal import ArgumentParserToolInfo
++import ArgumentParserToolInfo
+ 
+ internal struct DumpHelpGenerator {
+   private var toolInfo: ToolInfoV0
+--- Sources/ArgumentParser/Utilities/Foundation.swift
++++ Sources/ArgumentParser/Utilities/Foundation.swift
+@@ -10,9 +10,9 @@
+ //===----------------------------------------------------------------------===//
+ 
+ #if canImport(FoundationEssentials)
+-internal import FoundationEssentials
++import FoundationEssentials
+ #else
+-internal import Foundation
++import Foundation
+ #endif
+ 
+ extension Error {
