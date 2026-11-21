@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh dbeaver-creds v0.0.3
+github.setup        Tatsh dbeaver-creds v0.1.1
 # Release asset returns 403; use source tarball from tag
 github.tarball_from tarball
 platforms           linux darwin freebsd
@@ -14,9 +14,9 @@ license             MIT
 categories          databases sysutils security
 revision            0
 
-checksums           rmd160  dbcecf69a9670b40cf93f36b4a47a04d53cc8f98 \
-                    sha256  1048db50daf4b5afa66295b67b545ddf61111b2c38b126403b0b4128cabd48e6 \
-                    size    32836
+checksums           rmd160  0d1a7b8bb45bed38f27abe8a228cb5e8a4039fe1 \
+                    sha256  01fa269a7c34667bf0a9b4a65978f3f77b2ea1cbf4beccad7e8a955180bad60b \
+                    size    1293455
 use_configure       no
 
 build {}
