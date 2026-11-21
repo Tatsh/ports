@@ -24,4 +24,3 @@ checksums           rmd160  808fef79d90e780ce8aee1b13ce14abff63a9f8b \
 # nntplib, which the setup script imports, was removed in Python 3.13.
 python.default_version  312
 python.pep517_backend   setuptools
-
