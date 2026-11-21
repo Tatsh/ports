@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        rmull tinkup c1cf6d265ef6ae2c3bae7696739c52f9279afd27
+github.tarball_from archive
+version             1.0.20240930
+categories          games sysutils
+platforms           any
+supported_archs     noarch
+license             BSD
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Firmware update utility for the RetroTINK family of retro gaming devices.
+long_description    ${description}
+
+checksums           rmd160  1ff952d09cf866eb93dd60f9d03ab5e2d0738f6d \
+                    sha256  c14e3f694673543d1b460995b67b7109551f0f43e0c4f1dce140d571047d3e29 \
+                    size    5794
+
+set python_branch   3.13
+set python_version  [string map {. {}} ${python_branch}]
+depends_run-append  port:python${python_version} \
+                    port:py${python_version}-serial
+
+use_configure       no
+build {}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/tinkup.py ${destroot}${prefix}/bin/tinkup
+    reinplace "1s|.*|#!${prefix}/bin/python${python_branch}|" ${destroot}${prefix}/bin/tinkup
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
