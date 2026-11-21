@@ -26,4 +26,3 @@ configure.cxxflags-append -include cfloat
 configure.args-append --libdir=${prefix}/lib/vapoursynth
 
 vapoursynth.test_namespace eedi3m
-
