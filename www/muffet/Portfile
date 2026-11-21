@@ -1,0 +1,143 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/raviqqe/muffet 2.11.8 v
+categories          www
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             MIT
+
+description         Fast website link checker.
+
+long_description    ${description}
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  2f1ed3a841733c15c1d211c84ddd660f4ef4d9c2 \
+                        sha256  85a398fabcad07950184f13222e289647e4ef87ace46138225453c6bf269940b \
+                        size    214373
+
+go.vendors          golang.org/x/text \
+                        lock    v0.43.0 \
+                        rmd160  c41d464475010b28049f857a1835cfc11659d489 \
+                        sha256  9c0870bb9fcf5822f6ca770669ba5f1095f82b37dc0e4ce731bea533cdfda54b \
+                        size    6768792 \
+                    golang.org/x/sys \
+                        lock    v0.49.0 \
+                        rmd160  6ed878be1d13d77e0d3edddde72f331e07838490 \
+                        sha256  a3b736fb807cc342af8da79303e000c845e6d7a3acda8b6404de1477dad0d580 \
+                        size    1574657 \
+                    golang.org/x/net \
+                        lock    v0.62.0 \
+                        rmd160  13f9bc6560d6795f99ad79586796f474c6fb916d \
+                        sha256  0ea78263404d044cce6ab2ab1d0421e298c0d8a2723cd682e59dfdb809a5bcea \
+                        size    1414886 \
+                    go.yaml.in/yaml/v3 \
+                        repo    github.com/yaml/go-yaml \
+                        lock    v3.0.5 \
+                        rmd160  cc6d65f727b78196576fc4307d2d6c346138a38f \
+                        sha256  1e7320a00fd45f94b6bca5c4476c8125f58932f4342b6507a61f7e66de25c633 \
+                        size    94218 \
+                    go.uber.org/ratelimit \
+                        repo    github.com/uber-go/ratelimit \
+                        lock    v0.3.1 \
+                        rmd160  36f118ba2ab78349c69648348f443feadea1e4f6 \
+                        sha256  4361a64c194f8749df4229550f121187778b4e7c5126bcfd60ec8aa81beb1793 \
+                        size    16935 \
+                    github.com/yhat/scrape \
+                        lock    24b7890b0945 \
+                        rmd160  94f93035357655cce3a273fe418dea105f9ee943 \
+                        sha256  eef33e84f81d55e8d0067e4942650580aa10cdc48a9f7acdbc91cbb9990d4fb9 \
+                        size    4396 \
+                    github.com/valyala/fasthttp \
+                        lock    v1.77.0 \
+                        rmd160  e60034ae23f1a8d9e5e377206c6f5032764adaf3 \
+                        sha256  e33e7618569886d8532f55c16b2d8d6bc5a0455d3eb5f8cafe2e272ea7be7b56 \
+                        size    492512 \
+                    github.com/valyala/bytebufferpool \
+                        lock    v1.0.0 \
+                        rmd160  32bddf2031e54e583df580e989cfd9be2f51bda8 \
+                        sha256  849a2f097cc06fb40219bd350225e99bfdeb1e9105b428d72f07953f44808531 \
+                        size    5031 \
+                    github.com/temoto/robotstxt \
+                        lock    v1.1.2 \
+                        rmd160  14236d9aeecb4ee45b09b2d5007ef5bbc8fda768 \
+                        sha256  adeb5e521a02d010f4ee5a19e7a006601c34450de80dd4b66296fb618935cea8 \
+                        size    17506 \
+                    github.com/stretchr/testify \
+                        lock    v1.12.1 \
+                        rmd160  8e53be9de808e92d70e61225ab6a0e3af524544f \
+                        sha256  563b83f6f8b0806b66eb41efb314c9057d086c5dc679eb2da6de7561f357d4cd \
+                        size    167021 \
+                    github.com/pmezard/go-difflib \
+                        lock    v1.0.0 \
+                        rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
+                        sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
+                        size    11409 \
+                    github.com/oxffaa/gopher-parse-sitemap \
+                        lock    005d2eb1def4 \
+                        rmd160  95d3d70b565984cc216d8b47116e0ca63d014451 \
+                        sha256  6c17a15c04fda1ccdce14ef2bbaf740fba0ff9a0dbe52ed884d0d2bfb571c70d \
+                        size    5849 \
+                    github.com/molecule-man/go-brrr \
+                        lock    v1.3.0 \
+                        rmd160  8636c5ad62b5e38a38d3ed96185e33a82bc0b06e \
+                        sha256  b324936ff0009053f2fb29001e9729f95e3d4557b78bf13fbdf75bc4b31cbfe1 \
+                        size    1323622 \
+                    github.com/mattn/go-isatty \
+                        lock    v0.0.24 \
+                        rmd160  06eb44028c6d8e99905f1ffbdb75a35de0ade2f2 \
+                        sha256  8b1e834f93ebe2e7f607a82bb236c8ec7bdbf2a58fe9ba29cf148d309c8ae227 \
+                        size    4960 \
+                    github.com/mattn/go-colorable \
+                        lock    v0.1.16 \
+                        rmd160  c34337eb86dd3c5d5461520741580821974e5060 \
+                        sha256  a915543d8e405ffbb478496674baf9dfea5661c557adec62eb99109f6e45697d \
+                        size    15253 \
+                    github.com/logrusorgru/aurora/v3 \
+                        lock    v3.0.0 \
+                        rmd160  a5e15dd589d3869136daf7d19d525e8e4d4cfb09 \
+                        sha256  b1514fffec2e717432685ae0e1a46a661ab8dbf9f7cffb8ae629b7f05c50766c \
+                        size    137039 \
+                    github.com/klauspost/compress \
+                        lock    v1.20.3 \
+                        rmd160  f111703b17755e713bf93267a1b329543081abe1 \
+                        sha256  cab703a04e2b3a9a8c1cf1e2a130e9a095b38a9255abb11f68e156d98117de0a \
+                        size    39520501 \
+                    github.com/jessevdk/go-flags \
+                        lock    v1.6.1 \
+                        rmd160  61f2591bfa8d5664c9248474d03b3d68dfb06407 \
+                        sha256  255dbce47c61b177d60995976214f79399762861b552fe7a0301c008fbff4ac1 \
+                        size    60634 \
+                    github.com/davecgh/go-spew \
+                        lock    v1.1.1 \
+                        rmd160  7c02883aa81f81aca14e13a27fdca9e7fbc136f7 \
+                        sha256  e85d6afa83e64962e0d63dd4812971eccf2b9b5445eda93f46a4406f0c177d5f \
+                        size    42171 \
+                    github.com/breml/rootcerts \
+                        lock    v0.3.8 \
+                        rmd160  364a7cc007ba8d79a49d0fe5de8f716e43ff96ea \
+                        sha256  1eaeae6af6114bde9c860703e02d3adccea23d981b19ab99a11dada3bf7e6cb4 \
+                        size    119385 \
+                    github.com/bradleyjkemp/cupaloy \
+                        lock    v2.3.0 \
+                        rmd160  5fa620c5af16461b6c656e6c302e4c6c900b85aa \
+                        sha256  7541f609bd4a1f66e7152c08be86886d6ef2468d3c9d780d28692382fbe9e831 \
+                        size    274606 \
+                    github.com/benbjohnson/clock \
+                        lock    v1.3.0 \
+                        rmd160  eb6d1a2bf46ee2436bc9b398df235426a9162fee \
+                        sha256  1588897673a486687d99d87f78a40c940efd6bff5b60f590d431327e60aef5a1 \
+                        size    8162 \
+                    github.com/andybalholm/brotli \
+                        lock    v1.2.8 \
+                        rmd160  3d02191e63e468a61e4d92564a35c7b82425357b \
+                        sha256  f407260ee235d3d28a5797a3fac242846504c93de87001ebd9d6c685ee8f4129 \
+                        size    1853285
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+test.run            yes
+test.target         ./...
