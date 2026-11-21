@@ -3,11 +3,11 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Tatsh itunes-clear-orphaned 0.0.5 v
+github.setup        Tatsh itunes-clear-orphaned 0.0.7 v
 github.tarball_from archive
 
 name                itunes-clear-orphaned
-version             0.0.5
+version             0.0.7
 platforms           darwin
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh}
@@ -16,9 +16,9 @@ long_description   ${description}
 homepage            https://github.com/Tatsh/itunes-clear-orphaned
 categories          sysutils aqua
 
-checksums           rmd160  4b8662ea95b0d9665d5a8efd6352382e061d3ff9 \
-                    sha256  a1718389c09863af24eff4d1597197da5ff3a70a5202a8f08a708f1f59e8a903 \
-                    size    1174103
+checksums           rmd160  89f753fd4dcad5a29788c3a36a306a6c37455490 \
+                    sha256  75e746382122f27587eb38dd8f38327de4fecdab6144142041e34a83718444f0 \
+                    size    1184434
 
 use_configure       no
 # Prebuilt dist/index.js only; no build.
