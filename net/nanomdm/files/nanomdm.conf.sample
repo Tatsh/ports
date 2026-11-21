@@ -1,0 +1,12 @@
+# Environment for the nanomdm service (sudo port load nanomdm). Every flag of nanomdm can be set
+# as an environment variable; see nanomdm -h.
+
+# PEM file of the CA certificate(s) that issued the device identity certificates. Required.
+NANOMDM_CA=@PREFIX@/etc/nanomdm/ca.pem
+
+# Key for the API endpoints (push, enqueue and so on). They are disabled while this is unset.
+#NANOMDM_API=
+
+NANOMDM_LISTEN=127.0.0.1:9000
+NANOMDM_STORAGE=file
+NANOMDM_STORAGE_DSN=@PREFIX@/var/db/nanomdm

@@ -4,6 +4,7 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/micromdm/nanomdm 0.9.0 v
+revision            1
 categories          net
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 license             MIT
@@ -89,8 +90,36 @@ destroot {
     xinstall -m 0755 ${worksrcpath}/nanomdm ${worksrcpath}/nano2nano ${destroot}${prefix}/bin/
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     copy ${worksrcpath}/docs ${destroot}${prefix}/share/doc/${name}/
+    xinstall -d ${destroot}${prefix}/etc/${name} ${destroot}${prefix}/libexec/${name}
+    xinstall -m 0644 ${filespath}/nanomdm.conf.sample ${destroot}${prefix}/etc/${name}/
+    xinstall -m 0755 ${filespath}/nanomdm-service.sh ${destroot}${prefix}/libexec/${name}/
+    reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/etc/${name}/nanomdm.conf.sample \
+        ${destroot}${prefix}/libexec/${name}/nanomdm-service.sh
+    xinstall -d -o _nanomdm -g _nanomdm -m 0750 ${destroot}${prefix}/var/db/${name}
     xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
 }
 
 test.run            yes
 test.target         ./...
+destroot.keepdirs   ${destroot}${prefix}/var/db/${name}
+
+add_users           _nanomdm group=_nanomdm realname=NanoMDM
+
+post-activate {
+    if {![file exists ${prefix}/etc/${name}/nanomdm.conf]} {
+        copy ${prefix}/etc/${name}/nanomdm.conf.sample ${prefix}/etc/${name}/nanomdm.conf
+    }
+}
+
+# The service reads its settings, as nanomdm environment variables, from nanomdm.conf.
+startupitem.create  yes
+startupitem.user    _nanomdm
+startupitem.group   _nanomdm
+startupitem.executable \
+                    ${prefix}/libexec/${name}/nanomdm-service.sh
+
+notes "
+Put the CA certificate that issued your device identities at ${prefix}/etc/${name}/ca.pem, review\
+${prefix}/etc/${name}/nanomdm.conf, then start the MDM server with:
+    sudo port load ${name}
+"
