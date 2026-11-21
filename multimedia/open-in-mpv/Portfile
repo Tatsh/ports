@@ -27,3 +27,16 @@ depends_lib-append port:py${python.version}-bascom \
                    port:py${python.version}-click \
                    port:py${python.version}-platformdirs \
                    port:py${python.version}-typing_extensions
+
+test.run            yes
+# tests/test_install.py expects the open-in-mpv entry point on PATH, as in an installed venv.
+test.env-append     PATH=${workpath}/testbin:$env(PATH)
+pre-test {
+    xinstall -d ${workpath}/testbin
+    set fp [open ${workpath}/testbin/open-in-mpv w]
+    puts $fp "#!/bin/sh"
+    close $fp
+    file attributes ${workpath}/testbin/open-in-mpv -permissions 0755
+}
+depends_test-append \
+    port:py${python.version}-pytest-mock
