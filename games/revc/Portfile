@@ -5,6 +5,7 @@ PortGroup           cmake 1.1
 
 name                revc
 version             20210902
+revision            1
 set commit          a16fcd8d6a79e433c1c6e73d540f1bbe27e14164
 set librw_commit    5501c4fdc7425ff926be59369a13593bb6c81b54
 categories          games
@@ -53,6 +54,9 @@ post-patch {
         file delete -force ${worksrcpath}/vendor/${d}
     }
 }
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
 
 compiler.cxx_standard 2011
 
