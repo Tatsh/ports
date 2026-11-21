@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-dncil
+version             1.0.2
+platforms           darwin linux freebsd
+license             Apache-2
+supported_archs     noarch
+categories          python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         The FLARE team's open-source library to disassemble Common Intermediate Language (CIL) instructions.
+long_description    ${description}
+homepage            https://www.github.com/mandiant/dncil
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            dncil-${version}
+
+checksums           rmd160  b5a09bbde34fbbdeb793e61b22e953443b4e4ce7 \
+                    sha256  1557675c2d1351d3260509881cff0383309f81cda4944ed2c3f5cc352953aa15 \
+                    size    19318
+
+python.versions         313 314
+python.pep517_backend   setuptools
+
+if {$subport ne $name} {
+    livecheck.type      none
+}
