@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        yetmorecode ghidra-lx-loader 12.0.1 v
+github.tarball_from archive
+name                ghidra-lx-loader
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra loader for Linear Executable (LX/LE) binaries such as DOS4GW programs and VxDs.
+long_description    ${description}
+
+checksums           rmd160  1bfeb74628a606eb66db526b4fa52da5ca4af6b9 \
+                    sha256  b7bf85a64052c538c3151202879eb01979ea60014d052f210157a1ea069133f7 \
+                    size    242790
+
+ghidra_extension.name ghidra-lx-loader
+
+patchfiles          patch-ghidra-12.2.diff
+patch.pre_args-replace -p0 -p1
