@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pyimg4
+version             0.8.9
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         A Python library/CLI tool for parsing Apple's Image4 format.
+long_description    ${description}
+homepage            https://github.com/m1stadev/PyIMG4
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            pyimg4-${version}
+
+checksums           rmd160  c71c5fef2591d53a6dc523a5b3b359d41ee6f430 \
+                    sha256  dd2d2a00573bdce3120d5d2a10a645727a1147930e45e67e40c79ad6061ce0dd \
+                    size    174466
+
+python.versions         313 314
+python.pep517_backend   hatch
+
+# The version comes from git through uv-dynamic-versioning; use the release version instead.
+post-patch {
+    reinplace {s/requires = \["hatchling", "uv-dynamic-versioning"\]/requires = ["hatchling"]/} \
+        ${worksrcpath}/pyproject.toml
+    reinplace "s/^dynamic = \\\[\"version\"\\\]/version = \"${version}\"/" ${worksrcpath}/pyproject.toml
+    reinplace {/^\[tool.hatch.version\]/,/^source/d} ${worksrcpath}/pyproject.toml
+}
+
+if {$subport ne $name} {
+    livecheck.type      none
+    depends_run-append \
+        port:py${python.version}-apple-compress \
+        port:py${python.version}-python-asn1 \
+        port:py${python.version}-click \
+        port:py${python.version}-pycryptodome \
+        port:py${python.version}-pylzss
+}
