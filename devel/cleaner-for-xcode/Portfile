@@ -9,10 +9,12 @@ if {${os.major} < 20} {
     version             3.1.1
     livecheck.type      none
 } else {
-    # This SHA supports Xcode 15.2.
-    github.setup        waylybaye XcodeCleaner-SwiftUI cc9a4b9
-    version             4.0.6
+    github.setup        waylybaye XcodeCleaner-SwiftUI 74e0308
+    version             26.7.0
     revision            0
+    # Upstream uses an Xcode 16 synchronized-folder project; convert it to a classic
+    # project with explicit file references so Xcode 15 can build it.
+    patchfiles          patch-xcode15-project.diff
 }
 
 name                cleaner-for-xcode
@@ -25,9 +27,9 @@ description         This app helps you to make your Xcode faster by removing \
 long_description    ${description}
 
 if {${os.major} >= 20} {
-    checksums           rmd160  e87b7ad4a2b2745c48c487ece17ee73cfb6575df \
-                        sha256  15b5002e8bdbdad3759c5abc21a4b2777711ec1fc11be69b15492b0e20e6328a \
-                        size    3281107
+    checksums           rmd160  84cc300d46bfdad00eaef4538d75ba3126e2e9f4 \
+                        sha256  d2bdc68f1f71943e3ef5999c08c29adcb03388071f05a39ef4e586917fda4017 \
+                        size    3284952
 } else {
     checksums           rmd160  bb90fbe23852eb579d60ec89e9a4858a0e8e62d3 \
                         sha256  9b78e03e67a177aea561b7b47dd45a39932345659f007e2bb908d3e45d95d416 \
@@ -37,10 +39,13 @@ if {${os.major} >= 20} {
 xcode.target        "Cleaner for Xcode"
 xcode.configuration Release
 xcode.build.settings    SDKROOT=macosx
+# actool cannot write GeneratedAssetSymbols.* during destroot ("Operation not
+# permitted"); the app does not use generated asset symbols.
 xcode.destroot.settings \
     SDKROOT=macosx \
     CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual
+    CODE_SIGN_STYLE=Manual \
+    ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS=NO
 
 if {${os.major} < 19} {
     pre-fetch {

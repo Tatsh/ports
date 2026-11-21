@@ -1,0 +1,189 @@
+--- Cleaner4Xcode.xcodeproj/project.pbxproj
++++ Cleaner4Xcode.xcodeproj/project.pbxproj
+@@ -3,34 +3,68 @@
+ 	archiveVersion = 1;
+ 	classes = {
+ 	};
+-	objectVersion = 70;
++	objectVersion = 56;
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+ 		B40296B923558580005B74C7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B40296B823558580005B74C7 /* README.md */; };
+ 		B4C4F1D2259C1E2400AD81A7 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = B4C4F1D1259C1E2400AD81A7 /* screenshot.png */; };
++		C1EA4E000000000000000002 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000001 /* Assets.xcassets */; };
++		C1EA4E000000000000000004 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000003 /* AppDelegate.swift */; };
++		C1EA4E000000000000000007 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000006 /* ContentView.swift */; };
++		C1EA4E00000000000000000A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000009 /* Localizable.xcstrings */; };
++		C1EA4E00000000000000000C /* MainWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000000B /* MainWindowView.swift */; };
++		C1EA4E00000000000000000E /* AnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000000D /* AnalysisView.swift */; };
++		C1EA4E000000000000000010 /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000000F /* CategoryDetailView.swift */; };
++		C1EA4E000000000000000012 /* ItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000011 /* ItemRow.swift */; };
++		C1EA4E000000000000000014 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000013 /* ProgressBar.swift */; };
++		C1EA4E000000000000000016 /* ResultsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000015 /* ResultsTableView.swift */; };
++		C1EA4E000000000000000018 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000017 /* SidebarView.swift */; };
++		C1EA4E00000000000000001A /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000019 /* WelcomeView.swift */; };
++		C1EA4E00000000000000001C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000001B /* Preview Assets.xcassets */; };
++		C1EA4E00000000000000001E /* Analysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000001D /* Analysis.swift */; };
++		C1EA4E000000000000000020 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000001F /* AppData.swift */; };
++		C1EA4E000000000000000022 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000021 /* AppError.swift */; };
++		C1EA4E000000000000000024 /* AssetItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000023 /* AssetItem.swift */; };
++		C1EA4E000000000000000026 /* AssetsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000025 /* AssetsCategory.swift */; };
++		C1EA4E000000000000000028 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000027 /* FileHelper.swift */; };
++		C1EA4E00000000000000002A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E000000000000000029 /* String.swift */; };
++		C1EA4E00000000000000002C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000002B /* Utils.swift */; };
++		C1EA4E00000000000000002E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1EA4E00000000000000002D /* Main.storyboard */; };
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXFileReference section */
+ 		B40296B823558580005B74C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+ 		B4096D20233887E1006E0959 /* Cleaner for Xcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cleaner for Xcode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		B4C4F1D1259C1E2400AD81A7 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
++		C1EA4E000000000000000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
++		C1EA4E000000000000000003 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000005 /* Cleaner4Xcode.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cleaner4Xcode.entitlements; sourceTree = "<group>"; };
++		C1EA4E000000000000000006 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
++		C1EA4E000000000000000009 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
++		C1EA4E00000000000000000B /* MainWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowView.swift; sourceTree = "<group>"; };
++		C1EA4E00000000000000000D /* AnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AnalysisView.swift; path = Components/AnalysisView.swift; sourceTree = "<group>"; };
++		C1EA4E00000000000000000F /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryDetailView.swift; path = Components/CategoryDetailView.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000011 /* ItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ItemRow.swift; path = Components/ItemRow.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000013 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProgressBar.swift; path = Components/ProgressBar.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000015 /* ResultsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResultsTableView.swift; path = Components/ResultsTableView.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000017 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SidebarView.swift; path = Components/SidebarView.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000019 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WelcomeView.swift; path = Components/WelcomeView.swift; sourceTree = "<group>"; };
++		C1EA4E00000000000000001B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Preview Assets.xcassets"; path = "Preview Content/Preview Assets.xcassets"; sourceTree = "<group>"; };
++		C1EA4E00000000000000001D /* Analysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Analysis.swift; path = Utils/Analysis.swift; sourceTree = "<group>"; };
++		C1EA4E00000000000000001F /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppData.swift; path = Utils/AppData.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000021 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppError.swift; path = Utils/AppError.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000023 /* AssetItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AssetItem.swift; path = Utils/AssetItem.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000025 /* AssetsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AssetsCategory.swift; path = Utils/AssetsCategory.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000027 /* FileHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
++		C1EA4E000000000000000029 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = String.swift; path = Utils/String.swift; sourceTree = "<group>"; };
++		C1EA4E00000000000000002B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
++		C1EA4E00000000000000002F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
++		C1EA4E000000000000000030 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Main.strings; sourceTree = "<group>"; };
++		C1EA4E000000000000000031 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = zh-Hans.lproj/Main.storyboard; sourceTree = "<group>"; };
+ /* End PBXFileReference section */
+ 
+-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+-		B4D536A52E045F4D00252F84 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+-			membershipExceptions = (
+-				Info.plist,
+-			);
+-			target = B4096D1F233887E1006E0959 /* Cleaner for Xcode */;
+-		};
+-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+-
+-/* Begin PBXFileSystemSynchronizedRootGroup section */
+-		B4D5369C2E045F4D00252F84 /* Cleaner4Xcode */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B4D536A52E045F4D00252F84 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Cleaner4Xcode; sourceTree = "<group>"; };
+-/* End PBXFileSystemSynchronizedRootGroup section */
+-
+ /* Begin PBXFrameworksBuildPhase section */
+ 		B4096D1D233887E1006E0959 /* Frameworks */ = {
+ 			isa = PBXFrameworksBuildPhase;
+@@ -60,6 +94,37 @@
+ 			name = Products;
+ 			sourceTree = "<group>";
+ 		};
++		B4D5369C2E045F4D00252F84 /* Cleaner4Xcode */ = {
++			isa = PBXGroup;
++			children = (
++				C1EA4E000000000000000001 /* Assets.xcassets */,
++				C1EA4E000000000000000003 /* AppDelegate.swift */,
++				C1EA4E000000000000000005 /* Cleaner4Xcode.entitlements */,
++				C1EA4E000000000000000006 /* ContentView.swift */,
++				C1EA4E000000000000000008 /* Info.plist */,
++				C1EA4E000000000000000009 /* Localizable.xcstrings */,
++				C1EA4E00000000000000000B /* MainWindowView.swift */,
++				C1EA4E00000000000000000D /* AnalysisView.swift */,
++				C1EA4E00000000000000000F /* CategoryDetailView.swift */,
++				C1EA4E000000000000000011 /* ItemRow.swift */,
++				C1EA4E000000000000000013 /* ProgressBar.swift */,
++				C1EA4E000000000000000015 /* ResultsTableView.swift */,
++				C1EA4E000000000000000017 /* SidebarView.swift */,
++				C1EA4E000000000000000019 /* WelcomeView.swift */,
++				C1EA4E00000000000000001B /* Preview Assets.xcassets */,
++				C1EA4E00000000000000001D /* Analysis.swift */,
++				C1EA4E00000000000000001F /* AppData.swift */,
++				C1EA4E000000000000000021 /* AppError.swift */,
++				C1EA4E000000000000000023 /* AssetItem.swift */,
++				C1EA4E000000000000000025 /* AssetsCategory.swift */,
++				C1EA4E000000000000000027 /* FileHelper.swift */,
++				C1EA4E000000000000000029 /* String.swift */,
++				C1EA4E00000000000000002B /* Utils.swift */,
++				C1EA4E00000000000000002D /* Main.storyboard */,
++			);
++			path = Cleaner4Xcode;
++			sourceTree = "<group>";
++		};
+ /* End PBXGroup section */
+ 
+ /* Begin PBXNativeTarget section */
+@@ -75,9 +140,6 @@
+ 			);
+ 			dependencies = (
+ 			);
+-			fileSystemSynchronizedGroups = (
+-				B4D5369C2E045F4D00252F84 /* Cleaner4Xcode */,
+-			);
+ 			name = "Cleaner for Xcode";
+ 			productName = Cleaner4Xcode;
+ 			productReference = B4096D20233887E1006E0959 /* Cleaner for Xcode.app */;
+@@ -119,12 +181,29 @@
+ 			);
+ 		};
+ /* End PBXProject section */
++
++/* Begin PBXVariantGroup section */
++		C1EA4E00000000000000002D /* Main.storyboard */ = {
++			isa = PBXVariantGroup;
++			children = (
++				C1EA4E00000000000000002F /* Base */,
++				C1EA4E000000000000000030 /* th */,
++				C1EA4E000000000000000031 /* zh-Hans */,
++			);
++			name = Main.storyboard;
++			sourceTree = "<group>";
++		};
++/* End PBXVariantGroup section */
+ 
+ /* Begin PBXResourcesBuildPhase section */
+ 		B4096D1E233887E1006E0959 /* Resources */ = {
+ 			isa = PBXResourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				C1EA4E000000000000000002 /* Assets.xcassets in Resources */,
++				C1EA4E00000000000000000A /* Localizable.xcstrings in Resources */,
++				C1EA4E00000000000000001C /* Preview Assets.xcassets in Resources */,
++				C1EA4E00000000000000002E /* Main.storyboard in Resources */,
+ 				B40296B923558580005B74C7 /* README.md in Resources */,
+ 				B4C4F1D2259C1E2400AD81A7 /* screenshot.png in Resources */,
+ 			);
+@@ -137,6 +216,24 @@
+ 			isa = PBXSourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
++				C1EA4E000000000000000004 /* AppDelegate.swift in Sources */,
++				C1EA4E000000000000000007 /* ContentView.swift in Sources */,
++				C1EA4E00000000000000000C /* MainWindowView.swift in Sources */,
++				C1EA4E00000000000000000E /* AnalysisView.swift in Sources */,
++				C1EA4E000000000000000010 /* CategoryDetailView.swift in Sources */,
++				C1EA4E000000000000000012 /* ItemRow.swift in Sources */,
++				C1EA4E000000000000000014 /* ProgressBar.swift in Sources */,
++				C1EA4E000000000000000016 /* ResultsTableView.swift in Sources */,
++				C1EA4E000000000000000018 /* SidebarView.swift in Sources */,
++				C1EA4E00000000000000001A /* WelcomeView.swift in Sources */,
++				C1EA4E00000000000000001E /* Analysis.swift in Sources */,
++				C1EA4E000000000000000020 /* AppData.swift in Sources */,
++				C1EA4E000000000000000022 /* AppError.swift in Sources */,
++				C1EA4E000000000000000024 /* AssetItem.swift in Sources */,
++				C1EA4E000000000000000026 /* AssetsCategory.swift in Sources */,
++				C1EA4E000000000000000028 /* FileHelper.swift in Sources */,
++				C1EA4E00000000000000002A /* String.swift in Sources */,
++				C1EA4E00000000000000002C /* Utils.swift in Sources */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
