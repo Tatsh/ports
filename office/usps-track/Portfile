@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        Tatsh usps-track 0.0.3 v
+github.setup        Tatsh usps-track 0.0.5 v
 github.tarball_from archive
 master_sites        ${github.homepage}/archive/
 distfiles           v${version}.tar.gz
@@ -18,9 +18,9 @@ long_description    ${description}
 license             MIT
 supported_archs     noarch
 
-checksums           rmd160  9c4cde296a04a4c3998f12ac241aa5b7c6fb22d6 \
-                    sha256  bbb283e6cf7be060e8faf1c80a5ec0e2bee5d647e97bd0658c98006f8cbfaf68 \
-                    size    1224616
+checksums           rmd160  f07015774250abbf38531fba84d43644da5879e6 \
+                    sha256  f4c7a0a75fda7ebfdc1f5ac5d83cc7aca4e2f3ae5cf204606e0a48732dc1a61e \
+                    size    1287408
 
 python.versions             310 311 312 313 314
 python.default_version      313
