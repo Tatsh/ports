@@ -1,0 +1,109 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           cargo_fetch 1.0
+
+name                py-crunch64
+version             0.6.2
+platforms           darwin linux freebsd
+license             MIT
+categories          python python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         A library for handling common compression formats for N64 games.
+long_description    ${description}
+homepage            https://github.com/decompals/crunch64
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            crunch64-${version}
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  513daf5651ab893c6065033eaae3b221f0c1928a \
+                    sha256  cccaed12d61173c17de9630c51f5825c67be171ffba6d714852d6b669f67a611 \
+                    size    22231
+
+# Upstream pins its build backend versions.
+post-patch {
+    reinplace -E {/^requires *=/s/"([A-Za-z0-9_.-]+)(==|>=|<|~=)[^"]*"/"\1"/g} ${worksrcpath}/pyproject.toml
+}
+
+python.versions         313 314
+python.pep517_backend   maturin
+
+if {$subport ne $name} {
+    livecheck.type      none
+
+}
+
+cargo.crates \
+    aho-corasick             1.1.3    8e60d3430d3a69478ad0993f19238d2df97c507009a52b3c10addcd7f6bcb916 \
+    anstream                 0.6.20   3ae563653d1938f79b1ab1b5e668c87c76a9930414574a6583a7b7e11a8e6192 \
+    anstyle                  1.0.11   862ed96ca487e809f1c8e5a8447f6ee2cf102f846893800b20cebdf541fc6bbd \
+    anstyle-parse            0.2.7    4e7644824f0aa2c7b9384579234ef10eb7efb6a0deb83f9630a49594dd9c15c2 \
+    anstyle-query            1.1.4    9e231f6134f61b71076a3eab506c379d4f36122f2af15a9ff04415ea4c3339e2 \
+    anstyle-wincon           3.0.10   3e0633414522a32ffaac8ac6cc8f748e090c5717661fddeea04219e2344f5f2a \
+    autocfg                  1.5.0    c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8 \
+    cfg-if                   1.0.3    2fd1289c04a9ea8cb22300a459a72a385d7c73d3259e2ed7dcb2af674838cfa9 \
+    clap                     4.5.46   2c5e4fcf9c21d2e544ca1ee9d8552de13019a42aa7dbf32747fa7aaf1df76e57 \
+    clap_builder             4.5.46   fecb53a0e6fcfb055f686001bc2e2592fa527efaf38dbe81a6a9563562e57d41 \
+    clap_derive              4.5.45   14cb31bb0a7d536caef2639baa7fad459e15c3144efefa6dbd1c84562c4739f6 \
+    clap_lex                 0.7.5    b94f61472cee1439c0b966b47e3aca9ae07e45d070759512cd390ea2bebc6675 \
+    colorchoice              1.0.4    b05b61dc5112cbb17e4b6cd61790d9845d13888356391624cbe7e41efeac1e75 \
+    crc32fast                1.5.0    9481c1c90cbf2ac953f07c8d4a58aa3945c425b7185c9154d67a65e4230da511 \
+    futures                  0.3.31   65bc07b1a8bc7c85c5f2e110c476c7389b4554ba72af57d8445ea63a576b0876 \
+    futures-channel          0.3.31   2dff15bf788c671c1934e366d07e30c1814a8ef514e1af724a602e8a2fbe1b10 \
+    futures-core             0.3.31   05f29059c0c2090612e8d742178b0580d2dc940c837851ad723096f87af6663e \
+    futures-executor         0.3.31   1e28d1d997f585e54aebc3f97d39e72338912123a67330d723fdbb564d646c9f \
+    futures-io               0.3.31   9e5c1b78ca4aae1ac06c48a526a655760685149f0d465d21f37abfe57ce075c6 \
+    futures-macro            0.3.31   162ee34ebcb7c64a8abebc059ce0fee27c2262618d7b60ed8faf72fef13c3650 \
+    futures-sink             0.3.31   e575fab7d1e0dcb8d0c7bcf9a63ee213816ab51902e6d244a95819acacf1d4f7 \
+    futures-task             0.3.31   f90f7dce0722e95104fcb095585910c0977252f286e354b5e3bd38902cd99988 \
+    futures-timer            3.0.3    f288b0a4f20f9a56b5d1da57e2227c661b7b16168e2f72365f57b63326e29b24 \
+    futures-util             0.3.31   9fa08315bb612088cc391249efdc3bc77536f16c91f6cf495e6fbe85b20a4a81 \
+    glob                     0.3.3    0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280 \
+    heck                     0.5.0    2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea \
+    indoc                    2.0.6    f4c7245a08504955605670dbf141fceab975f15ca21570696aebe9d2e71576bd \
+    is_terminal_polyfill     1.70.1   7943c866cc5cd64cbc25b2e01621d07fa8eb2a1a23160ee81ce38704e97b8ecf \
+    libc                     0.2.175  6a82ae493e598baaea5209805c49bbf2ea7de956d50d7da0da1164f9c6d28543 \
+    memchr                   2.7.5    32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0 \
+    memoffset                0.9.1    488016bfae457b036d996092f6cb448677611ce4449e970ceaf42695203f218a \
+    once_cell                1.21.3   42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d \
+    once_cell_polyfill       1.70.1   a4895175b425cb1f87721b59f0f286c2092bd4af812243672510e1ac53e2e0ad \
+    pin-project-lite         0.2.16   3b3cff922bd51709b605d9ead9aa71031d81447142d828eb4a6eba76fe619f9b \
+    pin-utils                0.1.0    8b870d8c151b6f2fb93e84a13146138f05d02ed11c7e7c54f8826aaaf7c9f184 \
+    portable-atomic          1.11.1   f84267b20a16ea918e43c6a88433c2d54fa145c92a811b5b047ccbe153674483 \
+    proc-macro2              1.0.101  89ae43fd86e4158d6db51ad8e2b80f313af9cc74f5c0e03ccb87de09998732de \
+    pyo3                     0.26.0   7ba0117f4212101ee6544044dae45abe1083d30ce7b29c4b5cbdfa2354e07383 \
+    pyo3-build-config        0.26.0   4fc6ddaf24947d12a9aa31ac65431fb1b851b8f4365426e182901eabfb87df5f \
+    pyo3-ffi                 0.26.0   025474d3928738efb38ac36d4744a74a400c901c7596199e20e45d98eb194105 \
+    pyo3-macros              0.26.0   2e64eb489f22fe1c95911b77c44cc41e7c19f3082fc81cce90f657cdc42ffded \
+    pyo3-macros-backend      0.26.0   100246c0ecf400b475341b8455a9213344569af29a3c841d29270e53102e0fcf \
+    quote                    1.0.40   1885c039570dc00dcb4ff087a89e185fd56bae234ddc7f056a945bf36467248d \
+    regex                    1.11.2   23d7fd106d8c02486a8d64e778353d1cffe08ce79ac2e82f540c86d0facf6912 \
+    regex-automata           0.4.10   6b9458fa0bfeeac22b5ca447c63aaf45f28439a709ccd244698632f9aa6394d6 \
+    regex-syntax             0.8.6    caf4aa5b0f434c91fe5c7f1ecb6a5ece2130b02ad2a590589dda5146df959001 \
+    relative-path            1.9.3    ba39f3699c378cd8970968dcbff9c43159ea4cfbd88d43c00b22f2ef10a435d2 \
+    rstest                   0.18.2   97eeab2f3c0a199bc4be135c36c924b6590b88c377d416494288c14f2db30199 \
+    rstest_macros            0.18.2   d428f8247852f894ee1be110b375111b586d4fa431f6c46e64ba5a0dcccbe605 \
+    rustc_version            0.4.1    cfcb3a22ef46e85b45de6ee7e79d063319ebb6594faafcf1c225ea92ab6e9b92 \
+    semver                   1.0.26   56e6fa9c48d24d85fb3de5ad847117517440f6beceb7798af16b4a87d616b8d0 \
+    slab                     0.4.11   7a2ae44ef20feb57a68b23d846850f861394c2e02dc425a50098ae8c90267589 \
+    strsim                   0.11.1   7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f \
+    syn                      2.0.106  ede7c438028d4436d71104916910f5bb611972c5cfd7f89b8300a8186e6fada6 \
+    target-lexicon           0.13.3   df7f62577c25e07834649fc3b39fafdc597c0a3527dc1c60129201ccfcbaa50c \
+    thiserror                2.0.17   f63587ca0f12b72a0600bcba1d40081f830876000bb46dd2337a3051618f4fc8 \
+    thiserror-impl           2.0.17   3ff15c8ecd7de3849db632e14d18d2571fa09dfc5ed93479bc4485c7a517c913 \
+    unicode-ident            1.0.18   5a5f39404a5da50712a4c1eecf25e90dd62b613502b7e925fd4e4d19b5c96512 \
+    unindent                 0.2.4    7264e107f553ccae879d21fbea1d6724ac785e8c3bfc762137959b5802826ef3 \
+    utf8parse                0.2.2    06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821 \
+    windows-link             0.1.3    5e6ad25900d524eaabdbbb96d20b4311e1e7ae1699af4fb28c17ae66c80d798a \
+    windows-sys              0.60.2   f2f500e4d28234f72040990ec9d39e3a6b950f9f22d3dba18416c35882612bcb \
+    windows-targets          0.53.3   d5fe6031c4041849d7c496a8ded650796e7b6ecc19df1a431c1a363342e5dc91 \
+    windows_aarch64_gnullvm  0.53.0   86b8d5f90ddd19cb4a147a5fa63ca848db3df085e25fee3cc10b39b6eebae764 \
+    windows_aarch64_msvc     0.53.0   c7651a1f62a11b8cbd5e0d42526e55f2c99886c77e007179efff86c2b137e66c \
+    windows_i686_gnu         0.53.0   c1dc67659d35f387f5f6c479dc4e28f1d4bb90ddd1a5d3da2e5d97b42d6272c3 \
+    windows_i686_gnullvm     0.53.0   9ce6ccbdedbf6d6354471319e781c0dfef054c81fbc7cf83f338a4296c0cae11 \
+    windows_i686_msvc        0.53.0   581fee95406bb13382d2f65cd4a908ca7b1e4c2f1917f143ba16efe98a589b5d \
+    windows_x86_64_gnu       0.53.0   2e55b5ac9ea33f2fc1716d1742db15574fd6fc8dadc51caab1c16a3d3b4190ba \
+    windows_x86_64_gnullvm   0.53.0   0a6e035dd0599267ce1ee132e51c27dd29437f63325753051e71dd9e42406c57 \
+    windows_x86_64_msvc      0.53.0   271414315aff87387382ec3d271b52d7ae78726f5d44ac98b4f4030c91880486
