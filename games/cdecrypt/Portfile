@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        VitaSmith cdecrypt 4.8 v
+github.tarball_from archive
+categories          games sysutils
+platforms           darwin linux freebsd
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Decrypt Wii U NUS content.
+long_description    ${description}
+
+checksums           rmd160  6bb615b898ca8ab8c0fe4febd8387f2c98f35d76 \
+                    sha256  08ec85d81adcafb2e55fde18e5c095603a35b72b7ef781723de5ceb20d7ffbaf \
+                    size    42811
+
+use_configure       no
+
+post-patch {
+    reinplace -E {s/^LDFLAGS=-s$/LDFLAGS=/} ${worksrcpath}/Makefile
+}
+
+build.args          CC="${configure.cc} [get_canonical_archflags cc]"
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/cdecrypt ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
