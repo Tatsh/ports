@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        Tatsh hwview 0.0.2 v
+github.setup        Tatsh hwview 0.0.3 v
 github.tarball_from archive
 
 platforms           darwin freebsd
@@ -15,9 +15,9 @@ long_description    {Cross-platform hardware viewer: devices by type/connection/
 categories          sysutils
 supported_archs     x86_64 arm64
 
-checksums           rmd160  4533ec2f7b5057715bdd1aa2e22d35f385960416 \
-                    sha256  47873739849ce34a0c9953ebfb6d3247e06e817ec6903d5eac2a34d13ee546bc \
-                    size    5822630
+checksums           rmd160  f98774051ed2de75a147308886e196aa10926d80 \
+                    sha256  f9035bcb8ac25c594a62857aa1cc4779b57873139268b795cb393c9ad151dc3f \
+                    size    5849027
 
 depends_lib         port:qt67-qtbase
 
