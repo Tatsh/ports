@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        ps2dev masp 0.1.16 v
+github.tarball_from archive
+categories          cross devel games
+platforms           darwin linux freebsd
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Macro assembler preprocessor for PlayStation 2 VU code, based on GNU gasp.
+long_description    ${description} Part of the ps2dev toolchain.
+
+checksums           rmd160  077d902965c1c71aae8aa2acb2e17472fd97fd1e \
+                    sha256  b39502001460e03e2647301d4196e7c9af58a6960d0d9de8aa0f4529cd482689 \
+                    size    264977
+
+post-patch {
+    reinplace {/target_compile_options(masp PRIVATE -Werror)/d} ${worksrcpath}/src/CMakeLists.txt
+}
+
+test.run            yes
+test {
+    system -W ${build.dir} "${configure.cmd} -DBUILD_TESTING=ON ."
+    system -W ${build.dir} "${build.cmd} ${build.pre_args}"
+    system -W ${build.dir} "${prefix}/bin/ctest --output-on-failure"
+}
