@@ -1,0 +1,33 @@
+--- depklite.c	2026-11-21 05:10:58
++++ depklite.c	2026-11-21 05:10:58
+@@ -448,18 +448,18 @@
+ 
+ 
+ void usage() {
+-	printf(R"(depklite - extract data from DOS executables compressed with PKlite.
+-
+-Usage:  depklite  [-d] [-o <outfile>]  foo.exe  [offset]
+-
+-        foo.exe: name of the executable file to decompress.
+-
+-Options:
+-        offset:  start of compressed data. (Default is 0).
+-        -d, --decrypt           Enable decryption of data.
+-        -o, --output <outfile>  Write to outfile instead of foo.exe.dep.
+-        -v, --verbose [=<0|1>]  Be more verbose.
+-)");
++	printf("depklite - extract data from DOS executables compressed with PKlite.\n"
++	       "\n"
++	       "Usage:  depklite  [-d] [-o <outfile>]  foo.exe  [offset]\n"
++	       "\n"
++	       "        foo.exe: name of the executable file to decompress.\n"
++	       "\n"
++	       "Options:\n"
++	       "        offset:  start of compressed data. (Default is 0).\n"
++	       "        -d, --decrypt           Enable decryption of data.\n"
++	       "        -o, --output <outfile>  Write to outfile instead of foo.exe.dep.\n"
++	       "        -v, --verbose [=<0|1>]  Be more verbose.\n"
++	       "");
+ }
+ 
+ int main(int argc, char **argv) {

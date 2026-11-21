@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        hackerb9 depklite 83a11e57961cc95af0fdfebeb3759f82e0c11abe
+github.tarball_from archive
+version             20210826
+categories          archivers
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Decompress EXE files compressed with PKLITE.
+long_description    ${description}
+
+checksums           rmd160  352700b7a54222a262d7c1760a3fbf941bd83cb8 \
+                    sha256  d5cd510e74ef391ecb084fd68bb46103176a8013bccb15ac5b8a8fe16d8cf445 \
+                    size    195389
+
+# The usage text is a C++-style raw string literal, which only GCC accepts in C.
+patchfiles          patch-raw-string.diff
+
+use_configure       no
+build {
+    system -W ${worksrcpath} "${configure.cc} [get_canonical_archflags cc] ${configure.cflags} ${configure.ldflags} -o depklite depklite.c"
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/depklite ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
