@@ -35,6 +35,9 @@ depends_lib-append      port:py${python.version}-gitpython \
                         port:py${python.version}-packaging \
                         port:py${python.version}-termcolor
 
-patch {
-    delete ${worksrcpath}/PyGitUp/tests
+# Keep the tests for the test phase but do not install them.
+post-destroot {
+    delete ${destroot}${python.pkgd}/PyGitUp/tests
 }
+
+test.run            yes
