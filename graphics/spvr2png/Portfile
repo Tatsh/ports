@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        nextgeniuspro spvr2png bc6c35945d072c78f9bc0e79f396d189082c5609
+github.tarball_from archive
+version             20240111
+categories          graphics games
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Image converter from Sega Dreamcast PVR format to PNG.
+long_description    ${description}
+
+checksums           rmd160  55fbd27938ffc4e4c4c123dc1256f02f2d772c42 \
+                    sha256  799b6191a4418dc17f9403853c98a1fad442344f57571f3463a644e9ce49d31b \
+                    size    94941
+
+depends_build-append port:stb
+
+compiler.cxx_standard 2017
+use_configure       no
+
+# Use MacPorts' stb instead of the bundled copies.
+post-extract {
+    delete ${worksrcpath}/stb_image.h ${worksrcpath}/stb_image_write.h
+}
+
+build.args          CC="${configure.cxx} [get_canonical_archflags cxx]" \
+                    CFLAGS="${configure.cxxflags} -std=c++17 -I${prefix}/include/stb" \
+                    LDFLAGS="${configure.ldflags}"
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/spvr2png ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
