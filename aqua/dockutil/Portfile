@@ -2,14 +2,13 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           xcode 1.0
 
-github.setup        kcrawford dockutil 3.0.2
+github.setup        kcrawford dockutil 3.1.3
 # Use archive URL so fetch works (release tarball can return 403)
 github.tarball_from archive
 master_sites        ${github.homepage}/archive/
-distfiles           3.0.2.tar.gz
-distname            dockutil-3.0.2
+distfiles           3.1.3.tar.gz
+distname            dockutil-3.1.3
 
 license             Apache-2
 maintainers         {gmail.com:audvare @Tatsh}
@@ -21,25 +20,25 @@ platforms           macosx
 
 depends_lib-append  port:swift-argument-parser
 
-checksums           rmd160  3c9891e0e0643a725aa55ef7c227d3d5a7c0f31d \
-                    sha256  8d0117fccd836a14782107bdd3619df17dd4708470e3522f5b2ab0456769ba79 \
-                    size    47032
+checksums           rmd160  af69c69c7e1e14407c32548865385654012f2b1e \
+                    sha256  622bbb5c97f09b3f46ebea9a612f7470dd7fb6a7daaed12b87dee5af7a0177f6 \
+                    size    17474
 
-destroot.pre_args   -derivedDataPath ${worksrcpath}/.dd
-xcode.configuration Release
-xcode.scheme        ${name}
-xcode.destroot.path ${prefix}/bin
-xcode.destroot.settings \
-    SDKROOT=macosx \
-    CODE_SIGN_IDENTITY=- \
-    CODE_SIGN_STYLE=Manual \
-    ENABLE_HARDENED_RUNTIME=NO \
-    SWIFT_INCLUDE_PATHS=${prefix}/lib/swift/macosx \
-    LIBRARY_SEARCH_PATHS=${prefix}/lib
+use_configure       no
 
-patchfiles          patch-argparse.diff
-patch.pre_args      -p1
+# 3.x is SwiftPM-only. SwiftPM would fetch swift-argument-parser itself, so compile
+# with swiftc directly against the MacPorts swift-argument-parser instead.
+build {
+    system -W ${worksrcpath} "/usr/bin/xcrun swiftc -O -parse-as-library \
+        -module-name ${name} \
+        [join [glob -directory ${worksrcpath} Sources/DockUtil/*.swift]] \
+        -I ${prefix}/lib/swift/macosx -L${prefix}/lib -lArgumentParser \
+        -Xlinker -rpath -Xlinker ${prefix}/lib \
+        -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist \
+        -Xlinker Sources/Resources/Info.plist \
+        -o ${name}"
+}
 
-
-# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
-build {}
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/${name}
+}
