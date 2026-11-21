@@ -1,0 +1,86 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        jakcron nstool 1.9.2 v
+github.tarball_from archive
+categories          games sysutils
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         General purpose read/extract tool for Nintendo Switch file formats.
+long_description    ${description}
+
+# The deps/ git submodules, which upstream's makefile builds and links statically.
+set libfmt_commit b03b081e026ceb1226b45de926babe629d6c0688
+set liblz4_commit 561775a11e00cbd21a45031c64068cb5e1242608
+set libmbedtls_commit 74346376dd035e9fbc161cdb80afc646b72fde86
+set libpietendo_commit 5d50d02f8f3b8918bdfbbb599b8c4c1628660d89
+set libtoolchain_commit 578d170f5b294e4a9feb3cc2d504896e846f204e
+master_sites-append https://github.com/jakcron/libfmt/archive/${libfmt_commit}.tar.gz?dummy=:libfmt \
+                    https://github.com/jakcron/liblz4/archive/${liblz4_commit}.tar.gz?dummy=:liblz4 \
+                    https://github.com/jakcron/libmbedtls/archive/${libmbedtls_commit}.tar.gz?dummy=:libmbedtls \
+                    https://github.com/jakcron/libpietendo/archive/${libpietendo_commit}.tar.gz?dummy=:libpietendo \
+                    https://github.com/jakcron/libtoolchain/archive/${libtoolchain_commit}.tar.gz?dummy=:libtoolchain
+distfiles-append    libfmt-${libfmt_commit}.tar.gz:libfmt \
+                    liblz4-${liblz4_commit}.tar.gz:liblz4 \
+                    libmbedtls-${libmbedtls_commit}.tar.gz:libmbedtls \
+                    libpietendo-${libpietendo_commit}.tar.gz:libpietendo \
+                    libtoolchain-${libtoolchain_commit}.tar.gz:libtoolchain
+
+checksums           nstool-1.9.2.tar.gz \
+                    rmd160  a2881105df390f1c51f49de13bc0c40896df9ee2 \
+                    sha256  fa221f77f59a2d66ac811d73dbe8ddbeeb8cecf0a205a60ff3406bc6f08b7dc6 \
+                    size    81971 \
+                    libfmt-b03b081e026ceb1226b45de926babe629d6c0688.tar.gz \
+                    rmd160  12d21cc027e23708aabaa2491f7cc252103e7a8b \
+                    sha256  462ead0a73a03363ffa7b05f7ea432f17cd387cf2c72709242512557fd26501e \
+                    size    147716 \
+                    liblz4-561775a11e00cbd21a45031c64068cb5e1242608.tar.gz \
+                    rmd160  fcab7311b3662410a05ee7e544be282acbdef05c \
+                    sha256  45da125e7cdf96dfe991e991cf9e03ffc29c96788ec0b30e3f3463c58cc36d5d \
+                    size    46019 \
+                    libmbedtls-74346376dd035e9fbc161cdb80afc646b72fde86.tar.gz \
+                    rmd160  e6083ef0edcde89c63458a1e3f7850640d5454c1 \
+                    sha256  8a10749000cf53a80069fbe2a333f8403f245d412fb86ca9326d5087d0bcb87d \
+                    size    760556 \
+                    libpietendo-5d50d02f8f3b8918bdfbbb599b8c4c1628660d89.tar.gz \
+                    rmd160  79d092db10297b789c03a0a33c170ee3954e387e \
+                    sha256  0474677aebab93c6ceb2ff15f4e0b65131cd04ecbf07c949e36b4c717a0ebf1a \
+                    size    175890 \
+                    libtoolchain-578d170f5b294e4a9feb3cc2d504896e846f204e.tar.gz \
+                    rmd160  35da74af3c971d38f6c2e64f60186e2b2cd6504e \
+                    sha256  1ae9e1528612beadb54ca79711b035913ec14b806ae0f0a96062c63252c5889e \
+                    size    329517
+
+compiler.cxx_standard 2017
+use_configure       no
+
+post-extract {
+    foreach dep {libfmt liblz4 libmbedtls libpietendo libtoolchain} {
+        file delete -force ${worksrcpath}/deps/${dep}
+        file rename ${workpath}/${dep}-[set ${dep}_commit] ${worksrcpath}/deps/${dep}
+    }
+}
+
+# Show the compiler commands, which upstream hides.
+post-patch {
+    fs-traverse f [list ${worksrcpath}] {
+        if {[file tail ${f}] eq "makefile"} {
+            reinplace -q -E {s/@\$\((CXX|CC)\)/$(\1)/g} ${f}
+        }
+    }
+}
+
+build.env-append    CC=${configure.cc} CXX=${configure.cxx}
+build.target        program
+pre-build {
+    system -W ${worksrcpath} "env CC=${configure.cc} CXX=${configure.cxx} ${build.cmd} deps"
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/bin/nstool ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
