@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                makemkv
-version             1.18.3
+version             2.0.0
 
 categories          multimedia aqua
 license             Restrictive
@@ -32,9 +32,9 @@ livecheck.type      regex
 livecheck.url       https://makemkv.com/download/
 livecheck.regex     "MakeMKV (\\d+\\.\\d+\\.\\d+) for Mac OS X"
 
-checksums           rmd160  bd297da5b14a17e93c725e96081842f32199a5a9 \
-                    sha256  2ba5d9a9e281016f58f54de201c2a11da0e1f5b12d1bc854537473568b7ded5b \
-                    size    43703164
+checksums           rmd160  154e1399344378c90051bc9115fbc411e6ef6058 \
+                    sha256  e3adad095fb9344e23870d99fd9770a187816332c5a2aa1b226c0bd4a922867a \
+                    size    43904499
 
 depends_extract     bin:expect:expect
 
