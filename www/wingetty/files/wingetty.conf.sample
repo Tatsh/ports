@@ -1,0 +1,6 @@
+# WinGetty settings, read by the launchd service. Any setting in WinGetty's settings.toml can be
+# overridden with a WINGETTY_ prefixed variable.
+WINGETTY_SECRET_KEY='@SECRET_KEY@'
+WINGETTY_SQLALCHEMY_DATABASE_URI='sqlite:///@PREFIX@/var/db/wingetty/database.db'
+# Address and port for Waitress.
+WINGETTY_LISTEN='127.0.0.1:8080'

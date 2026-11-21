@@ -1,0 +1,8 @@
+#!/bin/sh
+# Serve WinGetty with Waitress (run by the launchd startup item).
+set -a
+. "@PREFIX@/etc/wingetty/wingetty.conf"
+set +a
+cd "@PREFIX@/share/wingetty" || exit 1
+"@PYTHON@" -m flask --app app db upgrade || exit 1
+exec "@PYTHON@" -m waitress --listen="${WINGETTY_LISTEN:-127.0.0.1:8080}" --threads=4 --call app:create_app

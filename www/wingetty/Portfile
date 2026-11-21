@@ -1,0 +1,155 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        thilojaeggi WinGetty 1.0.0 v
+github.tarball_from archive
+name                wingetty
+revision            0
+categories          www sysutils
+platforms           darwin
+license             AGPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Self-hosted WinGet package source.
+long_description    WinGetty is a self-hosted package repository for the Windows Package \
+                    Manager (WinGet), with a web interface to upload and manage packages and \
+                    users. This port runs it with Waitress as a launchd service.
+homepage            https://github.com/thilojaeggi/WinGetty
+dist_subdir         ${name}/${version}
+
+# The stylesheet is built with Tailwind CSS at build time, using the standalone CLI and the one
+# plugin the configuration uses.
+set tailwind_version  3.4.17
+set scrollbar_version 3.0.5
+if {${build_arch} eq "arm64"} {
+    set tailwind_bin tailwindcss-macos-arm64
+} else {
+    set tailwind_bin tailwindcss-macos-x64
+}
+master_sites-append https://github.com/tailwindlabs/tailwindcss/releases/download/v${tailwind_version}/:tailwind \
+                    https://registry.npmjs.org/tailwind-scrollbar/-/:scrollbar
+distfiles-append    ${tailwind_bin}:tailwind \
+                    tailwind-scrollbar-${scrollbar_version}.tgz:scrollbar
+extract.only        ${distname}${extract.suffix}
+
+checksums           WinGetty-1.0.0.tar.gz \
+                    rmd160  1ffe8557a1e9b6442b64976a039de899f0aafad5 \
+                    sha256  1772ff47b12ac20e4cdb438f46124971829080b7726126b8f0866012f1841657 \
+                    size    896395 \
+                    tailwindcss-macos-x64 \
+                    rmd160  9dbb38b0d681c8c4345e49114dbd7203ced4d127 \
+                    sha256  6cbdad74be776c087ffa5e9a057512c54898f9fe8828d3362212dfe32fc933a3 \
+                    size    53962480 \
+                    tailwindcss-macos-arm64 \
+                    rmd160  4b811dff443905c610e090b4487261deffcfb206 \
+                    sha256  a1d0c7985759accca0bf12e51ac1dcbf0f6cf2fffb62e6e0f62d091c477a10a3 \
+                    size    48071552 \
+                    tailwind-scrollbar-3.0.5.tgz \
+                    rmd160  376b191e2b349913193c1cd614bddf273abf18bc \
+                    sha256  0d2eee72e34f74bbc31f20197c7de028123d8b05ea3ed341db92bd50928f4c48 \
+                    size    6179
+
+set python_branch   3.13
+set python_version  [string map {. {}} ${python_branch}]
+set python_bin      ${prefix}/bin/python${python_branch}
+
+depends_lib-append  port:python${python_version}
+depends_run-append  port:py${python_version}-boto3 \
+                    port:dynaconf \
+                    port:py${python_version}-flask \
+                    port:py${python_version}-flask-bcrypt \
+                    port:py${python_version}-flask-htmx \
+                    port:py${python_version}-flask-login \
+                    port:py${python_version}-flask-migrate \
+                    port:py${python_version}-flask-sqlalchemy \
+                    port:py${python_version}-flask-wtf \
+                    port:py${python_version}-requests \
+                    port:py${python_version}-setuptools \
+                    port:py${python_version}-sqlalchemy \
+                    port:py${python_version}-waitress \
+                    port:py${python_version}-werkzeug \
+                    port:py${python_version}-wtforms
+
+post-extract {
+    set nm ${worksrcpath}/node_modules/tailwind-scrollbar
+    xinstall -d ${nm}
+    system -W ${nm} "tar -xzf ${distpath}/tailwind-scrollbar-${scrollbar_version}.tgz --strip-components=1"
+    xinstall -m 0755 ${distpath}/${tailwind_bin} ${workpath}/tailwindcss
+    # The plugin reaches into Tailwind's private modules, which the standalone CLI cannot resolve.
+    xinstall -m 0644 ${filespath}/tailwind-internals.js ${nm}/src/
+    reinplace {s|require('tailwindcss/lib/util/flattenColorPalette')|require('./tailwind-internals').flattenColorPalette|; s|require('tailwindcss/lib/util/toColorValue')|require('./tailwind-internals').toColorValue|} \
+        ${nm}/src/utilities.js
+    reinplace {s|require('tailwindcss/lib/featureFlags')|require('./tailwind-internals')|} ${nm}/src/variants.js
+}
+
+# distutils was removed in Python 3.12. LooseVersion is used only to sort version strings.
+post-patch {
+    reinplace {s|^from distutils.version import LooseVersion|from setuptools._distutils.version import LooseVersion|} \
+        ${worksrcpath}/app/__init__.py
+    # Flask copies every upper-case attribute it finds, and newer Dynaconf has internal ones that
+    # cannot be read that way.
+    reinplace {s|app.config.from_object(settings)|app.config.update(settings.as_dict())|} \
+        ${worksrcpath}/app/__init__.py
+}
+
+use_configure       no
+
+build {
+    system -W ${worksrcpath} "${workpath}/tailwindcss build -i src/input.css -o app/static/css/style.css --minify"
+}
+
+destroot {
+    set share ${destroot}${prefix}/share/${name}
+    xinstall -d ${share}
+    copy ${worksrcpath}/app ${worksrcpath}/migrations ${share}/
+    xinstall -m 0644 ${worksrcpath}/config.py ${worksrcpath}/settings.toml ${share}/
+    # Uploaded installers are stored in app/packages.
+    ln -s ${prefix}/var/db/${name}/packages ${share}/app/packages
+    xinstall -d ${destroot}${prefix}/etc/${name} ${destroot}${prefix}/libexec/${name}
+    xinstall -m 0644 ${filespath}/wingetty.conf.sample ${destroot}${prefix}/etc/${name}/
+    xinstall -m 0755 ${filespath}/wingetty-service ${filespath}/wingetty-flask \
+        ${destroot}${prefix}/libexec/${name}/
+    reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/etc/${name}/wingetty.conf.sample \
+        ${destroot}${prefix}/libexec/${name}/wingetty-service \
+        ${destroot}${prefix}/libexec/${name}/wingetty-flask
+    reinplace "s|@PYTHON@|${python_bin}|g" ${destroot}${prefix}/libexec/${name}/wingetty-service \
+        ${destroot}${prefix}/libexec/${name}/wingetty-flask
+    xinstall -d -o _wingetty -g _wingetty -m 0750 ${destroot}${prefix}/var/db/${name} \
+        ${destroot}${prefix}/var/db/${name}/packages
+    xinstall -d -m 0755 ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE.md ${destroot}${prefix}/share/doc/${name}/
+}
+destroot.keepdirs   ${destroot}${prefix}/var/db/${name}/packages
+
+add_users           _wingetty group=_wingetty realname=WinGetty
+
+post-activate {
+    set conf ${prefix}/etc/${name}/wingetty.conf
+    if {![file exists ${conf}]} {
+        set key [exec /usr/bin/openssl rand -hex 32]
+        set in [open ${conf}.sample r]
+        set text [read ${in}]
+        close ${in}
+        set out [open ${conf} w 0640]
+        puts -nonewline ${out} [string map [list @SECRET_KEY@ ${key}] ${text}]
+        close ${out}
+        file attributes ${conf} -group _wingetty
+    }
+    system "su -m _wingetty -c '${prefix}/libexec/${name}/wingetty-flask db upgrade'"
+}
+
+startupitem.create  yes
+startupitem.user    _wingetty
+startupitem.group   _wingetty
+startupitem.executable \
+                    ${prefix}/libexec/${name}/wingetty-service
+
+notes "
+Settings are read from ${prefix}/etc/${name}/wingetty.conf. The server listens on\
+http://127.0.0.1:8080 by default. Start it with:
+    sudo port load ${name}
+Then open the web interface and register the first user, who becomes the administrator.
+"
+
+livecheck.type      none

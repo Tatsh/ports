@@ -1,0 +1,8 @@
+#!/bin/sh
+# Run Flask commands (such as "db upgrade") for the MacPorts WinGetty installation.
+set -a
+. "@PREFIX@/etc/wingetty/wingetty.conf"
+set +a
+cd "@PREFIX@/share/wingetty" || exit 1
+export FLASK_APP=app
+exec "@PYTHON@" -m flask "$@"
