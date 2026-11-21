@@ -1,0 +1,70 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           vapoursynth_plugin 1.0
+
+github.setup        sekrit-twc znedi3 34b2aa9f5d10c31775469b7a358f1ff52375ed1e
+github.tarball_from archive
+name                vapoursynth-znedi3
+version             3.2
+platforms           darwin linux freebsd
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         znedi3, a faster nnedi3 neural network deinterlacer and upscaler for VapourSynth.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+# The graphengine and vsxx git submodules.
+set graphengine_sha f06d7cb4d589ea4657f01b13613efb7437c8ecda
+set vsxx_sha        de38f0e128c85782494ae00565698a2b25e87869
+master_sites-append https://github.com/sekrit-twc/graphengine/archive/${graphengine_sha}.tar.gz?dummy=:graphengine \
+                    https://github.com/sekrit-twc/vsxx/archive/${vsxx_sha}.tar.gz?dummy=:vsxx
+distfiles-append    graphengine-${graphengine_sha}.tar.gz:graphengine \
+                    vsxx-${vsxx_sha}.tar.gz:vsxx
+
+checksums           znedi3-34b2aa9f5d10c31775469b7a358f1ff52375ed1e.tar.gz \
+                    rmd160  15c24365639a0ff7e1b76fda0ca2504a8bb66bab \
+                    sha256  b76eaa556614dfaa1769f3259160b24a8a90067e7211a363a5d5dc5d3ac0c543 \
+                    size    12755035 \
+                    graphengine-f06d7cb4d589ea4657f01b13613efb7437c8ecda.tar.gz \
+                    rmd160  cd983ddfd80b6357967b912ed85173ba7f705fcc \
+                    sha256  be698c09c343ef346fe07e278dc7980a8ae0bbcabcbbd57a49ee13d5e474fb8c \
+                    size    59405 \
+                    vsxx-de38f0e128c85782494ae00565698a2b25e87869.tar.gz \
+                    rmd160  1fadb65b85e222a98751d798ba34ae512cf83ace \
+                    sha256  d47ecf0e25c04bb9ab147a5e78060bcde03a637dd481733c1dbab8c144f4d456 \
+                    size    53726
+
+depends_run-append  port:vapoursynth-nnedi3-weights
+
+compiler.cxx_standard 2017
+use_configure       no
+
+post-extract {
+    file delete -force ${worksrcpath}/graphengine ${worksrcpath}/vsxx
+    file rename ${workpath}/graphengine-${graphengine_sha} ${worksrcpath}/graphengine
+    file rename ${workpath}/vsxx-${vsxx_sha} ${worksrcpath}/vsxx
+}
+
+build.args          CXX="${configure.cxx} [get_canonical_archflags cxx]" \
+                    CXXFLAGS="${configure.cxxflags}" \
+                    LDFLAGS="${configure.ldflags}"
+if {${configure.build_arch} eq "x86_64"} {
+    build.args-append X86=1
+}
+
+destroot {
+    xinstall -d ${destroot}${vapoursynth.plugindir}
+    # VapourSynth only loads plugins named *.dylib on macOS.
+    xinstall -m 0755 ${worksrcpath}/vsznedi3.so ${destroot}${vapoursynth.plugindir}/vsznedi3.dylib
+    # znedi3 reads nnedi3_weights.bin from beside the plugin.
+    ln -s ${prefix}/share/vapoursynth-nnedi3-weights/nnedi3_weights.bin \
+        ${destroot}${vapoursynth.plugindir}/nnedi3_weights.bin
+}
+
+post-build {
+    file copy -force ${worksrcpath}/vsznedi3.so ${worksrcpath}/vsznedi3.dylib
+}
+
+vapoursynth.test_namespace znedi3
