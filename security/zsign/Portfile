@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        zhlynn zsign 1.1.3 v
+github.tarball_from archive
+categories          security devel
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Cross-platform tool to sign iOS app bundles and IPA files.
+long_description    ${description}
+
+checksums           rmd160  3616de6882b30973d1e314fbb11fb90df932b306 \
+                    sha256  a18493f399208dde3293efd753642cdda05e0506c3b05270ad6eb893d0a061af \
+                    size    23621590
+
+depends_build-append port:pkgconfig
+depends_lib-append  path:lib/libssl.dylib:openssl \
+                    port:minizip \
+                    port:zlib
+
+use_configure       no
+
+post-patch {
+    reinplace {s|$(LIBS) -o $(TARGET)$|$(LDFLAGS) $(LIBS) -o $(TARGET)|} ${worksrcpath}/build/macos/Makefile
+    reinplace {s|^CXXFLAGS = -std=c++11 -O3 |CXXFLAGS = -std=c++11 $(USER_CXXFLAGS) |} \
+        ${worksrcpath}/build/macos/Makefile
+}
+
+# Use the system zlib and minizip, and the MacPorts compiler and flags.
+post-extract {
+    delete ${worksrcpath}/src/third-party/minizip ${worksrcpath}/src/third-party/zlib
+}
+
+build.dir           ${worksrcpath}/build/macos
+build.args          CXX="${configure.cxx} [get_canonical_archflags cxx]" \
+                    USER_CXXFLAGS="${configure.cxxflags}" \
+                    LDFLAGS="${configure.ldflags}" \
+                    SYSTEM_MINIZIP=1 \
+                    VERSION=${version}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/bin/zsign ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
