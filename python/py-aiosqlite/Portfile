@@ -39,3 +39,10 @@ if {${name} ne ${subport}} {
         reinplace "s|flit_core >=3.8,<4|flit_core >=3.8|" ${worksrcpath}/pyproject.toml
     }
 }
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    python.test_framework unittest
+    test.cmd            ${python.bin} -m unittest
+    test.args           -v aiosqlite.tests
+}
