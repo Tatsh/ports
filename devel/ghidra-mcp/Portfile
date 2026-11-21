@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        bethington ghidra-mcp 7.0.0 v
+github.tarball_from archive
+name                ghidra-mcp
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra extension exposing an MCP server for LLM-assisted reverse engineering.
+long_description    ${description}
+
+checksums           rmd160  79b8548b2ff9646999acf462cbc868c64e81ba98 \
+                    sha256  7d5446d8b89e83f85ee6f3767288eef3d5bf098e0920da15df6fe1dc2b5eeaa0 \
+                    size    2395245
+
+ghidra_extension.name GhidraMCP
+
+patchfiles          patch-ghidra-12.2.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    set gv [ghidra_extension::property application.version]
+    foreach f {src/main/resources/extension.properties src/main/resources/com/xebyte/version.properties} {
+        reinplace "s/\${project.version}/${version}/g; s/\${ghidra.version}/${gv}/g; s/\${build.timestamp}/0/g; s/\${build.number}/0/g" \
+            ${worksrcpath}/${f}
+    }
+    file copy -force ${worksrcpath}/src/main/resources/extension.properties ${worksrcpath}/
+    close [open ${worksrcpath}/Module.manifest w]
+}
+
+# Only the extension itself; upstream's repository also holds the Python bridge and tooling.
+destroot {
+    set dest ${destroot}[option ghidra_extension.home]/Ghidra/Extensions/GhidraMCP
+    xinstall -d ${dest}
+    foreach f {extension.properties Module.manifest lib ghidra_scripts} {
+        if {[file exists ${worksrcpath}/${f}]} {
+            copy ${worksrcpath}/${f} ${dest}/
+        }
+    }
+}
