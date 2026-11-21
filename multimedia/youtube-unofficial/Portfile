@@ -35,3 +35,10 @@ depends_run-append \
     port:py${python.version}-niquests-cache \
     port:py${python.version}-typing_extensions \
     port:py${python.version}-yt-dlp-utils
+
+test.run            yes
+# anyio's pytest plugin also runs the trio backend when trio is installed; niquests'
+# async session only supports asyncio.
+test.args-append    -k {'not trio'}
+depends_test-append \
+    port:py${python.version}-pytest-mock
