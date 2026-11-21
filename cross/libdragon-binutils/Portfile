@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                libdragon-binutils
+version             2.45
+categories          cross devel games
+platforms           darwin
+license             GPL-3+ LGPL-3+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         GNU binutils for libdragon Nintendo 64 development (mips64-libdragon-elf).
+long_description    ${description}
+homepage            https://libdragon.dev/
+master_sites        gnu:binutils
+distname            binutils-${version}
+use_xz              yes
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  04407793ec050b946eb982f1572e2806c63a3fb2 \
+                    sha256  c50c0e7f9cb188980e2cc97e4537626b1672441815587f1eab69d2a1bfbef5d2 \
+                    size    27868232
+
+depends_build-append port:texinfo
+depends_lib-append  port:zlib
+
+set target          mips64-libdragon-elf
+configure.dir       ${workpath}/build
+configure.cmd       ${worksrcpath}/configure
+build.dir           ${workpath}/build
+pre-configure {
+    file mkdir ${workpath}/build
+}
+configure.args      --target=${target} \
+                    --with-sysroot=${prefix}/${target} \
+                    --with-cpu=mips64vr4300 \
+                    --enable-targets=mips64-sgi-irix6 \
+                    --disable-gprofng \
+                    --disable-nls \
+                    --disable-werror \
+                    --with-system-zlib \
+                    --without-debuginfod \
+                    --without-msgpack \
+                    --without-zstd
+destroot.target     install-strip
+
+# Do not link MacPorts' libfl. Its yylex reference is resolved through the flat namespace from the
+# executable, and install-strip removes that symbol, so the stripped ar aborts at launch.
+build.args-append   LEXLIB=
+destroot.args-append LEXLIB=
+
+# Unprefixed files that would collide with the host toolchain and other cross binutils.
+post-destroot {
+    file delete -force ${destroot}${prefix}/share/info ${destroot}${prefix}/lib/bfd-plugins
+}
