@@ -460,6 +460,7 @@ glsl
 glslang
 glutin
 gmock
+gnubin
 gnullvm
 goautoneg
 gobject
@@ -487,12 +488,14 @@ graphengine
 greenpy
 griffelib
 groupcache
+gsed
 gstreamer
 guessit
 guidocella
 guinpin
 hackerb
 hactool
+hardfp
 harens
 harfrust
 hartator's
@@ -648,6 +651,7 @@ libfl
 libfmt
 libfuzzer
 libgcc
+libgcc's
 libgfxd
 libgomp
 libguicommon
