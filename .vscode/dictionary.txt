@@ -62,7 +62,6 @@ assetcatalog
 astrelsky
 asyncio
 atexit
-atrac
 atspi
 audioconv
 audvare
@@ -177,7 +176,6 @@ colorlog
 colorstring
 commitizen
 compileall
-concurrentqueue
 confdir
 configobj
 configor
@@ -233,7 +231,6 @@ davidmz
 dbeaver
 dbuild
 dbundle
-dcapstone
 dccleste
 dchest
 dclang
@@ -290,7 +287,6 @@ dlclark
 dlib
 dlibrw
 dllvm
-dlmalloc
 dlua
 dmio
 dncil
@@ -319,14 +315,12 @@ dubhater
 dubhatervapoursynth
 dummyserver
 dunamai
-dvita
 dwarvesf
 dwith
 dxil
 dyld
 dylibs
 dynaconf
-dynarmic
 dynasm
 dynasmrt
 ealayer
@@ -547,7 +541,6 @@ inotify
 inout
 inscriptis
 installdir
-interprocedural
 intervaltree
 invis
 inyutin
@@ -634,14 +627,11 @@ lebe
 lexlib
 lflags
 libada
-libadrenotools
 libatomic
-libatrac
 libavcodec
 libbotan
 libbz
 libc
-libcapstone
 libcc
 libcdio
 libchdr
@@ -653,7 +643,6 @@ libdragon
 libdragon's
 libexec
 libexp
-libfat
 libfl
 libfmt
 libfuzzer
@@ -667,7 +656,6 @@ libjpeg
 libjsonnet
 libkeywindowpatch
 liblego
-liblinkernsbypass
 libloading
 liblz
 libm
@@ -710,13 +698,10 @@ libvs
 libweaver
 libwebsockets
 libyaml
-libz
 libzip
-libzrif
 lindex
 linebender
 linecast
-linkernsbypass
 linuxkms
 listdir
 litellm
@@ -845,11 +830,9 @@ nasm
 nastaliq
 natefinch
 nativeaot
-nativefiledialog
 natord
 ncine
 ncruces
-ndebug
 nego
 netfs
 netnode
@@ -858,7 +841,6 @@ networkx
 neverpanic
 newlib
 nextgeniuspro
-nfde
 nfsw
 nicklockwood
 nihongo
@@ -988,8 +970,6 @@ prost
 protoc
 protocolbuffers
 psutil
-psvpfsparser
-psvpfstools
 pthread
 pthreadglue
 pthreads
@@ -1074,7 +1054,6 @@ regdump
 regsub
 reinplace
 relcs
-relw
 remotezip
 removegrain
 remyoudompheng
@@ -1155,6 +1134,7 @@ setuptools
 sevenz
 shadpkg
 shellescape
+shellingham
 shifta
 shirou
 shlex
@@ -1243,7 +1223,6 @@ symroot
 synstructure
 sysconf
 sysinfo
-syst
 sysutils
 taglib
 targetdeps
@@ -1332,7 +1311,6 @@ vladikcomper
 vsxx
 vsznedi
 vtable
-vulkanmemoryallocator
 vusec
 waitgroup
 wakapi
@@ -1395,7 +1373,6 @@ wxconfig
 wxwidgets
 xanzy
 xattr
-xbyak
 xcassets
 xcconfig
 xcodebuildcmd
@@ -1422,7 +1399,6 @@ xmltodict
 xmlwriter
 xplo
 xxhash
-xxhashlib
 yadpcm
 yamls
 yamlutils
