@@ -1,0 +1,133 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/giwty/switch-library-manager 1.4.0
+categories          games
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+license             MIT
+
+description         Manage Nintendo Switch backups from the command line.
+
+long_description    ${description} The Electron GUI is not built.
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  6f1c31ec5e1e002a45b33e83d3d4339d3d4a17cc \
+                        sha256  4d8732ef2b3217567bd6fc3832c4c8ef1278dd79a8f943586cdf59c0dcd3e190 \
+                        size    2331960
+
+go.vendors          github.com/asaskevich/govalidator \
+                        lock    f61b66f89f4a \
+                        rmd160  81a85fa3c6a99f4ea6c8a3f45fe16fcb21b27c24 \
+                        sha256  69e0f3055d26c02e8ce099f0ffa307cd2388fffff525696ca96434e3842421dd \
+                        size    51812 \
+                    github.com/avast/retry-go \
+                        lock    v2.6.1 \
+                        rmd160  00044f87d3bf5fe5733946e757e52e4bdf59f3ef \
+                        sha256  a502573ad1dbd2542243df40361bba3eabae84be52668f538bcba648db9d66c3 \
+                        size    8456 \
+                    github.com/boltdb/bolt \
+                        lock    v1.3.1 \
+                        rmd160  c590aaf065eeaa530d91ad28d72f2b0acf596ee2 \
+                        sha256  89ab29521285d31bd70cbe74807638f2e84b649fd7019eb0ce1b2bbe6e05447e \
+                        size    83461 \
+                    github.com/go-openapi/errors \
+                        lock    v0.19.2 \
+                        rmd160  13a7762234de7fc714ed08530d06483144580de8 \
+                        sha256  0bdcdcbe1ef23a655723f66d5e29c02ed3caac7b583cd0eaca143375894fee6f \
+                        size    16886 \
+                    github.com/go-openapi/strfmt \
+                        lock    v0.19.2 \
+                        rmd160  3cc48d50005aaf37ca64554c71b5bf84b3e533d9 \
+                        sha256  654392a9236d6a05d8c80d0fef5d6a37f5b28e3a65ebaf928e2177ba47e9106b \
+                        size    34238 \
+                    github.com/go-stack/stack \
+                        lock    v1.8.0 \
+                        rmd160  0d04714d21334cb77338bae7ccf0a8eb141cf622 \
+                        sha256  b754cf68628b6ca2f89bb89ff9a68426e5bed296d764a5a7944648325ed13ce9 \
+                        size    8045 \
+                    github.com/jedib0t/go-pretty \
+                        lock    v4.3.0 \
+                        rmd160  e4618d7f871418d21c78d216d4eed96561cd5fd6 \
+                        sha256  bed3c331537d55b6fb432dca666c3267dcba066726377201188670eb7986acfd \
+                        size    551027 \
+                    github.com/magiconair/properties \
+                        lock    v1.8.1 \
+                        rmd160  c9768d4c6f488f56d9451cfe00898b00fa185e5a \
+                        sha256  ba7ce8c50bdc43c67c5fd97e741ae49c9279c0d42b8e79f978e6e0cd814fec7c \
+                        size    29730 \
+                    github.com/mattn/go-runewidth \
+                        lock    v0.0.9 \
+                        rmd160  412c0e508e55f4fe437be0f71d7d22eca2b4366f \
+                        sha256  4f0f4a22257ccecfb6beae88052d850380ecc0e806d6bcc92d3656ebcac3b638 \
+                        size    16716 \
+                    github.com/mcuadros/go-version \
+                        lock    035f6764e8d2 \
+                        rmd160  4d809f9d1af34a1bfd342f78e4356e6d5f1e3ca3 \
+                        sha256  6c49d1caa69ab4414d4d4a2890ef3c6f802c36cc2f86fbbc7cd64b5af0adcde1 \
+                        size    13386 \
+                    github.com/mitchellh/colorstring \
+                        lock    d06e56a500db \
+                        rmd160  79e1fb92818b77a56b274c3bb7880891af3f7829 \
+                        sha256  0a3c9097c65cf50b9dfe8150adf2f096f9e62b36200759459969d3b9ee3a20fe \
+                        size    4679 \
+                    github.com/mitchellh/mapstructure \
+                        lock    v1.1.2 \
+                        rmd160  a4e01781ea5bb0c987e18e8e450c8f1023d5a857 \
+                        sha256  9c1076f5a8e923d028cb65c36143f3b1478cbaa4420e2e8f332719edc2fc4f71 \
+                        size    20992 \
+                    github.com/schollz/progressbar/v3 \
+                        repo    github.com/schollz/progressbar \
+                        lock    v3.5.0 \
+                        rmd160  fc6b1562cbe72f19d94d9beb85196ed934fec41f \
+                        sha256  5a05a8edaf2343f786a224041e376cb8b6c67eb760aaab1bc929ee209cbdbc2c \
+                        size    601415 \
+                    go.mongodb.org/mongo-driver \
+                        repo    github.com/mongodb/mongo-go-driver \
+                        lock    v1.0.3 \
+                        rmd160  ac3e6e84c03076dc3bfbe0eba85de1ccf5bdf788 \
+                        sha256  d094285bd5fc2f1052a7d804cd6262d79f107fa7aa086ab4997b293dc550fc16 \
+                        size    3307348 \
+                    go.uber.org/atomic \
+                        repo    github.com/uber-go/atomic \
+                        lock    v1.6.0 \
+                        rmd160  ebfda750cce72e0ad3c9cdca9600b93816da7937 \
+                        sha256  c96dbf4429ae71c1f30cd56e541bbc56f47b933b989b3fa776f1b1e0c3d162b5 \
+                        size    9687 \
+                    go.uber.org/multierr \
+                        repo    github.com/uber-go/multierr \
+                        lock    v1.5.0 \
+                        rmd160  9834945a806b4eed65cca2479dc9378cd8ad2e41 \
+                        sha256  e091350339162e7ebf1ee9a983fdebc5462e80f679405961c0e9418e34c28635 \
+                        size    12352 \
+                    go.uber.org/zap \
+                        repo    github.com/uber-go/zap \
+                        lock    v1.16.0 \
+                        rmd160  3488069f69698b65c40c9f9601083932698fee6c \
+                        sha256  fa4615b6c7bf11063f94236820e884fec29f2cfb41a69287dc351073a21dcd33 \
+                        size    131799 \
+                    robpike.io/nihongo \
+                        repo    github.com/robpike/nihongo \
+                        lock    a985f0929cfa \
+                        rmd160  563b2879ab8543f82e668107061e2214b51a174f \
+                        sha256  2d9ab8d19390e79169b7b1fec9ab8223aad3d3f9ca2da87f77381467ed8f9626 \
+                        size    7165
+
+# Report the release version, fetch title metadata from a working URL, and drop the Electron GUI
+# for the console mode, with settings in the XDG directories.
+patchfiles          patch-fix-version.diff \
+                    patch-fix-versions-url.diff \
+                    patch-no-gui-xdg.diff
+patch.pre_args-replace -p0 -p1
+# The GUI removal leaves gui.go empty rather than deleting it.
+post-patch {
+    delete ${worksrcpath}/gui.go
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+test.run            yes
+test.target         ./...
