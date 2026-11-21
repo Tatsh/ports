@@ -1,0 +1,27 @@
+--- pymobiledevice3/remote/tunnel_service.py	2026-11-20 07:21:50
++++ pymobiledevice3/remote/tunnel_service.py	2026-11-21 08:00:34
+@@ -43,7 +43,6 @@
+ from pytun_pmd3 import TunTapDevice
+ from qh3.asyncio import client as _aioquic_client
+ from qh3.asyncio.protocol import QuicConnectionProtocol, QuicStreamHandler
+-from qh3.quic import packet_builder
+ from qh3.quic.configuration import QuicConfiguration
+ from qh3.quic.connection import QuicConnection
+ from qh3.quic.events import ConnectionTerminated, DatagramFrameReceived, QuicEvent, StreamDataReceived
+@@ -125,7 +124,7 @@
+ 
+ # The iOS device uses an MTU of 1500, so we'll have to increase the default QUIC MTU
+ IOS_DEVICE_MTU_SIZE = 1500
+-packet_builder.PACKET_MAX_SIZE = IOS_DEVICE_MTU_SIZE - IPV6_HEADER_SIZE - UDP_HEADER_SIZE
++QUIC_MAX_DATAGRAM_SIZE = IOS_DEVICE_MTU_SIZE - IPV6_HEADER_SIZE - UDP_HEADER_SIZE
+ 
+ 
+ class PairConsentResult(NamedTuple):
+@@ -648,6 +647,7 @@
+             verify_mode=VerifyMode.CERT_NONE,
+             verify_hostname=False,
+             max_datagram_frame_size=RemotePairingQuicTunnel.MAX_QUIC_DATAGRAM,
++            max_datagram_size=QUIC_MAX_DATAGRAM_SIZE,
+             idle_timeout=max_idle_timeout,
+         )
+         cast(Any, configuration).load_cert_chain(
