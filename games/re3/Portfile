@@ -1,0 +1,85 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+
+name                re3
+version             20210902
+set commit          3233ffe1c4b99e8efb4c41c6794b4fce880cf503
+set librw_commit    5501c4fdc7425ff926be59369a13593bb6c81b54
+categories          games
+platforms           darwin linux freebsd
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Grand Theft Auto III, decompiled and rebuilt.
+long_description    ${description} The game files from a copy of Grand Theft Auto III are required.
+homepage            https://web.archive.org/web/20210906122012/https://github.com/GTAmodding/re3
+
+master_sites        https://web.archive.org/web/20210906122012/https://github.com/GTAmodding/re3/archive/:main \
+                    https://github.com/aap/librw/archive/:librw
+distfiles           ${commit}.zip:main \
+                    ${librw_commit}.tar.gz:librw
+dist_subdir         ${name}/${version}
+extract.only        ${commit}.zip
+use_zip             yes
+worksrcdir          re3-${commit}
+
+checksums           3233ffe1c4b99e8efb4c41c6794b4fce880cf503.zip \
+                    rmd160  f2d3d670ec20d94b08eab0771467efea757f32f2 \
+                    sha256  fba785fb3083513a351c9f5ac8d5925840dee1fcb68d8577bd8a36789ccf6091 \
+                    size    10329610 \
+                    5501c4fdc7425ff926be59369a13593bb6c81b54.tar.gz \
+                    rmd160  1f68886e20de0cbd063e50fdee28bf40af72f0a6 \
+                    sha256  6d7fd1ffc8051d0ab670d4a07a6ae21abfbe2f7edbb2a6845c7b2b83977b40e2 \
+                    size    2111111
+
+depends_build-append bin:unzip:unzip
+depends_lib-append  port:glew \
+                    port:glfw \
+                    port:libsndfile \
+                    port:mpg123 \
+                    port:openal-soft
+
+post-extract {
+    system -W ${worksrcpath}/vendor "tar -xzf ${distpath}/${librw_commit}.tar.gz"
+    file delete -force ${worksrcpath}/vendor/librw
+    file rename ${worksrcpath}/vendor/librw-${librw_commit} ${worksrcpath}/vendor/librw
+}
+
+# Look for the game files in ~/.local/share/re3 rather than the working directory.
+patchfiles          patch-xdg.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    foreach d {libsndfile mpg123 openal-soft} {
+        file delete -force ${worksrcpath}/vendor/${d}
+    }
+}
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+compiler.cxx_standard 2011
+
+# The Opus audio path does not build for GTA III (it references the PS2 stream table).
+configure.args-append \
+                    -DLIBRW_PLATFORM=GL3 \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DLIBRW_TOOLS=OFF \
+                    -DRE3_WITH_LIBSNDFILE=ON \
+                    -DRE3_WITH_OPUS=OFF \
+                    -DRE3_AUDIO=OAL \
+                    -DRE3_VENDORED_LIBRW=ON \
+                    -DRE3_INSTALL=ON \
+                    -DCMAKE_INSTALL_PREFIX=${prefix}/share/${name}
+
+post-destroot {
+    ln -s ../share/${name}/re3 ${destroot}${prefix}/bin/re3
+}
+
+notes "
+Copy the files of your Grand Theft Auto III installation into the directory you run re3 from, or into
+~/.local/share/re3. The re3-installer port can extract them from the discs.
+"
+
+livecheck.type      none
