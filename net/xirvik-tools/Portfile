@@ -41,3 +41,11 @@ depends_lib-append port:py${python.version}-unidecode \
                    port:py${python.version}-platformdirs \
                    port:py${python.version}-tabulate \
                    port:py${python.version}-typing_extensions
+
+test.run            yes
+# The tests import helpers from the tests package.
+test.env-append     PYTHONPATH=${worksrcpath}
+depends_test-append \
+    port:py${python.version}-niquests-mock \
+    port:py${python.version}-pytest-asyncio \
+    port:py${python.version}-pytest-mock
