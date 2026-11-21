@@ -38,3 +38,70 @@ if {$subport ne $name} {
         port:py${python.version}-tomlkit \
         port:py${python.version}-typing_extensions
 }
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    test.env-append     PYTHONPATH=${worksrcpath}
+    # These tests assume Linux: Chrome's Linux keyring (macOS uses the Keychain instead),
+    # BlueZ and D-Bus.
+    set linux_only_tests {
+        tests/test_chrome_core.py::test_keyring_available_reports_the_v11_key
+        tests/test_chrome_core.py::test_oscrypt_tries_every_candidate_key
+        tests/test_chrome_secrets.py::test_iter_ai_entities_decrypts_attributes_and_joins_metadata
+        tests/test_chrome_secrets.py::test_iter_cookies_no_hash_prefix_before_version_24
+        tests/test_chrome_secrets.py::test_iter_cookies_strips_hash_prefix_at_version_24
+        tests/test_chrome_secrets.py::test_iter_logins_decodes_and_decrypts
+        tests/test_chrome_secrets.py::test_iter_payment_table_decrypts_and_converts_dates
+        tests/test_chrome_secrets.py::test_iter_sign_in_tokens_decrypts_and_reports_binding
+        tests/test_chrome_secrets.py::test_list_accounts_json_and_show_tokens
+        tests/test_chrome_secrets.py::test_list_accounts_masks_tokens_by_default
+        tests/test_chrome_secrets.py::test_list_autofill_ai_entities_show_values_reveals_plaintext
+        tests/test_chrome_secrets.py::test_list_cookies_database_choice
+        tests/test_chrome_secrets.py::test_list_cookies_host_filter
+        tests/test_chrome_secrets.py::test_list_cookies_json_decodes_enums_and_dates
+        tests/test_chrome_secrets.py::test_list_cookies_limit
+        tests/test_chrome_secrets.py::test_list_cookies_masks_values_by_default
+        tests/test_chrome_secrets.py::test_list_cookies_show_values_reveals_plaintext
+        tests/test_chrome_secrets.py::test_list_passwords_account_flag_reads_account_database
+        tests/test_chrome_secrets.py::test_list_passwords_masks_by_default
+        tests/test_chrome_secrets.py::test_list_passwords_show_passwords_reveals_plaintext
+        tests/test_chrome_secrets.py::test_list_passwords_tolerates_an_older_schema
+        tests/test_chrome_secrets.py::test_list_payments_account_flag_reads_account_database
+        tests/test_chrome_secrets.py::test_list_payments_show_numbers_reveals_plaintext
+        tests/test_chrome_secrets.py::test_list_payments_table_option_includes_empty_table
+        tests/test_chrome_secrets.py::test_list_payments_table_option_selects_one_table
+        tests/test_desktop_commands.py::test_connect_g603
+        tests/test_desktop_commands.py::test_connect_g603_disconnected
+        tests/test_desktop_commands.py::test_connect_g603_ignores_non_g603_devices
+        tests/test_desktop_commands.py::test_connect_g603_key_error
+        tests/test_desktop_commands.py::test_connect_g603_paired
+        tests/test_desktop_commands.py::test_connect_g603_unhandled_property_change
+        tests/test_system.py::test_find_bluetooth_device_info_by_name_not_found
+        tests/test_system.py::test_find_bluetooth_device_info_by_name_success
+    }
+    foreach t ${linux_only_tests} {
+        test.args-append --deselect ${t}
+    }
+    # The tests import the optional extras as well.
+    depends_test-append \
+        port:py${python.version}-pytest-mock \
+        port:py${python.version}-pytest-asyncio \
+        port:py${python.version}-beautifulsoup4 \
+        port:py${python.version}-cryptography \
+        port:py${python.version}-gidgethub \
+        port:py${python.version}-gitpython \
+        port:py${python.version}-keyring \
+        port:py${python.version}-paramiko \
+        port:py${python.version}-pexpect \
+        port:py${python.version}-Pillow \
+        port:py${python.version}-platformdirs \
+        port:py${python.version}-psutil \
+        port:py${python.version}-pydbus \
+        port:py${python.version}-pyperclip \
+        port:py${python.version}-secretstorage \
+        port:py${python.version}-send2trash \
+        port:py${python.version}-unidecode \
+        port:py${python.version}-watchdog \
+        port:py${python.version}-yaml \
+        port:yt-dlp
+}
