@@ -28,3 +28,8 @@ if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools
     depends_run-append      port:py${python.version}-requests
 }
+
+if {${name} ne ${subport}} {
+    test.run            yes
+    depends_test-append port:py${python.version}-pytest-httpbin
+}
