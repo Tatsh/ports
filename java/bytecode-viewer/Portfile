@@ -2,9 +2,11 @@
 
 PortSystem          1.0
 PortGroup           java 1.0
+PortGroup           app 1.0
 
 name                bytecode-viewer
 version             2.13.2
+revision            1
 categories          java devel
 license             GPL-3
 platforms           any
@@ -15,18 +17,30 @@ long_description    Bytecode Viewer decompiles Java classes and Android APKs wit
                     decompilers side by side. This installs upstream's release jar.
 homepage            https://bytecodeviewer.com/
 master_sites        https://github.com/Konloch/bytecode-viewer/releases/download/v${version}/
-distfiles           Bytecode-Viewer-${version}.jar
+master_sites-append https://raw.githubusercontent.com/Konloch/bytecode-viewer/v${version}/BCV%20Icon.png?dummy=:icon
+distfiles           Bytecode-Viewer-${version}.jar \
+                    bcv-icon.png:icon
 extract.only
 
-checksums           rmd160  e4a230a237e489f93655e01f90d01ed764a81e31 \
+checksums           Bytecode-Viewer-2.13.2.jar \
+                    rmd160  e4a230a237e489f93655e01f90d01ed764a81e31 \
                     sha256  2e23ead17825711bfbf25ffbc6c6af32ca89b057a8e7ccb856cc096ed7f83516 \
-                    size    70170672
+                    size    70170672 \
+                    bcv-icon.png \
+                    rmd160  ee0b7086bc34cf68b1aed0d928bf08326ac110ab \
+                    sha256  380fbc2d958fc5e0c3f7c05b21de83e3d7e956b00ab476439f893f1d10a61a3e \
+                    size    8653
 
 java.version        17+
 java.fallback       openjdk21
 
 use_configure       no
 build {}
+
+# Nothing is extracted, and the app portgroup converts the icon from within the source directory.
+pre-destroot {
+    file mkdir ${worksrcpath}
+}
 
 destroot {
     xinstall -d ${destroot}${prefix}/share/java/${name}
@@ -40,3 +54,7 @@ destroot {
 livecheck.type      regex
 livecheck.url       https://github.com/Konloch/bytecode-viewer/releases
 livecheck.regex     {releases/tag/v([0-9.]+)"}
+
+app.name            Bytecode Viewer
+app.executable      bytecode-viewer
+app.icon            ${distpath}/bcv-icon.png
