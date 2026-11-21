@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-rebulk
+version             6.0.2
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          python python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Rebulk - Define simple search patterns in bulk to perform advanced matching on any string.
+long_description    ${description}
+homepage            https://github.com/Toilal/rebulk/
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            rebulk-${version}
+
+checksums           rmd160  1c9bf1c1534f8f3e19e8742eba57cc9a63cef292 \
+                    sha256  91d792483690aeb249bb56b3357598dd658f0f533066680db8c3e1b6f7dc8929 \
+                    size    59886
+
+python.versions         313 314
+python.pep517_backend   uv
+
+# Upstream pins uv_build to an older minor version.
+post-patch {
+    reinplace -E {s/"uv_build[^"]*"/"uv_build"/} ${worksrcpath}/pyproject.toml
+}
+
+if {$subport ne $name} {
+    livecheck.type      none
+
+}
