@@ -81,6 +81,7 @@
   "scripts": {
     "check-formatting": "yarn prettier -c . && poetry run isort . --check && poetry run yapf -prd . && markdownlint-cli2 '**/*.md' '#node_modules'",
     "check-spelling": "yarn cspell --no-progress './**/*'  './**/.*'",
+    "dict:update": "rm -f .vscode/dictionary.txt && cspell lint --no-progress --no-summary --unique --words-only './**/*' './**/.*' | LC_ALL=C tr '[:upper:]' '[:lower:]' | LC_ALL=C sort -u > .vscode/dictionary.txt",
     "format": "yarn prettier -w . && poetry run isort . && poetry run yapf -pri . && markdownlint-cli2 --fix '**/*.md' '#node_modules'",
     "mypy": "bash -c 'for package in _resources/bin/*2port _resources/bin/liveupdate; do poetry run mypy \"$package\" || exit 1; done'",
     "qa": "yarn mypy && yarn ruff && yarn check-formatting",
