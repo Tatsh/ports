@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                roboto
-version             3.015
+version             3.016
 
 categories          graphics
 license             OFL-1.1
@@ -20,9 +20,9 @@ use_zip             yes
 distfiles           Roboto_v${version}${extract.suffix}
 master_sites        https://github.com/googlefonts/${name}-3-classic/releases/download/v${version}
 
-checksums           rmd160  36df9735e1adad451ff7a7e67441436d48d17ce6 \
-                    sha256  bee3e9334ea86dd63e184598f31fb16750881c2da1a6f097a66e0f66a95b3d54 \
-                    size    28917974
+checksums           rmd160  8eb8f936d4352b93d95aa03eeaa1a2fb435e02e5 \
+                    sha256  1653dbe12f248da8fb0b9920db7b9496cd677ed3981154f6f15285c8bd4e334f \
+                    size    29162959
 
 livecheck.type      regex
 livecheck.url       ${homepage}
