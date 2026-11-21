@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           mpv_plugin 1.0
+
+github.setup        CogentRedTester mpv-scroll-list b8a3498b35fbb1d1d08aff98079acdb0da672277
+github.tarball_from archive
+name                mpv-scroll-list
+version             20250110
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         API for mpv scripts to create interactive scrollable lists.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  41a314e4a4cb1bd60ec1c5db6ecee38034d40ec4 \
+                    sha256  3dd7fbd274142d5f30aa5da58368d5d3774dea1248e0e130a94f8acd90a7dec6 \
+                    size    7150
+
+mpv_plugin.docs     README.md
+
+# A module for other scripts, loaded from mpv's script-modules directory.
+post-destroot {
+    xinstall -d ${destroot}${prefix}/etc/mpv/script-modules
+    xinstall -m 0644 ${worksrcpath}/scroll-list.lua ${destroot}${prefix}/etc/mpv/script-modules/
+}
