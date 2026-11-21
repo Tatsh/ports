@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ps2dev ps2-packer 2.0.0 v
+github.tarball_from archive
+categories          cross devel games
+platforms           darwin
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Executable packer for PlayStation 2 ELF files.
+long_description    ${description} Part of the ps2dev toolchain.
+
+checksums           rmd160  c4de2db59ee722149fb0375ee914ed945271fcc4 \
+                    sha256  812afc2a4c309cf86db95133095176339bb37030a2b61579ecf7936a8dc6dd92 \
+                    size    253476
+
+depends_build-append port:ps2sdk
+depends_lib-append  port:zlib
+
+post-patch {
+    foreach f {stub/Makefile stub/lz4/Makefile stub/lzma/Makefile stub/lzo/Makefile stub/zlib/Makefile} {
+        reinplace -E {s/ -Werror([[:space:]]|$)/\1/g} ${worksrcpath}/${f}
+    }
+}
+
+use_configure       no
+# The Makefile appends CPPFLAGS to its own (with the version and install prefix), which a CPPFLAGS
+# on the make command line would replace.
+build.env-append    PS2SDK=${prefix}/share/ps2dev/ps2sdk \
+                    CPPFLAGS=${configure.cflags}\ ${configure.cppflags}
+build.args          CC="${configure.cc} [get_canonical_archflags cc]" \
+                    LDFLAGS="${configure.ldflags}" \
+                    PREFIX=${prefix}
+destroot.env-append PS2SDK=${prefix}/share/ps2dev/ps2sdk
+destroot.args       {*}${build.args}
