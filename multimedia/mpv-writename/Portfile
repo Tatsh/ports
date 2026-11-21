@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           mpv_plugin 1.0
+
+github.setup        paradox460 mpv-scripts c32a1c09258bdbaf1a895cd708cf1cf9a7281b1c
+github.tarball_from archive
+name                mpv-writename
+version             20250725
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Write the name of the file playing in mpv to a file.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  ef7ca01f09911d5fb2d40593379c9fd82a1a4a25 \
+                    sha256  308409fcfbb55b7c989190bb9f4b081d0bf55187d9639c70af58ff7ed4c43e4b \
+                    size    7388
+
+mpv_plugin.files    writename/writename.lua
