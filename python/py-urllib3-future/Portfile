@@ -42,6 +42,26 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-python-socks \
                     port:py${python.version}-wsproto
 
+    # Run upstream's suite against the sources (src/urllib3), not the legacy py-urllib3 this
+    # build coexists with. Its pytest config filters coverage warnings, so it needs coverage.
+    test.run            yes
+    test.env-append     PYTHONPATH=${worksrcpath}/src:${worksrcpath}
+    # Upstream turns warnings into errors: disable anyio's auto-loaded plugin (it uses a
+    # deprecated pytest API; the suite uses pytest-asyncio) and set the loop scope that
+    # current pytest-asyncio warns about when unset.
+    test.args-append    -p no:cacheprovider -p no:anyio \
+                        -o asyncio_default_fixture_loop_scope=function \
+                        --ignore=test/with_dummyserver/asynchronous/test_connectionpool.py
+    depends_test-append \
+        port:py${python.version}-coverage \
+        port:py${python.version}-cryptography \
+        port:py${python.version}-pytest-asyncio \
+        port:py${python.version}-pytest-rerunfailures \
+        port:py${python.version}-pytest-timeout \
+        port:py${python.version}-python-socks \
+        port:py${python.version}-tornado \
+        port:py${python.version}-trustme
+
     post-destroot {
         if {[file exists ${destroot}${python.pkgd}/urllib3]} {
             return -code error "urllib3 package was installed; URLLIB3_NO_OVERRIDE was not honoured"
