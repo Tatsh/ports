@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-gidgetlab
+version             2.1.2
+platforms           darwin linux freebsd
+license             Apache-2
+supported_archs     noarch
+categories          python python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         An async GitLab API library.
+long_description    ${description}
+homepage            https://gitlab.com/beenje/gidgetlab
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            gidgetlab-${version}
+
+checksums           rmd160  0eee905694668a65d2b70e309b95f64c64c920aa \
+                    sha256  cdbb39aa1a344a4a3e40cb30ccd4e559794937664d59908e94d4850b1354be90 \
+                    size    34489
+
+python.versions         313 314
+python.pep517_backend   setuptools
+
+if {$subport ne $name} {
+    livecheck.type      none
+    depends_build-append \
+        port:py${python.version}-setuptools_scm
+
+}
