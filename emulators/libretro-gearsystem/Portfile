@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        drhelius Gearsystem 49ab4f545d9c57c3b785a8bb633f4ca672698d05
+github.tarball_from archive
+name                libretro-gearsystem
+version             20261118
+revision            0
+
+license             GPL-3+
+description         Sega Master System, Game Gear and SG-1000 emulator (Gearsystem) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  85de33004ac4c12530bda552dde1bcc1cf17f52b \
+                    sha256  8c94109cb1f8d2de39f773af7c13a4a304d9098f9115e8196efed2f90b808bff \
+                    size    8653814
+
+libretro.build_dir  ${worksrcpath}/platforms/libretro
