@@ -1,0 +1,151 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           wxWidgets 1.0
+PortGroup           boost 1.0
+
+github.setup        cemu-project Cemu 04eaa92ae8e093ce161a9319ec09b9602fee6b7f
+github.tarball_from archive
+name                cemu
+version             2.6.20261118
+categories          emulators games aqua
+platforms           darwin
+license             MPL-2 ISC
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Wii U emulator.
+long_description    ${description} Renders with Vulkan (MoltenVK) or OpenGL.
+homepage            https://cemu.info/
+dist_subdir         ${name}/${version}
+
+# The bundled ImGui and the glslang it builds in.
+set imgui_version   1.88
+set glslang_commit  7200bc12a8979d13b22cd52de80ffb7d41939615
+set metalcpp_commit a63bd172ddcba73a3d87ca32032b66ad41ddb9a6
+master_sites-append https://github.com/ocornut/imgui/archive/refs/tags/v${imgui_version}.tar.gz?dummy=:imgui \
+                    https://github.com/KhronosGroup/glslang/archive/${glslang_commit}.tar.gz?dummy=:glslang \
+                    https://github.com/bkaradzic/metal-cpp/archive/${metalcpp_commit}.tar.gz?dummy=:metalcpp
+distfiles-append    imgui-${imgui_version}.tar.gz:imgui \
+                    glslang-${glslang_commit}.tar.gz:glslang \
+                    metal-cpp-${metalcpp_commit}.tar.gz:metalcpp
+
+checksums           Cemu-04eaa92ae8e093ce161a9319ec09b9602fee6b7f.tar.gz \
+                    rmd160  ef3c916d6cfb9f4e6bb0b75e7e18a63237db21da \
+                    sha256  2fca0bfdec32e99b393fc25124acf7750447744742776eceff9bf425d5c0acb3 \
+                    size    21385776 \
+                    imgui-1.88.tar.gz \
+                    rmd160  17f8eb9d1e3024fb786e6bf3d602546824088ae6 \
+                    sha256  9f14c788aee15b777051e48f868c5d4d959bd679fc5050e3d2a29de80d8fd32e \
+                    size    1488062 \
+                    glslang-7200bc12a8979d13b22cd52de80ffb7d41939615.tar.gz \
+                    rmd160  bc44a1c2f61c41a3a98ee0dc0a3624c9866c75b8 \
+                    sha256  ee303b50cebf27aa1068549a5ea3d4b2b73d44ced272c1b9fea01e2144668007 \
+                    size    3960242 \
+                    metal-cpp-a63bd172ddcba73a3d87ca32032b66ad41ddb9a6.tar.gz \
+                    rmd160  b63848615ebd8f3aef2d12818692f61acab0471f \
+                    sha256  68b77724c58d838451fa35aafc6c080eafe849c81dcb1b18fd8c3ca0a091df5e \
+                    size    207383
+
+wxWidgets.use       wxWidgets-3.2
+
+depends_build-append port:glm \
+                    port:pkgconfig \
+                    port:rapidjson \
+                    port:vulkan-headers
+
+# Boost 1.76 does not mark its container iterators contiguous, so its small_vector cannot be
+# viewed as a std::span. The default Boost's headers in ${prefix}/include come first among the
+# system include directories, and an -I naming one of those is dropped, so the newer headers are
+# reached through a directory of their own.
+boost.version       1.87
+configure.cppflags-prepend -I${workpath}/boost-include
+
+post-extract {
+    file mkdir ${workpath}/boost-include
+    ln -s ${prefix}/libexec/boost/${boost.version}/include/boost ${workpath}/boost-include/boost
+}
+
+depends_lib-append  port:cubeb \
+                    path:lib/libcurl.dylib:curl \
+                    port:hidapi \
+                    port:libfmt12 \
+                    port:libsdl2 \
+                    port:libzip \
+                    path:lib/libssl.dylib:openssl \
+                    port:MoltenVK \
+                    port:pugixml \
+                    port:${wxWidgets.port} \
+                    port:zarchive \
+                    port:zstd \
+                    port:zlib
+
+# Build against wxWidgets 3.2.
+patchfiles          patch-wxwidgets-3.2-compat.diff
+patch.pre_args-replace -p0 -p1
+
+post-extract {
+    file rename ${workpath}/glslang-${glslang_commit} ${worksrcpath}/glslang
+    file delete -force ${worksrcpath}/dependencies/imgui
+    file rename ${workpath}/imgui-${imgui_version} ${worksrcpath}/dependencies/imgui
+    file delete -force ${worksrcpath}/dependencies/metal-cpp
+    file rename ${workpath}/metal-cpp-${metalcpp_commit} ${worksrcpath}/dependencies/metal-cpp
+}
+
+post-patch {
+    reinplace -E {s/find_package\(glslang.*/add_subdirectory(glslang)/} ${worksrcpath}/CMakeLists.txt
+}
+
+compiler.cxx_standard 2020
+
+# Cemu hashes std::filesystem::path, which needs libc++ 17 or newer.
+configure.cxxflags-append -include ${filespath}/fs-path-hash.h
+
+# Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DENABLE_CUBEB=ON \
+                    -DENABLE_DISCORD_RPC=OFF \
+                    -DENABLE_OPENGL=ON \
+                    -DENABLE_SDL=ON \
+                    -DENABLE_VCPKG=OFF \
+                    -DENABLE_VULKAN=ON \
+                    -DENABLE_WXWIDGETS=ON \
+                    -DwxWidgets_CONFIG_EXECUTABLE=${wxWidgets.wxconfig} \
+                    -DALLOW_EXTERNAL_SPIRV_TOOLS=ON \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+# Upstream's bundle step copies MoltenVK from Homebrew's or /usr/local's lib directory, so the
+# bundle is put together here instead. Cemu reads its resources and game profiles from the bundle's
+# SharedSupport directory.
+destroot {
+    set contents ${destroot}${applications_dir}/Cemu.app/Contents
+    xinstall -d ${contents}/MacOS ${contents}/Resources ${contents}/SharedSupport
+    xinstall -m 0755 ${worksrcpath}/bin/Cemu_macports ${contents}/MacOS/Cemu
+    # The executable links @rpath/libMoltenVK.dylib, and its run paths name only Homebrew's and
+    # /usr/local's library directories.
+    system "install_name_tool -add_rpath ${prefix}/lib ${contents}/MacOS/Cemu"
+    copy ${worksrcpath}/bin/gameProfiles ${worksrcpath}/bin/resources ${contents}/SharedSupport/
+    xinstall -m 0644 ${worksrcpath}/src/resource/cemu.icns ${contents}/Resources/
+    set fd [open ${worksrcpath}/src/resource/MacOSXBundleInfo.plist.in r]
+    set plist [read ${fd}]
+    close ${fd}
+    set plist [string map [list \
+        \${MACOSX_BUNDLE_BUNDLE_NAME} Cemu \
+        \${MACOSX_BUNDLE_BUNDLE_VERSION} ${version} \
+        \${MACOSX_BUNDLE_CATEGORY} public.app-category.games \
+        \${MACOSX_BUNDLE_COPYRIGHT} "Copyright © Cemu Project" \
+        \${MACOSX_BUNDLE_EXECUTABLE_NAME} Cemu \
+        \${MACOSX_BUNDLE_GUI_IDENTIFIER} info.cemu.Cemu \
+        \${MACOSX_BUNDLE_ICON_FILE} cemu.icns \
+        \${MACOSX_BUNDLE_SHORT_VERSION_STRING} ${version} \
+        \${MACOSX_BUNDLE_TYPE_EXTENSION} wua \
+        \${MACOSX_MINIMUM_SYSTEM_VERSION} ${macosx_deployment_target}] ${plist}]
+    set fd [open ${contents}/Info.plist w]
+    puts -nonewline ${fd} ${plist}
+    close ${fd}
+    xinstall -d ${destroot}${prefix}/bin
+    ln -s ${applications_dir}/Cemu.app/Contents/MacOS/Cemu ${destroot}${prefix}/bin/cemu
+}
