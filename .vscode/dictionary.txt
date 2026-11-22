@@ -75,6 +75,7 @@ autocfg
 autograd
 autoreconf
 awslabs
+azahar
 azblob
 azcore
 azidentity
@@ -171,10 +172,12 @@ chardet
 chatnet
 chatnets
 cheke
+chlayout
 choco
 chrono
 chumsky
 circl
+citra
 cksum
 cleanhttp
 clem
@@ -231,8 +234,10 @@ createdb
 createsuperuser
 createuser
 creds
+cryptopp
 cstdint
 cstdlib
+cstring
 ctest
 ctutils
 cuda
@@ -267,10 +272,12 @@ dbundle
 dccache
 dccleste
 dchest
+dcitra
 dclang
 dcmake
 dcoastline
 ddaedalus
+ddisable
 ddownload
 deat
 deathkiller
@@ -329,6 +336,7 @@ dlib
 dlibdeflate
 dlibrw
 dllvm
+dlopen
 dlsym
 dlua
 dlzma
@@ -392,6 +400,7 @@ emotionengine
 emscripten
 endi
 endswith
+enet
 engineio
 enumflags
 envrc
@@ -407,6 +416,7 @@ expanduser
 extensionmanager
 extruct
 exzap
+faad
 facetime
 fakecrc
 fastapi
@@ -477,6 +487,7 @@ fxamacker
 gabomdq
 gamecontrollerdb
 gamecube
+gamedb
 gandarez
 gcdb
 gcfg
@@ -582,6 +593,7 @@ headerpad
 heapless
 hephaest
 herbygillot
+herumi
 hetelek
 hexf
 hkdf
@@ -595,6 +607,7 @@ htobe
 htole
 httparse
 httpdate
+httplib
 httprate
 httpserver
 httpsig
@@ -623,6 +636,7 @@ incr
 indexmap
 indicatif
 indoc
+inih
 iniparser
 inkscape
 inotify
@@ -647,6 +661,7 @@ isledecomp
 isodate
 isort
 isset
+isystem
 itertools
 itoa
 itunesnp
@@ -829,14 +844,17 @@ litrs
 livecheck
 liveupdate
 llength
+lmap
 loaderwv
 loadspec
 lobjc
 locafero
+lodepng
 logrusorgru
 loguru
 lpthread
 lrange
+lsalzman
 lsdvd
 lsearch
 lsort
@@ -847,6 +865,7 @@ lugaresi
 luma
 lunasvg
 lunchy
+lvandeve
 lwip
 lxml
 lzexe
@@ -927,6 +946,7 @@ mnamer
 mockoidc
 modeline
 modernc
+moltenvk
 monostate
 mooncat
 mosen
@@ -979,6 +999,7 @@ ncine
 ncruces
 ndarray
 nego
+neobrain
 netfs
 netnode
 netrc
@@ -989,6 +1010,7 @@ nextgeniuspro
 nfsw
 nicklockwood
 nihongo
+nihstro
 niquests
 nlohmann
 nmicmpd
@@ -1255,6 +1277,7 @@ rodio
 rootcerts
 rootname
 roxmltree
+rpaths
 rpetrich
 rpkg
 rrdtool
@@ -1307,6 +1330,7 @@ segmenter
 segno
 sekrit
 sendgmail
+septag
 serde
 seregonwar
 sergi
@@ -1328,6 +1352,7 @@ simoninns
 simplecss
 sindresorhus
 siphasher
+sirit
 skeema
 skia
 skrifa
@@ -1425,6 +1450,7 @@ targetdeps
 tatsh
 tblib
 tdir
+teakra
 temoto
 termcolor
 termi
@@ -1590,10 +1616,12 @@ wsproto
 wstrt
 wszst
 wtforms
+wwylele
 wxconfig
 wxwidgets
 xanzy
 xattr
+xbyak
 xcassets
 xcconfig
 xcframework
@@ -1643,6 +1671,7 @@ yookoala
 youcompleteme
 ytarchive
 yusufpapurcu
+yuzu
 yylex
 zarchive
 zbus
