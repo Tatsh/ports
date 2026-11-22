@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        microsoft vcpkg-tool 2026-10-29
+github.tarball_from archive
+name                vcpkg-tool
+categories          devel
+version             2026.10.29
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         The vcpkg C and C++ library manager (the tool only).
+long_description    ${description} Point VCPKG_ROOT (or --vcpkg-root) at a clone of the vcpkg \
+                    registry to use it.
+
+checksums           rmd160  583da1fffa308c0c4ea5ce79821b6be019e5f1b1 \
+                    sha256  7f73aff8f3b1bd8a5da7b229ee709aa9d58a4199bb26f2ad160d0a4678ff3dc7 \
+                    size    3031746
+
+depends_build-append port:cmakerc
+depends_lib-append  port:curl \
+                    port:libfmt12
+
+compiler.cxx_standard 2017
+
+configure.args-append \
+                    -DBUILD_TESTING=OFF \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+                    -DVCPKG_BASE_VERSION=${github.version} \
+                    -DVCPKG_BUILD_TLS12_DOWNLOADER=OFF \
+                    -DVCPKG_LIBCURL_DLSYM=OFF \
+                    -DVCPKG_DEPENDENCY_CMAKERC=ON \
+                    -DVCPKG_DEPENDENCY_EXTERNAL_FMT=ON \
+                    -DVCPKG_DEVELOPMENT_WARNINGS=OFF \
+                    -DVCPKG_EMBED_GIT_SHA=OFF \
+                    -DVCPKG_OFFICIAL_BUILD=ON \
+                    -DVCPKG_WARNINGS_AS_ERRORS=OFF \
+                    -DCMakeRC_DIR=${prefix}/share/cmake/cmakerc \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+# An official build pins the vcpkg-artifacts bundle and the standalone bundle by hash.
+pre-configure {
+    set fd [open ${worksrcpath}/CMakePresets.json r]
+    set presets [read ${fd}]
+    close ${fd}
+    regexp {"VCPKG_STANDALONE_BUNDLE_SHA"\s*:\s*"([0-9a-f]+)"} ${presets} -> bundle
+    configure.args-append -DVCPKG_STANDALONE_BUNDLE_SHA=${bundle} \
+        -DVCPKG_ARTIFACTS_SHA=775c0b327487c04180e43f61813caf097da9a1f223030a486425e2ffbea255c48ba22e4add10401c8aa6e1e9bd53f182d694f363942ce99d7dd5dfafe9cc07fb
+}
+
+destroot {
+    xinstall -m 0755 ${build.dir}/vcpkg ${destroot}${prefix}/bin/
+}
+
+notes "
+vcpkg needs a copy of the registry: clone https://github.com/microsoft/vcpkg and set VCPKG_ROOT\
+ to it, or pass --vcpkg-root.
+"
