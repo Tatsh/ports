@@ -1,0 +1,63 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        phhusson quassel-irssi 079be662dde374a383646256108a4974c2bc7796
+github.tarball_from archive
+version             0.20171130
+categories          net irc
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         irssi plugin to connect to a Quassel core.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  32913bce62844d11643e65e7a36c4a8af28d6816 \
+                    sha256  c276a92a47f8edf5ae1d9db0e72a69d078f2f3f80e055853fc6d06099d898966 \
+                    size    31198
+
+depends_build-append port:pkgconfig
+depends_lib-append  path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    path:lib/libssl.dylib:openssl \
+                    port:irssi \
+                    port:quasselc
+
+# Build against irssi 1.x (from tatsh-overlay), and move a GCC nested function, which clang does
+# not support, to file scope.
+patchfiles          patch-irssi-1.x.diff \
+                    patch-clang-nested-function.diff
+patch.pre_args-replace -p0 -p1
+
+use_configure       no
+
+# The Makefile takes CFLAGS and LDFLAGS from the environment. irssi resolves the module's
+# references to its own symbols when it loads it.
+build.dir           ${worksrcpath}/core
+build.args          CC=${configure.cc} \
+                    IRSSI_INCLUDE=${prefix}/include/irssi \
+                    SYSTEM_QUASSELC=1
+build.env-append    "CFLAGS=${configure.cflags} [get_canonical_archflags cc]" \
+                    "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld] -undefined dynamic_lookup"
+
+destroot {
+    xinstall -d ${destroot}${prefix}/lib/irssi/modules
+    xinstall -m 0644 ${worksrcpath}/core/libquassel_core.so ${destroot}${prefix}/lib/irssi/modules/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+Add a Quassel chat network and server to ~/.irssi/config:
+
+  chatnets = { quassel = { type = \"Quassel\"; }; };
+  servers = (
+    { address = \"core.example.net\"; port = \"4242\";
+      chatnet = \"quassel\"; use_tls = \"yes\"; password = \"...\"; }
+  );
+
+Then run /load quassel followed by /connect quassel. The module records the irssi ABI version it\
+ was built against, so rebuild it (sudo port -n upgrade --force quassel-irssi) after upgrading irssi.
+"
+
+livecheck.type      none

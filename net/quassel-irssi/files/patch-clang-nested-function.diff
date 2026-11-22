@@ -1,0 +1,32 @@
+--- a/core/quassel-net.c
++++ b/core/quassel-net.c
+@@ -117,6 +117,14 @@
+ 	return "";
+ }
+ 
++static int ischannel(SERVER_REC* server, const char* chan) {
++	(void) server;
++	char *p = index(chan, '-');
++	if(!p)
++		return 0;
++	return *(p+1) == '#' || *(p+1) == '&';
++}
++
+ static SERVER_REC* quassel_server_init_connect(SERVER_CONNECT_REC* conn) {
+ 	Quassel_SERVER_CONNECT_REC *r = (Quassel_SERVER_CONNECT_REC*) conn;
+ 
+@@ -140,14 +148,6 @@
+ 	ret->channels_join = quassel_irssi_channels_join;
+ 	ret->send_message = quassel_irssi_send_message;
+ 	ret->get_nick_flags = get_nick_flags;
+-	auto int ischannel(SERVER_REC* server, const char* chan) {
+-		(void) server;
+-		(void) chan;
+-		char *p = index(chan, '-');
+-		if(!p)
+-			return 0;
+-		return *(p+1) == '#' || *(p+1) == '&';
+-	}
+ 	ret->ischannel = ischannel;
+ 
+ 	server_connect_init((SERVER_REC*)ret);
