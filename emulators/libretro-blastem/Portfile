@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro blastem 277e4a62668597d4f59cadda1cbafb844f981d45
+github.tarball_from archive
+name                libretro-blastem
+version             20220726
+revision            0
+
+license             GPL-3
+description         Sega Genesis / Mega Drive emulator (BlastEm) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  e256dc175b667c6cd09db9cc22a6d5609add4459 \
+                    sha256  1ad8eab6f528612d52f8310237d3e62a501e7449682369baa9eb5d4c73a6b90e \
+                    size    1351933
+
+depends_lib-append  port:zlib
+
+patchfiles          patch-0001-makefile-.-c-h-honor-host_zl.diff
+patch.pre_args-replace -p0 -p1
+build.args-append   HOST_ZLIB=1
