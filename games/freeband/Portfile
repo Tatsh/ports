@@ -6,6 +6,7 @@ PortGroup           github 1.0
 
 github.setup        Tatsh freeband 0.0.2 v
 github.tarball_from archive
+revision            1
 categories          games
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -41,6 +42,18 @@ post-patch {
 post-destroot {
     move ${destroot}${prefix}/Freeband.app ${destroot}${applications_dir}/Freeband.app
     ln -s ${applications_dir}/Freeband.app/Contents/MacOS/freeband ${destroot}${prefix}/bin/freeband
+    # The bundle gets no icon upstream. Make one from the 128 pixel icon the source ships.
+    set contents ${destroot}${applications_dir}/Freeband.app/Contents
+    set iconset ${workpath}/freeband.iconset
+    file mkdir ${iconset}
+    foreach {size name} {16 icon_16x16 32 icon_16x16@2x 32 icon_32x32 64 icon_32x32@2x \
+            128 icon_128x128} {
+        system "/usr/bin/sips -z ${size} ${size} ${worksrcpath}/src/freeband.png \
+            --out ${iconset}/${name}.png >/dev/null"
+    }
+    xinstall -d ${contents}/Resources
+    system "/usr/bin/iconutil --convert icns --output ${contents}/Resources/freeband.icns ${iconset}"
+    system "/usr/libexec/PlistBuddy -c 'Add :CFBundleIconFile string freeband' ${contents}/Info.plist"
 }
 
 livecheck.type      none
