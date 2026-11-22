@@ -4,6 +4,7 @@ actool
 addopts
 addrs
 adoxa
+adubbz
 adwaita
 aenum
 afero
@@ -53,6 +54,7 @@ arrayref
 arrayvec
 artifex
 asaskevich
+asciidoctor
 asciinema
 asflags
 asgi
@@ -100,11 +102,9 @@ bincookie
 bindgen
 binpath
 binutils
-binv
 bitfield
 bitflags
 bitvec
-blackbox
 blacktop
 blas
 boltdb
@@ -168,6 +168,8 @@ changedetection
 changeme
 chaoticgd
 chardet
+chatnet
+chatnets
 cheke
 choco
 chrono
@@ -235,6 +237,7 @@ ctest
 ctutils
 cuda
 cupaloy
+cuyler
 cxxfilt
 cxxflags
 cxxlib
@@ -367,6 +370,7 @@ dxil
 dyld
 dylibs
 dynaconf
+dynamiclib
 dynarmic
 dynasm
 dynasmrt
@@ -471,6 +475,7 @@ fvwrite
 fxamacker
 gabomdq
 gamecontrollerdb
+gamecube
 gandarez
 gcdb
 gcfg
@@ -494,6 +499,7 @@ ggrs
 ghash
 ghidra
 ghidra's
+ghidraapple
 ghidraboy
 ghidrah
 ghidraorbis
@@ -503,7 +509,10 @@ ghinstallation
 gickup
 gidgethub
 gidgetlab
+gillot
 gimli
+gister
+gists
 gitcl
 gitea
 githubv
@@ -525,13 +534,11 @@ gnubin
 gnullvm
 goautoneg
 gobject
-gocache
 goccy
 godebug
 godot
 godot's
 gofeed
-goflags
 gogs
 gohugoio
 golangci
@@ -573,6 +580,7 @@ hcli
 headerpad
 heapless
 hephaest
+herbygillot
 hetelek
 hexf
 hkdf
@@ -628,6 +636,7 @@ ipadiff
 ipsw
 ipython
 irix
+irssi
 isatty
 isdirectory
 isfile
@@ -770,6 +779,8 @@ libplist
 libps
 libpulse
 libquadmath
+libquassel
+libquasselc
 libredox
 librespot
 libretro
@@ -777,6 +788,7 @@ librosa
 librw
 libsamplerate
 libsdl
+libshared
 libslirp
 libsmacker
 libsndfile
@@ -813,6 +825,7 @@ livecheck
 liveupdate
 llength
 loaderwv
+loadspec
 lobjc
 locafero
 logrusorgru
@@ -901,6 +914,7 @@ mkisofs
 mklvers
 mksprite
 mkstemp
+mkwineprefix
 mltgui
 mmccextr
 mmcdole
@@ -1064,6 +1078,7 @@ pflag
 pfsshell
 pgpassfile
 pgservicefile
+phhusson
 philhofer
 pipx
 pjbgf
@@ -1168,6 +1183,8 @@ qtmultimedia
 qtserialport
 qtsvg
 qttools
+quassel
+quasselc
 quic
 rabbitizer
 ranav's
@@ -1217,6 +1234,7 @@ retroachievements
 retryablehttp
 revanced
 revc
+revealjs
 rewise
 rgvs
 ridl
@@ -1423,6 +1441,8 @@ thompsonate
 threadpool
 tidwall
 timeago
+timew
+timewarrior
 timezone
 tinf
 tinflate
@@ -1608,6 +1628,7 @@ yapf
 yapfignore
 yasm
 yasna
+yawk
 yazi
 ycmd
 yeslogic
