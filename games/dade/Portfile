@@ -6,6 +6,7 @@ PortGroup           python 1.0
 
 github.setup        Tatsh dade 0.2.0 v
 github.tarball_from archive
+revision            1
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -37,6 +38,7 @@ depends_run-append \
     port:py${python.version}-jinja2 \
     port:py${python.version}-mido \
     port:py${python.version}-numpy \
+    port:py${python.version}-pylzham \
     port:py${python.version}-Pillow \
     port:py${python.version}-rich \
     port:py${python.version}-typing_extensions
