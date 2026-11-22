@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        Tatsh mb8611 0.0.2 v
+github.tarball_from archive
+categories          sysutils net python
+license             Apache-2
+supported_archs     noarch
+platforms           {darwin any}
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         CLI tool and library for managing the Motorola MB8611 cable modem.
+long_description    ${description}
+
+checksums           rmd160  4140f628589e2ec95f50c6b49ac163e72ea6ee2d \
+                    sha256  e2dcdc545d2c2994b53a8663af7163518e9e9ba86fc92f15e78babb1c40b0de8 \
+                    size    1182026
+
+python.default_version 313
+python.pep517_backend poetry
+
+depends_run-append  port:py${python.version}-click \
+                    port:py${python.version}-requests \
+                    port:py${python.version}-typing_extensions
+
+post-destroot {
+    xinstall -m 0644 ${worksrcpath}/man/${name}.1 ${destroot}${prefix}/share/man/man1/
+}
