@@ -59,6 +59,7 @@ asgimiddlewarestaticfile
 asgiref
 asgiwebdav
 assetcatalog
+astc
 astrelsky
 asyncio
 atexit
@@ -412,6 +413,7 @@ filetime
 filippo
 filt
 findall
+fixups
 flacted
 flate
 flavored
@@ -506,6 +508,7 @@ gobject
 goccy
 godebug
 godot
+godot's
 gofeed
 gogs
 gohugoio
