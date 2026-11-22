@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro fmsx-libretro f013e213458e06d9df718e4bc4b09d46f88aa899
+github.tarball_from archive
+name                libretro-fmsx
+version             20260926
+revision            0
+
+license             Restrictive/Distributable
+description         MSX emulator (fMSX) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  502bbd449bf8b85eb7b8d87a968269e441d67d22 \
+                    sha256  ddd0b48489da2498feff8d3613c0471367d23d9fe331d1367ecf199360ee87f8 \
+                    size    1147151
