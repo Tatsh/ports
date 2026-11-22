@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        libretro libretro-database 1.22.1 v
+github.tarball_from archive
+revision            0
+
+license             CC-BY-SA-4
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+categories          emulators games
+platforms           any
+supported_archs     noarch
+description         Content databases, cheats and cursors for RetroArch.
+long_description    {*}${description}
+
+checksums           rmd160  1a0e814c18384998f02fe49dbb9ca9a88081e7cf \
+                    sha256  c23d5929e4a71562c6330d82c08836a9e75e59d3302a17b24549568780e980b2 \
+                    size    168231163
+
+use_configure       no
+build {}
+
+destroot {
+    set dest ${destroot}${prefix}/share/libretro/database
+    file mkdir ${dest}
+    foreach d {cht cursors rdb} {
+        copy ${worksrcpath}/${d} ${dest}/
+    }
+    fs-traverse f ${dest} {
+        if {[file isfile ${f}] && [file extension ${f}] in {.zip .xml}} {
+            delete ${f}
+        }
+    }
+}
