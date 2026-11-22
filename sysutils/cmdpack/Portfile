@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                cmdpack
+version             1.03
+categories          sysutils archivers
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Neill Corlett's command-line pack.
+long_description    A set of small utilities: bin2iso, cdpatch, ecm and unecm, fakecrc, uips, \
+                    vb2rip, zerofill and others, for CD images, ROMs and binary files.
+homepage            https://web.archive.org/web/20140330233023/https://neillcorlett.com/cmdpack/
+master_sites        https://web.archive.org/web/20130616041227/http://www.neillcorlett.com/downloads/
+distname            ${name}-${version}-src
+worksrcdir          ${distname}/src
+
+checksums           rmd160  a9073592aeb3514e8dd456189d34deb1e5e4952a \
+                    sha256  56a806f075dded183e29e85c9cda2c4662644a310e6916aea688a7b26f4e0a6c \
+                    size    80716
+
+# This ecm is a newer version of the one in the ecm port, and also decodes (as unecm).
+conflicts           ecm
+
+# Make cdpatch -x write uppercase file names (from tatsh-overlay).
+patchfiles          patch-cdpatch-uppercase-flag.diff
+patch.pre_args-replace -p0 -p1
+
+use_configure       no
+
+set tools           {bin2iso bincomp brrrip byteshuf byteswap cdpatch ecm fakecrc hax65816 id3point \
+                     rels screamf subfile uips vb2rip wordadd zerofill}
+build {
+    foreach t ${tools} {
+        system -W ${worksrcpath} "${configure.cc} ${configure.cflags} [get_canonical_archflags cc] \
+            -fomit-frame-pointer -o ${t} ${t}.c"
+    }
+}
+
+destroot {
+    foreach t ${tools} {
+        xinstall -m 0755 ${worksrcpath}/${t} ${destroot}${prefix}/bin/
+    }
+    ln -s ecm ${destroot}${prefix}/bin/unecm
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/../doc/cmdpack.txt ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
