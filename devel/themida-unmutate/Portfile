@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                themida-unmutate
+version             0.2.1
+categories          devel python
+license             GPL-3+
+supported_archs     noarch
+platforms           {darwin any}
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Static deobfuscator for Themida's mutation-based obfuscation.
+long_description    ${description}
+homepage            https://github.com/ergrelet/themida-unmutate
+master_sites        pypi:t/themida-unmutate
+distname            themida_unmutate-${version}
+
+checksums           rmd160  c54f4863b7c85759bcab537d6bb8301f5171de23 \
+                    sha256  92736112936bd6f528894dfcf55747a0944a581178f13809f39555cece4b27b5 \
+                    size    26842
+
+python.default_version 313
+python.pep517_backend poetry
+
+# Port to the LIEF 1 API (from tatsh-overlay).
+patchfiles          patch-lief-1.diff
+patch.pre_args-replace -p0 -p1
+
+depends_run-append  port:py${python.version}-lief \
+                    port:py${python.version}-miasm
