@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro FreeIntv 428915baf2bfc032fc03e645f4f8f9c6c3144979
+github.tarball_from archive
+name                libretro-freeintv
+version             20260811
+revision            0
+
+license             GPL-2+
+description         Mattel Intellivision emulator (FreeIntv) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  14d0cbeeffd31410f45555308628c9353869ec14 \
+                    sha256  bc2826e362f78276c21f696c8bece86257d4a7be7484e96eaa79696016a3aac3 \
+                    size    25795467
