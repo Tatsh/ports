@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        cea-sec miasm 4313bdc12219e19dbda79db271ecd19e72e487bb
+github.tarball_from archive
+name                py-miasm
+version             0.1.5.20261103
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Reverse engineering framework for machine code manipulation.
+long_description    Miasm assembles, disassembles, lifts and emulates machine code for x86, ARM, \
+                    AArch64, MIPS and other architectures, with a symbolic execution engine and \
+                    jitters.
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  12225b5ab9f978bd69992c3ded83efaffe4e8c34 \
+                    sha256  6c873995bd5700fddc98124bb290e6d13fae80719dac2f39178ebe876f323198 \
+                    size    1353586
+
+python.versions     312 313 314
+
+if {${name} ne ${subport}} {
+    python.pep517_backend setuptools
+    depends_run-append  port:py${python.version}-future \
+                        port:py${python.version}-parsing
+}
