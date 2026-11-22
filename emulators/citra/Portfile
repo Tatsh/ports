@@ -1,0 +1,230 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           boost 1.0
+PortGroup           cmake 1.1
+PortGroup           qt6 1.0
+
+name                citra
+# The nightly tag r5115f64 (commit 5115f640c213e06857d4b0a04aabf1ef0208cb03, 2024-08-21). The
+# PabloMK7/citra repository is gone; the tag tarball survives in the Wayback Machine.
+set tag             r5115f64
+version             20240821
+categories          emulators games
+license             GPL-2+ LGPL-2.1+ BSD MIT zlib
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Nintendo 3DS emulator.
+long_description    Citra is an emulator for the Nintendo 3DS. This is the last nightly of the \
+                    PabloMK7 continuation of the project. On macOS it renders through MoltenVK.
+homepage            https://web.archive.org/web/20240301162216/https://citra-emu.org/
+dist_subdir         ${name}/${version}
+
+# The Wayback Machine keys captures on the whole URL, so the tag is the distfile name.
+master_sites        https://web.archive.org/web/20241227052240if_/https://codeload.github.com/PabloMK7/citra/tar.gz/refs/tags/:main
+distfiles           ${tag}:main
+worksrcdir          ${name}-${tag}
+
+boost.version       1.88
+
+# Submodules the MacPorts libraries do not replace: {directory under externals} repository commit.
+set submodules [list \
+    dds-ktx             septag/dds-ktx              42dd8aa6ded90b1ec06091522774feff51e83fc5 \
+    dynarmic            yuzu-mirror/dynarmic        c08c5a9362bb224dc343c2f616c24df027dfdf13 \
+    enet                lsalzman/enet               5a9c537fd464b3c6d3c55e1d3bd47588faf71b42 \
+    lodepng/lodepng     lvandeve/lodepng            18964554bc769255401942e0e6dfd09f2fab2093 \
+    nihstro             neobrain/nihstro            a969b1a6849b02679a1858847ba18bedd3a19d44 \
+    sirit               yuzu-mirror/sirit           4ab79a8c023aa63caaa93848b09b9fe8b183b1a9 \
+    sirit/externals/SPIRV-Headers KhronosGroup/SPIRV-Headers c214f6f2d1a7253bb0e9f195c2dc5b0659dc99ef \
+    teakra              wwylele/teakra              3d697a18df504f4677b65129d9ab14c7c597e3eb \
+    xbyak               herumi/xbyak                a1ac3750f9a639b5a6c6d6c7da4259b8d6790989]
+set i 0
+foreach {dir repo rev} ${submodules} {
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+    incr i
+}
+set soundtouch_rev  dd2252e9af3f2d6b749378173a4ae89551e06faf
+master_sites-append https://codeberg.org/soundtouch/soundtouch/archive/${soundtouch_rev}.tar.gz?dummy=:soundtouch
+distfiles-append    soundtouch-${soundtouch_rev}.tar.gz:soundtouch
+master_sites-append https://web.archive.org/web/20231111133415if_/https://api.citra-emu.org/:compat
+distfiles-append    gamedb:compat
+extract.only        {*}[lsearch -all -inline -not -exact [lmap f ${distfiles} {lindex [split ${f} :] 0}] gamedb]
+
+checksums           r5115f64 \
+                    rmd160  7e5fc236b19acaa56d369e3ee54d0fe925598d3a \
+                    sha256  a9ae5cad166bd8e95e014e43e4b7d1b7192da11437afb84ef5c21003b75bc248 \
+                    size    8011585 \
+                    dds-ktx-42dd8aa6ded90b1ec06091522774feff51e83fc5.tar.gz \
+                    rmd160  9124bb5de14ac4a8c958764c587137e7605a976c \
+                    sha256  98ac6c9779e357440df117cd4273480f0c1b3b6ba0c6dab1d31a3091484c7e3f \
+                    size    264403 \
+                    dynarmic-c08c5a9362bb224dc343c2f616c24df027dfdf13.tar.gz \
+                    rmd160  f83aab4d08e9eba8cb3a77cc92f4d662c63a776d \
+                    sha256  143435d11e36f917d7d86546f83395aaf872cca86fdbf03638522d534c773d46 \
+                    size    3595510 \
+                    enet-5a9c537fd464b3c6d3c55e1d3bd47588faf71b42.tar.gz \
+                    rmd160  166ccd1f6fb2cecf384e27c3f9a94c3365277911 \
+                    sha256  537d42f31b0c0d27f5a9635f6c224f2451c1c1484bfde50e94c884e96181c290 \
+                    size    83822 \
+                    lodepng-18964554bc769255401942e0e6dfd09f2fab2093.tar.gz \
+                    rmd160  6716953d0feb815b18ba6399b6b8591b39266d64 \
+                    sha256  58f4bce09556fc8039be04e4632c228695a9ead4b4e8d292957e3f59b26269a9 \
+                    size    246337 \
+                    nihstro-a969b1a6849b02679a1858847ba18bedd3a19d44.tar.gz \
+                    rmd160  e381385fe733dbe2398e737dd14c4cb2f69fc6e8 \
+                    sha256  1d9fda7afbdc0ea9b0442a93172557ce610c73221b8366fae729f38cb3030e62 \
+                    size    110634 \
+                    sirit-4ab79a8c023aa63caaa93848b09b9fe8b183b1a9.tar.gz \
+                    rmd160  583d21878fbc2bcd0f84d31c12a53bbba1ab2138 \
+                    sha256  ef13608f444348617865c8ca561dc0430134061d3f0bf98a3e4dc84a36aae93f \
+                    size    24196 \
+                    SPIRV-Headers-c214f6f2d1a7253bb0e9f195c2dc5b0659dc99ef.tar.gz \
+                    rmd160  51c67fff29d7cf4e837c0e553dc15701a4873643 \
+                    sha256  92ac55f8ded96237219d74b356eb0d8025d279f1811ecf41ef1b5299482bcc5d \
+                    size    445653 \
+                    teakra-3d697a18df504f4677b65129d9ab14c7c597e3eb.tar.gz \
+                    rmd160  e0fc5214b3e426499c1ef64822d03d13eaae77e0 \
+                    sha256  693fdd6db1d64258fdcda2e1ac782eb97ae993863d72c0a174636bc7ee80b75c \
+                    size    984566 \
+                    xbyak-a1ac3750f9a639b5a6c6d6c7da4259b8d6790989.tar.gz \
+                    rmd160  fd0f60bb237da7ed8f306a2730047d7c7fd77acd \
+                    sha256  e6a4b7327dfa751f683abd21802539bc2e1918f750344d0274229fee798b68c4 \
+                    size    249481 \
+                    soundtouch-dd2252e9af3f2d6b749378173a4ae89551e06faf.tar.gz \
+                    rmd160  a6fc89ee8be1c1f56f348281a117990018dada69 \
+                    sha256  1ef2837be3330ba9ce5328d31397510c3ee275ed835ee4b83944f11da8fac3c4 \
+                    size    583070 \
+                    gamedb \
+                    rmd160  42661b2974ed87ee2508f70bc1d47d2587581578 \
+                    sha256  27eceab5675ee4d80ad9044ebc67b0b5719101651335228734c1ba8aef66d5f5 \
+                    size    2131779
+
+depends_build-append \
+                    port:catch2 \
+                    port:glslang \
+                    port:nlohmann-json \
+                    port:pkgconfig \
+                    port:vulkan-headers \
+                    port:vulkan-memory-allocator
+depends_lib-append  path:lib/libssl.dylib:openssl \
+                    port:cubeb \
+                    port:faad2 \
+                    port:ffmpeg7 \
+                    port:inih \
+                    port:libcryptopp \
+                    port:libfmt12 \
+                    port:libsdl2 \
+                    port:libusb \
+                    port:MoltenVK \
+                    port:robin-map \
+                    port:zstd
+qt6.depends_lib-append qtmultimedia
+qt6.depends_build-append qttools
+
+post-extract {
+    set ext ${worksrcpath}/externals
+    foreach {dir repo rev} ${submodules} {
+        file delete -force ${ext}/${dir}
+        move ${workpath}/[file tail ${repo}]-${rev} ${ext}/${dir}
+    }
+    file delete -force ${ext}/soundtouch
+    move ${workpath}/soundtouch ${ext}/soundtouch
+}
+
+# From tatsh-overlay: system libraries, fixes for newer Boost, Vulkan headers, Teakra and Qt.
+patchfiles          patch-0001-system-libraries.diff \
+                    patch-0002-inih-fix.diff \
+                    patch-0003-boost-fix.diff \
+                    patch-0004-boost-1.87.diff \
+                    patch-0005-azahar-vulkan-1.4.304.diff \
+                    patch-0006-azahar-mcl-fix.diff \
+                    patch-0007-update-teakra-usage.diff \
+                    patch-0008-fix-find-cryptopp.diff \
+                    patch-0010-missing-cstring.diff \
+                    patch-ffmpeg-7-chlayout.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    # Everything comes from the distfiles or MacPorts: make the build's own downloads (bundled Qt
+    # and MoltenVK, the compatibility list, clang-format) fail instead of reaching the network.
+    reinplace {s|file(DOWNLOAD|message(FATAL_ERROR "download attempted" |} \
+        ${worksrcpath}/CMakeLists.txt ${worksrcpath}/CMakeModules/DownloadExternals.cmake
+    # Imported targets add -isystem ${prefix}/include, which has the headers of the default boost
+    # and ffmpeg ports and a newer cpp-httplib; put this Boost, FFmpeg 7 and the bundled
+    # cpp-httplib in front of it for every target.
+    set fd [open ${workpath}/include-first.cmake w]
+    puts ${fd} "include_directories(BEFORE SYSTEM ${prefix}/libexec/boost/${boost.version}/include\
+        ${ffmpeg_prefix}/include ${worksrcpath}/externals/httplib)"
+    close ${fd}
+    # FFmpeg and the Vulkan loader (or MoltenVK) are opened with dlopen by bare file name, which
+    # dyld looks up only in /usr/local/lib and /usr/lib; look them up through the rpaths below.
+    reinplace -E {s|return fmt::format\("(\{\}\{\}[^"]*\.dylib)", prefix|return fmt::format("@rpath/\1", prefix|} \
+        ${worksrcpath}/src/common/dynamic_library/dynamic_library.cpp
+    # The compatibility list is read from the build tree.
+    file mkdir ${build.dir}/dist/compatibility_list
+    copy ${distpath}/gamedb ${build.dir}/dist/compatibility_list/compatibility_list.json
+}
+
+# The video dumper uses AVCodec fields that FFmpeg 8 removed.
+set ffmpeg_prefix   ${prefix}/libexec/ffmpeg7
+configure.pkg_config_path-prepend ${ffmpeg_prefix}/lib/pkgconfig
+# FFmpeg 7 first: its libraries have the major versions this build asks for.
+configure.ldflags-append -Wl,-rpath,${ffmpeg_prefix}/lib -Wl,-rpath,${prefix}/lib
+
+compiler.cxx_standard 2020
+configure.cflags-append -fPIC
+configure.cxxflags-append -fPIC
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DCITRA_BUNDLE_LIBRARIES=OFF \
+                    -DCITRA_USE_BUNDLED_MOLTENVK=OFF \
+                    -DCITRA_USE_PRECOMPILED_HEADERS=OFF \
+                    -DCITRA_WARNINGS_AS_ERRORS=OFF \
+                    -DDISABLE_SUBMODULE_CHECK=ON \
+                    -DENABLE_COMPATIBILITY_LIST_DOWNLOAD=OFF \
+                    -DENABLE_LTO=OFF \
+                    -DENABLE_OPENAL=OFF \
+                    -DENABLE_QT=ON \
+                    -DENABLE_QT_UPDATER=OFF \
+                    -DENABLE_SCRIPTING=OFF \
+                    -DENABLE_TESTS=OFF \
+                    -DENABLE_WEB_SERVICE=OFF \
+                    -DUSE_DISCORD_PRESENCE=OFF \
+                    -DUSE_SYSTEM_BOOST=ON \
+                    -DUSE_SYSTEM_CATCH2=ON \
+                    -DUSE_SYSTEM_CRYPTOPP=ON \
+                    -DUSE_SYSTEM_CUBEB=ON \
+                    -DUSE_SYSTEM_ENET=OFF \
+                    -DUSE_SYSTEM_FAAD2=ON \
+                    -DUSE_SYSTEM_FFMPEG_HEADERS=ON \
+                    -DUSE_SYSTEM_FMT=ON \
+                    -DUSE_SYSTEM_GLSLANG=ON \
+                    -DUSE_SYSTEM_INIH=ON \
+                    -DUSE_SYSTEM_JSON=ON \
+                    -DUSE_SYSTEM_LIBUSB=ON \
+                    -DUSE_SYSTEM_MOLTENVK=ON \
+                    -DUSE_SYSTEM_OPENSSL=ON \
+                    -DUSE_SYSTEM_QT=ON \
+                    -DUSE_SYSTEM_SDL2=ON \
+                    -DUSE_SYSTEM_TEAKRA=OFF \
+                    -DUSE_SYSTEM_VMA=ON \
+                    -DUSE_SYSTEM_VULKAN_HEADERS=ON \
+                    -DUSE_SYSTEM_XBYAK=OFF \
+                    -DUSE_SYSTEM_ZSTD=ON \
+                    -DCMAKE_PROJECT_INCLUDE=${workpath}/include-first.cmake \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -Wno-dev
+
+destroot {
+    set bin ${build.dir}/bin/${cmake.build_type}
+    copy ${bin}/citra-qt.app ${destroot}${applications_dir}/Citra.app
+    foreach b {citra citra-room} {
+        if {[file exists ${bin}/${b}]} {
+            xinstall -m 0755 ${bin}/${b} ${destroot}${prefix}/bin/
+        }
+    }
+    ln -s ${applications_dir}/Citra.app/Contents/MacOS/citra-qt ${destroot}${prefix}/bin/citra-qt
+}
+
+livecheck.type      none
