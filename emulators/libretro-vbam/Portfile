@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro vbam-libretro e8b2875d6cad10fc3c7c9f57bb5f1acc324d7c10
+github.tarball_from archive
+name                libretro-vbam
+version             20260823
+revision            0
+
+license             GPL-2+
+description         Game Boy Advance, Game Boy and Game Boy Color emulator (VBA-M) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  9bf8696e9c6a92c67232a36244386abb277558a9 \
+                    sha256  5fb643271c028b65627ac4b391ab7aa9178e17bd2d5583c40d2c38646878b0fa \
+                    size    3776587
+
+libretro.build_dir  ${worksrcpath}/src/libretro
