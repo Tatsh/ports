@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        libretro RetroArch 1.22.2 v
+github.tarball_from archive
+name                libretro-db
+revision            0
+
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+categories          emulators games
+description         Tools for RetroArch content databases.
+long_description    libretrodb_tool queries RetroArch .rdb databases, libretrodb-dat_converter \
+                    builds them from .dat files and libretrodb-c_converter converts them to C \
+                    source.
+homepage            https://github.com/libretro/RetroArch/tree/master/libretro-db
+
+checksums           rmd160  3175d7d1b461ef68015c4d505b5166b927f1a94a \
+                    sha256  245ef18c8fa8fbd9fbb5eb25cf43e17c6aace2f95c1ed99873cbd794012bb232 \
+                    size    71629881
+
+use_configure       no
+build.dir           ${worksrcpath}/libretro-db
+build.args-append   CC=${configure.cc}
+build.env-append    "CFLAGS=${configure.cflags} [get_canonical_archflags cc]" \
+                    "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]"
+
+destroot {
+    xinstall -m 0755 ${build.dir}/libretrodb_tool ${destroot}${prefix}/bin/
+    foreach b {c_converter dat_converter} {
+        xinstall -m 0755 ${build.dir}/${b} ${destroot}${prefix}/bin/libretrodb-${b}
+    }
+}
