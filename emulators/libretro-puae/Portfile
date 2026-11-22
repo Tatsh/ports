@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro libretro-uae 356160901b4563a60d663829a2e1d07a9207671c
+github.tarball_from archive
+name                libretro-puae
+version             20261108
+revision            0
+
+license             GPL-2
+description         Commodore Amiga emulator (P-UAE) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  d6974d4d43146a8d6e4561358e346b87006ec385 \
+                    sha256  00e9532adaecb6244a5553ccbbae2a0194d9bf80f349217238530930f97289e1 \
+                    size    20405989
