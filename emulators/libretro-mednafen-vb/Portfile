@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro beetle-vb-libretro d5ae54c8e23b573a3b34e888b2d48a588027e92c
+github.tarball_from archive
+name                libretro-mednafen-vb
+version             20261012
+revision            0
+
+license             GPL-2
+description         Virtual Boy emulator (Beetle VB) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  2b842ee976bb7f819a31585cb83b5f5f38101c83 \
+                    sha256  ccbed557d3f316c9123f81d1ca5357c5f12100bad6aea3326caefca2a1c08189 \
+                    size    287526
