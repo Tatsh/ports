@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        vector-of-bool cmrc 2.0.1
+github.tarball_from archive
+name                cmakerc
+categories          devel
+license             MIT
+supported_archs     noarch
+platforms           any
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Resource compiler in a single CMake script.
+long_description    CMakeRC embeds files into C++ programs at build time. Projects use it with \
+                    find_package(CMakeRC).
+
+checksums           rmd160  4062fa72c7f23b1b570dfc6acee23d42889a78ec \
+                    sha256  edad5faaa0bea1df124b5e8cb00bf0adbd2faeccecd3b5c146796cbcb8b5b71b \
+                    size    2597431
+
+# CMake 4 rejects minimums below 3.5, which breaks every project that includes it.
+post-patch {
+    reinplace {s/^cmake_minimum_required(VERSION 3\.3)$/cmake_minimum_required(VERSION 3.12)/} \
+        ${worksrcpath}/CMakeRC.cmake
+}
+
+use_configure       no
+build {}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/share/cmake/cmakerc
+    xinstall -m 0644 ${worksrcpath}/CMakeRC.cmake ${destroot}${prefix}/share/cmake/cmakerc/cmakerc-config.cmake
+}
