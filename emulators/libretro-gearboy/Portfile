@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro Gearboy a83b0c5d42b881e9490734c1fd7942f841b91895
+github.tarball_from archive
+name                libretro-gearboy
+version             20260904
+revision            0
+
+license             GPL-3+
+description         Game Boy and Game Boy Color emulator (Gearboy) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  fb9f01d607553837221d49a1c425f53b6888f2d2 \
+                    sha256  d5a645e56bca0d947957b0996becae0e96d48b011bd64d5346fb7db07cc633a1 \
+                    size    15274072
+
+libretro.build_dir  ${worksrcpath}/platforms/libretro
