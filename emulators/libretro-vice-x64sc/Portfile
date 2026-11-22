@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro vice-libretro 5ebe7d333ab15be57a9dde5f46c29a5bbd5f44f8
+github.tarball_from archive
+name                libretro-vice-x64sc
+version             20261108
+revision            0
+
+license             GPL-2
+description         Commodore 64 emulator (VICE x64sc, cycle-exact) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  ad1e56afa36d50f12e07b7d28bfd265e46786fbb \
+                    sha256  45ed7b653473e0a819fdca3679e3797c4606edb8d115afa5fd26265044431225 \
+                    size    17890526
+libretro.cores      vice_x64sc
+build.args-append   EMUTYPE=x64sc
