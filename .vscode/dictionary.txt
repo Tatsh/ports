@@ -591,6 +591,8 @@ hschmidt
 htmlcov
 htmlparser
 htmx
+htobe
+htole
 httparse
 httpdate
 httprate
@@ -752,6 +754,7 @@ libgfxd
 libgomp
 libguicommon
 libiberty
+libiconv
 libjpeg
 libjsonnet
 libkeywindowpatch
@@ -813,6 +816,7 @@ libweaver
 libwebsockets
 libyaml
 libzip
+liconv
 lindex
 linebender
 linecast
