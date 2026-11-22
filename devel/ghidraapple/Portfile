@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        ReverseApple GhidraApple 828847d8e705e1373ac87620adeeef448edecd54
+github.tarball_from archive
+name                ghidraapple
+version             0.0.1.20250728
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Better Apple binary analysis for Ghidra.
+long_description    Objective-C and Swift analysis for Ghidra: message send resolution, block \
+                    layouts, selector trampolines and type inference.
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  a723e77e159a94060110dfe78f75357536470487 \
+                    sha256  ee3deb586314a1bd35f02dd71ec1d8c650cb72b77ddf56a0d1e51f09ea7554b4 \
+                    size    209607
+
+depends_build-append port:kotlin
+
+ghidra_extension.name GhidraApple
+
+# Port to the Ghidra 12 and 12.2 APIs (from tatsh-overlay).
+patchfiles          patch-ghidra-12.2.diff \
+                    patch-ghidra-12.diff
+patch.pre_args-replace -p0 -p1
+
+# The tests are not built.
+post-extract {
+    file delete -force ${worksrcpath}/src/test
+}
