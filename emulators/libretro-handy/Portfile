@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro libretro-handy bc55d462f0b2d6b073ea93dc552ebd73cec60fd1
+github.tarball_from archive
+name                libretro-handy
+version             20260420
+revision            0
+
+license             zlib LGPL-2.1+
+description         Atari Lynx emulator (Handy) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  48f72be554c4cbda42ea326850691e212ab00843 \
+                    sha256  65ad333df22aab7f3c8156c21ffd0b8da1ef09c7a7f1775df964b89986aa7324 \
+                    size    228446
