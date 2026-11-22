@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ps2dev gsKit 1.5.1 v
+github.tarball_from archive
+name                gskit
+categories          cross devel games
+supported_archs     noarch
+license             AFL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Graphics Synthesizer library for the PlayStation 2.
+long_description    ${description} Installed to the ps2sdk ports directory.
+
+checksums           rmd160  a6c12b90c7782ed98a9867808011ac7346cee8ea \
+                    sha256  bcc8d8f7ea1e3a4a92ea25c69d863f007c3fabbf8b937906bed7daaa65636aaf \
+                    size    3952130
+
+depends_build-append port:cmake \
+                    port:ninja
+depends_lib-append  port:ps2sdk \
+                    port:ps2-libjpeg-turbo \
+                    port:ps2-libpng \
+                    port:ps2-libtiff
+
+# Built with ps2sdk's CMake toolchain file and installed into its ports directory, where the
+# toolchain and the other PlayStation 2 ports look for libraries. The host's compiler flags and
+# include and library paths are kept away from the cross compiler.
+set ps2dev          ${prefix}/share/ps2dev
+set ps2sdk          ${ps2dev}/ps2sdk
+set ps2ports        ${ps2sdk}/ports
+set ps2env          "env -u CPATH -u LIBRARY_PATH -u CFLAGS -u CPPFLAGS -u CXXFLAGS -u LDFLAGS \
+                    -u MACOSX_DEPLOYMENT_TARGET -u SDKROOT PS2DEV=${ps2dev} PS2SDK=${ps2sdk} \
+                    GSKIT=${ps2ports}"
+
+# The version otherwise comes from git describe. gsKit.pc would get the CMake list of requirements
+# with semicolons, which pkg-config cannot parse, and gskit_toolkit must come before gskit when
+# linking statically.
+post-patch {
+    reinplace "s/^set(CUR_GIT_TAG v0.0.0)/set(CUR_GIT_TAG v${version})/" ${worksrcpath}/CMakeLists.txt
+    reinplace {s/^set(PCKEY_REQUIRES "${GSKIT_EXTERNAL_REQUIRES}")/list(JOIN GSKIT_EXTERNAL_REQUIRES " " PCKEY_REQUIRES)/} \
+        ${worksrcpath}/CMakeLists.txt
+    reinplace {s/^set(PCKEY_LIBS "-lgskit -ldmakit -lgskit_toolkit")/set(PCKEY_LIBS "-lgskit_toolkit -lgskit -ldmakit")/} \
+        ${worksrcpath}/CMakeLists.txt
+}
+
+configure {
+    system -W ${workpath} "${ps2env} ${prefix}/bin/cmake -S ${worksrcpath} -B ${workpath}/build \
+        -G Ninja -Wno-dev -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DCMAKE_INSTALL_PREFIX=${ps2ports} -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -DCMAKE_PREFIX_PATH=${ps2ports} -DCMAKE_TOOLCHAIN_FILE=${ps2dev}/share/ps2dev.cmake \
+        -DBUILD_EXAMPLES= -DCMAKE_DISABLE_FIND_PACKAGE_Git=ON"
+}
+
+build {
+    system -W ${workpath} "${ps2env} ${prefix}/bin/cmake --build ${workpath}/build"
+}
+
+destroot {
+    system -W ${workpath} "${ps2env} DESTDIR=${destroot} ${prefix}/bin/cmake --install ${workpath}/build"
+}
+
+notes "
+Set GSKIT=${ps2ports} to build gsKit programs.
+"
+
+livecheck.type      none
