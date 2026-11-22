@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        XboxDev ghidra-xbe build-202610161023
+github.tarball_from archive
+version             20261016
+license             Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra loader for original Xbox XBE executables.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+# The library ID database that upstream's build script downloads.
+set xtlid_version   0.1.2
+master_sites-append https://github.com/XboxDev/xtlid/releases/download/v${xtlid_version}/:xtlid
+distfiles-append    xtlid.xml:xtlid
+extract.only        ${distname}${extract.suffix}
+
+checksums           ghidra-xbe-build-202610161023.tar.gz \
+                    rmd160  1addb9f0fc7fe828b35ef2d9abecfca373706984 \
+                    sha256  848bb7a8ca8eda64126dea082f94686e06fd6d8befaff1a5463a4b22114825ea \
+                    size    76237 \
+                    xtlid.xml \
+                    rmd160  91ff41190320efed4e3edf01e19b8841b9317c65 \
+                    sha256  ec2724884db8244cb00f0b5819b69c5d8b1d8813dbd3e39068bdf93ace140ed6 \
+                    size    98940
+
+depends_build-append port:libxslt
+
+ghidra_extension.name ghidra-xbe
+
+post-patch {
+    system -W ${worksrcpath} "${prefix}/bin/xsltproc -o src/main/java/XbeLoader/XbeXtlidDb.java \
+        xtlid2java.xslt ${distpath}/xtlid.xml"
+    file delete -force ${worksrcpath}/build.sh ${worksrcpath}/tests ${worksrcpath}/xtlid2java.xslt
+}
+
+notes "
+The XbSymbolDatabase analyzer looks for an XbSymbolDatabaseCLI executable, which is not\
+ packaged. Without it that analyzer does nothing; the loader itself is unaffected.
+"
