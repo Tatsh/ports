@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           java 1.0
+
+name                revanced-cli
+version             6.0.0
+categories          java devel
+license             GPL-3
+supported_archs     noarch
+platforms           any
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Command-line tool to patch Android apps with ReVanced patches.
+long_description    ${description}
+homepage            https://github.com/ReVanced/revanced-cli
+master_sites        https://github.com/ReVanced/revanced-cli/releases/download/v${version}/
+distname            ${name}-${version}-all
+extract.suffix      .jar
+extract.only
+
+checksums           rmd160  ab51022f5ea157b1332ccd63cd9efbe4eb3c5bc0 \
+                    sha256  c25549bc17d59d2eb94fa5f86e60e9b77a02772ca88f7050f8f1276f923a9958 \
+                    size    53831721
+
+java.version        11+
+java.fallback       openjdk21
+
+use_configure       no
+build {}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/share/java/${name}
+    xinstall -m 0644 ${distpath}/${distfiles} ${destroot}${prefix}/share/java/${name}/${name}.jar
+    set fd [open ${destroot}${prefix}/bin/${name} w]
+    puts ${fd} "#!/bin/sh\nexec \"\${JAVA_HOME:-[option java.home]}/bin/java\" -jar \"${prefix}/share/java/${name}/${name}.jar\" \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/${name} -permissions 0755
+    ln -s ${name} ${destroot}${prefix}/bin/revanced
+}
+
+notes "
+revanced-cli needs a patches file (patches.rvp), passed with -p. ReVanced's patches repository on\
+ GitHub is blocked by a DMCA takedown, so no patches port is provided.
+"
