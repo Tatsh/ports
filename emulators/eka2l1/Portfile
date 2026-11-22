@@ -1,0 +1,207 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        EKA2L1 EKA2L1 775cd7ae68fa466377eeddcfb44d434f0465fb54
+github.tarball_from archive
+name                eka2l1
+version             0.0.8.1.20261118
+categories          emulators games
+license             GPL-3+ LGPL-3+ MIT BSD Permissive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Experimental Symbian OS emulator.
+long_description    EKA2L1 is an experimental emulator for Symbian OS devices such as N-Gage and \
+                    S60 phones.
+homepage            https://eka2l1.com
+dist_subdir         ${name}/${version}
+
+# Submodules (the ones the system libraries below do not replace).
+set capstone_rev    52c66920fc7bfa15fd9626dfd9f646c698aaa99b
+set dynarmic_rev    855e885288fc21a616ed07ee4437f34abe7c3922
+set ffmpeg_rev      569633bfe198554354afefa59859a871ee28e551
+set libfat_rev      ea55c7a718780057e7fe0224d7423c4279fd3df7
+set libtess2_rev    fc52516467dfa124bdd967c15c7cf9faf02a34ca
+set lunasvg_rev     017bda5e3428d69bc40a8d44195b97c4f26d7bbe
+set microprofile_rev b910f4df7f670affec65c1a4dacbf6018c9e0f1b
+set minibae_rev     4a63a5d1a5ba50b71445b6a4b1efdd139872541b
+set rectpack_rev    83e7e1132d93777e3732dfaae26b0f3703be2036
+set gcdb_rev        a113e7fa25cc13ca6131b20a23568dc42c8a7dab
+set threadpool_rev  6790920f61ab3e928ddaea835ab6a803d467f41d
+set tsf_rev         e86d986ed6ccb93b4ee41d2de656c49c721b18db
+set upscale_rev     49dd304cb97e7c0871256f2bafba7b6fd41511cb
+set uvw_rev         cf0f8c6fd4084900646b7c83b4682a12be76f10e
+
+set submodules [list \
+    capstone            capstone-engine/capstone    ${capstone_rev} \
+    dynarmic            EKA2L1/dynarmic             ${dynarmic_rev} \
+    ffmpeg              EKA2L1/ffmpeg               ${ffmpeg_rev} \
+    libfat              Vita3K/libfat16             ${libfat_rev} \
+    libtess2            memononen/libtess2          ${libtess2_rev} \
+    lunasvg             EKA2L1/lunasvg              ${lunasvg_rev} \
+    microprofile        jonasmr/microprofile        ${microprofile_rev} \
+    miniBAE             EKA2L1/miniBAE              ${minibae_rev} \
+    RectangleBinPack    juj/RectangleBinPack        ${rectpack_rev} \
+    SDL_GameControllerDB gabomdq/SDL_GameControllerDB ${gcdb_rev} \
+    thread-pool         bshoshany/thread-pool       ${threadpool_rev} \
+    TinySoundFont       schellingb/TinySoundFont    ${tsf_rev} \
+    upscale             EKA2L1/upscale-shaders      ${upscale_rev} \
+    uvw                 skypjack/uvw                ${uvw_rev}]
+set i 0
+foreach {dir repo rev} ${submodules} {
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+    incr i
+}
+
+checksums           EKA2L1-775cd7ae68fa466377eeddcfb44d434f0465fb54.tar.gz \
+                    rmd160  4f472e3f658ebf43d17df943a3dd742905981096 \
+                    sha256  a153ce202886a5d53def98c4b30f35e02d23d746a41dea6bf88ceebad3b0ff6a \
+                    size    32801019 \
+                    capstone-52c66920fc7bfa15fd9626dfd9f646c698aaa99b.tar.gz \
+                    rmd160  e1bfa1d2089b1d85e022c6371abe4fc3f011fce1 \
+                    sha256  a538209e9e9790a593d4852cc262bb89250b061133c43a01648e09c042f946de \
+                    size    7661377 \
+                    dynarmic-855e885288fc21a616ed07ee4437f34abe7c3922.tar.gz \
+                    rmd160  48a26b5ee27feac0ce1ee5ff396d4ed639fce8ed \
+                    sha256  cf50d602598ffb13b9162c512e02e261bc12bed868acbe86498ea556ad49cf10 \
+                    size    3748059 \
+                    ffmpeg-569633bfe198554354afefa59859a871ee28e551.tar.gz \
+                    rmd160  40a5bb9fcf15e860d3951e1830ddb88a90846843 \
+                    sha256  c51fc8f6af769f8905704436e8683548db26ca7c6964a538c0bef791e888605f \
+                    size    17342865 \
+                    libfat16-ea55c7a718780057e7fe0224d7423c4279fd3df7.tar.gz \
+                    rmd160  e0890f32baa586517e328799a368a8bf7a52fdc7 \
+                    sha256  397a357104fcb229a00d238efaf94156589d8b3f3692211170b2d9d8bb79ec2a \
+                    size    6364 \
+                    libtess2-fc52516467dfa124bdd967c15c7cf9faf02a34ca.tar.gz \
+                    rmd160  6edbac5173d9a5bdc42fc127c61bfbf7741b5937 \
+                    sha256  0e7f8009e56c3fed93a87365ddcd231ce7cd0d12d439e7314995b8475c31ebf1 \
+                    size    59669 \
+                    lunasvg-017bda5e3428d69bc40a8d44195b97c4f26d7bbe.tar.gz \
+                    rmd160  8168926cd1ed12545a7f053fda05d74c6ed4ff88 \
+                    sha256  cdc4d841edcee3a441c0c0f8338308d45c8a7f0fe53f15bbac14661a97ed2224 \
+                    size    295683 \
+                    microprofile-b910f4df7f670affec65c1a4dacbf6018c9e0f1b.tar.gz \
+                    rmd160  9066215fcd7ae4f76c37bc20da790d5f9b016a04 \
+                    sha256  d17b27c7b6f452c823f12718f042ade1aca5fa04ec4a2a667564ca52e41c5d04 \
+                    size    25618957 \
+                    miniBAE-4a63a5d1a5ba50b71445b6a4b1efdd139872541b.tar.gz \
+                    rmd160  0e3c95375a20c96f7d01de6e8998f42e0b08f694 \
+                    sha256  7ded8a8184c45c12f8e3f0fe2f3af93b9d41eef92728d631878c6eea3779d1e9 \
+                    size    107238808 \
+                    RectangleBinPack-83e7e1132d93777e3732dfaae26b0f3703be2036.tar.gz \
+                    rmd160  1b1dba5acc6fafa30c8358e16f888b9422282c45 \
+                    sha256  37fbbfb8ae8d720eed1284a289a801a203bd13242bb01be14ec04c8527212a88 \
+                    size    272221 \
+                    SDL_GameControllerDB-a113e7fa25cc13ca6131b20a23568dc42c8a7dab.tar.gz \
+                    rmd160  9c686fc963887d749deab0eb344d3b6eba995d99 \
+                    sha256  9e224bc664a74ce38824d8f2aef8af1fa4ea2bace1c2312e809c68bdfbbc968c \
+                    size    53391 \
+                    thread-pool-6790920f61ab3e928ddaea835ab6a803d467f41d.tar.gz \
+                    rmd160  955b2dc0adf2451d3bfcd2ab701808c3f0013d02 \
+                    sha256  8ad9ba914fd5f39929497cb0669ceab4b10230579aea7cfeee2faa31b6264835 \
+                    size    81035 \
+                    TinySoundFont-e86d986ed6ccb93b4ee41d2de656c49c721b18db.tar.gz \
+                    rmd160  5cb8124ad900a5b10f8d39e255a13e767789a9e4 \
+                    sha256  741bb87ec1f6932cdaf256b8418b5c869137cd65a0755ee8e9eb82052d0557bd \
+                    size    647657 \
+                    upscale-shaders-49dd304cb97e7c0871256f2bafba7b6fd41511cb.tar.gz \
+                    rmd160  1ea044ea5d8946d614f287945acd68c7c80fef5b \
+                    sha256  6f394edbce1b8dc096d949d946e9819b963eb766d891c4b66f045d7433a4f300 \
+                    size    14271 \
+                    uvw-cf0f8c6fd4084900646b7c83b4682a12be76f10e.tar.gz \
+                    rmd160  e26ad112a3377e4d27237ba6f66e68b40cdb79ef \
+                    sha256  f9748be59db4863ba57de312fc8b02d25c32a8db26f8fbd8ddf24273ba0981b2 \
+                    size    106091
+
+depends_build-append \
+                    port:nasm \
+                    port:pkgconfig
+depends_lib-append  path:lib/libssl.dylib:openssl \
+                    port:boost \
+                    port:cubeb \
+                    port:freetype \
+                    port:glm \
+                    port:libarchive \
+                    port:libfmt12 \
+                    port:libsdl2 \
+                    port:libuv \
+                    port:luajit \
+                    port:mbedtls3 \
+                    port:miniupnpc \
+                    port:opencore-amr \
+                    port:pugixml \
+                    port:re2 \
+                    port:spdlog \
+                    port:sqlite3 \
+                    port:stb \
+                    port:xxhashlib \
+                    port:yaml-cpp \
+                    port:zlib
+qt6.depends_lib-append qtmultimedia qtsvg
+qt6.depends_build-append qttools
+
+post-extract {
+    set ext ${worksrcpath}/src/external
+    foreach {dir repo rev} ${submodules} {
+        set src ${workpath}/[file tail ${repo}]-${rev}
+        if {${dir} eq "upscale"} {
+            set dest ${worksrcpath}/src/emu/drivers/resources/upscale
+        } else {
+            set dest ${ext}/${dir}
+        }
+        file delete -force ${dest}
+        move ${src} ${dest}
+    }
+}
+
+# Use the system libraries in place of most submodules, and let the bundled FFmpeg take the
+# compiler flags (from tatsh-overlay).
+patchfiles          patch-system-libs.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    # The bundled mbedcrypto target is gone, so the bare name would link the wrong library.
+    reinplace -E {s/^([[:space:]]*)mbedcrypto\)$/\1mbedtls)/} ${worksrcpath}/src/emu/services/CMakeLists.txt
+    # The cubeb port predates the input_params member; zero-initialising the struct gives its
+    # default (CUBEB_INPUT_PROCESSING_PARAM_NONE) on newer cubeb.
+    reinplace {s/^\( *\)cubeb_stream_params params;$/\1cubeb_stream_params params{};/} \
+        ${worksrcpath}/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp
+    reinplace {/params.input_params = CUBEB_INPUT_PROCESSING_PARAM_NONE;/d} \
+        ${worksrcpath}/src/emu/drivers/src/audio/backend/cubeb/stream_cubeb.cpp
+    reinplace "s|/usr/include/stb|${prefix}/include/stb|" ${worksrcpath}/src/external/CMakeLists.txt
+    # The bundle links the libraries in ${prefix}; do not copy them in.
+    reinplace {/dolphin_postprocess_bundle(eka2l1_qt)/d} ${worksrcpath}/src/emu/qt/CMakeLists.txt
+}
+
+# The bundled Zydis (in dynarmic) has pointers in packed data, which Xcode 15's linker cannot
+# express as chained fixups.
+configure.ldflags-append -Wl,-no_fixup_chains
+
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DCCACHE_PROGRAM=CCACHE_PROGRAM-NOTFOUND \
+                    -DEKA2L1_BUILD_TESTS=OFF \
+                    -DEKA2L1_BUILD_TOOLS=OFF \
+                    -DEKA2L1_ENABLE_QT_CAMERA=ON \
+                    -DEKA2L1_FFMPEG_CACHE_DIR=${workpath}/ffmpeg-cache \
+                    -DEKA2L1_FFMPEG_JOBS=${build.jobs} \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+# The Qt front end seeds the user's data directory from these, next to the executable.
+destroot {
+    set bin ${build.dir}/bin
+    copy ${bin}/EKA2L1.app ${destroot}${applications_dir}/EKA2L1.app
+    set macos ${destroot}${applications_dir}/EKA2L1.app/Contents/MacOS
+    foreach d {compat resources scripts} {
+        if {[file exists ${bin}/${d}] && ![file exists ${macos}/${d}]} {
+            copy ${bin}/${d} ${macos}/
+        }
+    }
+    ln -s ${applications_dir}/EKA2L1.app/Contents/MacOS/EKA2L1 ${destroot}${prefix}/bin/eka2l1
+}
+
+livecheck.type      none
