@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro libretro-atari800 4e7fbc73765c1a9670c7506616046ad1d4ccda51
+github.tarball_from archive
+name                libretro-atari800
+version             20260901
+revision            0
+
+license             GPL-2
+description         Atari 8-bit computer and 5200 emulator (Atari800) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  ae6d62131cbe3598f61a46b7e38ec78f3ecf1e6c \
+                    sha256  475f072f17059a23f402ee2744c00476aba5b7c819b1af3b38c933e45bdf2947 \
+                    size    1990979
+
+depends_lib-append  port:zlib
+build.args-append   SYSTEM_ZLIB=1
