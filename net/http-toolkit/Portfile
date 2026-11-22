@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                http-toolkit
+version             1.27.4
+categories          net devel aqua
+license             AGPL-3
+supported_archs     arm64 x86_64
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Intercept, inspect and mock HTTP and HTTPS traffic.
+long_description    HTTP Toolkit is a debugging proxy for HTTP and HTTPS, with interception for \
+                    browsers, terminals, Android devices and Docker. This is upstream's prebuilt \
+                    macOS app.
+homepage            https://httptoolkit.com/
+master_sites        https://github.com/httptoolkit/httptoolkit-desktop/releases/download/v${version}/
+if {${build_arch} eq "arm64"} {
+    distname        HttpToolkit-${version}-arm64
+} else {
+    distname        HttpToolkit-${version}-x64
+}
+use_dmg             yes
+
+if {${build_arch} eq "arm64"} {
+    checksums       rmd160  a52a8c8135fd77e5ddf89492d64834660ca71dc1 \
+                    sha256  06397ca729d7c77fbb43fc27029301b782f5fed4917b7b9f3c2394a56c3808be \
+                    size    178537689
+} else {
+    checksums       rmd160  ae2c9e406c2057df8b42cfa1306006a82f2ce4fc \
+                    sha256  1a71439ff7dcf4374f5de1fcc251bb553c8546327e4c465dc760a8a62a9b04f9 \
+                    size    186070132
+}
+
+use_configure       no
+build {}
+
+destroot {
+    copy "${worksrcpath}/HTTP Toolkit.app" "${destroot}${applications_dir}/HTTP Toolkit.app"
+}
+
+livecheck.type      none
