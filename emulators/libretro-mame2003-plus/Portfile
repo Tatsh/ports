@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro mame2003-plus-libretro 2a60eda71ae0fea543a76a43b5d58086a5485256
+github.tarball_from archive
+name                libretro-mame2003-plus
+version             20261119
+revision            0
+
+license             Restrictive/Distributable
+description         Arcade emulator (MAME 0.78 with extra features) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  056d745ea537cba1b43835b9262d353d7ee4720a \
+                    sha256  e305bc645bef269064412c32c46836dd015e247f14da70790e8afcee7936e501 \
+                    size    34155661
