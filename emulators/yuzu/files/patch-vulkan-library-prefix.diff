@@ -1,0 +1,24 @@
+--- a/src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 14:40:22
++++ b/src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 14:40:22
+@@ -1,6 +1,7 @@
+ // SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ 
++#include <filesystem>
+ #include <string>
+ 
+ #include "common/dynamic_library.h"
+@@ -19,10 +20,9 @@
+ #else
+     auto library = std::make_shared<Common::DynamicLibrary>();
+ #ifdef __APPLE__
+-    const auto libvulkan_filename =
+-        Common::FS::GetBundleDirectory() / "Contents/Frameworks/libvulkan.1.dylib";
+-    const auto libmoltenvk_filename =
+-        Common::FS::GetBundleDirectory() / "Contents/Frameworks/libMoltenVK.dylib";
++    // The MacPorts Vulkan loader and MoltenVK, for the bundle and for yuzu-cmd alike.
++    const std::filesystem::path libvulkan_filename{"@PREFIX@/lib/libvulkan.1.dylib"};
++    const std::filesystem::path libmoltenvk_filename{"@PREFIX@/lib/libMoltenVK.dylib"};
+     const char* library_paths[] = {std::getenv("LIBVULKAN_PATH"), libvulkan_filename.c_str(),
+                                    libmoltenvk_filename.c_str()};
+     // Check if a path to a specific Vulkan library has been specified.
