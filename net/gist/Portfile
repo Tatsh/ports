@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           ruby 1.0
+
+ruby.setup          gist 6.1.0 gem {} rubygems ruby33
+name                gist
+ruby.link_binaries_suffix
+categories          net ruby
+platforms           {darwin any}
+supported_archs     noarch
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Upload code to GitHub Gist from the command line.
+long_description    ${description}
+homepage            https://github.com/defunkt/gist
+
+checksums           rmd160  4254850e27d6e7872796d406af3ab29a9e9491e6 \
+                    sha256  47bea5af889926b20dd95bc732765d0233d96faf594a3ecdbe2a7818ef6365d1 \
+                    size    28160
