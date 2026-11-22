@@ -108,6 +108,7 @@ blackbox
 blacktop
 blas
 boltdb
+bootstrapper
 borsh
 botan
 botan's
@@ -435,7 +436,6 @@ flacted
 flate
 flavored
 flto
-fluxsmooth
 flycut
 fmtc
 fmtconv
@@ -575,11 +575,9 @@ heapless
 hephaest
 hetelek
 hexf
-hinterwaeldlers
 hkdf
 hlsl
 hmac
-hqdn
 hschmidt
 htmlcov
 htmlparser
@@ -889,7 +887,6 @@ mimalloc
 minchoc
 miniaudio
 minibae
-minideen
 minimp
 minitel
 miniupnpc
@@ -922,7 +919,6 @@ mpfr
 mqtt
 msgp
 msgspec
-msmoosh
 msplit
 msvc
 mtree
