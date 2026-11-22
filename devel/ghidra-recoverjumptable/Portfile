@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        Narmjep RecoverJumpTable 48636f4e4029939889de569f1919b0b99a8d9fcb
+github.tarball_from archive
+name                ghidra-recoverjumptable
+version             20260716
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra script that recovers switch statement jump tables.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  ad9fdc647ac46290a6dc1ed6dcadc200920e9e54 \
+                    sha256  61c99d45f8885f0bdef04c9b963072fddabe38a1358a612cf0a72ca4e5af8ae7 \
+                    size    3977
+
+ghidra_extension.name RecoverJumpTable
+ghidra_extension.scripts RecoverJumpTable.java
