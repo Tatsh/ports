@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro pcsx_rearmed 7b0e8f8fadfbce3d170d195b9d9eecaabfa08c8e
+github.tarball_from archive
+name                libretro-pcsx-rearmed
+version             20261029
+revision            0
+
+license             GPL-2
+description         PlayStation emulator (PCSX ReARMed) as a libretro core.
+long_description    {*}${description}
+
+set libpicofe_rev    a2697389e76744cfa0c56c13a172845c45ede719
+master_sites-append https://github.com/notaz/libpicofe/archive/${libpicofe_rev}.tar.gz?dummy=:picofe
+distfiles-append    libpicofe-${libpicofe_rev}.tar.gz:picofe
+
+checksums           pcsx_rearmed-7b0e8f8fadfbce3d170d195b9d9eecaabfa08c8e.tar.gz \
+                    rmd160  f05a91fec7479c432aae7b6c4d452c09dc2ded3a \
+                    sha256  4f47bd98bac6cdf62dd4f7a56069b0b0d9999aa6800e636334d1788c5cf38ccf \
+                    size    5592039 \
+                    libpicofe-a2697389e76744cfa0c56c13a172845c45ede719.tar.gz \
+                    rmd160  c7163b6277c0cd30dea67ce1a81bd3457c0d14d0 \
+                    sha256  dbea47d36dfae389ffe15fb0450a0241ed81c896c5ca3cd7615cf43af1b17610 \
+                    size    93318
+
+post-extract {
+    file delete -force ${worksrcpath}/frontend/libpicofe
+    move ${workpath}/libpicofe-${libpicofe_rev} ${worksrcpath}/frontend/libpicofe
+}
