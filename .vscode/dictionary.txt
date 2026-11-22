@@ -68,6 +68,7 @@ audioread
 audvare
 authlib
 autocfg
+autograd
 autoreconf
 awslabs
 azblob
@@ -100,6 +101,7 @@ bitfield
 bitflags
 bitvec
 blacktop
+blas
 boltdb
 borsh
 botan
@@ -133,6 +135,7 @@ capa's
 cbindgen
 cbor
 ccleste
+cctools
 cddb
 cdecrypt
 cdirip
@@ -357,6 +360,7 @@ ealayer
 ebitengine
 eedi
 ehthumbs
+eigen
 elementpath
 eleonore
 elif
@@ -464,6 +468,7 @@ getopts
 getrandom
 getsentry
 gevent
+gflags
 ggrs
 ghash
 ghidra
@@ -488,6 +493,7 @@ glanceapp
 glebarez
 glew
 glfw
+glog
 gloo
 glsl
 glslang
@@ -725,6 +731,7 @@ libmpc
 libmwaw
 libname
 libogg
+libomp
 libopenmpt
 libopus
 libpcap
@@ -782,6 +789,7 @@ loguru
 lpthread
 lrange
 lsdvd
+lsearch
 lsort
 lsusb
 luajit
@@ -813,6 +821,7 @@ mapstructure
 marlliton
 marmelroy
 masp
+math
 mathutil
 matishsiao
 matplotlib
@@ -857,6 +866,7 @@ miscfilters
 mitchellh
 mizo
 mkisofs
+mklvers
 mksprite
 mkstemp
 mltgui
@@ -909,6 +919,8 @@ nastaliq
 natefinch
 nativeaot
 natord
+naurdw
+nccl
 ncine
 ncruces
 ndarray
@@ -967,6 +979,7 @@ omnilib
 omnisharp
 onedev
 onig
+onnx
 oorandom
 opack
 openal
@@ -1060,6 +1073,7 @@ protocolbuffers
 psutil
 pthread
 pthreadglue
+pthreadpool
 pthreads
 pugixml
 pulldown
@@ -1069,6 +1083,7 @@ pushd
 pxfm
 pyaes
 pyarrow
+pybind
 pycache
 pychoco
 pycparser
@@ -1108,6 +1123,7 @@ pytest
 pythonpath
 pytimeparse
 pytorch
+pytorch's
 pytun
 pytype
 pyvboxmanage
@@ -1120,11 +1136,13 @@ quic
 rabbitizer
 ranav's
 rancor
+randn
 rapidfuzz
 rapidjson
 ravif
 raviqqe
 rawpointer
+rccl
 rcgen
 rcheevos
 rdfa
@@ -1170,6 +1188,7 @@ robfig
 roboto
 robotstxt
 robpike
+rocm
 rodio
 rootcerts
 rootname
@@ -1251,6 +1270,7 @@ skrifa
 skrooge
 skypjack
 slaspec
+slib
 slint
 slogpretty
 slongfield
@@ -1327,6 +1347,7 @@ swiftformat
 swiftmodule
 symbolicate
 symphonia
+sympy
 symroot
 synstructure
 sysconf
@@ -1377,6 +1398,8 @@ tommath
 toolbelt
 toolinfo
 torbrowser
+torchaudio
+torchvision
 tqdm
 trollrestore
 trollstore
