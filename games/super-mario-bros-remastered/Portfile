@@ -42,6 +42,7 @@ post-patch {
     close ${fd}
     set preset [string map [list @VERSION@ ${version}] ${preset}]
     set fd [open ${worksrcpath}/export_presets.cfg a]
+    puts ${fd} ""
     puts -nonewline ${fd} ${preset}
     close ${fd}
     # A universal export (the only kind the macOS template supports) needs the ETC2 and ASTC
