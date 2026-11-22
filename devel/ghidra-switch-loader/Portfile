@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        Adubbz Ghidra-Switch-Loader 9bba6a6643f41d11386ea5bb2f0bc1d2ea536e2a
+github.tarball_from archive
+name                ghidra-switch-loader
+version             1.10
+license             ISC
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra loader for Nintendo Switch NSO, NRO and KIP executables.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+# The LZ4 and Zstandard libraries the loader bundles (the versions upstream builds against).
+set lz4_version     1.10.2
+set zstd_version    1.5.7-1
+master_sites-append https://repo1.maven.org/maven2/at/yawk/lz4/lz4-java/${lz4_version}/:lz4 \
+                    https://repo1.maven.org/maven2/com/github/luben/zstd-jni/${zstd_version}/:zstd
+distfiles-append    lz4-java-${lz4_version}.jar:lz4 \
+                    zstd-jni-${zstd_version}.jar:zstd
+extract.only        ${distname}${extract.suffix}
+
+checksums           Ghidra-Switch-Loader-9bba6a6643f41d11386ea5bb2f0bc1d2ea536e2a.tar.gz \
+                    rmd160  348eeb4a3538e46bdee8f6ed8965fea4b5f62620 \
+                    sha256  f7634e98f883cad96d46173429a5c9358b367f50429f9954b154bf981759148b \
+                    size    299147 \
+                    lz4-java-1.10.2.jar \
+                    rmd160  8d2fc2ad187a8649dda5fa516b3b632bf345b6c8 \
+                    sha256  252dabd586d22149a31661a8afc1a50747714eb1a298bd4a6e780c8c91a13866 \
+                    size    1002267 \
+                    zstd-jni-1.5.7-1.jar \
+                    rmd160  8aaaf4d08c1eed5c772fe5f201ceb8ae89a70853 \
+                    sha256  76ecd1810242520d4af4f656eebedfb8d0e1164be4ec19d1ba689375fc1a53b7 \
+                    size    7458599
+
+ghidra_extension.name SwitchLoader
+
+post-extract {
+    file mkdir ${worksrcpath}/lib
+    file copy ${distpath}/lz4-java-${lz4_version}.jar ${distpath}/zstd-jni-${zstd_version}.jar \
+        ${worksrcpath}/lib/
+}
