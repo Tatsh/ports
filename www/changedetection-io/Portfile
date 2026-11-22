@@ -5,6 +5,7 @@ PortGroup           python 1.0
 
 name                changedetection-io
 version             0.70.4
+revision            1
 platforms           darwin linux freebsd
 license             Apache-2
 supported_archs     noarch
@@ -83,6 +84,7 @@ depends_run-append \
     port:py${python.version}-puremagic \
     port:py${python.version}-tzdata \
     port:py${python.version}-pluggy \
+    port:py${python.version}-litellm \
     port:py${python.version}-pydantic \
     port:py${python.version}-mcp-types \
     port:py${python.version}-authlib \
@@ -109,7 +111,4 @@ startupitem.executable \
 notes "
 Start the web interface on http://127.0.0.1:5000 with:
     sudo port load ${name}
-
-The optional AI change summaries need LiteLLM, which is not installed by default:
-    sudo port install py${python.version}-litellm
 "
