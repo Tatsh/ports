@@ -1,0 +1,89 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        JHDev2006 Super-Mario-Bros.-Remastered-Public 1.1-stable
+github.tarball_from archive
+name                super-mario-bros-remastered
+version             1.1.0
+categories          games
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Unofficial remaster of the original Super Mario Bros.
+long_description    ${description} Built with the Godot engine.
+homepage            https://github.com/JHDev2006/Super-Mario-Bros.-Remastered-Public
+dist_subdir         ${name}/${version}
+
+# The game is exported with the Godot editor and the official macOS export template (a prebuilt
+# universal Godot runtime, the only kind it ships) of the same version. Only the macOS template is
+# unpacked from the archive.
+set godot_version   4.7.1
+master_sites-append https://github.com/godotengine/godot-builds/releases/download/${godot_version}-stable/:templates
+distfiles-append    Godot_v${godot_version}-stable_export_templates.tpz:templates
+extract.only        ${distname}${extract.suffix}
+
+checksums           Super-Mario-Bros.-Remastered-Public-1.1-stable.tar.gz \
+                    rmd160  2a711bce25daa3a880fa084d7a568848a1448eab \
+                    sha256  888f0febeb802835bd93a92c3026638ea7ee703454bf21a25c15e97f063a8f73 \
+                    size    56075417 \
+                    Godot_v4.7.1-stable_export_templates.tpz \
+                    rmd160  5daf1d862016e065876de5245c6f3913edb266d8 \
+                    sha256  86409db6200b6f8fd3230989c2d2002851f3dd18acf11d7bdbafddf5a0dd0f72 \
+                    size    1280486955
+
+depends_build-append \
+                    port:godot
+
+# The project has export presets only for Windows and Linux.
+post-patch {
+    set fd [open ${filespath}/export-preset-macos.cfg r]
+    set preset [read ${fd}]
+    close ${fd}
+    set preset [string map [list @VERSION@ ${version}] ${preset}]
+    set fd [open ${worksrcpath}/export_presets.cfg a]
+    puts -nonewline ${fd} ${preset}
+    close ${fd}
+    # A universal export (the only kind the macOS template supports) needs the ETC2 and ASTC
+    # texture formats imported as well.
+    set fd [open ${worksrcpath}/project.godot r]
+    set project [read ${fd}]
+    close ${fd}
+    set project [string map [list "\n\[rendering\]\n" \
+        "\n\[rendering\]\n\ntextures/vram_compression/import_etc2_astc=true\n"] ${project}]
+    set fd [open ${worksrcpath}/project.godot w]
+    puts -nonewline ${fd} ${project}
+    close ${fd}
+}
+
+use_configure       no
+
+set godot_home      ${workpath}/.home
+build {
+    set templates "${godot_home}/Library/Application Support/Godot/export_templates/${godot_version}.stable"
+    file mkdir ${templates}
+    system -W ${templates} "/usr/bin/unzip -q -j ${distpath}/Godot_v${godot_version}-stable_export_templates.tpz \
+        templates/macos.zip templates/version.txt"
+    file mkdir ${workpath}/export
+    # The editor crashes while shutting down after a finished export, so the exit status alone does
+    # not say whether the export worked.
+    if {[catch {system -W ${worksrcpath} "env HOME=${godot_home} ${prefix}/bin/godot --no-header \
+            --headless --export-release macOS ${workpath}/export/SMB1R.app"} err]} {
+        if {![file exists ${workpath}/export/SMB1R.app/Contents/Resources/SMB1R.pck]} {
+            return -code error ${err}
+        }
+        ui_debug "Ignoring the editor's exit status: ${err}"
+    }
+}
+
+destroot {
+    set app "${destroot}${applications_dir}/Super Mario Bros. Remastered.app"
+    copy ${workpath}/export/SMB1R.app ${app}
+    # Godot's built-in signer cannot sign the bundled extension libraries, so it is turned off in the
+    # preset and the finished bundle is signed ad hoc here.
+    system "/usr/bin/codesign --force --deep --sign - [shellescape ${app}]"
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none
