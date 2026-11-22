@@ -1,0 +1,22 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        NWMonster ApplySig 4a40e0e6a321a7f2a32fb5f67c47dc7ff85f39c7
+github.tarball_from archive
+name                ghidra-applysig
+version             20200515
+license             LGPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra script that applies IDA FLIRT signatures.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  db47a7c1edc1feb024fc38b90bbab18181aba787 \
+                    sha256  5ca9a1b3322fdf3c9a94450ba2807e5680d70351a40ac6236482ce0017b29a13 \
+                    size    9007
+
+ghidra_extension.name ApplySig
+ghidra_extension.scripts ApplySig.py
