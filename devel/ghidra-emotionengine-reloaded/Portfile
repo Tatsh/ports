@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        chaoticgd ghidra-emotionengine-reloaded 2.1.39 v
+github.tarball_from archive
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra extension adding PlayStation 2 Emotion Engine support.
+long_description    ${description} It adds the EE processor with its MMI, VU0 and FPU \
+                    instructions, and imports symbol tables with ccc's stdump.
+
+checksums           rmd160  2a253b9792da0cbdb24d336ec615744abf7a1fe4 \
+                    sha256  312867526637117aad96b6d89c9362c91cd97b891c533d5a0875d762bee637b9 \
+                    size    82454
+
+depends_run-append  port:ccc
+
+ghidra_extension.name ghidra-emotionengine-reloaded
+
+# The download script fetches the stdump binaries that upstream's releases bundle; the ccc port's
+# is used instead.
+post-patch {
+    file delete ${worksrcpath}/os/download.sh
+}
+
+post-destroot {
+    if {${build_arch} eq "arm64"} {
+        set os mac_arm_64
+    } else {
+        set os mac_x86_64
+    }
+    # Where Application.getOSFile() looks for it.
+    set dir ${destroot}[ghidra_extension::home]/Ghidra/Extensions/ghidra-emotionengine-reloaded/os/${os}
+    xinstall -d ${dir}
+    ln -s ${prefix}/bin/stdump ${dir}/stdump
+}
