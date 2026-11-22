@@ -1,0 +1,82 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        hrydgard ppsspp 1.20.4 v
+# The release tarball has the submodules in it (but not the prebuilt FFmpeg libraries).
+github.tarball_from releases
+name                libretro-ppsspp
+revision            0
+distname            ppsspp-${version}
+use_xz              yes
+
+categories          emulators games
+license             GPL-2+ Apache-2 BSD MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Sony PSP emulator (PPSSPP) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  9b7f471c7e5a5cc2874d46fecf2d54e6a3cc27bb \
+                    sha256  4de21db3105d9d81a465a8a7e78c68ee3c0e0bf6597d1c1d530f7555f3ad8b31 \
+                    size    60860348
+
+depends_lib-append  port:ffmpeg6 \
+                    port:libpng \
+                    port:libzip \
+                    port:snappy \
+                    port:zlib \
+                    port:zstd
+
+patchfiles          patch-SpvBuilder-cstdint.diff \
+                    patch-cmake-cxx.diff
+patch.pre_args-replace -p0 -p1
+
+# BUILD_SHARED_LIBS=OFF keeps the bundled glslang, which the core needs.
+configure.args-append \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DHEADLESS=OFF \
+                    -DLIBRETRO=ON \
+                    -DUSE_DISCORD=OFF \
+                    -DUSE_MINIUPNPC=OFF \
+                    -DUSE_SYSTEM_FFMPEG=ON \
+                    -DUSE_SYSTEM_LIBZIP=ON \
+                    -DUSE_SYSTEM_SNAPPY=ON \
+                    -DUSE_SYSTEM_ZSTD=ON \
+                    -DUSING_QT_UI=OFF
+
+# FFmpeg 6, as in tatsh-overlay; name each library so FindFFmpeg does not pick up the newer
+# default ffmpeg port from ${prefix}/lib, and put its headers in front of ${prefix}/include.
+set ffmpeg_prefix   ${prefix}/libexec/ffmpeg6
+foreach c {avcodec avformat avutil swresample swscale} {
+    configure.args-append -DFFmpeg_INCLUDE_${c}=${ffmpeg_prefix}/include \
+                          -DFFmpeg_LIBRARY_${c}=${ffmpeg_prefix}/lib/lib${c}.dylib
+}
+configure.args-append -DCMAKE_PROJECT_INCLUDE=${workpath}/include-first.cmake
+configure.ldflags-append -Wl,-rpath,${ffmpeg_prefix}/lib
+
+post-patch {
+    set fd [open ${workpath}/include-first.cmake w]
+    puts ${fd} "include_directories(BEFORE SYSTEM ${ffmpeg_prefix}/include)"
+    close ${fd}
+}
+
+# Do not let the build's ccache launcher write outside the build tree.
+build.env-append    CCACHE_DISABLE=1
+
+destroot {
+    xinstall -d ${destroot}${prefix}/lib/libretro
+    xinstall -m 0755 ${build.dir}/lib/ppsspp_libretro.dylib ${destroot}${prefix}/lib/libretro/
+    set assets ${destroot}${prefix}/share/libretro/PPSSPP
+    file mkdir ${assets}
+    foreach f [glob -directory ${build.dir}/assets *] {
+        copy ${f} ${assets}/
+    }
+}
+
+notes "
+PPSSPP reads its assets from PPSSPP in the RetroArch system directory. Link them there:
+  mkdir -p ~/Documents/RetroArch/system
+  ln -s ${prefix}/share/libretro/PPSSPP ~/Documents/RetroArch/system/
+"
