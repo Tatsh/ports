@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                snowsql
+version             1.3.3
+categories          databases
+license             Restrictive
+supported_archs     arm64 x86_64
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Snowflake's command-line client (SnowSQL).
+long_description    ${description} This is Snowflake's prebuilt macOS client: a bootstrapper that \
+                    downloads the client into ~/.snowsql and keeps it updated there.
+homepage            https://docs.snowflake.com/en/user-guide/snowsql
+master_sites        https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/[join [lrange [split ${version} .] 0 1] .]/darwin_${build_arch}/
+distname            ${name}-${version}-darwin_${build_arch}
+extract.suffix      .pkg
+
+if {${build_arch} eq "arm64"} {
+    checksums       rmd160  1feb39d04d085f1d1288006ed3d2fa1579275c9f \
+                    sha256  8c2dcff194631a84c20dd800a0faf9da964c4ed90797834946e2873e06a45867 \
+                    size    30694018
+} else {
+    checksums       rmd160  332fccbc659051b0858b61e69cda3c145ffb7864 \
+                    sha256  0d85b4fa59dd4213b8b04524246b8c0e88313445383b05f8ff3491d48bd37eb0 \
+                    size    30990948
+}
+
+# The installer package holds SnowSQL.app; its postinstall script only adds the app to PATH in the
+# user's shell profile, which the bin/snowsql link replaces.
+extract.mkdir       yes
+extract {
+    system -W ${workpath} "/usr/sbin/pkgutil --expand-full ${distpath}/${distfiles} ${workpath}/pkg"
+}
+
+use_configure       no
+build {}
+
+destroot {
+    copy ${workpath}/pkg/snowsql-darwin.pkg/Payload/SnowSQL.app ${destroot}${applications_dir}/SnowSQL.app
+    ln -s ${applications_dir}/SnowSQL.app/Contents/MacOS/snowsql ${destroot}${prefix}/bin/snowsql
+}
+
+notes "
+Run snowsql --upgrade once to download the client into ~/.snowsql. It updates itself from then on.
+"
+
+livecheck.type      none
