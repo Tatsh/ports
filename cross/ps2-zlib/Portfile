@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                ps2-zlib
+version             1.4
+categories          cross devel games
+supported_archs     noarch
+license             zlib
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         zlib compression library for the PlayStation 2.
+long_description    ${description} Installed to the ps2sdk ports directory.
+homepage            https://zlib.net/
+master_sites        https://github.com/madler/zlib/releases/download/v${version}/
+distname            zlib-${version}
+use_xz              yes
+
+checksums           rmd160  5233dbcd0fcb810fd2c7b308db27f9274c544c4f \
+                    sha256  4f11c512053d7bab8d9e9b89bde3575add3e4c50a383b42ef6cb837035fc5a7c \
+                    size    1320316
+
+depends_build-append port:cmake \
+                    port:ninja
+depends_lib-append  port:ps2sdk
+
+# Built with ps2sdk's CMake toolchain file and installed into its ports directory, where the
+# toolchain and the other PlayStation 2 ports look for libraries. The host's compiler flags and
+# include and library paths are kept away from the cross compiler.
+set ps2dev          ${prefix}/share/ps2dev
+set ps2sdk          ${ps2dev}/ps2sdk
+set ps2ports        ${ps2sdk}/ports
+set ps2env          "env -u CPATH -u LIBRARY_PATH -u CFLAGS -u CPPFLAGS -u CXXFLAGS -u LDFLAGS \
+                    -u MACOSX_DEPLOYMENT_TARGET -u SDKROOT PS2DEV=${ps2dev} PS2SDK=${ps2sdk}"
+
+configure {
+    system -W ${workpath} "${ps2env} ${prefix}/bin/cmake -S ${worksrcpath} -B ${workpath}/build \
+        -G Ninja -Wno-dev -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DCMAKE_INSTALL_PREFIX=${ps2ports} -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -DCMAKE_PREFIX_PATH=${ps2ports} -DCMAKE_TOOLCHAIN_FILE=${ps2dev}/share/ps2dev.cmake \
+        -DUNIX=ON -DZLIB_BUILD_SHARED=OFF -DZLIB_BUILD_TESTING=OFF"
+}
+
+build {
+    system -W ${workpath} "${ps2env} ${prefix}/bin/cmake --build ${workpath}/build"
+}
+
+destroot {
+    system -W ${workpath} "${ps2env} DESTDIR=${destroot} ${prefix}/bin/cmake --install ${workpath}/build"
+}
+
+livecheck.type      none
