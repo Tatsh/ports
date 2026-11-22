@@ -762,6 +762,7 @@ libtheora
 libtomcrypt
 libtommath
 libtoolchain
+libtorch
 libudev
 libultraship
 libusb
