@@ -283,6 +283,7 @@ defusedxml
 deinterlacer
 deka
 demangle
+demucs
 denable
 denoiser
 denoising
