@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        lief-project LIEF 1.0.0
+github.tarball_from archive
+name                py-lief
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Library to instrument ELF, PE and Mach-O executable formats.
+long_description    LIEF parses, modifies and abstracts ELF, PE, Mach-O, OAT, DEX, VDEX and ART \
+                    files. This port builds its Python bindings, with the C++ library linked into \
+                    the extension module.
+homepage            https://lief.re
+
+checksums           rmd160  b286fd23a8d4437ef02e628b397c57709ef125ed \
+                    sha256  2cf412695ff739d82e129db441e5c2025f3bb4873a3d3a1d3dd4cf300b682abd \
+                    size    20009137
+
+python.versions     312 313 314
+
+if {${name} ne ${subport}} {
+    # The bindings are built from api/python with LIEF's own in-tree build backend, which drives
+    # scikit-build-core and CMake. Every C++ dependency is bundled in third-party/.
+    worksrcdir          LIEF-${version}/api/python
+    python.pep517_backend setuptools
+
+    depends_build-append port:cmake \
+                        port:ninja \
+                        port:py${python.version}-pathspec \
+                        port:py${python.version}-pydantic \
+                        port:py${python.version}-scikit-build-core
+
+    # The backend reads its configuration with tomli; tomllib is the same API in the standard
+    # library.
+    post-patch {
+        reinplace {s/^import tomli$/import tomllib as tomli/} ${worksrcpath}/backend/config.py
+        # ccache cannot write its cache inside the build sandbox.
+        reinplace -E {s/^cache( *)= true/cache\1= false/} ${worksrcpath}/config-default.toml
+    }
+
+    build.env-append    CMAKE_BUILD_PARALLEL_LEVEL=${build.jobs}
+    # MacPorts puts ${prefix}/include on CPATH, where the mbedtls port's headers would shadow the
+    # bundled mbedtls. CMake passes every include directory LIEF needs.
+    compiler.cpath
+    # The backend pins exact versions of its build tools; newer ones work.
+    build.args-append   --skip-dependency-check
+
+    test.run            yes
+    test {
+        system -W ${workpath} "env PYTHONPATH=${destroot}${python.pkgd} ${python.bin} -c \
+            'import lief; print(lief.__version__); b = lief.parse(\"${python.bin}\"); print(b.header)'"
+    }
+}
