@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        libretro retroarch-assets 1.22.0 v
+github.tarball_from archive
+revision            0
+
+license             CC-BY-4
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+categories          emulators games
+platforms           any
+supported_archs     noarch
+description         Icons, fonts and wallpapers for the RetroArch menus.
+long_description    {*}${description}
+
+checksums           rmd160  fdfdec8ee84233cc726cec00ebbaaeac4bf2d44c \
+                    sha256  183c638bf2e9273c975e1f46c2d19eff2f63529312856a984c0a777f973672ac \
+                    size    219257805
+
+use_configure       no
+build {}
+
+destroot {
+    set dest ${destroot}${prefix}/share/retroarch/assets
+    file mkdir ${dest}
+    foreach f [glob -directory ${worksrcpath} *] {
+        if {[file tail ${f}] ni {Makefile configure src}} {
+            copy ${f} ${dest}/
+        }
+    }
+}
