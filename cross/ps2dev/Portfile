@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                ps2dev
+version             2.0.0.20260922
+categories          cross devel games
+supported_archs     noarch
+platforms           any
+license             Permissive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         PlayStation 2 homebrew development environment.
+long_description    This port installs the toolchains, ps2sdk, gsKit and the host tools that make \
+                    up the ps2dev environment.
+homepage            https://github.com/ps2dev/ps2dev
+
+distfiles
+use_configure       no
+build {}
+
+depends_run         port:gskit \
+                    port:masp \
+                    port:openvcl \
+                    port:ps2-dvp-binutils \
+                    port:ps2-ee-binutils \
+                    port:ps2-ee-gcc \
+                    port:ps2-iop-binutils \
+                    port:ps2-iop-gcc \
+                    port:ps2-packer \
+                    port:ps2client \
+                    port:ps2sdk
+
+destroot {
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    set fd [open ${destroot}${prefix}/share/doc/${name}/README w]
+    puts ${fd} "Set PS2DEV=${prefix}/share/ps2dev, PS2SDK=${prefix}/share/ps2dev/ps2sdk and\
+GSKIT=${prefix}/share/ps2dev/ps2sdk/ports, and add \${PS2SDK}/bin to PATH."
+    close ${fd}
+}
+
+notes "
+Set
+    PS2DEV=${prefix}/share/ps2dev
+    PS2SDK=${prefix}/share/ps2dev/ps2sdk
+    GSKIT=${prefix}/share/ps2dev/ps2sdk/ports
+and add \${PS2SDK}/bin to PATH.
+"
+
+livecheck.type      none
