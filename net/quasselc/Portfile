@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        phhusson QuasselC a0a1e6bd87d3eac68b5369972d1c2035cfe47e94
+github.tarball_from archive
+name                quasselc
+version             0.20170111
+categories          net irc devel
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         C library to access a Quassel IRC core.
+long_description    ${description} Used by quassel-irssi.
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  6d964b58ca4f95baaae85a1ac1386d69e67475d5 \
+                    sha256  fe7b48a13c0e6dad81cdae18069d4f5607af64d73a3201f42d79548170dde510 \
+                    size    27899
+
+depends_build-append port:pkgconfig
+depends_lib-append  path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:libiconv \
+                    port:zlib
+
+# quasselc.h includes "endian.h", glibc's byte-order conversions. This one maps them onto
+# macOS's OSByteOrder.h, and is installed with the other headers for the library's users.
+post-extract {
+    file copy ${filespath}/endian.h ${worksrcpath}/endian.h
+}
+
+use_configure       no
+
+set objects         {setters.o getters.o main.o cmds.o negotiation.o io.o symbols.o}
+# The Makefile links a Linux shared object, so only the objects and the pkg-config file come from it.
+build.args          prefix=${prefix}
+pre-build {
+    set cflags "${configure.cflags} [get_canonical_archflags cc] -Wall -std=gnu11 -fPIC \
+        [exec ${prefix}/bin/pkg-config glib-2.0 --cflags]"
+    build.args-append CC=${configure.cc} "CFLAGS=\"${cflags}\""
+}
+build.target        {*}${objects} quasselc.pc
+post-build {
+    system -W ${worksrcpath} "${configure.cc} -dynamiclib [get_canonical_archflags ld] \
+        ${configure.ldflags} -install_name ${prefix}/lib/libquasselc.0.dylib \
+        -compatibility_version 1 -current_version 1 -o libquasselc.0.dylib ${objects} \
+        [exec ${prefix}/bin/pkg-config --libs glib-2.0] -liconv -lz"
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/libquasselc.0.dylib ${destroot}${prefix}/lib/
+    ln -s libquasselc.0.dylib ${destroot}${prefix}/lib/libquasselc.dylib
+    xinstall -d ${destroot}${prefix}/lib/pkgconfig ${destroot}${prefix}/include/quasselc
+    xinstall -m 0644 ${worksrcpath}/quasselc.pc ${destroot}${prefix}/lib/pkgconfig/
+    xinstall -m 0644 {*}[glob ${worksrcpath}/*.h] ${destroot}${prefix}/include/quasselc/
+}
+
+livecheck.type      none
