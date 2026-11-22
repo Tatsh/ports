@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro yabause 8926b0c6c347f8c5c755911ddb0ac695420ffbf8
+github.tarball_from archive
+name                libretro-yabause
+version             20260530
+revision            0
+
+license             GPL-2
+description         Sega Saturn emulator (Yabause) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  6e8765d952dc0c4a0264b44dffe00553543f2f25 \
+                    sha256  a76c92903d9aa0c53548127202760bf28568f16f169c5f26b09a507d1c08ddab \
+                    size    15211504
+
+depends_lib-append  port:flac \
+                    port:zlib
+
+patchfiles          patch-0001-makefile.common-add-system_z.diff \
+                    patch-0002-makefile.common-add-system_f.diff
+patch.pre_args-replace -p0 -p1
+patch.dir           ${worksrcpath}/yabause/src/libretro
+
+libretro.build_dir  ${worksrcpath}/yabause/src/libretro
+build.args-append   SYSTEM_FLAC=1 \
+                    SYSTEM_ZLIB=1
