@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        Cuyler36 Ghidra-GameCube-Loader 1.3.1
+github.tarball_from archive
+name                ghidra-gamecube-loader
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra loader for Nintendo GameCube binaries.
+long_description    Loads GameCube DOL, REL and RSO files, with symbol map import.
+
+# The LZ4 library the loader bundles. Upstream pins org.lz4 1.5.1, which predates the fix for
+# CVE-2025-12183; the maintained continuation is at.yawk.lz4, with the same API.
+set lz4_version     1.10.2
+master_sites-append https://repo1.maven.org/maven2/at/yawk/lz4/lz4-java/${lz4_version}/:lz4
+distfiles-append    lz4-java-${lz4_version}.jar:lz4
+extract.only        ${distname}${extract.suffix}
+
+checksums           Ghidra-GameCube-Loader-1.3.1.tar.gz \
+                    rmd160  d8f15793266707c75cdaf4d883436cefe2979546 \
+                    sha256  bf5e0efc286a4cd20457fa71b0a4fff960a9721205a617cb85f9270233db0a8c \
+                    size    125959 \
+                    lz4-java-1.10.2.jar \
+                    rmd160  8d2fc2ad187a8649dda5fa516b3b632bf345b6c8 \
+                    sha256  252dabd586d22149a31661a8afc1a50747714eb1a298bd4a6e780c8c91a13866 \
+                    size    1002267
+
+ghidra_extension.name GameCubeLoader
+
+# Do not claim files that other loaders recognize (from tatsh-overlay).
+patchfiles          patch-loadspec-hijack.diff
+patch.pre_args-replace -p0 -p1
+
+post-extract {
+    file mkdir ${worksrcpath}/lib
+    file copy ${distpath}/lz4-java-${lz4_version}.jar ${worksrcpath}/lib/
+}
