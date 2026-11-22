@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro beetle-ngp-libretro a50d5ac288a81f2104ddf43195a4efdd15c72227
+github.tarball_from archive
+name                libretro-mednafen-ngp
+version             20260614
+revision            0
+
+license             GPL-2+
+description         Neo Geo Pocket and Pocket Color emulator (Beetle NGP) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  cbdcfe0a82c61fd9446532793c25b7f7edcf2004 \
+                    sha256  ffeabf2a357548f3a55423d542c31bb1e08571d81d7104f8213df3bfa2eb9c9f \
+                    size    208229
