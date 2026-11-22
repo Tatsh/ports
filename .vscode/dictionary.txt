@@ -908,6 +908,7 @@ lvandeve
 lwip
 lxml
 lzexe
+lzham
 lzkn
 lzma
 lzss
@@ -1231,6 +1232,7 @@ pyimg
 pyiosbackup
 pykdebugparser
 pylibyaml
+pylzham
 pylzss
 pymobiledevice
 pypackages
