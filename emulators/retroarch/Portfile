@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           xcode 1.0
+
+github.setup        libretro RetroArch 1.22.2 v
+github.tarball_from archive
+revision            0
+
+name                retroarch
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+categories          emulators games
+description         Frontend for the libretro API.
+long_description    RetroArch is a frontend for emulators, game engines and media players that \
+                    implement the libretro API. MacPorts installs libretro cores into \
+                    ${prefix}/lib/libretro, which this build uses as its cores directory.
+
+checksums           rmd160  3175d7d1b461ef68015c4d505b5166b927f1a94a \
+                    sha256  245ef18c8fa8fbd9fbb5eb25cf43e17c6aace2f95c1ed99873cbd794012bb232 \
+                    size    71629881
+
+# Core info files are needed to load cores; the menu drivers draw with the assets.
+depends_run-append  port:libretro-info \
+                    port:retroarch-assets
+
+# Cores, core info, databases, cheats, overlays and assets are read from the MacPorts directories
+# (the Gentoo layout) instead of ~/Library/Application Support/RetroArch.
+patchfiles          patch-macports-dirs.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/frontend/drivers/platform_darwin.m
+    # Those directories are not writable, so do not offer to download cores or assets into them.
+    reinplace {s/ -DHAVE_UPDATE_CORES$//} ${worksrcpath}/pkg/apple/Metal.xcconfig
+    # The core info cache is written next to the info files, which are not writable either
+    # (RetroArch also turns it off by itself after the one failed write on first launch).
+    reinplace {s/^#define DEFAULT_CORE_INFO_CACHE_ENABLE true$/#define DEFAULT_CORE_INFO_CACHE_ENABLE false/} \
+        ${worksrcpath}/config.def.h
+    reinplace {/-DHAVE_UPDATE_ASSETS$/d} ${worksrcpath}/pkg/apple/BaseConfig.xcconfig
+}
+
+# Xcode's asset and Info.plist tasks need the Xcode SDK, not the Command Line Tools one.
+configure.sdkroot   ${developer_dir}/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+
+xcode.project       ${worksrcpath}/pkg/apple/RetroArch_Metal.xcodeproj
+xcode.target        RetroArch
+xcode.configuration Release
+# The project asks for a provisioning profile; build unsigned and sign ad hoc after destroot.
+xcode.destroot.settings \
+    CODE_SIGNING_ALLOWED=NO \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGN_IDENTITY= \
+    DEVELOPMENT_TEAM= \
+    ENABLE_HARDENED_RUNTIME=NO \
+    GCC_TREAT_WARNINGS_AS_ERRORS=NO \
+    PROVISIONING_PROFILE_SPECIFIER=
+
+post-destroot {
+    system "codesign --force --deep --sign - [shellescape ${destroot}${applications_dir}/RetroArch.app]"
+}
+
+# Compile and install in one step, for now. See https://trac.macports.org/ticket/57137
+build {}
+
+notes "
+Cores installed by MacPorts (the libretro-* ports) are loaded from ${prefix}/lib/libretro.\
+ The Online Updater can still fetch thumbnails, but not cores or assets; install those as\
+ MacPorts ports instead. libretro-database adds the content databases and cheats, and\
+ libretro-common-overlays adds the overlays.
+"

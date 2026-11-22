@@ -1,0 +1,40 @@
+--- a/frontend/drivers/platform_darwin.m	2026-11-22 14:46:35
++++ b/frontend/drivers/platform_darwin.m	2026-11-22 15:59:47
+@@ -403,21 +403,21 @@
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SAVESTATE], documents_dir_buf, "states", sizeof(g_defaults.dirs[DEFAULT_DIR_SAVESTATE]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SYSTEM], documents_dir_buf, "system", sizeof(g_defaults.dirs[DEFAULT_DIR_SYSTEM]));
+ 
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_ASSETS], application_data, "assets", sizeof(g_defaults.dirs[DEFAULT_DIR_ASSETS]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_ASSETS], "@PREFIX@/share/retroarch/assets", sizeof(g_defaults.dirs[DEFAULT_DIR_ASSETS]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_AUTOCONFIG], application_data, "autoconfig", sizeof(g_defaults.dirs[DEFAULT_DIR_AUTOCONFIG]));
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CHEATS], application_data, "cht", sizeof(g_defaults.dirs[DEFAULT_DIR_CHEATS]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_CHEATS], "@PREFIX@/share/libretro/database/cht", sizeof(g_defaults.dirs[DEFAULT_DIR_CHEATS]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG], application_data, "config", sizeof(g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_REMAP], g_defaults.dirs[DEFAULT_DIR_MENU_CONFIG], "remaps", sizeof(g_defaults.dirs[DEFAULT_DIR_REMAP]));
+ #if defined(HAVE_UPDATE_CORES) || defined(HAVE_STEAM)
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE], application_data, "cores", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_CORE], "@PREFIX@/lib/libretro", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
+ #elif defined(OSX) && defined(HAVE_APPLE_STORE)
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE], bundle_path_buf, "Contents/Frameworks", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
+ #elif defined(IOS) && defined(HAVE_FRAMEWORKS)
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE], bundle_path_buf, "Frameworks", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
+ #else
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE], bundle_path_buf, "modules", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_CORE], "@PREFIX@/lib/libretro", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE]));
+ #endif
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_DATABASE], application_data, "database/rdb", sizeof(g_defaults.dirs[DEFAULT_DIR_DATABASE]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_DATABASE], "@PREFIX@/share/libretro/database/rdb", sizeof(g_defaults.dirs[DEFAULT_DIR_DATABASE]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE_ASSETS], application_data, "downloads", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE_ASSETS]));
+    NSURL *url = [[NSBundle mainBundle] URLForResource:nil withExtension:@"dsp" subdirectory:@"filters/audio"];
+    if (url)
+@@ -429,8 +429,8 @@
+        strlcpy(g_defaults.dirs[DEFAULT_DIR_VIDEO_FILTER], [[url baseURL] fileSystemRepresentation],  sizeof(g_defaults.dirs[DEFAULT_DIR_VIDEO_FILTER]));
+    else
+        fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_VIDEO_FILTER], application_data, "filters/video", sizeof(g_defaults.dirs[DEFAULT_DIR_VIDEO_FILTER]));
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_CORE_INFO], application_data, "info", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE_INFO]));
+-   fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_OVERLAY], application_data, "overlays", sizeof(g_defaults.dirs[DEFAULT_DIR_OVERLAY]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_CORE_INFO], "@PREFIX@/share/libretro/info", sizeof(g_defaults.dirs[DEFAULT_DIR_CORE_INFO]));
++   strlcpy(g_defaults.dirs[DEFAULT_DIR_OVERLAY], "@PREFIX@/share/retroarch/overlay", sizeof(g_defaults.dirs[DEFAULT_DIR_OVERLAY]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_OSK_OVERLAY], application_data, "overlays/keyboards", sizeof(g_defaults.dirs[DEFAULT_DIR_OSK_OVERLAY]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SHADER], application_data, "shaders", sizeof(g_defaults.dirs[DEFAULT_DIR_SHADER]));
+    fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_THUMBNAILS], application_data, "thumbnails", sizeof(g_defaults.dirs[DEFAULT_DIR_THUMBNAILS]));
