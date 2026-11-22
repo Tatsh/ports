@@ -42,6 +42,7 @@ appdirs
 appiconset
 appl
 appleframeworks
+applysig
 aprip
 archflags
 archs
@@ -94,13 +95,16 @@ bidict
 bigfft
 binarycookies
 binaryornot
+bincomp
 bincookie
 bindgen
 binpath
 binutils
+binv
 bitfield
 bitflags
 bitvec
+blackbox
 blacktop
 blas
 boltdb
@@ -117,6 +121,7 @@ breml
 brona
 browserchooser
 brrr
+brrrip
 bsearch
 bshoshany
 bsnes
@@ -128,7 +133,9 @@ bytebufferpool
 bytecheck
 bytemuck
 byteorder
+byteshuf
 bytestruct
+byteswap
 cacheprovider
 calloop
 capa
@@ -141,6 +148,7 @@ cddb
 cdecrypt
 cdirip
 cdparanoia
+cdpatch
 cdrecord
 cdrtools
 cdvd
@@ -170,8 +178,11 @@ clem
 clienthax
 cloudpickle
 clru
+cmakerc
 cmark
+cmdpack
 cmov
+cmrc
 codeberg
 codegen
 codesign
@@ -203,6 +214,7 @@ copytime
 corasick
 coreaudio
 coreutils
+corlett's
 countme
 cowlib
 cpath
@@ -312,6 +324,7 @@ dlib
 dlibdeflate
 dlibrw
 dllvm
+dlsym
 dlua
 dlzma
 dmio
@@ -344,6 +357,7 @@ dubhatervapoursynth
 dummyserver
 dunamai
 dunix
+dvcpkg
 dwarvesf
 dwebp
 dwith
@@ -365,8 +379,10 @@ eigen
 elementpath
 eleonore
 elif
+eloader
 emcrisostomo
 emirpasic
+emotionengine
 emscripten
 endi
 endswith
@@ -386,6 +402,7 @@ extensionmanager
 extruct
 exzap
 facetime
+fakecrc
 fastapi
 fastcgi
 fastdmg
@@ -418,12 +435,14 @@ flacted
 flate
 flavored
 flto
+fluxsmooth
 flycut
 fmtc
 fmtconv
 fnmatch
 fobgui
 foldhash
+fomit
 fontconfig
 fontdb
 fontique
@@ -476,6 +495,7 @@ ghash
 ghidra
 ghidra's
 ghidraboy
+ghidrah
 ghidraorbis
 ghidrascripts
 ghidriff
@@ -505,11 +525,13 @@ gnubin
 gnullvm
 goautoneg
 gobject
+gocache
 goccy
 godebug
 godot
 godot's
 gofeed
+goflags
 gogs
 gohugoio
 golangci
@@ -553,9 +575,11 @@ heapless
 hephaest
 hetelek
 hexf
+hinterwaeldlers
 hkdf
 hlsl
 hmac
+hqdn
 hschmidt
 htmlcov
 htmlparser
@@ -583,6 +607,7 @@ imdario
 imgref
 imgui
 implot
+imsc
 inal
 inconshreveable
 incr
@@ -595,6 +620,7 @@ inotify
 inout
 inscriptis
 installdir
+interp
 intervaltree
 invis
 inyutin
@@ -679,6 +705,7 @@ kurbo
 kwargs
 kylelemons
 lappend
+lassign
 launchable
 lbotan
 ldflags
@@ -731,6 +758,7 @@ libmbedtls
 libmdns
 libmimalloc
 libmpc
+libmpv
 libmwaw
 libname
 libogg
@@ -786,6 +814,7 @@ litrs
 livecheck
 liveupdate
 llength
+loaderwv
 lobjc
 locafero
 logrusorgru
@@ -850,6 +879,7 @@ metaflac
 metalcpp
 metaprogramming
 metavar
+miasm
 michaeldfallen
 micromdm
 microprofile
@@ -859,6 +889,7 @@ mimalloc
 minchoc
 miniaudio
 minibae
+minideen
 minimp
 minitel
 miniupnpc
@@ -891,6 +922,7 @@ mpfr
 mqtt
 msgp
 msgspec
+msmoosh
 msplit
 msvc
 mtree
@@ -905,6 +937,8 @@ multimap
 munnerz
 musepack
 musicbrainzngs
+muvs
+muvsfunc
 mvsfunc
 mvtools
 mydep
@@ -916,6 +950,7 @@ nanoarrow
 nanolib
 nanomdm
 nargs
+narmjep
 narqo
 naskh
 nasm
@@ -950,6 +985,7 @@ noautoopen
 nobrowse
 nocomplain
 noconflict
+nofetch
 noinput
 nomaintainer
 nonewline
@@ -1159,6 +1195,7 @@ realpath
 realroot
 reborrow
 rebulk
+recoverjumptable
 rectpack
 redumper
 reent
@@ -1168,6 +1205,7 @@ regdump
 regsub
 reinplace
 relcs
+rels
 remotezip
 removegrain
 remyoudompheng
@@ -1181,6 +1219,7 @@ resvg
 retargetable
 retroachievements
 retryablehttp
+revanced
 revc
 rewise
 rgvs
@@ -1234,6 +1273,7 @@ scipy
 scires
 scons
 scopeguard
+screamf
 sctk
 sctp
 sdir
@@ -1260,6 +1300,7 @@ shifta
 shirou
 shlex
 shurcoo
+shutup
 sideload
 sideloadly
 siedit
@@ -1286,7 +1327,9 @@ smlab
 smol
 sndfile
 snes
+snesrev
 snowpark
+snowsql
 socketio
 soffes
 softbuffer
@@ -1358,6 +1401,7 @@ sysconf
 sysinfo
 sysutils
 taglib
+takedown
 targetdeps
 tatsh
 tblib
@@ -1372,6 +1416,8 @@ testfloat
 testrun
 texinfo
 textproc
+themida
+themida's
 theora
 thilojaeggi
 thirdparty
@@ -1395,8 +1441,11 @@ tklauser
 tmpbuild
 tmpdest
 tnfoview
+tolower
 tomcrypt
+tomli
 tomlkit
+tomllib
 tomlplusplus
 tommath
 toolbelt
@@ -1409,6 +1458,8 @@ trollrestore
 trollstore
 trustme
 truststore
+ttconv
+ttml
 tungstenite
 twox
 typenum
@@ -1419,11 +1470,14 @@ tzlocal
 udalov
 udvare
 uhubctl
+uips
 uncc
+unecm
 unicase
 unidecode
 unigram
 unlzexe
+unmutate
 unshield
 unty
 uritemplate
@@ -1435,17 +1489,22 @@ uthash
 utls
 uvicorn
 valyala
+vanced
+vanced's
 vapoursynth
 varinteger
 vcrtool
+vdex
 vendored
 venv
 vergen
+verifyer
 vgmtrans
 vimfiles
 vimrc
 virtualwebauthn
 vladikcomper
+vsutil
 vsxx
 vsznedi
 vtable
@@ -1497,6 +1556,7 @@ wkclt
 wkmpt
 wlect
 wmdlt
+wordadd
 workpath
 worksrcdir
 worksrcpath
@@ -1527,6 +1587,7 @@ xcworkspace
 xdist
 xebyte
 xemu
+xexloaderwv
 xfennec
 xflags
 xhit
@@ -1540,6 +1601,8 @@ xlinker
 xmltodict
 xmlwriter
 xplo
+xsltproc
+xtlid
 xxhash
 xxhashlib
 yadpcm
@@ -1565,7 +1628,9 @@ zcheapstr
 zeebo
 zenyd
 zerocopy
+zerofill
 zerofrom
+zerokilo
 zerolog
 zerotrie
 zerovec
