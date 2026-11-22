@@ -61,11 +61,13 @@ asgi
 asgimiddlewarestaticfile
 asgiref
 asgiwebdav
+asio
 assetcatalog
 astc
 astrelsky
 asyncio
 atexit
+atomiswave
 atspi
 audioconv
 audioread
@@ -74,6 +76,11 @@ authlib
 autocfg
 autograd
 autoreconf
+avcodec
+avdevice
+avfilter
+avformat
+avutil
 awslabs
 azahar
 azblob
@@ -108,6 +115,7 @@ bitflags
 bitvec
 blacktop
 blas
+blastem
 boltdb
 bootstrapper
 borsh
@@ -119,7 +127,9 @@ bpmdetect
 bpylist
 bradleyfalzon
 bradleyjkemp
+breakpad
 breml
+brofield
 brona
 browserchooser
 brrr
@@ -152,6 +162,7 @@ cdirip
 cdparanoia
 cdpatch
 cdrecord
+cdrom
 cdrtools
 cdvd
 cemu
@@ -171,6 +182,7 @@ chaoticgd
 chardet
 chatnet
 chatnets
+cheevos
 cheke
 chlayout
 choco
@@ -308,8 +320,10 @@ dfilter
 dflac
 dfmt
 dforce
+dgit
 dgst
 dhave
+dheadless
 dhlsl
 dialog
 dialogs
@@ -334,6 +348,7 @@ dlerc
 dlfind
 dlib
 dlibdeflate
+dlibretro
 dlibrw
 dllvm
 dlopen
@@ -356,8 +371,10 @@ dreamcast
 dredumper
 drelcs
 drevc
+drhelius
 driftyz
 drwx
+dsirit
 dspirv
 dstaticdeps
 dstroot
@@ -370,6 +387,7 @@ dubhatervapoursynth
 dummyserver
 dunamai
 dunix
+dusing
 dvcpkg
 dwarvesf
 dwebp
@@ -383,10 +401,12 @@ dynamiclib
 dynarmic
 dynasm
 dynasmrt
+dyuzu
 dzlib
 dzstd
 ealayer
 ebitengine
+eclass
 eedi
 ehthumbs
 eigen
@@ -398,6 +418,7 @@ emcrisostomo
 emirpasic
 emotionengine
 emscripten
+emutype
 endi
 endswith
 enet
@@ -451,7 +472,11 @@ flacted
 flate
 flavored
 flto
+flycast
 flycut
+flyinghead
+fmpeg
+fmsx
 fmtc
 fmtconv
 fnmatch
@@ -467,6 +492,7 @@ fpath
 fpermissive
 freeband
 freeglut
+freeintv
 freetype
 frida
 fromstring
@@ -485,6 +511,7 @@ funty
 fvwrite
 fxamacker
 gabomdq
+gambatte
 gamecontrollerdb
 gamecube
 gamedb
@@ -494,6 +521,8 @@ gcfg
 gdbserver
 gdiextract
 gdwarf
+gearboy
+gearsystem
 gekkio
 gemdir
 genconfig
@@ -572,6 +601,7 @@ graphengine
 greenpy
 griffelib
 groupcache
+grumbel
 gsed
 gskit
 gstreamer
@@ -599,6 +629,8 @@ hexf
 hkdf
 hlsl
 hmac
+honor
+hrydgard
 hschmidt
 htmlcov
 htmlparser
@@ -643,10 +675,13 @@ inotify
 inout
 inscriptis
 installdir
+intellivision
 interp
 intervaltree
+intv
 invis
 inyutin
+ioinp
 ioregistry
 iosevka
 ipadiff
@@ -792,6 +827,7 @@ libomp
 libopenmpt
 libopus
 libpcap
+libpicofe
 libpietendo
 libpixman
 libplist
@@ -803,6 +839,7 @@ libquasselc
 libredox
 librespot
 libretro
+libretrodb
 librosa
 librw
 libsamplerate
@@ -832,6 +869,7 @@ libwebsockets
 libyaml
 libzip
 liconv
+lightrec
 lindex
 linebender
 linecast
@@ -859,6 +897,7 @@ lsdvd
 lsearch
 lsort
 lsusb
+luabridge
 luajit
 lufia
 lugaresi
@@ -880,6 +919,7 @@ makemkv
 makemkvcon
 malcommac
 malloc
+mame
 manatools
 mandiant
 mandir
@@ -903,6 +943,7 @@ mdns
 mdstool
 mdutils
 mechacon
+mednafen
 melbahja
 memchr
 memmap
@@ -999,6 +1040,7 @@ ncine
 ncruces
 ndarray
 nego
+neko
 neobrain
 netfs
 netnode
@@ -1095,6 +1137,7 @@ pbxproj
 pcblist
 pckey
 pcre
+pcsx
 pefile
 pelletier
 pemfile
@@ -1107,6 +1150,7 @@ pgpassfile
 pgservicefile
 phhusson
 philhofer
+picofe
 pipx
 pjbgf
 pkgd
@@ -1135,6 +1179,8 @@ portname
 portpath
 powerfmt
 ppmd
+ppsspp
+prboom
 prdp
 prettyplease
 primeorder
@@ -1146,6 +1192,7 @@ profglue
 progname
 progressbar
 prost
+prosystem
 protoc
 protocolbuffers
 psutil
@@ -1153,6 +1200,7 @@ pthread
 pthreadglue
 pthreadpool
 pthreads
+puae
 pugixml
 pulldown
 purego
@@ -1258,6 +1306,7 @@ respx
 resvg
 retargetable
 retroachievements
+retroarch
 retryablehttp
 revanced
 revc
@@ -1350,6 +1399,7 @@ siedit
 simdutf
 simoninns
 simplecss
+simpleini
 sindresorhus
 siphasher
 sirit
@@ -1431,11 +1481,14 @@ superg
 sveinbjornt
 svgtypes
 swaggo
+swanstation
 swda
 swiftc
 swiftcli
 swiftformat
 swiftmodule
+swresample
+swscale
 symbolicate
 symphonia
 sympy
@@ -1479,6 +1532,8 @@ tinf
 tinflate
 tink
 tinkup
+tinycmmc
+tinygettext
 tinylib
 tinystr
 tinytemplate
@@ -1512,7 +1567,9 @@ twox
 typenum
 typer
 typeutils
+tyrquake
 tzdata
+tzdb
 tzlocal
 udalov
 udvare
@@ -1540,6 +1597,7 @@ vanced
 vanced's
 vapoursynth
 varinteger
+vbam
 vcrtool
 vdex
 vendored
@@ -1549,6 +1607,8 @@ verifyer
 vgmtrans
 vimfiles
 vimrc
+vinniefalco
+virtualjaguar
 virtualwebauthn
 vladikcomper
 vsutil
@@ -1654,6 +1714,7 @@ xsltproc
 xtlid
 xxhash
 xxhashlib
+yabause
 yadpcm
 yamls
 yamlutils
