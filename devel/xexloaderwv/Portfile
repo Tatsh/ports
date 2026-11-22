@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+github.setup        zerokilo xexloaderwv 12.2
+github.tarball_from archive
+license             Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra loader for Xbox 360 XEX executables.
+long_description    ${description}
+worksrcdir          XEXLoaderWV-${version}/XEXLoaderWV
+
+checksums           rmd160  a249263fbc3baa1ff5a33889d195d6281286b910 \
+                    sha256  0de37fcb39f61435e44afc90e78921983396ccac272f23fed8315ff94cf5ae7d \
+                    size    85126
+
+ghidra_extension.name XEXLoaderWV
