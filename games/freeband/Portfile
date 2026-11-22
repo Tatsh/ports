@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tatsh freeband 0.0.2 v
+github.tarball_from archive
+categories          games
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Guitar Hero and Rock Band clone in C with SDL and OpenGL.
+long_description    Freeband is a Guitar Hero and Rock Band clone written in C with SDL 1.2 \
+                    and OpenGL. The project is archived.
+
+checksums           rmd160  c34672b36b6273264b43a875ca78094c8956c612 \
+                    sha256  4e9796cd6d9d125e3db3ec6a06ee60e6c76708c9c53b678f03056cde4872a389 \
+                    size    29775317
+
+depends_build-append port:pkgconfig
+depends_lib-append  port:libsdl \
+                    port:libsdl_image \
+                    port:libsdl_ttf \
+                    port:libsndfile \
+                    port:portaudio
+
+# freeglut has only X11 and Wayland back ends. The few GLUT calls (glutInit and the teapots) are
+# served by the GLUT framework that ships with macOS. The install step's fixup_bundle, which copies
+# libraries from Homebrew's prefix into the bundle, is removed.
+patchfiles          patch-macos-glut.diff
+configure.cflags-append \
+                    -DGL_SILENCE_DEPRECATION
+# The OpenGL framework, not Mesa's X11 libGL.
+configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
+
+# sdl12-compat's pkg-config module is named sdl here.
+post-patch {
+    reinplace {s/SDL12_COMPAT sdl12_compat REQUIRED/SDL12_COMPAT sdl REQUIRED/} ${worksrcpath}/CMakeLists.txt
+}
+
+post-destroot {
+    move ${destroot}${prefix}/Freeband.app ${destroot}${applications_dir}/Freeband.app
+    ln -s ${applications_dir}/Freeband.app/Contents/MacOS/freeband ${destroot}${prefix}/bin/freeband
+}
+
+livecheck.type      none

@@ -1,0 +1,68 @@
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -26,7 +26,7 @@
+       CACHE STRING "Target Windows version in 0xMMNN format.")
+ endif()
+ 
+-find_package(FreeGLUT REQUIRED)
++find_package(GLUT REQUIRED)
+ find_package(OpenGL REQUIRED)
+ pkg_check_modules(PORTAUDIO portaudio-2.0 REQUIRED IMPORTED_TARGET GLOBAL)
+ pkg_check_modules(SDL12_COMPAT sdl12_compat REQUIRED IMPORTED_TARGET GLOBAL)
+@@ -35,7 +35,7 @@
+ pkg_check_modules(SNDFILE sndfile REQUIRED IMPORTED_TARGET GLOBAL)
+ 
+ link_libraries(
+-  FreeGLUT::freeglut
++  GLUT::GLUT
+   OpenGL::GL
+   OpenGL::GLU
+   PkgConfig::PORTAUDIO
+--- src/CMakeLists.txt
++++ src/CMakeLists.txt
+@@ -14,7 +14,7 @@
+           screens
+           io
+           graphics
+-          FreeGLUT::freeglut
++          GLUT::GLUT
+           OpenGL::GL
+           OpenGL::GLU
+           PkgConfig::PORTAUDIO
+@@ -46,18 +46,6 @@
+           DESTINATION "Freeband.app/Contents/Resources")
+   install(FILES GameData/preferences.ini
+           DESTINATION "Freeband.app/Contents/Resources")
+-  install(CODE [[
+-    include(BundleUtilities)
+-    set(BU_CHMOD_BUNDLE_ITEMS TRUE)
+-    file(GLOB _freeband_extra_dirs
+-         "$ENV{HOME}/sdl1-libs/lib"
+-         "/opt/homebrew/lib"
+-         "/usr/local/lib")
+-    fixup_bundle(
+-      "${CMAKE_INSTALL_PREFIX}/Freeband.app/Contents/MacOS/freeband"
+-      ""
+-      "${_freeband_extra_dirs}")
+-  ]])
+ else()
+   install(DIRECTORY GameData/languages DESTINATION ${CMAKE_INSTALL_DATADIR}/freeband)
+   install(DIRECTORY GameData/themes DESTINATION ${CMAKE_INSTALL_DATADIR}/freeband)
+--- src/platform.h
++++ src/platform.h
+@@ -7,13 +7,14 @@
+ #include <SDL.h>
+ #include <SDL_image.h>
+ #include <SDL_ttf.h>
++#include <GLUT/glut.h>
+ #else
+ #include <GL/gl.h>
+ #include <GL/glu.h>
+ #include <SDL/SDL.h>
+ #include <SDL/SDL_image.h>
+ #include <SDL/SDL_ttf.h>
+-#endif
+ #include <GL/glut.h>
++#endif
+ 
+ #endif
