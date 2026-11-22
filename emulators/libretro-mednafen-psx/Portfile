@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro beetle-psx-libretro cb4577ab8b2171d8c838e777bbd863e46e1815c4
+github.tarball_from archive
+name                libretro-mednafen-psx
+version             20261119
+revision            0
+
+license             GPL-2
+description         PlayStation emulator (Beetle PSX, software renderer) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  5a1fb20e67e0ea19f554518cd15370487498abd4 \
+                    sha256  a65f31f0a7fa2cca9eacccd394b7bdbc473dbe6b9fa40677d64e932b8ffd3708 \
+                    size    7026142
+libretro.cores      mednafen_psx
