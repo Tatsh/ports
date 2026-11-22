@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro prosystem-libretro 363b6dfbd3e240762e022c2b4897b4fe55722be3
+github.tarball_from archive
+name                libretro-prosystem
+version             20260822
+revision            0
+
+license             GPL-2+ zlib
+description         Atari 7800 emulator (ProSystem) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  4557055c53188dff92eb44692a1751751c8055e4 \
+                    sha256  7abed225b58d306bd3988c6950f851aa52a4c7b30d97cedcf626aa18fbf05282 \
+                    size    181008
