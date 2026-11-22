@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        weakish gister 2.4.1 v
+github.tarball_from archive
+categories          net
+platforms           any
+supported_archs     noarch
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Shell script to access GitHub Gist.
+long_description    gister lists, fetches, creates and syncs GitHub gists from the shell, on top \
+                    of the gist command.
+
+checksums           rmd160  a20450db0f51e996a6d733258ba5fcdd4039abfd \
+                    sha256  dac64ee8e9eb30c3b6ca7f43ec5eba461a6797527f37af0f477f814e9bde164a \
+                    size    11123
+
+depends_run-append  port:curl \
+                    port:gist \
+                    port:git \
+                    port:jq
+
+use_configure       no
+build {}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/bin/gister ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
