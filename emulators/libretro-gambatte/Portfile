@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro gambatte-libretro 77f2567d718b8973d02caa2daa8dce4953faf811
+github.tarball_from archive
+name                libretro-gambatte
+version             20261030
+revision            0
+
+license             GPL-2
+description         Game Boy and Game Boy Color emulator (Gambatte) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  fff17580afc65b0a91866f770c545bad1d759486 \
+                    sha256  45e63bc79390093b78de025172ea289ded139f4ecf1e8072242f34d7dd540338 \
+                    size    1067945
