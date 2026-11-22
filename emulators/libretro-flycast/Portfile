@@ -1,0 +1,108 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        flyinghead flycast 2.7 v
+github.tarball_from archive
+name                libretro-flycast
+revision            0
+
+categories          emulators games
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Sega Dreamcast, NAOMI and Atomiswave emulator (Flycast) as a libretro core.
+long_description    {*}${description}
+
+# Submodules: {directory under core} repository commit.
+set submodules [list \
+    deps/SDL                    libsdl-org/SDL                          00d4f1c2c4ad2dc95d26b18743541f57b1dca56d \
+    deps/Vulkan-Headers         KhronosGroup/Vulkan-Headers             b5c8f996196ba4aa6d8f97e52b5d3b6e70f7e4e2 \
+    deps/VulkanMemoryAllocator  GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator 1d8f600fd424278486eade7ed3e877c99f0846b1 \
+    deps/breakpad               flyinghead/mingw-breakpad               1ab24bcc817ebe629bf77daa53529d02361cb1e9 \
+    deps/glslang                KhronosGroup/glslang                    fc9889c889561c5882e83819dcaffef5ed45529b \
+    deps/libchdr                flyinghead/libchdr                      5f82799f2c8cad1e9cd26d39a0f8d36369a5534b \
+    deps/luabridge              vinniefalco/LuaBridge                   5d21e35633a1f87ed08af115b07d3386096f792b \
+    deps/asio                   flyinghead/asio                         d3402006e84efb6114ff93e4f2b8508412ed80d5 \
+    deps/tinygettext            flyinghead/tinygettext                  41572a67f96013691685a38f0032f3c97aa34f79 \
+    deps/tinygettext/external/tinycmmc Grumbel/tinycmmc                 9a51e13802d930feb7261ba8876940659b258cb7 \
+    deps/xbyak                  herumi/xbyak                            0d67fd1530016b7c56f3cd74b3fca920f4c3e2b4]
+set i 0
+foreach {dir repo rev} ${submodules} {
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+    incr i
+}
+
+checksums           flycast-2.7.tar.gz \
+                    rmd160  7a85945d7ecc6c8dbfdc5e7622dd5dcddb26287a \
+                    sha256  4899c0c5abd10dd78c5668db8e4a596bf4d541407694e7c198d0452e17d084cc \
+                    size    35763464 \
+                    SDL-00d4f1c2c4ad2dc95d26b18743541f57b1dca56d.tar.gz \
+                    rmd160  d0eea03921aa110209a07e350ca3cb613277f947 \
+                    sha256  70d6cc3cc409e44dea0163de9db3e44fb56f904b5c71d40f6fbfb00671dd985b \
+                    size    7899737 \
+                    Vulkan-Headers-b5c8f996196ba4aa6d8f97e52b5d3b6e70f7e4e2.tar.gz \
+                    rmd160  e483316bdc4073cb6a9560c4a3b6c878f4f83243 \
+                    sha256  7937d8ec21785736436d9ff52564db7d55992070b5ac98324472cce6e425a7ba \
+                    size    3059121 \
+                    VulkanMemoryAllocator-1d8f600fd424278486eade7ed3e877c99f0846b1.tar.gz \
+                    rmd160  bb7eeb888968ab6ba8b0997c49f6a944402e1a5b \
+                    sha256  04b278f5a185ef75a7ea988e0e76ddd0b2f2186bf56dd90625159972a47dcb3b \
+                    size    962421 \
+                    mingw-breakpad-1ab24bcc817ebe629bf77daa53529d02361cb1e9.tar.gz \
+                    rmd160  1ebed6610df1b18c1f89b750c40f5cb66cef9101 \
+                    sha256  3fbde8f8cc156cd257504a9f0e7d08b2ecb948d4e6473aea081eea70a9d9a6f0 \
+                    size    5383206 \
+                    glslang-fc9889c889561c5882e83819dcaffef5ed45529b.tar.gz \
+                    rmd160  96f590b7b14ffd5151bb2e4c476193145cc32fdb \
+                    sha256  d73a9ac1cf94ef36163ee81ad53308abf3abdfe1e2aad4d51b364baa1e68d8a9 \
+                    size    4030379 \
+                    libchdr-5f82799f2c8cad1e9cd26d39a0f8d36369a5534b.tar.gz \
+                    rmd160  a644a471219aba95091f03e069a3c42d707577ca \
+                    sha256  11b01f5d376128c78100e48ad5db34edd0d33510fd047a5a22c03aa8e35cfd00 \
+                    size    4222985 \
+                    LuaBridge-5d21e35633a1f87ed08af115b07d3386096f792b.tar.gz \
+                    rmd160  185a1731d21f6472f379bac105011021ffb5f77a \
+                    sha256  75af9f79e1f818990fca3a9173dcc32a55f4ebd088c931193be4c9b2d8336abc \
+                    size    1197538 \
+                    asio-d3402006e84efb6114ff93e4f2b8508412ed80d5.tar.gz \
+                    rmd160  6a3c60ab5299a7f9020fad41f64a403c7e1eab06 \
+                    sha256  0364ea2e2b9c1623e32a9587e0e2da08669f0f8d0f6be9abaa48e57d992ed079 \
+                    size    2858075 \
+                    tinygettext-41572a67f96013691685a38f0032f3c97aa34f79.tar.gz \
+                    rmd160  b7aae539d666909922086a5423e7884e7b3bdd3a \
+                    sha256  1ceb1c0f77caaf500806cdd8a14e122762e43ce3a399a2aa228dfc0174ede709 \
+                    size    69459 \
+                    tinycmmc-9a51e13802d930feb7261ba8876940659b258cb7.tar.gz \
+                    rmd160  24f8c5d395739567d4425244c28056b210776e6c \
+                    sha256  60ed6cd061401ad76ebcde9e4b8847b85b4dfa0a86cf2bd7d99fa01f9a233a1d \
+                    size    10829 \
+                    xbyak-0d67fd1530016b7c56f3cd74b3fca920f4c3e2b4.tar.gz \
+                    rmd160  940b82702791a691ba5f8ff495f35e2fdf67181e \
+                    sha256  18aa05ac8e4bd5f5cb52c5481b86ba02cac395ad8cdbec6fe5acac94ad546dc8 \
+                    size    293437
+
+post-extract {
+    foreach {dir repo rev} ${submodules} {
+        set dest ${worksrcpath}/core/${dir}
+        file delete -force ${dest}
+        move ${workpath}/[file tail ${repo}]-${rev} ${dest}
+    }
+}
+
+configure.args-append \
+                    -DCCACHE_PROGRAM=CCACHE_PROGRAM-NOTFOUND \
+                    -DLIBRETRO=ON \
+                    -DUSE_OPENMP=OFF
+
+# Do not let the build's ccache launcher write outside the build tree.
+build.env-append    CCACHE_DISABLE=1
+
+destroot {
+    xinstall -d ${destroot}${prefix}/lib/libretro
+    xinstall -m 0755 ${build.dir}/flycast_libretro.dylib ${destroot}${prefix}/lib/libretro/
+}
+
+livecheck.type      none
