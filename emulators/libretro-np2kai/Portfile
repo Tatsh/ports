@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           libretro_core 1.0
+
+github.setup        libretro np2kai ac05f003bf44f58a235f5b31de0cd42dabdbf1a8
+github.tarball_from archive
+name                libretro-np2kai
+version             20260913
+revision            0
+
+license             MIT
+description         NEC PC-9801 and PC-9821 emulator (Neko Project II kai) as a libretro core.
+long_description    {*}${description}
+
+checksums           rmd160  712f9241191463bfa344617b800c8ad57ca55603 \
+                    sha256  bb6c563e4a0b1a391078012ada06c1a2aa0a6db34ebb682be44f2dc8f60cc127 \
+                    size    6521959
+
+# The I/O handlers use REG8 where the IOOUT/IOINP typedefs say UINT (ABI-compatible); clang
+# makes the mismatch an error (from tatsh-overlay, where GCC 14 does).
+configure.cflags-append -Wno-incompatible-pointer-types -Wno-incompatible-function-pointer-types
+
+libretro.build_dir  ${worksrcpath}/sdl
