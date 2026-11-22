@@ -1,0 +1,23 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           ruby 1.0
+
+ruby.setup          asciidoctor-revealjs 6.0.1 gem {} rubygems ruby33
+name                asciidoctor-revealjs
+ruby.link_binaries_suffix
+categories          textproc ruby
+platforms           {darwin any}
+supported_archs     noarch
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         reveal.js converter for Asciidoctor.
+long_description    Converts AsciiDoc documents into reveal.js HTML slide decks, with the \
+                    asciidoctor-revealjs command.
+homepage            https://github.com/asciidoctor/asciidoctor-reveal.js
+
+checksums           rmd160  51258688f5684e334e6ff256e47b8b8d736ab408 \
+                    sha256  2d7758913552640905bf75291a1001f686910df546ecaec00e103b4fecab7eaa \
+                    size    74240
+
+depends_run-append  port:asciidoctor
