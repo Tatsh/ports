@@ -1,0 +1,34 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           mpv_plugin 1.0
+
+github.setup        AN3223 dotfiles 4413db6c1b47aa70ffce40c5a91158e518881718
+github.tarball_from archive
+name                mpv-shutup
+version             20260402
+license             Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         mpv C plugin that turns on --quiet when stdout or stderr is not a terminal.
+long_description    ${description}
+dist_subdir         ${name}/${version}
+worksrcdir          dotfiles-${github.version}/.config/mpv/scripts
+
+checksums           rmd160  7434ecb52a96df64aec0cbaaec520e870d71b4ac \
+                    sha256  f0f484e8080adf05447890e84cafeb153441ea42cb980c2b6111391025e709b3 \
+                    size    8411763
+
+# A C plugin, so unlike most mpv plugins it is built for the machine.
+supported_archs     arm64 x86_64
+platforms           darwin
+depends_build-append port:pkgconfig
+depends_lib-append  path:lib/libmpv.dylib:mpv
+
+build {
+    system -W ${worksrcpath} "${configure.cc} [get_canonical_archflags cc] ${configure.cflags} \
+        [exec ${prefix}/bin/pkg-config --cflags mpv] -shared -fPIC -undefined dynamic_lookup \
+        -o shutup.so shutup.c"
+}
+
+mpv_plugin.files    shutup.so
