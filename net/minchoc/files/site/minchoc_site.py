@@ -4,7 +4,7 @@ Local settings (SECRET_KEY, ALLOWED_HOSTS, ALLOW_PACKAGE_DELETION and so on) bel
 @PREFIX@/etc/minchoc/local_settings.py, which is read last.
 """
 from pathlib import Path
-import runpy
+from runpy import run_path
 
 BASE_DIR = Path('@PREFIX@/var/db/minchoc')
 DEBUG = False
@@ -40,7 +40,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 _local = Path('@PREFIX@/etc/minchoc/local_settings.py')
 if _local.exists():
-    globals().update({
-        k: v
-        for k, v in runpy.run_path(str(_local)).items() if k.isupper()
-    })
+    globals().update({k: v for k, v in run_path(str(_local)).items() if k.isupper()})
