@@ -1,0 +1,64 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        gonetz GLideN64 a04081ad6a966a9413bea63a55f502e0dc98bb18
+github.tarball_from archive
+name                mupen64plus-video-gliden64
+version             4.0.20261011
+revision            0
+categories          emulators games graphics
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         High-accuracy OpenGL graphics plugin (GLideN64) for Mupen64Plus.
+long_description    {*}${description}
+
+checksums           rmd160  4566f4664be891780f206b0b2396d5afe5ddf1b5 \
+                    sha256  ef76a7d40edb7f170a5573d20b7fbbd495df3b1a49c4f5f8d02c9a8eb48079e6 \
+                    size    2283992
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  port:freetype \
+                    port:libpng \
+                    port:mupen64plus \
+                    port:zlib \
+                    port:zstd
+
+cmake.source_dir    ${worksrcpath}/src
+
+post-patch {
+    # Use the system libraries, not the bundled headers (from tatsh-overlay). zstd has a
+    # pkg-config file but no CMake package config.
+    delete ${worksrcpath}/src/GLideNHQ/inc
+    reinplace {s/FIND_PACKAGE( zstd REQUIRED )/find_package(PkgConfig REQUIRED)\n    pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)/} \
+        ${worksrcpath}/src/GLideNHQ/CMakeLists.txt
+    reinplace -E {s/^([[:space:]]*)zstd$/\1PkgConfig::ZSTD/} ${worksrcpath}/src/GLideNHQ/CMakeLists.txt
+}
+
+# macOS's OpenGL, not Mesa's libGL from ${prefix}/lib, which needs X11 (the cmake portgroup makes
+# FindOpenGL look at frameworks last).
+configure.args-append \
+                    -DOPENGL_gl_LIBRARY=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DOPENGL_INCLUDE_DIR=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DCRC_OPT=ON \
+                    -DMUPENPLUSAPI=ON \
+                    -DUSE_SYSTEM_LIBS=ON \
+                    -DVEC4_OPT=ON
+
+destroot {
+    xinstall -d ${destroot}${prefix}/lib/mupen64plus
+    set lib ${destroot}${prefix}/lib/mupen64plus/mupen64plus-video-GLideN64.dylib
+    xinstall -m 0755 ${build.dir}/mupen64plus-video-GLideN64.dylib ${lib}
+    system "install_name_tool -id ${prefix}/lib/mupen64plus/[file tail ${lib}] ${lib}"
+    xinstall -d ${destroot}${prefix}/share/mupen64plus
+    xinstall -m 0644 ${worksrcpath}/ini/GLideN64.custom.ini ${destroot}${prefix}/share/mupen64plus/
+}
+
+notes "
+Select the plugin with: mupen64plus --gfx mupen64plus-video-GLideN64 <ROM>
+"
+
+livecheck.type      none
