@@ -47,7 +47,6 @@ post-extract {
 # Keep the vendored sf2cute out of the install set, and add an include it needs.
 patchfiles          patch-sf2cute-no-install.diff \
                     patch-sf2cute-cstdint.diff
-patch.pre_args-replace -p0 -p1
 
 # yadpcm.cpp uses abs() without including <cstdlib>.
 configure.cxxflags-append -include cstdlib

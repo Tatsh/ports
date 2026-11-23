@@ -6,10 +6,10 @@ belongs in the image. Its install rule is wrong here in any case: it exports
 headers from ${CMAKE_SOURCE_DIR}/include, which under this build is manatools'
 own source tree rather than sf2cute's.
 
-diff --git a/third_party/sf2cute/CMakeLists.txt b/third_party/sf2cute/CMakeLists.txt
+diff --git third_party/sf2cute/CMakeLists.txt third_party/sf2cute/CMakeLists.txt
 index 33f9071..a3a71ec 100644
---- a/third_party/sf2cute/CMakeLists.txt
-+++ b/third_party/sf2cute/CMakeLists.txt
+--- third_party/sf2cute/CMakeLists.txt
++++ third_party/sf2cute/CMakeLists.txt
 @@ -90,59 +90,3 @@ target_sources(write_sf2
  )
  target_link_libraries(write_sf2 PRIVATE sf2cute)
