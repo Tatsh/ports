@@ -1,0 +1,35 @@
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -148,17 +148,17 @@ else()
+     # Apply include directories and libraries directly to the target
+     target_include_directories(libvideo2x SYSTEM PRIVATE
+         ${libavcodec_INCLUDE_DIRS}
+-        ${libavfilter_LIBRARIES}
++        ${libavfilter_INCLUDE_DIRS}
+         ${libavformat_INCLUDE_DIRS}
+         ${libavutil_INCLUDE_DIRS}
+         ${libswscale_INCLUDE_DIRS}
+     )
+     target_link_libraries(libvideo2x PRIVATE
+-        ${libavcodec_LIBRARIES}
+-        ${libavfilter_LIBRARIES}
+-        ${libavformat_LIBRARIES}
+-        ${libavutil_LIBRARIES}
+-        ${libswscale_LIBRARIES}
++        ${libavcodec_LINK_LIBRARIES}
++        ${libavfilter_LINK_LIBRARIES}
++        ${libavformat_LINK_LIBRARIES}
++        ${libavutil_LINK_LIBRARIES}
++        ${libswscale_LINK_LIBRARIES}
+     )
+ endif()
+ 
+@@ -438,7 +438,7 @@ if(VIDEO2X_BUILD_CLI)
+             ${libavcodec_INCLUDE_DIRS}
+             ${libavutil_INCLUDE_DIRS}
+         )
+-        target_link_libraries(video2x PRIVATE ${libavcodec_LIBRARIES} ${libavutil_LIBRARIES})
++        target_link_libraries(video2x PRIVATE ${libavcodec_LINK_LIBRARIES} ${libavutil_LINK_LIBRARIES})
+     endif()
+ 
+     # spdlog

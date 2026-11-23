@@ -1,0 +1,20 @@
+--- src/encoder.cpp
++++ src/encoder.cpp
+@@ -10,6 +10,7 @@ extern "C" {
+ 
+ #include "avutils.h"
+ #include "conversions.h"
++#include "libvideo2x/fsutils.h"
+ 
+ namespace video2x {
+ namespace encoder {
+--- tools/video2x/src/argparse.cpp
++++ tools/video2x/src/argparse.cpp
+@@ -7,6 +7,7 @@
+ #include <cwchar>
+ #endif
+ 
++#include <libvideo2x/fsutils.h>
+ #include <libvideo2x/logger_manager.h>
+ #include <libvideo2x/version.h>
+ #include <spdlog/spdlog.h>

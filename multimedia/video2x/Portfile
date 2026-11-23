@@ -1,0 +1,126 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           boost 1.0
+PortGroup           github 1.0
+
+github.setup        k4yt3x video2x 6.4.0
+github.tarball_from archive
+revision            0
+categories          multimedia graphics
+license             AGPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Machine learning video, GIF and image upscaler and frame interpolator.
+long_description    Video2X upscales videos, GIFs and images with Real-ESRGAN, Real-CUGAN or \
+                    Anime4K (libplacebo), and interpolates frames with RIFE, on the GPU through \
+                    Vulkan (MoltenVK on macOS). It installs libvideo2x and the video2x command \
+                    line tool, and the video2x-qt6 port is its graphical interface.
+supported_archs     x86_64 arm64
+
+boost.version       1.88
+
+# The ncnn-Vulkan libraries, which upstream has as Git submodules.
+set realesrgan_commit c1f255524f79566c40866b38e5e65b40adf77eee
+set rife_commit     3f7bcb44f38b2acda6fa5e575a6d12517ac16b94
+set realcugan_commit d9c5a7eb4c8475af6110496c27c3d1f702f9b96a
+master_sites-append https://github.com/k4yt3x/librealesrgan-ncnn-vulkan/archive/:realesrgan \
+                    https://github.com/k4yt3x/librife-ncnn-vulkan/archive/:rife \
+                    https://github.com/k4yt3x/librealcugan-ncnn-vulkan/archive/:realcugan
+distfiles-append    ${realesrgan_commit}.tar.gz:realesrgan \
+                    ${rife_commit}.tar.gz:rife \
+                    ${realcugan_commit}.tar.gz:realcugan
+
+checksums           video2x-6.4.0.tar.gz \
+                    rmd160  b13bcbc9ec3b9a20f0c39956d60abcf606b32453 \
+                    sha256  0827d8c6d15d15e44d5b9e0099f351b55692ff4fd9c8ce339447ebefd4b27786 \
+                    size    547370244 \
+                    c1f255524f79566c40866b38e5e65b40adf77eee.tar.gz \
+                    rmd160  d148f880ef27a143816d294abea3dbbf2b2903e9 \
+                    sha256  ac6d8590e0f51b37c6d18dd4a4086c5f0a61dfcefdc3cde83dbd011b8301e346 \
+                    size    108386 \
+                    3f7bcb44f38b2acda6fa5e575a6d12517ac16b94.tar.gz \
+                    rmd160  34a8fba334e53d3c56423be2800e1aa7ed4df9a5 \
+                    sha256  3fd4c84efef2fefaaa7f29fcf3bdaf1a445877725f9c6ce4536b069a5131af4e \
+                    size    459965923 \
+                    d9c5a7eb4c8475af6110496c27c3d1f702f9b96a.tar.gz \
+                    rmd160  b013bed693544a88bbe5c6662521c4619d049885 \
+                    sha256  c0d87ed5248b06f5b08626537c92dcd4485ec049eeed0d0494b189aae9b36d98 \
+                    size    43800565
+depends_build-append \
+                    path:bin/pkg-config:pkgconfig \
+                    port:glslang \
+                    port:vulkan-headers
+depends_lib-append  port:ffmpeg7 \
+                    port:libfmt12 \
+                    port:ncnn \
+                    port:spdlog \
+                    port:vulkan-loader
+depends_run-append  port:MoltenVK
+
+# patch-includes.diff: include fsutils.h where its functions are used (from Gentoo).
+# patch-target-clones.diff: compile the x86-64-v3/v4 clones only where there is IFUNC to dispatch
+# them, which Mach-O lacks (from Gentoo, extended to macOS).
+# patch-macos.diff: find the executable's directory with _NSGetExecutablePath rather than
+# /proc/self/exe, look for models in ${prefix}/share/video2x, and enumerate MoltenVK (a
+# portability driver) in --list-devices.
+# patch-ffmpeg-link.diff: link FFmpeg by full path (pkg-config's LINK_LIBRARIES); it is not in
+# the default library search path here.
+patchfiles          patch-ffmpeg-link.diff \
+                    patch-includes.diff \
+                    patch-target-clones.diff \
+                    patch-macos.diff
+
+post-extract {
+    foreach {lib commit} [list realesrgan ${realesrgan_commit} rife ${rife_commit} \
+            realcugan ${realcugan_commit}] {
+        file delete ${worksrcpath}/third_party/lib${lib}_ncnn_vulkan
+        move ${workpath}/lib${lib}-ncnn-vulkan-${commit} \
+            ${worksrcpath}/third_party/lib${lib}_ncnn_vulkan
+    }
+}
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|" ${worksrcpath}/src/fsutils.cpp
+    # The three libraries each define a generate-spirv target.
+    # ncnn has dropped the pack8 shader option; the pack8 pipeline is never used on the GPU.
+    reinplace "s|if (opt.use_shader_pack8)|if (false)|" \
+        ${worksrcpath}/third_party/librife_ncnn_vulkan/src/warp.cpp
+    reinplace "s|generate-spirv|generate-spirv-rife|g" \
+        ${worksrcpath}/third_party/librife_ncnn_vulkan/src/CMakeLists.txt
+    reinplace "s|generate-spirv|generate-spirv-realcugan|g" \
+        ${worksrcpath}/third_party/librealcugan_ncnn_vulkan/src/CMakeLists.txt
+    # FFmpeg 7, Boost and the build's own headers before ${prefix}/include, which has the headers
+    # of the default (newer) ffmpeg port.
+    set fd [open ${workpath}/include-first.cmake w]
+    puts ${fd} "include_directories(BEFORE SYSTEM ${ffmpeg_prefix}/include)"
+    close ${fd}
+}
+
+# libvideo2x uses FFmpeg 7 API that FFmpeg 8 removed.
+set ffmpeg_prefix   ${prefix}/libexec/ffmpeg7
+configure.pkg_config_path-prepend ${ffmpeg_prefix}/lib/pkgconfig
+configure.cppflags-delete -I${prefix}/include
+
+compiler.cxx_standard 2017
+
+configure.args-append \
+                    -DCMAKE_PROJECT_INCLUDE=${workpath}/include-first.cmake \
+                    -DCMAKE_CXX_STANDARD=17 \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -DVIDEO2X_USE_EXTERNAL_NCNN=ON \
+                    -DVIDEO2X_USE_EXTERNAL_SPDLOG=ON \
+                    -DVIDEO2X_USE_EXTERNAL_BOOST=ON \
+                    -DUSE_SYSTEM_NCNN=ON
+
+post-destroot {
+    # The ncnn-Vulkan libraries install their headers (and generated shader headers) straight into
+    # ${prefix}/include; keep them with the libvideo2x headers that include them.
+    set inc ${destroot}${prefix}/include
+    foreach f [glob -nocomplain -directory ${inc} -types f *.h] {
+        move ${f} ${inc}/libvideo2x/
+    }
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 {*}[glob ${worksrcpath}/README.md ${worksrcpath}/LICENSE \
+        ${worksrcpath}/NOTICE ${worksrcpath}/CHANGELOG.md] ${destroot}${prefix}/share/doc/${name}/
+}
