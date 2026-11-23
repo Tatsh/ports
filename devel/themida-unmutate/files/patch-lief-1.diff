@@ -1,6 +1,6 @@
 diff -ru a/pyproject.toml b/pyproject.toml
---- a/pyproject.toml	2026-10-12 06:23:57.470696557 -0400
-+++ b/pyproject.toml	2026-10-12 06:23:57.486503138 -0400
+--- pyproject.toml	2026-10-12 06:23:57.470696557 -0400
++++ pyproject.toml	2026-10-12 06:23:57.486503138 -0400
 @@ -9,7 +9,7 @@
  
  [tool.poetry.dependencies]
@@ -11,8 +11,8 @@ diff -ru a/pyproject.toml b/pyproject.toml
  
  
 diff -ru a/themida_unmutate/rebuilding.py b/themida_unmutate/rebuilding.py
---- a/themida_unmutate/rebuilding.py	2026-10-12 06:23:57.470838856 -0400
-+++ b/themida_unmutate/rebuilding.py	2026-10-12 06:23:57.486406813 -0400
+--- themida_unmutate/rebuilding.py	2026-10-12 06:23:57.470838856 -0400
++++ themida_unmutate/rebuilding.py	2026-10-12 06:23:57.486406813 -0400
 @@ -49,10 +49,10 @@
          raise Exception(f"Failed to parse PE '{input_binary_path}'")
  

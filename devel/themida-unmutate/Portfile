@@ -25,7 +25,6 @@ python.pep517_backend poetry
 
 # Port to the LIEF 1 API (from tatsh-overlay).
 patchfiles          patch-lief-1.diff
-patch.pre_args-replace -p0 -p1
 
 depends_run-append  port:py${python.version}-lief \
                     port:py${python.version}-miasm
