@@ -98,7 +98,6 @@ depends_lib-append  port:elixir \
 
 patchfiles          patch-security-updates.diff \
                     patch-system-tooling.diff
-patch.pre_args-replace -p0 -p1
 
 post-extract {
     foreach f [list hex-${hex_version}-mix-home ${name}-${version}-deps ${name}-${version}-node_modules] {

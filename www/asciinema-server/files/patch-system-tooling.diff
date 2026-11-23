@@ -12,10 +12,10 @@ include_erts: false keeps the release from copying the Erlang runtime into
 itself. dev-lang/erlang is a dependency of the package and supplies it, so
 bundling an 11 MB second copy only makes it harder to update.
 
-diff --git a/config/config.exs b/config/config.exs
+diff --git config/config.exs config/config.exs
 index a765ef7..76c1534 100644
---- a/config/config.exs
-+++ b/config/config.exs
+--- config/config.exs
++++ config/config.exs
 @@ -136,6 +136,7 @@ librejs_license_end = "/* @license-end */"
  
  config :esbuild,
@@ -32,10 +32,10 @@ index a765ef7..76c1534 100644
    default: [
      args: ~w(
        --config=tailwind.config.js
-diff --git a/mix.exs b/mix.exs
+diff --git mix.exs mix.exs
 index d9783b4..1de0b2f 100644
---- a/mix.exs
-+++ b/mix.exs
+--- mix.exs
++++ mix.exs
 @@ -12,6 +12,7 @@ defmodule Asciinema.MixProject do
        deps: deps(),
        releases: [
