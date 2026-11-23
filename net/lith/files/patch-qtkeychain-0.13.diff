@@ -1,0 +1,29 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index 082e010..3a37791 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -140,7 +140,7 @@ if(LITH_DEPENDENCY_ENABLE_KEYCHAIN)
+         NAME Qt6Keychain
+         GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
+         GIT_TAG ad7344c45a86a4f66cbafc4b081b5f7b876cb0b7
+-        VERSION 0.15.0
++        VERSION 0.13.0
+         EXCLUDE_FROM_ALL ON
+         OPTIONS "BUILD_WITH_QT6 ON" "USE_CREDENTIAL_STORE ON" "BUILD_SHARED_LIBS OFF" "BUILD_TRANSLATIONS OFF"
+     )
+diff --git modules/Lith/Core/settings.cpp modules/Lith/Core/settings.cpp
+index 1614457..80e85ac 100644
+--- modules/Lith/Core/settings.cpp
++++ modules/Lith/Core/settings.cpp
+@@ -267,7 +267,10 @@ QCoro::Task<> Settings::migrateCredentialEncryption() {
+ }
+ 
+ bool Settings::credentialEncryptionAvailable() {
+-#if LITH_FEATURE_KEYCHAIN
++#if LITH_FEATURE_KEYCHAIN && defined(Q_OS_MACOS)
++    // The macOS Keychain is always there; QKeychain::isAvailable() only exists from QtKeychain 0.14.
++    return true;
++#elif LITH_FEATURE_KEYCHAIN
+     return QKeychain::isAvailable();
+ #else
+     return false;

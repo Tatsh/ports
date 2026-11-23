@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        LithApp lith 1.7.61 v
+github.tarball_from archive
+revision            0
+categories          net irc
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Multiplatform, mobile-focused WeeChat relay client.
+long_description    Lith is a WeeChat relay client written in Qt and QML, for using a WeeChat \
+                    instance running elsewhere. Passwords are kept in the macOS Keychain. This \
+                    installs Lith.app.
+homepage            https://lith.app
+
+checksums           rmd160  f2a600c142d2b10e1cf9e14a62469ffd00997b1a \
+                    sha256  5fb2419ce7418883d7faeca11425f8491e8db220d6951e52d75a96514aee5879 \
+                    size    8052879
+
+depends_lib-append  port:qcoro \
+                    port:qtkeychain-qt6
+
+qt6.depends_lib-append qtdeclarative qtmultimedia qtwebsockets
+# The QML tool packages are only found through the prefix path.
+qt6.find_method     prefix_path
+
+# Qt 6.7: the filter change notifications from Qt 6.10, the QML SafeArea attached property from
+# 6.9, the Qt 6.8 and 6.10 CMake policies, DISCARD_QML_CONTENTS and qt_add_ios_ffmpeg_libraries().
+patchfiles          patch-qt67.diff
+# QtKeychain 0.13, which lacks QKeychain::isAvailable().
+patchfiles-append   patch-qtkeychain-0.13.diff
+
+cmake.build_type    Release
+# Release archives must not pick up Git metadata from above the source directory.
+configure.env-append GIT_CEILING_DIRECTORIES=${workpath}
+# Upstream installs Lith.app with its own libraries and QML modules in Contents/Frameworks.
+configure.args-append \
+                    -Wno-dev \
+                    -DCMAKE_INSTALL_PREFIX=${applications_dir} \
+                    -DCMAKE_INSTALL_NAME_DIR=@rpath \
+                    -DCMAKE_INSTALL_RPATH=@executable_path/../Frameworks \
+                    -DLITH_VERSION=${version} \
+                    -DLITH_FEATURE_KEYCHAIN=ON \
+                    -DLITH_FORCE_LOCAL_PACKAGES_ONLY=ON \
+                    -DLITH_BUILD_TESTS=OFF
+
+post-destroot {
+    # The unbuilt asset catalog; the icon is AppIcon.icns.
+    delete ${destroot}${applications_dir}/Lith.app/Contents/Resources/Assets.xcassets
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} README.md CHANGELOG.md LICENSE \
+        ${destroot}${prefix}/share/doc/${name}/
+}

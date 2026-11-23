@@ -1,0 +1,211 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index 20a5197..082e010 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -166,9 +166,30 @@ CPMAddPackage(
+     FIND_PACKAGE_ARGUMENTS "COMPONENTS ${LITH_QCORO_DEPENDENCY_MODULES} REQUIRED"
+ )
+ 
+-qt_standard_project_setup(REQUIRES 6.10)
+-qt_policy(SET QTP0004 NEW)
+-qt_policy(SET QTP0005 NEW)
++if(Qt6_VERSION VERSION_GREATER_EQUAL 6.10)
++    qt_standard_project_setup(REQUIRES 6.10)
++else()
++    # Older Qt: the policies that REQUIRES 6.10 would set, where this Qt knows them. The QML
++    # modules live under /qt/qml in the resources (QTP0001).
++    qt_standard_project_setup()
++    foreach(policy QTP0001 QTP0003)
++        if(QT_KNOWN_POLICY_${policy})
++            qt_policy(SET ${policy} NEW)
++        endif()
++    endforeach()
++endif()
++# Qt 6.8 policies; the subdirectory QML files import their parent directory explicitly.
++foreach(policy QTP0004 QTP0005)
++    if(QT_KNOWN_POLICY_${policy})
++        qt_policy(SET ${policy} NEW)
++    endif()
++endforeach()
++# DISCARD_QML_CONTENTS is a Qt 6.8 option of qt_add_qml_module().
++if(Qt6_VERSION VERSION_GREATER_EQUAL 6.8)
++    set(LITH_QML_DISCARD_CONTENTS DISCARD_QML_CONTENTS)
++else()
++    set(LITH_QML_DISCARD_CONTENTS)
++endif()
+ get_target_property(QT_MOC_EXECUTABLE Qt::moc IMPORTED_LOCATION)
+ get_filename_component(QT_BINARY_PREFIX ${QT_MOC_EXECUTABLE} DIRECTORY)
+ get_filename_component(QT_INSTALL_PREFIX ${QT_BINARY_PREFIX} DIRECTORY)
+diff --git app/CMakeLists.txt app/CMakeLists.txt
+index 5c1eb86..5664f30 100644
+--- app/CMakeLists.txt
++++ app/CMakeLists.txt
+@@ -32,7 +32,10 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+         Qt6::QWasmIntegrationPlugin
+     )
+ endif()
+-qt_add_ios_ffmpeg_libraries(Lith)
++# A Qt 6.8 function, and only of use on iOS.
++if(COMMAND qt_add_ios_ffmpeg_libraries)
++    qt_add_ios_ffmpeg_libraries(Lith)
++endif()
+ 
+ target_link_libraries(Lith PRIVATE
+     LithAssets
+diff --git modules/Lith/Core/CMakeLists.txt modules/Lith/Core/CMakeLists.txt
+index 2601ed6..bc205b8 100644
+--- modules/Lith/Core/CMakeLists.txt
++++ modules/Lith/Core/CMakeLists.txt
+@@ -59,7 +59,7 @@ endif()
+ qt_add_qml_module(LithCore
+     URI Lith.Core
+     VERSION 1.0
+-    DISCARD_QML_CONTENTS
++    ${LITH_QML_DISCARD_CONTENTS}
+     SOURCES ${LITH_CORE_SOURCES}
+     QML_FILES
+ )
+diff --git modules/Lith/Core/lith.cpp modules/Lith/Core/lith.cpp
+index 8cff9e9..3b87c9a 100644
+--- modules/Lith/Core/lith.cpp
++++ modules/Lith/Core/lith.cpp
+@@ -792,15 +792,23 @@ ProxyBufferList::ProxyBufferList(Lith* parent, QAbstractListModel* parentModel)
+     connect(this, &ProxyBufferList::filterWordChanged, [this] { setFilterFixedString(filterWordGet()); });
+     connect(Lith::settingsGet(), &Settings::bufferListShowsOnlyBuffersWithNewMessagesChanged, this, [this]() {
+         showOnlyBuffersWithNewMessagesSet(Lith::settingsGet()->bufferListShowsOnlyBuffersWithNewMessagesGet());
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         endFilterChange(QSortFilterProxyModel::Direction::Both);
++#else
++        invalidateFilter();
++#endif
+     });
+     connect(Lith::settingsGet(), &Settings::bufferListGroupingByServerChanged, this, [this]() { invalidate(); });
+     connect(Lith::settingsGet(), &Settings::bufferListAlphabeticalSortingChanged, this, [this]() { invalidate(); });
+     connect(parent, &Lith::hotlistUpdated, this, [this] {
+         if (showOnlyBuffersWithNewMessagesGet()) {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+             beginFilterChange();
+             endFilterChange(QSortFilterProxyModel::Direction::Both);
++#else
++            invalidateFilter();
++#endif
+         }
+     });
+     showOnlyBuffersWithNewMessagesSet(Lith::settingsGet()->bufferListShowsOnlyBuffersWithNewMessagesGet());
+diff --git modules/Lith/Core/logger.cpp modules/Lith/Core/logger.cpp
+index 088be65..c69499d 100644
+--- modules/Lith/Core/logger.cpp
++++ modules/Lith/Core/logger.cpp
+@@ -99,20 +99,36 @@ const QList<QPair<QDateTime, Logger::Event> >& Logger::events() const {
+ FilteredLogger::FilteredLogger(QObject* parent)
+     : QSortFilterProxyModel(parent) {
+     connect(this, &FilteredLogger::contextFilterChanged, this, [this]() {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         endFilterChange(QSortFilterProxyModel::Direction::Rows);
++#else
++        invalidateRowsFilter();
++#endif
+     });
+     connect(this, &FilteredLogger::showLineAddedChanged, this, [this]() {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         endFilterChange(QSortFilterProxyModel::Direction::Rows);
++#else
++        invalidateRowsFilter();
++#endif
+     });
+     connect(this, &FilteredLogger::showProtocolChanged, this, [this]() {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         endFilterChange(QSortFilterProxyModel::Direction::Rows);
++#else
++        invalidateRowsFilter();
++#endif
+     });
+     connect(this, &FilteredLogger::showDetailsChanged, this, [this]() {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         endFilterChange(QSortFilterProxyModel::Direction::Columns);
++#else
++        invalidateColumnsFilter();
++#endif
+     });
+ }
+ 
+diff --git modules/Lith/Core/messagelistfilter.cpp modules/Lith/Core/messagelistfilter.cpp
+index 10348cc..01a654b 100644
+--- modules/Lith/Core/messagelistfilter.cpp
++++ modules/Lith/Core/messagelistfilter.cpp
+@@ -23,8 +23,12 @@ MessageFilterList::MessageFilterList(QObject* parent, QAbstractListModel* parent
+     setSourceModel(parentModel);
+     setFilterRole(Qt::UserRole);
+     connect(Lith::settingsGet(), &Settings::showJoinPartQuitMessagesChanged, this, [this] {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         endFilterChange(QSortFilterProxyModel::Direction::Both);
++#else
++        invalidateFilter();
++#endif
+     });
+ }
+ bool MessageFilterList::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const {
+diff --git modules/Lith/Style/CMakeLists.txt modules/Lith/Style/CMakeLists.txt
+index 9ee209a..eaf04d2 100644
+--- modules/Lith/Style/CMakeLists.txt
++++ modules/Lith/Style/CMakeLists.txt
+@@ -32,7 +32,7 @@ set(LITHSTYLE_SOURCES
+ qt_add_qml_module(LithStyle
+     URI Lith.Style
+     VERSION 1.0
+-    DISCARD_QML_CONTENTS
++    ${LITH_QML_DISCARD_CONTENTS}
+     SOURCES ${LITHSTYLE_SOURCES}
+     QML_FILES ${LITHSTYLE_QML}
+     IMPORTS Lith.Core
+diff --git modules/Lith/UI/CMakeLists.txt modules/Lith/UI/CMakeLists.txt
+index cd43e71..39c9415 100644
+--- modules/Lith/UI/CMakeLists.txt
++++ modules/Lith/UI/CMakeLists.txt
+@@ -45,7 +45,7 @@ set(LITH_QML
+ qt_add_qml_module(LithUI
+     URI Lith.UI
+     VERSION 1.0
+-    DISCARD_QML_CONTENTS
++    ${LITH_QML_DISCARD_CONTENTS}
+     QML_FILES ${LITH_QML}
+     IMPORTS QtMultimedia
+ )
+diff --git modules/Lith/UI/MainView.qml modules/Lith/UI/MainView.qml
+index df8869a..f184608 100644
+--- modules/Lith/UI/MainView.qml
++++ modules/Lith/UI/MainView.qml
+@@ -26,11 +26,11 @@ Item {
+                 let keyboardTopBoundary = Window.height - Qt.inputMethod.keyboardRectangle.height
+                 let focusItemBottomBoundary = Window.activeFocusItem.mapToGlobal(0, Window.activeFocusItem.height).y
+                 if (focusItemBottomBoundary > keyboardTopBoundary) {
+-                    return Qt.inputMethod.keyboardRectangle.height + parent.SafeArea.margins.top
++                    return Qt.inputMethod.keyboardRectangle.height + (parent.SafeArea ? parent.SafeArea.margins.top : 0)
+                 }
+             }
+         }
+-        return parent.SafeArea.margins.top
++        return (parent.SafeArea ? parent.SafeArea.margins.top : 0)
+     }
+     property real bottomMargin:{
+         if (LithPlatform.mobile) {
+@@ -43,10 +43,10 @@ Item {
+                     return 0
+             }
+         }
+-        return parent.SafeArea.margins.bottom
++        return (parent.SafeArea ? parent.SafeArea.margins.bottom : 0)
+     }
+-    property real leftMargin: parent.SafeArea.margins.left
+-    property real rightMargin: parent.SafeArea.margins.right
++    property real leftMargin: (parent.SafeArea ? parent.SafeArea.margins.left : 0)
++    property real rightMargin: (parent.SafeArea ? parent.SafeArea.margins.right : 0)
+ 
+     Behavior on topMargin { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+     Behavior on bottomMargin { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
