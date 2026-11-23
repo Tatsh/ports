@@ -20,7 +20,7 @@ checksums           rmd160  aebc503da8385cfb964c2281d7076c7dc2ee070c \
                     sha256  12699646d7e42bede9a1a4b081bb23b7beafba6b784f68bd76aa8ae62e891b4d \
                     size    49376625
 
-python.versions     313 314
+python.versions     313 314 315
 
 if {${name} ne ${subport}} {
     PortGroup       cmake 1.1
