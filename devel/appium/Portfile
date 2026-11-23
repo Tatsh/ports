@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                appium
+version             4.0.0
+revision            0
+
+license             Apache-2 MIT BSD ISC LGPL-3+
+description         Cross-platform automation framework for mobile, web and desktop apps.
+long_description    {*}${description}
+homepage            https://appium.io
+
+checksums           rmd160  468f5c1aaab2d0244a56cbe207baf77432283474 \
+                    sha256  4af3275341590aa19cb3be67624e24a2bd4f529115cbbdc6812bf9304e0ea60b \
+                    size    3873612
+
+nodejs.bins         {appium node_modules/appium/index.js}
