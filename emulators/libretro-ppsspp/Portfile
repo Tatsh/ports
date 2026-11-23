@@ -31,7 +31,6 @@ depends_lib-append  port:ffmpeg6 \
 
 patchfiles          patch-SpvBuilder-cstdint.diff \
                     patch-cmake-cxx.diff
-patch.pre_args-replace -p0 -p1
 
 # BUILD_SHARED_LIBS=OFF keeps the bundled glslang, which the core needs.
 configure.args-append \
