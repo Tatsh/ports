@@ -1,0 +1,98 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cargo 1.0
+PortGroup           github 1.0
+
+github.setup        mgree ffs 0.1.2 v
+github.tarball_from archive
+revision            0
+categories          sysutils
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Mount semi-structured data (such as JSON) as a filesystem.
+long_description    ffs (the file filesystem) mounts a JSON, YAML or TOML file as a directory \
+                    tree, so it can be read and edited with ordinary shell tools, and writes the \
+                    changes back on unmount. It uses macFUSE.
+homepage            https://mgree.github.io/ffs/
+
+checksums           ffs-0.1.2.tar.gz \
+                    rmd160  15519faf4149eb872d845912af7038a620cd207e \
+                    sha256  f78ad4c1997e6d144e46ddd6858ae01bc569e1943e49d32c22830d7e713473db \
+                    size    2007558
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  port:macfuse
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/target/[cargo.rust_platform]/release/${name} \
+        ${destroot}${prefix}/bin/
+    xinstall -m 0644 ${worksrcpath}/man/${name}.1 ${destroot}${prefix}/share/man/man1/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+Mounting needs macFUSE's file system extension, which macOS has to allow first: see\
+ https://github.com/macfuse/macfuse/wiki/Getting-Started
+"
+
+cargo.crates \
+    ansi_term                     0.11.0   ee49baf6cb617b853aa8d93bf420db2383fab46d314482ca2803b40d5fde979b \
+    ansi_term                     0.12.1   d52a9bb7ec0cf484c551830a7ce27bd20d67eac647e1befb56b0be4ee39a55d2 \
+    atty                          0.2.14   d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8 \
+    autocfg                       1.0.1    cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a \
+    base64                        0.13.0   904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd \
+    bitflags                      1.2.1    cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693 \
+    byteorder                     1.4.3    14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610 \
+    cfg-if                        1.0.0    baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd \
+    chrono                        0.4.19   670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73 \
+    clap                          2.33.3   37e58ac78573c40708d45522f0d80fa2f01cc4f9b4e2bf749807255454312002 \
+    fuser                         0.9.1    096c834eabc44f7151b8f17d28eb0501e30ea9139b4a2d64f33ad9ef4bdae8d3 \
+    hermit-abi                    0.1.18   322f4de77956e22ed0e5032c359a0f1273f1f7f0d79bfa3b8ffbc730d7fbcc5c \
+    itoa                          0.4.7    dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736 \
+    lazy_static                   1.4.0    e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646 \
+    libc                          0.2.95   789da6d93f1b866ffe175afc5322a4d76c038605a1c3319bb57b06967ca98a36 \
+    linked-hash-map               0.5.4    7fb9b38af92608140b86b693604b9ffcc5824240a484d1ecd4795bacb2fe88f3 \
+    log                           0.4.14   51b9bbe6c47d51fc3e1a9b945965946b4c44142ab8792c50835a980d362c2710 \
+    matchers                      0.0.1    f099785f7595cc4b4553a174ce30dd7589ef93391ff414dbb67f62392b9e0ce1 \
+    memchr                        2.4.0    b16bd47d9e329435e309c58469fe0791c2d0d1ba96ec0954152a5ae2b04387dc \
+    num-integer                   0.1.44   d2cc698a63b549a70bc047073d2949cce27cd1c7b0a4a862d08a8031bc2801db \
+    num-traits                    0.2.14   9a64b1ec5cda2586e284722486d802acf1f7dbdc623e2bfc57e65ca1cd099290 \
+    once_cell                     1.7.2    af8b08b04175473088b46763e51ee54da5f9a164bc162f615b91bc179dbf15a3 \
+    page_size                     0.4.2    eebde548fbbf1ea81a99b128872779c437752fb99f217c45245e1a61dcd9edcd \
+    pin-project-lite              0.2.6    dc0e1f259c92177c30a4c9d177246edd0a3568b25756a977d0632cf8fa37e905 \
+    pkg-config                    0.3.19   3831453b3449ceb48b6d9c7ad7c96d5ea673e9b470a1dc578c2ce6521230884c \
+    proc-macro2                   1.0.27   f0d8caf72986c1a598726adc988bb5984792ef84f5ee5aa50209145ee8077038 \
+    quote                         1.0.9    c3d0b9745dc2debf507c8422de05d7226cc1f0644216dfdfead988f9b1ab32a7 \
+    regex                         1.5.4    d07a8629359eb56f1e2fb1652bb04212c072a87ba68546a04065d525673ac461 \
+    regex-automata                0.1.10   6c230d73fb8d8c1b9c0b3135c5142a8acee3a0558fb8db5cf1cb65f8d7862132 \
+    regex-syntax                  0.6.25   f497285884f3fcff424ffc933e56d7cbca511def0c9831a7f9b5f6153e3cc89b \
+    ryu                           1.0.5    71d301d4193d031abdd79ff7e3dd721168a9572ef3fe51a1517aba235bd8f86e \
+    serde                         1.0.126  ec7505abeacaec74ae4778d9d9328fe5a5d04253220a85c4ee022239fc996d03 \
+    serde_json                    1.0.64   799e97dc9fdae36a5c8b8f2cae9ce2ee9fdce2058c57a93e6099d919fd982f79 \
+    sharded-slab                  0.1.1    79c719719ee05df97490f80a45acfc99e5a30ce98a1e4fb67aee422745ae14e3 \
+    smallvec                      1.6.1    fe0f37c9e8f3c5a4a66ad655a93c74daac4ad00c441533bf5c6e7990bb42604e \
+    strsim                        0.8.0    8ea5119cdb4c55b55d432abb513a0429384878c15dde60cc77b1c99de1a95a6a \
+    syn                           1.0.72   a1e8cdbefb79a9a5a65e0db8b47b723ee907b7c7f8496c76a1770b5c310bab82 \
+    synstructure                  0.12.4   b834f2d66f734cb897113e34aaff2f1ab4719ca946f9a7358dba8f8064148701 \
+    textwrap                      0.11.0   d326610f408c7a4eb6f51c37c330e496b08506c9457c9d34287ecc38809fb060 \
+    thread_local                  1.1.3    8018d24e04c95ac8790716a5987d0fec4f8b27249ffa0f7d33f1369bdfb88cbd \
+    toml                          0.5.8    a31142970826733df8241ef35dc040ef98c679ab14d7c3e54d827099b3acecaa \
+    tracing                       0.1.26   09adeb8c97449311ccd28a427f96fb563e7fd31aabf994189879d9da2394b89d \
+    tracing-attributes            0.1.15   c42e6fa53307c8a17e4ccd4dc81cf5ec38db9209f59b222210375b54ee40d1e2 \
+    tracing-core                  0.1.18   a9ff14f98b1a4b289c6248a023c1c2fa1491062964e9fed67ab29c4e4da4a052 \
+    tracing-log                   0.1.2    a6923477a48e41c1951f1999ef8bb5a3023eb723ceadafe78ffb65dc366761e3 \
+    tracing-serde                 0.1.2    fb65ea441fbb84f9f6748fd496cf7f63ec9af5bca94dd86456978d055e8eb28b \
+    tracing-subscriber            0.2.18   aa5553bf0883ba7c9cbe493b085c29926bd41b66afc31ff72cf17ff4fb60dcd5 \
+    unicode-width                 0.1.8    9337591893a19b88d8d87f2cec1e73fad5cdfd10e5a6f349f498ad6ea2ffb1e3 \
+    unicode-xid                   0.2.2    8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3 \
+    users                         0.11.0   24cc0f6d6f267b73e5a2cadf007ba8f9bc39c6a6f9666f8cf25ea809a153b032 \
+    vec_map                       0.8.2    f1bddf1187be692e79c5ffeab891132dfb0f236ed36a43c7ed39f1165ee20191 \
+    winapi                        0.3.9    5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419 \
+    winapi-i686-pc-windows-gnu    0.4.0    ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6 \
+    winapi-x86_64-pc-windows-gnu  0.4.0    712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f \
+    yaml-rust                     0.4.5    56c1936c4cc7a1c9ab21a1ebb602eb942ba868cbd44a99cb7cdc5892335e1c85 \
+    zerocopy                      0.5.0    5e59ec1d2457bd6c0dd89b50e7d9d6b0b647809bf3f0a59ac85557046950b7b2 \
+    zerocopy-derive               0.3.0    0af017aca1fa6181f5dd7a802456fe6f7666ecdcc18d0910431f0fc89d474e51
