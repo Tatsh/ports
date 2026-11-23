@@ -1,0 +1,31 @@
+--- src/main.cpp
++++ src/main.cpp
+@@ -212,8 +212,8 @@
+ 
+         // Model path
+         const std::string pluginPath{ vsapi->getPluginPath(getPluginById("com.vapoursynth.realsrnv", core)) };
+-        std::string paramPath{ pluginPath.substr(0, pluginPath.find_last_of("/\\")) };
+-        std::string modelPath{ pluginPath.substr(0, pluginPath.find_last_of("/\\")) };
++        std::string paramPath{ "@MODELDIR@" };
++        std::string modelPath{ "@MODELDIR@" };
+         
+         int model = int64ToIntS(getInt(in, "model", 0, &err));
+         if (err)
+@@ -221,13 +221,13 @@
+         
+         if (model == 0)
+         {
+-            paramPath += "/models/models-DF2K/x4.param";
+-            modelPath += "/models/models-DF2K/x4.bin";
++            paramPath += "/models-DF2K/x4.param";
++            modelPath += "/models-DF2K/x4.bin";
+         }
+         else if (model == 1)
+         {
+-            paramPath += "/models/models-DF2K_JPEG/x4.param";
+-            modelPath += "/models/models-DF2K_JPEG/x4.bin";
++            paramPath += "/models-DF2K_JPEG/x4.param";
++            modelPath += "/models-DF2K_JPEG/x4.bin";
+         }
+         else
+             throw std::string{ "invalid model type, please try 0 or 1" };
