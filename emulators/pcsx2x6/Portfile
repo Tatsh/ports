@@ -7,7 +7,7 @@ PortGroup           qt6 1.0
 
 github.setup        PS2Homebrew-arcade pcsx2x6 0.2.22 v
 github.tarball_from archive
-revision            0
+revision            1
 categories          emulators games
 # Upstream's own GPL-3+ plus the licences of what is built from 3rdparty/ (CC0 as public-domain).
 license             GPL-3+ Apache-2 BSD Boost-1 GPL-2+ ISC LGPL-2.1+ LGPL-3+ MIT OFL-1.1 \
@@ -43,7 +43,8 @@ depends_lib-append  path:lib/libcurl.dylib:curl \
                     port:webp \
                     port:zlib \
                     port:zstd
-depends_run-append  port:MoltenVK
+depends_run-append  port:MoltenVK \
+                    port:pcsx2-patches
 
 qt6.depends_lib-append qtsvg
 qt6.depends_build-append qttools
@@ -86,6 +87,9 @@ configure.args-append \
 
 destroot {
     copy ${build.dir}/pcsx2-qt/PCSX2.app ${destroot}${applications_dir}/PCSX2x6.app
+    # PCSX2 reads patches.zip from the bundle's resources; use the pcsx2-patches copy.
+    ln -s ${prefix}/share/pcsx2/patches.zip \
+        "${destroot}${applications_dir}/PCSX2x6.app/Contents/Resources/patches.zip"
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/COPYING.GPLv3 \
         ${destroot}${prefix}/share/doc/${name}/
