@@ -39,6 +39,8 @@ antoniovazquezblanco
 anyio
 anyio's
 apcupsd
+apfs
+apidir
 appdirs
 appiconset
 appium
@@ -82,6 +84,7 @@ avdevice
 avfilter
 avformat
 avutil
+awscli
 awslabs
 azahar
 azblob
@@ -186,6 +189,7 @@ chatnet
 chatnets
 cheevos
 cheke
+chgrp
 chlayout
 choco
 chrono
@@ -292,6 +296,7 @@ dclang
 dcmake
 dcoastline
 dcpmutil
+dcrc
 ddaedalus
 ddisable
 ddownload
@@ -362,6 +367,7 @@ dlsym
 dlua
 dlzma
 dmio
+dmupenplusapi
 dncil
 dncine
 dndebug
@@ -371,6 +377,7 @@ docdir
 dockutil
 docstrfmt
 docstrings
+dopengl
 dotenv
 dpng
 dragonbox
@@ -396,6 +403,7 @@ dunamai
 dunix
 dusing
 dvcpkg
+dvec
 dwarvesf
 dwebp
 dwith
@@ -577,6 +585,7 @@ glanceapp
 glebarez
 glew
 glfw
+gliden
 glog
 gloo
 glsl
@@ -595,6 +604,7 @@ gofeed
 gogs
 gohugoio
 golangci
+gonetz
 googlefonts
 gookit
 gopath
@@ -709,6 +719,7 @@ isledecomp
 isodate
 isort
 isset
+isysroot
 isystem
 itertools
 itoa
@@ -784,7 +795,9 @@ lappend
 lassign
 launchable
 lbotan
+ldconfig
 ldflags
+ldlibs
 ldmakit
 lebe
 lexlib
@@ -886,8 +899,10 @@ libweaver
 libwebsockets
 libyaml
 libzip
+libzstd
 lichii
 liconv
+lide
 lightrec
 lindex
 linebender
@@ -902,6 +917,7 @@ livecheck
 liveupdate
 llength
 lmap
+lminizip
 loaderwv
 loadspec
 lobjc
@@ -927,6 +943,7 @@ lvandeve
 lwip
 lxml
 lzexe
+lzfse
 lzham
 lzkn
 lzma
@@ -954,6 +971,7 @@ mathutil
 matishsiao
 matplotlib
 matrixmultiply
+matthewbauer
 mattn
 mawen
 mbedcrypto
@@ -1002,6 +1020,7 @@ mksprite
 mkstemp
 mkwineprefix
 mltgui
+mmacosx
 mmccextr
 mmcdole
 mnamer
@@ -1032,6 +1051,7 @@ multierr
 multilib
 multimap
 munnerz
+mupen
 musepack
 musicbrainzngs
 muvs
@@ -1135,6 +1155,7 @@ openmaintainer
 openmpt
 openpyxl
 openvcl
+optflags
 optim
 opusfile
 orbclient
@@ -1297,6 +1318,8 @@ rabbitizer
 ranav's
 rancor
 randn
+raphnet
+raphnetraw
 rapidfuzz
 rapidjson
 ravif
@@ -1418,9 +1441,11 @@ septag
 serde
 seregonwar
 sergi
+serialport
 setuptools
 sevenz
 shadpkg
+sharedir
 shellescape
 shellingham
 shifta
@@ -1495,6 +1520,7 @@ starlette
 startswith
 startupitem
 startupitems
+stashapp
 stdc
 stdcxx
 stdlib
@@ -1616,6 +1642,7 @@ udvare
 uhubctl
 uips
 uncc
+undmg
 unecm
 unicase
 unidecode
@@ -1625,9 +1652,11 @@ unminify
 unmutate
 unshield
 unty
+urandom
 uritemplate
 urllib
 usbkill
+usbmodem
 useragent
 usvg
 uthash
@@ -1667,6 +1696,7 @@ wakelock
 wakepy
 waker
 walkdir
+warnflags
 washi
 wasi
 wasip
@@ -1806,4 +1836,6 @@ zstandard
 zstd
 zune
 zvariant
+zwave
+zwavejs
 zydis
