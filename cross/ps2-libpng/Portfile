@@ -38,7 +38,6 @@ set ps2env          "env -u CPATH -u LIBRARY_PATH -u CFLAGS -u CPPFLAGS -u CXXFL
 # include directory, before the build tree. An installed pnglibconf.h would then shadow the one
 # being built.
 patchfiles          patch-genout-include-order.diff
-patch.pre_args-replace -p0 -p1
 
 configure {
     system -W ${workpath} "${ps2env} ${prefix}/bin/cmake -S ${worksrcpath} -B ${workpath}/build \

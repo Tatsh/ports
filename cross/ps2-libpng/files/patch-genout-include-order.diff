@@ -1,5 +1,5 @@
---- a/scripts/cmake/genout.cmake.in	2026-11-20 05:20:11.543219447 -0500
-+++ b/scripts/cmake/genout.cmake.in	2026-11-20 05:20:11.557967596 -0500
+--- scripts/cmake/genout.cmake.in	2026-11-20 05:20:11.543219447 -0500
++++ scripts/cmake/genout.cmake.in	2026-11-20 05:20:11.557967596 -0500
 @@ -69,11 +69,11 @@
    endif()
  
