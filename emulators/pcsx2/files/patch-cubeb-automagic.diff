@@ -1,0 +1,41 @@
+diff --git 3rdparty/cubeb/CMakeLists.txt 3rdparty/cubeb/CMakeLists.txt
+index 89737b7..20bd5b9 100644
+--- 3rdparty/cubeb/CMakeLists.txt
++++ 3rdparty/cubeb/CMakeLists.txt
+@@ -77,28 +77,36 @@ elseif(NOT APPLE AND NOT WIN32)
+ 
+   find_package(PkgConfig REQUIRED)
+ 
++  if(CHECK_PULSE)
+   pkg_check_modules(libpulse IMPORTED_TARGET libpulse)
++  endif()
+   if(libpulse_FOUND)
+     set(USE_PULSE ON)
+     target_compile_definitions(cubeb PRIVATE DISABLE_LIBPULSE_DLOPEN)
+     target_link_libraries(cubeb PRIVATE PkgConfig::libpulse)
+   endif()
+ 
++  if(CHECK_ALSA)
+   pkg_check_modules(alsa IMPORTED_TARGET alsa)
++  endif()
+   if(alsa_FOUND)
+     set(USE_ALSA ON)
+     target_compile_definitions(cubeb PRIVATE DISABLE_LIBASOUND_DLOPEN)
+     target_link_libraries(cubeb PRIVATE PkgConfig::alsa)
+   endif()
+ 
++  if(CHECK_JACK)
+   pkg_check_modules(jack IMPORTED_TARGET jack)
++  endif()
+   if(jack_FOUND)
+     set(USE_JACK ON)
+     target_compile_definitions(cubeb PRIVATE DISABLE_LIBJACK_DLOPEN)
+     target_link_libraries(cubeb PRIVATE PkgConfig::jack)
+   endif()
+ 
++  if(CHECK_SNDIO)
+   check_include_files(sndio.h USE_SNDIO)
++  endif()
+   if(USE_SNDIO)
+     target_compile_definitions(cubeb PRIVATE DISABLE_LIBSNDIO_DLOPEN)
+     target_link_libraries(cubeb PRIVATE sndio)

@@ -1,0 +1,13 @@
+diff --git 3rdparty/soundtouch/CMakeLists.txt 3rdparty/soundtouch/CMakeLists.txt
+index b1ccdeb..6ed3673 100644
+--- 3rdparty/soundtouch/CMakeLists.txt
++++ 3rdparty/soundtouch/CMakeLists.txt
+@@ -38,7 +38,7 @@ if(NOT "${CMAKE_BUILD_TYPE}" MATCHES "Debug")
+ 	if(MSVC)
+ 		target_compile_options(pcsx2-soundtouch PRIVATE /O2 /fp:fast)
+ 	else()
+-		target_compile_options(pcsx2-soundtouch PRIVATE -O3 -ffast-math)
++		target_compile_options(pcsx2-soundtouch PRIVATE -ffast-math)
+ 	endif()
+ endif()
+ 

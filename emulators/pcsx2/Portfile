@@ -1,0 +1,113 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        PCSX2 pcsx2 2.8.1 v
+github.tarball_from archive
+revision            0
+categories          emulators games
+# Upstream's own GPL-3+ plus the licences of what is built from 3rdparty/ (CC0 as public-domain).
+license             GPL-3+ Apache-2 BSD Boost-1 GPL-2+ ISC LGPL-2.1+ LGPL-3+ MIT OFL-1.1 \
+                    zlib public-domain
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         PlayStation 2 emulator.
+long_description    PCSX2 is a free and open-source PlayStation 2 emulator. This installs \
+                    PCSX2.app, with the Metal and Vulkan (through MoltenVK) renderers.
+homepage            https://pcsx2.net/
+supported_archs     x86_64
+platforms           {darwin >= 22}
+
+checksums           rmd160  51386fcc3d9d1662aa6a970e94adf5c65b079f86 \
+                    sha256  57ddcb291785a008351e98e20cb2df9118c9db4f2c4ce03e4b78554fd94bbc83 \
+                    size    23259958
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  path:lib/libcurl.dylib:curl \
+                    port:ffmpeg \
+                    port:freetype \
+                    port:kddockwidgets \
+                    port:libjpeg-turbo \
+                    port:libpcap \
+                    port:libpng \
+                    port:lz4 \
+                    port:plutosvg \
+                    port:plutovg \
+                    port:rapidyaml \
+                    port:SDL3 \
+                    port:shaderc \
+                    port:webp \
+                    port:zlib \
+                    port:zstd
+depends_run-append  port:MoltenVK
+
+qt6.depends_lib-append qtsvg
+qt6.depends_build-append qttools
+
+# From Gentoo: only use the cubeb backends asked for (CoreAudio here), instead of picking up
+# PulseAudio or JACK automagically when they happen to be installed.
+patchfiles          patch-cubeb-automagic.diff
+# From Gentoo: do not override the -O level for soundtouch.
+patchfiles-append   patch-soundtouch-flags.diff
+# From Gentoo (upstream PR 14831): FFmpeg 8+ removed AVCodec::pix_fmts and sample_fmts.
+patchfiles-append   patch-ffmpeg9.diff
+# From Gentoo: missing standard includes that newer libc++ no longer pulls in transitively.
+patchfiles-append   patch-libcxx-includes.diff
+# Qt 6.7: the filter change notifications from Qt 6.10, QStyleHints::setColorScheme() from 6.8 and
+# QString::arg() taking a std::string.
+patchfiles-append   patch-qt67.diff
+# Look for MoltenVK and shaderc in ${prefix}/lib instead of copying them into the app bundle, and
+# no in-app updater (MacPorts updates the app).
+patchfiles-append   patch-macports.diff
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/common/DynamicLibrary.cpp
+    # The archive has no git metadata; show the release version (as Gentoo does).
+    reinplace "/set(PCSX2_GIT_TAG \"\")/s/\"\"/\"v${version}\"/" \
+        ${worksrcpath}/cmake/Pcsx2Utils.cmake
+}
+
+# std::lexicographical_compare_three_way and other C++20 library features that Xcode 15's libc++
+# lacks; libc++'s availability markup keeps the code to what macOS 13's libc++ provides.
+compiler.whitelist  macports-clang-20
+
+# The Metal shaders are compiled with xcrun metal, which only Xcode has.
+use_xcode           yes
+
+cmake.build_type    Release
+cmake.generator     Ninja
+# cubeb: CoreAudio only, linked rather than dlopened (see patch-cubeb-automagic.diff).
+configure.args-append \
+                    -Wno-dev \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DENABLE_TESTS=OFF \
+                    -DPACKAGE_MODE=ON \
+                    -DUSE_LINKED_FFMPEG=ON \
+                    -DUSE_VTUNE=OFF \
+                    -DUSE_VULKAN=ON \
+                    -DSKIP_POSTPROCESS_BUNDLE=ON \
+                    -DOSX_USE_DEFAULT_SEARCH_PATH=ON \
+                    -DDISABLE_ADVANCE_SIMD=ON \
+                    -DCHECK_ALSA=OFF \
+                    -DCHECK_JACK=OFF \
+                    -DCHECK_PULSE=OFF \
+                    -DCHECK_SNDIO=OFF \
+                    -DLAZY_LOAD_LIBS=OFF
+
+destroot {
+    copy ${build.dir}/pcsx2-qt/PCSX2.app ${destroot}${applications_dir}/PCSX2.app
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/COPYING.GPLv3 \
+        ${worksrcpath}/bin/docs/GameIndex.pdf ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+PCSX2 keeps its settings, memory cards and BIOS images in\
+~/Library/Application Support/PCSX2. The game patch collection (patches.zip)\
+is not included; put .pnach files in the patches folder there instead.
+"
+
+github.livecheck.regex {([0-9.]+)}

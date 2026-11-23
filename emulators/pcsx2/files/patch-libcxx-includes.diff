@@ -1,0 +1,108 @@
+diff --git common/ReadbackSpinManager.cpp common/ReadbackSpinManager.cpp
+index 8fa8fa5..be30204 100644
+--- common/ReadbackSpinManager.cpp
++++ common/ReadbackSpinManager.cpp
+@@ -4,6 +4,7 @@
+ #include "ReadbackSpinManager.h"
+ 
+ #include <algorithm>
++#include <cstdlib>
+ 
+ static bool EventIsReadback(const ReadbackSpinManager::Event& event)
+ {
+diff --git common/SmallString.cpp common/SmallString.cpp
+index 7960cbe..caa8c77 100644
+--- common/SmallString.cpp
++++ common/SmallString.cpp
+@@ -7,6 +7,7 @@
+ #include <algorithm>
+ #include <cctype>
+ #include <cstdio>
++#include <cstdlib>
+ #include <cstring>
+ 
+ #ifdef _MSC_VER
+diff --git common/YAML.cpp common/YAML.cpp
+index 8751fb9..b71d55c 100644
+--- common/YAML.cpp
++++ common/YAML.cpp
+@@ -10,6 +10,7 @@
+ #endif
+ 
+ #include <csetjmp>
++#include <exception>
+ 
+ struct RapidYAMLContext
+ {
+diff --git pcsx2/CDVD/ThreadedFileReader.h pcsx2/CDVD/ThreadedFileReader.h
+index 51f8317..6e8b885 100644
+--- pcsx2/CDVD/ThreadedFileReader.h
++++ pcsx2/CDVD/ThreadedFileReader.h
+@@ -9,6 +9,7 @@
+ #include <mutex>
+ #include <atomic>
+ #include <condition_variable>
++#include <string>
+ 
+ class Error;
+ class ProgressCallback;
+diff --git pcsx2/GS/MultiISA.cpp pcsx2/GS/MultiISA.cpp
+index 247e9b3..2b7e33e 100644
+--- pcsx2/GS/MultiISA.cpp
++++ pcsx2/GS/MultiISA.cpp
+@@ -12,6 +12,7 @@
+ #endif
+ 
+ #ifdef _M_X86
++#include <cstdlib>
+ 
+ static ProcessorFeatures::VectorISA getCurrentISA()
+ {
+diff --git pcsx2/Host/SDLAudioStream.cpp pcsx2/Host/SDLAudioStream.cpp
+index 6954a27..b609276 100644
+--- pcsx2/Host/SDLAudioStream.cpp
++++ pcsx2/Host/SDLAudioStream.cpp
+@@ -7,6 +7,7 @@
+ #include "common/Console.h"
+ #include "common/Error.h"
+ 
++#include <cstdlib>
+ #include <SDL3/SDL.h>
+ 
+ namespace
+diff --git pcsx2/Patch.h pcsx2/Patch.h
+index bf12994..62bb384 100644
+--- pcsx2/Patch.h
++++ pcsx2/Patch.h
+@@ -20,6 +20,7 @@
+ #include "common/MemoryInterface.h"
+ #include "common/SmallString.h"
+ 
++#include <cstdlib>
+ #include <string>
+ #include <string_view>
+ #include <vector>
+diff --git pcsx2/USB/qemu-usb/core.cpp pcsx2/USB/qemu-usb/core.cpp
+index fce6b92..4bef1dc 100644
+--- pcsx2/USB/qemu-usb/core.cpp
++++ pcsx2/USB/qemu-usb/core.cpp
+@@ -33,6 +33,7 @@
+ 
+ #include <cassert>
+ #include <climits>
++#include <cstdlib>
+ #include <cstring>
+ #include <utility>
+ 
+diff --git pcsx2/USB/qemu-usb/usb-ohci.cpp pcsx2/USB/qemu-usb/usb-ohci.cpp
+index e44eb47..5e98e2b 100644
+--- pcsx2/USB/qemu-usb/usb-ohci.cpp
++++ pcsx2/USB/qemu-usb/usb-ohci.cpp
+@@ -8,6 +8,7 @@
+ 
+ #include "common/Console.h"
+ 
++#include <cstdlib>
+ #include <cstring>
+ 
+ #define DMA_DIRECTION_TO_DEVICE 0
