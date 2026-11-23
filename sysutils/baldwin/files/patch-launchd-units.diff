@@ -1,0 +1,50 @@
+--- baldwin/lib.py
++++ baldwin/lib.py
+@@ -12,7 +12,9 @@
+ import asyncio
+ import logging
+ import os
++import plistlib
+ import subprocess as sp
++import sys
+ 
+ from binaryornot.check import is_binary
+ from git import Actor, Repo
+@@ -191,6 +193,9 @@
+     bw = which('bw')
+     if not bw:
+         raise FileNotFoundError
++    if sys.platform == 'darwin':
++        _install_launch_agent(bw)
++        return
+     service_file = Path('~/.config/systemd/user/home-vcs.service').expanduser()
+     service_file.write_text(f"""[Unit]
+ Description=Home directory VCS commit
+@@ -216,6 +221,27 @@
+     log.debug('Running: %s', ' '.join(quote(x) for x in cmd))
+     sp.run(cmd, check=True)
+     cmd = ('systemctl', '--user', 'daemon-reload')
++    log.debug('Running: %s', ' '.join(quote(x) for x in cmd))
++    sp.run(cmd, check=True)
++
++
++def _install_launch_agent(bw: str) -> None:
++    """Install a launchd agent that runs ``bw auto-commit`` every six hours (macOS)."""
++    label = 'sh.tat.baldwin.home-vcs'
++    plist_file = Path(f'~/Library/LaunchAgents/{label}.plist').expanduser()
++    plist_file.parent.mkdir(parents=True, exist_ok=True)
++    with plist_file.open('wb') as f:
++        plistlib.dump(
++            {
++                'Label': label,
++                'ProgramArguments': [bw, 'auto-commit'],
++                'EnvironmentVariables': {'NO_COLOR': '1'},
++                'StartCalendarInterval': [{'Hour': hour, 'Minute': 0} for hour in (0, 6, 12, 18)],
++            }, f)
++    log.debug('Wrote to `%s`.', plist_file)
++    domain = f'gui/{os.getuid()}'
++    sp.run(('launchctl', 'bootout', domain, str(plist_file)), check=False, capture_output=True)
++    cmd: tuple[str, ...] = ('launchctl', 'bootstrap', domain, str(plist_file))
+     log.debug('Running: %s', ' '.join(quote(x) for x in cmd))
+     sp.run(cmd, check=True)
+ 
