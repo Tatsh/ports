@@ -12,10 +12,10 @@ Loader.postLoadProgramFixups() had its five trailing parameters replaced by a
 single Loader.ImporterSettings record. The project is reached through
 settings.project(); nothing else in the override used the others.
 
-diff --git a/src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt b/src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt
+diff --git src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt
 index e85d570..8eb3611 100644
---- a/src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt
-+++ b/src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt
+--- src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt
++++ src/main/java/lol/fairplay/ghidraapple/analysis/passes/selectortrampoline/ARCFixupInstallerAnalyzer.kt
 @@ -3,7 +3,7 @@ package lol.fairplay.ghidraapple.analysis.passes.selectortrampoline
  import ghidra.app.services.AbstractAnalyzer
  import ghidra.app.services.AnalysisPriority
@@ -34,10 +34,10 @@ index e85d570..8eb3611 100644
  
      private fun createCallFixupXML(
          name: String,
-diff --git a/src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt b/src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt
+diff --git src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt
 index 40744f9..a986569 100644
---- a/src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt
-+++ b/src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt
+--- src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt
++++ src/main/java/lol/fairplay/ghidraapple/loading/UniversalBinaryLoader.kt
 @@ -1,14 +1,10 @@
  package lol.fairplay.ghidraapple.loading
  

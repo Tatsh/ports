@@ -1,7 +1,7 @@
 Adapt to the Ghidra 12.2 API.
 
---- a/src/main/java/lol/fairplay/ghidraapple/actions/markasblock/MarkBlocks.kt
-+++ b/src/main/java/lol/fairplay/ghidraapple/actions/markasblock/MarkBlocks.kt
+--- src/main/java/lol/fairplay/ghidraapple/actions/markasblock/MarkBlocks.kt
++++ src/main/java/lol/fairplay/ghidraapple/actions/markasblock/MarkBlocks.kt
 @@ -182,7 +182,7 @@
                  // Yes, we do need to call [getDataType] and get another instance. Calling [remove] with
                  //  the existing instance does not work, unfortunately.

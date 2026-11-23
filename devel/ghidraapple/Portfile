@@ -26,7 +26,6 @@ ghidra_extension.name GhidraApple
 # Port to the Ghidra 12 and 12.2 APIs (from tatsh-overlay).
 patchfiles          patch-ghidra-12.2.diff \
                     patch-ghidra-12.diff
-patch.pre_args-replace -p0 -p1
 
 # The tests are not built.
 post-extract {
