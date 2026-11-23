@@ -5,7 +5,7 @@ PortGroup           nodejs 1.0
 
 name                yo
 version             7.0.1
-revision            0
+revision            1
 
 license             BSD MIT Apache-2 ISC
 description         CLI tool for running Yeoman generators.
@@ -17,3 +17,10 @@ checksums           rmd160  ac77b420e2a79fbcfa1d52418f93f04c286de9dd \
                     size    5560908
 
 nodejs.bins         {yo node_modules/yo/lib/cli.js}
+
+# configstore (run counts, update checks) keeps its files where xdg-basedir says: make that
+# ~/Library/Application Support and ~/Library/Caches instead of ~/.config, ~/.local and ~/.cache.
+post-extract {
+    reinplace -E {s#path\.join\(homeDirectory, '\.local', '(share|state)'\)#path.join(homeDirectory, 'Library', 'Application Support')#; s#path\.join\(homeDirectory, '\.config'\)#path.join(homeDirectory, 'Library', 'Application Support')#; s#path\.join\(homeDirectory, '\.cache'\)#path.join(homeDirectory, 'Library', 'Caches')#} \
+        ${worksrcpath}/node_modules/xdg-basedir/index.js
+}
