@@ -13,8 +13,8 @@ FETCHCONTENT_FULLY_DISCONNECTED, so it fetches over the network at configure
 time regardless. Drop it and take the source directory as a substituted path
 instead.
 
---- a/3rdparty/CMakeLists.txt
-+++ b/3rdparty/CMakeLists.txt
+--- 3rdparty/CMakeLists.txt
++++ 3rdparty/CMakeLists.txt
 @@ -57,13 +57,11 @@
  )
  target_include_directories(libsmacker PUBLIC ${libsmacker_SOURCE_DIR})
@@ -34,8 +34,8 @@ instead.
      add_library(libweaver STATIC
          ${libweaver_SOURCE_DIR}/lib/core.cpp
          ${libweaver_SOURCE_DIR}/lib/file.cpp
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -303,7 +303,7 @@
      target_link_libraries(Isle::iniparser INTERFACE iniparser-static)
    endif()

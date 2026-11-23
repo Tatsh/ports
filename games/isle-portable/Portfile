@@ -8,6 +8,7 @@ PortGroup           qt6 1.0
 github.setup        isledecomp isle-portable 6711f1a17b1cc9c6e904b6ce610f89445b972a80
 github.tarball_from archive
 version             20261116
+revision            1
 categories          games
 platforms           darwin
 license             LGPL-3
@@ -58,7 +59,6 @@ post-extract {
 
 # Build libweaver from the SIEdit sources instead of fetching it.
 patchfiles          patch-vendor-libweaver.diff
-patch.pre_args-replace -p0 -p1
 post-patch {
     reinplace "s|@LIBWEAVER_SOURCE_DIR@|${workpath}/SIEdit-${siedit_commit}|" \
         ${worksrcpath}/3rdparty/CMakeLists.txt
@@ -85,6 +85,11 @@ destroot {
         copy ${build.dir}/${app}.app ${destroot}${applications_dir}/
         system "install_name_tool -change @rpath/liblego1.dylib ${libdir}/liblego1.dylib \
             ${destroot}${applications_dir}/${app}.app/Contents/MacOS/${app}"
+        # Upstream ships AppIcon.icns but leaves CFBundleIconFile empty, so Finder shows no icon.
+        set plist ${destroot}${applications_dir}/${app}.app/Contents/Info.plist
+        if {[file exists ${destroot}${applications_dir}/${app}.app/Contents/Resources/AppIcon.icns]} {
+            system "/usr/libexec/PlistBuddy -c 'Set :CFBundleIconFile AppIcon' [shellescape ${plist}]"
+        }
     }
 }
 
