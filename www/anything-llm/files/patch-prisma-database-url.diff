@@ -1,0 +1,12 @@
+diff --git prisma/schema.prisma prisma/schema.prisma
+--- prisma/schema.prisma
++++ prisma/schema.prisma
+@@ -12,7 +12,7 @@ generator client {
+ // }
+ datasource db {
+   provider = "sqlite"
+-  url      = "file:../storage/anythingllm.db"
++  url      = env("DATABASE_URL")
+ }
+ 
+ model api_keys {

@@ -1,0 +1,35 @@
+#!/bin/sh
+# Start the AnythingLLM server. All data (the SQLite database, documents, vector store, models
+# and the .env file the server writes its settings to) lives in STORAGE_DIR, by default
+# ~/Library/Application Support/AnythingLLM. The server listens on port 3001 (SERVER_PORT), on
+# all interfaces unless SERVER_HOST is set.
+set -e
+
+app=@APPDIR@
+engines=${app}/node_modules/@prisma/engines
+
+: "${STORAGE_DIR:=${HOME}/Library/Application Support/AnythingLLM}"
+: "${DATABASE_URL:=file:${STORAGE_DIR}/anythingllm.db}"
+: "${DISABLE_TELEMETRY:=true}"
+NODE_ENV=production
+PRISMA_QUERY_ENGINE_LIBRARY=${engines}/libquery_engine-@PRISMA_PLATFORM@.dylib.node
+PRISMA_SCHEMA_ENGINE_BINARY=${engines}/schema-engine-@PRISMA_PLATFORM@
+PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
+PRISMA_HIDE_UPDATE_MESSAGE=1
+CHECKPOINT_DISABLE=1
+export STORAGE_DIR DATABASE_URL DISABLE_TELEMETRY NODE_ENV PRISMA_QUERY_ENGINE_LIBRARY \
+    PRISMA_SCHEMA_ENGINE_BINARY PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING PRISMA_HIDE_UPDATE_MESSAGE \
+    CHECKPOINT_DISABLE
+
+if [ ! -d "${STORAGE_DIR}/assets" ]; then
+    mkdir -p "${STORAGE_DIR}"
+    # The default logos and the empty model and document folders.
+    cp -R "${app}/storage/." "${STORAGE_DIR}/"
+fi
+# The server reads and writes its settings in ${STORAGE_DIR}/.env (dotenv uses the working
+# directory).
+cd "${STORAGE_DIR}"
+
+@NODE@ "${app}/node_modules/prisma/build/index.js" migrate deploy \
+    --schema="${app}/prisma/schema.prisma" >/dev/null
+exec @NODE@ "${app}/index.js" "$@"

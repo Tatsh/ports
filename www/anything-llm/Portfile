@@ -1,0 +1,221 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                anything-llm
+version             1.20.0
+revision            0
+categories          www
+license             MIT 0BSD Apache-2 BSD ISC PSF Unlicense public-domain WTFPL-2
+description         Server of AnythingLLM, an application to chat with your documents using LLMs.
+long_description    AnythingLLM turns documents and other content into context that a large \
+                    language model (local or hosted) can use while chatting, with workspaces, \
+                    agents, multiple users and an embedded LanceDB vector store. This installs \
+                    the server (its API on port 3001) as tatsh-overlay packages it, without the \
+                    web interface and the document collector.
+homepage            https://anythingllm.com
+
+# The node_modules tarball (a Linux yarn production install) holds only server/node_modules; the
+# server itself comes from the upstream tag.
+worksrcdir          ${name}-${version}/server
+
+set npm_arch        [expr {${configure.build_arch} eq "arm64" ? "arm64" : "x64"}]
+set prisma_platform [expr {${npm_arch} eq "arm64" ? "darwin-arm64" : "darwin"}]
+# The engines of Prisma 5.3.1 (@prisma/engines-version), as Prisma publishes them for macOS.
+set prisma_hash     61e140623197a131c2a6189271ffee05a7aa9a59
+set mdpdf_version   0.1.10
+
+set prisma_site     https://binaries.prisma.sh/all_commits/${prisma_hash}/${prisma_platform}/
+master_sites-append https://github.com/Mintplex-Labs/${name}/archive/v${version}/:upstream \
+                    ${prisma_site}:prisma \
+                    https://registry.npmjs.org/@mintplex-labs/mdpdf-darwin-${npm_arch}/-/:mdpdf
+distfiles-append    ${name}-${version}.tar.gz:upstream \
+                    libquery_engine.dylib.node.gz:prisma \
+                    schema-engine.gz:prisma \
+                    mdpdf-darwin-${npm_arch}-${mdpdf_version}.tgz:mdpdf
+
+checksums           anything-llm-1.20.0-node_modules.tar.xz \
+                    rmd160  88eeb216ffb426f4b8323fae55250df30b6e49d1 \
+                    sha256  fa866208a02e236761bf0615adaca07d8465ccbf845b1b9ee2b078cbeb57c6ce \
+                    size    192664740 \
+                    node-v22.23.4-headers.tar.gz \
+                    rmd160  ccca04ffa26af32e30709dd3ce057de52ea225af \
+                    sha256  dc4028dc105e27e5295119dd9da076fca71d5216113e097813f0fb30f59241a5 \
+                    size    9936937 \
+                    anything-llm-1.20.0.tar.gz \
+                    rmd160  70e997efdf56a1e94a34efb4243a81fa5336047f \
+                    sha256  38fa717cdefe5236fde016b10b606dbcec34df32af566601d3547a12cb4c1673 \
+                    size    10204043
+if {${npm_arch} eq "arm64"} {
+    checksums-append \
+                    libquery_engine.dylib.node.gz \
+                    rmd160  a53117016309de046839501416f5862833d66f11 \
+                    sha256  6ae0e11d9b90fca73cb189fa3d52459f9a53db385abaefebfa02d524bac39c53 \
+                    size    7555253 \
+                    schema-engine.gz \
+                    rmd160  b958a9edc4d0f8f6f4073f3f7d092dfa20b892f8 \
+                    sha256  1221050df70529badf9de027b6894c750e30445b29cff39a1dc7ff90ec0cff47 \
+                    size    8479318 \
+                    mdpdf-darwin-arm64-0.1.10.tgz \
+                    rmd160  507eb5304b6ab535f1a2e91c4e6b330eda96a571 \
+                    sha256  da024c0770c4e8a7a513f797b0ca0dd2c7db7820f753e35e1f786e45dc791bac \
+                    size    29311500
+} else {
+    checksums-append \
+                    libquery_engine.dylib.node.gz \
+                    rmd160  d5b8a66d3ac11e2a8424baef8a5da74e0bbb5ee4 \
+                    sha256  792e89e100f098a811d638095a2a9edbea9e249b9bf51420db9998dcf7b719a8 \
+                    size    7856319 \
+                    schema-engine.gz \
+                    rmd160  e5f437fd8025a9df034b8963ac1444199ee63c26 \
+                    sha256  699dda7f31b0df5d3283c8a99a3412ca1708640af8944b4a8f5271c0b1220528 \
+                    size    8804625 \
+                    mdpdf-darwin-x64-0.1.10.tgz \
+                    rmd160  22cff2c8dc737e4697f0ce34066fe5fae7c7c14b \
+                    sha256  e886a3b05555d12aaed8b75c1c88173b9a8d2d3900b4053472ffa958576e8372 \
+                    size    28847332
+}
+
+# canvas and sharp are native addons, built against the MacPorts libraries (sharp uses the global
+# libvips when pkg-config finds it, so it downloads nothing).
+nodejs.native       yes
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  path:lib/pkgconfig/cairo.pc:cairo \
+                    path:lib/pkgconfig/pango.pc:pango \
+                    path:lib/pkgconfig/librsvg-2.0.pc:librsvg \
+                    path:lib/pkgconfig/libpng.pc:libpng \
+                    path:lib/libjpeg.dylib:libjpeg-turbo \
+                    path:lib/libgif.dylib:giflib \
+                    port:freetype \
+                    port:libpixman \
+                    port:vips \
+                    port:onnxruntime \
+                    port:lancedb-nodejs
+depends_run-append  port:ripgrep
+
+# Keep the SQLite database and the settings the server writes (.env) in STORAGE_DIR instead of
+# the installed tree, and let SERVER_HOST choose the listening address (for the service).
+patchfiles          patch-prisma-database-url.diff \
+                    patch-dump-env-to-storage-dir.diff \
+                    patch-listen-host.diff
+
+set nm              ${worksrcpath}/node_modules
+set engines         ${nm}/@prisma/engines
+set prisma_env      [list HOME=${workpath}/home CHECKPOINT_DISABLE=1 PRISMA_HIDE_UPDATE_MESSAGE=1 \
+                         PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1 \
+                         PRISMA_QUERY_ENGINE_LIBRARY=${engines}/libquery_engine-[join \
+                             [list ${prisma_platform} dylib node] .] \
+                         PRISMA_SCHEMA_ENGINE_BINARY=${engines}/schema-engine-${prisma_platform}]
+
+post-extract {
+    system -W ${workpath} "/usr/bin/tar -xzf [shellescape ${distpath}/${name}-${version}.tar.gz] \
+        ${name}-${version}/server ${name}-${version}/LICENSE ${name}-${version}/README.md"
+
+    # The Prisma engines, where @prisma/engines and the prisma CLI look for them.
+    system "/usr/bin/gzip -dc [shellescape ${distpath}/libquery_engine.dylib.node.gz] \
+        > ${engines}/libquery_engine-${prisma_platform}.dylib.node"
+    system "/usr/bin/gzip -dc [shellescape ${distpath}/schema-engine.gz] \
+        > ${engines}/schema-engine-${prisma_platform}"
+    file attributes ${engines}/schema-engine-${prisma_platform} -permissions 0755
+
+    # The macOS build of mdpdf (Rust, napi-rs) from npm replaces the Linux ones.
+    set mdpdf ${nm}/@mintplex-labs/mdpdf-darwin-${npm_arch}
+    file mkdir ${mdpdf}
+    set tgz ${distpath}/mdpdf-darwin-${npm_arch}-${mdpdf_version}.tgz
+    system -W ${mdpdf} "/usr/bin/tar -xzf [shellescape ${tgz}] --strip-components 1"
+
+    # Prebuilt binaries for other platforms. bare-fs and bare-os are for the Bare runtime only.
+    # LanceDB comes from lancedb-nodejs, linked in post-destroot.
+    delete {*}[glob -nocomplain -type d ${nm}/@lancedb/lancedb-linux-* \
+                   ${nm}/@mintplex-labs/mdpdf-linux-*] \
+           {*}[glob -nocomplain -type d ${nm}/bare-*/prebuilds \
+                   ${nm}/*/node_modules/bare-*/prebuilds]
+    set ort ${nm}/onnxruntime-node/bin/napi-v3
+    foreach dir [glob -type d ${ort}/*] {
+        if {[file tail ${dir}] ne "darwin"} {
+            delete ${dir}
+        }
+    }
+    foreach dir [glob -type d ${ort}/darwin/*] {
+        if {[file tail ${dir}] ne ${npm_arch}} {
+            delete ${dir}
+        }
+    }
+    # Use the onnxruntime of MacPorts (newer, but it still serves the API version of 1.14) instead
+    # of the bundled libonnxruntime.1.14.0.dylib.
+    delete {*}[glob ${ort}/darwin/${npm_arch}/libonnxruntime.*.dylib]
+    system "install_name_tool -change @rpath/libonnxruntime.1.14.0.dylib \
+        ${prefix}/lib/libonnxruntime.1.dylib ${ort}/darwin/${npm_arch}/onnxruntime_binding.node"
+    system "/usr/bin/codesign -f -s - ${ort}/darwin/${npm_arch}/onnxruntime_binding.node"
+}
+
+post-build {
+    # node-gyp does not stop the build when an addon fails.
+    foreach addon [list canvas/build/Release/canvas sharp/build/Release/sharp-darwin-${npm_arch}] {
+        if {![file exists ${nm}/${addon}.node]} {
+            return -code error "[lindex [split ${addon} /] 0]: the native addon was not built"
+        }
+    }
+    # Generate the Prisma client (node_modules/.prisma/client) offline.
+    file mkdir ${workpath}/home
+    system -W ${worksrcpath} "env [join [lmap e ${prisma_env} {shellescape ${e}}]] \
+        ${prefix}/bin/node node_modules/prisma/build/index.js generate \
+        --schema=prisma/schema.prisma"
+}
+
+set data_dir        ${prefix}/var/db/${name}
+set log_file        ${prefix}/var/log/${name}.log
+
+post-destroot {
+    set dest ${destroot}[option nodejs.dir]
+    # Build leftovers.
+    foreach dir {canvas sharp} {
+        set build ${dest}/node_modules/${dir}/build
+        delete ${build}/Release/obj.target ${build}/Release/.deps ${build}/Makefile \
+            ${build}/config.gypi ${build}/gyp-mac-tool {*}[glob -nocomplain ${build}/*.mk]
+    }
+    delete ${dest}/node_modules/.prisma/client/libquery_engine-${prisma_platform}.dylib.node
+    ln -s ../../@prisma/engines/libquery_engine-${prisma_platform}.dylib.node \
+        ${dest}/node_modules/.prisma/client/libquery_engine-${prisma_platform}.dylib.node
+
+    ln -s ${prefix}/lib/node_modules/@lancedb/lancedb-darwin-${npm_arch} \
+        ${dest}/node_modules/@lancedb/lancedb-darwin-${npm_arch}
+    file mkdir ${dest}/node_modules/@vscode/ripgrep/bin
+    ln -s ${prefix}/bin/rg ${dest}/node_modules/@vscode/ripgrep/bin/rg
+
+    xinstall -m 0755 ${filespath}/${name}.in ${destroot}${prefix}/bin/${name}
+    reinplace -q "s|@APPDIR@|[option nodejs.dir]|g; s|@NODE@|${prefix}/bin/node|g; \
+        s|@PRISMA_PLATFORM@|${prisma_platform}|g" ${destroot}${prefix}/bin/${name}
+
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/../README.md ${worksrcpath}/../LICENSE \
+        ${worksrcpath}/.env.example ${destroot}${prefix}/share/doc/${name}/
+
+    xinstall -d -m 0750 -o _anythingllm -g _anythingllm ${destroot}${data_dir}
+}
+destroot.keepdirs   ${destroot}${data_dir}
+
+# A launchd service under its own user, listening on 127.0.0.1 only.
+add_users           _anythingllm group=_anythingllm realname=AnythingLLM home=${data_dir}
+
+startupitem.create  yes
+startupitem.user    _anythingllm
+startupitem.group   _anythingllm
+startupitem.logfile ${log_file}
+startupitem.executable \
+                    /usr/bin/env HOME=${data_dir} STORAGE_DIR=${data_dir} \
+                    SERVER_HOST=127.0.0.1 SERVER_PORT=3001 ${prefix}/bin/${name}
+
+notes "
+Run anything-llm to start the server for your own user, with its data in\
+ ~/Library/Application Support/AnythingLLM (set STORAGE_DIR to change it). Or load the service,\
+ which runs as the _anythingllm user, keeps its data in ${data_dir} and listens on\
+ http://127.0.0.1:3001:
+  sudo port load ${name}
+The server's settings are kept in the .env file of the storage folder (see\
+ ${prefix}/share/doc/${name}/.env.example). Telemetry is off unless DISABLE_TELEMETRY=false is set.\
+ The web interface and the document collector are not included.
+"

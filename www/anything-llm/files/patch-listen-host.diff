@@ -1,0 +1,21 @@
+diff --git utils/boot/index.js utils/boot/index.js
+--- utils/boot/index.js
++++ utils/boot/index.js
+@@ -31,7 +31,7 @@ function bootSSL(app, port = 3001) {
+     const server = https.createServer(credentials, app);
+ 
+     server
+-      .listen(port, async () => {
++      .listen(port, process.env.SERVER_HOST || undefined, async () => {
+         await migrateWebBrowsingToDefault(); // must run before markOnboarded() so a fresh instance is not mistaken for an existing one.
+         await markOnboarded();
+         await setupTelemetry();
+@@ -65,7 +65,7 @@ function bootHTTP(app, port = 3001) {
+   if (!app) throw new Error('No "app" defined - crashing!');
+ 
+   app
+-    .listen(port, async () => {
++    .listen(port, process.env.SERVER_HOST || undefined, async () => {
+       await migrateWebBrowsingToDefault(); // must run before markOnboarded() so a fresh instance is not mistaken for an existing one.
+       await markOnboarded();
+       await setupTelemetry();
