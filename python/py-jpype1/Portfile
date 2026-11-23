@@ -21,7 +21,7 @@ checksums           rmd160  10483529b3d943c5283142ab8d375df5c63b7f23 \
                     sha256  3cd88838dc3d2d546f7eaeadaaff864e590010c15f2b6a44b6f37e60796a14b2 \
                     size    783791
 
-python.versions         313 314
+python.versions         313 314 315
 python.pep517_backend   scikit
 
 # The build compiles JPype's Java support classes with Ant.
