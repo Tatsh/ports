@@ -42,7 +42,6 @@ depends_run-append  port:dotnet-cli \
 # Unity 6 support (metadata versions 35, 38 and 39), from
 # https://github.com/Perfare/Il2CppDumper/pull/922, which is still open.
 patchfiles          patch-unity6.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     # Upstream targets net6.0 and net8.0; build only the latter, for the runtime this installs.

@@ -8,11 +8,11 @@ Taken from https://github.com/Perfare/Il2CppDumper/pull/922, which is still
 open: upstream has had no commit since the release this snapshot is taken
 from, and without it anything built with Unity 6 is unreadable.
 
-diff --git a/Il2CppDumper/Attributes/VariableIndexAttribute.cs b/Il2CppDumper/Attributes/VariableIndexAttribute.cs
+diff --git Il2CppDumper/Attributes/VariableIndexAttribute.cs Il2CppDumper/Attributes/VariableIndexAttribute.cs
 new file mode 100644
 index 00000000..a41269e6
 --- /dev/null
-+++ b/Il2CppDumper/Attributes/VariableIndexAttribute.cs
++++ Il2CppDumper/Attributes/VariableIndexAttribute.cs
 @@ -0,0 +1,23 @@
 +using System;
 +
@@ -37,10 +37,10 @@ index 00000000..a41269e6
 +        }
 +    }
 +}
-diff --git a/Il2CppDumper/IO/BinaryStream.cs b/Il2CppDumper/IO/BinaryStream.cs
+diff --git Il2CppDumper/IO/BinaryStream.cs Il2CppDumper/IO/BinaryStream.cs
 index 043a65b8..7221e4bd 100644
---- a/Il2CppDumper/IO/BinaryStream.cs
-+++ b/Il2CppDumper/IO/BinaryStream.cs
+--- Il2CppDumper/IO/BinaryStream.cs
++++ Il2CppDumper/IO/BinaryStream.cs
 @@ -19,6 +19,7 @@ public class BinaryStream : IDisposable
          private readonly MethodInfo readClassArray;
          private readonly Dictionary<Type, MethodInfo> genericMethodCache;
@@ -104,10 +104,10 @@ index 043a65b8..7221e4bd 100644
                      {
                          i.SetValue(t, ReadPrimitive(fieldType));
                      }
-diff --git a/Il2CppDumper/Il2Cpp/Metadata.cs b/Il2CppDumper/Il2Cpp/Metadata.cs
+diff --git Il2CppDumper/Il2Cpp/Metadata.cs Il2CppDumper/Il2Cpp/Metadata.cs
 index 800491c4..8d3042c6 100644
---- a/Il2CppDumper/Il2Cpp/Metadata.cs
-+++ b/Il2CppDumper/Il2Cpp/Metadata.cs
+--- Il2CppDumper/Il2Cpp/Metadata.cs
++++ Il2CppDumper/Il2Cpp/Metadata.cs
 @@ -52,12 +52,14 @@ public Metadata(Stream stream) : base(stream)
              {
                  throw new InvalidDataException("ERROR: Metadata file supplied is not valid metadata file.");
@@ -314,10 +314,10 @@ index 800491c4..8d3042c6 100644
                  {
                      size += GetPrimitiveTypeSize(fieldType.Name);
                  }
-diff --git a/Il2CppDumper/Il2Cpp/MetadataClass.cs b/Il2CppDumper/Il2Cpp/MetadataClass.cs
+diff --git Il2CppDumper/Il2Cpp/MetadataClass.cs Il2CppDumper/Il2Cpp/MetadataClass.cs
 index a05dc7ea..d09d61ec 100644
---- a/Il2CppDumper/Il2Cpp/MetadataClass.cs
-+++ b/Il2CppDumper/Il2Cpp/MetadataClass.cs
+--- Il2CppDumper/Il2Cpp/MetadataClass.cs
++++ Il2CppDumper/Il2Cpp/MetadataClass.cs
 @@ -8,52 +8,74 @@ public class Il2CppGlobalMetadataHeader
          public int version;
          public uint stringLiteralOffset; // string data for managed code
@@ -584,20 +584,20 @@ index a05dc7ea..d09d61ec 100644
          public int ownerIndex;  /* Type or method this parameter was defined in. */
          public uint nameIndex;
          public short constraintsStart;
-diff --git a/Il2CppDumper/Outputs/DummyAssemblyExporter.cs b/Il2CppDumper/Outputs/DummyAssemblyExporter.cs
+diff --git Il2CppDumper/Outputs/DummyAssemblyExporter.cs Il2CppDumper/Outputs/DummyAssemblyExporter.cs
 index 883ff422..a610440d 100644
---- a/Il2CppDumper/Outputs/DummyAssemblyExporter.cs
-+++ b/Il2CppDumper/Outputs/DummyAssemblyExporter.cs
+--- Il2CppDumper/Outputs/DummyAssemblyExporter.cs
++++ Il2CppDumper/Outputs/DummyAssemblyExporter.cs
 @@ -1,4 +1,4 @@
 -﻿using System.IO;
 +using System.IO;
  
  namespace Il2CppDumper
  {
-diff --git a/Il2CppDumper/Outputs/StructGenerator.cs b/Il2CppDumper/Outputs/StructGenerator.cs
+diff --git Il2CppDumper/Outputs/StructGenerator.cs Il2CppDumper/Outputs/StructGenerator.cs
 index dea8d7a4..560b63e0 100644
---- a/Il2CppDumper/Outputs/StructGenerator.cs
-+++ b/Il2CppDumper/Outputs/StructGenerator.cs
+--- Il2CppDumper/Outputs/StructGenerator.cs
++++ Il2CppDumper/Outputs/StructGenerator.cs
 @@ -419,6 +419,9 @@ public void WriteScript(string outputDir)
                  case 29:
                  case 29.1:
@@ -681,10 +681,10 @@ index dea8d7a4..560b63e0 100644
                          }
                          return false;
                      }
-diff --git a/Il2CppDumper/Utils/DummyAssemblyGenerator.cs b/Il2CppDumper/Utils/DummyAssemblyGenerator.cs
+diff --git Il2CppDumper/Utils/DummyAssemblyGenerator.cs Il2CppDumper/Utils/DummyAssemblyGenerator.cs
 index 1c47210b..d1f53d51 100644
---- a/Il2CppDumper/Utils/DummyAssemblyGenerator.cs
-+++ b/Il2CppDumper/Utils/DummyAssemblyGenerator.cs
+--- Il2CppDumper/Utils/DummyAssemblyGenerator.cs
++++ Il2CppDumper/Utils/DummyAssemblyGenerator.cs
 @@ -383,7 +383,10 @@ public DummyAssemblyGenerator(Il2CppExecutor il2CppExecutor, bool addToken)
                  }
              }
@@ -707,10 +707,10 @@ index 1c47210b..d1f53d51 100644
                  }
              }
              else if (val == null)
-diff --git a/Il2CppDumper/Utils/Il2CppExecutor.cs b/Il2CppDumper/Utils/Il2CppExecutor.cs
+diff --git Il2CppDumper/Utils/Il2CppExecutor.cs Il2CppDumper/Utils/Il2CppExecutor.cs
 index 1b9405b2..2ea3a5f8 100644
---- a/Il2CppDumper/Utils/Il2CppExecutor.cs
-+++ b/Il2CppDumper/Utils/Il2CppExecutor.cs
+--- Il2CppDumper/Utils/Il2CppExecutor.cs
++++ Il2CppDumper/Utils/Il2CppExecutor.cs
 @@ -470,7 +470,7 @@ public Il2CppTypeEnum ReadEncodedTypeEnum(BinaryReader reader, out Il2CppType en
                  var enumTypeIndex = reader.ReadCompressedInt32();
                  enumType = il2Cpp.types[enumTypeIndex];
@@ -720,10 +720,10 @@ index 1b9405b2..2ea3a5f8 100644
              }
              return type;
          }
-diff --git a/Il2CppDumper/Utils/SectionHelper.cs b/Il2CppDumper/Utils/SectionHelper.cs
+diff --git Il2CppDumper/Utils/SectionHelper.cs Il2CppDumper/Utils/SectionHelper.cs
 index d4d80e9e..145d9731 100644
---- a/Il2CppDumper/Utils/SectionHelper.cs
-+++ b/Il2CppDumper/Utils/SectionHelper.cs
+--- Il2CppDumper/Utils/SectionHelper.cs
++++ Il2CppDumper/Utils/SectionHelper.cs
 @@ -380,6 +380,10 @@ private ulong FindCodeRegistration2019(List<SearchSection> secs)
                                          il2Cpp.Position = il2Cpp.MapVATR(refva3 - il2Cpp.PointerSize);
                                          if (il2Cpp.ReadIntPtr() == imageCount)
@@ -735,10 +735,10 @@ index d4d80e9e..145d9731 100644
                                              if (il2Cpp.Version >= 29)
                                              {
                                                  return refva3 - il2Cpp.PointerSize * 14;
-diff --git a/README.md b/README.md
+diff --git README.md README.md
 index 82995059..fbf30e8e 100644
---- a/README.md
-+++ b/README.md
+--- README.md
++++ README.md
 @@ -10,7 +10,8 @@ Unity il2cpp reverse engineer
  
  * Complete DLL restore (except code), can be used to extract `MonoBehaviour` and `MonoScript`
