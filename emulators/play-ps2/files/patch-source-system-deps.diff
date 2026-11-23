@@ -10,10 +10,10 @@ Subject: [PATCH] Source: system deps
  Source/ui_shared/CMakeLists.txt | 2 +-
  4 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/Source/CMakeLists.txt b/Source/CMakeLists.txt
+diff --git Source/CMakeLists.txt Source/CMakeLists.txt
 index 78fcc509..e08103c5 100644
---- a/Source/CMakeLists.txt
-+++ b/Source/CMakeLists.txt
+--- Source/CMakeLists.txt
++++ Source/CMakeLists.txt
 @@ -88,7 +88,7 @@ if(NOT TARGET CodeGen)
  endif()
  list(APPEND PROJECT_LIBS CodeGen)
@@ -32,20 +32,20 @@ index 78fcc509..e08103c5 100644
  if(ICUUC_FOUND)
  	list(APPEND PROJECT_LIBS ${ICUUC_LIBRARIES})
  endif()
-diff --git a/Source/hdd/ApaDefs.h b/Source/hdd/ApaDefs.h
+diff --git Source/hdd/ApaDefs.h Source/hdd/ApaDefs.h
 index 8dfbe04c..4f35291c 100644
---- a/Source/hdd/ApaDefs.h
-+++ b/Source/hdd/ApaDefs.h
+--- Source/hdd/ApaDefs.h
++++ Source/hdd/ApaDefs.h
 @@ -1,4 +1,5 @@
  #pragma once
 +#include <cstdint>
  
  #include <cstdint>
  
-diff --git a/Source/ui_qt/CMakeLists.txt b/Source/ui_qt/CMakeLists.txt
+diff --git Source/ui_qt/CMakeLists.txt Source/ui_qt/CMakeLists.txt
 index 0ec70ead..95a4866a 100644
---- a/Source/ui_qt/CMakeLists.txt
-+++ b/Source/ui_qt/CMakeLists.txt
+--- Source/ui_qt/CMakeLists.txt
++++ Source/ui_qt/CMakeLists.txt
 @@ -10,9 +10,9 @@ project(PlayUI)
  
  add_definitions(-DPLAY_VERSION="${PROJECT_Version}")
@@ -76,10 +76,10 @@ index 0ec70ead..95a4866a 100644
  set(QT_MOC_HEADERS
  	BootableModel.h
  	BootableModelProxy.h
-diff --git a/Source/ui_shared/CMakeLists.txt b/Source/ui_shared/CMakeLists.txt
+diff --git Source/ui_shared/CMakeLists.txt Source/ui_shared/CMakeLists.txt
 index be101de7..58550772 100644
---- a/Source/ui_shared/CMakeLists.txt
-+++ b/Source/ui_shared/CMakeLists.txt
+--- Source/ui_shared/CMakeLists.txt
++++ Source/ui_shared/CMakeLists.txt
 @@ -23,7 +23,7 @@ if(NOT TARGET Framework_Http)
  endif()
  list(APPEND SHARED_UI_PROJECT_LIBS Framework_Http)

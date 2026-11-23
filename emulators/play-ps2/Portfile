@@ -95,7 +95,6 @@ post-extract {
 # From tatsh-overlay: use the system libraries.
 patchfiles          patch-source-system-deps.diff \
                     patch-framework-system-deps.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     reinplace {/^set(PROJECT_Version/d} ${worksrcpath}/CMakeLists.txt
