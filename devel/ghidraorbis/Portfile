@@ -21,4 +21,3 @@ checksums           rmd160  fec25881d441aead37aefa98b00d0817efe1a9a0 \
 ghidra_extension.name GhidraOrbis
 
 patchfiles          patch-ghidra-12.2.diff
-patch.pre_args-replace -p0 -p1
