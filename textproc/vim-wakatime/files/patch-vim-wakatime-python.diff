@@ -1,5 +1,5 @@
---- a/plugin/wakatime.vim
-+++ b/plugin/wakatime.vim
+--- plugin/wakatime.vim
++++ plugin/wakatime.vim
 @@ -447,7 +447,7 @@
                      let pyver = pyver - 1
                  endwhile
