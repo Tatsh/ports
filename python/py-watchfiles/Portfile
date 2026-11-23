@@ -27,7 +27,7 @@ post-patch {
     reinplace -E {/^requires *=/s/"([A-Za-z0-9_.-]+)(==|>=|<|~=)[^"]*"/"\1"/g} ${worksrcpath}/pyproject.toml
 }
 
-python.versions         313 314
+python.versions         313 314 315
 python.pep517_backend   maturin
 
 if {$subport ne $name} {
