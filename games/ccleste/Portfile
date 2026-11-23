@@ -6,7 +6,7 @@ PortGroup           github 1.0
 
 github.setup        lemon32767 ccleste 1.4.0 v
 github.tarball_from archive
-revision            1
+revision            2
 categories          games
 platforms           darwin linux freebsd
 license             Restrictive
@@ -24,7 +24,6 @@ depends_lib-append  port:libsdl2 \
 
 # Read the game data and controller mappings from the installed location.
 patchfiles          patch-data-dir.diff
-patch.pre_args-replace -p0 -p1
 
 use_configure       no
 

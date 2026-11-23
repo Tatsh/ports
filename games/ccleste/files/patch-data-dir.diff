@@ -1,7 +1,7 @@
-diff --git a/sdl12main.c b/sdl12main.c
+diff --git sdl12main.c sdl12main.c
 index db6d76d..d57bb97 100644
---- a/sdl12main.c
-+++ b/sdl12main.c
+--- sdl12main.c
++++ sdl12main.c
 @@ -89,7 +89,12 @@ static char* GetDataPath(char* path, int n, const char* fname) {
  #else
  	char pathsep = '/';
