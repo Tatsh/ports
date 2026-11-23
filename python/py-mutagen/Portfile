@@ -31,7 +31,7 @@ checksums           rmd160  feee50961e88d6e7d13234c9dbcd703c56741ef2 \
                     sha256  8f95637ab9f6f305cec6bd1294e197debe207998e3e068596563c74f86b0a173 \
                     size    1276978
 
-python.versions     310 311 312 313 314
+python.versions     310 311 312 313 314 315
 
 if {${subport} ne ${name}} {
     post-destroot {
