@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                yo
+version             7.0.1
+revision            0
+
+license             BSD MIT Apache-2 ISC
+description         CLI tool for running Yeoman generators.
+long_description    {*}${description}
+homepage            https://yeoman.io
+
+checksums           rmd160  ac77b420e2a79fbcfa1d52418f93f04c286de9dd \
+                    sha256  f0c89f2b2f411028bd290407c073723a107349bda1dc2c3290628d0b6b9c1267 \
+                    size    5560908
+
+nodejs.bins         {yo node_modules/yo/lib/cli.js}
