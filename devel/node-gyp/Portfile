@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                node-gyp
+version             13.1.0
+revision            0
+
+license             MIT Apache-2 BSD ISC
+description         Node.js native addon build tool.
+long_description    {*}${description}
+homepage            https://github.com/nodejs/node-gyp
+
+checksums           rmd160  6df59969bfa08d0e909edd7f5f91a34299934b88 \
+                    sha256  6837db7b0380c993d9a5cc200fda349f9c318b2241c9112998e6a815d5aab9b4 \
+                    size    1084552
+
+nodejs.bins         {node-gyp node_modules/node-gyp/bin/node-gyp.js}
