@@ -19,4 +19,3 @@ checksums           rmd160  1bfeb74628a606eb66db526b4fa52da5ca4af6b9 \
 ghidra_extension.name ghidra-lx-loader
 
 patchfiles          patch-ghidra-12.2.diff
-patch.pre_args-replace -p0 -p1

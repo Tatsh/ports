@@ -1,7 +1,7 @@
 Adapt to the Ghidra 12.2 API.
 
---- a/src/main/java/yetmorecode/ghidra/format/lx/model/DOSHeader.java
-+++ b/src/main/java/yetmorecode/ghidra/format/lx/model/DOSHeader.java
+--- src/main/java/yetmorecode/ghidra/format/lx/model/DOSHeader.java
++++ src/main/java/yetmorecode/ghidra/format/lx/model/DOSHeader.java
 @@ -5,7 +5,6 @@
  
  import ghidra.app.util.bin.BinaryReader;
