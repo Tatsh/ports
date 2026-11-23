@@ -1,0 +1,12 @@
+--- setup.py
++++ setup.py
+@@ -11,7 +11,8 @@
+ from pathlib import Path
+ 
+ import torch
+-from pkg_resources import DistributionNotFound, get_distribution, parse_version
++from importlib.metadata import PackageNotFoundError as DistributionNotFound, distribution as get_distribution
++from packaging.version import parse as parse_version
+ from setuptools import find_packages, setup
+ from torch.utils.cpp_extension import BuildExtension, CppExtension, CUDA_HOME, CUDAExtension, ROCM_HOME
+ 
