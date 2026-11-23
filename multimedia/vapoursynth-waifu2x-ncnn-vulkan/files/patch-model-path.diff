@@ -1,0 +1,11 @@
+--- src/vsw2xnvk.cpp
++++ src/vsw2xnvk.cpp
+@@ -239,7 +239,7 @@
+ 
+         // set model path
+         const std::string pluginFilePath{ vsapi->getPluginPath(vsapi->getPluginByID("net.nlzy.vsw2xnvk", core)) };
+-        const std::string pluginDir = pluginFilePath.substr(0, pluginFilePath.find_last_of('/'));
++        const std::string pluginDir = std::string("@MODELDIR@");
+ 
+         std::string modelsDir;
+         if (model == 0)
