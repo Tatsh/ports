@@ -1,0 +1,27 @@
+--- utils.c
++++ utils.c
+@@ -279,6 +279,16 @@
+     }
+ 
+     /* If $HOME/.switch/prod.keys don't exist, try using $XDG_CONFIG_HOME */
++#ifdef __APPLE__
++    /* On macOS, $HOME/Library/Application Support/switch/prod.keys instead. */
++    if (keyfile == NULL && home != NULL) {
++        filepath_set(&keypath, home);
++        filepath_append(&keypath, "Library");
++        filepath_append(&keypath, "Application Support");
++        filepath_append(&keypath, "switch");
++        filepath_append(&keypath, "%s.keys", prefix);
++    }
++#else
+     if (keyfile == NULL) {
+         char *xdgconfig = getenv("XDG_CONFIG_HOME");
+         if (xdgconfig != NULL)
+@@ -291,6 +301,7 @@
+         filepath_append(&keypath, "switch");
+         filepath_append(&keypath, "%s.keys", prefix);
+     }
++#endif
+ 
+     if (keyfile == NULL && keypath.valid == VALIDITY_VALID) {
+         keyfile = os_fopen(keypath.os_path, OS_MODE_READ);

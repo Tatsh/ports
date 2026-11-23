@@ -6,6 +6,7 @@ PortGroup           github 1.0
 github.setup        SciresM hactool 1d64a83450e025622f3468c28fc4164dad2c5ef6
 github.tarball_from archive
 version             1.4.0.20231011
+revision            1
 categories          games sysutils
 platforms           darwin linux freebsd
 license             ISC
@@ -17,6 +18,10 @@ long_description    ${description}
 checksums           rmd160  3c22052a1c097857f439e21df43224b8e79d60db \
                     sha256  f7148daad624ba909f5ae253210734b1a0ce19e89a7914b6cf71401f7134ebbc \
                     size    2556329
+
+# Look for the keys in ~/Library/Application Support/switch (after ~/.switch) instead of
+# ~/.config/switch.
+patchfiles          patch-macos-key-path.diff
 
 use_configure       no
 
