@@ -19,7 +19,7 @@ checksums           rmd160  593365205233db922d4185128bbc2c1cabcfd4b3 \
                     sha256  51ab3afe455f20053737d42c1a786ae02388f53117e9467a0153148286f7dfb8 \
                     size    16131
 
-python.versions         313
+python.versions         313 315
 python.pep517_backend   uv
 
 # Upstream pins uv_build to an older minor version.
