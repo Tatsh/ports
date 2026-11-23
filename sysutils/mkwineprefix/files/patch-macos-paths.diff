@@ -1,0 +1,21 @@
+--- mkwineprefix/prefix.py
++++ mkwineprefix/prefix.py
+@@ -14,6 +14,7 @@
+ import logging
+ import sqlite3
+ import struct
++import sys
+ import subprocess as sp
+ import tarfile
+ import tempfile
+@@ -433,7 +434,9 @@
+     filtered_tricks = tuple(
+         t for t in (tricks or ())
+         if t not in WINETRICKS_VERSION_MAPPING.values() and not t.startswith('vd='))
+-    root = Path(prefix_root) if prefix_root else Path.home() / '.local/share/wineprefixes'
++    root = Path(prefix_root) if prefix_root else (
++        Path.home() / 'Library/Application Support/wineprefixes'
++        if sys.platform == 'darwin' else Path.home() / '.local/share/wineprefixes')
+     await AsyncPath(root).mkdir(parents=True, exist_ok=True)
+     target = root / prefix_name
+     if await AsyncPath(target).exists():

@@ -5,6 +5,7 @@ PortGroup           python 1.0
 
 name                mkwineprefix
 version             0.1.1
+revision            1
 categories          sysutils emulators python
 supported_archs     noarch
 platforms           {darwin any}
@@ -17,6 +18,9 @@ homepage            https://github.com/Tatsh/mkwineprefix
 checksums           rmd160  d86dc46228fc67b823ef01e61fd7c2fdd2f4b062 \
                     sha256  5d15870db088fbf04c66eec742995ffa706767c434551d0728031750eff6d246 \
                     size    16858
+
+# Create prefixes in ~/Library/Application Support/wineprefixes on macOS.
+patchfiles          patch-macos-paths.diff
 
 python.default_version 313
 python.pep517_backend hatch
