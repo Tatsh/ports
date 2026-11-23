@@ -1,0 +1,24 @@
+--- guessit/options.py
++++ guessit/options.py
+@@ -8,6 +8,7 @@
+ import copy
+ import json
+ import os
++import sys
+ import shlex
+ from argparse import ArgumentParser
+ from importlib.resources import files
+@@ -433,7 +434,12 @@
+ 
+     configdirs = [
+         (os.path.join(homedir, ".guessit"), "options"),
+-        (os.path.join(homedir, ".config", "guessit"), "options"),
++        (
++            os.path.join(homedir, "Library", "Application Support", "guessit")
++            if sys.platform == "darwin"
++            else os.path.join(homedir, ".config", "guessit"),
++            "options",
++        ),
+         (cwd, "guessit.options"),
+     ]
+     configexts = ["json"]
