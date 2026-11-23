@@ -4,6 +4,7 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/google/gmail-oauth2-tools 0c865b7b590292d5d8a197529127166e9d7d7d2d
+revision            1
 name                sendgmail
 version             20250718
 categories          mail
@@ -19,6 +20,9 @@ checksums           ${distname}${extract.suffix} \
                         rmd160  44ade9e05089016b541ada0e9ffebb3c602d40f9 \
                         sha256  b14fb81582184ffc9348f415d5e903dab17c11fc7112649a3de370073076a3e6 \
                         size    24888
+
+# Keep the settings and tokens in ~/Library/Application Support/sendgmail on macOS.
+patchfiles          patch-macos-config-dir.diff
 
 go.vendors          github.com/google/uuid \
                         lock    v1.4.0 \

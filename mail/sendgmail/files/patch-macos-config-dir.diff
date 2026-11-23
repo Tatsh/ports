@@ -1,0 +1,23 @@
+--- go/sendgmail/main.go
++++ go/sendgmail/main.go
+@@ -177,14 +177,13 @@
+ 	return nil, nil
+ }
+ 
++// ~/Library/Application Support on macOS, $XDG_CONFIG_HOME or ~/.config elsewhere.
+ func userConfigDir() string {
+-	if dir := os.Getenv("XDG_CONFIG_HOME"); dir != "" {
+-		return dir
+-	}
+-	if dir := os.Getenv("HOME"); dir != "" {
+-		return filepath.Join(dir, ".config")
+-	}
+-	panic("Neither $XDG_CONFIG_HOME nor $HOME is defined.")
++	dir, err := os.UserConfigDir()
++	if err != nil {
++		log.Fatalf("Failed to get user configuration directory: %v.", err)
++	}
++	return dir
+ }
+ 
+ func userHomeDir() string {
