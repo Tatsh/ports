@@ -1,7 +1,7 @@
-diff --git a/sparserestore/__init__.py b/sparserestore/__init__.py
+diff --git sparserestore/__init__.py sparserestore/__init__.py
 index d1c033c..8e82b2d 100644
---- a/sparserestore/__init__.py
-+++ b/sparserestore/__init__.py
+--- sparserestore/__init__.py
++++ sparserestore/__init__.py
 @@ -8,15 +8,14 @@ from pymobiledevice3.exceptions import PyMobileDevice3Exception
  from . import backup
  from .backup import _FileMode as FileMode
@@ -31,10 +31,10 @@ index d1c033c..8e82b2d 100644
      except PyMobileDevice3Exception as e:
          if "crash_on_purpose" not in str(e):
              raise e
-diff --git a/trollstore.py b/trollstore.py
+diff --git trollstore.py trollstore.py
 index d45ec60..eb9acc0 100644
---- a/trollstore.py
-+++ b/trollstore.py
+--- trollstore.py
++++ trollstore.py
 @@ -1,3 +1,5 @@
 +#!/usr/bin/env python3
 +import asyncio

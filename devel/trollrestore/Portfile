@@ -31,7 +31,6 @@ depends_run-append  port:pymobiledevice3 \
 
 # pymobiledevice3 made its services asynchronous.
 patchfiles          patch-pymobiledevice3-async.diff
-patch.pre_args-replace -p0 -p1
 
 build {}
 
