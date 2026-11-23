@@ -23,7 +23,7 @@ checksums           rmd160  591b5559f3a354bd87ab902dd909686f217c45c8 \
                     sha256  cebb93773d334f778e023a7ee352a8d6e13ab1bd3b863a4d4a59dec897df43ac \
                     size    118731
 
-python.versions     310 311 312 313 314
+python.versions     310 311 312 313 314 315
 python.pep517_backend \
                     hatch
 
