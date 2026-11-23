@@ -183,7 +183,6 @@ post-extract {
 # Build against MacPorts libraries instead of vcpkg and the bundled SDL, SDL_mixer, MoltenVK and
 # friends, and recompile the shaders on older libc++, which has no parallel algorithms.
 patchfiles          patch-macports.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     # Load the MacPorts Vulkan loader, which finds the MacPorts MoltenVK.

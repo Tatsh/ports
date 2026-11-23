@@ -1,7 +1,7 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
+diff --git CMakeLists.txt CMakeLists.txt
 index 6a06ffb..1282a3f 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -1,9 +1,5 @@
  cmake_minimum_required (VERSION 3.20)
  
@@ -12,10 +12,10 @@ index 6a06ffb..1282a3f 100644
  set(UNLEASHED_RECOMP_THIRDPARTY_ROOT ${CMAKE_SOURCE_DIR}/thirdparty)
  set(UNLEASHED_RECOMP_TOOLS_ROOT ${CMAKE_SOURCE_DIR}/tools)
  set(CMAKE_CXX_STANDARD 20)
-diff --git a/UnleashedRecomp/CMakeLists.txt b/UnleashedRecomp/CMakeLists.txt
+diff --git UnleashedRecomp/CMakeLists.txt UnleashedRecomp/CMakeLists.txt
 index 01e040a..0169b20 100644
---- a/UnleashedRecomp/CMakeLists.txt
-+++ b/UnleashedRecomp/CMakeLists.txt
+--- UnleashedRecomp/CMakeLists.txt
++++ UnleashedRecomp/CMakeLists.txt
 @@ -66,6 +66,9 @@ add_compile_definitions(
  set(UNLEASHED_RECOMP_PRECOMPILED_HEADERS
      "stdafx.h"
@@ -80,10 +80,10 @@ index 01e040a..0169b20 100644
      SDL2_mixer
      tomlplusplus::tomlplusplus
      UnleashedRecompLib
-diff --git a/thirdparty/CMakeLists.txt b/thirdparty/CMakeLists.txt
+diff --git thirdparty/CMakeLists.txt thirdparty/CMakeLists.txt
 index d5c0858..6876fdd 100644
---- a/thirdparty/CMakeLists.txt
-+++ b/thirdparty/CMakeLists.txt
+--- thirdparty/CMakeLists.txt
++++ thirdparty/CMakeLists.txt
 @@ -1,5 +1,37 @@
  cmake_policy(SET CMP0077 NEW)
  
@@ -143,10 +143,10 @@ index d5c0858..6876fdd 100644
 -    add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/MoltenVK")
 -endif()
 Submodule tools/XenosRecomp contains modified content
-diff --git a/tools/XenosRecomp/XenosRecomp/main.cpp b/tools/XenosRecomp/XenosRecomp/main.cpp
+diff --git tools/XenosRecomp/XenosRecomp/main.cpp tools/XenosRecomp/XenosRecomp/main.cpp
 index d015145..15a6429 100644
---- a/tools/XenosRecomp/XenosRecomp/main.cpp
-+++ b/tools/XenosRecomp/XenosRecomp/main.cpp
+--- tools/XenosRecomp/XenosRecomp/main.cpp
++++ tools/XenosRecomp/XenosRecomp/main.cpp
 @@ -115,7 +115,9 @@ int main(int argc, char** argv)
  
          std::atomic<uint32_t> progress = 0;
@@ -191,10 +191,10 @@ index d015145..15a6429 100644
  
          fmt::println("Creating shader cache...");
  
-diff --git a/tools/XenosRecomp/XenosRecomp/pch.h b/tools/XenosRecomp/XenosRecomp/pch.h
+diff --git tools/XenosRecomp/XenosRecomp/pch.h tools/XenosRecomp/XenosRecomp/pch.h
 index e59682c..95d61c1 100644
---- a/tools/XenosRecomp/XenosRecomp/pch.h
-+++ b/tools/XenosRecomp/XenosRecomp/pch.h
+--- tools/XenosRecomp/XenosRecomp/pch.h
++++ tools/XenosRecomp/XenosRecomp/pch.h
 @@ -10,6 +10,8 @@
  #include <cassert>
  #include <cstdint>
