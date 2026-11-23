@@ -1,0 +1,10 @@
+#!/bin/sh
+# Start zwave-js-server with the settings in @PREFIX@/etc/zwave-js-server.conf.
+set -e
+. @PREFIX@/etc/zwave-js-server.conf
+if [ -z "${ZWAVE_DEVICE}" ]; then
+    echo "Set ZWAVE_DEVICE in @PREFIX@/etc/zwave-js-server.conf." >&2
+    exit 1
+fi
+exec @PREFIX@/bin/zwave-server --host="${ZWAVE_HOST:-localhost}" --port="${ZWAVE_PORT:-3000}" \
+    --config=@PREFIX@/etc/zwave-js-server.config.js "${ZWAVE_DEVICE}"

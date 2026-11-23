@@ -1,0 +1,79 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                zwave-js-server
+version             3.12.0
+revision            0
+categories          net
+license             MIT Apache-2 BSD ISC
+description         Small server wrapper around Z-Wave JS to access it via a WebSocket.
+long_description    {*}${description} It talks to a Z-Wave controller on a serial port. The \
+                    launchd service reads the device path from ${prefix}/etc/${name}.conf.
+homepage            https://github.com/zwave-js/zwave-js-server
+
+checksums           zwave-js-server-3.12.0-node_modules.tar.xz \
+                    rmd160  f35c288ed40abfbfe3c5f5f17b07400e88333a8e \
+                    sha256  6c76f7ea992af5fde2bdb3e8fe73367afba298e65549344ee265af19eea68142 \
+                    size    7687460 \
+                    node-v22.23.4-headers.tar.gz \
+                    rmd160  ccca04ffa26af32e30709dd3ce057de52ea225af \
+                    sha256  dc4028dc105e27e5295119dd9da076fca71d5216113e097813f0fb30f59241a5 \
+                    size    9936937
+
+# @serialport/bindings-cpp is a native addon.
+nodejs.native       yes
+nodejs.bins         {zwave-client node_modules/@zwave-js/server/dist-cjs/bin/client.js \
+                     zwave-server node_modules/@zwave-js/server/dist-cjs/bin/server.js}
+
+set state_dirs      [list ${prefix}/var/log/${name} ${prefix}/var/cache/${name} \
+                         ${prefix}/var/db/${name}]
+
+post-destroot {
+    set etc ${destroot}${prefix}/etc
+    xinstall -d ${etc}
+    foreach f [list ${name}.config.js ${name}.conf] {
+        xinstall -m 0644 ${filespath}/${f} ${etc}/${f}.sample
+        reinplace "s|@PREFIX@|${prefix}|g" ${etc}/${f}.sample
+    }
+    set doc ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${doc}
+    xinstall -m 0644 ${filespath}/${name}.keys.js.example ${doc}/
+    reinplace "s|@PREFIX@|${prefix}|g" ${doc}/${name}.keys.js.example
+    xinstall -d ${destroot}${prefix}/libexec/${name}
+    xinstall -m 0755 ${filespath}/${name}-service ${destroot}${prefix}/libexec/${name}/
+    reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/libexec/${name}/${name}-service
+    foreach d ${state_dirs} {
+        xinstall -d -m 0750 -o _zwavejs -g _zwavejs ${destroot}${d}
+    }
+}
+destroot.keepdirs   [lmap d ${state_dirs} {string cat ${destroot}${d}}]
+
+post-activate {
+    foreach f [list ${name}.config.js ${name}.conf] {
+        if {![file exists ${prefix}/etc/${f}]} {
+            copy ${prefix}/etc/${f}.sample ${prefix}/etc/${f}
+        }
+    }
+}
+
+add_users           _zwavejs group=_zwavejs realname=Z-Wave\ JS
+
+startupitem.create  yes
+startupitem.user    _zwavejs
+startupitem.group   _zwavejs
+startupitem.logfile ${prefix}/var/log/${name}/launchd.log
+startupitem.executable \
+                    ${prefix}/libexec/${name}/${name}-service
+
+notes "
+Before loading the service:
+- Generate security keys: copy ${prefix}/share/doc/${name}/${name}.keys.js.example to\
+ ${prefix}/etc/${name}.keys.js and replace the keys (see the comment in the file), then make it\
+ readable by the service: sudo chgrp _zwavejs ${prefix}/etc/${name}.keys.js &&\
+ sudo chmod 0640 ${prefix}/etc/${name}.keys.js
+- Set ZWAVE_DEVICE in ${prefix}/etc/${name}.conf to the controller, for example\
+ /dev/cu.usbmodem1101.
+Then: sudo port load ${name}
+"
