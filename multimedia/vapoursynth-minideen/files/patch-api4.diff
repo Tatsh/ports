@@ -1,0 +1,217 @@
+--- src/minideen.cpp
++++ src/minideen.cpp
+@@ -3,8 +3,8 @@
+ #include <cstdlib>
+ #include <cstring>
+ 
+-#include <VapourSynth.h>
+-#include <VSHelper.h>
++#include <VapourSynth4.h>
++#include <VSHelper4.h>
+ 
+ 
+ // The largest is 15x15, but the center pixel gets added three times.
+@@ -115,16 +115,20 @@
+             sum_hi = _mm_add_epi16(sum_hi,
+                                    _mm_srli_epi16(counter_hi, 1));
+ 
+-            __m128i magic_lo = zeroes;
+-            __m128i magic_hi = zeroes;
++            // _mm_extract_epi16 and _mm_insert_epi16 need constant indices, which clang
++            // enforces even inside a loop it could unroll, so go through memory instead.
++            alignas(16) uint16_t e_lo[8], e_hi[8], m_lo[8], m_hi[8];
++            _mm_store_si128((__m128i *)e_lo, counter_lo);
++            _mm_store_si128((__m128i *)e_hi, counter_hi);
+ 
+             for (int i = 0; i < 8; i++) {
+-                uint16_t e_lo = _mm_extract_epi16(counter_lo, i);
+-                uint16_t e_hi = _mm_extract_epi16(counter_hi, i);
+-                magic_lo = _mm_insert_epi16(magic_lo, magic[e_lo], i);
+-                magic_hi = _mm_insert_epi16(magic_hi, magic[e_hi], i);
++                m_lo[i] = magic[e_lo[i]];
++                m_hi[i] = magic[e_hi[i]];
+             }
+ 
++            __m128i magic_lo = _mm_load_si128((const __m128i *)m_lo);
++            __m128i magic_hi = _mm_load_si128((const __m128i *)m_hi);
++
+             __m128i result_lo = _mm_mulhi_epu16(sum_lo, magic_lo);
+             __m128i result_hi = _mm_mulhi_epu16(sum_hi, magic_hi);
+ 
+@@ -282,7 +286,7 @@
+ 
+ 
+ typedef struct MiniDeenData {
+-    VSNodeRef *clip;
++    VSNode *clip;
+     const VSVideoInfo *vi;
+ 
+     int radius[3];
+@@ -293,37 +297,26 @@
+ 
+     decltype (process_plane_scalar<uint8_t>) *process_plane;
+ } MiniDeenData;
+-
+-
+-static void VS_CC minideenInit(VSMap *in, VSMap *out, void **instanceData, VSNode *node, VSCore *core, const VSAPI *vsapi) {
+-    (void)in;
+-    (void)out;
+-    (void)core;
+ 
+-    MiniDeenData *d = (MiniDeenData *) *instanceData;
+ 
+-    vsapi->setVideoInfo(d->vi, 1, node);
+-}
+-
+-
+-static const VSFrameRef *VS_CC minideenGetFrame(int n, int activationReason, void **instanceData, void **frameData, VSFrameContext *frameCtx, VSCore *core, const VSAPI *vsapi) {
++static const VSFrame *VS_CC minideenGetFrame(int n, int activationReason, void *instanceData, void **frameData, VSFrameContext *frameCtx, VSCore *core, const VSAPI *vsapi) {
+     (void)frameData;
+ 
+-    const MiniDeenData *d = (const MiniDeenData *) *instanceData;
++    const MiniDeenData *d = (const MiniDeenData *)instanceData;
+ 
+     if (activationReason == arInitial) {
+         vsapi->requestFrameFilter(n, d->clip, frameCtx);
+     } else if (activationReason == arAllFramesReady) {
+-        const VSFrameRef *src = vsapi->getFrameFilter(n, d->clip, frameCtx);
++        const VSFrame *src = vsapi->getFrameFilter(n, d->clip, frameCtx);
+ 
+-        const VSFrameRef *plane_src[3] = {
++        const VSFrame *plane_src[3] = {
+             d->process[0] ? nullptr : src,
+             d->process[1] ? nullptr : src,
+             d->process[2] ? nullptr : src
+         };
+         int planes[3] = { 0, 1, 2 };
+ 
+-        VSFrameRef *dst = vsapi->newVideoFrame2(d->vi->format,
++        VSFrame *dst = vsapi->newVideoFrame2(&d->vi->format,
+                                                 vsapi->getFrameWidth(src, 0),
+                                                 vsapi->getFrameHeight(src, 0),
+                                                 plane_src,
+@@ -331,7 +324,7 @@
+                                                 src,
+                                                 core);
+ 
+-        for (int plane = 0; plane < d->vi->format->numPlanes; plane++) {
++        for (int plane = 0; plane < d->vi->format.numPlanes; plane++) {
+             if (!d->process[plane])
+                 continue;
+ 
+@@ -372,57 +365,57 @@
+     int err;
+ 
+     for (int i = 0; i < 3; i++) {
+-        d.radius[i] = int64ToIntS(vsapi->propGetInt(in, "radius", i, &err));
++        d.radius[i] = vsh::int64ToIntS(vsapi->mapGetInt(in, "radius", i, &err));
+         if (err)
+             d.radius[i] = (i == 0) ? 1
+                                    : d.radius[i - 1];
+ 
+-        d.threshold[i] = int64ToIntS(vsapi->propGetInt(in, "threshold", i, &err));
++        d.threshold[i] = vsh::int64ToIntS(vsapi->mapGetInt(in, "threshold", i, &err));
+         if (err)
+             d.threshold[i] = (i == 0) ? 10
+                                       : d.threshold[i - 1];
+ 
+         if (d.radius[i] < 1 || d.radius[i] > 7) {
+-            vsapi->setError(out, "MiniDeen: radius must be between 1 and 7 (inclusive).");
++            vsapi->mapSetError(out, "MiniDeen: radius must be between 1 and 7 (inclusive).");
+             return;
+         }
+ 
+         if (d.threshold[i] < 0 || d.threshold[i] > 255) {
+-            vsapi->setError(out, "MiniDeen: threshold must be between 0 and 255 (inclusive).");
++            vsapi->mapSetError(out, "MiniDeen: threshold must be between 0 and 255 (inclusive).");
+             return;
+         }
+     }
+ 
+-    d.clip = vsapi->propGetNode(in, "clip", 0, nullptr);
++    d.clip = vsapi->mapGetNode(in, "clip", 0, nullptr);
+     d.vi = vsapi->getVideoInfo(d.clip);
+ 
+-    if (!d.vi->format ||
+-        d.vi->format->bitsPerSample > 16 ||
+-        d.vi->format->sampleType != stInteger) {
+-        vsapi->setError(out, "MiniDeen: only 8..16 bit integer clips with constant format are supported.");
++    if (!vsh::isConstantVideoFormat(d.vi) ||
++        d.vi->format.bitsPerSample > 16 ||
++        d.vi->format.sampleType != stInteger) {
++        vsapi->mapSetError(out, "MiniDeen: only 8..16 bit integer clips with constant format are supported.");
+         vsapi->freeNode(d.clip);
+         return;
+     }
+ 
+ 
+-    int n = d.vi->format->numPlanes;
+-    int m = vsapi->propNumElements(in, "planes");
++    int n = d.vi->format.numPlanes;
++    int m = vsapi->mapNumElements(in, "planes");
+ 
+     for (int i = 0; i < 3; i++)
+         d.process[i] = (m <= 0);
+ 
+     for (int i = 0; i < m; i++) {
+-        int o = int64ToIntS(vsapi->propGetInt(in, "planes", i, 0));
++        int o = vsh::int64ToIntS(vsapi->mapGetInt(in, "planes", i, 0));
+ 
+         if (o < 0 || o >= n) {
+             vsapi->freeNode(d.clip);
+-            vsapi->setError(out, "MiniDeen: plane index out of range");
++            vsapi->mapSetError(out, "MiniDeen: plane index out of range");
+             return;
+         }
+ 
+         if (d.process[o]) {
+             vsapi->freeNode(d.clip);
+-            vsapi->setError(out, "MiniDeen: plane specified twice");
++            vsapi->mapSetError(out, "MiniDeen: plane specified twice");
+             return;
+         }
+ 
+@@ -434,16 +427,16 @@
+         d.process[i] = d.process[i] && d.threshold[i] >= 2;
+ 
+ 
+-    int pixel_max = (1 << d.vi->format->bitsPerSample) - 1;
++    int pixel_max = (1 << d.vi->format.bitsPerSample) - 1;
+ 
+     for (int i = 0; i < 3; i++)
+         d.threshold[i] = d.threshold[i] * pixel_max / 255;
+ 
+ 
+-    d.process_plane = (d.vi->format->bitsPerSample == 8) ? process_plane_scalar<uint8_t>
++    d.process_plane = (d.vi->format.bitsPerSample == 8) ? process_plane_scalar<uint8_t>
+                                                          : process_plane_scalar<uint16_t>;
+ #if defined (MINIDEEN_X86)
+-    d.process_plane = (d.vi->format->bitsPerSample == 8) ? process_plane_sse2_8bit
++    d.process_plane = (d.vi->format.bitsPerSample == 8) ? process_plane_sse2_8bit
+                                                          : process_plane_sse2_16bit;
+ 
+     for (int i = 2; i < MAX_PIXEL_COUNT; i++)
+@@ -454,16 +447,17 @@
+     MiniDeenData *data = (MiniDeenData *)malloc(sizeof(d));
+     *data = d;
+ 
+-    vsapi->createFilter(in, out, "MiniDeen", minideenInit, minideenGetFrame, minideenFree, fmParallel, 0, data, core);
++    VSFilterDependency deps[] = { { data->clip, rpStrictSpatial } };
++    vsapi->createVideoFilter(out, "MiniDeen", data->vi, minideenGetFrame, minideenFree, fmParallel, deps, 1, data, core);
+ }
+ 
+ 
+-VS_EXTERNAL_API(void) VapourSynthPluginInit(VSConfigPlugin configFunc, VSRegisterFunction registerFunc, VSPlugin *plugin) {
+-    configFunc("com.nodame.minideen", "minideen", "Spatial convolution with thresholds", VAPOURSYNTH_API_VERSION, 1, plugin);
+-    registerFunc("MiniDeen",
+-                 "clip:clip;"
++VS_EXTERNAL_API(void) VapourSynthPluginInit2(VSPlugin *plugin, const VSPLUGINAPI *vspapi) {
++    vspapi->configPlugin("com.nodame.minideen", "minideen", "Spatial convolution with thresholds", VS_MAKE_VERSION(2, 0), VAPOURSYNTH_API_VERSION, 0, plugin);
++    vspapi->registerFunction("MiniDeen",
++                 "clip:vnode;"
+                  "radius:int[]:opt;"
+                  "threshold:int[]:opt;"
+                  "planes:int[]:opt;"
+-                 , minideenCreate, 0, plugin);
++                 , "clip:vnode;", minideenCreate, nullptr, plugin);
+ }
