@@ -38,7 +38,6 @@ qt6.depends_lib-append qtsvg
 
 # Use the packaged libraries instead of bundled copies.
 patchfiles          patch-system-libs.diff
-patch.pre_args-replace -p0 -p1
 
 post-extract {
     file delete -force ${worksrcpath}/lib/libchdr

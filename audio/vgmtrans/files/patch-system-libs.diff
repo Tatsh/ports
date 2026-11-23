@@ -1,9 +1,9 @@
 Use the system spdlog, zlib and minizip.
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
+diff --git CMakeLists.txt CMakeLists.txt
 index bb3478d..07f8962 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -71,7 +71,7 @@ endif()
  option(ENABLE_UI_QT "Build the UI (Qt)" ON)
  option(ENABLE_CLI "Build the CLI application" ON)
@@ -13,10 +13,10 @@ index bb3478d..07f8962 100644
  add_subdirectory("${PROJECT_SOURCE_DIR}/lib/mio")
  
  add_subdirectory(src)
-diff --git a/src/main/CMakeLists.txt b/src/main/CMakeLists.txt
+diff --git src/main/CMakeLists.txt src/main/CMakeLists.txt
 index 04fb741..c1e20ef 100644
---- a/src/main/CMakeLists.txt
-+++ b/src/main/CMakeLists.txt
+--- src/main/CMakeLists.txt
++++ src/main/CMakeLists.txt
 @@ -1,39 +1,10 @@
 -# Add zlib and minizip dependencies
 -# Prefer system zlib; otherwise build vendored static
