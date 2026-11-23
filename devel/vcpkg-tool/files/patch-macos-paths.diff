@@ -1,0 +1,38 @@
+--- src/vcpkg/base/system.cpp
++++ src/vcpkg/base/system.cpp
+@@ -619,6 +619,9 @@
+         static ExpectedL<Path> s_home =
+ #if defined(_WIN32)
+             get_appdata_local()
++#elif defined(__APPLE__)
++            // ~/Library/Caches rather than ~/.cache on macOS.
++            get_home_dir().map([](const Path& home) { return home / "Library/Caches"; })
+ #else
+             get_xdg_cache_home()
+ #endif
+@@ -647,6 +650,10 @@
+ #if defined(_WIN32)
+         static const ExpectedL<Path> result =
+             get_appdata_local().map([](const Path& appdata_local) { return appdata_local / "vcpkg"; });
++#elif defined(__APPLE__)
++        // ~/Library/Application Support/vcpkg rather than ~/.vcpkg on macOS.
++        static const ExpectedL<Path> result =
++            Path(get_environment_variable_nonempty("HOME").value_or("/var")) / "Library/Application Support/vcpkg";
+ #else
+         static const ExpectedL<Path> result =
+             Path(get_environment_variable_nonempty("HOME").value_or("/var")) / ".vcpkg";
+--- src/vcpkg/base/system.deviceid.cpp
++++ src/vcpkg/base/system.deviceid.cpp
+@@ -67,7 +67,12 @@
+          * - The file is named 'deviceid'
+          * - The value is stored in UTF-8 plain text
+          */
++#if defined(__APPLE__)
++        // As described above, the device id lives under $HOME, not the cache root.
++        const auto& maybe_home_path = vcpkg::get_home_dir();
++#else
+         const auto maybe_home_path = vcpkg::get_platform_cache_root();
++#endif
+         if (!maybe_home_path)
+         {
+             return {};

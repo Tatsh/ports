@@ -5,6 +5,7 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 
 github.setup        microsoft vcpkg-tool 2026-10-29
+revision            1
 github.tarball_from archive
 name                vcpkg-tool
 categories          devel
@@ -18,6 +19,11 @@ long_description    ${description} Point VCPKG_ROOT (or --vcpkg-root) at a clone
 checksums           rmd160  583da1fffa308c0c4ea5ce79821b6be019e5f1b1 \
                     sha256  7f73aff8f3b1bd8a5da7b229ee709aa9d58a4199bb26f2ad160d0a4678ff3dc7 \
                     size    3031746
+
+# On macOS, cache in ~/Library/Caches/vcpkg, keep the user configuration in
+# ~/Library/Application Support/vcpkg instead of ~/.vcpkg, and the metrics device id in
+# ~/Library/Application Support as documented.
+patchfiles          patch-macos-paths.diff
 
 depends_build-append port:cmakerc
 depends_lib-append  port:curl \
