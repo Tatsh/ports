@@ -1,0 +1,13 @@
+--- expr2/reactor/LLVMReactor.cpp
++++ expr2/reactor/LLVMReactor.cpp
+@@ -1164,7 +1164,9 @@
+ 	auto i1Mask = jit->builder->CreateIntCast(mask, llvm::VectorType::get(i1Ty, numEls, false), false);  // vec<int, int, ...> -> vec<bool, bool, ...>
+ 	auto passthrough = zeroMaskedLanes ? llvm::Constant::getNullValue(elVecTy) : llvm::UndefValue::get(elVecTy);
+ 
+-	if(!__has_feature(memory_sanitizer))
++	// MacPorts: the JIT leaves llvm.masked.gather unlowered on macOS x86_64 (an unresolved
++	// symbol, or a crash compiling i8/i16 gathers), so always emulate it.
++	if(false)
+ 	{
+ 		auto func = llvm::Intrinsic::getOrInsertDeclaration(jit->module.get(), llvm::Intrinsic::masked_gather, { elVecTy, elPtrVecTy });
+ 		auto *call = jit->builder->CreateCall(func, { elPtrs, i1Mask, passthrough });
