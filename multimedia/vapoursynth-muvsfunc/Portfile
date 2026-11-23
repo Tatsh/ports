@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           vapoursynth_plugin 1.0
+
+# A snapshot after v0.4.0: v0.4.0 imports havsfunc and calls functions (m4, MinBlur, Padding and
+# others) that havsfunc r34 no longer has. Later commits dropped havsfunc.
+github.setup        WolframRhodium muvsfunc 1fcc84e55c4d633d929adb011ad0da2cffd1e88f
+github.tarball_from archive
+name                vapoursynth-muvsfunc
+version             0.4.0.20260828
+dist_subdir         ${name}/${version}
+license             Restrictive
+platforms           any
+supported_archs     noarch
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Muonium's collection of VapourSynth functions (muvsfunc).
+long_description    ${description}
+
+checksums           rmd160  1f65bde121b4f7b98278940b3532e66e9b132b34 \
+                    sha256  def07ea59647c60971ceb395fbb2b2c8d2c814883fe3349527efa5879e240695 \
+                    size    150997
+
+use_configure       no
+build {}
+
+# Only these modules are meant to be imported. The rest of Collections/ are standalone scripts with
+# generic names (resize.py and so on) that would shadow unrelated modules in site-packages.
+destroot {
+    xinstall -d ${destroot}${vapoursynth.site_packages}
+    xinstall -m 0644 -W ${worksrcpath} muvsfunc.py muvs.py Collections/muvsfunc_misc.py \
+        Collections/muvsfunc_numpy.py ${destroot}${vapoursynth.site_packages}/
+    set doc ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${doc}/collections
+    xinstall -m 0644 ${worksrcpath}/README.md ${doc}/
+    foreach f {LUM.py net_interp.py resize.py SuperRes.py descale_verifyer.vpy} {
+        xinstall -m 0644 ${worksrcpath}/Collections/${f} ${doc}/collections/
+    }
+    copy ${worksrcpath}/Collections/examples ${doc}/collections/
+}
+
+test {
+    system -W ${workpath} "env PYTHONPATH=${worksrcpath} ${vapoursynth.python_bin} -c 'import muvsfunc'"
+}
