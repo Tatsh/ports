@@ -77,7 +77,6 @@ destroot.pre_args   -workspace Shifty.xcworkspace \
 destroot.post_args  DSTROOT=${_xcode_destroot_tmp}
 
 patchfiles      patch-macports.diff
-patch.pre_args  -p1
 
 # Copy from temp DSTROOT (used so sandboxed ibtool can write) into real destroot.
 post-destroot {

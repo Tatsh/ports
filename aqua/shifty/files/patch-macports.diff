@@ -1,7 +1,7 @@
-diff --git a/Shifty/AppDelegate.swift b/Shifty/AppDelegate.swift
+diff --git Shifty/AppDelegate.swift Shifty/AppDelegate.swift
 index 179e6a5..db72baf 100644
---- a/Shifty/AppDelegate.swift
-+++ b/Shifty/AppDelegate.swift
+--- Shifty/AppDelegate.swift
++++ Shifty/AppDelegate.swift
 @@ -15,7 +15,6 @@ import LetsMove
  import MASPreferences_Shifty
  import AXSwift
@@ -20,10 +20,10 @@ index 179e6a5..db72baf 100644
          
          let versionObject = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
          userDefaults.set(versionObject as? String ?? "", forKey: Keys.lastInstalledShiftyVersion)
-diff --git a/Shifty/Base.lproj/PrefAboutViewController.xib b/Shifty/Base.lproj/PrefAboutViewController.xib
+diff --git Shifty/Base.lproj/PrefAboutViewController.xib Shifty/Base.lproj/PrefAboutViewController.xib
 index 73bee70..063b0da 100644
---- a/Shifty/Base.lproj/PrefAboutViewController.xib
-+++ b/Shifty/Base.lproj/PrefAboutViewController.xib
+--- Shifty/Base.lproj/PrefAboutViewController.xib
++++ Shifty/Base.lproj/PrefAboutViewController.xib
 @@ -174,18 +174,8 @@
                  <stackView distribution="fillProportionally" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalCompressionResistancePriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1HH-lX-oxw">
                      <rect key="frame" x="20" y="34" width="260" height="20"/>
@@ -61,10 +61,10 @@ index 73bee70..063b0da 100644
                      </customSpacing>
                  </stackView>
                  <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aMY-R4-Ypv">
-diff --git a/Shifty/Base.lproj/PrefGeneralViewController.xib b/Shifty/Base.lproj/PrefGeneralViewController.xib
+diff --git Shifty/Base.lproj/PrefGeneralViewController.xib Shifty/Base.lproj/PrefGeneralViewController.xib
 index 6a4d2b4..0a0237a 100644
---- a/Shifty/Base.lproj/PrefGeneralViewController.xib
-+++ b/Shifty/Base.lproj/PrefGeneralViewController.xib
+--- Shifty/Base.lproj/PrefGeneralViewController.xib
++++ Shifty/Base.lproj/PrefGeneralViewController.xib
 @@ -1,8 +1,8 @@
  <?xml version="1.0" encoding="UTF-8"?>
 -<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
@@ -304,10 +304,10 @@ index 6a4d2b4..0a0237a 100644
                      </buttonCell>
                      <color key="contentTintColor" name="linkColor" catalog="System" colorSpace="catalog"/>
                      <connections>
-diff --git a/Shifty/PrefAboutViewController.swift b/Shifty/PrefAboutViewController.swift
+diff --git Shifty/PrefAboutViewController.swift Shifty/PrefAboutViewController.swift
 index 67f4b42..6b11e6c 100644
---- a/Shifty/PrefAboutViewController.swift
-+++ b/Shifty/PrefAboutViewController.swift
+--- Shifty/PrefAboutViewController.swift
++++ Shifty/PrefAboutViewController.swift
 @@ -6,11 +6,8 @@
  //
  
