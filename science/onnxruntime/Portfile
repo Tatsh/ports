@@ -1,0 +1,149 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+
+name                onnxruntime
+version             1.29.0
+revision            0
+categories          science devel
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Cross-platform inference and training accelerator for ONNX models.
+long_description    ONNX Runtime runs machine learning models in the ONNX format. This port builds \
+                    the shared library with the default CPU execution provider and the CoreML \
+                    execution provider.
+homepage            https://onnxruntime.ai
+supported_archs     x86_64 arm64
+
+# GitHub's archives of the release return 404, so the tarball comes from the overlay's mirror.
+master_sites        https://github.com/Tatsh/tatsh-overlay/releases/download/__distfiles__/:main
+distfiles           ${distname}${extract.suffix}:main
+
+checksums           onnxruntime-1.29.0.tar.gz \
+                    rmd160  382c0ab5c0aeec6df27913befe12b712e3216d25 \
+                    sha256  0f065cfd3816eaa4b709a057ea0e237ebc6463843af44a439e0d81af76d6620e \
+                    size    277662433 \
+                    date-3.0.1.tar.gz \
+                    rmd160  6875dc05d39cb4301a4c002fd965d680f248e34d \
+                    sha256  7a390f200f0ccd207e8cff6757e04817c1a0aec3e327b006b7eb451c57ee3538 \
+                    size    825542 \
+                    mp11-boost-1.82.0.tar.gz \
+                    rmd160  f02cd0135b9f2422ad3d31821776de63bdc4d0a4 \
+                    sha256  1705680b0849cac3258e528270c9071b440b95372e5be0b9197da89e84a794eb \
+                    size    108720 \
+                    cpuinfo-4628dc060ce4e82345dc166bbac875609db4ff69.tar.gz \
+                    rmd160  bad2e6b57c6332d2fc8a2a09829a7d8c72158b62 \
+                    sha256  a550205e891f9f1982044a306cb54556347645cba129af34cd907160f83bd0f1 \
+                    size    3553030 \
+                    GSL-4.2.1.tar.gz \
+                    rmd160  5a6d5330e7074fe2030937e9a34ca140bc667af3 \
+                    sha256  d959f1cb8bbb9c94f033ae5db60eaf5f416be1baa744493c32585adca066fe1f \
+                    size    62226 \
+                    SafeInt-3.0.28.tar.gz \
+                    rmd160  c225c3343039a9d0dd716066d9803724c459dd6c \
+                    sha256  d6b164bcea92a746e4d44132e505c7ab1816d1089ba99ebc674ccd4b70262ed5 \
+                    size    579420 \
+                    onnx-1.22.0.tar.gz \
+                    rmd160  7c2984170595ed79668eb3e79544b81c41b2dee5 \
+                    sha256  70bb8b25cf31ea9b1d9f94baacfdc8c4fa27a760f9a10f5d93881bc9eede5fbc \
+                    size    13687818 \
+                    psimd-072586a71b55b7f8c584153d223e95687148a900.tar.gz \
+                    rmd160  47f6ac1324c2db85450eab97def607072a368f8c \
+                    sha256  f6c4dab91ae9a03b3019e7cab0572743afd0e1b6e75b97fcca50259c737c924e \
+                    size    6825 \
+                    FP16-0a92994d729ff76a58f692d3028ca1b64b145d91.tar.gz \
+                    rmd160  18c89352058a5675a5779dce1d131253171a1367 \
+                    sha256  a91f4770ff9c39f4d72e339c379f566b3bbb359fa66122d85fc0bae3dde7abc7 \
+                    size    71228 \
+                    coremltools-7.1.tar.gz \
+                    rmd160  68199f946fc2c3bb72c839d088ad4584f3951063 \
+                    sha256  d3222966982367b2be4ce62f1bd2b3dddc5a0ae018724a9acf850fbf2b0cc09a \
+                    size    17501012
+
+# Dependencies from cmake/deps.txt that MacPorts lacks, as FetchContent name, extracted directory,
+# GitHub repository and archive path. The rest come from MacPorts.
+set bundled {
+    date            date-3.0.1          HowardHinnant/date  refs/tags/v3.0.1
+    mp11            mp11-boost-1.82.0   boostorg/mp11       refs/tags/boost-1.82.0
+    pytorch_cpuinfo cpuinfo-4628dc060ce4e82345dc166bbac875609db4ff69 \
+                                        pytorch/cpuinfo     4628dc060ce4e82345dc166bbac875609db4ff69
+    gsl             GSL-4.2.1           microsoft/GSL       refs/tags/v4.2.1
+    safeint         SafeInt-3.0.28      dcleblanc/SafeInt   refs/tags/3.0.28
+    onnx            onnx-1.22.0         onnx/onnx           refs/tags/v1.22.0
+    psimd           psimd-072586a71b55b7f8c584153d223e95687148a900 \
+                                        Maratyszcza/psimd   072586a71b55b7f8c584153d223e95687148a900
+    fp16            FP16-0a92994d729ff76a58f692d3028ca1b64b145d91 \
+                                        Maratyszcza/FP16    0a92994d729ff76a58f692d3028ca1b64b145d91
+    coremltools     coremltools-7.1     apple/coremltools   refs/tags/7.1
+}
+set i 0
+foreach {fc dir repo ref} ${bundled} {
+    incr i
+    master_sites-append https://github.com/${repo}/archive/${ref}.tar.gz?dummy=:s${i}
+    distfiles-append    ${dir}.tar.gz:s${i}
+}
+
+depends_build-append \
+                    port:python313
+depends_lib-append  port:abseil \
+                    port:eigen3 \
+                    port:flatbuffers \
+                    port:nlohmann-json \
+                    port:protobuf3-cpp \
+                    port:re2
+
+# Eigen comes from MacPorts; upstream always fetches a snapshot of its master branch.
+patchfiles          patch-system-eigen.diff
+
+post-patch {
+    # ORT's own fixes for the bundled dependencies, which FetchContent does not apply to a
+    # source directory given with FETCHCONTENT_SOURCE_DIR_<name>.
+    foreach {dir p} {date-3.0.1 date/date.patch onnx-1.22.0 onnx/onnx.patch
+                     coremltools-7.1 coremltools/crossplatformbuild.patch} {
+        system -W ${workpath}/${dir} \
+            "patch -p1 --binary --ignore-whitespace < ${worksrcpath}/cmake/patches/${p}"
+    }
+    # Abseil's config only accepts the exact version asked for; any recent one works.
+    reinplace "s|FIND_PACKAGE_ARGS 20250814 NAMES absl|FIND_PACKAGE_ARGS NAMES absl|" \
+        ${worksrcpath}/cmake/external/abseil-cpp.cmake
+    # Regenerate the flatbuffers headers with the MacPorts flatc; the shipped ones only accept
+    # flatbuffers 23.5.26.
+    foreach fbs {onnxruntime/core/flatbuffers/schema/ort.fbs
+                 onnxruntime/core/flatbuffers/schema/ort_training_checkpoint.fbs
+                 onnxruntime/lora/adapter_format/adapter_schema.fbs} {
+        system -W ${worksrcpath}/[file dirname ${fbs}] \
+            "${prefix}/bin/flatc --cpp --scoped-enums --filename-suffix .fbs [file tail ${fbs}]"
+    }
+    # std::make_unique_for_overwrite needs libc++ 16; Xcode 15 has libc++ 15.
+    reinplace "s|make_unique_for_overwrite<int8_t\\\[\\\]>(lut_buffer_size)|unique_ptr<int8_t\[\]>(new int8_t\[lut_buffer_size\])|" \
+        ${worksrcpath}/onnxruntime/core/mlas/lib/qlutgemm.cpp
+    # Install the library with an absolute install name rather than @rpath.
+    reinplace "s|INSTALL_NAME_DIR @rpath)|INSTALL_NAME_DIR ${prefix}/lib)|" \
+        ${worksrcpath}/cmake/onnxruntime.cmake
+    # Fail instead of downloading anything that was missed.
+    reinplace -E "s|;https://\[^;\]*;|;${workpath}/no-download;|" ${worksrcpath}/cmake/deps.txt
+}
+
+cmake.source_dir    ${worksrcpath}/cmake
+cmake.build_type    Release
+
+configure.args-append \
+                    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+                    -DPython_EXECUTABLE=${prefix}/bin/python3.13 \
+                    -DPython3_EXECUTABLE=${prefix}/bin/python3.13 \
+                    -DONNX_CUSTOM_PROTOC_EXECUTABLE=${prefix}/bin/protoc \
+                    -Donnxruntime_BUILD_SHARED_LIB=ON \
+                    -Donnxruntime_BUILD_UNIT_TESTS=OFF \
+                    -Donnxruntime_ENABLE_PYTHON=OFF \
+                    -Donnxruntime_ENABLE_LTO=OFF \
+                    -Donnxruntime_USE_FULL_PROTOBUF=ON \
+                    -Donnxruntime_USE_COREML=ON \
+                    -Donnxruntime_USE_VCPKG=OFF \
+                    -Dsafeint_SOURCE_DIR=${workpath}/SafeInt-3.0.28
+foreach {fc dir repo ref} ${bundled} {
+    if {${fc} eq "safeint"} {
+        continue
+    }
+    configure.args-append -DFETCHCONTENT_SOURCE_DIR_[string toupper ${fc}]=${workpath}/${dir}
+}
