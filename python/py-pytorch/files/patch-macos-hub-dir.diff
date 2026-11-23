@@ -1,0 +1,12 @@
+--- torch/hub.py
++++ torch/hub.py
+@@ -88,7 +88,8 @@
+ ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
+ ENV_TORCH_HOME = "TORCH_HOME"
+ ENV_XDG_CACHE_HOME = "XDG_CACHE_HOME"
+-DEFAULT_CACHE_DIR = "~/.cache"
++# ~/Library/Caches on macOS, so that downloaded models go to ~/Library/Caches/torch.
++DEFAULT_CACHE_DIR = "~/Library/Caches" if sys.platform == "darwin" else "~/.cache"
+ VAR_DEPENDENCY = "dependencies"
+ MODULE_HUBCONF = "hubconf.py"
+ READ_DATA_CHUNK = 128 * 1024
