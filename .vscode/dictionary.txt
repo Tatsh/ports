@@ -111,6 +111,7 @@ azblob
 azcore
 azidentity
 babelfish
+backgroundremover
 bascom
 baserom
 bbolt
@@ -577,6 +578,7 @@ fatih
 fatx
 favorite
 fconfigure
+fcopy
 fdeflate
 feedgen
 feedparser
@@ -695,6 +697,7 @@ ghinstallation
 gickup
 gidgethub
 gidgetlab
+giflib
 gillot
 gimli
 gister
@@ -1279,6 +1282,7 @@ mypy
 myrsloik
 mysides
 mywave
+nadermx
 nalgebra
 namco
 nanoarrow
@@ -1307,6 +1311,7 @@ neko
 neobrain
 netfs
 netnode
+netp
 netrc
 networkx
 neverpanic
@@ -1575,6 +1580,7 @@ qcoro
 qlutgemm
 qpxtool
 qscan
+qscand
 qtbase
 qtcharts
 qtdbus
@@ -2028,6 +2034,7 @@ virtualjaguar
 virtualwebauthn
 vitc
 vite
+vivserver
 vladikcomper
 volk
 vsaa
