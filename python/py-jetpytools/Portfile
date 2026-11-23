@@ -1,0 +1,30 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-jetpytools
+version             3.2.0
+license             MIT
+supported_archs     noarch
+platforms           {darwin any}
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Collection of general-purpose Python utilities from Jaded Encoding Thaumaturgy.
+long_description    ${description} It is the non-VapourSynth base of vs-jetpack.
+homepage            https://github.com/Jaded-Encoding-Thaumaturgy/jetpytools
+
+checksums           rmd160  104d235bfe80d0f326d331b0f78a8436672e199b \
+                    sha256  d40b52b97e0e891bd827b1d8452f6da1da78f90b1ea814bc21c2117c864a6a79 \
+                    size    28585
+
+python.versions     313 314
+python.pep517_backend hatch
+
+if {${name} ne ${subport}} {
+    depends_build-append port:py${python.version}-versioningit
+    depends_run-append  port:py${python.version}-typing_extensions
+
+    test.run        yes
+    depends_test-append port:py${python.version}-pytest
+    python.test_framework pytest
+}
