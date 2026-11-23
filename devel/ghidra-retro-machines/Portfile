@@ -1,0 +1,102 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           ghidra_extension 1.0
+
+# Upstream has never tagged a release, so this is a snapshot of the default branch.
+github.setup        CBongo ghidra-retro-machines 3aeb76c6de507427dc989f2be39bf60eb0c6d453
+github.tarball_from archive
+version             0.20261119
+revision            0
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Ghidra processor modules and loaders for retro home computers.
+long_description    Descriptor-driven Ghidra loaders for retro computers and consoles (memory \
+                    maps, banked memory, IO chip registers, system ROM slots and symbols from \
+                    per-machine YAML descriptors), with processor modules for the 6502 family, \
+                    65816 and SPC700.
+
+set snakeyaml_ver   2.2
+
+master_sites-append https://repo1.maven.org/maven2/org/yaml/snakeyaml/${snakeyaml_ver}/:snakeyaml
+distfiles-append    snakeyaml-${snakeyaml_ver}-sources.jar:snakeyaml
+extract.only        ${distname}${extract.suffix}
+
+checksums           ghidra-retro-machines-3aeb76c6de507427dc989f2be39bf60eb0c6d453.tar.gz \
+                    rmd160  47a4c03d08f9f2c9127c75d38cb552e69903ba4b \
+                    sha256  d6d7a3cbb614bb05832e146e72b0af580b79f45ae20b056583a1d9ecc62e129e \
+                    size    5912097 \
+                    snakeyaml-2.2-sources.jar \
+                    rmd160  e29105028dd46bc97549829390a3a24b4de74d39 \
+                    sha256  8f7cf911cf63db55fd980a926d155bd846317737351a2f48ef1c1088c414538a \
+                    size    206581
+
+ghidra_extension.name GhidraRetroMachines
+
+# The extension ships SnakeYAML in lib/, as upstream's own build does. Build it from its source jar.
+pre-build {
+    set jenv [ghidra_extension::java_env]
+    set jbin [option java.home]/bin
+    set src ${workpath}/snakeyaml-src
+    file mkdir ${src} ${workpath}/snakeyaml-classes ${worksrcpath}/lib
+    system -W ${src} "/usr/bin/unzip -q ${distpath}/snakeyaml-${snakeyaml_ver}-sources.jar"
+    fs-traverse f [list ${src}] {
+        if {[file extension ${f}] eq ".java"} {
+            lappend sources ${f}
+        }
+    }
+    set fd [open ${workpath}/snakeyaml-sources.txt w]
+    puts ${fd} [join ${sources} \n]
+    close ${fd}
+    system "${jenv} ${jbin}/javac --release 17 -encoding UTF-8 -proc:none -nowarn\
+        -d ${workpath}/snakeyaml-classes @${workpath}/snakeyaml-sources.txt"
+    system "${jenv} ${jbin}/jar --create --file ${worksrcpath}/lib/snakeyaml-${snakeyaml_ver}.jar\
+        -C ${workpath}/snakeyaml-classes ."
+}
+
+# Upstream's Gradle build compiles the charset maps and the machine and game descriptors in
+# machines/ with the build-only tools/gdtbuilder.
+post-build {
+    set jenv [ghidra_extension::java_env]
+    set jbin [option java.home]/bin
+    set release [ghidra_extension::property application.java.compiler]
+    set tools ${workpath}/gdtbuilder
+    file mkdir ${tools} ${worksrcpath}/data/games ${worksrcpath}/data/machines
+    set cp [ghidra_extension::classpath]
+    system -W ${worksrcpath} "${jenv} ${jbin}/javac --release ${release} -d ${tools} -encoding UTF-8\
+        -proc:none -nowarn -classpath '${cp}' [join [glob ${worksrcpath}/tools/gdtbuilder/src/main/java/gdtbuilder/*.java]]"
+    set run "${jenv} ${jbin}/java -Djava.awt.headless=true -cp '${tools}:${cp}'"
+    set gen machines/generated
+    system -W ${worksrcpath} "${run} gdtbuilder.PetsciiCompiler ${gen}/petscii.yaml data/petscii.map"
+    system -W ${worksrcpath} "${run} gdtbuilder.ScreencodeCompiler ${gen}/petscii.yaml\
+        ${gen}/screencode.yaml data/screencode.map"
+    foreach yaml [glob ${worksrcpath}/machines/*.yaml] {
+        set n [file rootname [file tail ${yaml}]]
+        system -W ${worksrcpath} "${run} gdtbuilder.GdtBuilder machines/${n}.yaml data/machines/${n}.gdt"
+        system -W ${worksrcpath} "${run} gdtbuilder.MapCompiler machines/${n}.yaml data/machines/${n}.map"
+    }
+    foreach yaml [glob ${worksrcpath}/machines/games/*.yaml] {
+        set n [file rootname [file tail ${yaml}]]
+        system -W ${worksrcpath} "${run} gdtbuilder.GameCompiler machines/games/${n}.yaml data/games/${n}.gmap"
+    }
+
+    # RetroCharsetProvider loads the charset maps from the classpath.
+    set res ${workpath}/charset-resources
+    file mkdir ${res}/retromachines/charset
+    file copy -force ${worksrcpath}/data/petscii.map ${worksrcpath}/data/screencode.map ${res}/retromachines/charset/
+    system -W ${worksrcpath} "${jenv} ${jbin}/jar --update --file lib/[option ghidra_extension.name].jar\
+        -C ${res} retromachines"
+
+    # The descriptor fingerprint upstream ships beside them.
+    system -W ${worksrcpath}/machines "/usr/bin/find . -type f | /usr/bin/sed 's|^\\./||' |\
+        LC_ALL=C /usr/bin/sort | /usr/bin/xargs /usr/bin/shasum -a 256 |\
+        LC_ALL=C /usr/bin/sort > ../data/descriptor-sources.sha256"
+
+    # Only what upstream's own distribution ships; the rest is repository and build material.
+    foreach f [glob -directory ${worksrcpath} *] {
+        if {[file tail ${f}] ni {data extension.properties ghidra_scripts lib LICENSE Module.manifest NOTICE README.md}} {
+            file delete -force ${f}
+        }
+    }
+}
