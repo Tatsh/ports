@@ -1,0 +1,173 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           cmake 1.1
+PortGroup           qt6 1.0
+
+github.setup        harrypm tbc-tools 3.3.1 v
+github.tarball_from archive
+revision            0
+categories          multimedia
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Post-decoding tools for the TBC files of the decode projects.
+long_description    tbc-tools processes the TBC files written by vhs-decode, ld-decode and \
+                    cvbs-decode: tbc-analyse (a viewer and analyser), tbc-chroma-decoder, \
+                    dropout correction, VBI processing, EFM (LaserDisc digital audio) \
+                    decoding, disc mapping and stacking, and tbc-video-export.
+supported_archs     x86_64 arm64
+
+# Both are git submodules, so they are absent from the GitHub archive.
+set ezpwd_rev       62a490c13f6e057fbf2dc6777fde234c7a19098e
+set ccdec_rev       3dc59562c20ade687c524d9f4510a55a836ca475
+master_sites-append \
+    https://github.com/pjkundert/ezpwd-reed-solomon/archive/${ezpwd_rev}.tar.gz?dummy=:ezpwd \
+    https://github.com/eshaz/cc_decoder/archive/${ccdec_rev}.tar.gz?dummy=:ccdec
+distfiles-append    ezpwd-reed-solomon-${ezpwd_rev}.tar.gz:ezpwd \
+                    cc_decoder-${ccdec_rev}.tar.gz:ccdec
+
+checksums           tbc-tools-3.3.1.tar.gz \
+                    rmd160  c3a9a3371cb03a9f2d90ac56882cc2f8f633299f \
+                    sha256  8d0103455b953786fee670c8700b975957ce33a1d5a393ed0837bf3eaecc04bc \
+                    size    214446961 \
+                    ezpwd-reed-solomon-62a490c13f6e057fbf2dc6777fde234c7a19098e.tar.gz \
+                    rmd160  dd55229fd9604568820b2da5d9a1368497278801 \
+                    sha256  33be7d7fab01c544a06dc4614e0a1da78a4a096160647cd6d30acc644841d19f \
+                    size    1486765 \
+                    cc_decoder-3dc59562c20ade687c524d9f4510a55a836ca475.tar.gz \
+                    rmd160  d1a7716a1d6809b93250fc5ef373b3d0a6f2b333 \
+                    sha256  2b88f36b48177e1f33e019371097e120c2a04135fa51b1976543b9087d0ee282 \
+                    size    13817010
+
+qt6.depends_lib-append \
+                    qtsvg
+# The TBC metadata files are SQLite databases read through QtSql.
+qt6.depends_run-append \
+                    sqlite-plugin
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  port:fftw-3 \
+                    port:flac \
+                    port:onnxruntime
+# tbc-video-export is a Python application driving ffmpeg.
+depends_run-append  path:bin/ffmpeg:ffmpeg \
+                    port:python313 \
+                    port:py313-typing_extensions
+
+post-extract {
+    file delete ${worksrcpath}/src/efm-decoder/libs/ezpwd \
+        ${worksrcpath}/src/tbc-process-vbi/vendor/cc_decoder
+    move ${workpath}/ezpwd-reed-solomon-${ezpwd_rev} ${worksrcpath}/src/efm-decoder/libs/ezpwd
+    move ${workpath}/cc_decoder-${ccdec_rev} ${worksrcpath}/src/tbc-process-vbi/vendor/cc_decoder
+    # CRLF line endings; normalise so the patches can stay LF.
+    reinplace "s|\r$||" ${worksrcpath}/src/tbc-analyse/CMakeLists.txt
+}
+
+# From tatsh-overlay: no mime, desktop and icon cache updates from the install step (they
+# write to the live system), the vendored vhs-teletext under share/tbc-tools instead of bin (and
+# the vendored .NET audio aligner, which needs mono, not installed), and PAL-M VITC decoding as a
+# 30-frame system.
+patchfiles          patch-no-install-cache-update.diff \
+                    patch-vendor-datadir.diff \
+                    patch-vitc-pal-m-30-frame.diff
+# Keep the neural network chroma decoder's ONNX Runtime session alive until exit; destroying it
+# from a static destructor aborts the program after the output has been written.
+patchfiles-append   patch-onnx-static-teardown.diff
+
+post-patch {
+    # The bundled Python programs look for an interpreter on PATH; prefer the MacPorts one that
+    # has their dependencies.
+    reinplace "s|^PYTHON_NAMES=(.*)$|PYTHON_NAMES=(${prefix}/bin/python3.13 python3 python)|" \
+        ${worksrcpath}/src/tbc-video-export/tbc-video-export.in
+    foreach f {src/tbc-analyse/teletextviewerdialog.cpp
+               src/tbc-process-vbi/teletextintegration.cpp} {
+        reinplace "s|QStringLiteral(\"python3\"),|QStringLiteral(\"${prefix}/bin/python3.13\"),\
+        QStringLiteral(\"python3\"),|" ${worksrcpath}/${f}
+    }
+}
+
+cmake.build_type    Release
+
+# ld-decode's Python library comes with vhs-decode. CUDA is not available on macOS.
+configure.args-append \
+                    -DBUILD_PYTHON=OFF \
+                    -DBUILD_TESTING=OFF \
+                    -DLDCHROMA_ENABLE_CUDA=OFF \
+                    -DONNXRUNTIME_ROOT=${prefix} \
+                    -DAPP_BRANCH=macports \
+                    -DAPP_COMMIT=v${version} \
+                    -DAPP_VERSION=${version}
+
+variant teletext description {Dependencies of the vendored vhs-teletext, for teletext export} {
+    depends_run-append \
+                    port:py313-click \
+                    port:py313-matplotlib \
+                    port:py313-numpy \
+                    port:py313-zmq \
+                    port:py313-scipy \
+                    port:py313-tqdm
+}
+
+post-destroot {
+    # Linux desktop integration.
+    foreach d {share/applications share/mime share/icons} {
+        delete ${destroot}${prefix}/${d}
+    }
+
+    # Finder-launched programs get launchd's PATH, which lacks ${prefix}/bin; the GUIs run the
+    # other tools, ffmpeg and Python from PATH.
+    set lsenv "<key>LSEnvironment</key><dict><key>PATH</key>\
+<string>${prefix}/bin:/usr/bin:/bin:/usr/sbin:/sbin</string></dict>"
+    set appdir ${destroot}${applications_dir}/tbc-tools
+    xinstall -d ${appdir}
+
+    # tbc-analyse is built as an app bundle by upstream.
+    move ${destroot}${prefix}/bin/tbc-analyse.app "${appdir}/TBC Analyse.app"
+    set plist "${appdir}/TBC Analyse.app/Contents/Info.plist"
+    reinplace "s|<dict>|<dict>${lsenv}|" ${plist}
+    foreach {key value} [list CFBundleName "TBC Analyse" \
+                             CFBundleIdentifier org.macports.tbc-tools.tbc-analyse \
+                             CFBundleShortVersionString ${version} CFBundleVersion ${version}] {
+        system "/usr/libexec/PlistBuddy -c [shellescape "Set :${key} ${value}"] [shellescape ${plist}]"
+    }
+    ln -s "${applications_dir}/tbc-tools/TBC Analyse.app/Contents/MacOS/tbc-analyse" \
+        ${destroot}${prefix}/bin/tbc-analyse
+
+    # The other GUIs, as bundles that run the installed programs in their GUI mode.
+    set icon ${worksrcpath}/src/tbc-analyse/Graphics/appicon.icns
+    foreach {tool args title} {
+        tbc-efm-handler     {}      "TBC EFM Handler"
+        tbc-process-vbi     --gui   "TBC Process VBI"
+        ld-lds-converter    --gui   "LD LDS Converter"
+    } {
+        set app "${appdir}/${title}.app/Contents"
+        xinstall -d ${app}/MacOS ${app}/Resources
+        xinstall -m 0644 ${icon} ${app}/Resources/appicon.icns
+        set fd [open ${app}/MacOS/${tool} w]
+        puts ${fd} "#!/bin/sh\nexec ${prefix}/bin/${tool} ${args} \"\$@\""
+        close ${fd}
+        file attributes ${app}/MacOS/${tool} -permissions 0755
+        set fd [open ${app}/Info.plist w]
+        puts ${fd} "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+    <key>CFBundleExecutable</key><string>${tool}</string>
+    <key>CFBundleIconFile</key><string>appicon.icns</string>
+    <key>CFBundleIdentifier</key><string>org.macports.tbc-tools.${tool}</string>
+    <key>CFBundleName</key><string>${title}</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleShortVersionString</key><string>${version}</string>
+    <key>CFBundleVersion</key><string>${version}</string>
+    <key>NSHighResolutionCapable</key><true/>
+    ${lsenv}
+</dict>
+</plist>"
+        close ${fd}
+    }
+
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${docdir}/
+}

@@ -1,0 +1,15 @@
+--- src/tbc-chroma-decoder/comb.cpp
++++ src/tbc-chroma-decoder/comb.cpp
+@@ -975,8 +975,10 @@ bool Comb::FrameBuffer::split3DnnTransform(FrameBuffer &nextFrame, qint32 frameI
+     static std::atomic_bool onnxReady {false};
+     static qint32 onnxBatchTiles = 1;
+     static QString onnxProviderName = QStringLiteral("CPU");
+-    static std::unique_ptr<Ort::Env> ortEnv;
+-    static std::unique_ptr<Ort::Session> ortSession;
++    // Never destroyed: tearing the session down from a static destructor at exit runs after
++    // ONNX Runtime's own statics are gone and aborts with "mutex lock failed".
++    static std::unique_ptr<Ort::Env> &ortEnv = *new std::unique_ptr<Ort::Env>;
++    static std::unique_ptr<Ort::Session> &ortSession = *new std::unique_ptr<Ort::Session>;
+     std::call_once(onnxInitOnce, []() {
+         try {
+             ortEnv = std::make_unique<Ort::Env>(ORT_LOGGING_LEVEL_WARNING, "LdDecodeToolsNnTransform3D");

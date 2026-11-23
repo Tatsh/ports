@@ -1,0 +1,50 @@
+--- src/audio-align/CMakeLists.txt
++++ src/audio-align/CMakeLists.txt
+@@ -26,7 +26,6 @@ add_custom_command(TARGET tbc-audio-align POST_BUILD
+ )
+ 
+ install(TARGETS tbc-audio-align)
+-install(DIRECTORY "${_audio_align_vendor_dir}/" DESTINATION ${CMAKE_INSTALL_BINDIR}/vendor/vhs_decode_auto_audio_align)
+ 
+ if(BUILD_TESTING)
+     add_executable(test-audio-align-runtime
+--- src/tbc-analyse/CMakeLists.txt
++++ src/tbc-analyse/CMakeLists.txt
+@@ -97,7 +97,7 @@ set(_audio_align_vendor_dir "${CMAKE_SOURCE_DIR}/src/audio-align/vendor/vhs_deco
+ set(_teletext_vendor_dir "${CMAKE_SOURCE_DIR}/src/tbc-process-vbi/vendor/vhs-teletext")
+ target_compile_definitions(tbc-analyse PRIVATE
+     AUDIO_ALIGN_VENDOR_DIR="${_audio_align_vendor_dir}"
+-    TELETEXT_VENDOR_DIR="${_teletext_vendor_dir}"
++    TELETEXT_VENDOR_DIR="${CMAKE_INSTALL_FULL_DATADIR}/tbc-tools/vendor/vhs-teletext"
+ )
+ add_custom_command(TARGET tbc-analyse POST_BUILD
+     COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:tbc-analyse>/vendor/vhs_decode_auto_audio_align"
+@@ -117,7 +117,7 @@ add_custom_command(TARGET tbc-analyse POST_BUILD
+         "${_teletext_vendor_dir}"
+         "$<TARGET_FILE_DIR:tbc-analyse>/vendor/vhs-teletext"
+ )
+-install(DIRECTORY "${_teletext_vendor_dir}/" DESTINATION ${CMAKE_INSTALL_BINDIR}/vendor/vhs-teletext)
++install(DIRECTORY "${_teletext_vendor_dir}/" DESTINATION ${CMAKE_INSTALL_DATADIR}/tbc-tools/vendor/vhs-teletext)
+ 
+ if(WIN32)
+     target_compile_definitions(tbc-analyse PRIVATE
+--- src/tbc-process-vbi/CMakeLists.txt
++++ src/tbc-process-vbi/CMakeLists.txt
+@@ -19,7 +19,7 @@ target_link_libraries(tbc-process-vbi PRIVATE
+ )
+ set(_teletext_vendor_dir "${CMAKE_CURRENT_SOURCE_DIR}/vendor/vhs-teletext")
+ target_compile_definitions(tbc-process-vbi PRIVATE
+-    TELETEXT_VENDOR_DIR="${_teletext_vendor_dir}"
++    TELETEXT_VENDOR_DIR="${CMAKE_INSTALL_FULL_DATADIR}/tbc-tools/vendor/vhs-teletext"
+ )
+ 
+ add_custom_command(TARGET tbc-process-vbi POST_BUILD
+@@ -30,7 +30,7 @@ add_custom_command(TARGET tbc-process-vbi POST_BUILD
+ )
+ 
+ install(TARGETS tbc-process-vbi)
+-install(DIRECTORY "${_teletext_vendor_dir}/" DESTINATION ${CMAKE_INSTALL_BINDIR}/vendor/vhs-teletext)
++install(DIRECTORY "${_teletext_vendor_dir}/" DESTINATION ${CMAKE_INSTALL_DATADIR}/tbc-tools/vendor/vhs-teletext)
+ 
+ if(BUILD_TESTING)
+     add_test(
