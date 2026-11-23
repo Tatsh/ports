@@ -1,7 +1,7 @@
-diff --git a/src/main/java/gamecubeloader/GameCubeLoader.java b/src/main/java/gamecubeloader/GameCubeLoader.java
+diff --git src/main/java/gamecubeloader/GameCubeLoader.java src/main/java/gamecubeloader/GameCubeLoader.java
 index fd594f5..2089b34 100644
---- a/src/main/java/gamecubeloader/GameCubeLoader.java
-+++ b/src/main/java/gamecubeloader/GameCubeLoader.java
+--- src/main/java/gamecubeloader/GameCubeLoader.java
++++ src/main/java/gamecubeloader/GameCubeLoader.java
 @@ -82,6 +82,10 @@ public class GameCubeLoader extends BinaryLoader {
  	public Collection<LoadSpec> findSupportedLoadSpecs(ByteProvider provider) throws IOException {
  		List<LoadSpec> loadSpecs = new ArrayList<>();

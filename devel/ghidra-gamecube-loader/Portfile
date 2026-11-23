@@ -32,7 +32,6 @@ ghidra_extension.name GameCubeLoader
 
 # Do not claim files that other loaders recognize (from tatsh-overlay).
 patchfiles          patch-loadspec-hijack.diff
-patch.pre_args-replace -p0 -p1
 
 post-extract {
     file mkdir ${worksrcpath}/lib
