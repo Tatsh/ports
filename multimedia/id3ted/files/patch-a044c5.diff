@@ -7,10 +7,10 @@ Subject: [PATCH] Fixed writing outside the bounds of the array
  fileio.cpp | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fileio.cpp b/fileio.cpp
+diff --git fileio.cpp fileio.cpp
 index 35d992f..edfe2de 100644
---- a/fileio.cpp
-+++ b/fileio.cpp
+--- fileio.cpp
++++ fileio.cpp
 @@ -154,7 +154,7 @@ FileIO::Status FileIO::resetTimes(const char *filename, const FileTimes &times)
  }
  

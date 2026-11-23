@@ -15,7 +15,6 @@ categories          multimedia
 revision            1
 
 patchfiles          patch-a044c5.diff
-patch.pre_args      -p1
 
 depends_lib         port:taglib port:libmagic
 
