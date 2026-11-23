@@ -19,7 +19,7 @@ checksums           rmd160  af4d973876414dab17359951fcf1dc1201cb86e2 \
                     sha256  b9f2ef3be331fd69e27eeb9a66da72260f9c0d0e5d146699a1124bb880cc72dc \
                     size    5291
 
-python.versions     310 311 312 313 314
+python.versions     310 311 312 313 314 315
 
 if {${name} ne ${subport}} {
     python.pep517_backend poetry
