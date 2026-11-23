@@ -5,8 +5,8 @@ second copy into the user's settings directory that shadows the packaged one,
 and the check runs on every dialog open, listing the assets of every release,
 which exhausts the anonymous GitHub API rate limit and logs errors.
 
---- a/src/main/java/extensionmanager/ExtensionManagerPlugin.java	2026-08-28 05:26:50.000000000 -0400
-+++ b/src/main/java/extensionmanager/ExtensionManagerPlugin.java	2026-09-11 11:03:39.866961063 -0400
+--- src/main/java/extensionmanager/ExtensionManagerPlugin.java	2026-08-28 05:26:50.000000000 -0400
++++ src/main/java/extensionmanager/ExtensionManagerPlugin.java	2026-09-11 11:03:39.866961063 -0400
 @@ -61,7 +61,6 @@
  	}
  

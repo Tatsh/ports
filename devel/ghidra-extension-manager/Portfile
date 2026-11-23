@@ -20,7 +20,6 @@ ghidra_extension.name GhidraExtensionManager
 
 patchfiles          patch-0.3.2-catalog-in-user-settings.diff \
                     patch-0.3.2-no-self-update.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     set fd [open ${worksrcpath}/src/main/java/extensionmanager/ExtensionManagerVersion.java w]
