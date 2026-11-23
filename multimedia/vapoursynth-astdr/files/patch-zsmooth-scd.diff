@@ -1,0 +1,46 @@
+--- ASTDR.py
++++ ASTDR.py
+@@ -23,6 +23,14 @@
+         chroma2 = core.hqdn3d.Hqdn3d(chroma2, lum_spac=chrom_spac, lum_tmp=chrom_tmp)
+     
+     return core.std.ShufflePlanes(clips=[luma, chroma1, chroma2], planes=[0, 0, 0], colorfamily=input_clip.format.color_family)
++
++
++# AviSynth's TemporalSoften takes a scene change threshold, focus2.TemporalSoften2 only honours the
++# _SceneChange* properties from scd.Detect (and requires them when scenechange is not 0).
++def TemporalSoftenForASTDR(input_clip, radius, chroma_threshold, scenechange):
++    if scenechange > 0:
++        input_clip = input_clip.scd.Detect(thresh=scenechange)
++    return input_clip.focus2.TemporalSoften2(radius=radius, luma_threshold=0, chroma_threshold=chroma_threshold, scenechange=1 if scenechange > 0 else 0, mode=2)
+ 
+ 
+ # amount doesn't go below 0 because std.Convolution doesn't take coefficients greater than 1023.
+@@ -104,7 +112,7 @@
+     if sisfield:
+         flux_spatial_threshold = fluxstv // 2
+ 
+-    filtered_uv = filtered_uv.flux.SmoothST(temporal_threshold=fluxstv, spatial_threshold=flux_spatial_threshold, planes=[1, 2])
++    filtered_uv = filtered_uv.zsmooth.FluxSmoothST(temporal_threshold=fluxstv, spatial_threshold=flux_spatial_threshold, planes=[1, 2])
+ 
+     if not sisfield:
+         filtered_uv = filtered_uv.warp.AWarpSharp2(depth=4, chroma=0, cplace="mpeg2", planes=[1, 2])
+@@ -112,7 +120,7 @@
+     chrom_spac = strength * 3 / 5
+     if sisfield:
+         chrom_spac = strength * 2 / 5
+-    filtered_uv = MultithreadedHqdn3d(filtered_uv, lum_spac=0, lum_tmp=0, chrom_spac=chrom_spac, chrom_tmp=strength).focus2.TemporalSoften2(radius=tempsoftrad, luma_threshold=0, chroma_threshold=tempsoftth, scenechange=tempsoftsc, mode=2)
++    filtered_uv = TemporalSoftenForASTDR(MultithreadedHqdn3d(filtered_uv, lum_spac=0, lum_tmp=0, chrom_spac=chrom_spac, chrom_tmp=strength), radius=tempsoftrad, chroma_threshold=tempsoftth, scenechange=tempsoftsc)
+     filtered_uv = BlurForASTDR(input_clip=filtered_uv, amount=blstr, planes=[1, 2])
+ 
+     if not sisfield:
+@@ -128,8 +136,8 @@
+ 
+     if fnomc:
+         filtered_odd = input_clip.std.SelectEvery(cycle=2, offsets=1)
+-        filtered_odd = filtered_odd.decross.DeCross(thresholdy=15, noise=dcn, margin=1).flux.SmoothST(temporal_threshold=fluxstv, spatial_threshold=flux_spatial_threshold, planes=[1, 2])
+-        filtered_odd = MultithreadedHqdn3d(filtered_odd, lum_spac=0, lum_tmp=0, chrom_spac=chrom_spac, chrom_tmp=strength).focus2.TemporalSoften2(radius=tempsoftrad, luma_threshold=0, chroma_threshold=tempsoftth, scenechange=tempsoftsc, mode=2)
++        filtered_odd = filtered_odd.decross.DeCross(thresholdy=15, noise=dcn, margin=1).zsmooth.FluxSmoothST(temporal_threshold=fluxstv, spatial_threshold=flux_spatial_threshold, planes=[1, 2])
++        filtered_odd = TemporalSoftenForASTDR(MultithreadedHqdn3d(filtered_odd, lum_spac=0, lum_tmp=0, chrom_spac=chrom_spac, chrom_tmp=strength), radius=tempsoftrad, chroma_threshold=tempsoftth, scenechange=tempsoftsc)
+         filtered_odd = BlurForASTDR(input_clip=filtered_odd, amount=blstr, planes=[1, 2])
+         filtered_odd = filtered_odd.fft3dfilter.FFT3DFilter(sigma=sigma, sigma3=sigma3, planes=[1, 2], degrid=1)
+         filtered_uv = core.std.Interleave([filtered_uv, filtered_odd])
