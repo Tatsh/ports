@@ -1,7 +1,7 @@
 Adapt to the Ghidra 12.2 API.
 
---- a/src/main/java/com/xebyte/core/ServiceUtils.java
-+++ b/src/main/java/com/xebyte/core/ServiceUtils.java
+--- src/main/java/com/xebyte/core/ServiceUtils.java
++++ src/main/java/com/xebyte/core/ServiceUtils.java
 @@ -752,8 +752,8 @@
       * silently drop it.
       */
@@ -13,8 +13,8 @@ Adapt to the Ghidra 12.2 API.
              if (sla != null) return sla.getAbsolutePath();
          }
          return d.getLanguageID().getIdAsString();
---- a/src/main/java/com/xebyte/core/DataTypeService.java
-+++ b/src/main/java/com/xebyte/core/DataTypeService.java
+--- src/main/java/com/xebyte/core/DataTypeService.java
++++ src/main/java/com/xebyte/core/DataTypeService.java
 @@ -1199,7 +1199,7 @@
                  // Check if type is in use (simplified check)
                  // Note: Ghidra will prevent deletion if type is in use during remove operation

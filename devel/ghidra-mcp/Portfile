@@ -19,7 +19,6 @@ checksums           rmd160  79b8548b2ff9646999acf462cbc868c64e81ba98 \
 ghidra_extension.name GhidraMCP
 
 patchfiles          patch-ghidra-12.2.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     set gv [ghidra_extension::property application.version]
