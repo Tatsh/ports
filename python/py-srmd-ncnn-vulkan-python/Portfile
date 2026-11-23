@@ -1,0 +1,80 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-srmd-ncnn-vulkan-python
+version             1.0.2
+revision            0
+categories-append   graphics
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Python binding of srmd-ncnn-vulkan, made with SWIG.
+long_description    A Python module that upscales and denoises PIL images with the SRMD models \
+                    through ncnn, on the GPU through Vulkan (MoltenVK on macOS). It is a library \
+                    for Video2X and similar programs.
+homepage            https://github.com/media2x/srmd-ncnn-vulkan-python
+supported_archs     x86_64 arm64
+
+checksums           rmd160  5ea91b8f79514394d2bf01730c72dcce7900fbc8 \
+                    sha256  3c7f71cbba2b6310c4b14c2b11dae7737582ac004893f8c9cc3f7c305c7bbe49 \
+                    size    36199548
+
+python.versions     313 314
+
+if {${name} ne ${subport}} {
+    PortGroup       cmake 1.1
+
+    set pkgname     srmd_ncnn_vulkan_python
+
+    # Find the system glslang through its CMake package, and fail rather than fall back to the
+    # bundled ncnn (which the sdist leaves out) when the system one is missing.
+    patchfiles      patch-system-glslang.diff
+
+    depends_build-append \
+                    port:swig-python \
+                    port:vulkan-headers
+    depends_lib-append \
+                    port:ncnn \
+                    port:vulkan-loader
+    depends_run-append \
+                    port:py${python.version}-pillow
+
+    # Built with CMake directly, as Gentoo does: setup.py needs cmake-build-extension, which
+    # only drives this same CMake build.
+    use_configure   yes
+    cmake.source_dir ${worksrcpath}/${pkgname}
+    build.cmd       make
+    build.target    all
+    destroot.cmd    make
+    destroot.target install
+    destroot.destdir DESTDIR=${destroot}
+
+    configure.args-append \
+                    -DCMAKE_INSTALL_PREFIX=${python.pkgd}/${pkgname} \
+                    -DPYTHON_INCLUDE_DIR=${python.include} \
+                    -DPYTHON_LIBRARY=${python.lib} \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DCALL_FROM_SETUP_PY=ON \
+                    -DUSE_SYSTEM_NCNN=ON
+
+    post-destroot {
+        set pkgdir ${destroot}${python.pkgd}/${pkgname}
+        # What setup.py writes as the package's __init__.py.
+        set fp [open ${pkgdir}/__init__.py w]
+        puts ${fp} "from .srmd_ncnn_vulkan import Srmd, SRMD"
+        close ${fp}
+        set docdir ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${docdir}
+        foreach f {README.md LICENSE} {
+            if {[file exists ${pkgdir}/${f}]} {
+                file delete ${pkgdir}/${f}
+            }
+            xinstall -m 0644 ${worksrcpath}/${f} ${docdir}/
+        }
+        # Package metadata, so that importlib.metadata and pip see the module.
+        copy ${worksrcpath}/${pkgname}.egg-info \
+            ${destroot}${python.pkgd}/${pkgname}-${version}-py${python.branch}.egg-info
+        system "${python.bin} -m compileall -q -d ${python.pkgd}/${pkgname} ${pkgdir}"
+    }
+}
