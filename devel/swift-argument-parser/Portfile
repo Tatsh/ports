@@ -29,7 +29,6 @@ configure.args-append -DBUILD_EXAMPLES=NO -DBUILD_TESTING=NO
 # Install ArgumentParserToolInfo.swiftmodule for clients (e.g. dockutil)
 patchfiles patch-mutex-import.diff patch-install-toolinfo.diff \
            patch-swift5-typed-throws.diff
-patch.pre_args -p0
 
 post-destroot {
     # Create symlinks in lib/ if dylibs are only in lib/swift/macosx/ (e.g. older releases)
