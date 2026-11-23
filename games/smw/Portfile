@@ -7,6 +7,7 @@ PortGroup           github 1.0
 
 github.setup        snesrev smw 0.1 v
 github.tarball_from archive
+revision            1
 categories          games
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -27,10 +28,8 @@ fetch_restrict.instructions {
 depends_build-append port:python313
 depends_lib-append  port:libsdl2
 
-# Keep the configuration in ~/.config/smw and saves in ~/.local/share/smw instead of the working
-# directory (from tatsh-overlay).
-patchfiles          patch-xdg-paths.diff
-patch.pre_args-replace -p0 -p1
+# Keep the settings and saves in ~/Library/Application Support/smw instead of the working directory.
+patchfiles          patch-user-paths.diff
 
 post-extract {
     file copy [fetch_restrict::path smw.sfc] ${worksrcpath}/smw.sfc
@@ -62,8 +61,8 @@ app.name            Super Mario World
 app.executable      ${prefix}/bin/smw
 
 notes "
-Copy ${prefix}/share/${name}/smw.ini to ~/.config/smw/smw.ini to change the settings. Saves go to\
- ~/.local/share/smw/saves.
+Copy ${prefix}/share/${name}/smw.ini to ~/Library/Application Support/smw/smw.ini to change the\
+ settings. Saves go to ~/Library/Application Support/smw/saves.
 "
 
 livecheck.type      none
