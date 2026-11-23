@@ -6,7 +6,7 @@ PortGroup           cmake   1.1
 
 github.setup        GothenburgBitFactory timewarrior 1.10.0 v
 github.tarball_from releases
-revision            1
+revision            2
 
 homepage            https://timewarrior.net
 
@@ -31,6 +31,8 @@ checksums           rmd160  972ee1e116f2e57d94adbc71d8717036d1fe3006\
 
 # Hardcoding C++ runtime is either redundant or breaking.
 patchfiles-append       patch-fix-cxx.diff
+# Keep the settings and data in ~/Library/Application Support/timewarrior on macOS.
+patchfiles-append       patch-macos-paths.diff
 
 # Required by the build:
 compiler.cxx_standard   2017

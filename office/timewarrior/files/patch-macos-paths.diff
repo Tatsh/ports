@@ -1,0 +1,17 @@
+--- src/paths.cpp
++++ src/paths.cpp
+@@ -37,8 +37,14 @@
+   return value;
+ }
+ 
++#ifdef __APPLE__
++// The settings, extensions and data all go in ~/Library/Application Support/timewarrior.
++static std::string conf_dir = getPath ("~/Library/Application Support");
++static std::string data_dir = getPath ("~/Library/Application Support");
++#else
+ static std::string conf_dir = getPath (getenv_default ("XDG_CONFIG_HOME", "~/.config"));
+ static std::string data_dir = getPath (getenv_default ("XDG_DATA_HOME", "~/.local/share"));
++#endif
+ std::string configDir () { return conf_dir; }
+ std::string dbDir () { return data_dir; }
+ 
