@@ -13,8 +13,8 @@ about kdialog, matedialog and qarma, so route the message boxes through it as
 well. When it finds no helper at all, say so and answer no, rather than
 whatever the stack happened to hold.
 
---- a/src/port/Engine.cpp
-+++ b/src/port/Engine.cpp
+--- src/port/Engine.cpp
++++ src/port/Engine.cpp
 @@ -3,6 +3,7 @@
  #include "StringHelper.h"
  

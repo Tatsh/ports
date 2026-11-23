@@ -10,8 +10,8 @@ the network at build time.
 tools/Torch now builds that executable as torch-cli beside the library, so
 refer to it directly.
 
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -607,21 +607,13 @@
  endif()
  

@@ -131,7 +131,6 @@ post-extract {
 patchfiles          patch-torch-single-build.diff \
                     patch-use-torch-cli.diff \
                     patch-dialogs-via-pfd.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     # libultraship downloads stb_image.h; copy the distfile instead.
