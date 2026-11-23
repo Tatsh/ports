@@ -1,6 +1,6 @@
 diff -Nur a/buffer.c b/buffer.c
---- a/buffer.c	2001-03-15 12:45:26.000000000 +0100
-+++ b/buffer.c	2008-04-07 22:58:03.000000000 +0200
+--- buffer.c	2001-03-15 12:45:26.000000000 +0100
++++ buffer.c	2008-04-07 22:58:03.000000000 +0200
 @@ -1,5 +1,6 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -9,8 +9,8 @@ diff -Nur a/buffer.c b/buffer.c
  
  
 diff -Nur a/cdi2nero.c b/cdi2nero.c
---- a/cdi2nero.c	2002-06-08 01:31:36.000000000 +0200
-+++ b/cdi2nero.c	2008-04-19 16:46:05.000000000 +0200
+--- cdi2nero.c	2002-06-08 01:31:36.000000000 +0200
++++ cdi2nero.c	2008-04-19 16:46:05.000000000 +0200
 @@ -10,6 +10,12 @@
  #include "buffer.h"
  #include "cdi.h"
@@ -71,8 +71,8 @@ diff -Nur a/cdi2nero.c b/cdi2nero.c
            buffer[*index+i] = src[i];
  #else
 diff -Nur a/common.c b/common.c
---- a/common.c	2002-04-09 02:44:12.000000000 +0200
-+++ b/common.c	2008-04-19 16:42:19.000000000 +0200
+--- common.c	2002-04-09 02:44:12.000000000 +0200
++++ common.c	2008-04-19 16:42:19.000000000 +0200
 @@ -15,7 +15,7 @@
  
       tmp = buf;
@@ -120,8 +120,8 @@ diff -Nur a/common.c b/common.c
  #endif
  
 diff -Nur a/common.h b/common.h
---- a/common.h	2002-04-09 02:44:12.000000000 +0200
-+++ b/common.h	2008-04-13 20:39:34.000000000 +0200
+--- common.h	2002-04-09 02:44:12.000000000 +0200
++++ common.h	2008-04-13 20:39:34.000000000 +0200
 @@ -9,11 +9,23 @@
  #define ERR_READIMAGE 0x03
  #define ERR_SAVEIMAGE 0x04

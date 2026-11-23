@@ -22,7 +22,6 @@ checksums           rmd160  b0088737aba005eedc872b7b7c79f9905a7998d8 \
 
 # Missing POSIX headers and declarations.
 patchfiles          patch-posix.diff
-patch.pre_args-replace -p0 -p1
 
 use_configure       no
 
