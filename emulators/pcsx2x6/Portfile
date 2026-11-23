@@ -1,0 +1,94 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        PS2Homebrew-arcade pcsx2x6 0.2.22 v
+github.tarball_from archive
+revision            0
+categories          emulators games
+# Upstream's own GPL-3+ plus the licences of what is built from 3rdparty/ (CC0 as public-domain).
+license             GPL-3+ Apache-2 BSD Boost-1 GPL-2+ ISC LGPL-2.1+ LGPL-3+ MIT OFL-1.1 \
+                    zlib public-domain
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         PCSX2 fork emulating NAMCO System 246 and 256 arcade hardware.
+long_description    PCSX2x6 is a fork of the PCSX2 PlayStation 2 emulator that emulates the NAMCO \
+                    System 246 and 256 arcade boards, which are based on the PlayStation 2. This \
+                    installs PCSX2x6.app, with the Metal and Vulkan (through MoltenVK) renderers.
+homepage            https://github.com/PS2Homebrew-arcade/pcsx2x6
+supported_archs     x86_64
+platforms           {darwin >= 22}
+
+checksums           rmd160  e1ad6730983cbbde1ee0660434528aba74322c86 \
+                    sha256  0485682591a5463d2c0ad14a68588da988c6d29bb9c5c5ef0ad351762365d308 \
+                    size    22464361
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  path:lib/libcurl.dylib:curl \
+                    port:ffmpeg8 \
+                    port:freetype \
+                    port:kddockwidgets \
+                    port:libjpeg-turbo \
+                    port:libpcap \
+                    port:libpng \
+                    port:lz4 \
+                    port:plutosvg \
+                    port:plutovg \
+                    port:rapidyaml \
+                    port:SDL3 \
+                    port:shaderc \
+                    port:webp \
+                    port:zlib \
+                    port:zstd
+depends_run-append  port:MoltenVK
+
+qt6.depends_lib-append qtsvg
+qt6.depends_build-append qttools
+
+# Qt 6.7: the filter change notifications from Qt 6.10 and QStyleHints::setColorScheme() from 6.8.
+patchfiles          patch-qt67.diff
+# Look for MoltenVK and shaderc in ${prefix}/lib instead of copying them into the app bundle, and
+# no in-app updater (MacPorts updates the app).
+patchfiles-append   patch-macports.diff
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/common/DynamicLibrary.cpp
+    reinplace "/set(PCSX2_GIT_TAG \"\")/s/\"\"/\"v${version}\"/" \
+        ${worksrcpath}/cmake/Pcsx2Utils.cmake
+    # Own bundle identifier; the data directory is already Application Support/PCSX2x6.
+    reinplace {s|net.pcsx2.pcsx2<|net.pcsx2.pcsx2x6<|} ${worksrcpath}/pcsx2/Resources/Info.plist.in
+}
+
+# std::lexicographical_compare_three_way and other C++20 library features that Xcode 15's libc++
+# lacks; libc++'s availability markup keeps the code to what macOS 13's libc++ provides.
+compiler.whitelist  macports-clang-20
+
+# The Metal shaders are compiled with xcrun metal, which only Xcode has.
+use_xcode           yes
+
+cmake.build_type    Release
+cmake.generator     Ninja
+configure.pkg_config_path-append ${prefix}/libexec/ffmpeg8/lib/pkgconfig
+cmake.prefix_path-append ${prefix}/libexec/ffmpeg8
+configure.args-append \
+                    -Wno-dev \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DENABLE_TESTS=OFF \
+                    -DUSE_LINKED_FFMPEG=ON \
+                    -DUSE_VTUNE=OFF \
+                    -DUSE_VULKAN=ON \
+                    -DSKIP_POSTPROCESS_BUNDLE=ON \
+                    -DOSX_USE_DEFAULT_SEARCH_PATH=ON \
+                    -DDISABLE_ADVANCE_SIMD=ON
+
+destroot {
+    copy ${build.dir}/pcsx2-qt/PCSX2.app ${destroot}${applications_dir}/PCSX2x6.app
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/COPYING.GPLv3 \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none

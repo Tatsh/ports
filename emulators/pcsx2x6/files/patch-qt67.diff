@@ -1,0 +1,61 @@
+diff --git cmake/SearchForStuff.cmake cmake/SearchForStuff.cmake
+index 8407e63..961ef80 100644
+--- cmake/SearchForStuff.cmake
++++ cmake/SearchForStuff.cmake
+@@ -109,7 +109,7 @@ disable_compiler_warnings_for_target(speex)
+ 
+ # Find the Qt components that we need.
+ if(ENABLE_QT_UI)
+-	find_package(Qt6 6.10.1 COMPONENTS CoreTools Core GuiTools Gui WidgetsTools Widgets LinguistTools REQUIRED)
++	find_package(Qt6 6.7 COMPONENTS CoreTools Core GuiTools Gui WidgetsTools Widgets LinguistTools REQUIRED)
+ 
+ 	if(NOT WIN32 AND NOT APPLE)
+ 		if (Qt6_VERSION VERSION_GREATER_EQUAL 6.10.0)
+diff --git pcsx2-qt/AutoUpdaterDialog.cpp pcsx2-qt/AutoUpdaterDialog.cpp
+index 4ad5950..0b561b1 100644
+--- pcsx2-qt/AutoUpdaterDialog.cpp
++++ pcsx2-qt/AutoUpdaterDialog.cpp
+@@ -111,8 +111,8 @@ bool AutoUpdaterDialog::isSupported()
+ 	}
+ 
+ 	return true;
+-#elif defined(_WIN32) || defined(__APPLE__)
+-	// Windows, MacOS - always supported.
++#elif defined(_WIN32)
++	// Windows - always supported. MacPorts updates the app on macOS.
+ 	return true;
+ #else
+ 	return false;
+diff --git pcsx2-qt/GameList/GameListWidget.cpp pcsx2-qt/GameList/GameListWidget.cpp
+index fa3824d..c4864ff 100644
+--- pcsx2-qt/GameList/GameListWidget.cpp
++++ pcsx2-qt/GameList/GameListWidget.cpp
+@@ -73,6 +73,16 @@ public:
+ 	{
+ 	}
+ 
++#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
++	// Qt 6.10's filter change notifications; earlier versions invalidate the filter afterwards.
++	enum class Direction
++	{
++		Rows,
++	};
++	void beginFilterChange() {}
++	void endFilterChange(Direction) { invalidateRowsFilter(); }
++#endif
++
+ 	void setFilterType(GameList::EntryType type)
+ 	{
+ 		beginFilterChange();
+diff --git pcsx2-qt/Themes.cpp pcsx2-qt/Themes.cpp
+index 5d201c8..219dd26 100644
+--- pcsx2-qt/Themes.cpp
++++ pcsx2-qt/Themes.cpp
+@@ -639,5 +639,7 @@ void QtHost::SetStyleFromSettings()
+ static void QtHost::SetColorScheme(Qt::ColorScheme color_scheme)
+ {
+ 	s_color_scheme = color_scheme;
++#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+ 	qApp->styleHints()->setColorScheme(color_scheme);
++#endif
+ }
