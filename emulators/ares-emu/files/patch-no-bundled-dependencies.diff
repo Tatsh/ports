@@ -1,0 +1,12 @@
+--- cmake/macos/helpers.cmake
++++ cmake/macos/helpers.cmake
+@@ -110,7 +110,8 @@
+       unset(_required_macos)
+       get_target_property(_required_macos ${library} MACOS_VERSION_REQUIRED)
+ 
+-      if(is_system_framework OR is_xcode_framework)
++      # Without the prebuilt dependencies, the libraries come from the system and stay there.
++      if(is_system_framework OR is_xcode_framework OR ARES_SKIP_DEPS)
+         continue()
+       elseif(_required_macos VERSION_GREATER CMAKE_OSX_DEPLOYMENT_TARGET)
+         continue()

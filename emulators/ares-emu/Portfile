@@ -1,0 +1,83 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+# MacPorts' ares is the asynchronous DNS library.
+github.setup        ares-emulator ares 148 v
+github.tarball_from archive
+name                ares-emu
+revision            0
+categories          emulators games
+license             ISC MPL-2 MIT BSD ZLIB public-domain
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Multi-system emulator focusing on accuracy and preservation.
+long_description    ares is a cross-platform, open source, multi-system emulator focusing on \
+                    accuracy and preservation, for consoles and computers from the Atari 2600 \
+                    and Famicom to the Nintendo 64 and PlayStation.
+homepage            https://ares-emu.net
+supported_archs     x86_64 arm64
+
+# librashader is loaded at run time if it is installed; only its two headers are needed to build.
+# Without it, ares runs with shaders disabled.
+set librashader_rev bd2b8789a8d571add408d46590b3a2ff7e11886f
+master_sites-append https://raw.githubusercontent.com/SnowflakePowered/librashader/${librashader_rev}/include/:lrs
+distfiles-append    librashader.h:lrs librashader_ld.h:lrs
+extract.only        ${distname}${extract.suffix}
+dist_subdir         ${name}/${version}
+
+checksums           ares-148.tar.gz \
+                    rmd160  b4d2aba3fbf9810c11a5789081ea692ad8bfc2b4 \
+                    sha256  6d4370c39a2e43f20a934ea86b99aec3315170634f12240a1255c0ac61447d99 \
+                    size    5472763 \
+                    librashader.h \
+                    rmd160  39c7b5d027aa042d1c7f6bae8f1fa2d64a95b4de \
+                    sha256  5d478897c391af3f60015810b67785ae1a286d262a845485276e36ded9f21e62 \
+                    size    116613 \
+                    librashader_ld.h \
+                    rmd160  c0b30c9d3d5c2b9d59fb6290ef4c572da44f546b \
+                    sha256  89a0e1425183ee9824244595f4ad2a2ead61f5093276929e4d334ebe6ae85408 \
+                    size    71928
+
+depends_lib-append  port:SDL3
+depends_run-append  port:MoltenVK
+
+# Leave SDL and MoltenVK in MacPorts instead of copying them into the app.
+patchfiles          patch-no-bundled-dependencies.diff
+
+post-extract {
+    file mkdir ${workpath}/librashader-include/librashader
+    foreach f {librashader.h librashader_ld.h} {
+        file copy ${distpath}/${f} ${workpath}/librashader-include/librashader/
+    }
+}
+
+# The build asks xcrun for the platform version and compiles the asset catalogue with actool,
+# which need Xcode, not the Command Line Tools.
+use_xcode           yes
+
+# Parenthesised aggregate initialisation needs Clang 16.
+compiler.whitelist  macports-clang-16
+
+configure.cppflags-append -I${workpath}/librashader-include
+configure.objcxxflags-append -I${workpath}/librashader-include
+# MoltenVK is linked as @rpath/libMoltenVK.dylib.
+configure.ldflags-append -Wl,-rpath,${prefix}/lib
+
+# Anything but Release builds the debug configuration.
+cmake.build_type    Release
+
+configure.args-append \
+                    -DARES_SKIP_DEPS=ON \
+                    -DENABLE_CCACHE=OFF \
+                    -DENABLE_IPO=OFF \
+                    -DARES_BUILD_OFFICIAL=OFF
+
+destroot {
+    copy ${build.dir}/desktop-ui/ares.app ${destroot}${applications_dir}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
+}
+
+github.livecheck.regex {([0-9]+)}
