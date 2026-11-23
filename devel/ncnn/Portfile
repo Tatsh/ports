@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Tencent ncnn 20261020
+github.tarball_from archive
+revision            0
+categories          devel science
+license             BSD
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         High-performance neural network inference framework optimised for mobile.
+long_description    ncnn is a neural network inference framework with no third party \
+                    dependencies, for CPUs and, through Vulkan (MoltenVK on macOS), GPUs. The \
+                    *-ncnn-vulkan upscalers and their VapourSynth plugins are built on it.
+homepage            https://github.com/Tencent/ncnn
+supported_archs     x86_64 arm64
+
+checksums           rmd160  703eca808e2190be82a26d291b665c80b53727b6 \
+                    sha256  968d8d8e65ccadc803322f8238736176e0f9c929fcf484895f58a63e6b227127 \
+                    size    14927167
+
+depends_build-append \
+                    port:vulkan-headers
+depends_lib-append  port:glslang \
+                    port:vulkan-loader
+depends_run-append  port:MoltenVK
+
+# Export the C++11 requirement of the headers to consumers.
+patchfiles          patch-cxx11-interface.diff
+
+post-patch {
+    # The MacPorts Vulkan loader and MoltenVK, which dlopen does not find by bare name.
+    set f ${worksrcpath}/src/simplevk.cpp
+    reinplace "s|: \"libvulkan.dylib\";|: \"${prefix}/lib/libvulkan.dylib\";|" ${f}
+    reinplace "s|dlopen(\"libvulkan.1.dylib\"|dlopen(\"${prefix}/lib/libvulkan.1.dylib\"|" ${f}
+    reinplace "s|\"libMoltenVK.dylib\",|\"${prefix}/lib/libMoltenVK.dylib\",|" ${f}
+}
+
+# OpenMP through ncnn's own minimal runtime (simpleomp), which Xcode's clang can build with
+# -Xpreprocessor -fopenmp. Linking libomp instead would make libncnn export OpenMP::OpenMP_CXX,
+# which every consumer would then have to find with hand-set OpenMP flags.
+configure.args-append \
+                    -DNCNN_SHARED_LIB=ON \
+                    -DNCNN_VULKAN=ON \
+                    -DNCNN_SYSTEM_GLSLANG=ON \
+                    -Dglslang_DIR=${prefix}/lib/cmake/glslang \
+                    -DNCNN_OPENMP=ON \
+                    -DNCNN_SIMPLEOMP=ON \
+                    -DNCNN_BUILD_BENCHMARK=OFF \
+                    -DNCNN_BUILD_EXAMPLES=OFF \
+                    -DNCNN_BUILD_TOOLS=ON \
+                    -DNCNN_BUILD_TESTS=OFF \
+                    -DCMAKE_CXX_STANDARD=11
+
+# Upstream sets no standard, and Xcode's clang defaults to C++98.
+compiler.cxx_standard 2011

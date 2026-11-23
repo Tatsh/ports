@@ -1,0 +1,12 @@
+--- src/CMakeLists.txt
++++ src/CMakeLists.txt
+@@ -203,6 +203,9 @@
+ else()
+     add_library(ncnn STATIC ${ncnn_SRCS})
+ endif()
++# The public headers use C++11 (delegating constructors and so on); make consumers build as C++11
++# at least, since some compilers (Xcode's clang) still default to C++98.
++target_compile_features(ncnn PUBLIC cxx_std_11)
+ set_target_properties(ncnn PROPERTIES DEBUG_POSTFIX "d")
+ if(APPLE OR IOS)
+     # macos / ios only accepts a.b.c.d.e where a=24bit b/c/d/e=10bit
