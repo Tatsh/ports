@@ -41,6 +41,7 @@ anyio's
 apcupsd
 appdirs
 appiconset
+appium
 appl
 appleframeworks
 applysig
@@ -246,6 +247,7 @@ createdb
 createsuperuser
 createuser
 creds
+crosire
 cryptopp
 cstdint
 cstdlib
@@ -288,9 +290,11 @@ dcitra
 dclang
 dcmake
 dcoastline
+dcpmutil
 ddaedalus
 ddisable
 ddownload
+ddynarmic
 deat
 deathkiller
 deband
@@ -350,6 +354,7 @@ dlib
 dlibdeflate
 dlibretro
 dlibrw
+dlichii
 dllvm
 dlopen
 dlsym
@@ -394,11 +399,13 @@ dwebp
 dwith
 dxbox
 dxil
+dxxhash
 dyld
 dylibs
 dynaconf
 dynamiclib
 dynarmic
+dynarmic's
 dynasm
 dynasmrt
 dyuzu
@@ -417,6 +424,7 @@ eloader
 emcrisostomo
 emirpasic
 emotionengine
+emplaces
 emscripten
 emutype
 endi
@@ -515,6 +523,7 @@ gambatte
 gamecontrollerdb
 gamecube
 gamedb
+gamemode
 gandarez
 gcdb
 gcfg
@@ -732,6 +741,7 @@ jsonreference
 jsonschema
 jsonutils
 jstyleson
+jthread
 jtool
 juju
 julesverne
@@ -752,6 +762,7 @@ keycodemapdb
 khronos
 killall
 kimg
+kinnay
 klauspost
 knownhosts
 kotlinc
@@ -786,8 +797,10 @@ libcdio
 libchdr
 libclang
 libcompression
+libcpp
 libcryptopp
 libcst
+libcxx
 libdragon
 libdragon's
 libdsp
@@ -868,6 +881,7 @@ libweaver
 libwebsockets
 libyaml
 libzip
+lichii
 liconv
 lightrec
 lindex
@@ -1026,6 +1040,7 @@ mywave
 nanoarrow
 nanolib
 nanomdm
+napi
 nargs
 narmjep
 narqo
@@ -1065,6 +1080,8 @@ noautoopen
 nobrowse
 nocomplain
 noconflict
+nodedir
+nodeheaders
 nofetch
 noinput
 nomaintainer
@@ -1090,6 +1107,7 @@ nygard
 obfstr
 objc
 objcc
+objcxxflags
 objdump
 objroot
 objx
@@ -1155,6 +1173,7 @@ picofe
 pipx
 pjbgf
 pkgd
+pkgs
 pklite
 platformdirs
 plistlib
@@ -1256,12 +1275,14 @@ pytun
 pytype
 pyvboxmanage
 qtbase
+qtcharts
 qtmultimedia
 qtserialport
 qtsvg
 qttools
 quassel
 quasselc
+quazip
 quic
 rabbitizer
 ranav's
@@ -1290,6 +1311,7 @@ rectpack
 redumper
 reent
 refcell
+refspec
 regalloc
 regdump
 regsub
@@ -1304,6 +1326,7 @@ repr
 reqwest
 rerunfailures
 resampy
+reshade
 respx
 resvg
 retargetable
@@ -1456,6 +1479,7 @@ srcgen
 srtp
 ssim
 sstream
+stachenov
 starlette
 startswith
 startupitem
@@ -1558,6 +1582,7 @@ torbrowser
 torchaudio
 torchvision
 tqdm
+trimleft
 trollrestore
 trollstore
 trustme
@@ -1592,6 +1617,7 @@ usbkill
 useragent
 usvg
 uthash
+util's
 utls
 uvicorn
 valyala
@@ -1636,6 +1662,7 @@ waylybaye
 wbfs
 wbmgt
 wctct
+wdio
 webauthn
 webbrowser
 webp
@@ -1735,8 +1762,10 @@ youcompleteme
 ytarchive
 yusufpapurcu
 yuzu
+yuzu's
 yylex
 zarchive
+zbic
 zbus
 zcheapstr
 zeebo
@@ -1756,6 +1785,7 @@ zizmor
 zmij
 znedi
 zopfli
+zortos
 zsign
 zstandard
 zstd
