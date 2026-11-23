@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        Tatsh dade 0.2.0 v
+github.setup        Tatsh dade 0.3.0 v
 github.tarball_from archive
-revision            1
+revision            0
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -16,9 +16,9 @@ description         Extract and convert assets from a collection of PC and conso
 long_description    ${description}
 homepage            https://tatsh.github.io/dade/
 
-checksums           rmd160  2c558f66f24e2abb70d3e313640cb1189b0c59b3 \
-                    sha256  b00a8da93e5b54fba92ac6650b57f35b096cad144f2385219314902a9e96f14e \
-                    size    3086968
+checksums           rmd160  c0ab66b20ee3e9585e91c8802d81f3649858a0a4 \
+                    sha256  f5a1c3c305d77d8e230f30fb85873093d58cb9cfd4790ac9a9c508ada6d25a57 \
+                    size    3128503
 
 # The PyPI sdist lacks the password cracker's OpenCL kernel (kernel.cl): ".gitignore" ignores
 # *.cl, so hatch leaves it out of both the sdist and the wheel. Build from the tag instead, with
@@ -41,7 +41,9 @@ depends_run-append \
     port:py${python.version}-pylzham \
     port:py${python.version}-Pillow \
     port:py${python.version}-rich \
-    port:py${python.version}-typing_extensions
+    port:py${python.version}-texture2ddecoder \
+    port:py${python.version}-typing_extensions \
+    port:py${python.version}-zstd
 
 post-destroot {
     xinstall -m 0444 ${worksrcpath}/man/dade.1 ${destroot}${prefix}/share/man/man1
@@ -51,9 +53,9 @@ test.run            yes
 # Rich wraps output at the terminal width, which splits the long build paths tests look for.
 test.env-append     COLUMNS=1000
 # MacPorts clears addopts, which carries --import-mode=importlib for the relative test imports.
-# The device listing tests need CuPy (CUDA).
+# The device listing and auto-backend tests need CuPy (CUDA).
 test.args-append    -p no:cacheprovider --import-mode=importlib \
-                    -k {'not test_crack_main_list_devices'}
+                    -k {'not test_crack_main_list_devices and not test_crack_auto_backend_falls_back_to_cpu'}
 depends_test-append \
     port:py${python.version}-mock \
     port:py${python.version}-pytest-asyncio \
