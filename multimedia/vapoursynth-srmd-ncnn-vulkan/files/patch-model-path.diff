@@ -1,0 +1,26 @@
+--- src/main.cpp
++++ src/main.cpp
+@@ -220,17 +220,17 @@
+ 
+         // Model path
+         const std::string pluginPath{ vsapi->getPluginPath(getPluginById("com.vapoursynth.srmdnv", core)) };
+-        std::string paramPath{ pluginPath.substr(0, pluginPath.find_last_of("/\\")) };
+-        std::string modelPath{ pluginPath.substr(0, pluginPath.find_last_of("/\\")) };
++        std::string paramPath{ "@MODELDIR@" };
++        std::string modelPath{ "@MODELDIR@" };
+         if (noise == -1)
+         {
+-            paramPath += "/models/models-srmd/srmdnf_x" + std::to_string(scale) + ".param";
+-            modelPath += "/models/models-srmd/srmdnf_x" + std::to_string(scale) + ".bin";
++            paramPath += "/models-srmd/srmdnf_x" + std::to_string(scale) + ".param";
++            modelPath += "/models-srmd/srmdnf_x" + std::to_string(scale) + ".bin";
+         }
+         else
+         {
+-            paramPath += "/models/models-srmd/srmd_x" + std::to_string(scale) + ".param";
+-            modelPath += "/models/models-srmd/srmd_x" + std::to_string(scale) + ".bin";
++            paramPath += "/models-srmd/srmd_x" + std::to_string(scale) + ".param";
++            modelPath += "/models-srmd/srmd_x" + std::to_string(scale) + ".bin";
+         }
+ 
+         // Check model file readable
