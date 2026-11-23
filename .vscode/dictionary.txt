@@ -102,6 +102,7 @@ audvare
 authlib
 autocfg
 autograd
+automagic
 autoreconf
 autotools
 avcodec
@@ -360,6 +361,7 @@ dbus
 dcall
 dccache
 dccleste
+dcheck
 dchest
 dcitra
 dclang
@@ -442,6 +444,7 @@ distutils
 djava
 djbig
 djpeg
+dlazy
 dlclark
 dldchroma
 dlerc
@@ -456,6 +459,7 @@ dlith
 dllvm
 dlmalloc
 dlopen
+dlopened
 dlpack
 dlsym
 dlua
@@ -481,6 +485,7 @@ dopengl
 doptimize
 dosx
 dotenv
+dpackage
 dpatches
 dphysics
 dplutosvg
@@ -643,6 +648,7 @@ fmsx
 fmtc
 fmtconv
 fmtlib
+fmts
 fnmatch
 fobgui
 foldhash
@@ -1542,6 +1548,7 @@ plutosvg
 plutovg
 pmap
 pmezard
+pnach
 pngdefry
 pnglibconf
 polycool
@@ -1911,6 +1918,7 @@ smlab
 smol
 snakeyaml
 sndfile
+sndio
 snes
 snesrev
 snowpark
