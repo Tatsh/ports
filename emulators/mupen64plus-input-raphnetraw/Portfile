@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                mupen64plus-input-raphnetraw
+version             1.1.0
+revision            0
+categories          emulators games
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Mupen64Plus input plugin that talks to N64 controllers directly through raphnet adapters.
+long_description    {*}${description} The emulator then gets raw controller access (including \
+                    accessories such as the Rumble Pak and Transfer Pak) instead of a mapped gamepad.
+homepage            https://www.raphnet-tech.com/products/raphnetraw/index.php
+master_sites        https://www.raphnet-tech.com/downloads/
+
+checksums           rmd160  117b524f403fcfe3f3d00518c793312eea781005 \
+                    sha256  32ea9fd14fc71720b131ddc0a17393e3dd052778d91d6b78e49652950d635245 \
+                    size    31314
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  port:hidapi \
+                    port:libsdl2 \
+                    port:mupen64plus
+
+use_configure       no
+
+post-patch {
+    touch ${worksrcpath}/src/config.h
+    # The macOS branch targets 10.5 and picks an SDK by itself; use MacPorts' flags instead.
+    reinplace {s/ -arch x86_64 -mmacosx-version-min=10.5 -isysroot $(OSX_SDK_PATH)//} \
+        ${worksrcpath}/projects/unix/Makefile
+}
+
+build.dir           ${worksrcpath}/projects/unix
+build.target        all
+build.args-append   CC=${configure.cc} APIDIR=${prefix}/include/mupen64plus OPTFLAGS=-O2 \
+                    WARNFLAGS= V=1
+# The Makefile adds its own flags to these. The plugin calls SDL_PumpEvents but does not link
+# SDL2 (from tatsh-overlay).
+build.env-append    "CFLAGS=[get_canonical_archflags cc]" \
+                    "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]" \
+                    LDLIBS=-lSDL2
+
+destroot {
+    xinstall -d ${destroot}${prefix}/lib/mupen64plus
+    xinstall -m 0755 ${build.dir}/${name}.dylib ${destroot}${prefix}/lib/mupen64plus/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+Select the plugin with: mupen64plus --input ${name} <ROM>
+"
+
+livecheck.type      none
