@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-imageio-ffmpeg
+version             0.8.1
+platforms           darwin linux freebsd
+license             BSD
+supported_archs     noarch
+categories          python multimedia
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         FFMPEG wrapper for Python.
+long_description    ${description}
+homepage            https://github.com/imageio/imageio-ffmpeg
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            imageio_ffmpeg-${version}
+
+checksums           rmd160  1cb988c8a4093d9dc493d3019c91700e99a37512 \
+                    sha256  9e5162fa482c3c45a6703b2223947d15c37730e63b048d64937fa80243aa5a0c \
+                    size    27375
+
+python.versions         313 314
+python.pep517_backend   setuptools
+
+if {$subport ne $name} {
+    # Runs the ffmpeg in MacPorts.
+    depends_run-append  path:bin/ffmpeg:ffmpeg
+    livecheck.type none
+}
