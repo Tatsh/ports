@@ -10,10 +10,10 @@ Made-with: Cursor
  Latest/Model/UpdateCheckCoordinator.swift |  1 -
  2 files changed, 34 deletions(-)
 
-diff --git a/Latest.xcodeproj/project.pbxproj b/Latest.xcodeproj/project.pbxproj
+diff --git Latest.xcodeproj/project.pbxproj Latest.xcodeproj/project.pbxproj
 index 78c23bb..f1d3714 100644
---- a/Latest.xcodeproj/project.pbxproj
-+++ b/Latest.xcodeproj/project.pbxproj
+--- Latest.xcodeproj/project.pbxproj
++++ Latest.xcodeproj/project.pbxproj
 @@ -41,7 +41,6 @@
  		508323E3257824AA000BBA13 /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E0257824A9000BBA13 /* DisplayLink.swift */; };
  		508323E4257824AA000BBA13 /* UpdateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508323E1257824A9000BBA13 /* UpdateButton.swift */; };
@@ -116,10 +116,10 @@ index 78c23bb..f1d3714 100644
  	};
  	rootObject = 50290E691E53EB6A00133E3D /* Project object */;
  }
-diff --git a/Latest/Model/UpdateCheckCoordinator.swift b/Latest/Model/UpdateCheckCoordinator.swift
+diff --git Latest/Model/UpdateCheckCoordinator.swift Latest/Model/UpdateCheckCoordinator.swift
 index ea9c732..b4b5017 100644
---- a/Latest/Model/UpdateCheckCoordinator.swift
-+++ b/Latest/Model/UpdateCheckCoordinator.swift
+--- Latest/Model/UpdateCheckCoordinator.swift
++++ Latest/Model/UpdateCheckCoordinator.swift
 @@ -144,7 +144,6 @@ extension UpdateCheckCoordinator {
  	private static var availableOperations: [UpdateCheckerOperation.Type] {
  		return [

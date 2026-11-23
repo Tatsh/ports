@@ -37,7 +37,6 @@ if {${os.major} < 20} {
     patchfiles patch-available-10-15.diff
 }
 patchfiles-append   patch-no-sparkle.diff
-patch.pre_args      -p1
 
 post-patch {
     reinplace "s/\\\$number_of_commits/${n_commits}/" \
