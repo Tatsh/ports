@@ -39,7 +39,6 @@ depends_lib-append  port:gmp \
 
 # libdragon's changes for the N64 target.
 patchfiles          patch-n64.diff
-patch.pre_args-replace -p0 -p1
 
 set target          mips64-libdragon-elf
 set stage           ${workpath}/stage

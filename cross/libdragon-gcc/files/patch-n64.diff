@@ -1,7 +1,7 @@
-diff --git a/gcc/config.gcc b/gcc/config.gcc
+diff --git gcc/config.gcc gcc/config.gcc
 index 743421768ea..d29e891f0f3 100644
---- a/gcc/config.gcc
-+++ b/gcc/config.gcc
+--- gcc/config.gcc
++++ gcc/config.gcc
 @@ -2884,8 +2884,8 @@ mips64r5900-*-elf* | mips64r5900el-*-elf*)
  	tm_defines="${tm_defines} MIPS_ISA_DEFAULT=MIPS_ISA_MIPS3 MIPS_ABI_DEFAULT=ABI_N32"
  	;;
@@ -13,11 +13,11 @@ index 743421768ea..d29e891f0f3 100644
  	tm_defines="${tm_defines} MIPS_ISA_DEFAULT=MIPS_ISA_MIPS3 MIPS_ABI_DEFAULT=ABI_O64"
  	;;
  mips64vr-*-elf* | mips64vrel-*-elf*)
-diff --git a/gcc/config/mips/n64.h b/gcc/config/mips/n64.h
+diff --git gcc/config/mips/n64.h gcc/config/mips/n64.h
 new file mode 100644
 index 00000000000..92fab2d41cd
 --- /dev/null
-+++ b/gcc/config/mips/n64.h
++++ gcc/config/mips/n64.h
 @@ -0,0 +1,13 @@
 +#undef DRIVER_SELF_SPECS
 +#define DRIVER_SELF_SPECS \
@@ -32,11 +32,11 @@ index 00000000000..92fab2d41cd
 +									\
 +	/* Configuration-independent MIPS rules.  */			\
 +	BASE_DRIVER_SELF_SPECS
-diff --git a/gcc/config/mips/t-n64 b/gcc/config/mips/t-n64
+diff --git gcc/config/mips/t-n64 gcc/config/mips/t-n64
 new file mode 100644
 index 00000000000..a3f7df4c808
 --- /dev/null
-+++ b/gcc/config/mips/t-n64
++++ gcc/config/mips/t-n64
 @@ -0,0 +1,14 @@
 +MULTILIB_OPTIONS = \
 +    mabi=32/mabi=o64/mabi=n32/mabi=eabi \
