@@ -1,0 +1,14 @@
+--- pkg/ini/ini.go
++++ pkg/ini/ini.go
+@@ -251,8 +251,9 @@
+ 		return legacy, nil
+ 	}
+ 
+-	configHome := os.Getenv("XDG_CONFIG_HOME")
+-	if !filepath.IsAbs(configHome) {
++	// ~/Library/Application Support on macOS, $XDG_CONFIG_HOME or ~/.config elsewhere.
++	configHome, err := os.UserConfigDir()
++	if err != nil || !filepath.IsAbs(configHome) {
+ 		configHome = filepath.Join(home, ".config")
+ 	}
+ 
