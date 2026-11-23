@@ -1,0 +1,27 @@
+--- src/linecast/_paths.py
++++ src/linecast/_paths.py
+@@ -70,13 +70,9 @@
+     if xdg is not None:
+         return xdg / "linecast"
+     home = Path.home()
+-    legacy = home / ".cache" / "linecast"
+     if sys.platform == "darwin":
+-        native = home / "Library" / "Caches" / "linecast"
+-        if not _is_dir(native) and _is_dir(legacy):
+-            return legacy
+-        return native
+-    return legacy
++        return home / "Library" / "Caches" / "linecast"
++    return home / ".cache" / "linecast"
+ 
+ 
+ def config_root(environ: Mapping[str, str] | None = None) -> Path:
+@@ -88,6 +84,8 @@
+     xdg = _xdg(env, "XDG_CONFIG_HOME")
+     if xdg is not None:
+         return xdg / "linecast"
++    if sys.platform == "darwin":
++        return Path.home() / "Library" / "Application Support" / "linecast"
+     return Path.home() / ".config" / "linecast"
+ 
+ 
