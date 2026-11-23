@@ -3,6 +3,7 @@ abcabcabc
 absl
 accesskit
 actool
+addonapi
 addopts
 addrs
 adoxa
@@ -207,6 +208,7 @@ ccleste
 cctools
 cddb
 cdecrypt
+cdest
 cdirip
 cdparanoia
 cdpatch
@@ -273,6 +275,7 @@ coloredlogs
 colorlog
 colors
 colorstring
+comkey
 commitizen
 compileall
 concurrentqueue
@@ -833,6 +836,7 @@ hlsl
 hlslpp
 hmac
 honor
+hotdir
 hqdn
 hrydgard
 hschmidt
@@ -1410,6 +1414,7 @@ nocomplain
 noconflict
 nodedir
 nodeheaders
+nodemon
 nodownload
 noextract
 nofetch
@@ -1440,6 +1445,7 @@ numcpus
 numpy
 nurio
 nvme
+nvmrc
 nvscaler
 nygard
 obfstr
@@ -1570,6 +1576,7 @@ pppps
 ppsspp
 prboom
 prdp
+prebuilts
 prettyplease
 primeorder
 priv
@@ -2278,6 +2285,7 @@ xdvdfs
 xebyte
 xemu
 xenos
+xenova
 xexloaderwv
 xexp
 xfennec
