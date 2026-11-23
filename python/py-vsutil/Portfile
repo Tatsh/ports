@@ -19,7 +19,7 @@ checksums           rmd160  010605fc52ce496eb8b3320e3d08929a4e87c918 \
                     size    11380
 
 # Only for the Python that the vapoursynth port is built for.
-python.versions     314
+python.versions     314 315
 python.pep517_backend setuptools
 
 if {${name} ne ${subport}} {
