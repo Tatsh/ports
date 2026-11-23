@@ -1,5 +1,5 @@
---- a/src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:09
-+++ b/src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:09
+--- src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:09
++++ src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:09
 @@ -127,10 +127,9 @@
  #else
      auto library = std::make_shared<Common::DynamicLibrary>();

@@ -1,0 +1,17 @@
+--- src/common/fs/path_util.cpp
++++ src/common/fs/path_util.cpp
+@@ -381,6 +381,14 @@
+ }
+ 
+ fs::path GetDataDirectory(const std::string& env_name) {
++#ifdef __APPLE__
++    // The standard macOS locations stand in for the XDG ones (and the XDG variables are ignored),
++    // for the emulator's own directories and the legacy ones it imports from alike.
++    if (env_name == "XDG_CACHE_HOME") {
++        return GetHomeDirectory() / "Library" / "Caches";
++    }
++    return GetHomeDirectory() / "Library" / "Application Support";
++#endif
+     const char* data_env_var = getenv(env_name.c_str());
+ 
+     // The XDG spec says to ignore an empty or relative value, which would otherwise put the

@@ -10,6 +10,7 @@ github.setup        zortos293 Lichii 341 build-
 github.tarball_from archive
 name                lichii
 version             0.1.0-rc1.341
+revision            1
 categories          emulators games
 license             GPL-3+ BSD MIT LGPL-3+ MPL-2 Apache-2
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -118,7 +119,8 @@ qt6.depends_build-append qttools
 
 patchfiles          patch-rename-binaries.diff \
                     patch-vulkan-library-prefix.diff
-patch.pre_args-replace -p0 -p1
+# The standard macOS directories (Application Support and Caches) instead of the XDG ones.
+patchfiles-append   patch-macos-user-paths.diff
 
 post-patch {
     reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/src/video_core/vulkan_common/vulkan_library.cpp
@@ -230,3 +232,40 @@ destroot {
 
 livecheck.version  ${github.version}
 github.livecheck.regex {([0-9]+)}
+
+# lichii-room, the dedicated multiplayer room server, as a launchd service under its own user.
+# Its settings are in ${prefix}/etc/lichii-room.conf.
+set room_data       ${prefix}/var/db/lichii-room
+
+add_users           _lichiiroom group=_lichiiroom realname=Lichii\ room home=${room_data}
+
+post-destroot {
+    xinstall -d -m 0750 -o _lichiiroom -g _lichiiroom ${destroot}${room_data}
+    xinstall -m 0640 -g _lichiiroom ${filespath}/lichii-room.conf ${destroot}${prefix}/etc/lichii-room.conf.sample
+    xinstall -d ${destroot}${prefix}/libexec/lichii
+    xinstall -m 0755 ${filespath}/lichii-room-service.sh ${destroot}${prefix}/libexec/lichii/room-service
+    reinplace "s|@PREFIX@|${prefix}|g; s|@ROOM@|lichii-room|g; s|@DATADIR@|${room_data}|g" \
+        ${destroot}${prefix}/libexec/lichii/room-service
+}
+destroot.keepdirs-append ${destroot}${room_data}
+
+post-activate {
+    if {![file exists ${prefix}/etc/lichii-room.conf]} {
+        file copy ${prefix}/etc/lichii-room.conf.sample ${prefix}/etc/lichii-room.conf
+        file attributes ${prefix}/etc/lichii-room.conf -group _lichiiroom -permissions 0640
+    }
+}
+
+startupitem.create  yes
+startupitem.name    lichii-room
+startupitem.user    _lichiiroom
+startupitem.group   _lichiiroom
+startupitem.logfile ${prefix}/var/log/lichii-room.log
+startupitem.executable \
+                    ${prefix}/libexec/lichii/room-service
+
+notes "
+To host a multiplayer room, set ROOM_NAME and PREFERRED_GAME in ${prefix}/etc/lichii-room.conf\
+ and load the service with: sudo port load lichii. The room listens on 127.0.0.1 unless BIND_ADDRESS is changed. Bans\
+ made while it runs are saved only when it quits from its console, not when launchd stops it.
+"
