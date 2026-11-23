@@ -5,7 +5,7 @@ PortGroup           nodejs 1.0
 
 name                appium
 version             4.0.0
-revision            0
+revision            1
 
 license             Apache-2 MIT BSD ISC LGPL-3+
 description         Cross-platform automation framework for mobile, web and desktop apps.
@@ -17,3 +17,22 @@ checksums           rmd160  468f5c1aaab2d0244a56cbe207baf77432283474 \
                     size    3873612
 
 nodejs.bins         {appium node_modules/appium/index.js}
+
+# Extension manifest locks in ~/Library/Caches/appium/locks instead of ~/.cache/appium/locks.
+post-extract {
+    reinplace {s|path.join('.cache', 'appium', 'locks')|path.join('Library', 'Caches', 'appium', 'locks')|} \
+        ${worksrcpath}/node_modules/appium/build/lib/utils/env.js
+}
+
+# The server as a per-user launchd agent: drivers, plugins and their state live in the user's
+# ~/.appium, and the XCUITest driver needs the user's Xcode, signing identities and simulators.
+# It listens on 127.0.0.1 instead of upstream's default of all interfaces.
+startupitem.create  yes
+startupitem.location LaunchAgents
+startupitem.executable \
+                    ${prefix}/bin/appium server --address 127.0.0.1 --port 4723
+
+notes "
+To run the server in the background for your user, on 127.0.0.1:4723, load its agent:
+  sudo port load ${name}
+"
