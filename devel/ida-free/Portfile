@@ -1,0 +1,62 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           fetch_restrict 1.0
+
+name                ida-free
+version             9.5.261026
+revision            0
+categories          devel
+license             Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Free edition of the IDA interactive disassembler and decompiler.
+long_description    IDA Free is Hex-Rays' free disassembler and cloud-based decompiler for \
+                    x86, x86-64 and ARM64 binaries. Its installer can only be downloaded after \
+                    signing in to My Hex-Rays, so you supply it, and the port installs the app \
+                    from it. IDA Free asks for its (free) license on first start.
+homepage            https://hex-rays.com/ida-free
+supported_archs     x86_64 arm64
+platforms           {darwin >= 21}
+
+set ida_arch        [expr {${configure.build_arch} eq "arm64" ? "armmac" : "x64mac"}]
+set installer       ida-free-pc_[string map {. {}} [join [lrange [split ${version} .] 0 1] .]]_${ida_arch}
+if {${ida_arch} eq "armmac"} {
+    fetch_restrict.files [list ${installer}.app.zip sha256 \
+                              ead382cd117a1ddb2bbfddf909b754b5fb0d043f328442bbef5769e9173ec5ca]
+} else {
+    fetch_restrict.files [list ${installer}.app.zip sha256 \
+                              42a235172761534f9e259752c2e6f663d3712ddc600e805da0a99ad036fd0243]
+}
+fetch_restrict.instructions [subst {
+    IDA Free is downloaded from My Hex-Rays (https://my.hex-rays.com) after signing in.
+    Download the macOS installer for this Mac (${installer}.app.zip) and copy it, unextracted,
+    into the directory below.
+}]
+
+# The zip holds an InstallBuilder (BitRock) installer app, not IDA itself; dade extracts its
+# payload, which is the IDA app bundle's Contents.
+depends_extract-append port:dade
+
+distfiles
+use_configure       no
+build {}
+
+extract {
+    file mkdir ${worksrcpath}
+    system -W ${workpath} "/usr/bin/unzip -q [shellescape [fetch_restrict::path ${installer}.app.zip]]"
+    system -W ${workpath} "${prefix}/bin/dade bitrock extract -q -o ${workpath}/payload\
+        [shellescape ${workpath}/${installer}.app/Contents/Resources/installbuilder]"
+}
+
+set app             {IDA Free.app}
+
+destroot {
+    set dest ${destroot}${applications_dir}/${app}
+    file mkdir ${dest}
+    copy ${workpath}/payload/ida/programfiles/Contents ${dest}/
+    # The bundle is not signed as a whole (neither does the installer sign it); the arm64 binaries
+    # already have the linker's ad hoc signature, which is all they need to run.
+    ln -s ${applications_dir}/${app}/Contents/MacOS/ida ${destroot}${prefix}/bin/ida-free
+}
+
+livecheck.type      none
