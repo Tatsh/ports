@@ -1,0 +1,12 @@
+--- rembg/sessions/base.py
++++ rembg/sessions/base.py
+@@ -163,8 +163,7 @@ class BaseSession:
+         if os.getenv("U2NET_HOME"):
+             return cls.legacy_home(*args, **kwargs)
+ 
+-        xdg = os.getenv("XDG_DATA_HOME")
+-        default = os.path.join(xdg, "rembg") if xdg else os.path.join("~", ".rembg")
++        default = os.path.join("~", "Library", "Application Support", "rembg")
+ 
+         return os.path.expanduser(os.getenv("REMBG_HOME", default))
+ 

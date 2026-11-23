@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                rembg
+version             2.0.87
+revision            0
+platforms           darwin linux freebsd
+license             MIT
+supported_archs     noarch
+categories          graphics python
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Remove the background from images.
+long_description    rembg removes the background from images with segmentation models run \
+                    through ONNX Runtime. The models are not shipped: the one asked for is \
+                    downloaded on first use to ~/Library/Application Support/rembg/models.
+homepage            https://github.com/danielgatis/rembg
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  5ae0a1731511a2ade27b4b80ad6bef655eff47f7 \
+                    sha256  34674fdde1e15e17a38dfb8560f1e6f232a27de48f3204b154049f8b7dfd65d8 \
+                    size    55787
+
+python.default_version  313
+python.pep517_backend   poetry
+
+# Build with poetry-core directly: poetry-dynamic-versioning only derives the version from git
+# tags, and the sdist already carries it.
+patchfiles          patch-poetry-core.diff
+# The s (HTTP server and web UI) command needs gradio, asyncer and fastapi, which are not in
+# MacPorts; without them only that command is left out instead of the whole CLI failing.
+patchfiles-append   patch-optional-server.diff
+# Keep models in ~/Library/Application Support/rembg rather than ~/.rembg. REMBG_HOME and
+# U2NET_HOME still override it, and the m command still migrates an old ~/.u2net.
+patchfiles-append   patch-application-support.diff
+
+depends_run-append  port:py${python.version}-click \
+                    port:py${python.version}-filetype \
+                    port:py${python.version}-jsonschema \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-onnxruntime \
+                    port:py${python.version}-Pillow \
+                    port:py${python.version}-pooch \
+                    port:py${python.version}-pymatting \
+                    port:py${python.version}-scikit-image \
+                    port:py${python.version}-scipy \
+                    port:py${python.version}-tqdm \
+                    port:py${python.version}-watchdog

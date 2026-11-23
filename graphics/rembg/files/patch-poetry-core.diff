@@ -1,0 +1,13 @@
+--- pyproject.toml
++++ pyproject.toml
+@@ -93,8 +93,8 @@ dev = ["bandit", "black", "flake8", "imagehash", "isort", "mypy", "pytest"]
+ rembg = "rembg.cli:main"
+ 
+ [build-system]
+-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+-build-backend = "poetry_dynamic_versioning.backend"
++requires = ["poetry-core>=1.0.0"]
++build-backend = "poetry.core.masonry.api"
+ 
+ [tool.poetry-dynamic-versioning]
+ enable = false
