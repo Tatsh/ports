@@ -1,0 +1,142 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        jpd002 Play- 0.77
+github.tarball_from archive
+# MacPorts' play is the Play web framework.
+name                play-ps2
+revision            0
+categories          emulators games
+license             BSD
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         PlayStation 2 emulator (Play!).
+long_description    Play! is a PlayStation 2 emulator with a Qt front end. This installs Play.app.
+homepage            https://purei.org
+
+# Submodules: {directory under deps} repository commit unpacked-directory.
+set submodules [list \
+    CodeGen                     jpd002/Play--CodeGen    a5009f7dca062695b8e5aebbd71e67b4ddfa9251 Play--CodeGen \
+    Dependencies                jpd002/Play-Dependencies 8a5f6b1dea0b888b5a42b821e79470142bbea4e3 Play-Dependencies \
+    Framework                   jpd002/Play--Framework  587f278917acc0026bf5fc34b39f995fc26bd015 Play--Framework \
+    Nuanceur                    jpd002/Nuanceur         d96578b5a18edc67a268ed4811f0a035c56de7a0 Nuanceur \
+    Dependencies/ghc_filesystem gulrak/filesystem       2a8b380f8d4e77b389c42a194ab9c70d8e3a0f1e filesystem \
+    Dependencies/xxHash         Cyan4973/xxHash         e626a72bc2321cd320e953a0ccf1584cad60f363 xxHash \
+    Dependencies/zstd           facebook/zstd           f8745da6ff1ad1e7bab384bd1f9d742439278e99 zstd \
+    libchdr                     jpd002/libchdr          284e38b6e53e0a7270cc234934e45230ed915a25 libchdr]
+set i 0
+foreach {dir repo rev unpacked} ${submodules} {
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    ${unpacked}-${rev}.tar.gz:s${i}
+    incr i
+}
+
+checksums           Play--0.77.tar.gz \
+                    rmd160  54696d20d8199d60e0590dc083373bbf17221a43 \
+                    sha256  8db8c11004ea8be5e1adefd909311ad8e53b221a1aac2365ee65aa32393f867e \
+                    size    2298509 \
+                    Play--CodeGen-a5009f7dca062695b8e5aebbd71e67b4ddfa9251.tar.gz \
+                    rmd160  e1ed38c07182c56f0cfb80d0d9619e4ab1f6cca9 \
+                    sha256  c9699563583ff4811d0c227259da1782a685303f7c3f5de0af0696e47ed706b5 \
+                    size    317006 \
+                    Play-Dependencies-8a5f6b1dea0b888b5a42b821e79470142bbea4e3.tar.gz \
+                    rmd160  d84fb92fd3f44f39cc0e02490c14ccaf9e0e746e \
+                    sha256  fa8dc6c346a5141af959260037f6ac30b9987456dc07d13405e7bfb065076f93 \
+                    size    4339789 \
+                    Play--Framework-587f278917acc0026bf5fc34b39f995fc26bd015.tar.gz \
+                    rmd160  afb77b8560655ede88e59bae102cd9bd310bf27b \
+                    sha256  3e4f87b6df7228dad15d9270cb15d855f8dd1b8803c7c30361549ff0f89326bc \
+                    size    191658 \
+                    Nuanceur-d96578b5a18edc67a268ed4811f0a035c56de7a0.tar.gz \
+                    rmd160  2f628aa2b0db9f47c41d4ee60c3a9e1005586f83 \
+                    sha256  07e63150025de47068f9be3146af92e34aba884887c20ad441e536e32fe3f1ef \
+                    size    52360 \
+                    filesystem-2a8b380f8d4e77b389c42a194ab9c70d8e3a0f1e.tar.gz \
+                    rmd160  597f6661797c112deed8b68182dd2b2a226ef2a4 \
+                    sha256  e11db30e695764cb19daf5058a9997c933c5ebdb3e29c697898258cbded8d65f \
+                    size    173611 \
+                    xxHash-e626a72bc2321cd320e953a0ccf1584cad60f363.tar.gz \
+                    rmd160  5aba7e482cef0186e75c135c4ce07b4b77dd28af \
+                    sha256  34e71c085636fbc1726482996d92719d0a16e6a6097970ecf2990a27b3821162 \
+                    size    1147772 \
+                    zstd-f8745da6ff1ad1e7bab384bd1f9d742439278e99.tar.gz \
+                    rmd160  13b1b91f20013d3ab5cd8d3ad540f338f3da75c5 \
+                    sha256  4b0bd1f0cfb25e61b9103c35f27395530ff5b4c0d2513a00fd745849e85ea52c \
+                    size    2453329 \
+                    libchdr-284e38b6e53e0a7270cc234934e45230ed915a25.tar.gz \
+                    rmd160  ca54c525342a4be0423f5cabb6fcb47035d464d4 \
+                    sha256  5c184845ac1c40fc5edd351887eb32ef42c2c016fe9daaeb6eeb2bab378bd148 \
+                    size    4222965
+
+depends_build-append \
+                    port:nlohmann-json \
+                    port:pkgconfig
+depends_lib-append  port:bzip2 \
+                    port:curl \
+                    port:icu \
+                    port:openal-soft \
+                    port:openssl \
+                    port:sqlite3 \
+                    port:zlib \
+                    port:zstd
+
+post-extract {
+    # In order: a nested submodule moves into a parent that is already in place.
+    foreach {dir repo rev unpacked} ${submodules} {
+        set dest ${worksrcpath}/deps/${dir}
+        file delete -force ${dest}
+        move ${workpath}/${unpacked}-${rev} ${dest}
+    }
+}
+
+# From tatsh-overlay: use the system libraries.
+patchfiles          patch-source-system-deps.diff \
+                    patch-framework-system-deps.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    reinplace {/^set(PROJECT_Version/d} ${worksrcpath}/CMakeLists.txt
+    # Only zstd's zlibWrapper stays (a zlib-API shim that the zstd port does not install); the
+    # library comes from the zstd port (from tatsh-overlay).
+    foreach f [glob -directory ${worksrcpath}/deps/Dependencies/zstd *] {
+        if {[file tail ${f}] ne "zlibWrapper"} {
+            delete ${f}
+        }
+    }
+    set fd [open ${worksrcpath}/deps/Dependencies/build_cmake/zstd_zlibwrapper/CMakeLists.txt w]
+    puts ${fd} {project(libzstdwapper C)
+find_package(ZLIB REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET libzstd)
+file(GLOB zstd_zlibwrapperSource ${CMAKE_CURRENT_SOURCE_DIR}/../../zstd/zlibWrapper/*.c)
+add_library(libzstd_zlibwrapper_static STATIC ${zstd_zlibwrapperSource})
+target_link_libraries(libzstd_zlibwrapper_static PRIVATE PkgConfig::ZSTD PUBLIC ZLIB::ZLIB)
+target_include_directories(libzstd_zlibwrapper_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../zstd/zlibWrapper/)
+target_compile_definitions(libzstd_zlibwrapper_static PUBLIC ZWRAP_USE_ZSTD)}
+    close ${fd}
+}
+
+# The macOS front end uses CAMetalLayer, but QuartzCore is only linked for the Vulkan renderer.
+configure.ldflags-append -framework QuartzCore
+# https://github.com/jpd002/Play-/issues/911
+configure.cppflags-append -DNDEBUG
+# The OpenGL renderer; the Vulkan one copies a MoltenVK into the app bundle.
+# macOS's OpenGL, not Mesa's libGL from ${prefix}/lib, which needs X11 (the cmake portgroup makes
+# FindOpenGL look at frameworks last).
+configure.args-append \
+                    -DOPENGL_gl_LIBRARY=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DOPENGL_opengl_LIBRARY=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DOPENGL_INCLUDE_DIR=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DBUILD_LIBRETRO_CORE=OFF \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DBUILD_TESTS=OFF \
+                    -DPROJECT_Version=${version} \
+                    -DUSE_GSH_VULKAN=OFF \
+                    -Wno-dev
+
+destroot {
+    copy ${build.dir}/Source/ui_qt/Play.app ${destroot}${applications_dir}/Play.app
+}

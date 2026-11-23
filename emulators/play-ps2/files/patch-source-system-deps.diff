@@ -1,0 +1,94 @@
+From 1a6ce3f86f1b87681f2d5a6bb17d65fd38433b40 Mon Sep 17 00:00:00 2001
+From: Andrew Udvare <audvare@gmail.com>
+Date: Sun, 7 Aug 2022 16:14:54 -0400
+Subject: [PATCH] Source: system deps
+
+---
+ Source/CMakeLists.txt           | 4 ++--
+ Source/hdd/ApaDefs.h            | 1 +
+ Source/ui_qt/CMakeLists.txt     | 8 ++++----
+ Source/ui_shared/CMakeLists.txt | 2 +-
+ 4 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/Source/CMakeLists.txt b/Source/CMakeLists.txt
+index 78fcc509..e08103c5 100644
+--- a/Source/CMakeLists.txt
++++ b/Source/CMakeLists.txt
+@@ -88,7 +88,7 @@ if(NOT TARGET CodeGen)
+ endif()
+ list(APPEND PROJECT_LIBS CodeGen)
+ 
+-find_package(BZip2)
++find_package(BZip2 REQUIRED)
+ if(NOT BZIP2_FOUND)
+ 	MESSAGE("-- Using Provided BZip2 source")
+ 	if(NOT TARGET BZip2::BZip2)
+@@ -125,7 +125,7 @@ endif()
+ LIST(APPEND PROJECT_LIBS xxHash::xxhash)
+ 
+ # If ICU is available, add its libraries because Framework might need its functions
+-find_package(ICUUC)
++find_package(ICUUC REQUIRED)
+ if(ICUUC_FOUND)
+ 	list(APPEND PROJECT_LIBS ${ICUUC_LIBRARIES})
+ endif()
+diff --git a/Source/hdd/ApaDefs.h b/Source/hdd/ApaDefs.h
+index 8dfbe04c..4f35291c 100644
+--- a/Source/hdd/ApaDefs.h
++++ b/Source/hdd/ApaDefs.h
+@@ -1,4 +1,5 @@
+ #pragma once
++#include <cstdint>
+ 
+ #include <cstdint>
+ 
+diff --git a/Source/ui_qt/CMakeLists.txt b/Source/ui_qt/CMakeLists.txt
+index 0ec70ead..95a4866a 100644
+--- a/Source/ui_qt/CMakeLists.txt
++++ b/Source/ui_qt/CMakeLists.txt
+@@ -10,9 +10,9 @@ project(PlayUI)
+ 
+ add_definitions(-DPLAY_VERSION="${PROJECT_Version}")
+ 
+-set(USE_GSH_VULKAN OFF)
+ find_package(Vulkan)
+-if(Vulkan_FOUND)
++if(USE_GSH_VULKAN)
++  find_package(Vulkan REQUIRED)
+ 	set(USE_GSH_VULKAN ON)
+ 	message("Building with Vulkan support.")
+ else()
+@@ -196,7 +196,7 @@ if(TARGET_PLATFORM_WIN32)
+ 	list(APPEND UI_QT_PROJECT_LIBS dinput8)
+ 	list(APPEND UI_QT_PROJECT_LIBS xinput)
+ endif()
+-	
++
+ if(DEBUGGER_INCLUDED)
+ 	if(NOT TARGET PlayDebugSupport)
+ 		add_subdirectory(
+@@ -206,7 +206,7 @@ if(DEBUGGER_INCLUDED)
+ 	endif()
+ 	list(APPEND UI_QT_PROJECT_LIBS PlayDebugSupport)
+ endif()
+-	
++
+ set(QT_MOC_HEADERS
+ 	BootableModel.h
+ 	BootableModelProxy.h
+diff --git a/Source/ui_shared/CMakeLists.txt b/Source/ui_shared/CMakeLists.txt
+index be101de7..58550772 100644
+--- a/Source/ui_shared/CMakeLists.txt
++++ b/Source/ui_shared/CMakeLists.txt
+@@ -23,7 +23,7 @@ if(NOT TARGET Framework_Http)
+ endif()
+ list(APPEND SHARED_UI_PROJECT_LIBS Framework_Http)
+ 
+-find_package(nlohmann_json QUIET)
++find_package(nlohmann_json QUIET REQUIRED)
+ if(NOT nlohmann_json_FOUND)
+ 	MESSAGE("-- Using Provided nlohmann_json source")
+ 	if(NOT TARGET nlohmann_json)
+-- 
+2.49.0
+
