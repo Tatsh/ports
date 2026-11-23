@@ -30,7 +30,7 @@ checksums           rife-ncnn-vulkan-python-1.2.1.tar.gz \
                     sha256  cd9ea750a64ad656ddf1c029e275e19440b23f70841fa9a174ef4632176f6c10 \
                     size    419476051
 
-python.versions     313 314
+python.versions     313 314 315
 
 if {${name} ne ${subport}} {
     PortGroup       cmake 1.1
