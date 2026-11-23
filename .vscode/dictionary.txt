@@ -50,6 +50,7 @@ appleframeworks
 applysig
 appname
 aprip
+aras
 arboard
 archflags
 archs
@@ -123,6 +124,7 @@ bincookie
 bindgen
 binpath
 binutils
+bioacoustic
 bitfield
 bitflags
 bitrock
@@ -204,6 +206,7 @@ cheevos
 cheke
 chgrp
 chlayout
+chlumsky
 choco
 chrono
 chumsky
@@ -238,6 +241,7 @@ colors
 colorstring
 commitizen
 compileall
+concurrentqueue
 confdir
 configobj
 configor
@@ -258,6 +262,7 @@ countme
 cowlib
 cpath
 cpio
+cppdumper
 cppflags
 cpubits
 cpufeatures
@@ -317,8 +322,10 @@ dcpmutil
 dcrc
 ddaedalus
 ddecoder
+ddirectx
 ddisable
 ddownload
+ddspp
 ddynarmic
 deat
 deathkiller
@@ -422,6 +429,7 @@ dubhatervapoursynth
 dummyserver
 dunamai
 dunix
+dunleashed
 dusing
 dvcpkg
 dvec
@@ -429,6 +437,7 @@ dwarvesf
 dwebp
 dwith
 dxbox
+dxcompiler
 dxil
 dxxhash
 dyld
@@ -469,6 +478,7 @@ engineio
 enumflags
 envrc
 epaint
+epezent
 errno
 esac
 esaxx
@@ -567,10 +577,12 @@ gamecube
 gamedb
 gamemode
 gandarez
+gaussfilt
 gcdb
 gcfg
 gdbserver
 gdiextract
+gdtbuilder
 gdwarf
 gearboy
 gearsystem
@@ -626,6 +638,7 @@ gloo
 glsl
 glslang
 glutin
+gmap
 gmock
 gnubin
 gnullvm
@@ -807,6 +820,7 @@ juju
 julesverne
 justfile
 kaitai
+kalmanfilt
 kamadak
 kamina
 kcrawford
@@ -829,6 +843,7 @@ kinnay
 kirito
 klauspost
 knownhosts
+kokke
 konst
 kotlinc
 koun
@@ -875,6 +890,7 @@ libcxx
 libdragon
 libdragon's
 libdsp
+libdxcompiler
 libepoxy
 libexec
 libexp
@@ -905,6 +921,7 @@ libmdns
 libmimalloc
 libmpc
 libmpv
+libmspack
 libmwaw
 libname
 libogg
@@ -950,6 +967,7 @@ libuv
 libvaqua
 libvorbis
 libvs
+libvulkan
 libweaver
 libwebsockets
 libyaml
@@ -988,6 +1006,7 @@ lsalzman
 lsdvd
 lsearch
 lsort
+lstsq
 lsusb
 luabridge
 luajit
@@ -1024,6 +1043,8 @@ mapfile
 mapstructure
 marlliton
 marmelroy
+martinus
+marzer
 masp
 math
 mathutil
@@ -1099,6 +1120,8 @@ moxcms
 mpbgui
 mpfr
 mqtt
+msdf
+msdfgen
 msgp
 msgspec
 msplit
@@ -1125,6 +1148,7 @@ mypy
 myrsloik
 mysides
 mywave
+nalgebra
 nanoarrow
 nanolib
 nanomdm
@@ -1137,6 +1161,7 @@ nasm
 nastaliq
 natefinch
 nativeaot
+nativefiledialog
 natord
 naurdw
 nccl
@@ -1174,6 +1199,8 @@ noextract
 nofetch
 nohash
 noinput
+noisereduce
+nologo
 nomaintainer
 nonewline
 nonmax
@@ -1226,6 +1253,7 @@ openpyxl
 openvcl
 optflags
 optim
+optout
 opusfile
 orbclient
 orbis
@@ -1236,6 +1264,7 @@ oscrypt
 otool
 outref
 oxffaa
+oyvindln
 packagefiles
 paho
 pango
@@ -1261,8 +1290,10 @@ pefile
 pelletier
 pemfile
 peniko
+perfare
 perfstat
 peterbourgon
+petscii
 pexpect
 pflag
 pfsshell
@@ -1303,6 +1334,7 @@ portname
 portpath
 powerfmt
 ppmd
+pppps
 ppsspp
 prboom
 prdp
@@ -1418,8 +1450,12 @@ realpath
 realroot
 reborrow
 rebulk
+recomp
+recomp's
+recompilers
 recoverjumptable
 rectpack
+redorav
 redumper
 reent
 refcell
@@ -1433,6 +1469,7 @@ rels
 remotezip
 removegrain
 remyoudompheng
+renderbag
 renderdoc
 repr
 requesty
@@ -1445,6 +1482,7 @@ resvg
 retargetable
 retroachievements
 retroarch
+retromachines
 retryablehttp
 revanced
 revc
@@ -1503,6 +1541,7 @@ scires
 scons
 scopeguard
 screamf
+screencode
 sctk
 sctp
 sdir
@@ -1523,6 +1562,7 @@ serdect
 seregonwar
 sergi
 serialport
+setproctitle
 setuptools
 sevenz
 shadpkg
@@ -1542,6 +1582,8 @@ sideload
 sideloading
 sideloadly
 siedit
+simba
+simde
 simdutf
 simoninns
 simplecss
@@ -1567,6 +1609,7 @@ smawk
 smithay
 smlab
 smol
+snakeyaml
 sndfile
 snes
 snesrev
@@ -1579,6 +1622,7 @@ softfloat
 softmmu
 sortedcontainers
 sottile
+sounddevice
 soundfile
 soundfont
 soundtouch
@@ -1740,6 +1784,7 @@ unecm
 unicase
 unidecode
 unigram
+unleashedrecomp
 unlzexe
 unminify
 unmutate
@@ -1778,6 +1823,7 @@ vinniefalco
 virtualjaguar
 virtualwebauthn
 vladikcomper
+volk
 vsimd
 vsutil
 vsxx
@@ -1871,7 +1917,9 @@ xdist
 xdvdfs
 xebyte
 xemu
+xenos
 xexloaderwv
+xexp
 xfennec
 xflags
 xhit
@@ -1926,6 +1974,7 @@ zerokilo
 zerolog
 zerotrie
 zerovec
+zeux
 zezula
 zhcn
 zhlynn
