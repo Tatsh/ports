@@ -21,7 +21,7 @@ checksums           rmd160  98677e28c4c252bee87ef50458c8ec183cecdee9 \
                     sha256  7f03c6a9235b00a4ba3c7b1e8cb6b23fbacc9d40b09f326220917a12ef22cc09 \
                     size    129966
 
-python.versions         313 314
+python.versions         313 314 315
 python.pep517_backend   hatch
 
 if {$subport ne $name} {
