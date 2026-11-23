@@ -1,5 +1,5 @@
---- a/core/quassel-net.c
-+++ b/core/quassel-net.c
+--- core/quassel-net.c
++++ core/quassel-net.c
 @@ -117,6 +117,14 @@
  	return "";
  }

@@ -27,7 +27,6 @@ depends_lib-append  path:lib/pkgconfig/glib-2.0.pc:glib2 \
 # not support, to file scope.
 patchfiles          patch-irssi-1.x.diff \
                     patch-clang-nested-function.diff
-patch.pre_args-replace -p0 -p1
 
 use_configure       no
 

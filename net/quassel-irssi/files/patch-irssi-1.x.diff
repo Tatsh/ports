@@ -34,10 +34,10 @@ hardcoded gcc.
 
 Upstream: https://github.com/phhusson/quassel-irssi (no activity since 2017-11)
 
-diff --git a/core/Makefile b/core/Makefile
+diff --git core/Makefile core/Makefile
 index c1c65fc..ca215c8 100644
---- a/core/Makefile
-+++ b/core/Makefile
+--- core/Makefile
++++ core/Makefile
 @@ -11,31 +11,29 @@ IRSSI_CFLAGS+=-I$(IRSSI_INCLUDE)/src/fe-common/
  IRSSI_CFLAGS+=-I$(IRSSI_INCLUDE)/src/fe-common/core/
  IRSSI_CFLAGS+=-I$(IRSSI_INCLUDE)/src/fe-text/
@@ -98,10 +98,10 @@ index c1c65fc..ca215c8 100644
  clean:
 -	rm -f irssi/*.o lib/*.o *.o libquassel_core.so
 +	rm -f lib/*.o *.o libquassel_core.so
-diff --git a/core/quassel-net.c b/core/quassel-net.c
+diff --git core/quassel-net.c core/quassel-net.c
 index 8a6eb55..7e9bcea 100644
---- a/core/quassel-net.c
-+++ b/core/quassel-net.c
+--- core/quassel-net.c
++++ core/quassel-net.c
 @@ -105,8 +105,8 @@ static void sig_connected(Quassel_SERVER_REC* r) {
  	}
  
