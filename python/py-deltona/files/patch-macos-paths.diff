@@ -1,0 +1,78 @@
+--- deltona/rclone.py
++++ deltona/rclone.py
+@@ -12,6 +12,7 @@
+ import logging
+ import os
+ import re
++import sys
+ import subprocess as sp
+ import tempfile
+ import threading
+@@ -509,7 +510,8 @@
+     rclone_args : Sequence[str]
+         Extra arguments appended after :py:data:`DEFAULT_BISYNC_ARGS`.
+     """
+-    cache_dir = Path(os.environ.get('XDG_CACHE_HOME') or Path.home() / '.cache')
++    cache_dir = (platformdirs.user_cache_path() if sys.platform == 'darwin' else
++                 Path(os.environ.get('XDG_CACHE_HOME') or Path.home() / '.cache'))
+     stamp = cache_dir / 'rclone' / 'bisync' / f'.deltona-initialized{_state_key(local)}'
+     if stamp.exists():
+         bisync(local, remote, rclone_args)
+--- deltona/ultraiso.py
++++ deltona/ultraiso.py
+@@ -9,6 +9,7 @@
+ import logging
+ import os
+ import subprocess as sp
++import sys
+ 
+ from typing_extensions import override
+ 
+@@ -22,7 +23,9 @@
+ 
+ __all__ = ('InvalidExec', 'patch_ultraiso_font', 'run_ultraiso')
+ 
+-DEFAULT_WINE_PREFIX = Path.home() / '.local/share/wineprefixes/ultraiso'
++DEFAULT_WINE_PREFIX = (Path.home() / 'Library/Application Support/wineprefixes/ultraiso'
++                       if sys.platform == 'darwin' else
++                       Path.home() / '.local/share/wineprefixes/ultraiso')
+ MIN_ARGUMENTS = 4 if not IS_WINDOWS else 3
+ log = logging.getLogger(__name__)
+ 
+--- deltona/commands/wine.py
++++ deltona/commands/wine.py
+@@ -11,12 +11,16 @@
+ import shutil
+ import signal
+ import subprocess as sp
++import sys
+ 
+ from bascom import setup_logging
+ import click
+ 
+ from deltona.constants import CONTEXT_SETTINGS
+ from deltona.string import unix_path_to_wine
++
++_WINEPREFIX_ROOT = (Path('~/Library/Application Support/wineprefixes').expanduser()
++                    if sys.platform == 'darwin' else Path('~/.local/share/wineprefixes').expanduser())
+ from deltona.system import IS_WINDOWS, kill_wine
+ from deltona.ultraiso import patch_ultraiso_font
+ from deltona.utils import unregister_wine_file_associations
+@@ -50,7 +54,7 @@
+ 
+     setup_logging(debug=debug, loggers={'deltona': {}, 'pexpect': {}})
+     target = (Path(prefix_name) if Path(prefix_name).exists() else
+-              Path('~/.local/share/wineprefixes').expanduser() / prefix_name)
++              _WINEPREFIX_ROOT / prefix_name)
+     terminal = shutil.get_terminal_size()
+     c = pexpect.spawn(os.environ.get('SHELL', '/bin/bash'), ['-i'],
+                       dimensions=(terminal.lines, terminal.columns))
+@@ -110,7 +114,7 @@
+     very_silent_args = ('/SP-', '/SUPPRESSMSGBOXES', '/VERYSILENT') if very_silent else ('/SILENT',)
+     if prefix:
+         env['WINEPREFIX'] = (prefix if Path(prefix).exists() else str(
+-            (Path('~/.local/share/wineprefixes') / prefix).expanduser()))
++            (_WINEPREFIX_ROOT / prefix).expanduser()))
+     cmd = ('wine', str(filename), '/CLOSEAPPLICATIONS', '/FORCECLOSEAPPLICATIONS', '/NOCANCEL',
+            '/NORESTART', *very_silent_args, *args)
+     log.debug('Running: %s', ' '.join(quote(x) for x in cmd))
