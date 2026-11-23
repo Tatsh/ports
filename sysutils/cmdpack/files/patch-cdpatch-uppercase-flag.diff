@@ -9,10 +9,10 @@ https://github.com/rufaswan/cmdpack/commit/ef6cfc7ed0ffde3146db34853381d6057e872
  src/cdpatch.c | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/src/cdpatch.c b/src/cdpatch.c
+diff --git src/cdpatch.c src/cdpatch.c
 index ae46ae8..2be15c7 100644
---- a/cdpatch.c
-+++ b/cdpatch.c
+--- cdpatch.c
++++ cdpatch.c
 @@ -1369,14 +1369,14 @@ static int read_iso_dr(
          for(i = 0; i < namelen; i++) {
              uint8_t c = n->name[i];

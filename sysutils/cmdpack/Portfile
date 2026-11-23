@@ -24,7 +24,6 @@ conflicts           ecm
 
 # Make cdpatch -x write uppercase file names (from tatsh-overlay).
 patchfiles          patch-cdpatch-uppercase-flag.diff
-patch.pre_args-replace -p0 -p1
 
 use_configure       no
 
