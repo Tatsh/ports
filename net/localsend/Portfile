@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        localsend localsend 1.18.2 v
+github.tarball_from releases
+revision            0
+categories          net
+license             Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Share files with nearby devices over the local network, without the internet.
+long_description    LocalSend is a cross-platform AirDrop alternative. This installs upstream's \
+                    notarized LocalSend.app and the localsend-cli command line tool.
+homepage            https://localsend.org
+supported_archs     x86_64 arm64
+platforms           {darwin >= 20}
+
+set cli_arch        [expr {${configure.build_arch} eq "arm64" ? "arm-64" : "x86-64"}]
+set cli_tarball     LocalSend-CLI-${version}-macos-${cli_arch}.tar.gz
+distname            LocalSend-${version}
+use_dmg             yes
+distfiles-append    ${cli_tarball}
+extract.only        ${distname}${extract.suffix}
+# The DMG copy skips files that are not world-readable (find -perm -+r), which drops the 0600
+# Info.plist of the bundled login-item helper and breaks the app's signature. The copy runs as
+# root, so take every file.
+extract.post_args   [string map {{-perm -+r } {}} [option extract.post_args]]
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  e40f599fd497f7ad2397d4f732ecd1497b44727f \
+                    sha256  126860d56f6f49b11845f601aac51de27a49b16d2b48102415da91e0e37e5155 \
+                    size    52700247
+if {${configure.build_arch} eq "arm64"} {
+    checksums-append \
+                    ${cli_tarball} \
+                    rmd160  7951ff2eff22c0bf0df2a82762d47e858eaed0df \
+                    sha256  c375664d632a3065c135e712175fb336ceff1613e5e54ee3e04911db82e1b0fc \
+                    size    4105018
+} else {
+    checksums-append \
+                    ${cli_tarball} \
+                    rmd160  2741a5bc2adf0ccf9caf47b8ddb2912cba24a011 \
+                    sha256  bef783d8abce9e903a2e9bbb60471df206a22fc9840e831cc63e8221054488e6 \
+                    size    4397211
+}
+
+post-extract {
+    file mkdir ${workpath}/cli
+    system -W ${workpath}/cli "/usr/bin/tar -xzf [shellescape ${distpath}/${cli_tarball}] localsend-cli"
+}
+
+use_configure       no
+build {}
+
+destroot {
+    copy ${worksrcpath}/LocalSend.app ${destroot}${applications_dir}/LocalSend.app
+    # Make the 0600 file readable by everyone (permissions are not part of the signature).
+    system "chmod -R a+rX [shellescape ${destroot}${applications_dir}/LocalSend.app]"
+    xinstall -m 0755 ${workpath}/cli/localsend-cli ${destroot}${prefix}/bin/
+}
