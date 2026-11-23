@@ -1,0 +1,65 @@
+diff --git common/DynamicLibrary.cpp common/DynamicLibrary.cpp
+index 6b69dcd..4682e4e 100644
+--- common/DynamicLibrary.cpp
++++ common/DynamicLibrary.cpp
+@@ -114,6 +114,16 @@ bool DynamicLibrary::Open(const char* filename, Error* error)
+ 					}
+ 				}
+ 			}
++
++			// MoltenVK, shaderc and the like are installed in the MacPorts prefix, which dlopen
++			// does not search for bare names.
++			const std::string prefix_path = fmt::format("@PREFIX@/lib/{}", filename);
++			m_handle = dlopen(prefix_path.c_str(), RTLD_NOW);
++			if (m_handle)
++			{
++				Error::Clear(error);
++				return true;
++			}
+ 		}
+ #endif
+ 
+diff --git pcsx2/CMakeLists.txt pcsx2/CMakeLists.txt
+index 1439ef8..60727fe 100644
+--- pcsx2/CMakeLists.txt
++++ pcsx2/CMakeLists.txt
+@@ -1511,23 +1511,7 @@ function(setup_main_executable target)
+ 
+ 		pcsx2_resource(${target} ${PCSX2_SOURCE_DIR}/Resources/PCSX2.icns ${PCSX2_SOURCE_DIR}/Resources)
+ 
+-		# Copy shaderc into the bundle
+-		target_sources(${target} PRIVATE "${SHADERC_LIBRARY}")
+-		set_source_files_properties("${SHADERC_LIBRARY}" PROPERTIES MACOSX_PACKAGE_LOCATION Frameworks)
+-
+-		# Copy MoltenVK into the bundle
+-		unset(MOLTENVK_PATH CACHE)
+-		find_file(MOLTENVK_PATH NAMES
+-			libMoltenVK.dylib
+-			lib/libMoltenVK.dylib
+-		)
+-		if (MOLTENVK_PATH)
+-			target_sources(${target} PRIVATE "${MOLTENVK_PATH}")
+-			set_source_files_properties("${MOLTENVK_PATH}" PROPERTIES MACOSX_PACKAGE_LOCATION Frameworks)
+-			message(STATUS "Using MoltenVK from ${MOLTENVK_PATH}")
+-		else()
+-			message(WARNING "MoltenVK not found in path, it will depend on the target system having it.")
+-		endif()
++		# MacPorts: shaderc and MoltenVK are loaded from the prefix, not copied into the bundle.
+ 
+ 		# If they say to skip postprocess bundle, leave the target in but make it so they have
+ 		# to manually run it
+diff --git pcsx2-qt/AutoUpdaterDialog.cpp pcsx2-qt/AutoUpdaterDialog.cpp
+index f62a319..79ff367 100644
+--- pcsx2-qt/AutoUpdaterDialog.cpp
++++ pcsx2-qt/AutoUpdaterDialog.cpp
+@@ -111,8 +111,8 @@ bool AutoUpdaterDialog::isSupported()
+ 	}
+ 
+ 	return true;
+-#elif defined(_WIN32) || defined(__APPLE__)
+-	// Windows, MacOS - always supported.
++#elif defined(_WIN32)
++	// Windows - always supported. MacPorts updates the app on macOS.
+ 	return true;
+ #else
+ 	return false;

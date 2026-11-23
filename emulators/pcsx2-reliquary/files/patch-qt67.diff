@@ -1,0 +1,68 @@
+diff --git pcsx2-qt/GameList/GameListWidget.cpp pcsx2-qt/GameList/GameListWidget.cpp
+index 2ffa299..dbd40e2 100644
+--- pcsx2-qt/GameList/GameListWidget.cpp
++++ pcsx2-qt/GameList/GameListWidget.cpp
+@@ -77,6 +77,16 @@ public:
+ 	{
+ 	}
+ 
++#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
++	// Qt 6.10's filter change notifications; earlier versions invalidate the filter afterwards.
++	enum class Direction
++	{
++		Rows,
++	};
++	void beginFilterChange() {}
++	void endFilterChange(Direction) { invalidateRowsFilter(); }
++#endif
++
+ 	void setFilterType(GameList::EntryType type)
+ 	{
+ 		beginFilterChange();
+diff --git pcsx2-qt/Themes.cpp pcsx2-qt/Themes.cpp
+index 5d201c8..219dd26 100644
+--- pcsx2-qt/Themes.cpp
++++ pcsx2-qt/Themes.cpp
+@@ -639,5 +639,7 @@ void QtHost::SetStyleFromSettings()
+ static void QtHost::SetColorScheme(Qt::ColorScheme color_scheme)
+ {
+ 	s_color_scheme = color_scheme;
++#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+ 	qApp->styleHints()->setColorScheme(color_scheme);
++#endif
+ }
+diff --git cmake/SearchForStuff.cmake cmake/SearchForStuff.cmake
+index 9f7b233..55d6269 100644
+--- cmake/SearchForStuff.cmake
++++ cmake/SearchForStuff.cmake
+@@ -113,7 +113,7 @@ disable_compiler_warnings_for_target(speex)
+ 
+ # Find the Qt components that we need.
+ if(ENABLE_QT_UI)
+-	find_package(Qt6 6.10 COMPONENTS CoreTools Core GuiTools Gui WidgetsTools Widgets LinguistTools REQUIRED)
++	find_package(Qt6 6.7 COMPONENTS CoreTools Core GuiTools Gui WidgetsTools Widgets LinguistTools REQUIRED)
+ 
+ 	if(NOT WIN32 AND NOT APPLE)
+ 		if (Qt6_VERSION VERSION_GREATER_EQUAL 6.10.0)
+diff --git pcsx2-qt/Debugger/SymbolTree/SymbolTreeNode.cpp pcsx2-qt/Debugger/SymbolTree/SymbolTreeNode.cpp
+index 6ec0db4..536c009 100644
+--- pcsx2-qt/Debugger/SymbolTree/SymbolTreeNode.cpp
++++ pcsx2-qt/Debugger/SymbolTree/SymbolTreeNode.cpp
+@@ -319,7 +319,7 @@ QString SymbolTreeNode::generateDisplayString(
+ 				std::optional<std::string> string = cpu.ReadString(
+ 					location.address, 256, MemoryInterface::ALLOW_LONG_STRINGS);
+ 				if (string.has_value())
+-					return QString("\"%1\"").arg(*string);
++					return QString("\"%1\"").arg(QString::fromStdString(*string));
+ 			}
+ 
+ 			QString result;
+@@ -464,7 +464,7 @@ QString SymbolTreeNode::generateDisplayString(
+ 				std::optional<std::string> string = cpu.ReadString(
+ 					address, 256, MemoryInterface::ALLOW_LONG_STRINGS);
+ 				if (string.has_value())
+-					result += QString(" \"%1\"").arg(*string);
++					result += QString(" \"%1\"").arg(QString::fromStdString(*string));
+ 			}
+ 			else if (depth == 0)
+ 			{
