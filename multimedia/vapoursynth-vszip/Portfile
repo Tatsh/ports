@@ -1,0 +1,91 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           zig_toolchain 1.0
+PortGroup           vapoursynth_plugin 1.0
+
+# 24.0.0, the release vs-jetpack 3 asks for, needs Zig 0.17, which needs macOS 15. 22.1.0 is the
+# last release for Zig 0.16. It has every filter vs-jetpack calls except NLMeans, the CPU backend
+# of vsdenoise.nl_means (added in 23.0.0).
+github.setup        dnjulek vapoursynth-zip 22.1.0
+github.tarball_from archive
+name                vapoursynth-vszip
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         VapourSynth Zig Image Process (vszip), a collection of VapourSynth filters.
+long_description    ${description} It provides Bilateral, BoxBlur, CLAHE, Checkmate, \
+                    ColorMap, Limiter, PlaneAverage, PlaneMinMax, RFS, SSIMULACRA2, XPSNR and \
+                    more, and is required by vs-jetpack.
+
+# The series build.zig.zon names as minimum_zig_version; Zig breaks compatibility at every minor
+# release, so this is an exact pin.
+set zig_series      0.16
+platforms           "darwin >= [zig_toolchain.min_darwin ${zig_series}]"
+depends_build-append port:zig-${zig_series}
+
+# Zig package dependencies, which build.zig.zon would fetch at build time. They are fetched as
+# distfiles and handed to `zig build --system`, which disables fetching; each directory is named
+# for the hash build.zig.zon records.
+set vszig_commit    b87ff61ce680fa5a4cf7d44a9cb4b605c5037432
+set vszig_hash      vapoursynth-4.0.0-jLYMQ6DjAgDFOODh8tdhWCw0iGHMPKiR4znTJwSyvV36
+set zigimg_commit   0bbe201a5591219177f2444371c2897746b47774
+set zigimg_hash     zigimg-0.1.0-8_eo2sGbFwCrsBjkTTP-kinCH62m5vmYDHQnQcngFuwh
+
+set zig_system_dir  ${workpath}/zig-system
+
+master_sites-append https://github.com/dnjulek/vapoursynth-zig/archive/:vszig \
+                    https://github.com/zigimg/zigimg/archive/:zigimg
+distfiles-append    ${vszig_commit}.tar.gz:vszig \
+                    ${zigimg_commit}.tar.gz:zigimg
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  b99ec753a02aac38f7825f0da3dccfcef6f6a275 \
+                    sha256  2189c343ad0a33bc4f10d8c80280d4dfd7a157f601105e96db30c436523f7513 \
+                    size    2230687 \
+                    b87ff61ce680fa5a4cf7d44a9cb4b605c5037432.tar.gz \
+                    rmd160  41691797b3b88b9c35a4d6487572bc28d202753a \
+                    sha256  2d5c6104d9b11183eebc65298c36adff60f8dd82128bbcdc76611452d68c5c0c \
+                    size    46999 \
+                    0bbe201a5591219177f2444371c2897746b47774.tar.gz \
+                    rmd160  2ae22b0a1deae08e82de1b90a6a9d512d28521e8 \
+                    sha256  4f145109a4c4eab3deeb49b1847be9a5826c1c3967a586e879d40e6943c4009c \
+                    size    222570
+
+post-extract {
+    xinstall -d ${zig_system_dir}
+    move ${workpath}/vapoursynth-zig-${vszig_commit} ${zig_system_dir}/${vszig_hash}
+    move ${workpath}/zigimg-${zigimg_commit} ${zig_system_dir}/${zigimg_hash}
+}
+
+use_configure       no
+
+# Like upstream's wheels: a baseline build plus builds for newer CPUs, between which VapourSynth
+# picks at load time according to manifest.vs. A plain `zig build` would target the build
+# machine's CPU.
+if {${configure.build_arch} eq "x86_64"} {
+    set vszip_cpus  {x86_64 {} haswell .avx2 znver4-sse4a .zn4}
+} else {
+    set vszip_cpus  {baseline {}}
+}
+
+build {
+    foreach {cpu suffix} ${vszip_cpus} {
+        system -W ${worksrcpath} "[zig_toolchain.bin ${zig_series}] build \
+            --system ${zig_system_dir} --prefix ${workpath}/out-${cpu} -Doptimize=ReleaseFast \
+            -Dcpu=${cpu} -j${build.jobs}"
+    }
+}
+
+destroot {
+    set dir ${destroot}${vapoursynth.plugindir}/vszip
+    xinstall -d ${dir}
+    foreach {cpu suffix} ${vszip_cpus} {
+        xinstall -m 0755 ${workpath}/out-${cpu}/lib/libvszip.dylib ${dir}/libvszip${suffix}.dylib
+    }
+    set fd [open ${dir}/manifest.vs w]
+    puts ${fd} "\[VapourSynth Manifest V1\]\nlibvszip"
+    close ${fd}
+}
+
+vapoursynth.test_namespace vszip
