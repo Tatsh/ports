@@ -1,8 +1,8 @@
-diff --git a/EnvLib/launch_priv.h b/EnvLib/launch_priv.h
+diff --git EnvLib/launch_priv.h EnvLib/launch_priv.h
 new file mode 100644
 index 0000000..c2f4f50
 --- /dev/null
-+++ b/EnvLib/launch_priv.h
++++ EnvLib/launch_priv.h
 @@ -0,0 +1,174 @@
 +/*
 + * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.

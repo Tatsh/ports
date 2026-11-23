@@ -1,7 +1,7 @@
-diff --git a/EnvPane.xcodeproj/project.pbxproj b/EnvPane.xcodeproj/project.pbxproj
+diff --git EnvPane.xcodeproj/project.pbxproj EnvPane.xcodeproj/project.pbxproj
 index bad7cf2..f4d95ff 100644
---- a/EnvPane.xcodeproj/project.pbxproj
-+++ b/EnvPane.xcodeproj/project.pbxproj
+--- EnvPane.xcodeproj/project.pbxproj
++++ EnvPane.xcodeproj/project.pbxproj
 @@ -645,7 +645,7 @@
  			isa = XCBuildConfiguration;
  			buildSettings = {

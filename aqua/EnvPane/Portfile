@@ -29,7 +29,6 @@ xcode.destroot.settings \
 
 patchfiles      patch-launch_priv.diff \
                 patch-macports-project.diff
-patch.pre_args  -p1 -t
 
 build {}
 
