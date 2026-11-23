@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                flash-player-projector
+version             32.0.0.465
+revision            0
+categories          www multimedia
+license             Restrictive/Distributable
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Adobe Flash Player projector (standalone player for SWF files).
+long_description    The last release of Adobe's standalone Flash Player, which plays SWF files \
+                    outside a browser. Adobe ended Flash Player support in 2020.
+homepage            https://web.archive.org/web/20220325010638/https://www.adobe.com/support/flashplayer/debug_downloads.html
+supported_archs     x86_64
+platforms           {darwin >= 10}
+
+# The GitHub archive of Adobe's debug downloads page, pinned to a commit, and Adobe's own server
+# (still up when this was written). The files are identical.
+set archive_commit  9de2f9d1afaacd0f553c057495edbc59e94a54a0
+master_sites        https://raw.githubusercontent.com/Grubsic/Adobe-Flash-Player-Debug-Downloads-Archive/${archive_commit}/Macintosh/ \
+                    https://fpdownload.macromedia.com/pub/flashplayer/updaters/32/
+use_dmg             yes
+dist_subdir         ${name}/${version}
+
+variant debug description {Install the debug projector (with the debugger and trace output)} {}
+
+if {[variant_isset debug]} {
+    distname        flashplayer_32_sa_debug
+    checksums       rmd160  98fe060c50070df421bc7d69e7696d92f501121c \
+                    sha256  7a9a043e1481768d58ed9de8ff8644aa95d73ea7a0f5ba59b77fd4e71f7c25fd \
+                    size    10169829
+} else {
+    distname        flashplayer_32_sa
+    checksums       rmd160  d07393fae93cf27a71532e12646e45b63704a019 \
+                    sha256  236ecef54a7d6c3eed739c74b7e14946b07b6156cbcedda3bbbf444f1d17023a \
+                    size    9902593
+}
+
+set app             {Flash Player.app}
+
+# The prebuilt projector links the old libstdc++; say so, or rev-upgrade reports a mismatch.
+configure.cxx_stdlib libstdc++
+
+use_configure       no
+build {}
+
+destroot {
+    copy ${worksrcpath}/${app} ${destroot}${applications_dir}/${app}
+    # Opens SWF files from the command line: flashplayer movie.swf
+    set fd [open ${destroot}${prefix}/bin/flashplayer w]
+    puts ${fd} "#!/bin/sh"
+    puts ${fd} "exec \"${applications_dir}/${app}/Contents/MacOS/Flash Player\" \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/flashplayer -permissions 0755
+}
+
+livecheck.type      none
