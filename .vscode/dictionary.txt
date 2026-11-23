@@ -825,6 +825,7 @@ ifneeded
 ifunc
 iinclude
 iiqqqq
+imageio
 imdario
 imgref
 imgui
@@ -1244,6 +1245,7 @@ mosen
 motionmask
 mountpoint
 mountroot
+moviepy
 moxcms
 mpbgui
 mpfr
@@ -1495,6 +1497,7 @@ proc
 procexp
 procmacros
 profglue
+proglog
 progname
 progressbar
 prost
