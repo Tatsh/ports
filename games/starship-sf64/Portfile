@@ -1,0 +1,209 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           app 1.1
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        HarbourMasters Starship 2.0.0 v
+github.tarball_from archive
+# MacPorts' starship is the shell prompt.
+name                starship-sf64
+revision            0
+categories          games
+license             public-domain
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Star Fox 64 port to modern platforms.
+long_description    Starship is a native port of Star Fox 64, built on libultraship. It needs \
+                    assets extracted from a US 1.0 or 1.1 Star Fox 64 ROM, which it asks for on \
+                    first start (the ROM is not part of this port).
+
+# Submodules and libultraship's FetchContent dependencies (from tatsh-overlay, plus metal-cpp for
+# macOS): {name repository ref directory}.
+set lus_rev         45c4f8d6c19c6176f5e0918917c655ea09ecc212
+set torch_rev       f75facb20883570ed091e8ae733ec0539f606e57
+set deps [list \
+    lus         Kenix3/libultraship             ${lus_rev}                                  libultraship-${lus_rev} \
+    torch       HarbourMasters/Torch            ${torch_rev}                                Torch-${torch_rev} \
+    dr_libs     mackron/dr_libs                 da35f9d6c7374a95353fd1df1d394d44ab66cf01    dr_libs-da35f9d6c7374a95353fd1df1d394d44ab66cf01 \
+    imgui       ocornut/imgui                   v1.91.9b-docking                            imgui-1.91.9b-docking \
+    prism       KiritoDv/prism-processor        7ae724a6fb7df8cbf547445214a1a848aefef747    prism-processor-7ae724a6fb7df8cbf547445214a1a848aefef747 \
+    threadpool  bshoshany/thread-pool           v4.1.0                                      thread-pool-4.1.0 \
+    stormlib    ladislav-zezula/StormLib        v9.25                                       StormLib-9.25 \
+    libgfxd     glankk/libgfxd                  96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf    libgfxd-96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf \
+    tinyxml2    leethomason/tinyxml2            10.0.0                                      tinyxml2-10.0.0 \
+    yaml-cpp    jbeder/yaml-cpp                 28f93bdec6387d42332220afa9558060c8016795    yaml-cpp-28f93bdec6387d42332220afa9558060c8016795 \
+    metalcpp    briaguya-ai/single-header-metal-cpp 7bf710a725b386f6db869f8a2b48a56be29b6233 single-header-metal-cpp-7bf710a725b386f6db869f8a2b48a56be29b6233]
+foreach {key repo ref dir} ${deps} {
+    master_sites-append https://github.com/${repo}/archive/${ref}.tar.gz?dummy=:${key}
+    distfiles-append    ${dir}.tar.gz:${key}
+}
+# Single files: libultraship downloads stb_image.h at configure time, and wants the SDL controller
+# database beside the executable.
+set stb_rev         0bc88af4de5fb022db643c2d8e549a0927749354
+set gcdb_rev        5a12daa568d19344f9b6e9286ef5929833b25c7c
+master_sites-append https://raw.githubusercontent.com/nothings/stb/${stb_rev}/:stb \
+                    https://raw.githubusercontent.com/mdqinc/SDL_GameControllerDB/${gcdb_rev}/:gcdb
+distfiles-append    stb_image.h:stb gamecontrollerdb.txt:gcdb
+extract.only        {*}[lmap f ${distfiles} {set f [lindex [split ${f} :] 0]; if {${f} in {stb_image.h gamecontrollerdb.txt}} continue; set f}]
+dist_subdir         ${name}/${version}
+
+checksums           Starship-2.0.0.tar.gz \
+                    rmd160  09575363005e9096658cdbb036105df91a3893bc \
+                    sha256  e96e03c5f077d045ced5488208b60bdc4077c381158d17b2571f9a476622d20b \
+                    size    1888417 \
+                    libultraship-45c4f8d6c19c6176f5e0918917c655ea09ecc212.tar.gz \
+                    rmd160  b9a70a06fbd0e726e616efa03d74e0d08e8c0d07 \
+                    sha256  233f9d4e38b5b2b492b6d8e5e9e856605439cb7d955c7668fdf22809916bc6e9 \
+                    size    462818 \
+                    Torch-f75facb20883570ed091e8ae733ec0539f606e57.tar.gz \
+                    rmd160  11fc0573b9ff213685e4e9daf1bcecb845eba9fb \
+                    sha256  c6d98c370efa078029a98d6cc71d876d530b0827a04f2235b65be5dbb4d31220 \
+                    size    1040564 \
+                    dr_libs-da35f9d6c7374a95353fd1df1d394d44ab66cf01.tar.gz \
+                    rmd160  a7f18a6a72d89e116f375d234a930120a624a48e \
+                    sha256  2704d347f480ca1bc92233fb01747e4550cc8031735b6ea62ca9990ebb8851ae \
+                    size    518741 \
+                    imgui-1.91.9b-docking.tar.gz \
+                    rmd160  3d482f6d5db3e3c47e38ff4e3dc99f5e1cb10b0b \
+                    sha256  466fdef9b18de15f0bb6e288e3d00ffa3d82200ec458ce5e4f724a161d9528a5 \
+                    size    2006500 \
+                    prism-processor-7ae724a6fb7df8cbf547445214a1a848aefef747.tar.gz \
+                    rmd160  6de35521d6912d6494c665d02b5b8538b7ffcb6d \
+                    sha256  3ff592035105b6ed472b4fee8e8f2d05cce245ec052e67261364165864fd9188 \
+                    size    20917 \
+                    thread-pool-4.1.0.tar.gz \
+                    rmd160  4441a73d5e493e22926127acd9a3c6903d89f4f3 \
+                    sha256  be7abecbc420bb87919eeef729b13ff7c29d5ce547bdae284923296c695415bd \
+                    size    82513 \
+                    StormLib-9.25.tar.gz \
+                    rmd160  1cdb96ffef7938f6cc52340e88acce55b09c0bf2 \
+                    sha256  414ebf1bdd220f3c8bc9eb93c063bb30238b45b2cd6e403d6415e5b71d0c3a40 \
+                    size    603875 \
+                    libgfxd-96fd3b849f38b3a7c7b7f3ff03c5921d328e6cdf.tar.gz \
+                    rmd160  97b1e84833cf4ee4d806cdf228e649de031001ff \
+                    sha256  96d830f6ff9c8a91c8052b51ca02ffdfd1d44ab0a9d20f899f65d4c931073696 \
+                    size    48340 \
+                    tinyxml2-10.0.0.tar.gz \
+                    rmd160  3cd309d75245c8fca70645f3971959217d227091 \
+                    sha256  3bdf15128ba16686e69bce256cc468e76c7b94ff2c7f391cc5ec09e40bff3839 \
+                    size    642421 \
+                    yaml-cpp-28f93bdec6387d42332220afa9558060c8016795.tar.gz \
+                    rmd160  e0853a091f665ba09527e23dd4b905fc261b508b \
+                    sha256  a0566d97168c9588734f260ed3220e2d1823f52401d24432bbd26410eeb2b73f \
+                    size    1072016 \
+                    single-header-metal-cpp-7bf710a725b386f6db869f8a2b48a56be29b6233.tar.gz \
+                    rmd160  d17d95592b975bd89261d7d095f8f9f84e34fb48 \
+                    sha256  9f3d9f9a48663b99e29eb15f6c5cc80f8f34ef770df98a0935fa16b292cf7766 \
+                    size    83353 \
+                    stb_image.h \
+                    rmd160  cfd21332530ed8ee869f5b9bbb5ce7a76dcc8378 \
+                    sha256  c54b15a689e6a1f32c75e2ec23afa442e3e0e37e894b73c1974d08679b20dd5c \
+                    size    282848 \
+                    gamecontrollerdb.txt \
+                    rmd160  9b8c305225942b56cc1b62325256bc8feb0aa723 \
+                    sha256  07ec5b753e685c4829987919b27905cc3c45c8e18c11b3046e275fcf38b0f3cb \
+                    size    608491
+
+depends_build-append \
+                    port:nlohmann-json \
+                    port:pkgconfig \
+                    port:python313
+depends_lib-append  port:glew \
+                    port:libogg \
+                    port:libpng \
+                    port:libsdl2 \
+                    port:libsdl2_net \
+                    port:libvorbis \
+                    port:libzip \
+                    port:libfmt12 \
+                    port:spdlog \
+                    port:zlib
+
+post-extract {
+    file delete -force ${worksrcpath}/libultraship ${worksrcpath}/tools/Torch
+    move ${workpath}/libultraship-${lus_rev} ${worksrcpath}/libultraship
+    move ${workpath}/Torch-${torch_rev} ${worksrcpath}/tools/Torch
+}
+
+# From tatsh-overlay: build Torch once as a host tool, use its CLI, and show dialogs through
+# portable-file-dialogs (osascript on macOS).
+patchfiles          patch-torch-single-build.diff \
+                    patch-use-torch-cli.diff \
+                    patch-dialogs-via-pfd.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    # libultraship downloads stb_image.h; copy the distfile instead.
+    reinplace -E "s|file\\(DOWNLOAD \"https://github.com/nothings/stb/raw/\[^\"\]*\" |file(MAKE_DIRECTORY \"\${STB_DIR}\")\\nfile(COPY_FILE \"${distpath}/stb_image.h\" |" \
+        ${worksrcpath}/libultraship/cmake/dependencies/common.cmake
+    # FETCHCONTENT_SOURCE_DIR_* skips the patch step, so apply upstream's dependency patches.
+    system -W ${workpath}/imgui-1.91.9b-docking \
+        "patch -p1 < ${worksrcpath}/libultraship/cmake/dependencies/patches/imgui-fixes-and-config.patch"
+    system -W ${workpath}/StormLib-9.25 \
+        "patch -p1 < ${worksrcpath}/libultraship/cmake/dependencies/patches/stormlib-optimizations.patch"
+}
+
+compiler.cxx_standard 2020
+
+# macOS's OpenGL, not Mesa's libGL from ${prefix}/lib, which needs X11 (the cmake portgroup makes
+# FindOpenGL look at frameworks last).
+configure.args-append \
+                    -DOPENGL_gl_LIBRARY=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DOPENGL_opengl_LIBRARY=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DOPENGL_INCLUDE_DIR=${configure.sdkroot}/System/Library/Frameworks/OpenGL.framework \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DBUILD_STORMLIB=OFF \
+                    -DCMAKE_OSX_DEPLOYMENT_TARGET=${macosx_deployment_target} \
+                    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+                    -DPython3_EXECUTABLE=${prefix}/bin/python3.13 \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+foreach {key repo ref dir} ${deps} {
+    set fc [dict get {dr_libs DR_LIBS imgui IMGUI prism PRISM threadpool THREADPOOL \
+                      stormlib STORMLIB libgfxd LIBGFXD tinyxml2 TINYXML2 yaml-cpp YAML-CPP \
+                      metalcpp METALCPP lus {} torch {}} ${key}]
+    if {${fc} ne ""} {
+        configure.args-append -DFETCHCONTENT_SOURCE_DIR_${fc}=${workpath}/${dir}
+    }
+}
+
+# starship.o2r (the port's own assets) comes from a target that is not part of all.
+post-build {
+    system -W ${build.dir} "${build.cmd} GeneratePortO2R"
+}
+
+set libexec         ${prefix}/libexec/${name}
+
+destroot {
+    # libultraship finds the port's assets beside the executable and keeps its writable state in
+    # SHIP_HOME (and the working directory); the wrapper sets both, as in tatsh-overlay.
+    xinstall -d ${destroot}${libexec}/assets
+    xinstall -m 0755 ${build.dir}/Starship ${destroot}${libexec}/
+    xinstall -m 0644 ${build.dir}/starship.o2r ${worksrcpath}/config.yml ${destroot}${libexec}/
+    xinstall -m 0644 ${distpath}/gamecontrollerdb.txt ${destroot}${libexec}/
+    copy ${worksrcpath}/assets/yaml ${destroot}${libexec}/assets/
+    set fd [open ${destroot}${prefix}/bin/Starship w]
+    puts ${fd} "#!/bin/sh
+SHIP_HOME=\"\${HOME}/Library/Application Support/Starship\"
+export SHIP_HOME
+mkdir -p \"\${SHIP_HOME}\" || exit 1
+cd \"\${SHIP_HOME}\" || exit 1
+# The asset extractor reads these from the working directory.
+for f in config.yml assets; do
+    \[ -e \"\${SHIP_HOME}/\${f}\" \] || ln -s \"${libexec}/\${f}\" \"\${SHIP_HOME}/\${f}\" || exit 1
+done
+exec \"${libexec}/Starship\" \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/Starship -permissions 0755
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+app.name            Starship
+app.executable      Starship
+app.icon            logo.png
+
+notes "
+Starship needs a US 1.0 or 1.1 Star Fox 64 ROM. Start it once and it asks for the ROM, then\
+ writes sf64.o2r and its other files to ~/Library/Application Support/Starship.
+"
