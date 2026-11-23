@@ -1,12 +1,12 @@
---- a/tests/track/tracktest.cpp
-+++ b/tests/track/tracktest.cpp
+--- tests/track/tracktest.cpp
++++ tests/track/tracktest.cpp
 @@ -1,3 +1,4 @@
 +#include <sstream>
  #include <iostream>
  
  #include <QtCore/QDir>
---- a/tests/consolemaintest.cpp
-+++ b/tests/consolemaintest.cpp
+--- tests/consolemaintest.cpp
++++ tests/consolemaintest.cpp
 @@ -1,4 +1,5 @@
  // SPDX-License-Identifier: GPL-3.0-or-later
 +#include <sstream>

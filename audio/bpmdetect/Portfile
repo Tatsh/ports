@@ -29,7 +29,6 @@ depends_lib         port:qt67-qtbase \
 
 patchfiles          patch-av_dict_get.diff \
                     patch-tests-sstream.diff
-patch.pre_args      -p1
 
 # MacPorts: use FHS layout; Qt6 via libexec, ffmpeg/soundtouch via pkg-config
 # Install app bundle to Applications/MacPorts (not under prefix)

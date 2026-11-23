@@ -1,5 +1,5 @@
---- a/src/ffmpegutils.cpp
-+++ b/src/ffmpegutils.cpp
+--- src/ffmpegutils.cpp
++++ src/ffmpegutils.cpp
 @@ -438,22 +438,22 @@
                                  name.contains(kNameM4a) ? kBpmKeyTmpo :
                                                            kBpmKeyBpm;
