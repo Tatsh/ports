@@ -4,10 +4,11 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 PortGroup           cargo_fetch 1.0
+PortGroup           app 1.0
 
 github.setup        oyvindln vhs-decode 0.4.0 v
 github.tarball_from archive
-revision            0
+revision            1
 categories          multimedia python
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -28,7 +29,6 @@ python.pep517_backend   setuptools
 
 # Leave the compiler and its flags to MacPorts instead of forcing clang with -O3 -flto.
 patchfiles          patch-remove-cc-hardcodes.diff
-patch.pre_args-replace -p0 -p1
 
 depends_build-append \
                     port:py${python.version}-cython \
@@ -38,6 +38,7 @@ depends_build-append \
 depends_lib-append  port:py${python.version}-numpy
 # static-ffmpeg is optional; the ffmpeg in MacPorts is used from PATH.
 depends_run-append  path:bin/ffmpeg:ffmpeg \
+                    port:py${python.version}-pyqt6 \
                     port:py${python.version}-av \
                     port:py${python.version}-matplotlib \
                     port:py${python.version}-noisereduce \
@@ -48,6 +49,25 @@ depends_run-append  path:bin/ffmpeg:ffmpeg \
                     port:py${python.version}-sounddevice \
                     port:py${python.version}-soundfile \
                     port:py${python.version}-soxr
+
+# The launcher's icons are installed in ${prefix}/share/vhs-decode/icons rather than in a top
+# level assets directory in site-packages.
+post-patch {
+    reinplace "s|icon_dir = Path(__file__).resolve().parents\\\[1\\\] / \"assets\" / \"icons\"|icon_dir = Path(\"${prefix}/share/vhs-decode/icons\")|" \
+        ${worksrcpath}/vhsdecode/decode_launcher.py
+}
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/share/vhs-decode/icons
+    foreach f [glob ${worksrcpath}/assets/icons/vhs-decode.*] {
+        xinstall -m 0644 ${f} ${destroot}${prefix}/share/vhs-decode/icons/
+    }
+}
+
+# The decoders are command line tools; decode-launcher is their Qt front end.
+app.name            VHS-Decode Launcher
+app.executable      ${python.prefix}/bin/decode-launcher
+app.icon            assets/icons/vhs-decode.icns
 
 build.env-append    SETUPTOOLS_SCM_PRETEND_VERSION_FOR_VHS_DECODE=${version}
 destroot.env-append SETUPTOOLS_SCM_PRETEND_VERSION_FOR_VHS_DECODE=${version}
