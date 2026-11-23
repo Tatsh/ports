@@ -1,0 +1,32 @@
+--- vivisect/remote/server.py
++++ vivisect/remote/server.py
+@@ -547,9 +547,9 @@
+     return server
+ 
+ 
+-def runMainServer(dirname='', port=viv_port):
++def runMainServer(dirname='', port=viv_port, host=''):
+     s = VivServer(dirname=dirname)
+-    daemon = cobra.CobraDaemon(port=port, msgpack=True)
++    daemon = cobra.CobraDaemon(host=host, port=port, msgpack=True)
+     daemon.recvtimeout = timeout_sock
+     daemon.shareObject(s, 'VivServer')
+     daemon.serve_forever()
+@@ -560,6 +560,8 @@
+     ap.add_argument('dirn', help='A directory full of *.viv files to share')
+     ap.add_argument('--port', '-p', type=int, default=viv_port,
+                     help='The port to start server on (defaults to %d)' % viv_port)
++    ap.add_argument('--host', default='',
++                    help='The address to listen on (defaults to all interfaces)')
+     return ap
+ 
+ 
+@@ -571,7 +573,7 @@
+         return -1
+ 
+     print(f'VivServer starting (port: {opts.port})')
+-    runMainServer(vdir, opts.port)
++    runMainServer(vdir, opts.port, opts.host)
+ 
+ 
+ if __name__ == '__main__':
