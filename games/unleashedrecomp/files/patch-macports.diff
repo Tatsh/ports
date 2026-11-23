@@ -1,0 +1,206 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6a06ffb..1282a3f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,9 +1,5 @@
+ cmake_minimum_required (VERSION 3.20)
+ 
+-if(NOT DEFINED ENV{VCPKG_ROOT})
+-    message(FATAL_ERROR "VCPKG_ROOT is not defined!")
+-endif()
+-
+ set(UNLEASHED_RECOMP_THIRDPARTY_ROOT ${CMAKE_SOURCE_DIR}/thirdparty)
+ set(UNLEASHED_RECOMP_TOOLS_ROOT ${CMAKE_SOURCE_DIR}/tools)
+ set(CMAKE_CXX_STANDARD 20)
+diff --git a/UnleashedRecomp/CMakeLists.txt b/UnleashedRecomp/CMakeLists.txt
+index 01e040a..0169b20 100644
+--- a/UnleashedRecomp/CMakeLists.txt
++++ b/UnleashedRecomp/CMakeLists.txt
+@@ -66,6 +66,9 @@ add_compile_definitions(
+ set(UNLEASHED_RECOMP_PRECOMPILED_HEADERS
+     "stdafx.h"
+ )
++if (UNLEASHED_RECOMP_PRECOMPILED_PREFIX)
++    list(PREPEND UNLEASHED_RECOMP_PRECOMPILED_HEADERS "${UNLEASHED_RECOMP_PRECOMPILED_PREFIX}")
++endif()
+ 
+ set(UNLEASHED_RECOMP_KERNEL_CXX_SOURCES
+     "kernel/imports.cpp"
+@@ -210,9 +213,7 @@ set(UNLEASHED_RECOMP_THIRDPARTY_INCLUDES
+     "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/ddspp"
+     "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/imgui"
+     "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/implot"
+-    "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/json/include"
+-    "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/magic_enum/include"
+-    "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/stb"
++    "${UNLEASHED_RECOMP_SYSTEM_INCLUDE_DIR}/stb"
+     "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/unordered_dense/include"
+     "${UNLEASHED_RECOMP_TOOLS_ROOT}/bc_diff"
+     "${UNLEASHED_RECOMP_TOOLS_ROOT}/XenosRecomp/thirdparty/smol-v/source"
+@@ -315,32 +316,7 @@ elseif (APPLE)
+         MACOSX_BUNDLE_ICON_FILE "game_icon.icns"
+     )
+ 
+-    # Linking with MoltenVK directly would prevent using the system Vulkan loader to load with debug layers.
+-    # Instead, copy the MoltenVK dylib to the app bundle along with an ICD file for the loader to find it.
+-    # In the event the loader is not installed, the MoltenVK dylib can still be picked up directly in the app bundle.
+-    set(MVK_BUNDLED_PATH "Resources/vulkan/icd.d")
+-    set(MVK_DST "${CMAKE_CURRENT_BINARY_DIR}/Unleashed Recompiled.app/Contents/${MVK_BUNDLED_PATH}")
+-    set_property(TARGET UnleashedRecomp APPEND PROPERTY BUILD_RPATH "@executable_path/../${MVK_BUNDLED_PATH}")
+-
+-    set(MVK_ICD_SRC "${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/MoltenVK/MoltenVK/MoltenVK/icd/MoltenVK_icd.json")
+-    set(MVK_ICD_DST "${MVK_DST}/MoltenVK_icd.json")
+-    set(MVK_DYLIB_SRC "${CMAKE_BINARY_DIR}/thirdparty/MoltenVK/libMoltenVK.dylib")
+-    set(MVK_DYLIB_DST "${MVK_DST}/libMoltenVK.dylib")
+-
+-    add_custom_command(
+-        OUTPUT ${MVK_DST}
+-        COMMAND ${CMAKE_COMMAND} -E make_directory ${MVK_DST})
+-    add_custom_command(
+-        OUTPUT ${MVK_ICD_DST}
+-        DEPENDS ${MVK_ICD_SRC} ${MVK_DST}
+-        COMMAND ${CMAKE_COMMAND} -E copy ${MVK_ICD_SRC} ${MVK_ICD_DST})
+-    add_custom_command(
+-        OUTPUT ${MVK_DYLIB_DST}
+-        DEPENDS ${MVK_DYLIB_SRC} ${MVK_DST}
+-        COMMAND ${CMAKE_COMMAND} -E copy ${MVK_DYLIB_SRC} ${MVK_DYLIB_DST})
+-    add_custom_target(CopyMoltenVK DEPENDS ${MVK_ICD_DST} ${MVK_DYLIB_DST})
+-    add_dependencies(CopyMoltenVK MoltenVK)
+-    add_dependencies(UnleashedRecomp CopyMoltenVK)
++    # Vulkan comes from the system loader, with the system MoltenVK as its driver.
+ else()
+     add_executable(UnleashedRecomp ${UNLEASHED_RECOMP_CXX_SOURCES})
+ endif()
+@@ -394,7 +370,7 @@ target_link_libraries(UnleashedRecomp PRIVATE
+     nfd::nfd
+     o1heap
+     XenonUtils
+-    SDL2::SDL2-static
++    SDL2::SDL2
+     SDL2_mixer
+     tomlplusplus::tomlplusplus
+     UnleashedRecompLib
+diff --git a/thirdparty/CMakeLists.txt b/thirdparty/CMakeLists.txt
+index d5c0858..6876fdd 100644
+--- a/thirdparty/CMakeLists.txt
++++ b/thirdparty/CMakeLists.txt
+@@ -1,5 +1,37 @@
+ cmake_policy(SET CMP0077 NEW)
+ 
++# Libraries from the system instead of vcpkg and the bundled submodules. Defining their targets
++# here also keeps XenonRecomp and XenosRecomp from building their own copies.
++set(CMAKE_FIND_PACKAGE_TARGETS_GLOBAL ON)
++find_package(PkgConfig REQUIRED)
++
++find_package(fmt REQUIRED)
++find_package(nfd REQUIRED)
++find_package(SDL2 REQUIRED)
++find_package(SDL2_mixer REQUIRED)
++
++pkg_check_modules(XXHASH REQUIRED IMPORTED_TARGET GLOBAL libxxhash)
++add_library(xxHash::xxhash ALIAS PkgConfig::XXHASH)
++pkg_check_modules(ZSTD REQUIRED IMPORTED_TARGET GLOBAL libzstd)
++add_library(libzstd INTERFACE)
++target_link_libraries(libzstd INTERFACE PkgConfig::ZSTD)
++add_library(libzstd_static ALIAS libzstd)
++
++if(NOT TARGET SDL2_mixer)
++    add_library(SDL2_mixer INTERFACE)
++    target_link_libraries(SDL2_mixer INTERFACE SDL2_mixer::SDL2_mixer)
++endif()
++
++find_program(DIRECTX_DXC_TOOL dxc REQUIRED)
++find_library(DIRECTX_DXCOMPILER_LIBRARY dxcompiler REQUIRED)
++find_path(DIRECTX_DXC_INCLUDE_DIR dxcapi.h PATH_SUFFIXES dxc REQUIRED)
++add_library(Microsoft::DirectXShaderCompiler UNKNOWN IMPORTED GLOBAL)
++set_target_properties(Microsoft::DirectXShaderCompiler PROPERTIES
++    IMPORTED_LOCATION "${DIRECTX_DXCOMPILER_LIBRARY}"
++    INTERFACE_INCLUDE_DIRECTORIES "${DIRECTX_DXC_INCLUDE_DIR}")
++
++set(MSDF_ATLAS_USE_VCPKG OFF)
++set(MSDFGEN_USE_VCPKG OFF)
+ set(MSDF_ATLAS_BUILD_STANDALONE OFF)
+ set(MSDF_ATLAS_USE_SKIA OFF)
+ set(MSDF_ATLAS_NO_ARTERY_FONT ON)
+@@ -24,12 +56,13 @@ if (WIN32)
+ endif()
+ 
+ add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/msdf-atlas-gen")
+-add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/nativefiledialog-extended")
+ add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/o1heap")
+-add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/SDL")
+-add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/SDL_mixer")
+ add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/plume")
++# plume's own copies of the Vulkan headers and VulkanMemoryAllocator are not bundled.
++find_package(VulkanHeaders REQUIRED)
++find_package(VulkanMemoryAllocator REQUIRED)
++target_link_libraries(plume PUBLIC Vulkan::Headers GPUOpen::VulkanMemoryAllocator)
++# The bundled static SDL brought these in; the system one is a shared library.
++target_link_libraries(plume PUBLIC "-framework AppKit" "-framework CoreFoundation"
++    "-framework Foundation" "-framework IOKit" "-framework Metal" "-framework QuartzCore")
+ 
+-if (APPLE)
+-    add_subdirectory("${UNLEASHED_RECOMP_THIRDPARTY_ROOT}/MoltenVK")
+-endif()
+Submodule tools/XenosRecomp contains modified content
+diff --git a/tools/XenosRecomp/XenosRecomp/main.cpp b/tools/XenosRecomp/XenosRecomp/main.cpp
+index d015145..15a6429 100644
+--- a/tools/XenosRecomp/XenosRecomp/main.cpp
++++ b/tools/XenosRecomp/XenosRecomp/main.cpp
+@@ -115,7 +115,9 @@ int main(int argc, char** argv)
+ 
+         std::atomic<uint32_t> progress = 0;
+ 
+-        std::for_each(std::execution::par_unseq, shaders.begin(), shaders.end(), [&](auto& hashShaderPair)
++        // libc++ only has the parallel algorithms with -fexperimental-library from LLVM 17, so on
++        // older ones the shaders are shared out between threads by hand.
++        auto recompileShader = [&](auto& hashShaderPair)
+             {
+                 auto& shader = hashShaderPair.second;
+ 
+@@ -144,7 +146,31 @@ int main(int argc, char** argv)
+                 size_t currentProgress = ++progress;
+                 if ((currentProgress % 10) == 0 || (currentProgress == shaders.size() - 1))
+                     fmt::println("Recompiling shaders... {}%", currentProgress / float(shaders.size()) * 100.0f);
+-            });
++            };
++
++#if defined(__cpp_lib_execution) && __cpp_lib_execution >= 201603L
++        std::for_each(std::execution::par_unseq, shaders.begin(), shaders.end(), recompileShader);
++#else
++        {
++            std::vector<decltype(&*shaders.begin())> pending;
++            pending.reserve(shaders.size());
++            for (auto& hashShaderPair : shaders)
++                pending.push_back(&hashShaderPair);
++
++            std::atomic<size_t> next = 0;
++            std::vector<std::thread> workers(std::max(1u, std::thread::hardware_concurrency()));
++            for (auto& worker : workers)
++            {
++                worker = std::thread([&]()
++                    {
++                        for (size_t i; (i = next++) < pending.size();)
++                            recompileShader(*pending[i]);
++                    });
++            }
++            for (auto& worker : workers)
++                worker.join();
++        }
++#endif
+ 
+         fmt::println("Creating shader cache...");
+ 
+diff --git a/tools/XenosRecomp/XenosRecomp/pch.h b/tools/XenosRecomp/XenosRecomp/pch.h
+index e59682c..95d61c1 100644
+--- a/tools/XenosRecomp/XenosRecomp/pch.h
++++ b/tools/XenosRecomp/XenosRecomp/pch.h
+@@ -10,6 +10,8 @@
+ #include <cassert>
+ #include <cstdint>
+ #include <execution>
++#include <thread>
++#include <vector>
+ #include <filesystem>
+ #include <map>
+ #include <smolv.h>

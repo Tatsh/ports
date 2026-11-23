@@ -1,0 +1,226 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           fetch_restrict 1.0
+PortGroup           github 1.0
+
+# macOS support was merged after 1.0.3, the latest release.
+github.setup        hedge-dev UnleashedRecomp 700bbd2c0d331a11b86e0a4c1c38ec62db667228
+github.tarball_from archive
+name                unleashedrecomp
+version             1.0.3.20261118
+revision            0
+categories          games
+# UnleashedRecomp GPL-3, concurrentqueue BSD or Boost, libmspack LGPL-2.1, smol-v public domain,
+# tiny-AES-c Unlicense, the rest MIT. UnleashedRecompResources has no licence.
+license             GPL-3 {BSD Boost-1} LGPL-2.1 MIT Unlicense public-domain Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Static recompilation of Sonic Unleashed for Xbox 360.
+long_description    Unleashed Recompiled is an unofficial PC port of the Xbox 360 version of \
+                    Sonic Unleashed, made by statically recompiling the game's code and shaders. \
+                    The build translates files from your own copy of the game, and the app's \
+                    installer then installs the game from your copy.
+homepage            https://github.com/hedge-dev/UnleashedRecomp
+supported_archs     x86_64 arm64
+platforms           {darwin >= 22}
+
+checksums           UnleashedRecomp-700bbd2c0d331a11b86e0a4c1c38ec62db667228.tar.gz \
+                    rmd160  4ca3fab13deb815f8c503f7d741ce9d363270a90 \
+                    sha256  b8e19b5fd15dfc82cf6aa5e7b648ebd3debffdcf8328ffcc72bcae56794944c8 \
+                    size    1909636 \
+                    SWA-f299dd8cf272a0110c91e54e2b6e308a2d897966.tar.gz \
+                    rmd160  d1f54b8ed7adfd6dd8bf101e9847ecffd833f74b \
+                    sha256  2968cb00dac0faa6ecde597c630ef5a32bc4b33b09dc50b8af9dd4d7e6211b9c \
+                    size    27942 \
+                    UnleashedRecompResources-35322388006365a648f75f4981a496b12a7f7478.tar.gz \
+                    rmd160  a07b4cb62141ad765087eb7895d3ffab2cbc0081 \
+                    sha256  b272f6bb0bf1f2dd74293f618e3dc934b2bef7bb4829e787e007938956c6ec61 \
+                    size    171318073 \
+                    concurrentqueue-6dd38b8a1dbaa7863aa907045f32308a56a6ff5d.tar.gz \
+                    rmd160  432b59de33c3aac9ce098e4b361d30d8c66bae43 \
+                    sha256  7d702475761ad37c2e4c288b93514754e5dba2dc8758a5fa29b13808006ea2bc \
+                    size    1565476 \
+                    ddspp-98ce1d384706c8d7121876742a786f4eb89a23ef.tar.gz \
+                    rmd160  d5d0f5606b513d32c85077f81ac128acf6f4b06c \
+                    sha256  0d4e2afccc251c0bf425c05ec4af9ad6e3e192d07a261b12fcfe9c16d6caa18a \
+                    size    2211651 \
+                    imgui-8199457a7d9e453f8d3d9cadc14683fb54a858b5.tar.gz \
+                    rmd160  013fa37a268f4f66272a425b14be070b98df5f12 \
+                    sha256  804bb4a7e3f772ca7447c31a0d67fb225d2d082f0b09c0054aa66f6b14ad04fb \
+                    size    1739936 \
+                    implot-77674d270e851d3f3718aad00234201af2b76ac9.tar.gz \
+                    rmd160  1a4bfdb06f2c5fade2315b7ed0a31ca037e0b8e8 \
+                    sha256  0175a6b30feb9aa6fd7d0e92a6bf5b88a28b169c0123da8cc7e7b3c9e227f63b \
+                    size    140441 \
+                    msdf-atlas-gen-7e8d34645a67c6e4def5d281f7adec1c2501dc49.tar.gz \
+                    rmd160  dab53408b4ad6d0d95f1d16a5c70225a89877c04 \
+                    sha256  07ad66a558263bb2243153ce41e1fbd88d362e27351bda1414b5e5cb7cf897bd \
+                    size    65303 \
+                    msdfgen-5a88b0c2b95033f7eee826b27c48d399d544d814.tar.gz \
+                    rmd160  ab0057336d256e8d9c3eb600e00bfca68c1d07fc \
+                    sha256  61394a71a4f9c5e6ac7277b1989bad00d000942f9f420b3bbff703ffc3130369 \
+                    size    89650 \
+                    plume-11926860e878e68626ea99ec88562ce2b8badc4f.tar.gz \
+                    rmd160  0390e49cb752cdbe1adb90b2ecf0a7c701c796c3 \
+                    sha256  73da46aac5eddd9d957142de38f9d27f3501811bb9f23fc64e4214f71014fff9 \
+                    size    263442 \
+                    volk-be3dbd49bf77052665e96b6c7484af855e7e5f67.tar.gz \
+                    rmd160  9c38d9442cccb8260dbddeaf4f7f37f900f31e8c \
+                    sha256  295d6de2bccb4e46f77d4173ba42c9513a66623071e80ceb597e9d95de73cc32 \
+                    size    71508 \
+                    unordered_dense-d911053e390816ecc5dedd5a9d6b4bb5ed92b4c9.tar.gz \
+                    rmd160  817b12a74ff71989366d091c9e37b1c7badb4be4 \
+                    sha256  889d0eee183ee7f6cb742acfb2198bbeba5ae52dcb8b0ad558c7acf85ab1074a \
+                    size    899118 \
+                    XenonRecomp-c5bfd90d87f2ed0db8cff5c19ea3aff0e161e527.tar.gz \
+                    rmd160  d935f34f2431a4dad73d4c3125b2ad02ae0872f3 \
+                    sha256  507c059461e359efe34e7009498463da57c962c3704f516902353bb5b83b0d43 \
+                    size    162395 \
+                    libmspack-305907723a4e7ab2018e58040059ffb5e77db837.tar.gz \
+                    rmd160  8ca65f15329df21f54856fc7861aa9cd6be696db \
+                    sha256  342427b589ec04ba50ac5662119400955cbb0d9c52259ad1c8188dae505ab0f2 \
+                    size    409099 \
+                    simde-no-tests-a532a12ca9bbdc5e6547eb602e6256b71a5377d4.tar.gz \
+                    rmd160  5f435fc36cd36fba594d537a6960c04114b44230 \
+                    sha256  b1c820ed6268a9797041dd9e94fbf5cae5b48f30a356102181116f7a6cfc5aea \
+                    size    769631 \
+                    tiny-AES-c-23856752fbd139da0b8ca6e471a13d5bcc99a08d.tar.gz \
+                    rmd160  1216525725b6be9ea3447af02aa57dc9e3181b85 \
+                    sha256  b91c219c4ff2dd4f24750130c27045e264b52d763d3b5b2cd24230334176f820 \
+                    size    14365 \
+                    tomlplusplus-c4369ae1d8955cae20c4ab40b9813ef4b60e48be.tar.gz \
+                    rmd160  c76307b82fba6c2bc4c363858de50ba8264363ab \
+                    sha256  217e595f6cab9b17a79ff9ab14ec5362ef7ef2e1451d781cfa88f567dd50c496 \
+                    size    1297948 \
+                    XenosRecomp-990d03b28a27b50277ee5d8d942e1c5f873869d1.tar.gz \
+                    rmd160  7e8cadf19f7dd1384c550c8a76bd846ec6ec48f7 \
+                    sha256  fa719d421e1d72bff8170a407258cae8907c5d579a3db7c8df97be0eda2c190d \
+                    size    26881 \
+                    smol-v-9dd54c379ac29fa148cb1b829bb939ba7381d8f4.tar.gz \
+                    rmd160  5b68a6d8563be00357d8dda7d1437f1fd04e11b3 \
+                    sha256  6a0e81cf028f90211fa29819a67ba3710397c652e039750b857d18130f3e05f4 \
+                    size    2672849
+
+# Bundled submodules as path, owner/repo and commit, parents before their children. The rest
+# come from MacPorts (see the patch) or are for Windows only.
+set submodules {
+    UnleashedRecomp/api                         hedge-dev/SWA                       f299dd8cf272a0110c91e54e2b6e308a2d897966
+    UnleashedRecompResources                    hedge-dev/UnleashedRecompResources  35322388006365a648f75f4981a496b12a7f7478
+    thirdparty/concurrentqueue                  cameron314/concurrentqueue          6dd38b8a1dbaa7863aa907045f32308a56a6ff5d
+    thirdparty/ddspp                            redorav/ddspp                       98ce1d384706c8d7121876742a786f4eb89a23ef
+    thirdparty/imgui                            ocornut/imgui                       8199457a7d9e453f8d3d9cadc14683fb54a858b5
+    thirdparty/implot                           epezent/implot                      77674d270e851d3f3718aad00234201af2b76ac9
+    thirdparty/msdf-atlas-gen                   Chlumsky/msdf-atlas-gen             7e8d34645a67c6e4def5d281f7adec1c2501dc49
+    thirdparty/msdf-atlas-gen/msdfgen           Chlumsky/msdfgen                    5a88b0c2b95033f7eee826b27c48d399d544d814
+    thirdparty/plume                            renderbag/plume                     11926860e878e68626ea99ec88562ce2b8badc4f
+    thirdparty/plume/contrib/volk               zeux/volk                           be3dbd49bf77052665e96b6c7484af855e7e5f67
+    thirdparty/unordered_dense                  martinus/unordered_dense            d911053e390816ecc5dedd5a9d6b4bb5ed92b4c9
+    tools/XenonRecomp                           hedge-dev/XenonRecomp               c5bfd90d87f2ed0db8cff5c19ea3aff0e161e527
+    tools/XenonRecomp/thirdparty/libmspack      kyz/libmspack                       305907723a4e7ab2018e58040059ffb5e77db837
+    tools/XenonRecomp/thirdparty/simde          simd-everywhere/simde-no-tests      a532a12ca9bbdc5e6547eb602e6256b71a5377d4
+    tools/XenonRecomp/thirdparty/tiny-AES-c     kokke/tiny-AES-c                    23856752fbd139da0b8ca6e471a13d5bcc99a08d
+    tools/XenonRecomp/thirdparty/tomlplusplus   marzer/tomlplusplus                 c4369ae1d8955cae20c4ab40b9813ef4b60e48be
+    tools/XenosRecomp                           hedge-dev/XenosRecomp               990d03b28a27b50277ee5d8d942e1c5f873869d1
+    tools/XenosRecomp/thirdparty/smol-v         aras-p/smol-v                       9dd54c379ac29fa148cb1b829bb939ba7381d8f4
+}
+set i 0
+foreach {path repo rev} ${submodules} {
+    incr i
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+}
+
+# The game files the recompilers translate.
+fetch_restrict.files \
+    {unleashedrecomp-default.xex sha256 1172fbbce7e145b3dc850c1403f57739febd2fb886dfc16f6da291c49a2cd6e1} \
+    {unleashedrecomp-default.xexp sha256 b12bb7d08e77b75f0758f7b053224b71de9903592671214fe4dd222097911a16} \
+    {unleashedrecomp-shader.ar sha256 e5eff2b0efabd6c4aff6c563329232810271526e4fd0abf2de2f7730db8b63e5}
+fetch_restrict.instructions {
+    Unleashed Recompiled translates the game's own code and shaders while it builds, so it needs
+    three files from your copy of Sonic Unleashed for Xbox 360: the US retail disc and title
+    update 2 (released only in Europe, but it applies to the US game too). Copy them into the
+    directory below as:
+
+      unleashedrecomp-default.xex    default.xex from the root of the US disc image
+      unleashedrecomp-shader.ar      shader.ar from the root of the US disc image
+      unleashedrecomp-default.xexp   default.xexp from the title update, a file named TU_19KA20I*
+                                     (an STFS package) in /Content/Cache/ on an Xbox 360
+
+    extract-xiso -x extracts the disc image. Upstream documents dumping the files in
+    docs/DUMPING-en.md.
+}
+
+depends_build-append \
+                    port:directx-shader-compiler \
+                    port:magic_enum \
+                    port:nlohmann-json \
+                    port:pkgconfig \
+                    port:stb \
+                    port:vulkan-headers \
+                    port:vulkan-memory-allocator
+depends_lib-append  path:lib/libcurl.dylib:curl \
+                    port:freetype \
+                    port:libfmt11 \
+                    port:libsdl2 \
+                    port:libsdl2_mixer \
+                    port:nativefiledialog-extended \
+                    port:vulkan-loader \
+                    port:xxhash \
+                    port:zstd
+depends_run-append  port:MoltenVK
+
+post-extract {
+    foreach {path repo rev} ${submodules} {
+        file delete -force ${worksrcpath}/${path}
+        file rename ${workpath}/[file tail ${repo}]-${rev} ${worksrcpath}/${path}
+    }
+    foreach f {default.xex default.xexp shader.ar} {
+        file copy [fetch_restrict::path unleashedrecomp-${f}] ${worksrcpath}/UnleashedRecompLib/private/${f}
+    }
+}
+
+# Build against MacPorts libraries instead of vcpkg and the bundled SDL, SDL_mixer, MoltenVK and
+# friends, and recompile the shaders on older libc++, which has no parallel algorithms.
+patchfiles          patch-macports.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    # Load the MacPorts Vulkan loader, which finds the MacPorts MoltenVK.
+    reinplace "s|\"/usr/local/lib/libvulkan.dylib\"|\"${prefix}/lib/libvulkan.1.dylib\"|" \
+        ${worksrcpath}/thirdparty/plume/contrib/volk/volk.c
+}
+
+# Parenthesised aggregate initialisation needs Clang 16. Its libc++ headers match the system
+# library, and files/libcxx-polyfill.h supplies the C++20 pieces they lack.
+compiler.whitelist  macports-clang-16
+configure.cxxflags-append -D_LIBCPP_DISABLE_AVAILABILITY
+configure.objcxxflags-append -D_LIBCPP_DISABLE_AVAILABILITY
+
+cmake.generator     Ninja
+configure.args-append \
+                    -Wno-dev \
+                    -Dfmt_DIR=${prefix}/lib/libfmt11/cmake/fmt \
+                    -DUNLEASHED_RECOMP_SYSTEM_INCLUDE_DIR=${prefix}/include \
+                    -DUNLEASHED_RECOMP_PRECOMPILED_PREFIX=${filespath}/libcxx-polyfill.h \
+                    -DDIRECTX_DXC_TOOL=${prefix}/bin/dxc \
+                    -DDIRECTX_DXCOMPILER_LIBRARY=${prefix}/libexec/directx-shader-compiler/lib/libdxcompiler.dylib \
+                    -DDIRECTX_DXC_INCLUDE_DIR=${prefix}/libexec/directx-shader-compiler/include/dxc
+
+build.target        UnleashedRecomp
+
+set app             {Unleashed Recompiled.app}
+
+destroot {
+    copy "${build.dir}/UnleashedRecomp/${app}" ${destroot}${applications_dir}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/COPYING ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+Open ${applications_dir}/${app} and point its installer at your copy of Sonic Unleashed\
+ (the disc image or its files, and the title update). The game is installed to\
+ ~/Library/Application Support/UnleashedRecomp, with the settings.
+"
+
+livecheck.type      none
