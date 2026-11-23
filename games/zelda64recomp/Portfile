@@ -1,0 +1,318 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           fetch_restrict 1.0
+PortGroup           github 1.0
+
+github.setup        Zelda64Recomp Zelda64Recomp 1.2.2 v
+github.tarball_from archive
+name                zelda64recomp
+revision            0
+categories          games
+# Zelda64Recomp GPL-3; mupen64plus-core GPL-2+; SPIRV-Cross Apache-2; sljit and xxHash BSD;
+# nativefiledialog-extended zlib; the Majora's Mask decompilation CC0 (public domain); the rest
+# MIT.
+license             GPL-3 GPL-2+ Apache-2 BSD zlib public-domain MIT Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Static recompilation of The Legend of Zelda: Majora's Mask
+long_description    Zelda 64: Recompiled is a native port of The Legend of Zelda: Majora's Mask, \
+                    made by statically recompiling the N64 game's code, with RT64 as the \
+                    renderer. The build translates your own copy of the game, and the app \
+                    asks for the ROM again when it first starts.
+homepage            https://github.com/Zelda64Recomp/Zelda64Recomp
+supported_archs     x86_64 arm64
+platforms           {darwin >= 22}
+
+checksums           Zelda64Recomp-1.2.2.tar.gz \
+                    rmd160  b9f7fc08d302199a156605aeab9b402e496bcc98 \
+                    sha256  cb4d815ed18ada6f54528db03f52c6c36df7a312fc41410641d6a5f11db05659 \
+                    size    7190309 \
+                    Zelda64RecompSyms-a325f8fa5c48c925616bd43685ef14bbabc29537.tar.gz \
+                    rmd160  0e493148cdfcadfc0f83e77d46052ef033f472cf \
+                    sha256  575dcf11e02f67fdbcaea576f447351b8c2c90214909783ffc8e39b642700d0d \
+                    size    1313682 \
+                    N64ModernRuntime-df7e820d8c55e4fcb4616c210cbb2c01b25cd48c.tar.gz \
+                    rmd160  8e1683c77b706dfb5fbb12c5401f29e25d17419f \
+                    sha256  7cb93ff7ae5e898c4bc4f042713f221ae98d908612f3e3bb3c808dbd1e2611e0 \
+                    size    395612 \
+                    RmlUi-7a06f27db04fe5d13a5dacc19b2b4544673a4eca.tar.gz \
+                    rmd160  789367d48fa7b0811dc74875ba7349cade50138c \
+                    sha256  00fc6e0d73e50d03bb53dc47a64f4e96c56f7b38d063c1c80e2b565ba6dee7f0 \
+                    size    3471102 \
+                    lunasvg-4166d0cccfc059b39d5ecfc372524375e59448f9.tar.gz \
+                    rmd160  3fe7bbd8e55d252bcb0368afba87861daaa9b916 \
+                    sha256  2d7b2dc057b7915f24645871046d38cec648778c50cc4fac48a4e3c879cc7e95 \
+                    size    136059 \
+                    mm-5607eec18bae68e4cd38ef6d1fa69d7f1d84bfc8.tar.gz \
+                    rmd160  ffe0d7607e03662284bcddecb98df8d21a3b86af \
+                    sha256  bbd84dcd5bf2a7a8b716a018270d4c995664b4dd3e0937affced3de3e629d88c \
+                    size    20210130 \
+                    rt64-23cab603c4f9f4a8b369b38e036f1aa484603878.tar.gz \
+                    rmd160  ba48b29f9fe0a5197f7587400a7011463251ac73 \
+                    sha256  aece616cca09e6a21e989af2d57247b95a8c839e806c68d25fc779c9f18679f3 \
+                    size    868750 \
+                    N64Recomp-a13e5cff96686776b0e03baf23923e3c1927b770.tar.gz \
+                    rmd160  0b7cc0080b7dc15bf2e339fbcc03fe0a4294d053 \
+                    sha256  4f22730bb41b12dd565aeda46dab405f0d87c114422b891cc3faa4cddb65b6d4 \
+                    size    108217 \
+                    miniz-8573fd7cd6f49b262a0ccc447f3c6acfc415e556.tar.gz \
+                    rmd160  0ea965d7154e5784fceaccb2463d241d05d8c908 \
+                    sha256  1fab8fc88f8329bdfd38d6ab620566c54d33fd635dd41e1506240362bb32059b \
+                    size    285681 \
+                    o1heap-a124b850791db2a33f7354d2b0aa7da821cef6f5.tar.gz \
+                    rmd160  56d97f51de8fdb5663775c20ffc12fae5d639820 \
+                    sha256  e4aaeda57d490c60bc29866ec09a8645bda66b6c7aaec5879d166b664b3e858c \
+                    size    371664 \
+                    xxHash-ac3a25da3d957d9ef3e4114d9f8332d34ce83a46.tar.gz \
+                    rmd160  36203ec7d1d33ed8f2504233aab1611866bbdef0 \
+                    sha256  3445ef17172eccc423fec8d741a82371cb020a6e8ce4b0450f926eba90a7fcec \
+                    size    1144265 \
+                    ELFIO-ad8b641f9682b6091ba8b9f7c8152255c1a2c803.tar.gz \
+                    rmd160  c7432e6bdeecca06cf054d444ddf7e88d36da2d7 \
+                    sha256  7ac1348e9bc9fc2c983c6ce318ee0398626f2dbdafe3a3382f7cd56a3caa09b4 \
+                    size    4150580 \
+                    fmt-8e728044f673774160f43b44a07c6b185352310f.tar.gz \
+                    rmd160  df6ea8efc91e5b862250b43bfd684500b7f581ee \
+                    sha256  f63b88106c7582391038449859ffa77cae25760becbbabde89435a81947a2617 \
+                    size    860807 \
+                    rabbitizer-e0d8003047938e2ec3697eaf8d61a84d11d17b43.tar.gz \
+                    rmd160  08f124b37bdf1bfd9221b2196592c1369114e4ba \
+                    sha256  088635b06542c6b0a237c85dadb53444aa4269b350e637cddaf86dee83d6a9e0 \
+                    size    155079 \
+                    sljit-f6326087b3404efb07c6d3deed97b3c3b8098c0c.tar.gz \
+                    rmd160  1e1572237a10a2ec614b32ca55dca7b383663782 \
+                    sha256  3a8752f14e4c1c347a95155cc9f879e58be495a41e196e4e655f76c8cd1714ea \
+                    size    416563 \
+                    tomlplusplus-1f7884e59165e517462f922e7b6de131bd9844f3.tar.gz \
+                    rmd160  f86207f179ad1b4f95424f3f15ea6221b86b9eab \
+                    sha256  e2af055f0ababf8ed4d6294df1f2616494f5f01d8f3df5100400597672841c4c \
+                    size    1297209 \
+                    ddspp-2bdf73882b9169ca9d7a307b24d65d6c4e196084.tar.gz \
+                    rmd160  0de960f52f8ef78db27d1ad0d62300de704503c1 \
+                    sha256  4f60d7c79a1104a3e94e007d3e7f3a63c5fc78f7c3bd42f4637864ce3c7a4722 \
+                    size    2211808 \
+                    hlslpp-6f5274c66132e8f951c400103d897582b8f21491.tar.gz \
+                    rmd160  dff1c1e1fda4fe121d4ea49a6acdabbab2098439 \
+                    sha256  b6f42de9ff25f24bffe8722a5667d4cde59563887196381ab5e2be10c399a566 \
+                    size    2228846 \
+                    im3d-d03941725fd0bd08c78c46e3e5b0265526e9d060.tar.gz \
+                    rmd160  4a2d87d10e256789175cf0a50e205292a342eb74 \
+                    sha256  0f4fb00cf422184329eb9c0cdaa832e7ab278435fb6c09cb3de9723111e8688f \
+                    size    855682 \
+                    imgui-277ae93c41314ba5f4c7444f37c4319cdf07e8cf.tar.gz \
+                    rmd160  a5f15ae8ccf8553c899d096c1be399febc669743 \
+                    sha256  a368959e7af9cc24b5f445aa28d545cd13990ed4ffec14457978d814def71f58 \
+                    size    1662891 \
+                    implot-f156599faefe316f7dd20fe6c783bf87c8bb6fd9.tar.gz \
+                    rmd160  cea2614664f8f2e5a570caf3155bfc4b94a5c6fc \
+                    sha256  d779ce33326343724d1e0fa23d4960cc9acaf4af584bc0134e504e7717ccc4bb \
+                    size    140301 \
+                    mupen64plus-core-860fac3fbae94194a392c1d9857e185eda6d083e.tar.gz \
+                    rmd160  8e106a779a2a34051440672a679c4ab2435bc535 \
+                    sha256  8e2a262457a60d3ea6b36197239f73556cba157b60b62fc0b595f7af4dc0225a \
+                    size    1730594 \
+                    nativefiledialog-extended-17b6e8ce219c0677f94b63636abb9296b28841ca.tar.gz \
+                    rmd160  a45df3108d854729981606eefaf829fa7f6b19d6 \
+                    sha256  eba0c27a7d20ea6632a7e9788f1eb7d1ba757459709ade4b567c29b7eb78ec55 \
+                    size    414538 \
+                    re-spirv-5d6b756ee62760f71b65d37e41a0b5a3dab90507.tar.gz \
+                    rmd160  dc12958992464047ee8b5964175c297fb67535b0 \
+                    sha256  42abdac493443dac79e031299fbbc55168b833b8973a6281717243e0ab4b9246 \
+                    size    15938 \
+                    SPIRV-Cross-6173e24b31f09a0c3217103a130e74c4ddec14a6.tar.gz \
+                    rmd160  be511f333d861d232ac53f9ef497a8aad2ae93d1 \
+                    sha256  9021fc583d7f3707ae0416df971e7ebc6eeec934f35b395ab3ecbab664f8703e \
+                    size    1825286 \
+                    stb-ae721c50eaf761660b4f90cc590453cdb0c2acd0.tar.gz \
+                    rmd160  d781e3a1ba348f58ccbd3f49797142af5161d698 \
+                    sha256  cd82be3ddc4146ef738f80a794a83f2ed45faab1c5b23278121788ef7b598e89 \
+                    size    1510019 \
+                    volk-466085407d5d2f50583fd663c1d65f93a7709d3e.tar.gz \
+                    rmd160  5ad98f02d02f38e41783574efa47b703f98125c9 \
+                    sha256  ac58bdcbb20ed814d5741b279c5f71f73db5a921856cbc3771793914dd4297e7 \
+                    size    62581 \
+                    xxHash-1864a50c9b5cf8500d8e9e61ed92aa0dd3772750.tar.gz \
+                    rmd160  061ea3cb12599cad22cfe661a81dafba0c9dc4f8 \
+                    sha256  d317fd97fa1320298f50b91e511a4663e2ca1ed9940b390342a00ade8a9ccc9e \
+                    size    1143131 \
+                    SPIRV-Headers-f013f08e4455bcc1f0eed8e3dd5e2009682656d9.tar.gz \
+                    rmd160  78a64ca497def0eb244696bec47b5cd40b72ae4c \
+                    sha256  452418924e8c281872e7a5ac34fdb977f2be5f880997d559e1e9062df13ae2cd \
+                    size    523221
+
+# Bundled submodules as path, owner/repo and commit, parents before their children. Upstream's
+# macOS CI builds N64Recomp (the recompiler, which also provides the runtime's mod loader) at
+# a13e5cff rather than the N64ModernRuntime submodule's c1a6dc93, which fails on the patches.
+# DXC, Vulkan-Headers, VulkanMemoryAllocator and zstd come from MacPorts; the Windows-only
+# submodules (D3D12MemoryAllocator, mupen64plus-win32-deps, freetype-windows-binaries) are left
+# out.
+set submodules {
+    Zelda64RecompSyms                                    Zelda64Recomp/Zelda64RecompSyms
+        a325f8fa5c48c925616bd43685ef14bbabc29537
+    lib/N64ModernRuntime                                 N64Recomp/N64ModernRuntime
+        df7e820d8c55e4fcb4616c210cbb2c01b25cd48c
+    lib/RmlUi                                            mikke89/RmlUi
+        7a06f27db04fe5d13a5dacc19b2b4544673a4eca
+    lib/lunasvg                                          sammycage/lunasvg
+        4166d0cccfc059b39d5ecfc372524375e59448f9
+    lib/mm-decomp                                        zeldaret/mm
+        5607eec18bae68e4cd38ef6d1fa69d7f1d84bfc8
+    lib/rt64                                             rt64/rt64
+        23cab603c4f9f4a8b369b38e036f1aa484603878
+    lib/N64ModernRuntime/N64Recomp                       N64Recomp/N64Recomp
+        a13e5cff96686776b0e03baf23923e3c1927b770
+    lib/N64ModernRuntime/thirdparty/miniz                richgel999/miniz
+        8573fd7cd6f49b262a0ccc447f3c6acfc415e556
+    lib/N64ModernRuntime/thirdparty/o1heap               N64Recomp/o1heap
+        a124b850791db2a33f7354d2b0aa7da821cef6f5
+    lib/N64ModernRuntime/thirdparty/xxHash               Cyan4973/xxHash
+        ac3a25da3d957d9ef3e4114d9f8332d34ce83a46
+    lib/N64ModernRuntime/N64Recomp/lib/ELFIO             serge1/ELFIO
+        ad8b641f9682b6091ba8b9f7c8152255c1a2c803
+    lib/N64ModernRuntime/N64Recomp/lib/fmt               fmtlib/fmt
+        8e728044f673774160f43b44a07c6b185352310f
+    lib/N64ModernRuntime/N64Recomp/lib/rabbitizer        Decompollaborate/rabbitizer
+        e0d8003047938e2ec3697eaf8d61a84d11d17b43
+    lib/N64ModernRuntime/N64Recomp/lib/sljit             zherczeg/sljit
+        f6326087b3404efb07c6d3deed97b3c3b8098c0c
+    lib/N64ModernRuntime/N64Recomp/lib/tomlplusplus      marzer/tomlplusplus
+        1f7884e59165e517462f922e7b6de131bd9844f3
+    lib/rt64/src/contrib/ddspp                           redorav/ddspp
+        2bdf73882b9169ca9d7a307b24d65d6c4e196084
+    lib/rt64/src/contrib/hlslpp                          redorav/hlslpp
+        6f5274c66132e8f951c400103d897582b8f21491
+    lib/rt64/src/contrib/im3d                            john-chapman/im3d
+        d03941725fd0bd08c78c46e3e5b0265526e9d060
+    lib/rt64/src/contrib/imgui                           ocornut/imgui
+        277ae93c41314ba5f4c7444f37c4319cdf07e8cf
+    lib/rt64/src/contrib/implot                          epezent/implot
+        f156599faefe316f7dd20fe6c783bf87c8bb6fd9
+    lib/rt64/src/contrib/mupen64plus-core                mupen64plus/mupen64plus-core
+        860fac3fbae94194a392c1d9857e185eda6d083e
+    lib/rt64/src/contrib/nativefiledialog-extended       btzy/nativefiledialog-extended
+        17b6e8ce219c0677f94b63636abb9296b28841ca
+    lib/rt64/src/contrib/re-spirv                        renderbag/re-spirv
+        5d6b756ee62760f71b65d37e41a0b5a3dab90507
+    lib/rt64/src/contrib/spirv-cross                     KhronosGroup/SPIRV-Cross
+        6173e24b31f09a0c3217103a130e74c4ddec14a6
+    lib/rt64/src/contrib/stb                             nothings/stb
+        ae721c50eaf761660b4f90cc590453cdb0c2acd0
+    lib/rt64/src/contrib/volk                            zeux/volk
+        466085407d5d2f50583fd663c1d65f93a7709d3e
+    lib/rt64/src/contrib/xxHash                          Cyan4973/xxHash
+        1864a50c9b5cf8500d8e9e61ed92aa0dd3772750
+    lib/rt64/src/contrib/re-spirv/external/SPIRV-Headers KhronosGroup/SPIRV-Headers
+        f013f08e4455bcc1f0eed8e3dd5e2009682656d9
+}
+set i 0
+foreach {path repo rev} ${submodules} {
+    incr i
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+}
+
+# The recompiler translates the game's code from the ROM.
+fetch_restrict.files {mm.us.rev1.z64 sha1 d6133ace5afaa0882cf214cf88daba39e266c078}
+fetch_restrict.instructions {
+    Zelda 64: Recompiled translates the game's code while it builds, so it needs your own
+    unmodified ROM of The Legend of Zelda: Majora's Mask for the N64, NTSC-U (US) version, in
+    big-endian .z64 format. Copy it into the directory below as mm.us.rev1.z64.
+}
+
+set python_branch   3.13
+set python_ver      [string map {. {}} ${python_branch}]
+
+depends_build-append \
+                    port:clang-18 \
+                    port:directx-shader-compiler \
+                    port:pkgconfig \
+                    port:py${python_ver}-libyaz0 \
+                    port:py${python_ver}-macholib \
+                    port:python${python_ver} \
+                    port:vulkan-headers \
+                    port:vulkan-memory-allocator
+depends_lib-append  port:freetype \
+                    port:libsdl2 \
+                    port:vulkan-loader \
+                    port:zstd
+depends_run-append  port:MoltenVK
+
+post-extract {
+    foreach {path repo rev} ${submodules} {
+        file delete -force ${worksrcpath}/${path}
+        file rename ${workpath}/[file tail ${repo}]-${rev} ${worksrcpath}/${path}
+    }
+    # fixbaserom.py insists on this name.
+    file copy [fetch_restrict::path mm.us.rev1.z64] ${worksrcpath}/baserom.mm.us.rev1.z64
+}
+
+# Build against MacPorts DXC, Vulkan headers and zstd instead of the bundled copies, do not copy
+# MacPorts libraries into the bundle, keep RT64's files in ~/Library/Application Support/rt64
+# instead of ~/.config/.rt64 or ~/.rt64, and include <sstream> where it is used.
+patchfiles          patch-macports.diff
+
+post-patch {
+    # Load the MacPorts Vulkan loader, which finds the MacPorts MoltenVK.
+    reinplace -E "s@\"(/usr/local/lib/)?libvulkan\\.dylib\"@\"${prefix}/lib/libvulkan.1.dylib\"@" \
+        ${worksrcpath}/lib/rt64/src/contrib/volk/volk.c
+    reinplace "s|\"libMoltenVK.dylib\"|\"${prefix}/lib/libMoltenVK.dylib\"|" \
+        ${worksrcpath}/lib/rt64/src/contrib/volk/volk.c
+    # The bundle's version.
+    reinplace "s|\"1.0\"|\"${version}\"|" \
+        ${worksrcpath}/.github/macos/apple_bundle.cmake
+    # The linker wrapper that keeps the executable's code writable for mods needs macholib.
+    reinplace "1s|.*|#!${prefix}/bin/python${python_branch}|" ${worksrcpath}/.github/macos/ld64
+}
+
+# The recompiler has to run before CMake: CMakeLists.txt globs its output into RecompiledFuncs.
+pre-configure {
+    set rbuild ${workpath}/n64recomp-build
+    system -W ${worksrcpath} "${prefix}/bin/cmake -G Ninja -S lib/N64ModernRuntime/N64Recomp\
+        -B ${rbuild} -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=${configure.cc}\
+        -DCMAKE_CXX_COMPILER=${configure.cxx} -DCMAKE_MAKE_PROGRAM=${prefix}/bin/ninja"
+    system -W ${worksrcpath} "${prefix}/bin/ninja -C ${rbuild} N64Recomp RSPRecomp"
+    # The build runs ./N64Recomp itself again for the patches.
+    file copy ${rbuild}/N64Recomp ${rbuild}/RSPRecomp ${worksrcpath}/
+
+    # Decompress the ROM with the decompilation's tool.
+    system -W ${worksrcpath} \
+        "${prefix}/bin/python${python_branch} lib/mm-decomp/tools/fixbaserom.py"
+    file rename ${worksrcpath}/baserom_uncompressed.z64 \
+        ${worksrcpath}/mm.us.rev1.rom_uncompressed.z64
+    file delete ${worksrcpath}/baserom.mm.us.rev1.z64
+
+    system -W ${worksrcpath} "./N64Recomp us.rev1.toml"
+    system -W ${worksrcpath} "./RSPRecomp aspMain.us.rev1.toml"
+    system -W ${worksrcpath} "./RSPRecomp njpgdspMain.us.rev1.toml"
+}
+
+# RT64 compiles its Metal shaders with xcrun metal, which comes with Xcode, not the Command Line
+# Tools.
+use_xcode           yes
+
+cmake.generator     Ninja
+cmake.build_type    Release
+configure.args-append \
+                    -Wno-dev \
+                    -DDXC_EXECUTABLE=${prefix}/bin/dxc \
+                    -DPATCHES_C_COMPILER=${prefix}/bin/clang-mp-18 \
+                    -DPATCHES_LD=${prefix}/bin/ld.lld-mp-18
+
+build.target        Zelda64Recompiled
+
+set app             Zelda64Recompiled.app
+
+destroot {
+    copy ${build.dir}/${app} ${destroot}${applications_dir}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/COPYING \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+Open ${applications_dir}/${app} and select your Majora's Mask ROM (the same NTSC-U ROM) when it\
+ asks. Settings, saves and mods are kept in ~/Library/Application Support/Zelda64Recompiled.
+"
+
+livecheck.type      none
