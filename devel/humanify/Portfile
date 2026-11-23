@@ -1,0 +1,1246 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cargo 1.0
+PortGroup           github 1.0
+
+github.setup        jehna humanify 3.1.1 v
+github.tarball_from archive
+categories          devel
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Deobfuscate and unminify JavaScript code using LLMs.
+long_description    humanify renames the variables and functions of minified JavaScript with the \
+                    help of a language model (OpenAI, Anthropic, Gemini, OpenRouter, Requesty or a \
+                    local Ollama server), after undoing common bundler and minifier transforms.
+
+checksums           humanify-3.1.1.tar.gz \
+                    rmd160  6670edf02925be92e1caca4024e4cf1fe66192d6 \
+                    sha256  be467c8ff6e810cc3d55e20297cc28f7d4dda5c929ee2073b59318437cb24529 \
+                    size    61950 \
+                    allocator-api2-0.2.21.crate \
+                    sha256  683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923 \
+                    rmd160  b69c12799f90aa62ba6e62a7050365ab355e10dc \
+                    size    63622 \
+                    anstream-1.0.0.crate \
+                    sha256  824a212faf96e9acacdbd09febd34438f8f711fb84e09a8916013cd7815ca28d \
+                    rmd160  d7d7bf2eca9ff09b641c863992fa9b5805b4a78a \
+                    size    28916 \
+                    anstyle-1.0.14.crate \
+                    sha256  940b3a0ca603d1eade50a4846a2afffd5ef57a9feac2c0e2ec2e14f9ead76000 \
+                    rmd160  01bc22649c5c96afc9d01dd7c835d9a4a9b111a6 \
+                    size    17787 \
+                    anstyle-parse-1.0.0.crate \
+                    sha256  52ce7f38b242319f7cabaa6813055467063ecdc9d355bbb4ce0c68908cd8130e \
+                    rmd160  714a8247c60e954b53c017d4ee8da3e506ab2a5e \
+                    size    22042 \
+                    anstyle-query-1.1.5.crate \
+                    sha256  40c48f72fd53cd289104fc64099abca73db4166ad86ea0b4341abe65af83dadc \
+                    rmd160  cb13364923d8de6f4dee8a22c1b0577965be47e2 \
+                    size    10264 \
+                    anstyle-wincon-3.0.11.crate \
+                    sha256  291e6a250ff86cd4a820112fb8898808a366d8f9f58ce16d1f538353ad55747d \
+                    rmd160  b74aee36032ae0d4cab34a3ebf47b1051d865c88 \
+                    size    12638 \
+                    anyhow-1.0.102.crate \
+                    sha256  7f202df86484c868dbad7eaa557ef785d5c66295e41b460ef922eca0723b842c \
+                    rmd160  7bb114eed5549b87073951c39c75bb05e85ed8b5 \
+                    size    48658 \
+                    assert_cmd-2.2.1.crate \
+                    sha256  39bae1d3fa576f7c6519514180a72559268dd7d1fe104070956cb687bc6673bd \
+                    rmd160  d0d18daa7a22f8a41064d470cd168e0a2ecc5eb0 \
+                    size    27319 \
+                    async-trait-0.1.89.crate \
+                    sha256  9035ad2d096bed7955a320ee7e2230574d28fd3c3a0f186cbea1ff3c7eed5dbb \
+                    rmd160  b0d2d23ee8e7b0c07c286925dda86648efafc297 \
+                    size    32171 \
+                    atomic-waker-1.1.2.crate \
+                    sha256  1505bd5d3d116872e7271a6d4e16d81d0c8570876c8de68093a09ac269d8aac0 \
+                    rmd160  90c5e187ee580f98c2de5ac2450f842c145b5234 \
+                    size    12422 \
+                    autocfg-1.5.0.crate \
+                    sha256  c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8 \
+                    rmd160  d997df6b83b3377132e174e7b8870002450285e4 \
+                    size    18729 \
+                    base64-0.22.1.crate \
+                    sha256  72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6 \
+                    rmd160  b7ae0dcd24fcbc3363a6c1f184fe189993445d36 \
+                    size    81597 \
+                    base64-simd-0.8.0.crate \
+                    sha256  339abbe78e73178762e23bea9dfd08e697eb3f3301cd4be981c0f78ba5859195 \
+                    rmd160  bf3cd0580c758c4e8eb84820b8b7cdb2169e5537 \
+                    size    12531 \
+                    bitflags-2.11.1.crate \
+                    sha256  c4512299f36f043ab09a583e57bceb5a5aab7a73db1805848e8fef3c9e8c78b3 \
+                    rmd160  de35e4d4dd850daeb2c44472310b76c98e31d33a \
+                    size    49082 \
+                    bstr-1.12.1.crate \
+                    sha256  63044e1ae8e69f3b5a92c736ca6269b8d12fa7efe39bf34ddb06d102cf0e2cab \
+                    rmd160  3e02cbcb8dae4d623fcd6f70e957d98839ffb21d \
+                    size    354916 \
+                    bumpalo-3.20.2.crate \
+                    sha256  5d20789868f4b01b2f2caec9f5c4e0213b41e3e5702a50157d699ae31ced2fcb \
+                    rmd160  75a72adf909c24d28376b9bfe141aa61d8dc23cc \
+                    size    97696 \
+                    bytes-1.11.1.crate \
+                    sha256  1e748733b7cbc798e1434b6ac524f0c1ff2ab456fe201501e6497c8417a4fc33 \
+                    rmd160  866ebf90c40083277ed938268a91fa2759e45365 \
+                    size    78584 \
+                    castaway-0.2.4.crate \
+                    sha256  dec551ab6e7578819132c713a93c022a05d60159dc86e7a7050223577484c55a \
+                    rmd160  d732aadfd976e089611354d38098b3b96f74f5f8 \
+                    size    12546 \
+                    cc-1.2.61.crate \
+                    sha256  d16d90359e986641506914ba71350897565610e87ce0ad9e6f28569db3dd5c6d \
+                    rmd160  421a33082644cb63a9633d8c61a0aa0312ade9ed \
+                    size    97163 \
+                    cfg-if-1.0.4.crate \
+                    sha256  9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801 \
+                    rmd160  782ee51031380995e46fb0daedff1bd498a4fa73 \
+                    size    9360 \
+                    cfg_aliases-0.2.1.crate \
+                    sha256  613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724 \
+                    rmd160  10892e3f60a9e4e0ed58dc2dfab6ef33c398db6b \
+                    size    6355 \
+                    chacha20-0.10.1.crate \
+                    sha256  d524456ba66e72eb8b115ff89e01e497f8e6d11d78b70b1aa13c0fbd97540a81 \
+                    rmd160  cc05755bead5537cd9a849453617736e18a3b603 \
+                    size    38187 \
+                    clap-4.6.1.crate \
+                    sha256  1ddb117e43bbf7dacf0a4190fef4d345b9bad68dfc649cb349e7d17d28428e51 \
+                    rmd160  a2fd363a07eba84d71a4f0135bb631129aedfb36 \
+                    size    61836 \
+                    clap_builder-4.6.0.crate \
+                    sha256  714a53001bf66416adb0e2ef5ac857140e7dc3a0c48fb28b2f10762fc4b5069f \
+                    rmd160  2a9b4324458d02cff67d220079d33a6c8264d4c1 \
+                    size    171122 \
+                    clap_derive-4.6.1.crate \
+                    sha256  f2ce8604710f6733aa641a2b3731eaa1e8b3d9973d5e3565da11800813f997a9 \
+                    rmd160  b6ee5d2ce723ed75559956529a659894a6ef1e34 \
+                    size    33512 \
+                    clap_lex-1.1.0.crate \
+                    sha256  c8d4a3bb8b1e0c1050499d1815f5ab16d04f0959b233085fb31653fbfc9d98f9 \
+                    rmd160  322a0354b8dfbe051cf3b0714c4051e0d134a530 \
+                    size    13470 \
+                    colorchoice-1.0.5.crate \
+                    sha256  1d07550c9036bf2ae0c684c4297d503f838287c83c53686d05370d0e139ae570 \
+                    rmd160  7fe6e702c5a82021eb23468f307510867e679958 \
+                    size    8187 \
+                    compact_str-0.9.0.crate \
+                    sha256  3fdb1325a1cece981e8a296ab8f0f9b63ae357bd0784a9faaf548cc7b480707a \
+                    rmd160  ecba54071c72e459caa3fafee151af0af9e0d5ab \
+                    size    72135 \
+                    cow-utils-0.1.3.crate \
+                    sha256  417bef24afe1460300965a25ff4a24b8b45ad011948302ec221e8a0a81eb2c79 \
+                    rmd160  03a43365cf35f27998c58f5c60345dbf1795d2f6 \
+                    size    5796 \
+                    cpufeatures-0.3.0.crate \
+                    sha256  8b2a41393f66f16b0823bb79094d54ac5fbd34ab292ddafb9a0456ac9f87d201 \
+                    rmd160  a6915b4da6b003c8c6536ff601fa2761395dda83 \
+                    size    14156 \
+                    difflib-0.4.0.crate \
+                    sha256  6184e33543162437515c2e2b48714794e37845ec9851711914eec9d308f6ebe8 \
+                    rmd160  f34227cdea9e8de2aa28e6e797955120a9d01bbc \
+                    size    7638 \
+                    displaydoc-0.2.5.crate \
+                    sha256  97369cbbc041bc366949bc74d34658d6cda5621039731c6310521892a3a20ae0 \
+                    rmd160  8073d948b58f0bbc49ed5ce32b559bb566089e3c \
+                    size    24219 \
+                    dragonbox_ecma-0.1.12.crate \
+                    sha256  fd8e701084c37e7ef62d3f9e453b618130cbc0ef3573847785952a3ac3f746bf \
+                    rmd160  33ea574e64c67145d50dfcc8db22fd2c955bb597 \
+                    size    46796 \
+                    either-1.15.0.crate \
+                    sha256  48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719 \
+                    rmd160  2506ccaa5f93f5bf9b11a92eb4d297b17dfd43b2 \
+                    size    20114 \
+                    equivalent-1.0.2.crate \
+                    sha256  877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f \
+                    rmd160  f75a79c1a0654291c33f83639a0c9723535b6172 \
+                    size    7419 \
+                    errno-0.3.14.crate \
+                    sha256  39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb \
+                    rmd160  63f63c252d6c2baab68d0cb80249cc9431e399a8 \
+                    size    12002 \
+                    fastrand-2.4.1.crate \
+                    sha256  9f1f227452a390804cdb637b74a86990f2a7d7ba4b7d5693aac9b4dd6defd8d6 \
+                    rmd160  5713034ebb9b17f260dcd9e051270953cdaa400b \
+                    size    20773 \
+                    find-msvc-tools-0.1.9.crate \
+                    sha256  5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582 \
+                    rmd160  1d94d6053e7c89621cd31aa415bdcf7b6f561d60 \
+                    size    31493 \
+                    foldhash-0.1.5.crate \
+                    sha256  d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2 \
+                    rmd160  f51d41fc9a0758adac4a99ee2fe31d0764637519 \
+                    size    21901 \
+                    form_urlencoded-1.2.2.crate \
+                    sha256  cb4cb245038516f5f85277875cdaa4f7d2c9a0fa0468de06ed190163b1581fcf \
+                    rmd160  d15f4d3fd1c92efe1f0950cdb407a799dfdc312b \
+                    size    9347 \
+                    futures-channel-0.3.32.crate \
+                    sha256  07bbe89c50d7a535e539b8c17bc0b49bdb77747034daa8087407d655f3f7cc1d \
+                    rmd160  2eca867faa7c21c8f0a113510129bdc593fceb09 \
+                    size    33213 \
+                    futures-core-0.3.32.crate \
+                    sha256  7e3450815272ef58cec6d564423f6e755e25379b217b0bc688e295ba24df6b1d \
+                    rmd160  ca3ec23f90154f7bdfcbc64bb542f6284a8980f7 \
+                    size    14684 \
+                    futures-task-0.3.32.crate \
+                    sha256  037711b3d59c33004d3856fbdc83b99d4ff37a24768fa1be9ce3538a1cde4393 \
+                    rmd160  8dc228e52b40aa3eeb7c1c1d62b75cf1d76df285 \
+                    size    11377 \
+                    futures-util-0.3.32.crate \
+                    sha256  389ca41296e6190b48053de0321d02a77f32f8a5d2461dd38762c0593805c6d6 \
+                    rmd160  4186570c185200e445479395d6fe995dbe78e81d \
+                    size    168797 \
+                    getrandom-0.2.17.crate \
+                    sha256  ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0 \
+                    rmd160  66542cdebf60be49b4bd704966c40def48633fb7 \
+                    size    40780 \
+                    getrandom-0.4.2.crate \
+                    sha256  0de51e6874e94e7bf76d726fc5d13ba782deca734ff60d5bb2fb2607c7406555 \
+                    rmd160  b0a8eeaecc624ea11db3d8b33457ddc4a5bd61dd \
+                    size    53905 \
+                    hashbrown-0.15.5.crate \
+                    sha256  9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1 \
+                    rmd160  43b21cf76995c1d980a8f9fbb25b2cc77c5b525b \
+                    size    140908 \
+                    hashbrown-0.17.0.crate \
+                    sha256  4f467dd6dccf739c208452f8014c75c18bb8301b050ad1cfb27153803edb0f51 \
+                    rmd160  665f9b11b50bab0d3d994728c187569abbbba28b \
+                    size    154597 \
+                    heck-0.5.0.crate \
+                    sha256  2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea \
+                    rmd160  ce5bf96368bd888f24b2574e18c484ee2e7244b4 \
+                    size    11517 \
+                    http-1.4.0.crate \
+                    sha256  e3ba2a386d7f85a81f119ad7498ebe444d2e22c2af0b86b069416ace48b3311a \
+                    rmd160  337735e80196abada8215f62710bb13f04fa7546 \
+                    size    106978 \
+                    http-body-1.0.1.crate \
+                    sha256  1efedce1fb8e6913f23e0c92de8e62cd5b772a67e7b3946df930a62566c93184 \
+                    rmd160  123d0ac776ed6dbde6977ca5d137ce549058092e \
+                    size    6125 \
+                    http-body-util-0.1.3.crate \
+                    sha256  b021d93e26becf5dc7e1b75b1bed1fd93124b374ceb73f43d4d4eafec896a64a \
+                    rmd160  ae66c4d6fa98ed26ab4ddd45503fbf1d49509e20 \
+                    size    16975 \
+                    httparse-1.10.1.crate \
+                    sha256  6dbf3de79e51f3d586ab4cb9d5c3e2c14aa28ed23d180cf89b4df0454a69cc87 \
+                    rmd160  908c40432f3a39dbb831a0068d9541542ef5ca39 \
+                    size    45190 \
+                    hyper-1.9.0.crate \
+                    sha256  6299f016b246a94207e63da54dbe807655bf9e00044f73ded42c3ac5305fbcca \
+                    rmd160  a60963d8240c74f5c047b677cb3a0c2380a8c540 \
+                    size    160126 \
+                    hyper-rustls-0.27.9.crate \
+                    sha256  33ca68d021ef39cf6463ab54c1d0f5daf03377b70561305bb89a8f83aab66e0f \
+                    rmd160  d0ddbb806b1b25701d4f1b81d1a50b20b776a8bb \
+                    size    22935 \
+                    hyper-util-0.1.20.crate \
+                    sha256  96547c2556ec9d12fb1578c4eaf448b04993e7fb79cbaad930a656880a6bdfa0 \
+                    rmd160  5150a2dad1d0150a1bc1146209ccf2b0b75b2385 \
+                    size    112807 \
+                    icu_collections-2.2.0.crate \
+                    sha256  2984d1cd16c883d7935b9e07e44071dca8d917fd52ecc02c04d5fa0b5a3f191c \
+                    rmd160  aa851b18ba67ef828f80d24625e4d6c8856b6c5e \
+                    size    88011 \
+                    icu_locale_core-2.2.0.crate \
+                    sha256  92219b62b3e2b4d88ac5119f8904c10f8f61bf7e95b640d25ba3075e6cac2c29 \
+                    rmd160  23a36b77d67cf490340686d1c71378248800fc18 \
+                    size    78639 \
+                    icu_normalizer-2.2.0.crate \
+                    sha256  c56e5ee99d6e3d33bd91c5d85458b6005a22140021cc324cea84dd0e72cff3b4 \
+                    rmd160  4c9692f2fded1b9bc38b898cf00df51c79d2b32d \
+                    size    78154 \
+                    icu_normalizer_data-2.2.0.crate \
+                    sha256  da3be0ae77ea334f4da67c12f149704f19f81d1adf7c51cf482943e84a2bad38 \
+                    rmd160  b6145dc9d31151f453bab45da738e8b6e60d21b8 \
+                    size    67134 \
+                    icu_properties-2.2.0.crate \
+                    sha256  bee3b67d0ea5c2cca5003417989af8996f8604e34fb9ddf96208a033901e70de \
+                    rmd160  933f9c4a2c8fcda883a38c4d3c86c8987dd619f2 \
+                    size    63950 \
+                    icu_properties_data-2.2.0.crate \
+                    sha256  8e2bbb201e0c04f7b4b3e14382af113e17ba4f63e2c9d2ee626b720cbce54a14 \
+                    rmd160  78bf6378bdc6abe661e4ba126c8e2307150fc238 \
+                    size    168901 \
+                    icu_provider-2.2.0.crate \
+                    sha256  139c4cf31c8b5f33d7e199446eff9c1e02decfc2f0eec2c8d71f65befa45b421 \
+                    rmd160  51b608892c041686853c8e3efbaf9dabaecb8af1 \
+                    size    51620 \
+                    id-arena-2.3.0.crate \
+                    sha256  3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954 \
+                    rmd160  79da7ef7ea0004ddd64a9bdf63a74152417d2d7a \
+                    size    12883 \
+                    idna-1.1.0.crate \
+                    sha256  3b0875f23caa03898994f6ddc501886a45c7d3d62d04d2d90788d47be1b1e4de \
+                    rmd160  2017ba5d27245832fa2ea29c4ecdc1453fc6335c \
+                    size    148747 \
+                    idna_adapter-1.2.2.crate \
+                    sha256  cb68373c0d6620ef8105e855e7745e18b0d00d3bdb07fb532e434244cdb9a714 \
+                    rmd160  4964429ff3d0acfc23c77993dfcb10bbe60f25e1 \
+                    size    10444 \
+                    indexmap-2.14.0.crate \
+                    sha256  d466e9454f08e4a911e14806c24e16fba1b4c121d1ea474396f396069cf949d9 \
+                    rmd160  db9c124c0051aa97f8f336cada365e54c7b9586b \
+                    size    104085 \
+                    ipnet-2.12.0.crate \
+                    sha256  d98f6fed1fde3f8c21bc40a1abb88dd75e67924f9cffc3ef95607bad8017f8e2 \
+                    rmd160  1f7add5471d195156ae7e14f0881bb03e1f9d223 \
+                    size    31000 \
+                    is_terminal_polyfill-1.70.2.crate \
+                    sha256  a6cb138bb79a146c1bd460005623e142ef0181e3d0219cb493e02f7d08a35695 \
+                    rmd160  8cab41fce3bc9fc56b6ed38dbe24a9c85f929d80 \
+                    size    7548 \
+                    itertools-0.14.0.crate \
+                    sha256  2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285 \
+                    rmd160  3c9d4b14c2ef182e14035fb7c1aef4d8421a73d8 \
+                    size    152715 \
+                    itoa-1.0.18.crate \
+                    sha256  8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682 \
+                    rmd160  e496b9f6473de3bae051c7611e011c94e3d60c9c \
+                    size    15935 \
+                    js-sys-0.3.97.crate \
+                    sha256  a1840c94c045fbcf8ba2812c95db44499f7c64910a912551aaaa541decebcacf \
+                    rmd160  c7b0753f5484d1bdd9b8814d120ada20ec25fd39 \
+                    size    106322 \
+                    json-escape-simd-3.0.2.crate \
+                    sha256  35e770254dd7802184595b1d30da2a15cb72569e2aca2b177aef8d22eac8a693 \
+                    rmd160  7d84fb4ddfef4c3f632feaa4ae0e86adf2af6936 \
+                    size    19347 \
+                    leb128fmt-0.1.0.crate \
+                    sha256  09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2 \
+                    rmd160  5f958c486099e2781d47d3dc1ca39377459f95d1 \
+                    size    14138 \
+                    libc-0.2.186.crate \
+                    sha256  68ab91017fe16c622486840e4c83c9a37afeff978bd239b5293d61ece587de66 \
+                    rmd160  fad988a5873fc46438e3966b0e9a1b161ff5525d \
+                    size    821883 \
+                    linux-raw-sys-0.12.1.crate \
+                    sha256  32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53 \
+                    rmd160  15e4718edfb174348eece9f85d8f991cbe27c6b9 \
+                    size    3006116 \
+                    litemap-0.8.2.crate \
+                    sha256  92daf443525c4cce67b150400bc2316076100ce0b3686209eb8cf3c31612e6f0 \
+                    rmd160  e860613d1acde48132ec3e049426466a579fcb57 \
+                    size    34572 \
+                    log-0.4.29.crate \
+                    sha256  5e5032e24019045c762d3c0f28f5b6b8bbf38563a65908389bf7978758920897 \
+                    rmd160  a0b3207f790bf54a562d8d15623d22ecf571ee20 \
+                    size    51515 \
+                    lru-slab-0.1.2.crate \
+                    sha256  112b39cec0b298b6c1999fee3e31427f74f676e4cb9879ed1a121b43661a4154 \
+                    rmd160  901f8c1c87830c55df3e25ca60c621ffb470d0c3 \
+                    size    9090 \
+                    memchr-2.8.0.crate \
+                    sha256  f8ca58f447f06ed17d5fc4043ce1b10dd205e060fb3ce5b979b8ed8e59ff3f79 \
+                    rmd160  43883f01d8bb88284d4b483f547fa455a965e68d \
+                    size    97780 \
+                    mio-1.2.0.crate \
+                    sha256  50b7e5b27aa02a74bac8c3f23f448f8d87ff11f92d3aac1a6ed369ee08cc56c1 \
+                    rmd160  156acd866ceb7e3e3436e1fa39d6dac68cefb080 \
+                    size    106403 \
+                    nonmax-0.5.5.crate \
+                    sha256  610a5acd306ec67f907abe5567859a3c693fb9886eb1f012ab8f2a47bef3db51 \
+                    rmd160  25603a66b1ef36fdfe3f8702038dead53e84f1bb \
+                    size    10795 \
+                    num-bigint-0.4.6.crate \
+                    sha256  a5e44f723f1133c9deac646763579fdb3ac745e418f2a7af9cd0c431da1f20b9 \
+                    rmd160  8acc5449d6852b5b20c78e5257dab2aa779ef091 \
+                    size    102801 \
+                    num-integer-0.1.46.crate \
+                    sha256  7969661fd2958a5cb096e56c8e1ad0444ac2bbcd0061bd28660485a44879858f \
+                    rmd160  8c0b3271d338de162a490065db2c0b405a269bc7 \
+                    size    22331 \
+                    num-traits-0.2.19.crate \
+                    sha256  071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841 \
+                    rmd160  7ec189093a252f613023bd1c22e3774b4259e6bf \
+                    size    51631 \
+                    once_cell-1.21.4.crate \
+                    sha256  9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50 \
+                    rmd160  fd33420c98bb4d8e39b6fd6e063c8038e3f1f4a5 \
+                    size    35010 \
+                    once_cell_polyfill-1.70.2.crate \
+                    sha256  384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe \
+                    rmd160  166cfc747103f2c1ca96d3bfb09f61729af44f7a \
+                    size    7448 \
+                    outref-0.5.2.crate \
+                    sha256  1a80800c0488c3a21695ea981a54918fbb37abf04f4d0720c453632255e2ff0e \
+                    rmd160  25fbd658787a4ce63907b1493d465fab8e474d94 \
+                    size    5621 \
+                    owo-colors-4.3.0.crate \
+                    sha256  d211803b9b6b570f68772237e415a029d5a50c65d382910b879fb19d3271f94d \
+                    rmd160  229f25f5dd1f3416139c558aa6936e22287e8568 \
+                    size    31273 \
+                    oxc-miette-2.7.1.crate \
+                    sha256  4356a61f2ed4c9b3610245215fbf48970eb277126919f87db9d0efa93a74245c \
+                    rmd160  789720f180ad20902b859759880fc67b94789914 \
+                    size    100951 \
+                    oxc-miette-derive-2.7.1.crate \
+                    sha256  b237422b014f8f8fff75bb9379e697d13f8d57551a22c88bebb39f073c1bf696 \
+                    rmd160  09f4e6aa8ca73b74527af80f6346da477a0fb073 \
+                    size    16986 \
+                    oxc_allocator-0.126.0.crate \
+                    sha256  e54dd7c5eb0fa364f0b7ca09109f21cede0ae5f72001163170d954d62a0e4e86 \
+                    rmd160  e292a96c4e17284bed45126938ae6dd8b4457c72 \
+                    size    109265 \
+                    oxc_ast-0.126.0.crate \
+                    sha256  c7391676b3f06b7cb8e720ec06daf052395bb7516a8b647992ce5a21ea997989 \
+                    rmd160  540fb3436e2ebc29f0adda7ae7e752b24a516871 \
+                    size    206872 \
+                    oxc_ast_macros-0.126.0.crate \
+                    sha256  0a6b396cf8aefca1f06445b28e434b16529b199bbb8a6157c905d7b5e4dfae90 \
+                    rmd160  0a521d89329b0f99268abc0dce506c07714216f0 \
+                    size    9270 \
+                    oxc_ast_visit-0.126.0.crate \
+                    sha256  a67e09457c976c28b5f7b28673ad5526c10e0b74cee3d7befccea7a85c6f960a \
+                    rmd160  1144c9880421e621949f7e67a5c08486a2213e61 \
+                    size    49094 \
+                    oxc_codegen-0.126.0.crate \
+                    sha256  98fc08dc6a1eba7b3b126189d49c57154da0ad6f1baeac9065d7eccee0cc29bd \
+                    rmd160  d9c1c421e4f03a2ea79f3010424ce1acd82484d0 \
+                    size    54306 \
+                    oxc_data_structures-0.126.0.crate \
+                    sha256  0fdea5ebbfe376448e83f9749828f31a0ad9b85a1b01e31f70597565b74f809a \
+                    rmd160  2f180c0ef54c7e94850c5eb8ac6e0100b6143a6d \
+                    size    44871 \
+                    oxc_diagnostics-0.126.0.crate \
+                    sha256  c5ac2365c7cf9255776ceb41310c90d9e636586cf291ae9c0df50028f559837b \
+                    rmd160  cbc9627150030448c42e2a3fd386b836bcfc1691 \
+                    size    12984 \
+                    oxc_ecmascript-0.126.0.crate \
+                    sha256  651a4509f2de47c7e49fc3a78e136e821062c4d97d2544c6336dda0f4513cfc6 \
+                    rmd160  d08d58373021e156cfe42a0c31607541ca94a24e \
+                    size    51132 \
+                    oxc_estree-0.126.0.crate \
+                    sha256  e891d31bbe5e6c3a849a2db7de16015076f0d83f42110ace1fdfd7d2e886b97c \
+                    rmd160  30f95cb39ac7c872a38e1606ed0a14a8ad98d8bd \
+                    size    18819 \
+                    oxc_index-4.1.0.crate \
+                    sha256  eb3e6120999627ec9703025eab7c9f410ebb7e95557632a8902ca48210416c2b \
+                    rmd160  9bada75f48b4fad1ea65c005d75aad48c0062c69 \
+                    size    24412 \
+                    oxc_parser-0.126.0.crate \
+                    sha256  7ab4ee6b100bedfd125cfbd9747e921984d6adab212b73affecc29a46df4bf15 \
+                    rmd160  f83c55847942582e5557a0e9159c00669007e600 \
+                    size    169598 \
+                    oxc_regular_expression-0.126.0.crate \
+                    sha256  896df45fde44d336df10d3cab46c0cc58697ffa69d446ca4a1b278b8c582972a \
+                    rmd160  4f1b8e806ff83fc5ad212d94ecd2633b53f272ab \
+                    size    58950 \
+                    oxc_semantic-0.126.0.crate \
+                    sha256  2a86e300b37fa6524265f85cbce20c3ce2b83f15ab0af7a96793421064fc8a5a \
+                    rmd160  1ab22b4ed214b86e84ebe01f6819b3ee3bf06877 \
+                    size    93317 \
+                    oxc_sourcemap-6.1.1.crate \
+                    sha256  6d378eb8bad20e89d66276aebab51f6a5408571092cac94abdd3eabb773713d6 \
+                    rmd160  eb1577aa15985b89f6ad448a70a1a88322fe88ce \
+                    size    29316 \
+                    oxc_span-0.126.0.crate \
+                    sha256  a5778776c8d0ed52822841324e0dd08c024a3fc1e6dd45895e129dbb14f33f2a \
+                    rmd160  52ffd698e5f3c95948363847b438b1f3e33f00c6 \
+                    size    21098 \
+                    oxc_str-0.126.0.crate \
+                    sha256  dc120670ba73a00a9d1412de98ac63b2907551707fe4063d96ee2e44cc75ab56 \
+                    rmd160  25d0ad0da7f483c1ee90badc9912bd817dad4878 \
+                    size    11585 \
+                    oxc_syntax-0.126.0.crate \
+                    sha256  13ca07418ff23061b0be35b8f3ed43291bf29ad23aeb51a0faff71c5acc751c0 \
+                    rmd160  5d33869a384c0f6cb9f2be8f824b62ec0e4e9ed7 \
+                    size    31222 \
+                    percent-encoding-2.3.2.crate \
+                    sha256  9b4f627cb1b25917193a259e49bdad08f671f8d9708acfd5fe0a8c1455d87220 \
+                    rmd160  2de90444f680fc3dfa10d0d0b803b381bc1e0585 \
+                    size    11583 \
+                    phf-0.13.1.crate \
+                    sha256  c1562dc717473dbaa4c1f85a36410e03c047b2e7df7f45ee938fbef64ae7fadf \
+                    rmd160  eec0dbbefa275073bd57abb27942dad4ac23eb90 \
+                    size    24786 \
+                    phf_generator-0.13.1.crate \
+                    sha256  135ace3a761e564ec88c03a77317a7c6b80bb7f7135ef2544dbe054243b89737 \
+                    rmd160  361953299102b20d8d54b9c5133952bbddf68fb9 \
+                    size    15952 \
+                    phf_macros-0.13.1.crate \
+                    sha256  812f032b54b1e759ccd5f8b6677695d5268c588701effba24601f6932f8269ef \
+                    rmd160  5da491701d3af46d392528e313fcf4b54ce5ed3a \
+                    size    21732 \
+                    phf_shared-0.13.1.crate \
+                    sha256  e57fef6bc5981e38c2ce2d63bfa546861309f875b8a75f092d1d54ae2d64f266 \
+                    rmd160  4508cb14fcad0f099ab6eae4de637a7648fc084a \
+                    size    16141 \
+                    pin-project-lite-0.2.17.crate \
+                    sha256  a89322df9ebe1c1578d689c92318e070967d1042b512afbe49518723f4e6d5cd \
+                    rmd160  b47267fe5627bf194173785516607db9528cd091 \
+                    size    31034 \
+                    potential_utf-0.1.5.crate \
+                    sha256  0103b1cef7ec0cf76490e969665504990193874ea05c85ff9bab8b911d0a0564 \
+                    rmd160  a9585ea41bc87a0ee92590031c5b2668fa688191 \
+                    size    10189 \
+                    predicates-3.1.4.crate \
+                    sha256  ada8f2932f28a27ee7b70dd6c1c39ea0675c55a36879ab92f3a715eaa1e63cfe \
+                    rmd160  0ad556fd775265e5385b177133b663abac7f27f5 \
+                    size    24327 \
+                    predicates-core-1.0.10.crate \
+                    sha256  cad38746f3166b4031b1a0d39ad9f954dd291e7854fcc0eed52ee41a0b50d144 \
+                    rmd160  1ec1af6e00c69634c4d01be5566d7455fb5173f5 \
+                    size    8649 \
+                    predicates-tree-1.0.13.crate \
+                    sha256  d0de1b847b39c8131db0467e9df1ff60e6d0562ab8e9a16e568ad0fdb372e2f2 \
+                    rmd160  1a3291a4a65351c061a77dc6399e69b0e84536b4 \
+                    size    8422 \
+                    prettyplease-0.2.37.crate \
+                    sha256  479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b \
+                    rmd160  4df97e9be11cbea2b04462a3678a03508e5dc3e9 \
+                    size    72033 \
+                    proc-macro2-1.0.106.crate \
+                    sha256  8fd00f0bb2e90d81d1044c2b32617f68fcb9fa3bb7640c23e9c748e53fb30934 \
+                    rmd160  b29f97fca17e2a2640762f93ddbefd31eeb68efa \
+                    size    59765 \
+                    quinn-0.11.9.crate \
+                    sha256  b9e20a958963c291dc322d98411f541009df2ced7b5a4f2bd52337638cfccf20 \
+                    rmd160  e79aa19a200365dcb52f555c8ddf196829b096d7 \
+                    size    83606 \
+                    quinn-proto-0.11.16.crate \
+                    sha256  2f4bfc015262b9df63c8845072ce59068853ff5872180c2ce2f13038b970e560 \
+                    rmd160  455b2125aca017aaef2b7accaacb7c084478e965 \
+                    size    244786 \
+                    quinn-udp-0.5.14.crate \
+                    sha256  addec6a0dcad8a8d96a771f815f0eaf55f9d1805756410b39f5fa81332574cbd \
+                    rmd160  932fe172cdb73485f468e09b4711b829a12d44cd \
+                    size    33436 \
+                    quote-1.0.45.crate \
+                    sha256  41f2619966050689382d2b44f664f4bc593e129785a36d6ee376ddf37259b924 \
+                    rmd160  ae3b76d8c7cd24b87f63e00d1264c68c2e157b2c \
+                    size    31564 \
+                    r-efi-6.0.0.crate \
+                    sha256  f8dcc9c7d52a811697d2151c701e0d08956f92b0e24136cf4cf27b57a6a0d9bf \
+                    rmd160  e91a6aa70319207193f6c684dfd8a22aa5255247 \
+                    size    65303 \
+                    rand-0.10.2.crate \
+                    sha256  c7f5fa3a058cd35567ef9bfa5e75732bee0f9e4c55fa90477bef2dfcdbc4be80 \
+                    rmd160  5706c21b3783c4fc2cbd9a79443a19df90f12c2b \
+                    size    104493 \
+                    rand_core-0.10.1.crate \
+                    sha256  63b8176103e19a2643978565ca18b50549f6101881c443590420e4dc998a3c69 \
+                    rmd160  fea414beb1bf075df844ba68c75d2f4057006ca8 \
+                    size    22833 \
+                    rand_pcg-0.10.2.crate \
+                    sha256  caa0f4137e1c0a72f4c651489402276c8e8e1cf081f3b0ba156d2cbeef09e86a \
+                    rmd160  004131ccaa4cbce3bfa81ebb1ab8321766c3ba9c \
+                    size    15439 \
+                    regex-automata-0.4.14.crate \
+                    sha256  6e1dd4122fc1595e8162618945476892eefca7b88c52820e74af6262213cae8f \
+                    rmd160  0f87f2429f5b00af95bd3822fa350b050392e316 \
+                    size    618012 \
+                    reqwest-0.12.28.crate \
+                    sha256  eddd3ca559203180a307f12d114c268abf583f59b03cb906fd0b3ff8646c1147 \
+                    rmd160  7e45b168b2b6fb083c324c46303510fd99d0358c \
+                    size    157031 \
+                    ring-0.17.14.crate \
+                    sha256  a4689e6c2294d81e88dc6261c768b63bc4fcdb852be6d1352498b114f61383b7 \
+                    rmd160  ffafdebc4204e610fda160a59ee1ea255f367b93 \
+                    size    1502610 \
+                    rustc-hash-2.1.2.crate \
+                    sha256  94300abf3f1ae2e2b8ffb7b58043de3d399c73fa6f4b73826402a5c457614dbe \
+                    rmd160  06189b5377dc96c3c4eaefd82dd060d40588b6f5 \
+                    size    14754 \
+                    rustix-1.1.4.crate \
+                    sha256  b6fe4565b9518b83ef4f91bb47ce29620ca828bd32cb7e408f0062e9930ba190 \
+                    rmd160  8c9ceec4f86c59dbd3f35649871577867e84b861 \
+                    size    425241 \
+                    rustls-0.23.40.crate \
+                    sha256  ef86cd5876211988985292b91c96a8f2d298df24e75989a43a3c73f2d4d8168b \
+                    rmd160  d2e4726add8757eb1f8eb406cd1ee2b12b04b6d9 \
+                    size    373839 \
+                    rustls-pki-types-1.14.1.crate \
+                    sha256  30a7197ae7eb376e574fe940d068c30fe0462554a3ddbe4eca7838e049c937a9 \
+                    rmd160  7c7d553503e03fd15cbbbfb8260870fe3e19eeed \
+                    size    35567 \
+                    rustls-webpki-0.103.13.crate \
+                    sha256  61c429a8649f110dddef65e2a5ad240f747e85f7758a6bccc7e5777bd33f756e \
+                    rmd160  b8040c705001ee51127b641d154ae203af5cea31 \
+                    size    87513 \
+                    rustversion-1.0.22.crate \
+                    sha256  b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d \
+                    rmd160  3afff959da9bd948f46ac409a1010358e324ca88 \
+                    size    21096 \
+                    ryu-1.0.23.crate \
+                    sha256  9774ba4a74de5f7b1c1451ed6cd5285a32eddb5cccb8cc655a4e50009e06477f \
+                    rmd160  be6fd285706f4b5ec3903c5dddcab4b000e8329f \
+                    size    52823 \
+                    self_cell-1.2.2.crate \
+                    sha256  b12e76d157a900eb52e81bc6e9f3069344290341720e9178cde2407113ac8d89 \
+                    rmd160  ea0a4f2a5bf75433d4fcbd221b371d04fcc0e055 \
+                    size    23264 \
+                    semver-1.0.28.crate \
+                    sha256  8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd \
+                    rmd160  ef679996b14a08a68ba58dcbc11ceecdc75ed46e \
+                    size    33064 \
+                    seq-macro-0.3.6.crate \
+                    sha256  1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc \
+                    rmd160  97459cea5f6c5adaaeceae46e4ebbc98a696ca66 \
+                    size    16031 \
+                    serde-1.0.228.crate \
+                    sha256  9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e \
+                    rmd160  8992bbed715a30c1a1514bc3eb8fcf8adf0abe62 \
+                    size    83652 \
+                    serde_core-1.0.228.crate \
+                    sha256  41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad \
+                    rmd160  c459803defd1fa3c115899feec56235326ba6a6c \
+                    size    63111 \
+                    serde_derive-1.0.228.crate \
+                    sha256  d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79 \
+                    rmd160  da70c6abec18895afac42106d7175af07d8c1483 \
+                    size    59605 \
+                    serde_json-1.0.149.crate \
+                    sha256  83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86 \
+                    rmd160  bae12be39c00a09fce944f6859001f848c8f6a93 \
+                    size    155994 \
+                    serde_urlencoded-0.7.1.crate \
+                    sha256  d3491c14715ca2294c4d6a88f15e84739788c1d030eed8c110436aafdaa2f3fd \
+                    rmd160  7e95563d23942848b3cfe3d3d219dc544b39ee29 \
+                    size    12822 \
+                    shlex-1.3.0.crate \
+                    sha256  0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64 \
+                    rmd160  1fbe97065d99aef36dc3bf89ddd6d5cf891ea835 \
+                    size    18713 \
+                    siphasher-1.0.3.crate \
+                    sha256  8ee5873ec9cce0195efcb7a4e9507a04cd49aec9c83d0389df45b1ef7ba2e649 \
+                    rmd160  b593ff523ebd9f0c5a7ffd6b001e6fc43a82b7cb \
+                    size    11643 \
+                    slab-0.4.12.crate \
+                    sha256  0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5 \
+                    rmd160  a649e27cc3868a1b12ac0ab960a5ec481b639e6f \
+                    size    19080 \
+                    smallvec-1.15.1.crate \
+                    sha256  67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03 \
+                    rmd160  32e97c688fc04fd347fb391d66da83e43a8a41df \
+                    size    38116 \
+                    smawk-0.3.2.crate \
+                    sha256  b7c388c1b5e93756d0c740965c41e8822f866621d41acbdf6336a6a168f8840c \
+                    rmd160  7c087d0261d7068d9c699ea5faa39bb25da2bcfc \
+                    size    13831 \
+                    socket2-0.6.3.crate \
+                    sha256  3a766e1110788c36f4fa1c2b71b387a7815aa65f88ce0229841826633d93723e \
+                    rmd160  8b86a739ad6fcb3ce48609b86e3b5d1759b3dc10 \
+                    size    59330 \
+                    stable_deref_trait-1.2.1.crate \
+                    sha256  6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596 \
+                    rmd160  2a2c1aa3692813a271d22c8cf52f875d8bc0c161 \
+                    size    8186 \
+                    static_assertions-1.1.0.crate \
+                    sha256  a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f \
+                    rmd160  4e4406fdc9dd3dad3e39f38fbacfef893b6a23be \
+                    size    18480 \
+                    strsim-0.11.1.crate \
+                    sha256  7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f \
+                    rmd160  6f23459eed7e9eb65ef52f8667c9f222bc389cb6 \
+                    size    14266 \
+                    subtle-2.6.1.crate \
+                    sha256  13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292 \
+                    rmd160  4c1611dbda529eecf4f27594a9742e6d8b622d58 \
+                    size    14562 \
+                    syn-2.0.117.crate \
+                    sha256  e665b8803e7b1d2a727f4023456bbbbe74da67099c585258af0ad9c5013b9b99 \
+                    rmd160  e0055c354f6c1b699f45743edad7e78130cd9546 \
+                    size    306011 \
+                    sync_wrapper-1.0.2.crate \
+                    sha256  0bf256ce5efdfa370213c1dabab5935a12e49f2c58d15e9eac2870d3b4f27263 \
+                    rmd160  50962b26ad5267604fb5d69be894602ca4128ef4 \
+                    size    6958 \
+                    synstructure-0.13.2.crate \
+                    sha256  728a70f3dbaf5bab7f0c4b1ac8d7ae5ea60a4b5549c8a5914361c99147a709d2 \
+                    rmd160  3fc8fc8946f0cda958b76ad2677a8d5695416d5c \
+                    size    18950 \
+                    tempfile-3.27.0.crate \
+                    sha256  32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd \
+                    rmd160  82c70efbdd25d1f3d35c5c7616b0ebb6e7a29cb4 \
+                    size    44780 \
+                    termtree-0.5.1.crate \
+                    sha256  8f50febec83f5ee1df3015341d8bd429f2d1cc62bcba7ea2076759d315084683 \
+                    rmd160  68ea16b91e1d5ce3fdc877b404703f381a2ebcfb \
+                    size    8498 \
+                    textwrap-0.16.2.crate \
+                    sha256  c13547615a44dc9c452a8a534638acdf07120d4b6847c8178705da06306a3057 \
+                    rmd160  a041faf090a225967394d718946d88c814883fc8 \
+                    size    57077 \
+                    thiserror-2.0.18.crate \
+                    sha256  4288b5bcbc7920c07a1149a35cf9590a2aa808e0bc1eafaade0b80947865fbc4 \
+                    rmd160  bf4a91d7ed14cc04cc12fc37b01229606f3efef5 \
+                    size    28875 \
+                    thiserror-impl-2.0.18.crate \
+                    sha256  ebc4ee7f67670e9b64d05fa4253e753e016c6c95ff35b89b7941d6b856dec1d5 \
+                    rmd160  7e7365d4dd5bcb056dc6df9c145e4ea12aaf3430 \
+                    size    21413 \
+                    tinystr-0.8.3.crate \
+                    sha256  c8323304221c2a851516f22236c5722a72eaa19749016521d6dff0824447d96d \
+                    rmd160  89ff89468ec24103a753cc838ab5f7e07ea339b8 \
+                    size    24710 \
+                    tinyvec-1.11.0.crate \
+                    sha256  3e61e67053d25a4e82c844e8424039d9745781b3fc4f32b8d55ed50f5f667ef3 \
+                    rmd160  eadde891cc4892ea63ff6fbf2a73de9e530dd02c \
+                    size    53096 \
+                    tinyvec_macros-0.1.1.crate \
+                    sha256  1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20 \
+                    rmd160  491187f5469b5ab4c79c58e4d4a664f730da7414 \
+                    size    5865 \
+                    tokio-1.52.2.crate \
+                    sha256  110a78583f19d5cdb2c5ccf321d1290344e71313c6c37d43520d386027d18386 \
+                    rmd160  632c73db808428f2c820319481ab02cf173f9693 \
+                    size    900295 \
+                    tokio-macros-2.7.0.crate \
+                    sha256  385a6cb71ab9ab790c5fe8d67f1645e6c450a7ce006a33de03daa956cf70a496 \
+                    rmd160  4d54db3a8e197cb6497cc40357f2edcd33a6b10d \
+                    size    15859 \
+                    tokio-rustls-0.26.4.crate \
+                    sha256  1729aa945f29d91ba541258c8df89027d5792d85a8841fb65e8bf0f4ede4ef61 \
+                    rmd160  ee1b416c75429537b5ac9f851935f93cef1902a6 \
+                    size    35430 \
+                    tower-0.5.3.crate \
+                    sha256  ebe5ef63511595f1344e2d5cfa636d973292adc0eec1f0ad45fae9f0851ab1d4 \
+                    rmd160  e0c56da9740a849c6bf11e3d6561ce234e579395 \
+                    size    110488 \
+                    tower-http-0.6.10.crate \
+                    sha256  68d6fdd9f81c2819c9a8b0e0cd91660e7746a8e6ea2ba7c6b2b057985f6bcb51 \
+                    rmd160  598f994ddd4f8698b11ea75a26f631d5b27f28f2 \
+                    size    152170 \
+                    tower-layer-0.3.3.crate \
+                    sha256  121c2a6cda46980bb0fcd1647ffaf6cd3fc79a013de288782836f6df9c48780e \
+                    rmd160  2ec8a33dbcc20df6967578b89986db83a8ca21b9 \
+                    size    6180 \
+                    tower-service-0.3.3.crate \
+                    sha256  8df9b6e13f2d32c91b9bd719c00d1958837bc7dec474d94952798cc8e69eeec3 \
+                    rmd160  0e596bb64ce6de445bc1b1e15c3032592dc0482e \
+                    size    6950 \
+                    tracing-0.1.44.crate \
+                    sha256  63e71662fa4b2a2c3a26f570f037eb95bb1f85397f3cd8076caed2f026a6d100 \
+                    rmd160  f316e91291eae4cdbb6caf699823b47afd7c460b \
+                    size    463135 \
+                    tracing-core-0.1.36.crate \
+                    sha256  db97caf9d906fbde555dd62fa95ddba9eecfd14cb388e4f491a66d74cd5fb79a \
+                    rmd160  50857afa942cb4bd9b878d6ed3d3790376ec8f77 \
+                    size    63967 \
+                    try-lock-0.2.5.crate \
+                    sha256  e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b \
+                    rmd160  aedeb9bc1d853577cecb99e8a80ff424f0280811 \
+                    size    4314 \
+                    unicode-id-start-1.4.0.crate \
+                    sha256  81b79ad29b5e19de4260020f8919b443b2ef0277d242ce532ec7b7a2cc8b6007 \
+                    rmd160  e2c58c7b87e48111751c2c7b3a0b4dcc6608e551 \
+                    size    48270 \
+                    unicode-ident-1.0.24.crate \
+                    sha256  e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75 \
+                    rmd160  a7732b2d11402a4964b08b4a1b8e9e16c2f2904e \
+                    size    49298 \
+                    unicode-linebreak-0.1.5.crate \
+                    sha256  3b09c83c3c29d37506a3e260c08c03743a6bb66a9cd432c6934ab501a190571f \
+                    rmd160  60f02dbd20df414769a93eee2ceafba61b0ac7d8 \
+                    size    15324 \
+                    unicode-segmentation-1.13.2.crate \
+                    sha256  9629274872b2bfaf8d66f5f15725007f635594914870f65218920345aa11aa8c \
+                    rmd160  623f1b37a1b71a5039f01a144edc62612bd5cac3 \
+                    size    111829 \
+                    unicode-width-0.2.2.crate \
+                    sha256  b4ac048d71ede7ee76d585517add45da530660ef4390e49b098733c6e897f254 \
+                    rmd160  61cc7fc67af5b021d2a5150b80393920257c1689 \
+                    size    282768 \
+                    unicode-xid-0.2.6.crate \
+                    sha256  ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853 \
+                    rmd160  88601be7c012324253afac87474491619eeef59b \
+                    size    15744 \
+                    untrusted-0.9.0.crate \
+                    sha256  8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1 \
+                    rmd160  6a0eddd9ab5e693b7f6d76ef1d344b3cdf914db7 \
+                    size    14447 \
+                    url-2.5.8.crate \
+                    sha256  ff67a8a4397373c3ef660812acab3268222035010ab8680ec4215f38ba3d0eed \
+                    rmd160  365a85599994d35d580a894eae4400f2e9438f41 \
+                    size    86512 \
+                    utf8_iter-1.0.4.crate \
+                    sha256  b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be \
+                    rmd160  f0562f8d03b95669c1262b883f6fb1f9e4e89dc0 \
+                    size    10437 \
+                    utf8parse-0.2.2.crate \
+                    sha256  06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821 \
+                    rmd160  62051ea73c00bdacf9202a0e1d275a59f65767f0 \
+                    size    13499 \
+                    vsimd-0.8.0.crate \
+                    sha256  5c3082ca00d5a5ef149bb8b555a72ae84c9c59f7250f013ac822ac2e49b19c64 \
+                    rmd160  cd6cced3aba4a93627b28ecb81f680137d967c58 \
+                    size    21377 \
+                    wait-timeout-0.2.1.crate \
+                    sha256  09ac3b126d3914f9849036f826e054cbabdc8519970b8998ddaf3b5bd3c65f11 \
+                    rmd160  0973dc8b4e26d492f6fca0a9a46f9a6c5f2a66a4 \
+                    size    11435 \
+                    want-0.3.1.crate \
+                    sha256  bfa7760aed19e106de2c7c0b581b509f2f25d3dacaf737cb82ac61bc6d760b0e \
+                    rmd160  9b356ca9bf4508d311d2982c59989add27485c45 \
+                    size    6398 \
+                    wasi-0.11.1+wasi-snapshot-preview1.crate \
+                    sha256  ccf3ec651a847eb01de73ccad15eb7d99f80485de043efb2f370cd654f4ea44b \
+                    rmd160  275ffcb57608da86ec717d43b6c7ee8eecc09218 \
+                    size    28477 \
+                    wasip2-1.0.3+wasi-0.2.9.crate \
+                    sha256  20064672db26d7cdc89c7798c48a0fdfac8213434a1186e5ef29fd560ae223d6 \
+                    rmd160  003683d4bbcf4940cbafe98602adc7dce59c5252 \
+                    size    134512 \
+                    wasip3-0.4.0+wasi-0.3.0-rc-2026-01-06.crate \
+                    sha256  5428f8bf88ea5ddc08faddef2ac4a67e390b88186c703ce6dbd955e1c145aca5 \
+                    rmd160  17c3ea56ade2f497f6ea1b2f83487b13dcac1f3c \
+                    size    123354 \
+                    wasm-bindgen-0.2.120.crate \
+                    sha256  df52b6d9b87e0c74c9edfa1eb2d9bf85e5d63515474513aa50fa181b3c4f5db1 \
+                    rmd160  7b84a9b7e7b892e44986af1a85e8ed9a35cc858d \
+                    size    63555 \
+                    wasm-bindgen-futures-0.4.70.crate \
+                    sha256  af934872acec734c2d80e6617bbb5ff4f12b052dd8e6332b0817bce889516084 \
+                    rmd160  64f826aa43bcd903b00163a48fe46c6cb20a0b3d \
+                    size    8243 \
+                    wasm-bindgen-macro-0.2.120.crate \
+                    sha256  78b1041f495fb322e64aca85f5756b2172e35cd459376e67f2a6c9dffcedb103 \
+                    rmd160  ec82b9a4b223ce05a25a4533fd37ed1bfa4970aa \
+                    size    9293 \
+                    wasm-bindgen-macro-support-0.2.120.crate \
+                    sha256  9dcd0ff20416988a18ac686d4d4d0f6aae9ebf08a389ff5d29012b05af2a1b41 \
+                    rmd160  65d0bbc9bc1351f62456d972e70a3ef44127e626 \
+                    size    69005 \
+                    wasm-bindgen-shared-0.2.120.crate \
+                    sha256  49757b3c82ebf16c57d69365a142940b384176c24df52a087fb748e2085359ea \
+                    rmd160  d033e86b8f7f68225aaf4f58bd6a8e1ee2430d75 \
+                    size    10596 \
+                    wasm-encoder-0.244.0.crate \
+                    sha256  990065f2fe63003fe337b932cfb5e3b80e0b4d0f5ff650e6985b1048f62c8319 \
+                    rmd160  2ebe321763d98ee8b74ce3161628fab0c9d0d3c0 \
+                    size    85804 \
+                    wasm-metadata-0.244.0.crate \
+                    sha256  bb0e353e6a2fbdc176932bbaab493762eb1255a7900fe0fea1a2f96c296cc909 \
+                    rmd160  cafa25ce94b1459a78702ffaf94f6d65e176079d \
+                    size    21500 \
+                    wasmparser-0.244.0.crate \
+                    sha256  47b807c72e1bac69382b3a6fb3dbe8ea4c0ed87ff5629b8685ae6b9a611028fe \
+                    rmd160  17a067aaa32e2a5943b55e579905aa38147e52ce \
+                    size    265607 \
+                    web-sys-0.3.97.crate \
+                    sha256  2eadbac71025cd7b0834f20d1fe8472e8495821b4e9801eb0a60bd1f19827602 \
+                    rmd160  7f04119cfd1250bb2e7f4c9ff6f4eaaee7b4876a \
+                    size    674185 \
+                    web-time-1.1.0.crate \
+                    sha256  5a6580f308b1fad9207618087a65c04e7a10bc77e02c8e84e9b00dd4b12fa0bb \
+                    rmd160  8dfc7cc58cb91c2c5b0196becc2e9a54dde623a8 \
+                    size    18026 \
+                    webpki-roots-1.0.7.crate \
+                    sha256  52f5ee44c96cf55f1b349600768e3ece3a8f26010c05265ab73f945bb1a2eb9d \
+                    rmd160  2d3ecfd2e5e367ba51a791a2ef891221fb19d778 \
+                    size    213706 \
+                    windows-link-0.2.1.crate \
+                    sha256  f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5 \
+                    rmd160  7e23725e8a6095e6a83207cd9431a97bb61cff21 \
+                    size    6133 \
+                    windows-sys-0.52.0.crate \
+                    sha256  282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d \
+                    rmd160  1cd0480b74ac5b07b15765f0615dc15678aca665 \
+                    size    2576877 \
+                    windows-sys-0.60.2.crate \
+                    sha256  f2f500e4d28234f72040990ec9d39e3a6b950f9f22d3dba18416c35882612bcb \
+                    rmd160  3477ce1d909c9bb03c4fd98ec75854df9b124699 \
+                    size    2518479 \
+                    windows-sys-0.61.2.crate \
+                    sha256  ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc \
+                    rmd160  8746ad1499fb75e7b16cabe0251e96c3e0a71665 \
+                    size    2517186 \
+                    windows-targets-0.52.6.crate \
+                    sha256  9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973 \
+                    rmd160  c1d2020ae264046cd5652bf87b1203dad774a2ca \
+                    size    6403 \
+                    windows-targets-0.53.5.crate \
+                    sha256  4945f9f551b88e0d65f3db0bc25c33b8acea4d9e41163edf90dcd0b19f9069f3 \
+                    rmd160  4492b9dc624311d538730baf3f459f4cb39bd248 \
+                    size    7126 \
+                    windows_aarch64_gnullvm-0.52.6.crate \
+                    sha256  32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3 \
+                    rmd160  615253b378d577ed174283ae71bc715c2cf6632e \
+                    size    435718 \
+                    windows_aarch64_gnullvm-0.53.1.crate \
+                    sha256  a9d8416fa8b42f5c947f8482c43e7d89e73a173cead56d044f6a56104a6d1b53 \
+                    rmd160  ee30b24d19a186594c7255b0362f65e7ac004b2e \
+                    size    787748 \
+                    windows_aarch64_msvc-0.52.6.crate \
+                    sha256  09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469 \
+                    rmd160  cb7d036cfe3359b045c98c12e045aedf8620e058 \
+                    size    832615 \
+                    windows_aarch64_msvc-0.53.1.crate \
+                    sha256  b9d782e804c2f632e395708e99a94275910eb9100b2114651e04744e9b125006 \
+                    rmd160  150428d5adf4641a44815a4c3fcad139629ce9f5 \
+                    size    838009 \
+                    windows_i686_gnu-0.52.6.crate \
+                    sha256  8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b \
+                    rmd160  8633c31ea1781635d0f4ffd7904f782120c2b19a \
+                    size    880402 \
+                    windows_i686_gnu-0.53.1.crate \
+                    sha256  960e6da069d81e09becb0ca57a65220ddff016ff2d6af6a223cf372a506593a3 \
+                    rmd160  8ce1915b8b8c935ba0b1f5807a1651da3ebffa12 \
+                    size    939775 \
+                    windows_i686_gnullvm-0.52.6.crate \
+                    sha256  0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66 \
+                    rmd160  5973c1a3fef2d312eab93c82597bad289fbe6a4e \
+                    size    475940 \
+                    windows_i686_gnullvm-0.53.1.crate \
+                    sha256  fa7359d10048f68ab8b09fa71c3daccfb0e9b559aed648a8f95469c27057180c \
+                    rmd160  4755b420a3b7befe172a20128f7aab79f8e90484 \
+                    size    857396 \
+                    windows_i686_msvc-0.52.6.crate \
+                    sha256  240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66 \
+                    rmd160  e61e45573a76e9e1687e7dd901942fd7d715c0c0 \
+                    size    901163 \
+                    windows_i686_msvc-0.53.1.crate \
+                    sha256  1e7ac75179f18232fe9c285163565a57ef8d3c89254a30685b57d83a38d326c2 \
+                    rmd160  133ca073f83bd4b038d866d912e9c60082481dfc \
+                    size    907688 \
+                    windows_x86_64_gnu-0.52.6.crate \
+                    sha256  147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78 \
+                    rmd160  06d388fbc868f14eb15121e5b63773fbc615d921 \
+                    size    836363 \
+                    windows_x86_64_gnu-0.53.1.crate \
+                    sha256  9c3842cdd74a865a8066ab39c8a7a473c0778a3f29370b5fd6b4b9aa7df4a499 \
+                    rmd160  1188e93c787858df94c233437bf62fbdc173ed1f \
+                    size    903712 \
+                    windows_x86_64_gnullvm-0.52.6.crate \
+                    sha256  24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d \
+                    rmd160  e9b9ac8740be6ae493bfd4fcd3c51728c6ac7438 \
+                    size    435707 \
+                    windows_x86_64_gnullvm-0.53.1.crate \
+                    sha256  0ffa179e2d07eee8ad8f57493436566c7cc30ac536a3379fdf008f47f6bb7ae1 \
+                    rmd160  dd88dd71d15f2e2c65dde1e9ef943cfb6d5b2f7a \
+                    size    787739 \
+                    windows_x86_64_msvc-0.52.6.crate \
+                    sha256  589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec \
+                    rmd160  915af930aaac8ba6533ab0f1fbc964d7ce9f67e7 \
+                    size    832564 \
+                    windows_x86_64_msvc-0.53.1.crate \
+                    sha256  d6bbff5f0aada427a1e5a6da5f1f98158182f26556f345ac9e04d36d0ebed650 \
+                    rmd160  6c7418ae7cb1cc0f18e981fee7d8a29ec990eb80 \
+                    size    837950 \
+                    wit-bindgen-0.51.0.crate \
+                    sha256  d7249219f66ced02969388cf2bb044a09756a083d0fab1e566056b04d9fbcaa5 \
+                    rmd160  5e262b2b832f1b26e8d1289b13d4932d91f9bbe2 \
+                    size    68035 \
+                    wit-bindgen-0.57.1.crate \
+                    sha256  1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e \
+                    rmd160  8a0f7c4c29de515763458e8fa82bd2c845f65bb0 \
+                    size    71227 \
+                    wit-bindgen-core-0.51.0.crate \
+                    sha256  ea61de684c3ea68cb082b7a88508a8b27fcc8b797d738bfc99a82facf1d752dc \
+                    rmd160  969165c9011b6fc7a1291005c8d820cba2d629bc \
+                    size    35048 \
+                    wit-bindgen-rust-0.51.0.crate \
+                    sha256  b7c566e0f4b284dd6561c786d9cb0142da491f46a9fbed79ea69cdad5db17f21 \
+                    rmd160  bab79a119a215f60c53f5143c75833c1f4eda829 \
+                    size    57051 \
+                    wit-bindgen-rust-macro-0.51.0.crate \
+                    sha256  0c0f9bfd77e6a48eccf51359e3ae77140a7f50b1e2ebfe62422d8afdaffab17a \
+                    rmd160  97f542f22e4553005b232f9c4fd21fb10ae4e8db \
+                    size    14283 \
+                    wit-component-0.244.0.crate \
+                    sha256  9d66ea20e9553b30172b5e831994e35fbde2d165325bec84fc43dbf6f4eb9cb2 \
+                    rmd160  ccfd3486e4396cb0e8ae4db1f01369ff18717cfc \
+                    size    256882 \
+                    wit-parser-0.244.0.crate \
+                    sha256  ecc8ac4bc1dc3381b7f59c34f00b67e18f910c2c0f50015669dde7def656a736 \
+                    rmd160  38c2416903929ff7f278c7233a47cac5638ccf79 \
+                    size    159371 \
+                    writeable-0.6.3.crate \
+                    sha256  1ffae5123b2d3fc086436f8834ae3ab053a283cfac8fe0a0b8eaae044768a4c4 \
+                    rmd160  5507d50150eecd7f854026a25c9b20bcdc2b413c \
+                    size    26685 \
+                    yoke-0.8.2.crate \
+                    sha256  abe8c5fda708d9ca3df187cae8bfb9ceda00dd96231bed36e445a1a48e66f9ca \
+                    rmd160  ccb929ad2d3c2950f5cf8cb988e9a6dfcbe7e537 \
+                    size    32790 \
+                    yoke-derive-0.8.2.crate \
+                    sha256  de844c262c8848816172cef550288e7dc6c7b7814b4ee56b3e1553f275f1858e \
+                    rmd160  6b862bc9fb18c395d04eee7f02e7bdbc4506493b \
+                    size    15077 \
+                    zerofrom-0.1.7.crate \
+                    sha256  69faa1f2a1ea75661980b013019ed6687ed0e83d069bc1114e2cc74c6c04c4df \
+                    rmd160  934b5cb08a93a4dafecd20f6f04c714f84e89322 \
+                    size    6140 \
+                    zerofrom-derive-0.1.7.crate \
+                    sha256  11532158c46691caf0f2593ea8358fed6bbf68a0315e80aae9bd41fbade684a1 \
+                    rmd160  2b511fd40f3c7b5f0b24fc0f3d002ac1550c8a19 \
+                    size    8853 \
+                    zeroize-1.8.2.crate \
+                    sha256  b97154e67e32c85465826e8bcc1c59429aaaf107c1e4a9e53c8d8ccd5eff88d0 \
+                    rmd160  9d376c4b9c1cae296eb94d01f116f1f870242c97 \
+                    size    20907 \
+                    zerotrie-0.2.4.crate \
+                    sha256  0f9152d31db0792fa83f70fb2f83148effb5c1f5b8c7686c3459e361d9bc20bf \
+                    rmd160  340f718973f8ab184dd6af044f97833ce6917aea \
+                    size    83690 \
+                    zerovec-0.11.6.crate \
+                    sha256  90f911cbc359ab6af17377d242225f4d75119aec87ea711a880987b18cd7b239 \
+                    rmd160  d30dffc5aff2671f7517472fac7403a1ed92c4d5 \
+                    size    128583 \
+                    zerovec-derive-0.11.3.crate \
+                    sha256  625dc425cab0dca6dc3c3319506e6593dcb08a9f387ea3b284dbd52a92c40555 \
+                    rmd160  c7864da4d8078399b1918fc680a773cbb648831b \
+                    size    22115 \
+                    zmij-1.0.21.crate \
+                    sha256  b8848ee67ecc8aedbaf3e4122217aff892639231befc6a1b58d29fff4c2cabaa \
+                    rmd160  54582a2941153a16524821733210f71183acfb46 \
+                    size    26665
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/target/[cargo.rust_platform]/release/${name} \
+        ${destroot}${prefix}/bin/
+}
+
+test.run            yes
+# The other test suites call live LLM provider APIs (from tatsh-overlay).
+test.args           --test cli_smoke
+
+cargo.crates \
+    allocator-api2              0.2.21                    683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923 \
+    anstream                    1.0.0                     824a212faf96e9acacdbd09febd34438f8f711fb84e09a8916013cd7815ca28d \
+    anstyle                     1.0.14                    940b3a0ca603d1eade50a4846a2afffd5ef57a9feac2c0e2ec2e14f9ead76000 \
+    anstyle-parse               1.0.0                     52ce7f38b242319f7cabaa6813055467063ecdc9d355bbb4ce0c68908cd8130e \
+    anstyle-query               1.1.5                     40c48f72fd53cd289104fc64099abca73db4166ad86ea0b4341abe65af83dadc \
+    anstyle-wincon              3.0.11                    291e6a250ff86cd4a820112fb8898808a366d8f9f58ce16d1f538353ad55747d \
+    anyhow                      1.0.102                   7f202df86484c868dbad7eaa557ef785d5c66295e41b460ef922eca0723b842c \
+    assert_cmd                  2.2.1                     39bae1d3fa576f7c6519514180a72559268dd7d1fe104070956cb687bc6673bd \
+    async-trait                 0.1.89                    9035ad2d096bed7955a320ee7e2230574d28fd3c3a0f186cbea1ff3c7eed5dbb \
+    atomic-waker                1.1.2                     1505bd5d3d116872e7271a6d4e16d81d0c8570876c8de68093a09ac269d8aac0 \
+    autocfg                     1.5.0                     c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8 \
+    base64                      0.22.1                    72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6 \
+    base64-simd                 0.8.0                     339abbe78e73178762e23bea9dfd08e697eb3f3301cd4be981c0f78ba5859195 \
+    bitflags                    2.11.1                    c4512299f36f043ab09a583e57bceb5a5aab7a73db1805848e8fef3c9e8c78b3 \
+    bstr                        1.12.1                    63044e1ae8e69f3b5a92c736ca6269b8d12fa7efe39bf34ddb06d102cf0e2cab \
+    bumpalo                     3.20.2                    5d20789868f4b01b2f2caec9f5c4e0213b41e3e5702a50157d699ae31ced2fcb \
+    bytes                       1.11.1                    1e748733b7cbc798e1434b6ac524f0c1ff2ab456fe201501e6497c8417a4fc33 \
+    castaway                    0.2.4                     dec551ab6e7578819132c713a93c022a05d60159dc86e7a7050223577484c55a \
+    cc                          1.2.61                    d16d90359e986641506914ba71350897565610e87ce0ad9e6f28569db3dd5c6d \
+    cfg-if                      1.0.4                     9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801 \
+    cfg_aliases                 0.2.1                     613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724 \
+    chacha20                    0.10.1                    d524456ba66e72eb8b115ff89e01e497f8e6d11d78b70b1aa13c0fbd97540a81 \
+    clap                        4.6.1                     1ddb117e43bbf7dacf0a4190fef4d345b9bad68dfc649cb349e7d17d28428e51 \
+    clap_builder                4.6.0                     714a53001bf66416adb0e2ef5ac857140e7dc3a0c48fb28b2f10762fc4b5069f \
+    clap_derive                 4.6.1                     f2ce8604710f6733aa641a2b3731eaa1e8b3d9973d5e3565da11800813f997a9 \
+    clap_lex                    1.1.0                     c8d4a3bb8b1e0c1050499d1815f5ab16d04f0959b233085fb31653fbfc9d98f9 \
+    colorchoice                 1.0.5                     1d07550c9036bf2ae0c684c4297d503f838287c83c53686d05370d0e139ae570 \
+    compact_str                 0.9.0                     3fdb1325a1cece981e8a296ab8f0f9b63ae357bd0784a9faaf548cc7b480707a \
+    cow-utils                   0.1.3                     417bef24afe1460300965a25ff4a24b8b45ad011948302ec221e8a0a81eb2c79 \
+    cpufeatures                 0.3.0                     8b2a41393f66f16b0823bb79094d54ac5fbd34ab292ddafb9a0456ac9f87d201 \
+    difflib                     0.4.0                     6184e33543162437515c2e2b48714794e37845ec9851711914eec9d308f6ebe8 \
+    displaydoc                  0.2.5                     97369cbbc041bc366949bc74d34658d6cda5621039731c6310521892a3a20ae0 \
+    dragonbox_ecma              0.1.12                    fd8e701084c37e7ef62d3f9e453b618130cbc0ef3573847785952a3ac3f746bf \
+    either                      1.15.0                    48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719 \
+    equivalent                  1.0.2                     877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f \
+    errno                       0.3.14                    39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb \
+    fastrand                    2.4.1                     9f1f227452a390804cdb637b74a86990f2a7d7ba4b7d5693aac9b4dd6defd8d6 \
+    find-msvc-tools             0.1.9                     5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582 \
+    foldhash                    0.1.5                     d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2 \
+    form_urlencoded             1.2.2                     cb4cb245038516f5f85277875cdaa4f7d2c9a0fa0468de06ed190163b1581fcf \
+    futures-channel             0.3.32                    07bbe89c50d7a535e539b8c17bc0b49bdb77747034daa8087407d655f3f7cc1d \
+    futures-core                0.3.32                    7e3450815272ef58cec6d564423f6e755e25379b217b0bc688e295ba24df6b1d \
+    futures-task                0.3.32                    037711b3d59c33004d3856fbdc83b99d4ff37a24768fa1be9ce3538a1cde4393 \
+    futures-util                0.3.32                    389ca41296e6190b48053de0321d02a77f32f8a5d2461dd38762c0593805c6d6 \
+    getrandom                   0.2.17                    ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0 \
+    getrandom                   0.4.2                     0de51e6874e94e7bf76d726fc5d13ba782deca734ff60d5bb2fb2607c7406555 \
+    hashbrown                   0.15.5                    9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1 \
+    hashbrown                   0.17.0                    4f467dd6dccf739c208452f8014c75c18bb8301b050ad1cfb27153803edb0f51 \
+    heck                        0.5.0                     2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea \
+    http                        1.4.0                     e3ba2a386d7f85a81f119ad7498ebe444d2e22c2af0b86b069416ace48b3311a \
+    http-body                   1.0.1                     1efedce1fb8e6913f23e0c92de8e62cd5b772a67e7b3946df930a62566c93184 \
+    http-body-util              0.1.3                     b021d93e26becf5dc7e1b75b1bed1fd93124b374ceb73f43d4d4eafec896a64a \
+    httparse                    1.10.1                    6dbf3de79e51f3d586ab4cb9d5c3e2c14aa28ed23d180cf89b4df0454a69cc87 \
+    hyper                       1.9.0                     6299f016b246a94207e63da54dbe807655bf9e00044f73ded42c3ac5305fbcca \
+    hyper-rustls                0.27.9                    33ca68d021ef39cf6463ab54c1d0f5daf03377b70561305bb89a8f83aab66e0f \
+    hyper-util                  0.1.20                    96547c2556ec9d12fb1578c4eaf448b04993e7fb79cbaad930a656880a6bdfa0 \
+    icu_collections             2.2.0                     2984d1cd16c883d7935b9e07e44071dca8d917fd52ecc02c04d5fa0b5a3f191c \
+    icu_locale_core             2.2.0                     92219b62b3e2b4d88ac5119f8904c10f8f61bf7e95b640d25ba3075e6cac2c29 \
+    icu_normalizer              2.2.0                     c56e5ee99d6e3d33bd91c5d85458b6005a22140021cc324cea84dd0e72cff3b4 \
+    icu_normalizer_data         2.2.0                     da3be0ae77ea334f4da67c12f149704f19f81d1adf7c51cf482943e84a2bad38 \
+    icu_properties              2.2.0                     bee3b67d0ea5c2cca5003417989af8996f8604e34fb9ddf96208a033901e70de \
+    icu_properties_data         2.2.0                     8e2bbb201e0c04f7b4b3e14382af113e17ba4f63e2c9d2ee626b720cbce54a14 \
+    icu_provider                2.2.0                     139c4cf31c8b5f33d7e199446eff9c1e02decfc2f0eec2c8d71f65befa45b421 \
+    id-arena                    2.3.0                     3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954 \
+    idna                        1.1.0                     3b0875f23caa03898994f6ddc501886a45c7d3d62d04d2d90788d47be1b1e4de \
+    idna_adapter                1.2.2                     cb68373c0d6620ef8105e855e7745e18b0d00d3bdb07fb532e434244cdb9a714 \
+    indexmap                    2.14.0                    d466e9454f08e4a911e14806c24e16fba1b4c121d1ea474396f396069cf949d9 \
+    ipnet                       2.12.0                    d98f6fed1fde3f8c21bc40a1abb88dd75e67924f9cffc3ef95607bad8017f8e2 \
+    is_terminal_polyfill        1.70.2                    a6cb138bb79a146c1bd460005623e142ef0181e3d0219cb493e02f7d08a35695 \
+    itertools                   0.14.0                    2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285 \
+    itoa                        1.0.18                    8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682 \
+    js-sys                      0.3.97                    a1840c94c045fbcf8ba2812c95db44499f7c64910a912551aaaa541decebcacf \
+    json-escape-simd            3.0.2                     35e770254dd7802184595b1d30da2a15cb72569e2aca2b177aef8d22eac8a693 \
+    leb128fmt                   0.1.0                     09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2 \
+    libc                        0.2.186                   68ab91017fe16c622486840e4c83c9a37afeff978bd239b5293d61ece587de66 \
+    linux-raw-sys               0.12.1                    32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53 \
+    litemap                     0.8.2                     92daf443525c4cce67b150400bc2316076100ce0b3686209eb8cf3c31612e6f0 \
+    log                         0.4.29                    5e5032e24019045c762d3c0f28f5b6b8bbf38563a65908389bf7978758920897 \
+    lru-slab                    0.1.2                     112b39cec0b298b6c1999fee3e31427f74f676e4cb9879ed1a121b43661a4154 \
+    memchr                      2.8.0                     f8ca58f447f06ed17d5fc4043ce1b10dd205e060fb3ce5b979b8ed8e59ff3f79 \
+    mio                         1.2.0                     50b7e5b27aa02a74bac8c3f23f448f8d87ff11f92d3aac1a6ed369ee08cc56c1 \
+    nonmax                      0.5.5                     610a5acd306ec67f907abe5567859a3c693fb9886eb1f012ab8f2a47bef3db51 \
+    num-bigint                  0.4.6                     a5e44f723f1133c9deac646763579fdb3ac745e418f2a7af9cd0c431da1f20b9 \
+    num-integer                 0.1.46                    7969661fd2958a5cb096e56c8e1ad0444ac2bbcd0061bd28660485a44879858f \
+    num-traits                  0.2.19                    071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841 \
+    once_cell                   1.21.4                    9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50 \
+    once_cell_polyfill          1.70.2                    384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe \
+    outref                      0.5.2                     1a80800c0488c3a21695ea981a54918fbb37abf04f4d0720c453632255e2ff0e \
+    owo-colors                  4.3.0                     d211803b9b6b570f68772237e415a029d5a50c65d382910b879fb19d3271f94d \
+    oxc-miette                  2.7.1                     4356a61f2ed4c9b3610245215fbf48970eb277126919f87db9d0efa93a74245c \
+    oxc-miette-derive           2.7.1                     b237422b014f8f8fff75bb9379e697d13f8d57551a22c88bebb39f073c1bf696 \
+    oxc_allocator               0.126.0                   e54dd7c5eb0fa364f0b7ca09109f21cede0ae5f72001163170d954d62a0e4e86 \
+    oxc_ast                     0.126.0                   c7391676b3f06b7cb8e720ec06daf052395bb7516a8b647992ce5a21ea997989 \
+    oxc_ast_macros              0.126.0                   0a6b396cf8aefca1f06445b28e434b16529b199bbb8a6157c905d7b5e4dfae90 \
+    oxc_ast_visit               0.126.0                   a67e09457c976c28b5f7b28673ad5526c10e0b74cee3d7befccea7a85c6f960a \
+    oxc_codegen                 0.126.0                   98fc08dc6a1eba7b3b126189d49c57154da0ad6f1baeac9065d7eccee0cc29bd \
+    oxc_data_structures         0.126.0                   0fdea5ebbfe376448e83f9749828f31a0ad9b85a1b01e31f70597565b74f809a \
+    oxc_diagnostics             0.126.0                   c5ac2365c7cf9255776ceb41310c90d9e636586cf291ae9c0df50028f559837b \
+    oxc_ecmascript              0.126.0                   651a4509f2de47c7e49fc3a78e136e821062c4d97d2544c6336dda0f4513cfc6 \
+    oxc_estree                  0.126.0                   e891d31bbe5e6c3a849a2db7de16015076f0d83f42110ace1fdfd7d2e886b97c \
+    oxc_index                   4.1.0                     eb3e6120999627ec9703025eab7c9f410ebb7e95557632a8902ca48210416c2b \
+    oxc_parser                  0.126.0                   7ab4ee6b100bedfd125cfbd9747e921984d6adab212b73affecc29a46df4bf15 \
+    oxc_regular_expression      0.126.0                   896df45fde44d336df10d3cab46c0cc58697ffa69d446ca4a1b278b8c582972a \
+    oxc_semantic                0.126.0                   2a86e300b37fa6524265f85cbce20c3ce2b83f15ab0af7a96793421064fc8a5a \
+    oxc_sourcemap               6.1.1                     6d378eb8bad20e89d66276aebab51f6a5408571092cac94abdd3eabb773713d6 \
+    oxc_span                    0.126.0                   a5778776c8d0ed52822841324e0dd08c024a3fc1e6dd45895e129dbb14f33f2a \
+    oxc_str                     0.126.0                   dc120670ba73a00a9d1412de98ac63b2907551707fe4063d96ee2e44cc75ab56 \
+    oxc_syntax                  0.126.0                   13ca07418ff23061b0be35b8f3ed43291bf29ad23aeb51a0faff71c5acc751c0 \
+    percent-encoding            2.3.2                     9b4f627cb1b25917193a259e49bdad08f671f8d9708acfd5fe0a8c1455d87220 \
+    phf                         0.13.1                    c1562dc717473dbaa4c1f85a36410e03c047b2e7df7f45ee938fbef64ae7fadf \
+    phf_generator               0.13.1                    135ace3a761e564ec88c03a77317a7c6b80bb7f7135ef2544dbe054243b89737 \
+    phf_macros                  0.13.1                    812f032b54b1e759ccd5f8b6677695d5268c588701effba24601f6932f8269ef \
+    phf_shared                  0.13.1                    e57fef6bc5981e38c2ce2d63bfa546861309f875b8a75f092d1d54ae2d64f266 \
+    pin-project-lite            0.2.17                    a89322df9ebe1c1578d689c92318e070967d1042b512afbe49518723f4e6d5cd \
+    potential_utf               0.1.5                     0103b1cef7ec0cf76490e969665504990193874ea05c85ff9bab8b911d0a0564 \
+    predicates                  3.1.4                     ada8f2932f28a27ee7b70dd6c1c39ea0675c55a36879ab92f3a715eaa1e63cfe \
+    predicates-core             1.0.10                    cad38746f3166b4031b1a0d39ad9f954dd291e7854fcc0eed52ee41a0b50d144 \
+    predicates-tree             1.0.13                    d0de1b847b39c8131db0467e9df1ff60e6d0562ab8e9a16e568ad0fdb372e2f2 \
+    prettyplease                0.2.37                    479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b \
+    proc-macro2                 1.0.106                   8fd00f0bb2e90d81d1044c2b32617f68fcb9fa3bb7640c23e9c748e53fb30934 \
+    quinn                       0.11.9                    b9e20a958963c291dc322d98411f541009df2ced7b5a4f2bd52337638cfccf20 \
+    quinn-proto                 0.11.16                   2f4bfc015262b9df63c8845072ce59068853ff5872180c2ce2f13038b970e560 \
+    quinn-udp                   0.5.14                    addec6a0dcad8a8d96a771f815f0eaf55f9d1805756410b39f5fa81332574cbd \
+    quote                       1.0.45                    41f2619966050689382d2b44f664f4bc593e129785a36d6ee376ddf37259b924 \
+    r-efi                       6.0.0                     f8dcc9c7d52a811697d2151c701e0d08956f92b0e24136cf4cf27b57a6a0d9bf \
+    rand                        0.10.2                    c7f5fa3a058cd35567ef9bfa5e75732bee0f9e4c55fa90477bef2dfcdbc4be80 \
+    rand_core                   0.10.1                    63b8176103e19a2643978565ca18b50549f6101881c443590420e4dc998a3c69 \
+    rand_pcg                    0.10.2                    caa0f4137e1c0a72f4c651489402276c8e8e1cf081f3b0ba156d2cbeef09e86a \
+    regex-automata              0.4.14                    6e1dd4122fc1595e8162618945476892eefca7b88c52820e74af6262213cae8f \
+    reqwest                     0.12.28                   eddd3ca559203180a307f12d114c268abf583f59b03cb906fd0b3ff8646c1147 \
+    ring                        0.17.14                   a4689e6c2294d81e88dc6261c768b63bc4fcdb852be6d1352498b114f61383b7 \
+    rustc-hash                  2.1.2                     94300abf3f1ae2e2b8ffb7b58043de3d399c73fa6f4b73826402a5c457614dbe \
+    rustix                      1.1.4                     b6fe4565b9518b83ef4f91bb47ce29620ca828bd32cb7e408f0062e9930ba190 \
+    rustls                      0.23.40                   ef86cd5876211988985292b91c96a8f2d298df24e75989a43a3c73f2d4d8168b \
+    rustls-pki-types            1.14.1                    30a7197ae7eb376e574fe940d068c30fe0462554a3ddbe4eca7838e049c937a9 \
+    rustls-webpki               0.103.13                  61c429a8649f110dddef65e2a5ad240f747e85f7758a6bccc7e5777bd33f756e \
+    rustversion                 1.0.22                    b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d \
+    ryu                         1.0.23                    9774ba4a74de5f7b1c1451ed6cd5285a32eddb5cccb8cc655a4e50009e06477f \
+    self_cell                   1.2.2                     b12e76d157a900eb52e81bc6e9f3069344290341720e9178cde2407113ac8d89 \
+    semver                      1.0.28                    8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd \
+    seq-macro                   0.3.6                     1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc \
+    serde                       1.0.228                   9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e \
+    serde_core                  1.0.228                   41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad \
+    serde_derive                1.0.228                   d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79 \
+    serde_json                  1.0.149                   83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86 \
+    serde_urlencoded            0.7.1                     d3491c14715ca2294c4d6a88f15e84739788c1d030eed8c110436aafdaa2f3fd \
+    shlex                       1.3.0                     0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64 \
+    siphasher                   1.0.3                     8ee5873ec9cce0195efcb7a4e9507a04cd49aec9c83d0389df45b1ef7ba2e649 \
+    slab                        0.4.12                    0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5 \
+    smallvec                    1.15.1                    67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03 \
+    smawk                       0.3.2                     b7c388c1b5e93756d0c740965c41e8822f866621d41acbdf6336a6a168f8840c \
+    socket2                     0.6.3                     3a766e1110788c36f4fa1c2b71b387a7815aa65f88ce0229841826633d93723e \
+    stable_deref_trait          1.2.1                     6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596 \
+    static_assertions           1.1.0                     a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f \
+    strsim                      0.11.1                    7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f \
+    subtle                      2.6.1                     13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292 \
+    syn                         2.0.117                   e665b8803e7b1d2a727f4023456bbbbe74da67099c585258af0ad9c5013b9b99 \
+    sync_wrapper                1.0.2                     0bf256ce5efdfa370213c1dabab5935a12e49f2c58d15e9eac2870d3b4f27263 \
+    synstructure                0.13.2                    728a70f3dbaf5bab7f0c4b1ac8d7ae5ea60a4b5549c8a5914361c99147a709d2 \
+    tempfile                    3.27.0                    32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd \
+    termtree                    0.5.1                     8f50febec83f5ee1df3015341d8bd429f2d1cc62bcba7ea2076759d315084683 \
+    textwrap                    0.16.2                    c13547615a44dc9c452a8a534638acdf07120d4b6847c8178705da06306a3057 \
+    thiserror                   2.0.18                    4288b5bcbc7920c07a1149a35cf9590a2aa808e0bc1eafaade0b80947865fbc4 \
+    thiserror-impl              2.0.18                    ebc4ee7f67670e9b64d05fa4253e753e016c6c95ff35b89b7941d6b856dec1d5 \
+    tinystr                     0.8.3                     c8323304221c2a851516f22236c5722a72eaa19749016521d6dff0824447d96d \
+    tinyvec                     1.11.0                    3e61e67053d25a4e82c844e8424039d9745781b3fc4f32b8d55ed50f5f667ef3 \
+    tinyvec_macros              0.1.1                     1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20 \
+    tokio                       1.52.2                    110a78583f19d5cdb2c5ccf321d1290344e71313c6c37d43520d386027d18386 \
+    tokio-macros                2.7.0                     385a6cb71ab9ab790c5fe8d67f1645e6c450a7ce006a33de03daa956cf70a496 \
+    tokio-rustls                0.26.4                    1729aa945f29d91ba541258c8df89027d5792d85a8841fb65e8bf0f4ede4ef61 \
+    tower                       0.5.3                     ebe5ef63511595f1344e2d5cfa636d973292adc0eec1f0ad45fae9f0851ab1d4 \
+    tower-http                  0.6.10                    68d6fdd9f81c2819c9a8b0e0cd91660e7746a8e6ea2ba7c6b2b057985f6bcb51 \
+    tower-layer                 0.3.3                     121c2a6cda46980bb0fcd1647ffaf6cd3fc79a013de288782836f6df9c48780e \
+    tower-service               0.3.3                     8df9b6e13f2d32c91b9bd719c00d1958837bc7dec474d94952798cc8e69eeec3 \
+    tracing                     0.1.44                    63e71662fa4b2a2c3a26f570f037eb95bb1f85397f3cd8076caed2f026a6d100 \
+    tracing-core                0.1.36                    db97caf9d906fbde555dd62fa95ddba9eecfd14cb388e4f491a66d74cd5fb79a \
+    try-lock                    0.2.5                     e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b \
+    unicode-id-start            1.4.0                     81b79ad29b5e19de4260020f8919b443b2ef0277d242ce532ec7b7a2cc8b6007 \
+    unicode-ident               1.0.24                    e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75 \
+    unicode-linebreak           0.1.5                     3b09c83c3c29d37506a3e260c08c03743a6bb66a9cd432c6934ab501a190571f \
+    unicode-segmentation        1.13.2                    9629274872b2bfaf8d66f5f15725007f635594914870f65218920345aa11aa8c \
+    unicode-width               0.2.2                     b4ac048d71ede7ee76d585517add45da530660ef4390e49b098733c6e897f254 \
+    unicode-xid                 0.2.6                     ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853 \
+    untrusted                   0.9.0                     8ecb6da28b8a351d773b68d5825ac39017e680750f980f3a1a85cd8dd28a47c1 \
+    url                         2.5.8                     ff67a8a4397373c3ef660812acab3268222035010ab8680ec4215f38ba3d0eed \
+    utf8_iter                   1.0.4                     b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be \
+    utf8parse                   0.2.2                     06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821 \
+    vsimd                       0.8.0                     5c3082ca00d5a5ef149bb8b555a72ae84c9c59f7250f013ac822ac2e49b19c64 \
+    wait-timeout                0.2.1                     09ac3b126d3914f9849036f826e054cbabdc8519970b8998ddaf3b5bd3c65f11 \
+    want                        0.3.1                     bfa7760aed19e106de2c7c0b581b509f2f25d3dacaf737cb82ac61bc6d760b0e \
+    wasi                        0.11.1+wasi-snapshot-preview1  ccf3ec651a847eb01de73ccad15eb7d99f80485de043efb2f370cd654f4ea44b \
+    wasip2                      1.0.3+wasi-0.2.9          20064672db26d7cdc89c7798c48a0fdfac8213434a1186e5ef29fd560ae223d6 \
+    wasip3                      0.4.0+wasi-0.3.0-rc-2026-01-06  5428f8bf88ea5ddc08faddef2ac4a67e390b88186c703ce6dbd955e1c145aca5 \
+    wasm-bindgen                0.2.120                   df52b6d9b87e0c74c9edfa1eb2d9bf85e5d63515474513aa50fa181b3c4f5db1 \
+    wasm-bindgen-futures        0.4.70                    af934872acec734c2d80e6617bbb5ff4f12b052dd8e6332b0817bce889516084 \
+    wasm-bindgen-macro          0.2.120                   78b1041f495fb322e64aca85f5756b2172e35cd459376e67f2a6c9dffcedb103 \
+    wasm-bindgen-macro-support  0.2.120                   9dcd0ff20416988a18ac686d4d4d0f6aae9ebf08a389ff5d29012b05af2a1b41 \
+    wasm-bindgen-shared         0.2.120                   49757b3c82ebf16c57d69365a142940b384176c24df52a087fb748e2085359ea \
+    wasm-encoder                0.244.0                   990065f2fe63003fe337b932cfb5e3b80e0b4d0f5ff650e6985b1048f62c8319 \
+    wasm-metadata               0.244.0                   bb0e353e6a2fbdc176932bbaab493762eb1255a7900fe0fea1a2f96c296cc909 \
+    wasmparser                  0.244.0                   47b807c72e1bac69382b3a6fb3dbe8ea4c0ed87ff5629b8685ae6b9a611028fe \
+    web-sys                     0.3.97                    2eadbac71025cd7b0834f20d1fe8472e8495821b4e9801eb0a60bd1f19827602 \
+    web-time                    1.1.0                     5a6580f308b1fad9207618087a65c04e7a10bc77e02c8e84e9b00dd4b12fa0bb \
+    webpki-roots                1.0.7                     52f5ee44c96cf55f1b349600768e3ece3a8f26010c05265ab73f945bb1a2eb9d \
+    windows-link                0.2.1                     f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5 \
+    windows-sys                 0.52.0                    282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d \
+    windows-sys                 0.60.2                    f2f500e4d28234f72040990ec9d39e3a6b950f9f22d3dba18416c35882612bcb \
+    windows-sys                 0.61.2                    ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc \
+    windows-targets             0.52.6                    9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973 \
+    windows-targets             0.53.5                    4945f9f551b88e0d65f3db0bc25c33b8acea4d9e41163edf90dcd0b19f9069f3 \
+    windows_aarch64_gnullvm     0.52.6                    32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3 \
+    windows_aarch64_gnullvm     0.53.1                    a9d8416fa8b42f5c947f8482c43e7d89e73a173cead56d044f6a56104a6d1b53 \
+    windows_aarch64_msvc        0.52.6                    09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469 \
+    windows_aarch64_msvc        0.53.1                    b9d782e804c2f632e395708e99a94275910eb9100b2114651e04744e9b125006 \
+    windows_i686_gnu            0.52.6                    8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b \
+    windows_i686_gnu            0.53.1                    960e6da069d81e09becb0ca57a65220ddff016ff2d6af6a223cf372a506593a3 \
+    windows_i686_gnullvm        0.52.6                    0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66 \
+    windows_i686_gnullvm        0.53.1                    fa7359d10048f68ab8b09fa71c3daccfb0e9b559aed648a8f95469c27057180c \
+    windows_i686_msvc           0.52.6                    240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66 \
+    windows_i686_msvc           0.53.1                    1e7ac75179f18232fe9c285163565a57ef8d3c89254a30685b57d83a38d326c2 \
+    windows_x86_64_gnu          0.52.6                    147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78 \
+    windows_x86_64_gnu          0.53.1                    9c3842cdd74a865a8066ab39c8a7a473c0778a3f29370b5fd6b4b9aa7df4a499 \
+    windows_x86_64_gnullvm      0.52.6                    24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d \
+    windows_x86_64_gnullvm      0.53.1                    0ffa179e2d07eee8ad8f57493436566c7cc30ac536a3379fdf008f47f6bb7ae1 \
+    windows_x86_64_msvc         0.52.6                    589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec \
+    windows_x86_64_msvc         0.53.1                    d6bbff5f0aada427a1e5a6da5f1f98158182f26556f345ac9e04d36d0ebed650 \
+    wit-bindgen                 0.51.0                    d7249219f66ced02969388cf2bb044a09756a083d0fab1e566056b04d9fbcaa5 \
+    wit-bindgen                 0.57.1                    1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e \
+    wit-bindgen-core            0.51.0                    ea61de684c3ea68cb082b7a88508a8b27fcc8b797d738bfc99a82facf1d752dc \
+    wit-bindgen-rust            0.51.0                    b7c566e0f4b284dd6561c786d9cb0142da491f46a9fbed79ea69cdad5db17f21 \
+    wit-bindgen-rust-macro      0.51.0                    0c0f9bfd77e6a48eccf51359e3ae77140a7f50b1e2ebfe62422d8afdaffab17a \
+    wit-component               0.244.0                   9d66ea20e9553b30172b5e831994e35fbde2d165325bec84fc43dbf6f4eb9cb2 \
+    wit-parser                  0.244.0                   ecc8ac4bc1dc3381b7f59c34f00b67e18f910c2c0f50015669dde7def656a736 \
+    writeable                   0.6.3                     1ffae5123b2d3fc086436f8834ae3ab053a283cfac8fe0a0b8eaae044768a4c4 \
+    yoke                        0.8.2                     abe8c5fda708d9ca3df187cae8bfb9ceda00dd96231bed36e445a1a48e66f9ca \
+    yoke-derive                 0.8.2                     de844c262c8848816172cef550288e7dc6c7b7814b4ee56b3e1553f275f1858e \
+    zerofrom                    0.1.7                     69faa1f2a1ea75661980b013019ed6687ed0e83d069bc1114e2cc74c6c04c4df \
+    zerofrom-derive             0.1.7                     11532158c46691caf0f2593ea8358fed6bbf68a0315e80aae9bd41fbade684a1 \
+    zeroize                     1.8.2                     b97154e67e32c85465826e8bcc1c59429aaaf107c1e4a9e53c8d8ccd5eff88d0 \
+    zerotrie                    0.2.4                     0f9152d31db0792fa83f70fb2f83148effb5c1f5b8c7686c3459e361d9bc20bf \
+    zerovec                     0.11.6                    90f911cbc359ab6af17377d242225f4d75119aec87ea711a880987b18cd7b239 \
+    zerovec-derive              0.11.3                    625dc425cab0dca6dc3c3319506e6593dcb08a9f387ea3b284dbd52a92c40555 \
+    zmij                        1.0.21                    b8848ee67ecc8aedbaf3e4122217aff892639231befc6a1b58d29fff4c2cabaa
