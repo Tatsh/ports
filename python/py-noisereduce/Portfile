@@ -1,0 +1,43 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-noisereduce
+version             3.0.3
+revision            0
+license             MIT
+supported_archs     noarch
+platforms           {darwin any}
+categories          python audio
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Noise reduction in time-domain signals using spectral gating.
+long_description    noisereduce reduces noise in speech, bioacoustic and physiological signals by \
+                    computing a spectrogram and a noise threshold for each frequency band, and \
+                    gating the bands below it.
+homepage            https://github.com/timsainb/noisereduce
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  1ee83f2d9109901420c7f6140a91cd27dac316de \
+                    sha256  ff64a28fb92e3c81f153cf29550e5c2db56b2523afa8f56f5e03c177cc5e918f \
+                    size    20968
+
+python.versions     312 313 314
+
+if {${name} ne ${subport}} {
+    depends_run-append \
+                    port:py${python.version}-joblib \
+                    port:py${python.version}-matplotlib \
+                    port:py${python.version}-numpy \
+                    port:py${python.version}-scipy \
+                    port:py${python.version}-tqdm
+
+    # The source distribution has no tests; check that the module loads and runs.
+    test.run        yes
+    test {
+        system -W ${workpath} "${python.bin} -I -c 'import numpy, noisereduce;\
+            print(noisereduce.reduce_noise(y=numpy.random.default_rng(0).normal(size=8000), sr=8000).shape)'"
+    }
+}
