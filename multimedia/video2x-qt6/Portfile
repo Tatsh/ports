@@ -1,0 +1,79 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        k4yt3x video2x-qt6 6.4.0
+github.tarball_from archive
+revision            0
+categories          multimedia graphics aqua
+license             AGPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Qt 6 graphical interface for Video2X.
+long_description    Video2X Qt6 queues videos, GIFs and images for upscaling with Real-ESRGAN, \
+                    Real-CUGAN or Anime4K and frame interpolation with RIFE, through libvideo2x \
+                    from the video2x port.
+supported_archs     x86_64 arm64
+
+checksums           rmd160  9e35e41bff6ab362a075c4ec7783b8d1d68bd7dd \
+                    sha256  6d89f9b23273939172abab89b914713048654734f53cd3f8a52ac9ee00999b23 \
+                    size    243241
+
+depends_build-append \
+                    path:bin/pkg-config:pkgconfig \
+                    port:vulkan-headers
+depends_lib-append  port:ffmpeg7 \
+                    port:libfmt12 \
+                    port:spdlog \
+                    port:video2x \
+                    port:vulkan-loader
+depends_run-append  port:MoltenVK
+qt6.depends_lib-append qtsvg
+qt6.depends_build-append qttools
+
+# Store the settings in ~/Library/Application Support/video2x-qt6 rather than ~/.config, make the
+# shutdown and sleep actions use macOS tools rather than systemd over D-Bus, list MoltenVK (a
+# portability driver) among the Vulkan devices, and give the app bundle its icon and name.
+# patch-ffmpeg-link.diff: link FFmpeg by full path (pkg-config's LINK_LIBRARIES); it is not in the
+# default library search path here.
+patchfiles          patch-macos.diff \
+                    patch-ffmpeg-link.diff
+
+post-patch {
+    # The app icon, from the PNG icons.
+    set iconset ${workpath}/video2x.iconset
+    file mkdir ${iconset}
+    foreach s {16 32 128 256 512} {
+        set d [expr {${s} * 2}]
+        copy ${worksrcpath}/resources/icons/${s}x${s}/video2x.png ${iconset}/icon_${s}x${s}.png
+        copy ${worksrcpath}/resources/icons/${d}x${d}/video2x.png ${iconset}/icon_${s}x${s}@2x.png
+    }
+    system "/usr/bin/iconutil -c icns -o ${worksrcpath}/resources/icons/video2x.icns ${iconset}"
+    # FFmpeg 7 before ${prefix}/include, which has the headers of the default (newer) ffmpeg port.
+    set fd [open ${workpath}/include-first.cmake w]
+    puts ${fd} "include_directories(BEFORE SYSTEM ${ffmpeg_prefix}/include)"
+    close ${fd}
+}
+
+# libvideo2x is built against FFmpeg 7, whose headers this must use too.
+set ffmpeg_prefix   ${prefix}/libexec/ffmpeg7
+configure.pkg_config_path-prepend ${ffmpeg_prefix}/lib/pkgconfig
+configure.cppflags-delete -I${prefix}/include
+
+compiler.cxx_standard 2020
+
+configure.args-append \
+                    -DCMAKE_PROJECT_INCLUDE=${workpath}/include-first.cmake \
+                    -DUSE_EXTERNAL_SPDLOG=ON \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -DUSE_EXTERNAL_VIDEO2X=ON \
+                    -DVIDEO2X_QT6_VERSION=${version}
+
+destroot {
+    copy ${build.dir}/video2x-qt6.app ${destroot}${applications_dir}/Video2X.app
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE \
+        ${destroot}${prefix}/share/doc/${name}/
+}

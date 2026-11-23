@@ -1,0 +1,115 @@
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -64,7 +64,7 @@ list(APPEND VIDEO2X_QT6_LIBS Qt6::Core Qt6::Widgets Qt6::Svg Qt6::Network)
+ # Power management dependencies
+ if(WIN32)
+     list(APPEND VIDEO2X_QT6_LIBS PowrProf.lib)
+-else()
++elseif(NOT APPLE)
+     list(APPEND VIDEO2X_QT6_LIBS Qt6::DBus)
+ endif()
+ 
+@@ -210,6 +210,19 @@ endif()
+ 
+ target_link_libraries(video2x-qt6 PRIVATE ${VIDEO2X_QT6_LIBS})
+ 
++if(APPLE)
++    set(VIDEO2X_QT6_ICNS ${CMAKE_SOURCE_DIR}/resources/icons/video2x.icns)
++    set_source_files_properties(${VIDEO2X_QT6_ICNS} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
++    target_sources(video2x-qt6 PRIVATE ${VIDEO2X_QT6_ICNS})
++    set_target_properties(video2x-qt6 PROPERTIES
++        MACOSX_BUNDLE_BUNDLE_NAME Video2X
++        MACOSX_BUNDLE_GUI_IDENTIFIER org.k4yt3x.video2x-qt6
++        MACOSX_BUNDLE_ICON_FILE video2x.icns
++        MACOSX_BUNDLE_SHORT_VERSION_STRING ${VIDEO2X_QT6_VERSION}
++        MACOSX_BUNDLE_BUNDLE_VERSION ${VIDEO2X_QT6_VERSION}
++    )
++endif()
++
+ include(GNUInstallDirs)
+ 
+ install(TARGETS video2x-qt6
+--- src/taskconfigdialog.cpp
++++ src/taskconfigdialog.cpp
+@@ -279,6 +279,13 @@ void TaskConfigDialog::populateVulkanDevices()
+     VkInstance instance;
+     VkInstanceCreateInfo create_info{};
+     create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
++#ifdef __APPLE__
++    // MoltenVK is a portability driver, which the loader hides unless asked for.
++    static const char *const extensions[] = {VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME};
++    create_info.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
++    create_info.enabledExtensionCount = 1;
++    create_info.ppEnabledExtensionNames = extensions;
++#endif
+     if (vkCreateInstance(&create_info, nullptr, &instance) != VK_SUCCESS) {
+         video2x::logger()->error("Failed to create Vulkan instance.");
+         return;
+--- src/utils.cpp
++++ src/utils.cpp
+@@ -9,6 +9,9 @@
+ #include <Windows.h>
+ #include <powrprof.h>
+ // #pragma comment(lib, "PowrProf.lib")
++#elif defined(__APPLE__)
++#include <QProcess>
++#include <QStandardPaths>
+ #else
+ #include <QDBusInterface>
+ #include <QDBusReply>
+@@ -76,6 +79,12 @@ void systemShutdown()
+     } else {
+         video2x::logger()->info("System shutdown initiated successfully.");
+     }
++#elif defined(__APPLE__)
++    if (!QProcess::startDetached("/usr/bin/osascript", {"-e", "tell application \"System Events\" to shut down"})) {
++        video2x::logger()->error("Failed to initiate shutdown.");
++    } else {
++        video2x::logger()->info("System shutdown initiated successfully.");
++    }
+ #else
+     QDBusInterface interface("org.freedesktop.login1",
+                              "/org/freedesktop/login1",
+@@ -108,6 +117,12 @@ void systemSleep()
+     } else {
+         video2x::logger()->info("System sleep initiated successfully.");
+     }
++#elif defined(__APPLE__)
++    if (!QProcess::startDetached("/usr/bin/pmset", {"sleepnow"})) {
++        video2x::logger()->error("Failed to initiate sleep.");
++    } else {
++        video2x::logger()->info("System sleep initiated successfully.");
++    }
+ #else
+     QDBusInterface interface("org.freedesktop.login1",
+                              "/org/freedesktop/login1",
+@@ -139,6 +154,13 @@ void systemHibernate()
+     } else {
+         video2x::logger()->info("System hibernation initiated successfully.");
+     }
++#elif defined(__APPLE__)
++    // macOS hibernates on sleep according to its hibernatemode setting.
++    if (!QProcess::startDetached("/usr/bin/pmset", {"sleepnow"})) {
++        video2x::logger()->error("Failed to initiate hibernate.");
++    } else {
++        video2x::logger()->info("System hibernate initiated successfully.");
++    }
+ #else
+     QDBusInterface interface("org.freedesktop.login1",
+                              "/org/freedesktop/login1",
+@@ -172,6 +194,15 @@ std::optional<std::filesystem::path> getConfigDir()
+         video2x::logger()->warn("Failed to retrieve LOCALAPPDATA environment variable.");
+         return std::nullopt;
+     }
++#elif defined(__APPLE__)
++    // ~/Library/Application Support/video2x-qt6
++    const QString appSupport = QStandardPaths::writableLocation(
++        QStandardPaths::GenericDataLocation);
++    if (appSupport.isEmpty()) {
++        video2x::logger()->warn("Failed to retrieve the Application Support directory.");
++        return std::nullopt;
++    }
++    return std::filesystem::path(appSupport.toStdString()) / "video2x-qt6";
+ #else
+     const char *xdgConfigHome = std::getenv("XDG_CONFIG_HOME");
+     if (xdgConfigHome) {

@@ -1,0 +1,11 @@
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -90,7 +90,7 @@ else()
+     foreach(PKG ${REQUIRED_PKGS})
+         pkg_check_modules(${PKG} REQUIRED ${PKG})
+         list(APPEND VIDEO2X_QT6_INCLUDE_DIRS ${${PKG}_INCLUDE_DIRS})
+-        list(APPEND VIDEO2X_QT6_LIBS ${${PKG}_LIBRARIES})
++        list(APPEND VIDEO2X_QT6_LIBS ${${PKG}_LINK_LIBRARIES})
+     endforeach()
+ endif()
+ 
