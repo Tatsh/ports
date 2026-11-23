@@ -28,6 +28,7 @@ alessio
 alexedwards
 aliftype
 alitto
+aliyun
 aloader
 alsa
 altserver
@@ -45,6 +46,7 @@ antlr
 antoniovazquezblanco
 anyio
 anyio's
+anythingllm
 apcupsd
 apfs
 apidir
@@ -63,8 +65,10 @@ arboard
 archflags
 archs
 argcomplete
+argminmax
 argparse
 arieleg
+arith
 armmac
 arrayref
 arrayvec
@@ -87,6 +91,7 @@ astrelsky
 asyncer
 asyncio
 atexit
+atoi
 atomiswave
 atrac
 atspi
@@ -106,12 +111,15 @@ avformat
 avutil
 awscli
 awslabs
+axum
 azahar
 azblob
 azcore
+azdls
 azidentity
 babelfish
 backgroundremover
+backon
 bascom
 baserom
 bbolt
@@ -122,6 +130,7 @@ beartype
 beautifulsoup
 beautysh
 becheran
+bedrockruntime
 behavior
 benbjohnson
 beorn
@@ -130,6 +139,7 @@ bfcodec
 bforest
 bidi
 bidict
+bigdecimal
 bigfft
 binarycookies
 binaryornot
@@ -142,6 +152,7 @@ bioacoustic
 biojppm
 bitfield
 bitflags
+bitpacking
 bitrock
 bitvec
 blacktop
@@ -300,6 +311,7 @@ creds
 crosire
 crossflash
 crossplatformbuild
+crossterm
 cryoglyph
 cryptopp
 cstdint
@@ -330,9 +342,12 @@ dannav
 danwakefield
 dargparse
 dary
+dashmap
 dasp
 dataclass
 dataclasses
+datafusion
+datagen
 datetimes
 dateutil
 davecgh
@@ -373,6 +388,7 @@ decomp
 decompollaborate
 decross
 deen
+deepsize
 defmt
 defusedxml
 degrain
@@ -561,8 +577,11 @@ esbuild
 esrgan
 estree
 etagere
+ethnum
 etld
 etree
+eventsource
+eventstream
 exceptiongroup
 exelban
 exmc
@@ -605,6 +624,7 @@ filt
 findall
 fium
 fixbaserom
+fixedbitset
 fixups
 flacted
 flagset
@@ -649,6 +669,7 @@ fsevent
 fsnotify
 fsrcnn
 fsrcnnx
+fsst
 fsutil
 fsutils
 ftdetect
@@ -676,6 +697,7 @@ gdiextract
 gdtbuilder
 gdwarf
 gearboy
+gearhash
 gearsystem
 gekkio
 gemdir
@@ -791,6 +813,7 @@ hasura
 havsfunc
 hcli
 headerpad
+heapify
 heapless
 hephaest
 herbygillot
@@ -821,9 +844,11 @@ httpsig
 httpx
 huggingface
 humanify
+humantime
 hustcc
 hwview
 hyperframe
+hyperloglogplus
 ibtool
 iconset
 iconutil
@@ -841,6 +866,7 @@ imdario
 imgref
 imgui
 implot
+impls
 imsc
 inal
 inconshreveable
@@ -883,6 +909,7 @@ isysroot
 isystem
 itertools
 itoa
+itoap
 itunesnp
 jackc
 jakcron
@@ -902,6 +929,7 @@ jenv
 jessevdk
 jetpytools
 jhdev
+jieba
 jinja
 jinzhu
 jktcp
@@ -919,6 +947,7 @@ jsonref
 jsonreference
 jsonschema
 jsonutils
+jsonwebtoken
 jstyleson
 jthread
 jtool
@@ -929,11 +958,13 @@ kaitai
 kalmanfilt
 kamadak
 kamina
+kanaria
 kcrawford
 kdab
 kddockwidgets
 kdebug
 kdev
+keccak
 keepdirs
 kelf
 kelftool
@@ -967,6 +998,7 @@ kylelemons
 kyty
 kytyps
 ladislav
+lancedb
 lappend
 lassign
 launchable
@@ -1016,6 +1048,7 @@ libfuzzer
 libgcc
 libgcc's
 libgfxd
+libgif
 libgomp
 libguicommon
 libiberty
@@ -1023,6 +1056,7 @@ libiconv
 libjpeg
 libjsonnet
 libkeywindowpatch
+liblancedb
 liblego
 liblinkernsbypass
 libloading
@@ -1042,6 +1076,8 @@ libname
 libncnn
 libogg
 libomp
+libonig
+libonnxruntime
 libopenmpt
 libopus
 libpcap
@@ -1055,6 +1091,7 @@ libpulse
 libquadmath
 libquassel
 libquasselc
+libquery
 librashader
 librealcugan
 librealcugannv
@@ -1092,6 +1129,7 @@ libusb
 libuv
 libvaqua
 libvideo
+libvips
 libvorbis
 libvs
 libvsw
@@ -1112,6 +1150,8 @@ liconv
 lide
 lightningcss
 lightrec
+linalg
+lindera
 lindex
 linebender
 linecast
@@ -1189,6 +1229,7 @@ marmelroy
 martinus
 marzer
 masp
+matchit
 math
 mathutil
 matishsiao
@@ -1201,6 +1242,7 @@ mbedcrypto
 mbedtls
 mcuadros
 mdns
+mdpdf
 mdstool
 mdutils
 mechacon
@@ -1237,6 +1279,7 @@ minitel
 miniupnpc
 miniz
 minizip
+mintplex
 mipsdisasm
 mipsel
 miscfilters
@@ -1258,6 +1301,7 @@ mockoidc
 modeldir
 modeline
 modernc
+moka
 moltenvk
 monostate
 mooncat
@@ -1286,6 +1330,7 @@ muldiv
 multierr
 multilib
 multimap
+multiversion
 munnerz
 mupen
 musepack
@@ -1407,6 +1452,7 @@ ollama
 omnilib
 omnisharp
 onedev
+oneshot
 onig
 onnx
 onnxruntime
@@ -1414,6 +1460,7 @@ oorandom
 opack
 openal
 opencore
+opendal
 openlara
 openmaintainer
 openmpt
@@ -1464,6 +1511,7 @@ peniko
 perfare
 perfstat
 peterbourgon
+petgraph
 petscii
 pexpect
 pflag
@@ -1681,6 +1729,7 @@ recompiler
 recompilers
 recoverjumptable
 rectpack
+redb
 redorav
 redumper
 reent
@@ -1702,6 +1751,7 @@ renderbag
 renderdoc
 reneeotten
 repr
+reqsign
 requesty
 reqwest
 rerunfailures
@@ -1754,11 +1804,13 @@ rustflags
 rusticata
 rustix
 rustls
+rustonig
 rustversion
 rustybuzz
 ruzstd
 ryml
 safeint
+safetensors
 sagikazarmark
 samber
 sammycage
@@ -1771,6 +1823,7 @@ schamschula
 schannel
 schappim
 schellingb
+schemars
 schollz
 scikit
 scipy
@@ -1809,6 +1862,7 @@ shadpkg
 shadps
 sharedir
 shellescape
+shellexpand
 shellingham
 shentsize
 shifta
@@ -1837,6 +1891,7 @@ siphasher
 sirit
 skeema
 skia
+skiplist
 skrifa
 skrooge
 skypjack
@@ -1849,6 +1904,7 @@ slongfield
 slotmap
 smallstep
 smallvec
+smartstring
 smawk
 smithay
 smlab
@@ -1888,12 +1944,14 @@ spvr
 spvt
 sqlalchemy
 sqlfluff
+sqlparser
 srcgen
 srmd
 srmdnv
 srtp
 ssim
 ssimulacra
+ssooidc
 sstream
 stachenov
 starlette
@@ -1902,12 +1960,15 @@ startswith
 startupitem
 startupitems
 stashapp
+statrs
 stdc
 stdcxx
 stdlib
 stdump
+stemmers
 stepmania
 stfs
+stfu
 stormlib
 stretchr
 strfmt
@@ -1947,6 +2008,7 @@ syst
 sysutils
 sysv
 taglib
+tagptr
 takedown
 targetdeps
 tatsh
@@ -2052,6 +2114,7 @@ upconv
 upscalers
 urandom
 ureq
+uring
 uritemplate
 urlencoding
 urllib
@@ -2128,6 +2191,7 @@ warnflags
 washi
 wasi
 wasip
+wasite
 wasmparser
 wasmtime
 wasmtimer
@@ -2220,9 +2284,11 @@ xkeysym
 xlib
 xlinker
 xlrd
+xmlparser
 xmltodict
 xmlwriter
 xnvk
+xoshiro
 xplo
 xpreprocessor
 xpsnr
@@ -2284,6 +2350,7 @@ zlibwrapper
 zmij
 znedi
 znver
+zoneinfo
 zopfli
 zortos
 zsign
