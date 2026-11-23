@@ -85,7 +85,10 @@ pre-build {
             if {[file tail ${f}] eq "binding.gyp" && [file isfile ${f}]} {
                 set dir [file dirname ${f}]
                 ui_info "--->  Building the native addon in [string range ${dir} [string length ${worksrcpath}/] end]"
-                system -W ${dir} "${prefix}/bin/node ${gyp} rebuild --nodedir=${workpath}/node-v[option nodejs.headers_version] --python=${prefix}/bin/python3.13"
+                # The headers' config.gypi is not from a clang build, so common.gypi leaves the
+                # C++ standard at the compiler default (gnu++98 for Apple clang); give Node's own
+                # (an addon that asks for a newer one still gets it, as its flag comes later).
+                system -W ${dir} "env CXXFLAGS=-std=gnu++17 ${prefix}/bin/node ${gyp} rebuild --nodedir=${workpath}/node-v[option nodejs.headers_version] --python=${prefix}/bin/python3.13"
             }
         }
     }
