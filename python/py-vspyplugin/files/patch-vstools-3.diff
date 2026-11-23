@@ -1,0 +1,83 @@
+--- vspyplugin/abstracts.py
++++ vspyplugin/abstracts.py
+@@ -5,7 +5,10 @@
+ from typing import TYPE_CHECKING, Any, Callable, Generic, Literal, Mapping, TypeAlias, Union, cast, overload
+ 
+ import vapoursynth as vs
+-from vstools import F_VD, SupportsIndexing, PassthroughC
++from vstools import SupportsIndexing, PassthroughC
++from typing import TypeVar
++
++F_VD = TypeVar('F_VD', bound=Callable[..., vs.VideoNode])
+ 
+ from .types import DT_T, FD_T
+ 
+--- vspyplugin/base.py
++++ vspyplugin/base.py
+@@ -6,7 +6,8 @@
+ from typing import TYPE_CHECKING, Any, Callable, Generic, Type, cast, overload, ClassVar
+ 
+ import vapoursynth as vs
+-from vstools import CustomIndexError, CustomTypeError, CustomValueError, InvalidSubsamplingError, copy_signature
++from vstools import CustomIndexError, CustomTypeError, CustomValueError, copy_signature
++from vstools import UnsupportedSubsamplingError as InvalidSubsamplingError
+ 
+ from .abstracts import PyPluginBackendBase
+ from .backends import PyBackend
+--- vspyplugin/coroutines/coros.py
++++ vspyplugin/coroutines/coros.py
+@@ -7,7 +7,11 @@
+ from typing import Any, Callable, Generator, Generic
+ 
+ import vapoursynth as vs
+-from vstools import T0, CustomTypeError, CustomValueError, T
++from vstools import CustomTypeError, CustomValueError
++from typing import TypeVar
++
++T = TypeVar('T')
++T0 = TypeVar('T0')
+ 
+ from .types import AnyCoroutine, FrameRequest
+ 
+--- vspyplugin/coroutines/funcs.py
++++ vspyplugin/coroutines/funcs.py
+@@ -7,7 +7,10 @@
+ from typing import Iterable
+ 
+ import vapoursynth as vs
+-from vstools import T0, T
++from typing import TypeVar
++
++T = TypeVar('T')
++T0 = TypeVar('T0')
+ 
+ from .coros import GatherRequests, SingleFrameRequest
+ from .types import AnyCoroutine
+--- vspyplugin/coroutines/types.py
++++ vspyplugin/coroutines/types.py
+@@ -7,7 +7,11 @@
+ from typing import Any, Callable, Coroutine
+ 
+ import vapoursynth as vs
+-from vstools import T0, CustomNotImplementedError, T
++from vstools import CustomNotImplementedError
++from typing import TypeVar
++
++T = TypeVar('T')
++T0 = TypeVar('T0')
+ 
+ 
+ __all__ = [
+--- vspyplugin/utils.py
++++ vspyplugin/utils.py
+@@ -1,7 +1,9 @@
+ from __future__ import annotations
+ 
+ import vapoursynth as vs
+-from vstools import CustomRuntimeError, HoldsVideoFormatT, get_video_format
++from vstools import CustomRuntimeError, HoldsVideoFormat, VideoFormatLike, get_video_format
++
++HoldsVideoFormatT = HoldsVideoFormat | VideoFormatLike
+ 
+ __all__ = [
+     'get_c_dtype_short',
