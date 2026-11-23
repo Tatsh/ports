@@ -32,7 +32,6 @@ checksums           Fanny-2.3.0.tar.gz \
                     size    15864
 
 patchfiles         patch-signing.diff
-patch.pre_args     -p2
 
 xcode.target        ${name}
 xcode.scheme        ${name}
