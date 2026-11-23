@@ -1,0 +1,21 @@
+--- apprise/cli.py
++++ apprise/cli.py
+@@ -210,6 +210,18 @@
+     PersistentStoreMode.FLUSH,
+     PersistentStoreMode.MEMORY,
+ )
++
++# On macOS, Application Support and Caches in ~/Library instead of ~/.config and ~/.local/share.
++if platform.system() == "Darwin":
++    DEFAULT_CONFIG_PATHS = tuple(
++        p.replace("~/.config/", "~/Library/Application Support/")
++        for p in DEFAULT_CONFIG_PATHS
++    )
++    DEFAULT_PLUGIN_PATHS = tuple(
++        p.replace("~/.config/", "~/Library/Application Support/")
++        for p in DEFAULT_PLUGIN_PATHS
++    )
++    DEFAULT_STORAGE_PATH = "~/Library/Caches/apprise"
+ 
+ # Detect Windows
+ if platform.system() == "Windows":
