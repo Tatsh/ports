@@ -1,0 +1,19 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                react-native-decompiler
+version             0.2.4
+revision            0
+
+license             MIT AGPL-3+ Apache-2 BSD ISC
+description         Decompile React Native bundles.
+long_description    {*}${description}
+homepage            https://github.com/numandev1/react-native-decompiler
+
+checksums           rmd160  37cd490b9950124c315329d92d3d41cb1ee21b6c \
+                    sha256  65afaf54630098c6d881bbd3d5dee00eabf7788f9a249367bf85eacc99a90be5 \
+                    size    6262460
+
+nodejs.bins         {react-native-decompiler node_modules/react-native-decompiler/out/main.js}
