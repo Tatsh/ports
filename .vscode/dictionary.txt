@@ -231,6 +231,7 @@ chrono
 chumsky
 circl
 citra
+citraroom
 cksum
 clahe
 claration
@@ -340,6 +341,7 @@ dbeaver
 dboost
 dbuild
 dbundle
+dbus
 dcall
 dccache
 dccleste
@@ -416,6 +418,7 @@ disle
 displaydoc
 distfile
 distfiles
+distinfo
 distname
 distpath
 distr
@@ -462,6 +465,7 @@ doptimize
 dosx
 dotenv
 dpatches
+dphysics
 dplutosvg
 dpng
 dproject
@@ -567,6 +571,7 @@ ezpwd
 faad
 facetime
 fakecrc
+famicom
 fastapi
 fastcgi
 fastdmg
@@ -1044,6 +1049,7 @@ libpulse
 libquadmath
 libquassel
 libquasselc
+librashader
 librealcugan
 librealcugannv
 librealsrnv
@@ -1056,6 +1062,7 @@ librosa
 librsvg
 librw
 libsamplerate
+libscriptlua
 libsdl
 libshared
 libslirp
@@ -1074,6 +1081,7 @@ libtorch
 libudev
 libultraship
 libultraship's
+libunicorn
 libusb
 libuv
 libvaqua
@@ -1136,6 +1144,7 @@ lugaresi
 luma
 lunasvg
 lunchy
+lunicorn
 lvandeve
 lwip
 lxml
@@ -1455,6 +1464,7 @@ phasher
 phhusson
 philhofer
 picofe
+pilrc
 pipx
 pixbuf
 pjbgf
@@ -1518,6 +1528,7 @@ pthreads
 puae
 pugixml
 pulldown
+pumpkinos
 purego
 puremagic
 pushd
@@ -1561,6 +1572,7 @@ pypng
 pyppeteer
 pyppeteerstealth
 pyproject
+pyqt
 pyrate
 pyrdfa
 pyrescene
@@ -1573,6 +1585,7 @@ pytorch's
 pytun
 pytype
 pyvboxmanage
+pyver
 pyxbld
 pyximport
 qcng
@@ -1583,13 +1596,34 @@ qscan
 qscand
 qtbase
 qtcharts
+qtconnectivity
 qtdbus
 qtdeclarative
+qtdoc
+qtgraphs
+qthttpserver
+qtimageformats
 qtkeychain
+qtlanguageserver
+qtlocation
+qtlottie
 qtmultimedia
+qtpositioning
+qtquick
+qtquickeffectmaker
+qtquicktimeline
+qtremoteobjects
+qtscxml
+qtsensors
+qtserialbus
 qtserialport
+qtshadertools
+qtspeech
 qtsvg
 qttools
+qttranslations
+qtvirtualkeyboard
+qtwebchannel
 qtwebsockets
 qtwidgets
 quassel
@@ -1652,6 +1686,7 @@ removegrain
 remyoudompheng
 renderbag
 renderdoc
+reneeotten
 repr
 requesty
 reqwest
@@ -2023,10 +2058,12 @@ vdex
 vello
 vendored
 venv
+vercmp
 vergen
 verifyer
 versioningit
 vgmtrans
+vhsdecode
 vimfiles
 vimrc
 vinniefalco
