@@ -8,7 +8,7 @@ PortGroup           qt6 1.0
 github.setup        speed47 qpxtool 0.8.1-pl8 v
 github.tarball_from archive
 version             0.8.1.8
-revision            0
+revision            1
 categories          sysutils
 license             GPL-2
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -43,3 +43,17 @@ destroot.destdir    DESTDIR=${destroot}
 app.name            QPxTool
 app.executable      qpxtool
 app.icon            gui/qpxtool.png
+
+# qscand shares the drives with qscan and QPxTool on other machines. It needs root for direct
+# access to the drives, and listens on 127.0.0.1 only (it has no authentication).
+startupitem.create  yes
+startupitem.name    qscand
+startupitem.logfile ${prefix}/var/log/qscand.log
+startupitem.executable \
+                    ${prefix}/bin/qscand -n -i 127.0.0.1 -p 46660
+
+notes "
+To share the drives over the network with qscand, load its service:
+  sudo port load ${name}
+It listens on 127.0.0.1:46660 only; it has no authentication.
+"
