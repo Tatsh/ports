@@ -7,8 +7,8 @@ a literal "cheat_file" in the working directory instead. Both callers pass
 the program, so the installed one was never read and an empty "cheat_file" was
 created wherever the program happened to be started from.
 
---- a/Source/Interface/Cheats.cpp
-+++ b/Source/Interface/Cheats.cpp
+--- Source/Interface/Cheats.cpp
++++ Source/Interface/Cheats.cpp
 @@ -33,9 +33,11 @@
  
  #include "Ultra/ultra_R4300.h"

@@ -10,10 +10,10 @@ the caller believes the shader loaded.
 That is exactly the case worth getting right, because it is the one taken when
 n64.psh cannot be found.
 
-diff --git a/Source/SysGL/HLEGraphics/RendererGL.cpp b/Source/SysGL/HLEGraphics/RendererGL.cpp
+diff --git Source/SysGL/HLEGraphics/RendererGL.cpp Source/SysGL/HLEGraphics/RendererGL.cpp
 index 0806add..b76c7ff 100644
---- a/Source/SysGL/HLEGraphics/RendererGL.cpp
-+++ b/Source/SysGL/HLEGraphics/RendererGL.cpp
+--- Source/SysGL/HLEGraphics/RendererGL.cpp
++++ Source/SysGL/HLEGraphics/RendererGL.cpp
 @@ -111,6 +111,9 @@ bool loadShader(const std::filesystem::path& shader_path)
  
  	return true;

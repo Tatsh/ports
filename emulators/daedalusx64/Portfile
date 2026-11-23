@@ -9,7 +9,7 @@ github.setup        DaedalusX64 daedalus 4f5c6fb045358044b64173fac619db5496cc232
 github.tarball_from archive
 name                daedalusx64
 version             20261010
-revision            1
+revision            2
 categories          emulators games
 platforms           darwin linux freebsd
 license             GPL-2+
@@ -29,8 +29,9 @@ depends_lib-append  port:glew \
                     port:libsdl2_ttf \
                     port:zlib
 
-# Install into the prefix with XDG data paths, and fix resource lookups and a few bugs there.
-patchfiles          patch-fhs-xdg.diff \
+# Install into the prefix with per-user data in Application Support, and fix resource lookups
+# and a few bugs there.
+patchfiles          patch-fhs.diff \
                     patch-shader-load-return.diff \
                     patch-language-path.diff \
                     patch-font-path.diff \
@@ -40,7 +41,6 @@ patchfiles          patch-fhs-xdg.diff \
                     patch-desktop-key-names.diff \
                     patch-pause-menu-key.diff \
                     patch-cheat-file-path.diff
-patch.pre_args-replace -p0 -p1
 
 # Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
 configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST
@@ -59,7 +59,7 @@ configure.args-append \
                     -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
 
 notes "
-Put ROMs in ~/.local/share/DaedalusX64/Roms. Saves and save states are written beside them.
+Put ROMs in ~/Library/Application Support/DaedalusX64/Roms. Saves and save states are written beside them.
 "
 
 # A Finder-launchable app bundle for the game, which runs the installed program.

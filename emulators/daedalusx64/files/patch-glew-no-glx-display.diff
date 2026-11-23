@@ -9,8 +9,8 @@ program aborted at startup with "System_Init failed" on any Wayland session.
 Neither branch said anything before giving up, which is what made this worth
 tracking down in the first place, so both now report themselves.
 
---- a/Source/SysGL/Graphics/GraphicsContextGL.cpp
-+++ b/Source/SysGL/Graphics/GraphicsContextGL.cpp
+--- Source/SysGL/Graphics/GraphicsContextGL.cpp
++++ Source/SysGL/Graphics/GraphicsContextGL.cpp
 @@ -126,9 +126,22 @@
  
  	SDL_GL_SetSwapInterval(1);

@@ -11,10 +11,10 @@ directory_iterator is also given an error_code, so a missing directory now
 leaves English selected rather than throwing filesystem_error out of
 Translate_Load(), which nothing catches and which aborts the program.
 
-diff --git a/Source/Utility/Translate.cpp b/Source/Utility/Translate.cpp
+diff --git Source/Utility/Translate.cpp Source/Utility/Translate.cpp
 index 9c2b65a..46ed8b5 100644
---- a/Source/Utility/Translate.cpp
-+++ b/Source/Utility/Translate.cpp
+--- Source/Utility/Translate.cpp
++++ Source/Utility/Translate.cpp
 @@ -1,302 +1,310 @@
 -/*
 -Copyright (C) 2012 Salvy6735

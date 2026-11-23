@@ -11,8 +11,8 @@ paragraphs by adding up those return values -- see the gNoRomsText loop in
 RomSelectorComponent -- so every paragraph after the first landed on the one
 before it. The manual line breaking path above already returns `y - top`.
 
---- a/Source/SysGL/Graphics/UIContextGL.cpp
-+++ b/Source/SysGL/Graphics/UIContextGL.cpp
+--- Source/SysGL/Graphics/UIContextGL.cpp
++++ Source/SysGL/Graphics/UIContextGL.cpp
 @@ -357,13 +357,19 @@
  	{
  		y += font_height;

@@ -14,8 +14,8 @@ missing ROM directory throws std::filesystem::filesystem_error, which nothing
 catches, so a first run aborted; it now gets the error_code overload and an
 empty list, the same way the language directory already does.
 
---- a/Source/UI/SplashScreen.cpp
-+++ b/Source/UI/SplashScreen.cpp
+--- Source/UI/SplashScreen.cpp
++++ Source/UI/SplashScreen.cpp
 @@ -32,6 +32,7 @@
  #include <cmath>
  
@@ -48,8 +48,8 @@ empty list, the same way the language directory already does.
  	mpContext->RenderTexture( mpTexture, (SCREEN_WIDTH - mpTexture->GetWidth()) / 2, (SCREEN_HEIGHT - mpTexture->GetHeight()) / 2, colour);
  
  #if DAEDALUS_PSP
---- a/Source/UI/AboutComponent.cpp
-+++ b/Source/UI/AboutComponent.cpp
+--- Source/UI/AboutComponent.cpp
++++ Source/UI/AboutComponent.cpp
 @@ -31,7 +31,8 @@
  
  #include "Base/Macros.h"
@@ -69,8 +69,8 @@ empty list, the same way the language directory already does.
  {}
  
  
---- a/Source/UI/RomSelectorComponent.cpp
-+++ b/Source/UI/RomSelectorComponent.cpp
+--- Source/UI/RomSelectorComponent.cpp
++++ Source/UI/RomSelectorComponent.cpp
 @@ -34,7 +34,8 @@
  #include "Graphics/ColourValue.h"
  #include "Graphics/NativeTexture.h"
@@ -120,8 +120,8 @@ empty list, the same way the language directory already does.
  
  				const std::filesystem::path previewPath = mRomsList[mCurrentSelection]->mSettings.Preview;
  				const std::filesystem::path preview_filename = gPreviewDirectory / previewPath;
---- a/Source/UI/GlobalSettingsComponent.cpp
-+++ b/Source/UI/GlobalSettingsComponent.cpp
+--- Source/UI/GlobalSettingsComponent.cpp
++++ Source/UI/GlobalSettingsComponent.cpp
 @@ -39,6 +39,7 @@
  #include "Utility/FramerateLimiter.h"
  #include "Interface/Preferences.h"

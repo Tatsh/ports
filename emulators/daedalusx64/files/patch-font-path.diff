@@ -9,8 +9,8 @@ The NULL check also ran after the font was first used: TTF_SetFontStyle() does
 not tolerate a NULL font, so a failed open segfaulted immediately after
 printing nothing, instead of reporting itself. Check first, then use.
 
---- a/Source/SysGL/Graphics/DrawTextSDL.cpp
-+++ b/Source/SysGL/Graphics/DrawTextSDL.cpp
+--- Source/SysGL/Graphics/DrawTextSDL.cpp
++++ Source/SysGL/Graphics/DrawTextSDL.cpp
 @@ -9,8 +9,11 @@
  #endif
  

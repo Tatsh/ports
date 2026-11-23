@@ -13,8 +13,8 @@ render loop, tearing down the renderer and the graphics context while they
 were still in use. Escape already quits through the SDL event handler, so
 drop it and let select do what the legend says.
 
---- a/Source/UI/RomSelectorComponent.cpp
-+++ b/Source/UI/RomSelectorComponent.cpp
+--- Source/UI/RomSelectorComponent.cpp
++++ Source/UI/RomSelectorComponent.cpp
 @@ -479,12 +479,26 @@
  {
  	static u32 count = 0;

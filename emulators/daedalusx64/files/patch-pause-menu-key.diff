@@ -11,8 +11,8 @@ controller, and have the frame loop consume that instead. The flag ignores key
 repeats, and is dropped again once the menu closes, because the pause screen
 pumps events of its own while it is up.
 
---- a/Source/Input/SDL/InputManagerSDL.cpp
-+++ b/Source/Input/SDL/InputManagerSDL.cpp
+--- Source/Input/SDL/InputManagerSDL.cpp
++++ Source/Input/SDL/InputManagerSDL.cpp
 @@ -269,6 +269,9 @@
  	return 0;
  }
@@ -39,8 +39,8 @@ pumps events of its own while it is up.
  			if (event.key.keysym.scancode == SDL_SCANCODE_F11)
  			{
  				if (toggle_fullscreen == false) {
---- a/Source/SysPosix/main.cpp
-+++ b/Source/SysPosix/main.cpp
+--- Source/SysPosix/main.cpp
++++ Source/SysPosix/main.cpp
 @@ -67,23 +67,17 @@
  	DumpDynarecStats(elapsed_time);
  #endif
