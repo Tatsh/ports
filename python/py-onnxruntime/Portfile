@@ -67,7 +67,7 @@ checksums           onnxruntime-1.29.0.tar.gz \
                     sha256  3ba78a833efca69e37fbfaa0c0c58a105810fcd85b3c222bda8136c614ba48c3 \
                     size    216657
 
-python.versions     313 314
+python.versions     313 314 315
 
 if {${name} ne ${subport}} {
     PortGroup       cmake 1.1
