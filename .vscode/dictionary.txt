@@ -139,6 +139,7 @@ bsearch
 bshoshany
 bsnes
 bsnes's
+bstr
 buildfromsource
 buildmakejobs
 bumpalo
@@ -372,6 +373,7 @@ docstrfmt
 docstrings
 dotenv
 dpng
+dragonbox
 dreamcast
 dredumper
 drelcs
@@ -437,6 +439,7 @@ errno
 esac
 esaxx
 esbuild
+estree
 etld
 etree
 exceptiongroup
@@ -654,6 +657,7 @@ httpserver
 httpsig
 httpx
 huggingface
+humanify
 hustcc
 hwview
 hyperframe
@@ -721,6 +725,7 @@ jbin
 jdoe
 jedib
 jeepney
+jehna
 jenv
 jessevdk
 jhdev
@@ -975,6 +980,7 @@ michaeldfallen
 micromdm
 microprofile
 mido
+miette
 mileusna
 mimalloc
 minchoc
@@ -1086,6 +1092,7 @@ nofetch
 noinput
 nomaintainer
 nonewline
+nonmax
 nonzero
 nosystem
 noto
@@ -1113,6 +1120,7 @@ objroot
 objx
 occivink
 offscreen
+ollama
 omnilib
 omnisharp
 onedev
@@ -1136,6 +1144,7 @@ osascript
 osbgui
 oscrypt
 otool
+outref
 oxffaa
 packagefiles
 paho
@@ -1323,6 +1332,7 @@ removegrain
 remyoudompheng
 renderdoc
 repr
+requesty
 reqwest
 rerunfailures
 resampy
@@ -1441,6 +1451,7 @@ slongfield
 slotmap
 smallstep
 smallvec
+smawk
 smithay
 smlab
 smol
@@ -1534,12 +1545,14 @@ temoto
 termcolor
 termi
 terminfo
+termtree
 testbin
 testdata
 testfloat
 testrun
 texinfo
 textproc
+textwrap
 themida
 themida's
 theora
@@ -1608,6 +1621,7 @@ unicase
 unidecode
 unigram
 unlzexe
+unminify
 unmutate
 unshield
 unty
@@ -1639,6 +1653,7 @@ vinniefalco
 virtualjaguar
 virtualwebauthn
 vladikcomper
+vsimd
 vsutil
 vsxx
 vsznedi
