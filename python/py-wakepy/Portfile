@@ -21,7 +21,7 @@ checksums           rmd160  2c6d10c5324d4815a6171f4fa96929d078271701 \
                     sha256  a9425e8e77e89bccfe24a70f33ecd8596b474c75ddac79310cd54f2bc92210e3 \
                     size    323693
 
-python.versions         313 314
+python.versions         313 314 315
 python.pep517_backend   setuptools
 
 # Upstream pins exact build backend versions.
