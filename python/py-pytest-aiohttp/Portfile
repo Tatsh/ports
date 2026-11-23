@@ -21,7 +21,7 @@ checksums           rmd160  87bd04ea797abf884b28d30929297de99bb82f34 \
                     sha256  3aa9c9fe26e543eaccc7eb0add381c685ba3ed3e2fed0af74540f63bcd31458d \
                     size    13704
 
-python.versions         310 311 312 313 314
+python.versions         310 311 312 313 314 315
 python.pep517_backend   setuptools
 
 if {$subport ne $name} {
