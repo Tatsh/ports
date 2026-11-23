@@ -1,0 +1,261 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        Vita3K Vita3K f0a191cccaffec18a148a6431d52b42a883be11d
+github.tarball_from archive
+name                vita3k
+version             20261118
+revision            0
+categories          emulators games
+license             GPL-2+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Experimental PlayStation Vita emulator.
+long_description    Vita3K is an experimental PlayStation Vita emulator, with a Qt interface and a \
+                    Vulkan renderer (through MoltenVK on macOS).
+homepage            https://vita3k.org
+supported_archs     x86_64 arm64
+platforms           {darwin >= 22}
+
+checksums           Vita3K-f0a191cccaffec18a148a6431d52b42a883be11d.tar.gz \
+                    rmd160  c82c866641dc9fa98bc334de45645205868b94b1 \
+                    sha256  cc8663e659b9421b58b1cd8eb7f9992e58f59f18ad7318e84b9927c18deadff7 \
+                    size    5907702 \
+                    LibAtrac9-82767fe38823c32536726ea798f392b0b49e66b9.tar.gz \
+                    rmd160  601e2fdf3ec769dba715d7735ae8d28f976be00c \
+                    sha256  cc626f59e4b778f9684fc39afe9147ce1adf158c4fb7eeeb456ba1a14f597f23 \
+                    size    65075 \
+                    SPIRV-Cross-d8e3e2b141b8c8a167b2e3984736a6baacff316c.tar.gz \
+                    rmd160  de9b81d47e956add714ad9624ce32fd9f56bdb5e \
+                    sha256  18e4abb4ae97451c3d90bb23eb1c22859c8ef08bd5d8d3ec09e035846bbf6556 \
+                    size    1922502 \
+                    VulkanMemoryAllocator-Hpp-3843082eaa6a6f67e6780715fcd602fc81942c9c.tar.gz \
+                    rmd160  fd56a8a79efc87610a7864b4dc490dedeb6c977a \
+                    sha256  b7ea7e6a6a6d36bb873b41e812068a721c09bccd20b7140e007c0f53e79c8a6a \
+                    size    40925 \
+                    Vulkan-Headers-19725e4d48082fe78e26622b15d3080ccd54112b.tar.gz \
+                    rmd160  ccb5dda08db5a2fbd43b0ac898ea18dad802e993 \
+                    sha256  3ae8d4a2cc8f3a570f586f845184e0e681f9fa306eafeba6d23360f2ea97c39d \
+                    size    2766359 \
+                    VulkanMemoryAllocator-c788c52156f3ef7bc7ab769cb03c110a53ac8fcb.tar.gz \
+                    rmd160  30581a56c17a3768236e8e18844d900a67081433 \
+                    sha256  7dacd2f5010f6e9c6a860d2767518b524c433912fcd38f8ff5681e6f40596c7a \
+                    size    985122 \
+                    concurrentqueue-9afb99746f0f5fc94ac8aef737053ae0481ba8d1.tar.gz \
+                    rmd160  eb17667aa49f4e86b0b0b23ece9f62c9975e24fa \
+                    sha256  057632d9aa0c381a353436d3f0ff4a58dea7bfb066dc756c5c44f8171647debb \
+                    size    1566438 \
+                    dirent-31db6474b5231c180bd4618c8c90e43af50c86d0.tar.gz \
+                    rmd160  bbe688bf81cdd51d927d16457ee01d9846dc4e93 \
+                    sha256  c115a777edf93d97ce5276b29386408265fd3e8cb324985080551a5d35fcab89 \
+                    size    33551 \
+                    dlmalloc-e98f4ee160380d7c39dc1f04e7488bcf0770d391.tar.gz \
+                    rmd160  8f2b29e103ea184fc1073ce720820b6e0f9fed00 \
+                    sha256  ce07da2ef62a28d6fdd7211057e8794400ae1697b35981c6375c5bc2b8383b31 \
+                    size    62875 \
+                    dynarmic-86458a0bd369d63ba4c2ef812cacbb6c9080c065.tar.gz \
+                    rmd160  895c37763fbc8f8359e2d29bfac477bbf77e28d1 \
+                    sha256  660fe8b77f41599635253374b210133783a7c8f0e566b4053ac427bbdf5dd720 \
+                    size    3964614 \
+                    glslang-fc9889c889561c5882e83819dcaffef5ed45529b.tar.gz \
+                    rmd160  96f590b7b14ffd5151bb2e4c476193145cc32fdb \
+                    sha256  d73a9ac1cf94ef36163ee81ad53308abf3abdfe1e2aad4d51b364baa1e68d8a9 \
+                    size    4030379 \
+                    googletest-52eb8108c5bdec04579160ae17225d66034bd723.tar.gz \
+                    rmd160  41ad76a6888cfdb9c06642c2386f442d67e115b1 \
+                    sha256  745c55415660044610f7fcd3af7a6420d5de16a7dbb9ebfe2e131275676232be \
+                    size    886690 \
+                    libadrenotools-8fae8ce254dfc1344527e05301e43f37dea2df80.tar.gz \
+                    rmd160  cc32f33879863c2a0269d60804ea796177be38a2 \
+                    sha256  ceffce971676d4cfdf348a082df06fc92a1dca6d95bea892a480d63f200961cb \
+                    size    88816 \
+                    liblinkernsbypass-aa3975893d83ef1bc84c321ec60c65fbf1287887.tar.gz \
+                    rmd160  4087322c07a5ab8ce3cf7921ddf531ea0ea8ed54 \
+                    sha256  da1128c8aa771c4d24766b53a47822d0717baa5c536ca8491220402942b80638 \
+                    size    5656 \
+                    libfat16-d9a890b712dcdb46d3d33230997efc59f5ad8d62.tar.gz \
+                    rmd160  9857aa32a62f002113d9e2069a4d7e6848bb5ee9 \
+                    sha256  1c47e925adc685a4c42bbac5c11eba41dbcbbb94a63fe327dca786c42d929f8f \
+                    size    5573 \
+                    printf-f08e577d31a8270a14e64603ff6bfdca614ff4d3.tar.gz \
+                    rmd160  2655acee2f165bae3ab43889f9878d7052c61dcd \
+                    sha256  e05a28d6135842334db7d15bd46118c9afcc538d84f91b93deb1d9cedd86c2cb \
+                    size    5566 \
+                    psvpfstools-e9c5c7c4489a20ce2cb1a8b517caf00556594a12.tar.gz \
+                    rmd160  ea8c67deea8d18c5384d47ed06619e8c53772364 \
+                    sha256  790789762a9a84fc9fa642813655484c8eb60163bce32e24a836d9397c477159 \
+                    size    779 \
+                    libb64-3896b7a74c70baed0e2f6039a1dbd723e5d5cc8f.tar.gz \
+                    rmd160  500867f54dbc46eb1f04b9f4adc0a5205fc68880 \
+                    sha256  5e8610e320a21b9af183645cb2ab91a5f955c5cf510c410557509512b4d8237f \
+                    size    5092 \
+                    libzrif-7d1e69bee7d2f08ea5754eff4463c041aacd49af.tar.gz \
+                    rmd160  f026f8cb387d2b6f0437ad924e79592d70bec262 \
+                    sha256  9f39c88b97d57eb57c63dbac4f80ca12c000c7ea861e6407d1668dd0d3a0c6d8 \
+                    size    3167 \
+                    psvpfsparser-05d43a06a6189302d31091c65e4fc8707476eef3.tar.gz \
+                    rmd160  692369d033b8ea7c0ac54446f9e03395b048e78e \
+                    sha256  0378d4c51ac2440a368e8453504ed1f40c6127cccecb1b877c7f51000824e84d \
+                    size    56039 \
+                    zlib-cb210089eb06453199578993566012493f6f7d21.tar.gz \
+                    rmd160  a6abf65091a4cb927a8e3dc34d775d7f0d42de6f \
+                    sha256  80d38c9cef84804a39d686441edc8f937e9b1a9598b4ad778faf625847d39898 \
+                    size    865656 \
+                    substitute-319da6b563d8da689f3b9df2fbb839edd41a1943.tar.gz \
+                    rmd160  c64615ed7b7f0fefe31a52b6adfc71da52bbcb2e \
+                    sha256  e4adfab0aa724cb1cb910469f597b6d06e1dfed464a6222fc254b7bb4a8fb593 \
+                    size    34512 \
+                    vita-toolchain-43fc1e3c686a1fc035eca583fdfeaa5e6419a61a.tar.gz \
+                    rmd160  fe4093f3f7a6be7086d762ce9f07fa7d88e68583 \
+                    sha256  434d110fc2747600f2a84aa214267edfb962ed5b702a62f51f2743b5106e4bcc \
+                    size    1001958 \
+                    psp2rela-9e0f4913866431aef48967cfb7667b085e79428b.tar.gz \
+                    rmd160  c7b5835a21e7c337c7de7c724f6120a20d1f8639 \
+                    sha256  faad72aab309a1b8db189a94cfc8e1cb0180eb8126b8f79a0c02b4e997b29a85 \
+                    size    61513
+
+# Bundled submodules as path, owner/repo and commit, parents before their children. The rest
+# come from MacPorts.
+set submodules {
+    external/LibAtrac9                                      Vita3K/LibAtrac9                 82767fe38823c32536726ea798f392b0b49e66b9
+    external/SPIRV-Cross                                    KhronosGroup/SPIRV-Cross         d8e3e2b141b8c8a167b2e3984736a6baacff316c
+    external/VulkanMemoryAllocator-Hpp                      YaaZ/VulkanMemoryAllocator-Hpp   3843082eaa6a6f67e6780715fcd602fc81942c9c
+    external/VulkanMemoryAllocator-Hpp/Vulkan-Headers       KhronosGroup/Vulkan-Headers      19725e4d48082fe78e26622b15d3080ccd54112b
+    external/VulkanMemoryAllocator-Hpp/VulkanMemoryAllocator GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator c788c52156f3ef7bc7ab769cb03c110a53ac8fcb
+    external/concurrentqueue                                cameron314/concurrentqueue       9afb99746f0f5fc94ac8aef737053ae0481ba8d1
+    external/dirent                                         tronkko/dirent                   31db6474b5231c180bd4618c8c90e43af50c86d0
+    external/dlmalloc                                       Vita3K/dlmalloc                  e98f4ee160380d7c39dc1f04e7488bcf0770d391
+    external/dynarmic                                       Vita3K/dynarmic                  86458a0bd369d63ba4c2ef812cacbb6c9080c065
+    external/glslang                                        KhronosGroup/glslang             fc9889c889561c5882e83819dcaffef5ed45529b
+    external/googletest                                     google/googletest                52eb8108c5bdec04579160ae17225d66034bd723
+    external/libadrenotools                                 bylaws/libadrenotools            8fae8ce254dfc1344527e05301e43f37dea2df80
+    external/libadrenotools/lib/linkernsbypass              bylaws/liblinkernsbypass         aa3975893d83ef1bc84c321ec60c65fbf1287887
+    external/libfat16                                       Vita3K/libfat16                  d9a890b712dcdb46d3d33230997efc59f5ad8d62
+    external/printf                                         Vita3K/printf                    f08e577d31a8270a14e64603ff6bfdca614ff4d3
+    external/psvpfstools                                    Vita3K/psvpfstools               e9c5c7c4489a20ce2cb1a8b517caf00556594a12
+    external/psvpfstools/libb64                             imWatchful/libb64                3896b7a74c70baed0e2f6039a1dbd723e5d5cc8f
+    external/psvpfstools/libzrif                            imWatchful/libzrif               7d1e69bee7d2f08ea5754eff4463c041aacd49af
+    external/psvpfstools/psvpfsparser                       Vita3K/psvpfsparser              05d43a06a6189302d31091c65e4fc8707476eef3
+    external/psvpfstools/zlib                               imWatchful/zlib                  cb210089eb06453199578993566012493f6f7d21
+    external/substitute                                     Vita3K/substitute                319da6b563d8da689f3b9df2fbb839edd41a1943
+    external/vita-toolchain                                 vitasdk/vita-toolchain           43fc1e3c686a1fc035eca583fdfeaa5e6419a61a
+    external/vita-toolchain/psp2rela                        Princess-of-Sleeping/psp2rela    9e0f4913866431aef48967cfb7667b085e79428b
+}
+set i 0
+foreach {path repo rev} ${submodules} {
+    incr i
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+}
+
+depends_build-append \
+                    port:pkgconfig \
+                    port:qt67-qttools \
+                    port:stb
+depends_lib-append  port:boost188 \
+                    port:capstone \
+                    port:cubeb \
+                    path:lib/libcurl.dylib:curl \
+                    port:ffmpeg7 \
+                    port:libfmt12 \
+                    port:nativefiledialog-extended \
+                    path:lib/libssl.dylib:openssl \
+                    port:pugixml \
+                    port:qt67-qtbase \
+                    port:qt67-qtmultimedia \
+                    port:qt67-qtsvg \
+                    port:SDL3 \
+                    port:spdlog \
+                    port:vulkan-loader \
+                    port:xxhash \
+                    port:yaml-cpp \
+                    port:zlib
+depends_run-append  port:MoltenVK
+
+post-extract {
+    foreach {path repo rev} ${submodules} {
+        file delete -force ${worksrcpath}/${path}
+        # GitHub names the directory after the repository's own capitalisation.
+        set dir [glob -directory ${workpath} -nocomplain -types d "[file tail ${repo}]-${rev}"]
+        if {${dir} eq ""} {
+            set dir [lindex [glob -directory ${workpath} -types d "*-${rev}"] 0]
+        }
+        file rename ${dir} ${worksrcpath}/${path}
+    }
+}
+
+# From tatsh-overlay: install rules and options to build against system libraries.
+patchfiles          patch-0003-add-cmake-install-rules-for-.diff \
+                    patch-0004-skip-empty-boost-submodule-c.diff \
+                    patch-0005-add-use_system_ffmpeg-opt-in.diff \
+                    patch-0006-codec-use-public-ffmpeg-api-.diff \
+                    patch-0007-add-use_system_stb-opt-in-fo.diff \
+                    patch-0008-add-use_system_fmt-opt-in-fo.diff \
+                    patch-0009-add-use_system_sdl3-opt-in-f.diff \
+                    patch-0010-add-use_system_capstone-opt-.diff \
+                    patch-0011-add-use_system_tracy-opt-in-.diff \
+                    patch-0012-add-use_system_pugixml-opt-i.diff \
+                    patch-0013-add-use_system_yaml_cpp-opt-.diff \
+                    patch-0014-add-use_system_spdlog-opt-in.diff \
+                    patch-0015-add-use_system_xxhash-opt-in.diff \
+                    patch-0016-fall-back-to-xxhash.h-inline.diff \
+                    patch-0017-add-use_system_nfde-opt-in-f.diff \
+                    patch-0018-add-use_system_cubeb-opt-in-.diff \
+                    patch-0019-force-the-bundled-xbyak-syst.diff \
+                    patch-0020-build-ensure-ndebug-for-relw.diff
+# Capstone through pkg-config, the MacPorts MoltenVK instead of a downloaded one, no copying of
+# Qt and the libraries into the app, and Qt before 6.10 in the trophy filter.
+patchfiles-append   patch-macports.diff
+
+post-patch {
+    # The Qt 6.11 minimum only follows upstream's CI; Qt 6.7 has everything else that is used.
+    reinplace {s/set(VITA3K_QT_MIN_VER 6.11.0)/set(VITA3K_QT_MIN_VER 6.7.0)/} ${worksrcpath}/cmake/qt6.cmake
+    # Tracy is only used outside Release builds; skip its empty-submodule check.
+    reinplace {/path = external\/tracy$/d} ${worksrcpath}/.gitmodules
+    # The Vulkan loader and MoltenVK in MacPorts, which dlopen does not find by bare name.
+    reinplace "s|\"/usr/local/lib/libvulkan.dylib\"|\"${prefix}/lib/libvulkan.1.dylib\"|; s|dlopen( \"libMoltenVK.dylib\"|dlopen( \"${prefix}/lib/libMoltenVK.dylib\"|" \
+        ${worksrcpath}/external/VulkanMemoryAllocator-Hpp/Vulkan-Headers/include/vulkan/vulkan.hpp
+}
+
+# C++23 library features (std::ranges::contains, std::ranges::to, std::atomic_ref) need libc++ 19
+# headers; libc++'s availability markup keeps the code to what macOS 13's libc++ provides.
+compiler.whitelist  macports-clang-20
+
+cmake.build_type    Release
+# dynarmic finds ccache by itself.
+build.env-append    CCACHE_DISABLE=1
+cmake.generator     Ninja
+configure.pkg_config_path-append ${prefix}/libexec/ffmpeg7/lib/pkgconfig
+configure.args-append \
+                    -Wno-dev \
+                    "-DCMAKE_PREFIX_PATH=\"${prefix}/libexec/qt6\;${prefix}/libexec/boost/1.88\;${prefix}/libexec/ffmpeg7\;${prefix}\"" \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -DCCACHE_PROGRAM=CCACHE_PROGRAM-NOTFOUND \
+                    -DUSE_LTO=NEVER \
+                    -DBUILD_SHARED_LIBS=OFF \
+                    -DUSE_DISCORD_RICH_PRESENCE=OFF \
+                    -DUSE_VITA3K_UPDATE=OFF \
+                    -DVITA3K_FORCE_SYSTEM_BOOST=ON \
+                    -DVITA3K_SKIP_MACDEPLOYQT=ON \
+                    -DUSE_SYSTEM_CAPSTONE=ON \
+                    -DUSE_SYSTEM_CUBEB=ON \
+                    -DUSE_SYSTEM_FFMPEG=ON \
+                    -DUSE_SYSTEM_FMT=ON \
+                    -DUSE_SYSTEM_MOLTENVK=ON \
+                    -DUSE_SYSTEM_NFDE=ON \
+                    -DUSE_SYSTEM_PUGIXML=ON \
+                    -DUSE_SYSTEM_SDL3=ON \
+                    -DUSE_SYSTEM_SPDLOG=ON \
+                    -DUSE_SYSTEM_STB=ON \
+                    -DUSE_SYSTEM_XXHASH=ON \
+                    -DUSE_SYSTEM_YAML_CPP=ON
+
+destroot {
+    copy ${build.dir}/bin/Vita3K.app ${destroot}${applications_dir}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/COPYING.txt ${destroot}${prefix}/share/doc/${name}/
+}
+
+livecheck.type      none

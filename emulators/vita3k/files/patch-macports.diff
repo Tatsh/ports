@@ -1,0 +1,82 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index a8223cda..08f44296 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -186,9 +186,17 @@ if(USE_SYSTEM_SDL3)
+ 	endif()
+ endif()
+ 
++option(USE_SYSTEM_MOLTENVK "Use the system-installed MoltenVK instead of downloading it (macOS)" OFF)
+ option(USE_SYSTEM_CAPSTONE "Use the system-installed Capstone library instead of the bundled submodule" OFF)
+ if(USE_SYSTEM_CAPSTONE)
+-	find_package(capstone CONFIG REQUIRED)
++	find_package(capstone CONFIG)
++	if(NOT capstone_FOUND)
++		# Capstone built with autotools or make has only a pkg-config file.
++		find_package(PkgConfig REQUIRED)
++		pkg_check_modules(CAPSTONE REQUIRED IMPORTED_TARGET GLOBAL capstone)
++		add_library(capstone INTERFACE)
++		target_link_libraries(capstone INTERFACE PkgConfig::CAPSTONE)
++	endif()
+ 	if(TARGET capstone::capstone_shared)
+ 		set_target_properties(capstone::capstone_shared PROPERTIES IMPORTED_GLOBAL TRUE)
+ 	endif()
+diff --git external/CMakeLists.txt external/CMakeLists.txt
+index 000cf7b1..decf7d70 100644
+--- external/CMakeLists.txt
++++ external/CMakeLists.txt
+@@ -293,7 +293,12 @@ target_include_directories(CLI11 INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/cli11")
+ 
+ add_library(vulkan INTERFACE)
+ target_include_directories(vulkan INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/VulkanMemoryAllocator-Hpp/Vulkan-Headers/include")
+-if(APPLE)
++if(APPLE AND USE_SYSTEM_MOLTENVK)
++	# The MoltenVK headers from the system; the Vulkan loader finds the system MoltenVK at run time.
++	find_path(MOLTENVK_INCLUDE_DIR MoltenVK/mvk_vulkan.h REQUIRED)
++	target_include_directories(vulkan INTERFACE "${MOLTENVK_INCLUDE_DIR}")
++	set(MOLTENVK_DYLIB "" PARENT_SCOPE)
++elseif(APPLE)
+ 	if(NOT EXISTS "${CMAKE_BINARY_DIR}/external/MoltenVK-macos.tar")
+ 		message(STATUS "Downloading MoltenVK...")
+ 		file(DOWNLOAD https://github.com/KhronosGroup/MoltenVK/releases/download/v1.4.1/MoltenVK-macos.tar
+diff --git vita3k/CMakeLists.txt vita3k/CMakeLists.txt
+index 5c5110e1..697b4047 100644
+--- vita3k/CMakeLists.txt
++++ vita3k/CMakeLists.txt
+@@ -407,11 +407,14 @@ if(APPLE)
+ 	set(MACOSX_BUNDLE_BUNDLE_NAME "Vita3K")
+ 
+ 	message(STATUS "MoltenVK dylib path: ${MOLTENVK_DYLIB}")
+-	target_sources(vita3k PRIVATE ${MOLTENVK_DYLIB})
+-	set_source_files_properties(${MOLTENVK_DYLIB} PROPERTIES MACOSX_PACKAGE_LOCATION Frameworks)
++	if(MOLTENVK_DYLIB)
++		target_sources(vita3k PRIVATE ${MOLTENVK_DYLIB})
++		set_source_files_properties(${MOLTENVK_DYLIB} PROPERTIES MACOSX_PACKAGE_LOCATION Frameworks)
++	endif()
+ 
+ 	qt_finalize_target(vita3k)
+-	if(MACDEPLOYQT_EXECUTABLE)
++	# Packagers whose Qt and libraries are installed system wide do not want them copied in.
++	if(MACDEPLOYQT_EXECUTABLE AND NOT VITA3K_SKIP_MACDEPLOYQT)
+ 		add_custom_command(TARGET vita3k POST_BUILD
+ 			COMMAND "${MACDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE_DIR:vita3k>/../.." "$<$<CONFIG:Debug,RelWithDebInfo>:-no-strip>")
+ 	endif()
+diff --git vita3k/gui-qt/include/gui-qt/trophy_collection_dialog.h vita3k/gui-qt/include/gui-qt/trophy_collection_dialog.h
+index 6cad8d32..7a37651f 100644
+--- vita3k/gui-qt/include/gui-qt/trophy_collection_dialog.h
++++ vita3k/gui-qt/include/gui-qt/trophy_collection_dialog.h
+@@ -58,9 +58,14 @@ public:
+ 
+     // Sets one of the flags above and filters the rows again
+     void set_filter_flag(bool &flag, bool value) {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+         beginFilterChange();
+         flag = value;
+         endFilterChange(Direction::Rows);
++#else
++        flag = value;
++        invalidateRowsFilter();
++#endif
+     }
+ 
+ protected:

@@ -1,0 +1,16 @@
+Use system FFmpeg instead of downloading prebuilts.
+
+--- external/CMakeLists.txt
++++ external/CMakeLists.txt
+@@ -1 +1,10 @@
+-add_subdirectory(ffmpeg)
++option(USE_SYSTEM_FFMPEG "Link against the FFMPEG already installed on the system instead of downloading the Vita3K prebuilt." OFF)
++if(USE_SYSTEM_FFMPEG)
++	find_package(PkgConfig REQUIRED)
++	pkg_check_modules(VITA3K_SYS_FFMPEG REQUIRED IMPORTED_TARGET
++		libavformat libavcodec libavutil libswscale libswresample libavfilter)
++	add_library(ffmpeg INTERFACE)
++	target_link_libraries(ffmpeg INTERFACE PkgConfig::VITA3K_SYS_FFMPEG)
++else()
++	add_subdirectory(ffmpeg)
++endif()
