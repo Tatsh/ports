@@ -1,0 +1,12 @@
+--- src/snowflake/cli/_plugins/upgrade/layout.py
++++ src/snowflake/cli/_plugins/upgrade/layout.py
+@@ -75,6 +75,9 @@
+             return Path(local_appdata) / APP_DIRNAME
+         return Path.home() / "AppData" / "Local" / APP_DIRNAME
+ 
++    if platform.system() == "Darwin":
++        return Path.home() / "Library" / "Application Support" / APP_DIRNAME
++
+     xdg_data_home = os.environ.get("XDG_DATA_HOME")
+     if xdg_data_home:
+         return Path(xdg_data_home) / APP_DIRNAME
