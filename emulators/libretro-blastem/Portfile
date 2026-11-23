@@ -21,5 +21,4 @@ checksums           rmd160  e256dc175b667c6cd09db9cc22a6d5609add4459 \
 depends_lib-append  port:zlib
 
 patchfiles          patch-0001-makefile-.-c-h-honor-host_zl.diff
-patch.pre_args-replace -p0 -p1
 build.args-append   HOST_ZLIB=1

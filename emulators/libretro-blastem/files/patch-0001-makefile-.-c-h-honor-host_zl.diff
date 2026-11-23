@@ -28,10 +28,10 @@ Signed-off-by: Andrew Udvare <audvare@gmail.com>
  zip.c       | 2 +-
  4 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
+diff --git Makefile Makefile
 index 0dddc9f..dd4199f 100644
---- a/Makefile
-+++ b/Makefile
+--- Makefile
++++ Makefile
 @@ -111,7 +111,13 @@ CFLAGS+= -I$(SDL_INCLUDE_PATH)
  
  else
@@ -46,10 +46,10 @@ index 0dddc9f..dd4199f 100644
  else
  CFLAGS:=$(shell pkg-config --cflags-only-I $(LIBS)) $(CFLAGS)
  LDFLAGS:=-lm $(shell pkg-config --libs $(LIBS))
-diff --git a/event_log.h b/event_log.h
+diff --git event_log.h event_log.h
 index cd9ac28..45756f0 100644
---- a/event_log.h
-+++ b/event_log.h
+--- event_log.h
++++ event_log.h
 @@ -20,7 +20,7 @@ enum {
  };
  
@@ -59,10 +59,10 @@ index cd9ac28..45756f0 100644
  typedef struct {
  	size_t storage;
  	uint8_t *socket_buffer;
-diff --git a/png.c b/png.c
+diff --git png.c png.c
 index 3716f30..9a86920 100644
---- a/png.c
-+++ b/png.c
+--- png.c
++++ png.c
 @@ -2,7 +2,7 @@
  #include <stdlib.h>
  #include <stdio.h>
@@ -72,10 +72,10 @@ index 3716f30..9a86920 100644
  
  static const char png_magic[] = {0x89, 'P', 'N', 'G', '\r', '\n', 0x1A, '\n'};
  static const char ihdr[] = {'I', 'H', 'D', 'R'};
-diff --git a/zip.c b/zip.c
+diff --git zip.c zip.c
 index 4b990aa..81cd23a 100644
---- a/zip.c
-+++ b/zip.c
+--- zip.c
++++ zip.c
 @@ -5,7 +5,7 @@
  #include "util.h"
  #include "zip.h"
