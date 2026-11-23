@@ -1,0 +1,98 @@
+--- backgroundremover/u2net/detect.py
++++ backgroundremover/u2net/detect.py
+@@ -9,6 +9,17 @@
+ 
+ from . import data_loader, u2net
+ from .. import github
++
++# Models installed by MacPorts; downloads go to ~/Library/Application Support/backgroundremover.
++MODEL_DIR = "@PREFIX@/share/backgroundremover"
++USER_MODEL_DIR = os.path.expanduser("~/Library/Application Support/backgroundremover")
++
++
++def model_path(model_name):
++    installed = os.path.join(MODEL_DIR, model_name + ".pth")
++    if os.path.exists(installed):
++        return installed
++    return os.path.join(USER_MODEL_DIR, model_name + ".pth")
+ 
+ 
+ def load_model(model_name: str = "u2net"):
+@@ -33,7 +44,7 @@
+         net = u2net.U2NETP(3, 1)
+         path = os.environ.get(
+             "U2NETP_PATH",
+-            os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
++            model_path(model_name),
+         )
+         if (
+             not os.path.exists(path)
+@@ -47,7 +58,7 @@
+         net = u2net.U2NET(3, 1)
+         path = os.environ.get(
+             "U2NET_PATH",
+-            os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
++            model_path(model_name),
+         )
+         if (
+             not os.path.exists(path)
+@@ -61,7 +72,7 @@
+         net = u2net.U2NET(3, 1)
+         path = os.environ.get(
+             "U2NET_PATH",
+-            os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
++            model_path(model_name),
+         )
+         if (
+             not os.path.exists(path)
+--- backgroundremover/bg.py
++++ backgroundremover/bg.py
+@@ -107,7 +107,7 @@
+             net = u2net.U2NETP(3, 1)
+             path = os.environ.get(
+                 "U2NETP_PATH",
+-                os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
++                detect.model_path(model_name),
+             )
+             if (
+                 not os.path.exists(path)
+@@ -120,7 +120,7 @@
+             net = u2net.U2NET(3, 1)
+             path = os.environ.get(
+                 "U2NET_PATH",
+-                os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
++                detect.model_path(model_name),
+             )
+             if (
+                 not os.path.exists(path)
+@@ -134,7 +134,7 @@
+             net = u2net.U2NET(3, 1)
+             path = os.environ.get(
+                 "U2NET_PATH",
+-                os.path.expanduser(os.path.join("~", ".u2net", model_name + ".pth")),
++                detect.model_path(model_name),
+             )
+             if (
+                 not os.path.exists(path)
+--- backgroundremover/github.py
++++ backgroundremover/github.py
+@@ -35,7 +35,7 @@
+         urls = ['https://github.com/nadermx/backgroundremover/raw/main/models/u2netp.pth']
+ 
+     try:
+-        os.makedirs(os.path.expanduser("~/.u2net"), exist_ok=True)
++        os.makedirs(os.path.expanduser("~/Library/Application Support/backgroundremover"), exist_ok=True)
+     except Exception as e:
+         print(f"Error creating directory: {e}")
+         return False
+--- backgroundremover/cmd/server.py
++++ backgroundremover/cmd/server.py
+@@ -43,7 +43,7 @@
+     model = request.args.get("model", type=str, default="u2net")
+     model_path = os.environ.get(
+         "U2NETP_PATH",
+-        os.path.expanduser(os.path.join("~", ".u2net")),
++        "@PREFIX@/share/backgroundremover",
+     )
+     model_choices = [os.path.splitext(os.path.basename(x))[0] for x in set(glob.glob(model_path + "/*"))]
+     if len(model_choices) == 0:
