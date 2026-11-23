@@ -1,0 +1,69 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           app 1.0
+PortGroup           fetch_restrict 1.0
+PortGroup           github 1.0
+
+github.setup        snesrev smw 0.1 v
+github.tarball_from archive
+categories          games
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Reimplementation of Super Mario World.
+long_description    A reverse-engineered C reimplementation of Super Mario World for the SNES. \
+                    The game data is extracted from your own copy of the US ROM at build time.
+
+checksums           rmd160  d78e31f76921c2f62ca76bee7224a60e949942c3 \
+                    sha256  6e0e761dcd317c7b63dbeee058a929a6510f9b6b7614ac0b3f316af507a78e5d \
+                    size    888552
+
+fetch_restrict.files {smw.sfc sha1 6b47bb75d16514b6a476aa0c73a683a2a4c18765}
+fetch_restrict.instructions {
+    smw extracts its game data from an unmodified Super Mario World (USA) ROM.
+    Copy your ROM, named smw.sfc, into the directory below.
+}
+
+depends_build-append port:python313
+depends_lib-append  port:libsdl2
+
+# Keep the configuration in ~/.config/smw and saves in ~/.local/share/smw instead of the working
+# directory (from tatsh-overlay).
+patchfiles          patch-xdg-paths.diff
+patch.pre_args-replace -p0 -p1
+
+post-extract {
+    file copy [fetch_restrict::path smw.sfc] ${worksrcpath}/smw.sfc
+}
+
+use_configure       no
+
+# CFLAGS in the environment, as the Makefile appends the SDL flags and -I. to it.
+build.env-append    "CFLAGS=${configure.cflags} [get_canonical_archflags cc] -fno-strict-aliasing"
+build.args          CC=${configure.cc} \
+                    LDFLAGS="${configure.ldflags} [get_canonical_archflags ld]" \
+                    PYTHON=${prefix}/bin/python3.13
+
+destroot {
+    set share ${destroot}${prefix}/share/${name}
+    xinstall -d ${share}
+    xinstall -m 0755 ${worksrcpath}/smw ${share}/
+    xinstall -m 0644 ${worksrcpath}/smw_assets.dat ${worksrcpath}/smw.ini ${share}/
+    # The game reads its assets and default settings from the working directory.
+    set fd [open ${destroot}${prefix}/bin/smw w]
+    puts ${fd} "#!/bin/sh\ncd ${prefix}/share/${name} && exec ./smw \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/smw -permissions 0755
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE.txt ${destroot}${prefix}/share/doc/${name}/
+}
+
+app.name            Super Mario World
+app.executable      ${prefix}/bin/smw
+
+notes "
+Copy ${prefix}/share/${name}/smw.ini to ~/.config/smw/smw.ini to change the settings. Saves go to\
+ ~/.local/share/smw/saves.
+"
+
+livecheck.type      none
