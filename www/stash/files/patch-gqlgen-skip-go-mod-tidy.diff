@@ -4,8 +4,8 @@ Subject: [PATCH] gqlgen: skip go mod tidy
 go mod tidy resolves the full module graph, including test dependencies of
 dependencies, which is not available in the offline build environment.
 ---
---- a/gqlgen.yml
-+++ b/gqlgen.yml
+--- gqlgen.yml
++++ gqlgen.yml
 @@ -10,6 +10,10 @@
  
  struct_tag: gqlgen

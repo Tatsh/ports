@@ -3,8 +3,8 @@ Subject: [PATCH] makefile: do not fight the package manager
 
 Avoids needing LDFLAGS= and MAKEOPTS=-j1 overrides in the ebuild.
 ---
---- a/Makefile
-+++ b/Makefile
+--- Makefile
++++ Makefile
 @@ -18,8 +18,9 @@
    PREFIX := $(HOME)/.local
  endif

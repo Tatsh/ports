@@ -102,7 +102,6 @@ patchfiles          patch-makefile-remove-ui-steps.diff \
                     patch-makefile-do-not-fight-the-package-manager.diff \
                     patch-gqlgen-skip-go-mod-tidy.diff \
                     patch-go-bump-modules-for-go-1.27.diff
-patch.pre_args-replace -p0 -p1
 
 post-extract {
     set nm ${worksrcpath}/ui/v${ui_pv}/node_modules
@@ -142,12 +141,34 @@ destroot {
     xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
 }
 
+# A launchd service under its own user, listening on 127.0.0.1 only.
+set data_dir        ${prefix}/var/db/${name}
+set log_file        ${prefix}/var/log/${name}.log
+
+add_users           _stash group=_stash realname=Stash home=${data_dir}
+
+post-destroot {
+    xinstall -d -m 0750 -o _stash -g _stash ${destroot}${data_dir}
+}
+destroot.keepdirs   ${destroot}${data_dir}
+
+startupitem.create  yes
+startupitem.user    _stash
+startupitem.group   _stash
+startupitem.logfile ${log_file}
+startupitem.executable \
+                    /usr/bin/env HOME=${data_dir} ${prefix}/bin/${name} --nobrowser \
+                    --host 127.0.0.1 --port 9999 --config ${data_dir}/config.yml
+
 test.run            yes
 test {
     system -W ${worksrcpath} "env [join ${go_env}] ${prefix}/bin/go test ./..."
 }
 
 notes "
-Run stash to start the server, then open http://localhost:9999 to set it up. Its configuration\
- and database are kept in ~/.stash.
+Run stash yourself to start it for your own user, with its configuration and database in\
+ ~/.stash. Or load the service, which runs as the _stash user, keeps everything in ${data_dir}\
+ and listens on http://127.0.0.1:9999:
+  sudo port load ${name}
+The _stash user needs read access to the folders you add to your library.
 "
