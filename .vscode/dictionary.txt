@@ -22,6 +22,7 @@ alessio
 alexedwards
 aliftype
 alitto
+aloader
 alsa
 altserver
 amiri
@@ -47,7 +48,9 @@ appium
 appl
 appleframeworks
 applysig
+appname
 aprip
+arboard
 archflags
 archs
 argcomplete
@@ -64,6 +67,7 @@ asgi
 asgimiddlewarestaticfile
 asgiref
 asgiwebdav
+ashpd
 asio
 assetcatalog
 astc
@@ -79,6 +83,7 @@ authlib
 autocfg
 autograd
 autoreconf
+autotools
 avcodec
 avdevice
 avfilter
@@ -93,6 +98,7 @@ azidentity
 babelfish
 bascom
 bbolt
+bcder
 bdir
 beartype
 beautifulsoup
@@ -133,6 +139,7 @@ bradleyfalzon
 bradleyjkemp
 breakpad
 breml
+briaguya
 brofield
 brona
 browserchooser
@@ -151,6 +158,7 @@ bytecheck
 bytemuck
 byteorder
 byteshuf
+bytesize
 bytestruct
 byteswap
 cacheprovider
@@ -170,6 +178,7 @@ cdrecord
 cdrom
 cdrtools
 cdvd
+cdvdcontrol
 cemu
 certifi
 cespare
@@ -197,11 +206,13 @@ chumsky
 circl
 citra
 cksum
+claration
 cleanhttp
 clem
 clienthax
 cloudpickle
 clru
+cmac
 cmakerc
 cmark
 cmdpack
@@ -242,6 +253,7 @@ corlett's
 countme
 cowlib
 cpath
+cpio
 cppflags
 cpubits
 cpufeatures
@@ -253,6 +265,8 @@ createsuperuser
 createuser
 creds
 crosire
+crossflash
+cryoglyph
 cryptopp
 cstdint
 cstdlib
@@ -380,6 +394,7 @@ docstrings
 dopengl
 dotenv
 dpng
+dproject
 dragonbox
 dreamcast
 dredumper
@@ -424,13 +439,17 @@ dzstd
 ealayer
 ebitengine
 eclass
+ecolor
 eedi
+eframe
+egui
 ehthumbs
 eigen
 elementpath
 eleonore
 elif
 eloader
+emath
 emcrisostomo
 emirpasic
 emotionengine
@@ -443,11 +462,13 @@ enet
 engineio
 enumflags
 envrc
+epaint
 errno
 esac
 esaxx
 esbuild
 estree
+etagere
 etld
 etree
 exceptiongroup
@@ -488,6 +509,8 @@ filt
 findall
 fixups
 flacted
+flagset
+flashplayer
 flate
 flavored
 flto
@@ -512,6 +535,7 @@ fpermissive
 freeband
 freeglut
 freeintv
+freemkv
 freetype
 frida
 fromstring
@@ -582,10 +606,14 @@ gitpython
 giwty
 gjson
 glanceapp
+glankk
 glebarez
 glew
 glfw
 gliden
+glifo
+globset
+globwalk
 glog
 gloo
 glsl
@@ -629,7 +657,9 @@ gskit
 gstreamer
 guessit
 guidocella
+guillotiere
 guinpin
+gulrak
 hackerb
 hactool
 hardfp
@@ -675,6 +705,7 @@ ibtool
 iconset
 iconutil
 idapro
+idevice
 idna
 ifaddr
 ifndef
@@ -694,6 +725,7 @@ indoc
 inih
 iniparser
 inkscape
+inlinable
 inotify
 inout
 inscriptis
@@ -717,6 +749,7 @@ isdirectory
 isfile
 isledecomp
 isodate
+isolang
 isort
 isset
 isysroot
@@ -731,6 +764,7 @@ jasonliu
 javac
 javahelp
 javaproperties
+jbeder
 jbenet
 jbin
 jdoe
@@ -742,6 +776,7 @@ jessevdk
 jhdev
 jinja
 jinzhu
+jktcp
 jlhonora
 jlip
 joblib
@@ -763,6 +798,7 @@ juju
 julesverne
 justfile
 kaitai
+kamadak
 kamina
 kcrawford
 kdebug
@@ -770,17 +806,21 @@ kdev
 keepdirs
 kelf
 kelftool
+kenix
 kernelcaches
 kethsar
 kevinburke
 kevinpollet
 keycodemapdb
+keysources
 khronos
 killall
 kimg
 kinnay
+kirito
 klauspost
 knownhosts
+konst
 kotlinc
 koun
 kqueue
@@ -791,6 +831,7 @@ ktrysmt
 kurbo
 kwargs
 kylelemons
+ladislav
 lappend
 lassign
 launchable
@@ -800,11 +841,14 @@ ldflags
 ldlibs
 ldmakit
 lebe
+leethomason
 lexlib
 lfind
 lflags
 lgskit
 libada
+libadwaita
+libappindicator
 libatomic
 libavcodec
 libbotan
@@ -828,6 +872,7 @@ libexp
 libfat
 libfl
 libfmt
+libfreemkv
 libfuzzer
 libgcc
 libgcc's
@@ -890,6 +935,7 @@ libtoolchain
 libtorch
 libudev
 libultraship
+libultraship's
 libusb
 libuv
 libvaqua
@@ -900,6 +946,7 @@ libwebsockets
 libyaml
 libzip
 libzstd
+libzstdwapper
 lichii
 liconv
 lide
@@ -922,6 +969,7 @@ loaderwv
 loadspec
 lobjc
 locafero
+localsend
 lodepng
 logrusorgru
 loguru
@@ -949,6 +997,7 @@ lzkn
 lzma
 lzss
 macdeployqt
+mackron
 macports
 macprefs
 magiconair
@@ -981,6 +1030,7 @@ mdns
 mdstool
 mdutils
 mechacon
+mediatek
 mednafen
 melbahja
 memchr
@@ -1004,6 +1054,7 @@ mimalloc
 minchoc
 miniaudio
 minibae
+minicbor
 minimp
 minitel
 miniupnpc
@@ -1109,20 +1160,24 @@ noconflict
 nodedir
 nodeheaders
 nofetch
+nohash
 noinput
 nomaintainer
 nonewline
 nonmax
 nonzero
+normpath
 nosystem
 noto
 noverify
 nowarn
 npkg
+nskeyedarchiver
 nstool
 ntapi
 ntempest
 ntlmssp
+nuanceur
 nullptr
 numba
 numcpus
@@ -1139,6 +1194,7 @@ objdump
 objroot
 objx
 occivink
+ocornut
 offscreen
 ollama
 omnilib
@@ -1169,6 +1225,7 @@ outref
 oxffaa
 packagefiles
 paho
+pango
 panzi
 paramiko
 parrado
@@ -1190,6 +1247,7 @@ pcsx
 pefile
 pelletier
 pemfile
+peniko
 perfstat
 peterbourgon
 pexpect
@@ -1201,6 +1259,7 @@ phhusson
 philhofer
 picofe
 pipx
+pixbuf
 pjbgf
 pkgd
 pkgs
@@ -1209,6 +1268,8 @@ platformdirs
 plistlib
 pluggy
 plugindir
+plumeimpactor
+plumesign
 plutil
 pmap
 pmezard
@@ -1257,6 +1318,7 @@ purego
 puremagic
 pushd
 pxfm
+pxfw
 pyaes
 pyarrow
 pybind
@@ -1304,6 +1366,8 @@ pytorch's
 pytun
 pytype
 pyvboxmanage
+qpxtool
+qscan
 qtbase
 qtcharts
 qtmultimedia
@@ -1318,10 +1382,12 @@ rabbitizer
 ranav's
 rancor
 randn
+rangemap
 raphnet
 raphnetraw
 rapidfuzz
 rapidjson
+rasn
 ravif
 raviqqe
 rawpointer
@@ -1439,6 +1505,7 @@ sekrit
 sendgmail
 septag
 serde
+serdect
 seregonwar
 sergi
 serialport
@@ -1454,12 +1521,14 @@ shlex
 shurcoo
 shutup
 sideload
+sideloading
 sideloadly
 siedit
 simdutf
 simoninns
 simplecss
 simpleini
+simplelog
 sindresorhus
 siphasher
 sirit
@@ -1527,6 +1596,7 @@ stdlib
 stdump
 stepmania
 stfs
+stormlib
 stretchr
 strfmt
 strftime
@@ -1560,10 +1630,12 @@ synstructure
 sysconf
 sysinfo
 sysutils
+sysv
 taglib
 takedown
 targetdeps
 tatsh
+tauri
 tblib
 tdir
 teakra
@@ -1622,6 +1694,7 @@ torchaudio
 torchvision
 tqdm
 trimleft
+triomphe
 trollrestore
 trollstore
 trustme
@@ -1633,6 +1706,7 @@ twox
 typenum
 typer
 typeutils
+typewit
 tyrquake
 tzdata
 tzdb
@@ -1653,7 +1727,9 @@ unmutate
 unshield
 unty
 urandom
+ureq
 uritemplate
+urlencoding
 urllib
 usbkill
 usbmodem
@@ -1671,6 +1747,7 @@ varinteger
 vbam
 vcrtool
 vdex
+vello
 vendored
 venv
 vergen
@@ -1702,6 +1779,7 @@ wasi
 wasip
 wasmparser
 wasmtime
+wasmtimer
 watchfiles
 waylybaye
 wbfs
@@ -1732,6 +1810,8 @@ wingetty
 winio
 winit
 winresource
+winrt
+winsafe
 wiswa
 wkclt
 wkmpt
@@ -1792,11 +1872,13 @@ yabause
 yadpcm
 yamls
 yamlutils
+yansi
 yapf
 yapfignore
 yasm
 yasna
 yawk
+yaxpeax
 yazi
 ycmd
 yeslogic
@@ -1822,11 +1904,13 @@ zerokilo
 zerolog
 zerotrie
 zerovec
+zezula
 zhcn
 zhlynn
 zhtw
 zippath
 zizmor
+zlibwrapper
 zmij
 znedi
 zopfli
@@ -1834,8 +1918,10 @@ zortos
 zsign
 zstandard
 zstd
+zstd's
 zune
 zvariant
 zwave
 zwavejs
+zwrap
 zydis
