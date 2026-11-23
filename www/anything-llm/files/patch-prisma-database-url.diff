@@ -1,6 +1,7 @@
-diff --git prisma/schema.prisma prisma/schema.prisma
---- prisma/schema.prisma
-+++ prisma/schema.prisma
+diff --git server/prisma/schema.prisma server/prisma/schema.prisma
+index 65cfd6c..0fd7a59 100644
+--- server/prisma/schema.prisma
++++ server/prisma/schema.prisma
 @@ -12,7 +12,7 @@ generator client {
  // }
  datasource db {

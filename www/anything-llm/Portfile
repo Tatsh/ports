@@ -5,20 +5,31 @@ PortGroup           nodejs 1.0
 
 name                anything-llm
 version             1.20.0
-revision            0
+revision            1
 categories          www
 license             MIT 0BSD Apache-2 BSD ISC PSF Unlicense public-domain WTFPL-2
-description         Server of AnythingLLM, an application to chat with your documents using LLMs.
+description         Server and document collector of AnythingLLM, an application to chat with \
+                    your documents using LLMs.
 long_description    AnythingLLM turns documents and other content into context that a large \
                     language model (local or hosted) can use while chatting, with workspaces, \
                     agents, multiple users and an embedded LanceDB vector store. This installs \
-                    the server (its API on port 3001) as tatsh-overlay packages it, without the \
-                    web interface and the document collector.
+                    the server (its API on port 3001) as tatsh-overlay packages it and the \
+                    document collector (port 8888), which turns uploaded files and links into \
+                    documents, without the web interface.
 homepage            https://anythingllm.com
 
 # The node_modules tarball (a Linux yarn production install) holds only server/node_modules; the
 # server itself comes from the upstream tag.
 worksrcdir          ${name}-${version}/server
+# The collector's tarball holds collector/node_modules (`npm ci --omit=dev --ignore-scripts` on
+# macOS, without other-platform prebuilts), with the package.json and the package-lock.json (made
+# from upstream's yarn.lock) it was installed from.
+set collector_tarball \
+                    ${name}-collector-${version}-node_modules.tar.xz
+set collector       ${workpath}/${name}-${version}/collector
+set collector_dir   ${prefix}/lib/node_modules/${name}-collector
+# Only a devDependency of sharp 0.33, needed to build it.
+set addon_api_version 8.5.0
 
 set npm_arch        [expr {${configure.build_arch} eq "arm64" ? "arm64" : "x64"}]
 set prisma_platform [expr {${npm_arch} eq "arm64" ? "darwin-arm64" : "darwin"}]
@@ -29,11 +40,15 @@ set mdpdf_version   0.1.10
 set prisma_site     https://binaries.prisma.sh/all_commits/${prisma_hash}/${prisma_platform}/
 master_sites-append https://github.com/Mintplex-Labs/${name}/archive/v${version}/:upstream \
                     ${prisma_site}:prisma \
-                    https://registry.npmjs.org/@mintplex-labs/mdpdf-darwin-${npm_arch}/-/:mdpdf
+                    https://registry.npmjs.org/@mintplex-labs/mdpdf-darwin-${npm_arch}/-/:mdpdf \
+                    https://github.com/Tatsh/ports/releases/download/__distfiles__/:collector \
+                    https://registry.npmjs.org/node-addon-api/-/:addonapi
 distfiles-append    ${name}-${version}.tar.gz:upstream \
                     libquery_engine.dylib.node.gz:prisma \
                     schema-engine.gz:prisma \
-                    mdpdf-darwin-${npm_arch}-${mdpdf_version}.tgz:mdpdf
+                    mdpdf-darwin-${npm_arch}-${mdpdf_version}.tgz:mdpdf \
+                    ${collector_tarball}:collector \
+                    node-addon-api-${addon_api_version}.tgz:addonapi
 
 checksums           anything-llm-1.20.0-node_modules.tar.xz \
                     rmd160  88eeb216ffb426f4b8323fae55250df30b6e49d1 \
@@ -46,7 +61,15 @@ checksums           anything-llm-1.20.0-node_modules.tar.xz \
                     anything-llm-1.20.0.tar.gz \
                     rmd160  70e997efdf56a1e94a34efb4243a81fa5336047f \
                     sha256  38fa717cdefe5236fde016b10b606dbcec34df32af566601d3547a12cb4c1673 \
-                    size    10204043
+                    size    10204043 \
+                    ${collector_tarball} \
+                    rmd160  350ecfe5703473d3ef58f56862b1394b9051ccb2 \
+                    sha256  fecb241896ef30a23bb034879233658928eac8e46859f405ebbf8eadb1c0d4e4 \
+                    size    40315704 \
+                    node-addon-api-${addon_api_version}.tgz \
+                    rmd160  94077e93dc0b101cf8cca9e98cc015c004335a33 \
+                    sha256  d12f07c8162283b6213551855f1da8dac162331374629830b5e640f130f07910 \
+                    size    60410
 if {${npm_arch} eq "arm64"} {
     checksums-append \
                     libquery_engine.dylib.node.gz \
@@ -78,7 +101,8 @@ if {${npm_arch} eq "arm64"} {
 }
 
 # canvas and sharp are native addons, built against the MacPorts libraries (sharp uses the global
-# libvips when pkg-config finds it, so it downloads nothing).
+# libvips when pkg-config finds it, so it downloads nothing; the collector's two sharps are built
+# the same way instead of using the @img/sharp-* prebuilts).
 nodejs.native       yes
 
 depends_build-append \
@@ -97,10 +121,16 @@ depends_lib-append  path:lib/pkgconfig/cairo.pc:cairo \
 depends_run-append  port:ripgrep
 
 # Keep the SQLite database and the settings the server writes (.env) in STORAGE_DIR instead of
-# the installed tree, and let SERVER_HOST choose the listening address (for the service).
+# the installed tree. Let SERVER_HOST choose the server's listening address (for the service), and
+# make the collector listen on 127.0.0.1 (the server only talks to it there) unless COLLECTOR_HOST
+# is set. Uploads go to STORAGE_DIR/hotdir (upstream: STORAGE_DIR/../../collector/hotdir, its
+# Docker layout) and the collector's temporary files to STORAGE_DIR/tmp/collector, not into the
+# installed collector.
+patch.dir           ${workpath}/${name}-${version}
 patchfiles          patch-prisma-database-url.diff \
                     patch-dump-env-to-storage-dir.diff \
-                    patch-listen-host.diff
+                    patch-listen-host.diff \
+                    patch-hotdir-in-storage-dir.diff
 
 set nm              ${worksrcpath}/node_modules
 set engines         ${nm}/@prisma/engines
@@ -110,9 +140,35 @@ set prisma_env      [list HOME=${workpath}/home CHECKPOINT_DISABLE=1 PRISMA_HIDE
                              [list ${prisma_platform} dylib node] .] \
                          PRISMA_SCHEMA_ENGINE_BINARY=${engines}/schema-engine-${prisma_platform}]
 
+# Use the onnxruntime of MacPorts (newer, but it still serves the API version of 1.14) instead of
+# the libonnxruntime.1.14.0.dylib of onnxruntime-node, and drop its other platforms.
+proc anythingllm_onnxruntime {nm} {
+    global npm_arch prefix
+    set ort ${nm}/onnxruntime-node/bin/napi-v3
+    foreach dir [glob -type d ${ort}/*] {
+        if {[file tail ${dir}] ne "darwin"} {
+            delete ${dir}
+        }
+    }
+    foreach dir [glob -type d ${ort}/darwin/*] {
+        if {[file tail ${dir}] ne ${npm_arch}} {
+            delete ${dir}
+        }
+    }
+    delete {*}[glob ${ort}/darwin/${npm_arch}/libonnxruntime.*.dylib]
+    system "install_name_tool -change @rpath/libonnxruntime.1.14.0.dylib \
+        ${prefix}/lib/libonnxruntime.1.dylib ${ort}/darwin/${npm_arch}/onnxruntime_binding.node"
+    system "/usr/bin/codesign -f -s - ${ort}/darwin/${npm_arch}/onnxruntime_binding.node"
+}
+
 post-extract {
     system -W ${workpath} "/usr/bin/tar -xzf [shellescape ${distpath}/${name}-${version}.tar.gz] \
-        ${name}-${version}/server ${name}-${version}/LICENSE ${name}-${version}/README.md"
+        ${name}-${version}/server ${name}-${version}/collector ${name}-${version}/LICENSE \
+        ${name}-${version}/README.md"
+    system -W ${workpath} "/usr/bin/tar -xJf [shellescape ${distpath}/${collector_tarball}]"
+    file mkdir ${workpath}/addon-api/node-addon-api
+    system -W ${workpath}/addon-api/node-addon-api "/usr/bin/tar -xzf [shellescape \
+        ${distpath}/node-addon-api-${addon_api_version}.tgz] --strip-components 1"
 
     # The Prisma engines, where @prisma/engines and the prisma CLI look for them.
     system "/usr/bin/gzip -dc [shellescape ${distpath}/libquery_engine.dylib.node.gz] \
@@ -133,30 +189,33 @@ post-extract {
                    ${nm}/@mintplex-labs/mdpdf-linux-*] \
            {*}[glob -nocomplain -type d ${nm}/bare-*/prebuilds \
                    ${nm}/*/node_modules/bare-*/prebuilds]
-    set ort ${nm}/onnxruntime-node/bin/napi-v3
-    foreach dir [glob -type d ${ort}/*] {
-        if {[file tail ${dir}] ne "darwin"} {
-            delete ${dir}
+    anythingllm_onnxruntime ${nm}
+    anythingllm_onnxruntime ${collector}/node_modules
+}
+
+# The collector's addons (sharp 0.33 and the sharp 0.32 of @xenova/transformers), like the
+# PortGroup builds the server's.
+pre-build {
+    set gyp ${prefix}/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js
+    fs-traverse -depth f ${collector}/node_modules {
+        if {[file tail ${f}] eq "binding.gyp" && [file isfile ${f}]} {
+            system -W [file dirname ${f}] "env CXXFLAGS=-std=gnu++17 \
+                NODE_PATH=${workpath}/addon-api ${prefix}/bin/node ${gyp} rebuild \
+                --nodedir=${workpath}/node-v[option nodejs.headers_version] \
+                --python=${prefix}/bin/python3.13"
         }
     }
-    foreach dir [glob -type d ${ort}/darwin/*] {
-        if {[file tail ${dir}] ne ${npm_arch}} {
-            delete ${dir}
-        }
-    }
-    # Use the onnxruntime of MacPorts (newer, but it still serves the API version of 1.14) instead
-    # of the bundled libonnxruntime.1.14.0.dylib.
-    delete {*}[glob ${ort}/darwin/${npm_arch}/libonnxruntime.*.dylib]
-    system "install_name_tool -change @rpath/libonnxruntime.1.14.0.dylib \
-        ${prefix}/lib/libonnxruntime.1.dylib ${ort}/darwin/${npm_arch}/onnxruntime_binding.node"
-    system "/usr/bin/codesign -f -s - ${ort}/darwin/${npm_arch}/onnxruntime_binding.node"
 }
 
 post-build {
     # node-gyp does not stop the build when an addon fails.
-    foreach addon [list canvas/build/Release/canvas sharp/build/Release/sharp-darwin-${npm_arch}] {
-        if {![file exists ${nm}/${addon}.node]} {
-            return -code error "[lindex [split ${addon} /] 0]: the native addon was not built"
+    set cnm ${collector}/node_modules
+    set release Release/sharp-darwin-${npm_arch}
+    foreach addon [list ${nm}/canvas/build/Release/canvas ${nm}/sharp/build/${release} \
+                       ${cnm}/sharp/src/build/${release} \
+                       ${cnm}/@xenova/transformers/node_modules/sharp/build/${release}] {
+        if {![file exists ${addon}.node]} {
+            return -code error "${addon}.node: the native addon was not built"
         }
     }
     # Generate the Prisma client (node_modules/.prisma/client) offline.
@@ -171,9 +230,15 @@ set log_file        ${prefix}/var/log/${name}.log
 
 post-destroot {
     set dest ${destroot}[option nodejs.dir]
+    set cdest ${destroot}${collector_dir}
+    copy ${collector} ${cdest}
+    # Uploads and temporary files go to STORAGE_DIR (see patch-hotdir-in-storage-dir.diff).
+    delete ${cdest}/hotdir ${cdest}/storage ${cdest}/__tests__ ${cdest}/eslint.config.mjs \
+        ${cdest}/nodemon.json ${cdest}/.nvmrc ${cdest}/.gitignore ${cdest}/.env.example
     # Build leftovers.
-    foreach dir {canvas sharp} {
-        set build ${dest}/node_modules/${dir}/build
+    foreach build [list ${dest}/node_modules/canvas/build ${dest}/node_modules/sharp/build \
+                       ${cdest}/node_modules/sharp/src/build \
+                       ${cdest}/node_modules/@xenova/transformers/node_modules/sharp/build] {
         delete ${build}/Release/obj.target ${build}/Release/.deps ${build}/Makefile \
             ${build}/config.gypi ${build}/gyp-mac-tool {*}[glob -nocomplain ${build}/*.mk]
     }
@@ -189,6 +254,9 @@ post-destroot {
     xinstall -m 0755 ${filespath}/${name}.in ${destroot}${prefix}/bin/${name}
     reinplace -q "s|@APPDIR@|[option nodejs.dir]|g; s|@NODE@|${prefix}/bin/node|g; \
         s|@PRISMA_PLATFORM@|${prisma_platform}|g" ${destroot}${prefix}/bin/${name}
+    xinstall -m 0755 ${filespath}/${name}-collector.in ${destroot}${prefix}/bin/${name}-collector
+    reinplace -q "s|@APPDIR@|${collector_dir}|g; s|@NODE@|${prefix}/bin/node|g; \
+        s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/bin/${name}-collector
 
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/../README.md ${worksrcpath}/../LICENSE \
@@ -198,24 +266,32 @@ post-destroot {
 }
 destroot.keepdirs   ${destroot}${data_dir}
 
-# A launchd service under its own user, listening on 127.0.0.1 only.
+# Two launchd services (the server and the collector) under their own user, sharing the storage
+# folder and listening on 127.0.0.1 only.
 add_users           _anythingllm group=_anythingllm realname=AnythingLLM home=${data_dir}
 
+set service_env     [list /usr/bin/env HOME=${data_dir} STORAGE_DIR=${data_dir} COLLECTOR_PORT=8888]
 startupitem.create  yes
 startupitem.user    _anythingllm
 startupitem.group   _anythingllm
-startupitem.logfile ${log_file}
-startupitem.executable \
-                    /usr/bin/env HOME=${data_dir} STORAGE_DIR=${data_dir} \
-                    SERVER_HOST=127.0.0.1 SERVER_PORT=3001 ${prefix}/bin/${name}
+startupitems        name        ${name} \
+                    logfile     ${log_file} \
+                    executable  [concat ${service_env} SERVER_HOST=127.0.0.1 SERVER_PORT=3001 \
+                                     ${prefix}/bin/${name}] \
+                    name        ${name}-collector \
+                    logfile     ${prefix}/var/log/${name}-collector.log \
+                    executable  [concat ${service_env} ${prefix}/bin/${name}-collector]
 
 notes "
-Run anything-llm to start the server for your own user, with its data in\
- ~/Library/Application Support/AnythingLLM (set STORAGE_DIR to change it). Or load the service,\
- which runs as the _anythingllm user, keeps its data in ${data_dir} and listens on\
- http://127.0.0.1:3001:
+Run anything-llm and anything-llm-collector (the document collector, which the server needs to\
+ add files and links) to start them for your own user, with their data in\
+ ~/Library/Application Support/AnythingLLM (set STORAGE_DIR, the same for both, to change it).\
+ Or load the services, which run as the _anythingllm user, keep their data in ${data_dir} and\
+ listen on http://127.0.0.1:3001 and 127.0.0.1:8888:
   sudo port load ${name}
 The server's settings are kept in the .env file of the storage folder (see\
  ${prefix}/share/doc/${name}/.env.example). Telemetry is off unless DISABLE_TELEMETRY=false is set.\
- The web interface and the document collector are not included.
+ The collector scrapes links with a headless Chrome or Chromium if PUPPETEER_EXECUTABLE_PATH is\
+ set to its executable (otherwise it only fetches the page), and needs ffmpeg for audio and video.\
+ The web interface is not included.
 "

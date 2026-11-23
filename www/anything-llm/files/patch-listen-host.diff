@@ -1,6 +1,7 @@
-diff --git utils/boot/index.js utils/boot/index.js
---- utils/boot/index.js
-+++ utils/boot/index.js
+diff --git server/utils/boot/index.js server/utils/boot/index.js
+index fd6afe0..f0652ae 100644
+--- server/utils/boot/index.js
++++ server/utils/boot/index.js
 @@ -31,7 +31,7 @@ function bootSSL(app, port = 3001) {
      const server = https.createServer(credentials, app);
  
@@ -19,3 +20,16 @@ diff --git utils/boot/index.js utils/boot/index.js
        await migrateWebBrowsingToDefault(); // must run before markOnboarded() so a fresh instance is not mistaken for an existing one.
        await markOnboarded();
        await setupTelemetry();
+diff --git collector/index.js collector/index.js
+index 8f2d701..b494597 100644
+--- collector/index.js
++++ collector/index.js
+@@ -223,7 +223,7 @@ app.all("*", function (_, response) {
+ });
+ 
+ app
+-  .listen(COLLECTOR_PORT, async () => {
++  .listen(COLLECTOR_PORT, process.env.COLLECTOR_HOST || "127.0.0.1", async () => {
+     await wipeCollectorStorage();
+     console.log(`Document processor app listening on port ${COLLECTOR_PORT}`);
+   })

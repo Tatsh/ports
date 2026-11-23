@@ -1,6 +1,7 @@
-diff --git utils/helpers/updateENV.js utils/helpers/updateENV.js
---- utils/helpers/updateENV.js
-+++ utils/helpers/updateENV.js
+diff --git server/utils/helpers/updateENV.js server/utils/helpers/updateENV.js
+index 2ff0bca..06cc801 100644
+--- server/utils/helpers/updateENV.js
++++ server/utils/helpers/updateENV.js
 @@ -1741,7 +1741,9 @@ function dumpENV() {
      .map(([key, value]) => `${key}='${sanitizeValue(value)}'`)
      .join("\n");

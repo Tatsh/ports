@@ -1,0 +1,112 @@
+diff --git collector/utils/WhisperProviders/localWhisper.js collector/utils/WhisperProviders/localWhisper.js
+index 6ee124f..19888f2 100644
+--- collector/utils/WhisperProviders/localWhisper.js
++++ collector/utils/WhisperProviders/localWhisper.js
+@@ -66,7 +66,8 @@ class LocalWhisper {
+       const wavefile = require("wavefile");
+       const { FFMPEGWrapper } = require("./ffmpeg");
+       const ffmpeg = new FFMPEGWrapper();
+-      const outFolder = path.resolve(__dirname, `../../storage/tmp`);
++      const { COLLECTOR_TMP_DIRECTORY } = require("../constants");
++      const outFolder = COLLECTOR_TMP_DIRECTORY;
+       if (!fs.existsSync(outFolder))
+         fs.mkdirSync(outFolder, { recursive: true });
+ 
+diff --git collector/utils/constants.js collector/utils/constants.js
+index 92a0911..a5a316b 100644
+--- collector/utils/constants.js
++++ collector/utils/constants.js
+@@ -1,4 +1,15 @@
+-const WATCH_DIRECTORY = require("path").resolve(__dirname, "../hotdir");
++const path = require("path");
++const fs = require("fs");
++
++// Uploads (the hotdir shared with the server) and temporary files live in STORAGE_DIR, not in
++// the installed tree.
++const WATCH_DIRECTORY = process.env.STORAGE_DIR
++  ? path.resolve(process.env.STORAGE_DIR, "hotdir")
++  : path.resolve(__dirname, "../hotdir");
++const COLLECTOR_TMP_DIRECTORY = process.env.STORAGE_DIR
++  ? path.resolve(process.env.STORAGE_DIR, "tmp", "collector")
++  : path.resolve(__dirname, "../storage/tmp");
++fs.mkdirSync(WATCH_DIRECTORY, { recursive: true });
+ 
+ const ACCEPTED_MIMES = {
+   "text/plain": [".txt", ".md", ".org", ".adoc", ".rst"],
+@@ -90,5 +101,6 @@ const SUPPORTED_FILETYPE_CONVERTERS = {
+ module.exports = {
+   SUPPORTED_FILETYPE_CONVERTERS,
+   WATCH_DIRECTORY,
++  COLLECTOR_TMP_DIRECTORY,
+   ACCEPTED_MIMES,
+ };
+diff --git collector/utils/files/index.js collector/utils/files/index.js
+index c005afc..bbfe537 100644
+--- collector/utils/files/index.js
++++ collector/utils/files/index.js
+@@ -1,6 +1,10 @@
+ const fs = require("fs");
+ const path = require("path");
+ const { MimeDetector } = require("./mime");
++const {
++  WATCH_DIRECTORY,
++  COLLECTOR_TMP_DIRECTORY,
++} = require("../constants");
+ 
+ /**
+  * The folder where documents are stored to be stored when
+@@ -156,7 +160,7 @@ function writeToServerDocuments({
+ // force remove them.
+ async function wipeCollectorStorage() {
+   const cleanHotDir = new Promise((resolve) => {
+-    const directory = path.resolve(__dirname, "../../hotdir");
++    const directory = WATCH_DIRECTORY;
+ 
+     if (!fs.existsSync(directory)) return resolve();
+     fs.readdir(directory, (err, files) => {
+@@ -173,7 +177,7 @@ async function wipeCollectorStorage() {
+   });
+ 
+   const cleanTmpDir = new Promise((resolve) => {
+-    const directory = path.resolve(__dirname, "../../storage/tmp");
++    const directory = COLLECTOR_TMP_DIRECTORY;
+     fs.readdir(directory, (err, files) => {
+       if (err) return resolve();
+ 
+diff --git server/utils/files/index.js server/utils/files/index.js
+index bde3b95..818d6dc 100644
+--- server/utils/files/index.js
++++ server/utils/files/index.js
+@@ -19,7 +19,7 @@ const vectorCachePath =
+ const hotdirPath =
+   process.env.NODE_ENV === "development"
+     ? path.resolve(__dirname, `../../../collector/hotdir`)
+-    : path.resolve(process.env.STORAGE_DIR, `../../collector/hotdir`);
++    : path.resolve(process.env.STORAGE_DIR, `hotdir`);
+ const generatedImagesPath =
+   process.env.NODE_ENV === "development"
+     ? path.resolve(__dirname, `../../storage/generated-images`)
+diff --git server/utils/files/multer.js server/utils/files/multer.js
+index 836e319..8b8a276 100644
+--- server/utils/files/multer.js
++++ server/utils/files/multer.js
+@@ -13,7 +13,8 @@ const fileUploadStorage = multer.diskStorage({
+     const uploadOutput =
+       process.env.NODE_ENV === "development"
+         ? path.resolve(__dirname, `../../../collector/hotdir`)
+-        : path.resolve(process.env.STORAGE_DIR, `../../collector/hotdir`);
++        : path.resolve(process.env.STORAGE_DIR, `hotdir`);
++    fs.mkdirSync(uploadOutput, { recursive: true });
+     cb(null, uploadOutput);
+   },
+   filename: function (_, file, cb) {
+@@ -33,7 +34,8 @@ const fileAPIUploadStorage = multer.diskStorage({
+     const uploadOutput =
+       process.env.NODE_ENV === "development"
+         ? path.resolve(__dirname, `../../../collector/hotdir`)
+-        : path.resolve(process.env.STORAGE_DIR, `../../collector/hotdir`);
++        : path.resolve(process.env.STORAGE_DIR, `hotdir`);
++    fs.mkdirSync(uploadOutput, { recursive: true });
+     cb(null, uploadOutput);
+   },
+   filename: function (_, file, cb) {

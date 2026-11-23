@@ -1,0 +1,25 @@
+#!/bin/sh
+# Start the AnythingLLM document collector, which parses the files and links the server
+# (anything-llm) is given into documents. Run it next to the server with the same STORAGE_DIR
+# (by default ~/Library/Application Support/AnythingLLM): uploads arrive in STORAGE_DIR/hotdir,
+# the parsed documents go to STORAGE_DIR/documents, OCR and speech models to STORAGE_DIR/models,
+# and the server's requests are checked with the key it keeps in STORAGE_DIR/comkey. It reads
+# the server's settings in STORAGE_DIR/.env too.
+#
+# It listens on 127.0.0.1 (COLLECTOR_HOST), port 8888 (COLLECTOR_PORT; give the server the same).
+# Links are scraped with a headless Chrome or Chromium when PUPPETEER_EXECUTABLE_PATH points to
+# one; without it the collector falls back to fetching the page. Audio and video need ffmpeg in
+# PATH.
+set -e
+
+app=@APPDIR@
+
+: "${STORAGE_DIR:=${HOME}/Library/Application Support/AnythingLLM}"
+NODE_ENV=production
+PATH=@PREFIX@/bin:${PATH}
+export STORAGE_DIR NODE_ENV PATH
+
+mkdir -p "${STORAGE_DIR}"
+# dotenv reads .env in the working directory.
+cd "${STORAGE_DIR}"
+exec @NODE@ "${app}/index.js" "$@"
