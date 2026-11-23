@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-texture2ddecoder
+version             1.0.6
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Decoders for compressed GPU texture formats (DXT, ETC, ASTC, PVRTC and others).
+long_description    {*}${description}
+homepage            https://github.com/K0lb3/texture2ddecoder
+distname            texture2ddecoder-${version}
+
+checksums           rmd160  51b93e828f67dffaebe8c29a641e106fe76469d6 \
+                    sha256  88f04d8951018ac13b8dacd07e57e8adad4a6f1cfe5509646e8a1020346a81ca \
+                    size    105397
+
+python.versions     312 313 314
+
+if {${name} ne ${subport}} {
+    python.pep517_backend setuptools
+    # The build requirements pin older tools (cffi ~=1.17, setuptools <72.2) than MacPorts has;
+    # the newer ones build it.
+    build.args-append   --skip-dependency-check
+}
