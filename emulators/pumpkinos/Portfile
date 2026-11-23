@@ -1,0 +1,77 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           app 1.0
+PortGroup           github 1.0
+
+# Upstream has no macOS target; this fork adds one (a Darwin build, the SDL2 display and ARM
+# fixes) and follows upstream.
+github.setup        ActionRetro PumpkinOS 896b6dbdfa96945a6f5ff9e9cc6692bcfeba5a2c
+github.tarball_from archive
+name                pumpkinos
+version             0.20261115
+revision            0
+categories          emulators
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Re-implementation of PalmOS.
+long_description    PumpkinOS is a re-implementation of PalmOS that runs natively, without a PalmOS \
+                    ROM, and runs m68K (and, through Unicorn, ARM) PalmOS applications. It comes \
+                    with its own launcher, preferences, command shell and editors.
+homepage            https://github.com/migueletto/PumpkinOS
+supported_archs     x86_64 arm64
+
+checksums           rmd160  e2e5cac0541d88c14075a0186ba255070fa457a9 \
+                    sha256  8bc76a6c9df6093b977ec00428d4e5869ed446c0e3876df12f57c9a365b66d82 \
+                    size    12535558
+
+depends_build-append \
+                    port:gmake
+depends_lib-append  port:libsdl2 \
+                    port:unicorn
+
+post-patch {
+    # Link the Unicorn port (for ARM applications) instead of a static build in a source tree.
+    reinplace {s|^UNICORN_LIB=$(UNICORN)/build/libunicorn.a|UNICORN_LIB=-L$(UNICORN)/lib -lunicorn|} \
+        ${worksrcpath}/src/UnicornArm/Makefile
+}
+
+use_configure       no
+
+# The applications compile their resources with tools/pilrc, which the same run builds first.
+use_parallel_build  no
+build.cmd           ${prefix}/bin/gmake
+build.dir           ${worksrcpath}/src
+build.target
+build.args          CC=${configure.cc} UNICORN=${prefix}
+
+post-build {
+    # The only icon upstream has is the Windows one.
+    system -W ${worksrcpath} "/usr/bin/sips -s format png src/windows/pumpkin.ico --out pumpkin.png"
+}
+
+destroot {
+    set libdir ${prefix}/libexec/${name}
+    xinstall -d ${destroot}${libdir}/bin
+    xinstall -m 0755 ${worksrcpath}/pumpkin ${destroot}${libdir}/
+    foreach f [glob ${worksrcpath}/bin/*.so] {
+        xinstall -m 0755 ${f} ${destroot}${libdir}/bin/
+    }
+    copy ${worksrcpath}/script ${worksrcpath}/vfs ${destroot}${libdir}/
+    xinstall -m 0755 ${filespath}/pumpkinos.sh ${destroot}${prefix}/bin/pumpkinos
+    reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/bin/pumpkinos
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
+}
+
+app.name            PumpkinOS
+app.executable      ${prefix}/bin/pumpkinos
+app.icon            pumpkin.png
+
+notes "
+Each user's PumpkinOS file system, registry and log are kept in\
+ ~/Library/Application Support/PumpkinOS. Install PalmOS applications by putting their .prc files in\
+ its vfs/app_install folder. Run with PUMPKIN_WINDOWED=1 for a window instead of fullscreen.
+"
+
+livecheck.type      none
