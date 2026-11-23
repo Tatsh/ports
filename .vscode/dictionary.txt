@@ -56,6 +56,7 @@ archs
 argcomplete
 argparse
 arieleg
+armmac
 arrayref
 arrayvec
 artifex
@@ -123,6 +124,7 @@ binpath
 binutils
 bitfield
 bitflags
+bitrock
 bitvec
 blacktop
 blas
@@ -313,6 +315,7 @@ dcoastline
 dcpmutil
 dcrc
 ddaedalus
+ddecoder
 ddisable
 ddownload
 ddynarmic
@@ -731,6 +734,7 @@ inlinable
 inotify
 inout
 inscriptis
+installbuilder
 installdir
 intellivision
 interp
@@ -1321,6 +1325,7 @@ pulldown
 purego
 puremagic
 pushd
+pvrtc
 pxfm
 pxfw
 pyaes
