@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        nihui realsr-ncnn-vulkan 20220728
+github.tarball_from archive
+revision            0
+categories          graphics
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         RealSR super resolution implemented with the ncnn library.
+long_description    realsr-ncnn-vulkan upscales images with the RealSR (Real-World \
+                    Super-Resolution) models, on the GPU through Vulkan (MoltenVK on macOS).
+supported_archs     x86_64 arm64
+
+checksums           rmd160  a46a8fd29991b8439652076d82d12a1072849152 \
+                    sha256  2f3207aff7e86d9ab11fa536d04da09cc76865821585f23f5f3a06b3a43286b1 \
+                    size    64753763
+
+depends_build-append \
+                    port:vulkan-headers
+depends_lib-append  port:webp \
+                    port:ncnn \
+                    port:vulkan-loader
+
+cmake.source_dir    ${worksrcpath}/src
+
+# Find the MacPorts glslang through its CMake package (it no longer installs the per-target files
+# GLSLANG_TARGET_DIR points to), and fail rather than fall back to the missing ncnn submodule.
+patchfiles          patch-system-glslang.diff
+
+post-patch {
+    # Look for model directories given by relative path (the default included) in
+    # ${prefix}/share/${name} rather than next to the executable.
+    set datadir ${prefix}/share/${name}
+    reinplace "s|get_executable_directory() + path;|path_t(\"${datadir}/\") + path;|" \
+        ${worksrcpath}/src/filesystem_utils.h
+}
+
+configure.args-append \
+                    -DUSE_SYSTEM_NCNN=ON \
+                    -DUSE_SYSTEM_WEBP=ON \
+                    -Dncnn_DIR=${prefix}/lib/cmake/ncnn
+
+destroot {
+    xinstall -m 0755 ${build.dir}/${name} ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/${name}
+    foreach d [glob -directory ${worksrcpath}/models -types d models-*] {
+        copy ${d} ${destroot}${prefix}/share/${name}/
+    }
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE \
+        ${destroot}${prefix}/share/doc/${name}/
+}
