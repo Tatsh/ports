@@ -1,0 +1,52 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           vapoursynth_plugin 1.0
+
+# adworacz's fork of dubhater's v2: replaces vs.get_core() (gone from current VapourSynth) and adds
+# 9 to 16 bit support.
+github.setup        adworacz vapoursynth-dfmderainbow 44dc6545bced8fc25672bdda717943a02c6b5d71
+github.tarball_from archive
+name                vapoursynth-dfmderainbow
+version             2.20221016
+# The readme gives the licence as "???".
+license             Restrictive
+platforms           any
+supported_archs     noarch
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         DFMDerainbow derainbow functions for VapourSynth.
+long_description    DFMDerainbow and DFMDerainbowMC, a port of the AviSynth function of the same \
+                    name.
+dist_subdir         ${name}/${version}
+
+checksums           rmd160  1e2b4aad71e264d3e3b4c94ea1d6e536d2ec4aed \
+                    sha256  76c50a965afa55ee2ac191c7d2f8c0d1e8bc80e28de7188934d484a30c7acd5e \
+                    size    3369
+
+depends_run-append  port:vapoursynth-fft3dfilter \
+                    port:vapoursynth-minideen \
+                    port:vapoursynth-msmoosh \
+                    port:vapoursynth-mvtools \
+                    port:vapoursynth-scenechange \
+                    port:vapoursynth-zsmooth
+
+# FluxSmooth and TemporalMedian are API 3 only; zsmooth has replacements for both. The
+# TemporalSoften2 of vapoursynth-scenechange takes no scene change threshold but reads the
+# properties that scd.Detect sets, so run that first.
+patchfiles          patch-zsmooth-scd.diff
+
+use_configure       no
+build {}
+
+destroot {
+    xinstall -d ${destroot}${vapoursynth.site_packages}
+    xinstall -m 0644 ${worksrcpath}/dfmderainbow.py ${destroot}${vapoursynth.site_packages}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/readme.rst ${destroot}${prefix}/share/doc/${name}/
+}
+
+test {
+    system -W ${workpath} \
+        "env PYTHONPATH=${worksrcpath} ${vapoursynth.python_bin} -c 'import dfmderainbow'"
+}

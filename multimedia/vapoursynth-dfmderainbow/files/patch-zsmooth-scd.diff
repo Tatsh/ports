@@ -1,0 +1,42 @@
+--- dfmderainbow.py
++++ dfmderainbow.py
+@@ -30,7 +30,7 @@
+     if temporal_threshold is None:
+         temporal_threshold = 7 << shift
+ 
+-    median = core.tmedian.TemporalMedian(clip=clip, radius=2, planes=planes)
++    median = core.zsmooth.TemporalMedian(clip=clip, radius=2, planes=planes)
+ 
+     if planes is None or 0 in planes:
+         luma_threshold = temporal_threshold
+@@ -42,7 +42,8 @@
+     else:
+         chroma_threshold = 0
+ 
+-    average = core.focus2.TemporalSoften2(clip=clip, radius=2, luma_threshold=luma_threshold, chroma_threshold=chroma_threshold, scenechange=24)
++    # focus2.TemporalSoften2 takes no threshold, only the scene change properties from scd.Detect.
++    average = core.focus2.TemporalSoften2(clip=core.scd.Detect(clip, thresh=24 << shift), radius=2, luma_threshold=luma_threshold, chroma_threshold=chroma_threshold, scenechange=1)
+ 
+     median_diff = core.std.MakeDiff(clipa=clip, clipb=median, planes=planes)
+     average_diff = core.std.MakeDiff(clipa=clip, clipb=average, planes=planes)
+@@ -87,7 +88,7 @@
+         clip = clip.std.SeparateFields(tff=True)
+ 
+     if radius == 1:
+-        first = clip.flux.SmoothT(temporal_threshold=17 << shift, planes=[1, 2])
++        first = clip.zsmooth.FluxSmoothT(temporal_threshold=17 << shift, planes=[1, 2])
+     elif radius == 2:
+         first = Flux5FramesT(clip=clip, temporal_threshold=17 << shift, planes=[1, 2])
+     first = BlurForDFMDerainbow(clip=first, amount=1.5, planes=[1, 2])
+@@ -103,9 +104,9 @@
+     if mask:
+         return themask
+     else:
+-        fixed = clip.flux.SmoothST(temporal_threshold=17 << shift, spatial_threshold=14 << shift, planes=[1, 2])
++        fixed = clip.zsmooth.FluxSmoothST(temporal_threshold=17 << shift, spatial_threshold=14 << shift, planes=[1, 2])
+         if radius == 1:
+-            fixed = fixed.flux.SmoothT(temporal_threshold=17 << shift, planes=[1, 2])
++            fixed = fixed.zsmooth.FluxSmoothT(temporal_threshold=17 << shift, planes=[1, 2])
+         elif radius == 2:
+             fixed = Flux5FramesT(clip=fixed, temporal_threshold=17 << shift, planes=[1, 2])
+         fixed = fixed.minideen.MiniDeen(radius=4, threshold=14, planes=[1, 2]) # Minideen scales its 'threshold' parameter to bit depth internally
