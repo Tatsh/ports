@@ -1,0 +1,45 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           app 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        speed47 qpxtool 0.8.1-pl8 v
+github.tarball_from archive
+version             0.8.1.8
+revision            0
+categories          sysutils
+license             GPL-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Optical drive quality checker.
+long_description    QPxTool checks the quality of CD, DVD and Blu-ray media and drives (error \
+                    rates, jitter, write strategies) on drives that support it. On macOS it talks \
+                    to the drive through IOKit, so the disc must not be mounted. This installs \
+                    the qpxtool app and the cdvdcontrol, f1tattoo, pxfw and qscan command line tools.
+
+checksums           rmd160  f4695a99523a34f83e9e7c502d76a460e7d3cb74 \
+                    sha256  320c38523bab5f96f7f4a3a13129f39a545731b10e0a72da684b05055b1dbcf0 \
+                    size    662698
+
+depends_lib-append  port:libpng
+qt6.depends_lib-append qtbase
+
+post-patch {
+    # From tatsh-overlay: do not strip, and install the man pages uncompressed.
+    reinplace -E {s/.*strip .*/echo/g} ${worksrcpath}/configure
+    reinplace -E {s/^all:.*//; s/\.gz//g; s/^install:.*/install:/g} ${worksrcpath}/man/Makefile
+}
+
+# Not autotools.
+configure.pre_args  --prefix=${prefix}
+configure.args      "--qmake=[option qt6.dir]/bin/qmake6"
+configure.universal_args
+
+build.args-append   CC=${configure.cc} CXX=${configure.cxx}
+destroot.destdir    DESTDIR=${destroot}
+
+# A Finder-launchable app bundle, which runs the installed GUI.
+app.name            QPxTool
+app.executable      qpxtool
+app.icon            gui/qpxtool.png
