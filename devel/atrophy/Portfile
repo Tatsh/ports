@@ -1,0 +1,25 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           nodejs 1.0
+
+name                atrophy
+version             0.4.0
+revision            0
+
+license             MIT
+description         Find and remove unused code from a TypeScript project.
+long_description    {*}${description}
+homepage            https://github.com/ashutosh-rath02/atrophy
+
+checksums           atrophy-0.4.0-node_modules.tar.xz \
+                    rmd160  f3b1eb7b29f4741bf89cfaaf476b5eb4234f3dd2 \
+                    sha256  2047f80d132c12f34e28baffdb8bd092b0049cb500d37e6d80d8251c26f9d48e \
+                    size    2543336 \
+                    node-v22.23.4-headers.tar.gz \
+                    rmd160  ccca04ffa26af32e30709dd3ce057de52ea225af \
+                    sha256  dc4028dc105e27e5295119dd9da076fca71d5216113e097813f0fb30f59241a5 \
+                    size    9936937
+
+nodejs.bins         {atrophy node_modules/atrophy/dist/cli/index.js}
+nodejs.native       yes
