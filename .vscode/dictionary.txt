@@ -438,6 +438,7 @@ dlichii
 dlisr
 dlith
 dllvm
+dlmalloc
 dlopen
 dlpack
 dlsym
@@ -504,6 +505,7 @@ dvapoursynth
 dvcpkg
 dvec
 dvideo
+dvita
 dwarvesf
 dwebp
 dwith
@@ -528,6 +530,7 @@ eclass
 ecolor
 eedi
 eframe
+eglantineroom
 egui
 ehthumbs
 eigen
@@ -979,11 +982,13 @@ lfind
 lflags
 lgskit
 libada
+libadrenotools
 libadwaita
 libakarin
 libappindicator
 libatomic
 libavcodec
+libb
 libbotan
 libbz
 libc
@@ -1019,6 +1024,7 @@ libjpeg
 libjsonnet
 libkeywindowpatch
 liblego
+liblinkernsbypass
 libloading
 liblz
 libm
@@ -1096,10 +1102,12 @@ libwebsockets
 libyaml
 libyaz
 libzip
+libzrif
 libzsmooth
 libzstd
 libzstdwapper
 lichii
+lichiiroom
 liconv
 lide
 lightningcss
@@ -1315,6 +1323,7 @@ ncnn
 ncnn's
 ncruces
 ndarray
+ndebug
 nego
 neko
 neobrain
@@ -1326,6 +1335,7 @@ networkx
 neverpanic
 newlib
 nextgeniuspro
+nfde
 nfsw
 nicklockwood
 nihongo
@@ -1521,6 +1531,8 @@ protoc
 protocolbuffers
 psimd
 psutil
+psvpfsparser
+psvpfstools
 pthread
 pthreadglue
 pthreadpool
@@ -1678,8 +1690,10 @@ regalloc
 regdump
 regsub
 reinplace
+rela
 relcs
 rels
+relw
 rembg
 remotezip
 removegrain
@@ -1929,6 +1943,7 @@ syms
 synstructure
 sysconf
 sysinfo
+syst
 sysutils
 sysv
 taglib
@@ -2002,6 +2017,7 @@ trimleft
 triomphe
 trollrestore
 trollstore
+tronkko
 trustme
 truststore
 ttconv
@@ -2069,6 +2085,7 @@ vimrc
 vinniefalco
 virtualjaguar
 virtualwebauthn
+vitasdk
 vitc
 vite
 vivserver
