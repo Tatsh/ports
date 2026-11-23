@@ -1,0 +1,27 @@
+From: Andrew Udvare <audvare@gmail.com>
+Subject: [PATCH] makefile: remove ui steps
+
+The ebuild builds the React UI itself, so drop the ui targets from the
+release and generate targets.
+---
+--- a/Makefile
++++ b/Makefile
+@@ -59,9 +59,7 @@
+ # generate requires pre-ui, ui requires generate and build-release requires ui, so they must be run sequentially
+ .PHONY: release
+ release: 
+-	$(MAKE) pre-ui
+ 	$(MAKE) generate
+-	$(MAKE) ui
+ 	$(MAKE) build-release
+ 
+ # targets to set various build flags
+@@ -290,7 +288,7 @@
+ 
+ # Regenerates GraphQL files
+ .PHONY: generate
+-generate: generate-backend generate-ui
++generate: generate-backend
+ 
+ .PHONY: generate-ui
+ generate-ui:

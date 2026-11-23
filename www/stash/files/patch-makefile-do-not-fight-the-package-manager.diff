@@ -1,0 +1,38 @@
+From: Andrew Udvare <audvare@gmail.com>
+Subject: [PATCH] makefile: do not fight the package manager
+
+Avoids needing LDFLAGS= and MAKEOPTS=-j1 overrides in the ebuild.
+---
+--- a/Makefile
++++ b/Makefile
+@@ -18,8 +18,9 @@
+   PREFIX := $(HOME)/.local
+ endif
+ 
+-# set LDFLAGS environment variable to any extra ldflags required
+-LDFLAGS := $(LDFLAGS)
++# LDFLAGS is deliberately not taken from the environment: the value used by
++# the C toolchain is not valid for go's -ldflags.
++LDFLAGS :=
+ 
+ # set OUTPUT environment variable to generate a specific binary name
+ # this will apply to both `stash` and `phasher`, so build them separately
+@@ -57,6 +58,10 @@
+ 
+ # cannot really parallelise the release target
+ # generate requires pre-ui, ui requires generate and build-release requires ui, so they must be run sequentially
++# The flags-* targets set variables with $(eval ...) from their recipes, so a
++# parallel make can start building before the flags are applied.
++.NOTPARALLEL:
++
+ .PHONY: release
+ release: 
+ 	$(MAKE) generate
+@@ -72,7 +77,6 @@
+ .PHONY: flags-release
+ flags-release:
+ 	$(NOOP)
+-	$(eval LDFLAGS += -s -w)
+ 	$(eval GO_BUILD_FLAGS += -trimpath)
+ 
+ .PHONY: flags-pie

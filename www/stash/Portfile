@@ -1,0 +1,153 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        stashapp stash 0.32.0 v
+github.tarball_from archive
+revision            0
+categories          www multimedia
+license             AGPL-3 MIT BSD Apache-2 ISC MPL-2 CC-BY-4 public-domain
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Organiser for your videos and images, with a web interface.
+long_description    Stash is a self-hosted web application written in Go that organises and serves \
+                    your collection of videos and images, with tagging, scraping of metadata and \
+                    generated previews. The React interface is built into the stash binary.
+homepage            https://stashapp.cc
+supported_archs     x86_64 arm64
+
+set ui_pv           2.5
+set npm_arch        [expr {${configure.build_arch} eq "arm64" ? "arm64" : "x64"}]
+
+# The Go modules and the interface's node_modules, as tatsh-overlay publishes them, so nothing is
+# downloaded while building. node_modules was resolved on Linux, so its native packages are
+# replaced with the macOS builds of the same versions from npm.
+set overlay         https://github.com/Tatsh/tatsh-overlay/releases/download/__distfiles__/
+master_sites-append ${overlay}:overlay
+distfiles-append    ${name}-${version}-vendor.tar.xz:overlay \
+                    ${name}-${version}-node_modules.tar.xz:overlay
+set platform_pkgs   [list @esbuild/darwin-${npm_arch} 0.27.7 \
+                          @rollup/rollup-darwin-${npm_arch} 4.62.2 \
+                          lightningcss-darwin-${npm_arch} 1.32.0 \
+                          @parcel/watcher-darwin-${npm_arch} 2.5.6]
+set i 0
+foreach {pkg ver} ${platform_pkgs} {
+    master_sites-append https://registry.npmjs.org/${pkg}/-/:p${i}
+    distfiles-append    [file tail ${pkg}]-${ver}.tgz:p${i}
+    incr i
+}
+extract.only        ${distname}${extract.suffix} \
+                    ${name}-${version}-vendor.tar.xz \
+                    ${name}-${version}-node_modules.tar.xz
+
+checksums           stash-0.32.0.tar.gz \
+                    rmd160  362a3204b463e98b25b66553ceaee0229e619309 \
+                    sha256  9fbf572e838433f05450b5a945055ab115e520b236be8b8e4fc674ab8b5d9a45 \
+                    size    3904461 \
+                    stash-0.32.0-vendor.tar.xz \
+                    rmd160  1116c3db2941bafc5f6e4d6d86c7b04f2d5f2189 \
+                    sha256  f9c39a41609591974e420dbc296417dcfaebf0bf2156e7cd5c73ef50957dd3da \
+                    size    8603932 \
+                    stash-0.32.0-node_modules.tar.xz \
+                    rmd160  f63eb3120a84ddf47c4b88e70bbb3f5af90f81cc \
+                    sha256  ed4299c61921a535d935ac3887b3f212bdf489fc173e4cc5cc88595c6341badb \
+                    size    77817096
+if {${npm_arch} eq "arm64"} {
+    checksums-append \
+                    darwin-arm64-0.27.7.tgz \
+                    rmd160  b005785609e083411b87cfb53f4d5c429a2e322d \
+                    sha256  53c75e00fc94e7c042b8711d623474f2f395821e5430874e20d772097641d0d5 \
+                    size    4361175 \
+                    rollup-darwin-arm64-4.62.2.tgz \
+                    rmd160  bd0a062bc65aad184c64b942405a168c168afa37 \
+                    sha256  d88076f79b94bbc7d4b0aa2f15b60d22cc743a32d26bc96b9be261de7306ed4d \
+                    size    805748 \
+                    lightningcss-darwin-arm64-1.32.0.tgz \
+                    rmd160  e7ac7bd5b3581551f15badc663b6307552457b00 \
+                    sha256  7b516b43a62f70fc041310b54ad004e916fe73190662ca56a683afbfb8f99ee7 \
+                    size    3452138 \
+                    watcher-darwin-arm64-2.5.6.tgz \
+                    rmd160  5fc829b6192f26fc3dfdcc1e8c5604ea6b0f5b9c \
+                    sha256  9539d1ea47133958518d2a044bcd261920e9f84ae3c4f493701722da4ebb5c61 \
+                    size    127650
+} else {
+    checksums-append \
+                    darwin-x64-0.27.7.tgz \
+                    rmd160  ca86a68c707deb1e76a016f566fa9ec160303051 \
+                    sha256  51da76b2d633c96dac8aa1a3d8bd6c72ff9ce1a483cde3151fb18df868a02b90 \
+                    size    4718356 \
+                    rollup-darwin-x64-4.62.2.tgz \
+                    rmd160  c6e8c301176ca5fb82f6c1b9a31193d493de6788 \
+                    sha256  9c5a5a78642d0245d8cfb901f3798fafb505e01f16e15987c49533135997b77a \
+                    size    871460 \
+                    lightningcss-darwin-x64-1.32.0.tgz \
+                    rmd160  b376bb34f704a7080f12433b3b6c7a6938aabc9c \
+                    sha256  5f1782a48958e03a0962b1712958df45b1a3e8129639db7231b79628163da11d \
+                    size    3860279 \
+                    watcher-darwin-x64-2.5.6.tgz \
+                    rmd160  5e9a235dabf1ccb70a5d126095b9beca5295222c \
+                    sha256  02975270507a8693eef8cfcb66683268e4d4a5519c2ddd29e171ef9a17bffe96 \
+                    size    137421
+}
+
+depends_build-append \
+                    port:go \
+                    path:bin/node:nodejs22 \
+                    path:bin/npm:npm11
+depends_run-append  path:bin/ffmpeg:ffmpeg
+
+# From tatsh-overlay: drop the Makefile's interface steps (the interface is built below), let
+# MacPorts set the flags, skip go mod tidy in gqlgen, and bump the modules that break on Go 1.27.
+patchfiles          patch-makefile-remove-ui-steps.diff \
+                    patch-makefile-do-not-fight-the-package-manager.diff \
+                    patch-gqlgen-skip-go-mod-tidy.diff \
+                    patch-go-bump-modules-for-go-1.27.diff
+patch.pre_args-replace -p0 -p1
+
+post-extract {
+    set nm ${worksrcpath}/ui/v${ui_pv}/node_modules
+    foreach {pkg ver} ${platform_pkgs} {
+        set dir ${nm}/${pkg}
+        set linux [string map [list darwin-${npm_arch} linux-*] [file tail ${pkg}]]
+        delete {*}[glob -nocomplain -type d [file dirname ${dir}]/${linux}]
+        file mkdir ${dir}
+        system -W ${dir} "/usr/bin/tar -xzf [shellescape ${distpath}/[file tail ${pkg}]-${ver}.tgz] --strip-components 1"
+    }
+}
+
+use_configure       no
+
+set go_env          [list GOFLAGS=-mod=vendor GOTOOLCHAIN=local GOPROXY=off \
+                         GOCACHE=${workpath}/go-cache GOPATH=${workpath}/go \
+                         CC=${configure.cc} CGO_CFLAGS=[shellescape ${configure.cflags}] \
+                         CGO_LDFLAGS=[shellescape ${configure.ldflags}]]
+
+build {
+    set ui ${worksrcpath}/ui/v${ui_pv}
+    set npm_env [list HOME=${workpath}/home npm_config_cache=${workpath}/npm-cache npm_config_offline=true \
+                     VITE_APP_STASH_VERSION=${version} "VITE_APP_DATE=[clock format [clock seconds] -format {%Y-%m-%d %H:%M:%S}]"]
+    file mkdir ${workpath}/home
+    system -W ${ui} "env [join [lmap e ${npm_env} {shellescape ${e}}]] ${prefix}/bin/npm run gqlgen"
+    system -W ${ui} "env [join [lmap e ${npm_env} {shellescape ${e}}]] ${prefix}/bin/npm run build"
+    # The version cannot come from git describe in a release tarball. The two binaries are built
+    # with different flags, so in separate runs, as upstream notes.
+    foreach target {release phasher} {
+        system -W ${worksrcpath} "env [join ${go_env}] ${build.cmd} STASH_VERSION=v${version} ${target}"
+    }
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/stash ${worksrcpath}/phasher ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
+}
+
+test.run            yes
+test {
+    system -W ${worksrcpath} "env [join ${go_env}] ${prefix}/bin/go test ./..."
+}
+
+notes "
+Run stash to start the server, then open http://localhost:9999 to set it up. Its configuration\
+ and database are kept in ~/.stash.
+"
