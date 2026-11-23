@@ -9,10 +9,10 @@ This has been build tested against FFmpeg 4.4 and 6.0.
  src/arch/MovieTexture/MovieTexture_FFMpeg.h   | 1 +
  2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp b/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+diff --git src/arch/MovieTexture/MovieTexture_FFMpeg.cpp src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
 index 935ddf324b0..d4eed01d599 100644
---- a/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
-+++ b/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+--- src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
++++ src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
 @@ -405,7 +405,7 @@ void MovieTexture_FFMpeg::RegisterProtocols()
  		return;
  	Done = true;
@@ -31,10 +31,10 @@ index 935ddf324b0..d4eed01d599 100644
  	if( pCodec == nullptr )
  		return ssprintf( "Couldn't find decoder %i", m_pStreamCodec->codec_id );
  
-diff --git a/src/arch/MovieTexture/MovieTexture_FFMpeg.h b/src/arch/MovieTexture/MovieTexture_FFMpeg.h
+diff --git src/arch/MovieTexture/MovieTexture_FFMpeg.h src/arch/MovieTexture/MovieTexture_FFMpeg.h
 index c092b765fc2..99f5ffcb1be 100644
---- a/src/arch/MovieTexture/MovieTexture_FFMpeg.h
-+++ b/src/arch/MovieTexture/MovieTexture_FFMpeg.h
+--- src/arch/MovieTexture/MovieTexture_FFMpeg.h
++++ src/arch/MovieTexture/MovieTexture_FFMpeg.h
 @@ -13,6 +13,7 @@ namespace avcodec
  		#include <libavformat/avformat.h>
  		#include <libswscale/swscale.h>

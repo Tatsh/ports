@@ -8,10 +8,10 @@ endif
  src/arch/MovieTexture/MovieTexture_FFMpeg.cpp | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp b/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+diff --git src/arch/MovieTexture/MovieTexture_FFMpeg.cpp src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
 index a74e003193..85f4a44bb9 100644
---- a/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
-+++ b/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+--- src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
++++ src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
 @@ -9,6 +9,10 @@
 
  #include <cerrno>

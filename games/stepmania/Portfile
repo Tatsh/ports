@@ -38,7 +38,6 @@ patchfiles          patch-ffmpeg-6.diff \
                     patch-ffmpeg-7.diff \
                     patch-ffmpeg-8.diff \
                     patch-macos-system-ffmpeg.diff
-patch.pre_args-replace -p0 -p1
 
 # Link Apple's OpenGL framework rather than Mesa's libGL (a GLX implementation for X11).
 configure.pre_args-replace -DCMAKE_FIND_FRAMEWORK=LAST -DCMAKE_FIND_FRAMEWORK=FIRST

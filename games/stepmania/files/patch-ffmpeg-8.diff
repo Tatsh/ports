@@ -1,7 +1,7 @@
-diff --git a/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp b/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+diff --git src/arch/MovieTexture/MovieTexture_FFMpeg.cpp src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
 index 935ddf324b..cd6239e254 100644
---- a/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
-+++ b/src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
+--- src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
++++ src/arch/MovieTexture/MovieTexture_FFMpeg.cpp
 @@ -506,7 +506,7 @@ RString MovieDecoder_FFMpeg::OpenCodec()
  
  	ASSERT( m_pStream != nullptr );
@@ -20,10 +20,10 @@ index 935ddf324b..cd6239e254 100644
  		m_pStream = nullptr;
  	}
  
-diff --git a/src/arch/MovieTexture/MovieTexture_FFMpeg.h b/src/arch/MovieTexture/MovieTexture_FFMpeg.h
+diff --git src/arch/MovieTexture/MovieTexture_FFMpeg.h src/arch/MovieTexture/MovieTexture_FFMpeg.h
 index c092b765fc..6279f267fa 100644
---- a/src/arch/MovieTexture/MovieTexture_FFMpeg.h
-+++ b/src/arch/MovieTexture/MovieTexture_FFMpeg.h
+--- src/arch/MovieTexture/MovieTexture_FFMpeg.h
++++ src/arch/MovieTexture/MovieTexture_FFMpeg.h
 @@ -32,7 +32,7 @@ namespace avcodec
  };
  

@@ -1,6 +1,6 @@
 diff -ru a/StepmaniaCore.cmake b/StepmaniaCore.cmake
---- a/StepmaniaCore.cmake	2026-11-21 09:47:53
-+++ b/StepmaniaCore.cmake	2026-11-21 09:48:12
+--- StepmaniaCore.cmake	2026-11-21 09:47:53
++++ StepmaniaCore.cmake	2026-11-21 09:48:12
 @@ -328,6 +328,9 @@
    if(WITH_FFMPEG AND NOT WITH_SYSTEM_FFMPEG)
      include("${SM_CMAKE_DIR}/SetupFfmpeg.cmake")
@@ -12,8 +12,8 @@ diff -ru a/StepmaniaCore.cmake b/StepmaniaCore.cmake
  
    set(WITH_CRASH_HANDLER TRUE)
 diff -ru a/src/CMakeLists.txt b/src/CMakeLists.txt
---- a/src/CMakeLists.txt	2026-11-21 09:47:53
-+++ b/src/CMakeLists.txt	2026-11-21 10:58:31
+--- src/CMakeLists.txt	2026-11-21 09:47:53
++++ src/CMakeLists.txt	2026-11-21 10:58:31
 @@ -554,8 +554,14 @@
                "${BZIP2_LIBRARY_RELEASE}"
                "${ICONV_LIBRARIES}")
