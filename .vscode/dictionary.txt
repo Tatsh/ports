@@ -1857,6 +1857,7 @@ xctest
 xcursor
 xcworkspace
 xdist
+xdvdfs
 xebyte
 xemu
 xexloaderwv
@@ -1866,6 +1867,7 @@ xhit
 xinstall
 xiph
 xirvik
+xiso
 xkbcommon
 xkeysym
 xlib
