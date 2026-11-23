@@ -1,0 +1,15 @@
+--- fsrcnn.cpp
++++ fsrcnn.cpp
+@@ -31,6 +31,12 @@
+ 	ncnn::create_gpu_instance();
+ 	fsrcnn.set_vulkan_device(0);
+ 	fsrcnn.opt.use_vulkan_compute = true;
++	// The Metal compiler of AMD GPUs (through MoltenVK) fails on the fp16 shaders of this model.
++	if (ncnn::get_gpu_info(0).vendor_id() == 0x1002) {
++		fsrcnn.opt.use_fp16_packed = false;
++		fsrcnn.opt.use_fp16_storage = false;
++		fsrcnn.opt.use_fp16_arithmetic = false;
++	}
+ 	fsrcnn.load_param(fsrcnn_param_bin);
+ 	fsrcnn.load_model(fsrcnn_bin);
+ }

@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           vapoursynth_plugin 1.0
+
+github.setup        Sg4Dylan vapoursynth-fsrcnn-ncnn-vulkan 0a721959116f6f86dbd13bda70a5fd6a883938f4
+version             20241112
+github.tarball_from archive
+name                vapoursynth-fsrcnn-ncnn-vulkan
+revision            0
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         FSRCNN 2x super resolution filter for VapourSynth.
+long_description    FSRCNN 2x upscaling of 32-bit float RGB clips for VapourSynth, through ncnn \
+                    on the GPU with Vulkan (MoltenVK on macOS). The model is built in.
+supported_archs     x86_64 arm64
+
+checksums           rmd160  7b0a9d0240cc3a686a479bcf5418181733427409 \
+                    sha256  e0d7833131902f185dd753bea78b93c813ed4855d0b51f5b0ec3aa98cdbb12c5 \
+                    size    81607
+
+depends_build-append \
+                    port:vulkan-headers
+depends_lib-append  port:ncnn \
+                    port:opencv4 \
+                    port:vulkan-loader
+
+# patch-vapoursynth-api4.diff: port the plugin to the VapourSynth API4 (VapourSynth R82 no longer
+# loads API3 plugins) and link the CMake targets of Vulkan and ncnn (from Gentoo).
+# patch-amd-fp32.diff: run in fp32 on AMD GPUs, whose Metal compiler fails on the fp16 pipelines
+# ("Compiler encountered an internal error") and then crashes.
+patchfiles          patch-vapoursynth-api4.diff \
+                    patch-amd-fp32.diff
+
+configure.args-append \
+                    -DOpenCV_DIR=${prefix}/libexec/opencv4/cmake
+
+destroot {
+    xinstall -d ${destroot}${vapoursynth.plugindir}
+    xinstall -m 0755 ${build.dir}/libvs_fsrcnn_vulkan.dylib ${destroot}${vapoursynth.plugindir}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+vapoursynth.test_namespace fsrcnn
