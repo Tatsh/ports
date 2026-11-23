@@ -20,7 +20,6 @@ ghidra_extension.name S3ELoader
 
 # Port the loader to the Ghidra 12 loader API (from tatsh-overlay).
 patchfiles          patch-ghidra12-importer-settings.diff
-patch.pre_args-replace -p0 -p1
 
 # Committed build output.
 post-patch {
