@@ -1,5 +1,5 @@
---- a/src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:08
-+++ b/src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:08
+--- src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:08
++++ src/video_core/vulkan_common/vulkan_library.cpp	2026-11-22 19:32:08
 @@ -4,6 +4,7 @@
  // SPDX-FileCopyrightText: Copyright 2020 yuzu Emulator Project
  // SPDX-License-Identifier: GPL-2.0-or-later

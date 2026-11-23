@@ -10,6 +10,7 @@ github.setup        Eglantine-Community Eglantine 0.1.0-rc4 v
 github.tarball_from archive
 name                eglantine
 version             0.1.0-rc4
+revision            1
 categories          emulators games
 license             GPL-3+ BSD MIT LGPL-3+ MPL-2 Apache-2
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -117,7 +118,8 @@ qt6.depends_build-append qttools
 
 patchfiles          patch-rename-binaries.diff \
                     patch-vulkan-library-prefix.diff
-patch.pre_args-replace -p0 -p1
+# The standard macOS directories (Application Support and Caches) instead of the XDG ones.
+patchfiles-append   patch-macos-user-paths.diff
 
 post-patch {
     reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/src/video_core/vulkan_common/vulkan_library.cpp
@@ -224,3 +226,40 @@ destroot {
 }
 
 github.livecheck.regex {([0-9.]+(?:-rc[0-9]+)?)}
+
+# eglantine-room, the dedicated multiplayer room server, as a launchd service under its own user.
+# Its settings are in ${prefix}/etc/eglantine-room.conf.
+set room_data       ${prefix}/var/db/eglantine-room
+
+add_users           _eglantineroom group=_eglantineroom realname=Eglantine\ room home=${room_data}
+
+post-destroot {
+    xinstall -d -m 0750 -o _eglantineroom -g _eglantineroom ${destroot}${room_data}
+    xinstall -m 0640 -g _eglantineroom ${filespath}/eglantine-room.conf ${destroot}${prefix}/etc/eglantine-room.conf.sample
+    xinstall -d ${destroot}${prefix}/libexec/eglantine
+    xinstall -m 0755 ${filespath}/eglantine-room-service.sh ${destroot}${prefix}/libexec/eglantine/room-service
+    reinplace "s|@PREFIX@|${prefix}|g; s|@ROOM@|eglantine-room|g; s|@DATADIR@|${room_data}|g" \
+        ${destroot}${prefix}/libexec/eglantine/room-service
+}
+destroot.keepdirs-append ${destroot}${room_data}
+
+post-activate {
+    if {![file exists ${prefix}/etc/eglantine-room.conf]} {
+        file copy ${prefix}/etc/eglantine-room.conf.sample ${prefix}/etc/eglantine-room.conf
+        file attributes ${prefix}/etc/eglantine-room.conf -group _eglantineroom -permissions 0640
+    }
+}
+
+startupitem.create  yes
+startupitem.name    eglantine-room
+startupitem.user    _eglantineroom
+startupitem.group   _eglantineroom
+startupitem.logfile ${prefix}/var/log/eglantine-room.log
+startupitem.executable \
+                    ${prefix}/libexec/eglantine/room-service
+
+notes "
+To host a multiplayer room, set ROOM_NAME and PREFERRED_GAME in ${prefix}/etc/eglantine-room.conf\
+ and load the service with: sudo port load eglantine. The room listens on 127.0.0.1 unless BIND_ADDRESS is changed. Bans\
+ made while it runs are saved only when it quits from its console, not when launchd stops it.
+"
