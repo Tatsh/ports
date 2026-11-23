@@ -8,6 +8,7 @@ github.setup        NurioHin mpv-bookmarker aef6a1a64de57a97df0c7a396ea3f9b959f4
 github.tarball_from archive
 name                mpv-bookmarker-menu
 version             1.3.1.20200921
+revision            1
 license             GPL-3
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 description         Bookmarker menu to manage all your bookmarks in mpv.
@@ -19,4 +20,10 @@ checksums           rmd160  b4096362271d33145c56fce910957c1309d85616 \
                     size    8389
 
 mpv_plugin.files    bookmarker-menu.lua
+
+# Keep the bookmarks in mpv's own user directory (~~home/) rather than a hardcoded ~/.config/mpv.
+post-patch {
+    reinplace {s|return os.getenv("HOME") .. "/.config/mpv/" .. filename|return mp.command_native({"expand-path", "~~home/" .. filename})|} \
+        ${worksrcpath}/bookmarker-menu.lua
+}
 mpv_plugin.docs     README.md
