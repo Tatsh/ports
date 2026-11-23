@@ -76,6 +76,7 @@ asyncio
 atexit
 atomiswave
 atspi
+atty
 audioconv
 audioread
 audvare
@@ -551,6 +552,7 @@ ftplugin
 functools
 funcy
 funty
+fuser
 fvwrite
 fxamacker
 gabomdq
@@ -997,6 +999,7 @@ lzkn
 lzma
 lzss
 macdeployqt
+macfuse
 mackron
 macports
 macprefs
@@ -1043,6 +1046,7 @@ metaflac
 metalcpp
 metaprogramming
 metavar
+mgree
 miasm
 michaeldfallen
 micromdm
