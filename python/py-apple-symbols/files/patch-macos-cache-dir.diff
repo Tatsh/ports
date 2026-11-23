@@ -1,0 +1,13 @@
+--- apple_symbols/_cache.py
++++ apple_symbols/_cache.py
+@@ -1,7 +1,10 @@
+ import os
++import sys
+ from pathlib import Path
+ 
+ 
+ def default_cache_dir() -> Path:
+     """Where indexes are kept between runs: ``$XDG_CACHE_HOME/apple-symbols``, ``~/.cache`` by default."""
++    if sys.platform == "darwin":
++        return Path("~/Library/Caches").expanduser() / "apple-symbols"
+     return Path(os.environ.get("XDG_CACHE_HOME") or "~/.cache").expanduser() / "apple-symbols"
