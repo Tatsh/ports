@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        matthewbauer undmg 0d92602b694f810fa4b137d87c743f345b303a14
+github.tarball_from archive
+version             20240802
+revision            0
+categories          archivers
+license             GPL-3
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Extract the contents of an Apple DMG disk image.
+long_description    {*}${description} Unlike hdiutil, it needs no mounting (and so no root or \
+                    disk arbitration). It reads HFS+ images (not APFS) compressed with zlib, \
+                    bzip2, LZMA or LZFSE.
+
+checksums           rmd160  d3cdbb659b3d4bd73be1118f0d2d2b4577e9b091 \
+                    sha256  5040ed60d8491484bf2bac5e36205003a6e41bcab23e1cfa240011b128851a07 \
+                    size    81575
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  port:bzip2 \
+                    port:lzfse \
+                    port:xz \
+                    port:zlib
+
+use_configure       no
+
+post-patch {
+    # From tatsh-overlay: list the libraries after the objects.
+    reinplace {s|$(LDFLAGS) $(LIB) $^|$(LDFLAGS) $^ $(LIB)|} ${worksrcpath}/Makefile
+}
+
+build.args-append   CC=${configure.cc} \
+                    "CFLAGS=\"${configure.cflags} -I${prefix}/include [get_canonical_archflags cc]\"" \
+                    "LDFLAGS=\"${configure.ldflags} [get_canonical_archflags ld]\""
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+}
+
+livecheck.type      none
