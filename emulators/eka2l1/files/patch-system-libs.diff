@@ -1,10 +1,10 @@
 Use system libraries instead of bundled submodules, and never FetchContent libuv.
 Respect user flags in the bundled FFmpeg.
 
-diff --git a/src/emu/kernel/src/codeseg.cpp b/src/emu/kernel/src/codeseg.cpp
+diff --git src/emu/kernel/src/codeseg.cpp src/emu/kernel/src/codeseg.cpp
 index 183b758b0..300f750a2 100644
---- a/src/emu/kernel/src/codeseg.cpp
-+++ b/src/emu/kernel/src/codeseg.cpp
+--- src/emu/kernel/src/codeseg.cpp
++++ src/emu/kernel/src/codeseg.cpp
 @@ -23,7 +23,7 @@
  #include <kernel/codeseg.h>
  #include <kernel/kernel.h>
@@ -14,10 +14,10 @@ index 183b758b0..300f750a2 100644
  #include <utils/consts.h>
  
  #include <algorithm>
-diff --git a/src/external/CMakeLists.txt b/src/external/CMakeLists.txt
+diff --git src/external/CMakeLists.txt src/external/CMakeLists.txt
 index 7f4e28f72..afd335955 100644
---- a/src/external/CMakeLists.txt
-+++ b/src/external/CMakeLists.txt
+--- src/external/CMakeLists.txt
++++ src/external/CMakeLists.txt
 @@ -17,109 +17,19 @@ set(CMAKE_POLICY_VERSION_MINIMUM 3.10)
  # is disabled, and the two we actually need - LZMA for 7z, zlib for zip - are built from the xz and zlib
  # submodules and handed to libarchive below. To add another compression method later, build it here the
@@ -410,10 +410,10 @@ index 7f4e28f72..afd335955 100644
  set (LIBCXXABI_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libcxxabi/include" PARENT_SCOPE)
  set (FRSML_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/FRSML/include" PARENT_SCOPE)
  set (GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glm" PARENT_SCOPE)
-diff --git a/src/external/ffmpeg/CMakeLists.txt b/src/external/ffmpeg/CMakeLists.txt
+diff --git src/external/ffmpeg/CMakeLists.txt src/external/ffmpeg/CMakeLists.txt
 index 51b9696..66e7c9f 100644
---- a/src/external/ffmpeg/CMakeLists.txt
-+++ b/src/external/ffmpeg/CMakeLists.txt
+--- src/external/ffmpeg/CMakeLists.txt
++++ src/external/ffmpeg/CMakeLists.txt
 @@ -40,7 +40,7 @@ endif()
  
  set(ffmpeg_options

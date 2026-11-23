@@ -161,7 +161,6 @@ post-extract {
 # Use the system libraries in place of most submodules, and let the bundled FFmpeg take the
 # compiler flags (from tatsh-overlay).
 patchfiles          patch-system-libs.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     # The bundled mbedcrypto target is gone, so the bare name would link the wrong library.
