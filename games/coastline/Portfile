@@ -50,7 +50,6 @@ depends_lib-append  path:lib/libavcodec.dylib:ffmpeg \
 # A socket path too long for sun_path ended the search for the Discord client instead of skipping
 # to the next candidate.
 patchfiles          patch-discord-long-socket-path.diff
-patch.pre_args-replace -p0 -p1
 
 # FLAC installs only pkg-config files, and the build looks it up in CMake config mode. On macOS the
 # install step copies every non-system library into the app bundle; MacPorts provides them instead.
