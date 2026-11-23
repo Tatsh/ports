@@ -8,6 +8,7 @@ PortGroup           github 1.0
 github.setup        HarbourMasters SpaghettiKart 1.0.0
 github.tarball_from archive
 name                spaghettikart
+revision            1
 categories          games
 platforms           darwin
 license             GPL-3
@@ -128,7 +129,6 @@ post-extract {
 patchfiles          patch-torch-single-build.diff \
                     patch-use-torch-cli.diff \
                     patch-dialogs-via-pfd.diff
-patch.pre_args-replace -p0 -p1
 
 # The build downloads stb_image.h and semver.hpp with file(DOWNLOAD); copy the distfiles instead.
 # FETCHCONTENT_SOURCE_DIR_* skips the patch step, so apply upstream's ImGui patch here.
@@ -195,7 +195,7 @@ destroot {
 
 notes "
 Run spaghettikart once and it will ask for a US Mario Kart 64 ROM, then write the extracted assets\
-and saves to ~/.local/share/spaghettikart.
+ and saves to ~/Library/Application Support/spaghettikart.
 "
 
 livecheck.type      none

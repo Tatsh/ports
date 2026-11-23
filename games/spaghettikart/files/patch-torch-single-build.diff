@@ -18,8 +18,8 @@ does, leaves two defined at once, and gbi.h then redefines gsMoveMem and emits
 switches with duplicate cases. Give it its own target and undefine the
 microcode macros for it.
 
---- a/torch/CMakeLists.txt
-+++ b/torch/CMakeLists.txt
+--- torch/CMakeLists.txt
++++ torch/CMakeLists.txt
 @@ -41,24 +41,34 @@
      endif()
  endif()
