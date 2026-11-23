@@ -1,0 +1,23 @@
+diff --git src/launcher/src/mainDialog.cpp src/launcher/src/mainDialog.cpp
+index 10ccdb9..28bc7f8 100644
+--- src/launcher/src/mainDialog.cpp
++++ src/launcher/src/mainDialog.cpp
+@@ -85,6 +85,7 @@ private:
+ 	static int        g_theme;
+ 
+ 	static void ApplyTheme(int theme) {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+ 		auto scheme = Qt::ColorScheme::Unknown;
+ 		switch (theme) {
+ 			case 1: scheme = Qt::ColorScheme::Dark; break;
+@@ -92,6 +93,10 @@ private:
+ 			default: break;
+ 		}
+ 		QApplication::styleHints()->setColorScheme(scheme);
++#else
++		// Qt before 6.8 cannot override the colour scheme; the system one is used.
++		(void)theme;
++#endif
+ 	}
+ 
+ 	Ui::MainDialog* m_ui             = {nullptr};

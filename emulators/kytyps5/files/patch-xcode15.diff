@@ -1,0 +1,192 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index 68a0194..89f0b08 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -395,7 +395,18 @@ function(configure_macos_guest_address_space target)
+ 		target_sources(${target} PRIVATE "${KYTY_SOURCE_DIR}/kernel/macosGuestAddressSpace.cpp")
+ 		target_compile_definitions(${target} PRIVATE KYTY_LINKED_GUEST_ADDRESS_SPACE=1)
+ 		target_link_options(${target} PRIVATE
+-			-Wl,-ld_classic,-no_pie,-no_fixup_chains,-no_huge,-pagezero_size,0x40000,-segaddr,SYSTEM_MANAGED,0x40000,-segaddr,SYSTEM_RESERVED,0x7ffffc000,-segaddr,USER_AREA,0x7000000000,-image_base,0x700000000000)
++			-Wl,-ld_classic,-no_pie,-no_fixup_chains,-pagezero_size,0x40000,-segaddr,SYSTEM_MANAGED,0x40000,-segaddr,SYSTEM_RESERVED,0x7ffffc000,-segaddr,USER_AREA,0x7000000000,-image_base,0x700000000000)
++		# ld64 before 954 (Xcode 15) has no -no_huge; link one-page segments and grow them.
++		if(NOT TARGET kyty_macho_grow_segments)
++			add_executable(kyty_macho_grow_segments "${KYTY_SOURCE_DIR}/tools/machoGrowSegments.cpp")
++			target_compile_options(kyty_macho_grow_segments PRIVATE -fexceptions)
++		endif()
++		target_compile_definitions(${target} PRIVATE KYTY_GROW_GUEST_SEGMENTS=1)
++		add_dependencies(${target} kyty_macho_grow_segments)
++		add_custom_command(TARGET ${target} POST_BUILD
++			COMMAND kyty_macho_grow_segments $<TARGET_FILE:${target}>
++				SYSTEM_MANAGED 0x7fffbc000 SYSTEM_RESERVED 0x7c0004000 USER_AREA 0x8c00000000
++			VERBATIM)
+ 	endif()
+ endfunction()
+ 
+diff --git src/common/trophies.cpp src/common/trophies.cpp
+index 4bfdc53..fb63d8d 100644
+--- src/common/trophies.cpp
++++ src/common/trophies.cpp
+@@ -64,7 +64,9 @@ Json ReadJson(const Files& files, std::string_view name) {
+ 	if (entry == files.end()) {
+ 		return {};
+ 	}
+-	return Json::parse(entry->second.begin(), entry->second.end(), nullptr, false);
++	// libc++ 19 dropped the generic std::char_traits that nlohmann::json needs for std::byte.
++	const auto* begin = reinterpret_cast<const char*>(entry->second.data());
++	return Json::parse(begin, begin + entry->second.size(), nullptr, false);
+ }
+ 
+ bool ReadFiles(std::span<const std::byte> data, Files& files, uint64_t& size) {
+@@ -251,7 +253,8 @@ UnlockData LoadUnlockData(const std::filesystem::path& path) {
+ 		return {};
+ 	}
+ 	const auto bytes = file.ReadWholeBuffer();
+-	const auto json  = Json::parse(bytes.begin(), bytes.end(), nullptr, false);
++	const auto* begin = reinterpret_cast<const char*>(bytes.data());
++	const auto  json  = Json::parse(begin, begin + bytes.size(), nullptr, false);
+ 	if (!json.is_object() || !json.contains("unlockedTrophies") ||
+ 	    !json["unlockedTrophies"].is_array()) {
+ 		return {};
+diff --git src/emulator.cpp src/emulator.cpp
+index 026b4b0..1261ecc 100644
+--- src/emulator.cpp
++++ src/emulator.cpp
+@@ -133,6 +133,27 @@ static void LoadElf(const std::filesystem::path& elf, bool dbg_print_reloc = fal
+ 	}
+ }
+ 
++#if defined(__APPLE__)
++// quick_exit() and at_quick_exit() are missing before the macOS 15 SDK; keep their semantics
++// (run the registered handlers, then _Exit without atexit handlers or static destructors).
++namespace {
++void (*g_quick_exit_handler)() = nullptr;
++int at_quick_exit(void (*handler)()) {
++	g_quick_exit_handler = handler;
++	return 0;
++}
++[[noreturn]] void QuickExit(int code) {
++	if (g_quick_exit_handler != nullptr) {
++		g_quick_exit_handler();
++	}
++	_Exit(code);
++}
++} // namespace
++#define KYTY_QUICK_EXIT QuickExit
++#else
++#define KYTY_QUICK_EXIT std::quick_exit
++#endif
++
+ static void Execute(const std::filesystem::path& game_patch) {
+ 	auto           patch_path = game_patch;
+ 	Common::Thread guest_thread(
+@@ -142,7 +163,7 @@ static void Execute(const std::filesystem::path& game_patch) {
+ 	    },
+ 	    &patch_path);
+ 	Libs::Graphics::WindowRun();
+-	std::quick_exit(0);
++	KYTY_QUICK_EXIT(0);
+ }
+ 
+ void Run(const RunOptions& options) {
+diff --git src/kernel/macosGuestAddressSpace.cpp src/kernel/macosGuestAddressSpace.cpp
+index 892e84f..26090f3 100644
+--- src/kernel/macosGuestAddressSpace.cpp
++++ src/kernel/macosGuestAddressSpace.cpp
+@@ -1,8 +1,15 @@
+ #if defined(__APPLE__) && defined(__x86_64__)
+ 
+ // Make the process own the guest ranges before any runtime initialization.
++#if defined(KYTY_GROW_GUEST_SEGMENTS)
++// One-page placeholders; kyty_macho_grow_segments sets the real sizes after linking.
++asm(".zerofill SYSTEM_MANAGED,SYSTEM_MANAGED,__kyty_system_managed,0x4000");
++asm(".zerofill SYSTEM_RESERVED,SYSTEM_RESERVED,__kyty_system_reserved,0x4000");
++asm(".zerofill USER_AREA,USER_AREA,__kyty_user_area,0x4000");
++#else
+ asm(".zerofill SYSTEM_MANAGED,SYSTEM_MANAGED,__kyty_system_managed,0x7fffbc000");
+ asm(".zerofill SYSTEM_RESERVED,SYSTEM_RESERVED,__kyty_system_reserved,0x7c0004000");
+ asm(".zerofill USER_AREA,USER_AREA,__kyty_user_area,0x8c00000000");
++#endif
+ 
+ #endif
+diff --git src/tools/machoGrowSegments.cpp src/tools/machoGrowSegments.cpp
+new file mode 100644
+index 0000000..9768b9f
+--- /dev/null
++++ src/tools/machoGrowSegments.cpp
+@@ -0,0 +1,76 @@
++// Sets the size of zero-fill segments in a linked x86_64 Mach-O executable.
++//
++// Usage: kyty_macho_grow_segments FILE SEGMENT SIZE [SEGMENT SIZE]...
++//
++// The linker is given one-page placeholders for the guest address space segments: ld64 before
++// version 954 has no -no_huge, and its huge pass moves zero-fill sections above 2 GB into
++// __DATA,__huge, away from their fixed addresses. Zero-fill segments take no file space, so
++// growing them afterwards only changes their load commands.
++
++#include <mach-o/loader.h>
++
++#include <cstdint>
++#include <cstdio>
++#include <cstdlib>
++#include <cstring>
++#include <fstream>
++#include <iterator>
++#include <vector>
++
++int main(int argc, char* argv[]) {
++	if (argc < 4 || (argc - 2) % 2 != 0) {
++		std::fprintf(stderr, "usage: %s FILE SEGMENT SIZE [SEGMENT SIZE]...\n", argv[0]);
++		return 2;
++	}
++	std::vector<char> data;
++	{
++		std::ifstream in(argv[1], std::ios::binary);
++		data.assign(std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>());
++	}
++	if (data.size() < sizeof(mach_header_64)) {
++		std::fprintf(stderr, "%s: too small\n", argv[1]);
++		return 1;
++	}
++	mach_header_64 header {};
++	std::memcpy(&header, data.data(), sizeof(header));
++	if (header.magic != MH_MAGIC_64) {
++		std::fprintf(stderr, "%s: not a thin 64-bit Mach-O file\n", argv[1]);
++		return 1;
++	}
++	int    remaining = (argc - 2) / 2;
++	size_t offset    = sizeof(mach_header_64);
++	for (uint32_t i = 0; i < header.ncmds && offset + sizeof(load_command) <= data.size(); i++) {
++		load_command lc {};
++		std::memcpy(&lc, data.data() + offset, sizeof(lc));
++		if (lc.cmd == LC_SEGMENT_64) {
++			segment_command_64 seg {};
++			std::memcpy(&seg, data.data() + offset, sizeof(seg));
++			for (int arg = 2; arg + 1 < argc; arg += 2) {
++				if (std::strncmp(seg.segname, argv[arg], sizeof(seg.segname)) != 0) {
++					continue;
++				}
++				if (seg.filesize != 0 || seg.nsects != 1) {
++					std::fprintf(stderr, "%s: segment %s is not a single zero-fill section\n", argv[1],
++					             argv[arg]);
++					return 1;
++				}
++				const uint64_t size = std::strtoull(argv[arg + 1], nullptr, 0);
++				seg.vmsize          = size;
++				std::memcpy(data.data() + offset, &seg, sizeof(seg));
++				section_64 sect {};
++				std::memcpy(&sect, data.data() + offset + sizeof(seg), sizeof(sect));
++				sect.size = size;
++				std::memcpy(data.data() + offset + sizeof(seg), &sect, sizeof(sect));
++				remaining--;
++			}
++		}
++		offset += lc.cmdsize;
++	}
++	if (remaining != 0) {
++		std::fprintf(stderr, "%s: not all segments were found\n", argv[1]);
++		return 1;
++	}
++	std::ofstream out(argv[1], std::ios::binary | std::ios::trunc);
++	out.write(data.data(), static_cast<std::streamsize>(data.size()));
++	return out ? 0 : 1;
++}

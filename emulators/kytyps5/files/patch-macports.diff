@@ -1,0 +1,223 @@
+diff --git src/common/userDataDir.h src/common/userDataDir.h
+new file mode 100644
+index 0000000..5b4d795
+--- /dev/null
++++ src/common/userDataDir.h
+@@ -0,0 +1,27 @@
++#ifndef KYTY_COMMON_USER_DATA_DIR_H_
++#define KYTY_COMMON_USER_DATA_DIR_H_
++
++#include <cstdlib>
++#include <filesystem>
++#include <system_error>
++
++namespace Common {
++
++// Settings, saves, patches and logs are written relative to the working
++// directory. An installed application bundle is read-only, so work from
++// ~/Library/Application Support/KytyPS5 instead.
++inline bool EnterUserDataDirectory() {
++	const char* home = std::getenv("HOME");
++	if (home == nullptr || *home == '\0') {
++		return false;
++	}
++	const auto      dir = std::filesystem::path(home) / "Library" / "Application Support" / "KytyPS5";
++	std::error_code ec;
++	std::filesystem::create_directories(dir, ec);
++	std::filesystem::current_path(dir, ec);
++	return !ec;
++}
++
++} // namespace Common
++
++#endif /* KYTY_COMMON_USER_DATA_DIR_H_ */
+diff --git src/graphics/presentation/window/window.cpp src/graphics/presentation/window/window.cpp
+index 71657be..c0bbae5 100644
+--- src/graphics/presentation/window/window.cpp
++++ src/graphics/presentation/window/window.cpp
+@@ -805,7 +805,7 @@ static void WindowCreate(WindowContext& context) {
+ 			const std::string base_path_str = base_path;
+ 			std::string moltenvk_path = base_path_str + "libMoltenVK.dylib";
+ 			if (!Common::File::IsFileExisting(moltenvk_path)) {
+-				moltenvk_path = base_path_str + "../Frameworks/libMoltenVK.dylib";
++				moltenvk_path = "@PREFIX@/lib/libMoltenVK.dylib";
+ 			}
+ 			if (Common::File::IsFileExisting(moltenvk_path) &&
+ 			    SDL_setenv_unsafe("SDL_VULKAN_LIBRARY", moltenvk_path.c_str(), 0) == 0) {
+diff --git src/launcher/CMakeLists.txt src/launcher/CMakeLists.txt
+index 997f105..2f30e0f 100644
+--- src/launcher/CMakeLists.txt
++++ src/launcher/CMakeLists.txt
+@@ -1,6 +1,5 @@
+ 
+-find_package(Qt6 6.8 COMPONENTS Concurrent Network Widgets REQUIRED)
+-add_subdirectory("${KYTY_SOURCE_DIR}/updater" "${CMAKE_CURRENT_BINARY_DIR}/updater")
++find_package(Qt6 6.7 COMPONENTS Concurrent Network Widgets REQUIRED)
+ 
+ set(CMAKE_AUTOUIC_SEARCH_PATHS forms)
+ set(CMAKE_INCLUDE_CURRENT_DIR ON)
+@@ -54,13 +53,7 @@ elseif(LINUX)
+ 	set_target_properties(launcher PROPERTIES LINK_FLAGS "${KYTY_LD_OPTIONS}")
+ endif()
+ 
+-add_custom_target(stage_updater
+-	COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:launcher>
+-	COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:kyty_updater>
+-		$<TARGET_FILE_DIR:launcher>/$<TARGET_FILE_NAME:kyty_updater>
+-	DEPENDS kyty_updater
+-	VERBATIM)
+-add_dependencies(launcher kyty_emulator stage_updater)
++add_dependencies(launcher kyty_emulator)
+ 
+ if(KYTY_CLANG_CL)
+ 	add_custom_command(TARGET launcher POST_BUILD
+@@ -99,12 +92,9 @@ if(APPLE)
+ 	# kyty_emulator as helper inside Contents/MacOS. MoltenVK is found
+ 	# next to a flat executable or in the bundle's Contents/Frameworks;
+ 	# no rpath fixup is needed because SDL loads it by absolute path.
+-	# Qt deployment (Frameworks + plugins) is handled by macdeployqt.
+ 	set_target_properties(launcher PROPERTIES
+ 		MACOSX_BUNDLE TRUE
+ 		MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in"
+-		INSTALL_RPATH "@executable_path/../Frameworks"
+-		BUILD_WITH_INSTALL_RPATH TRUE
+ 	)
+ endif()
+ 
+@@ -114,28 +104,12 @@ install(TARGETS launcher
+ 
+ if(APPLE)
+ 	install(TARGETS kyty_emulator DESTINATION "KytyPS5.app/Contents/MacOS")
+-	install(TARGETS kyty_updater DESTINATION "KytyPS5.app/Contents/MacOS")
+ 	install(FILES "${KYTY_TROPHY_UNLOCK_SOUND}" DESTINATION "KytyPS5.app/Contents/Resources/assets/sounds")
+ 	install(FILES ${KYTY_NOTO_SANS_FONTS} DESTINATION "KytyPS5.app/Contents/Resources/assets/fonts")
+ 	install(DIRECTORY "${CMAKE_SOURCE_DIR}/assets/cursors" DESTINATION "KytyPS5.app/Contents/Resources/assets")
+-	# Deploy and ad-hoc sign the Qt frameworks and plugins in the bundle.
+-	find_program(KYTY_MACDEPLOYQT NAMES macdeployqt PATHS "${Qt6_DIR}/../../../bin" NO_DEFAULT_PATH)
+-	if(NOT KYTY_MACDEPLOYQT)
+-		message(FATAL_ERROR "Could not find macdeployqt")
+-	endif()
+-	install(CODE "
+-		execute_process(COMMAND \"${KYTY_MACDEPLOYQT}\" \"\${CMAKE_INSTALL_PREFIX}/KytyPS5.app\"
+-			-codesign=-
+-			RESULT_VARIABLE _kyty_deploy_result)
+-		if(NOT _kyty_deploy_result EQUAL 0)
+-			message(FATAL_ERROR \"macdeployqt failed with \${_kyty_deploy_result}\")
+-		endif()
+-	")
++	# MacPorts: Qt, SDL3 and MoltenVK come from the prefix; nothing is deployed into the bundle.
+ endif()
+ 
+-if(NOT APPLE)
+-	install(TARGETS kyty_updater RUNTIME DESTINATION .)
+-endif()
+ 
+ if(WIN32)
+     install(CODE "
+diff --git src/launcher/Info.plist.in src/launcher/Info.plist.in
+index 74f2e05..8b87475 100644
+--- src/launcher/Info.plist.in
++++ src/launcher/Info.plist.in
+@@ -10,6 +10,7 @@
+ 	<key>CFBundlePackageType</key><string>APPL</string>
+ 	<key>CFBundleSignature</key><string>????</string>
+ 	<key>CFBundleExecutable</key><string>KytyPS5</string>
++	<key>CFBundleIconFile</key><string>KytyPS5</string>
+ 	<key>LSMinimumSystemVersion</key><string>13.0</string>
+ 	<key>NSHighResolutionCapable</key><true/>
+ 	<key>NSRequiresAquaSystemAppearance</key><false/>
+diff --git src/launcher/src/cheatFile.cpp src/launcher/src/cheatFile.cpp
+index 1c14454..ad3cb9f 100644
+--- src/launcher/src/cheatFile.cpp
++++ src/launcher/src/cheatFile.cpp
+@@ -48,7 +48,7 @@ QString PlanPath(const QString& title_id) {
+ 	if (!IsSupportedTitleId(title_id)) {
+ 		return {};
+ 	}
+-	return QDir(QCoreApplication::applicationDirPath())
++	return QDir(QDir::currentPath())
+ 	    .filePath(QStringLiteral("_Patches/%1.json").arg(title_id.trimmed().toUpper()));
+ }
+ 
+diff --git src/launcher/src/configurationEditDialog.cpp src/launcher/src/configurationEditDialog.cpp
+index 193dc10..22e6192 100644
+--- src/launcher/src/configurationEditDialog.cpp
++++ src/launcher/src/configurationEditDialog.cpp
+@@ -263,7 +263,7 @@ void ConfigurationEditDialog::Init(const Configuration& info) {
+ 		const auto base    = QCoreApplication::applicationDirPath();
+ 		auto       library = base + "/libMoltenVK.dylib";
+ 		if (!QFileInfo::exists(library)) {
+-			library = base + "/../Frameworks/libMoltenVK.dylib";
++			library = QStringLiteral("@PREFIX@/lib/libMoltenVK.dylib");
+ 		}
+ 		if (QFileInfo::exists(library)) {
+ 			qputenv("QT_VULKAN_LIB", library.toUtf8());
+diff --git src/launcher/src/main.cpp src/launcher/src/main.cpp
+index 6310d40..09f5842 100644
+--- src/launcher/src/main.cpp
++++ src/launcher/src/main.cpp
+@@ -1,11 +1,13 @@
+ #include "mainDialog.h"
+ #include "launcherTheme.h"
++#include "common/userDataDir.h"
+ 
+ #include <QApplication>
+ #include <QIcon>
+ 
+ int main(int argc, char* argv[]) {
+ 	QApplication a(argc, argv);
++	Common::EnterUserDataDirectory();
+ 	// Title bars and taskbars get the bolder small-size artwork.
+ 	const QIcon small_art(QStringLiteral(":/icons/kyty-small.svg"));
+ 	const QIcon large_art(QStringLiteral(":/icons/kyty.svg"));
+diff --git src/launcher/src/mainDialog.cpp src/launcher/src/mainDialog.cpp
+index 717aa43..10ccdb9 100644
+--- src/launcher/src/mainDialog.cpp
++++ src/launcher/src/mainDialog.cpp
+@@ -436,7 +436,7 @@ void MainDialog::RunInterpreter(QProcess* process, const Configuration& info, bo
+ 	process->setNativeArguments(
+ 	    CmdCommand(QDir::toNativeSeparators(interpreter), args, close_terminal));
+ #endif
+-	process->setWorkingDirectory(QFileInfo(interpreter).absolutePath());
++	process->setWorkingDirectory(QDir::currentPath());
+ #if defined(_WIN32)
+ 	process->setCreateProcessArgumentsModifier([](QProcess::CreateProcessArguments* args) {
+ 		args->flags |= static_cast<uint32_t>(CREATE_NEW_CONSOLE);
+diff --git src/main.cpp src/main.cpp
+index feebc42..1365cd9 100644
+--- src/main.cpp
++++ src/main.cpp
+@@ -5,6 +5,7 @@
+ #include "common/file.h"
+ #include "common/stringUtils.h"
+ #include "common/threads.h"
++#include "common/userDataDir.h"
+ #include "common/virtualMemory.h"
+ #include "emulator.h"
+ #include "kytyGitVersion.h"
+@@ -455,6 +456,25 @@ static int Main(int argc, char* argv[]) {
+ 		return 0;
+ 	}
+ 
++	// Resolve path arguments before leaving the caller's directory.
++	static std::vector<std::string> absolute_args;
++	absolute_args.reserve(static_cast<size_t>(argc));
++	for (int index = 1; index + 1 < argc; index++) {
++		const std::string_view arg(argv[index]);
++		if (arg == "--game" || arg == "--addcont-dir" || arg == "--game-patch" ||
++		    arg == "--shader-log-folder" ||
++		    arg == "--command-buffer-dump-folder" || arg == "--printf-output-file") {
++			std::error_code ec;
++			auto            path = std::filesystem::absolute(argv[index + 1], ec);
++			if (!ec) {
++				absolute_args.push_back(path.string());
++				argv[index + 1] = absolute_args.back().data();
++			}
++			index++;
++		}
++	}
++	Common::EnterUserDataDirectory();
++
+ 	if (!ParseArgs(argc, argv, options, show_help)) {
+ 		PrintUsage();
+ 		return 1;

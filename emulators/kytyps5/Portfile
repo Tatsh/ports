@@ -1,0 +1,226 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+set tag             KytyPS5-2026-11-02-dfec14a
+github.setup        KytyPS5 KytyPS5 ${tag}
+github.tarball_from archive
+name                kytyps5
+version             20261102
+revision            0
+categories          emulators games
+license             GPL-2 MIT MIT-0 BSD OFL-1.1
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         PlayStation 5 translation layer based on Kyty.
+long_description    KytyPS5 runs PlayStation 5 games by translating the system calls of their \
+                    x86-64 code, with a Vulkan renderer (through MoltenVK on macOS). macOS support \
+                    is experimental. This installs KytyPS5.app, a Qt launcher with the emulator \
+                    as a helper executable.
+homepage            https://kytyps5.github.io
+# The guest code is x86-64 and runs natively; it is built for x86-64-v3 (AVX2).
+supported_archs     x86_64
+platforms           {darwin >= 22}
+
+distname            ${github.project}-${tag}
+
+# Bundled sources as directory under 3rdparty, owner/repo and commit; MacPorts has none of these
+# (or, for imgui, LibAtrac9 and ZArchive, upstream needs a particular revision or fork).
+set bundled {
+    imgui           ocornut/imgui                   f1cc2ae15e53a861a874c3034aae6798fde194ab
+    LibAtrac9       shadps4-emu/ext-LibAtrac9       ec8899dadf393f655f2871a94e0fe4b3d6220c9a
+    ZArchive        Exzap/ZArchive                  d2c717730092c7bf8cbb033b12fd4001b7c4d932
+    tracy           wolfpld/tracy                   30997d5ca6bb632cc10807a1da8a6d3de0aeeb3c
+    xbyak           herumi/xbyak                    44a72f369268f7d552650891b296693e91db86bb
+    zydis           zyantific/zydis                 120e0e705f8e3b507dc49377ac2879979f0d545c
+    zydis/dependencies/zycore zyantific/zycore-c    38d4f0285e6157ee840ea82a9b90aba71c8a705d
+    openxr          KhronosGroup/OpenXR-SDK         f2448a8797c85814aa892efc1ab8707900fbcc78
+}
+set i 0
+foreach {path repo rev} ${bundled} {
+    incr i
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:s${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:s${i}
+}
+# Noto Sans, libFont's fallback font, which upstream downloads at configure time.
+set noto_commit     42af67ccd12bc0e31ed85384bf73e39248265374
+set noto_base       https://raw.githubusercontent.com/notofonts/notofonts.github.io/${noto_commit}
+append noto_base     /fonts
+set noto_fonts      {NotoSans-Regular.ttf NotoSans-Bold.ttf NotoSans-Italic.ttf
+                     NotoSans-BoldItalic.ttf}
+master_sites-append ${noto_base}/NotoSans/hinted/ttf:noto \
+                    ${noto_base}/LICENSE?dummy=:notolicense
+foreach f ${noto_fonts} {
+    distfiles-append ${f}:noto
+}
+distfiles-append    noto-sans-LICENSE:notolicense
+extract.only
+foreach d ${distfiles} {
+    set d [lindex [split ${d} :] 0]
+    if {[string match *.tar.gz ${d}]} {
+        extract.only-append ${d}
+    }
+}
+
+checksums           KytyPS5-KytyPS5-2026-11-02-dfec14a.tar.gz \
+                    rmd160  ec6a7aa0c4f00a444d91621861b21cdabaf72486 \
+                    sha256  5b6810f8ae43bb360982e7c1d08d183e39661fef1fdd90012abbecb078609ec0 \
+                    size    17160555 \
+                    imgui-f1cc2ae15e53a861a874c3034aae6798fde194ab.tar.gz \
+                    rmd160  0315565697a65cef9b7440a141fcb7cd74c1a196 \
+                    sha256  f30be7f3e2136615b1848a9afb72f6dfd8a60820ddf1c1a85997bf3b722e7cfc \
+                    size    2124619 \
+                    ext-LibAtrac9-ec8899dadf393f655f2871a94e0fe4b3d6220c9a.tar.gz \
+                    rmd160  4ee4b0122a95aedffa8f521099c5932ec0f4afbc \
+                    sha256  6210a9013060857d28804aa46c7c3ad2cebbdd38f259e6017e9d21c2fa1f37f5 \
+                    size    65371 \
+                    ZArchive-d2c717730092c7bf8cbb033b12fd4001b7c4d932.tar.gz \
+                    rmd160  bb7bd2ce902d21260dfb8c04dfd6b728d12096f1 \
+                    sha256  96a1be457dd289c24e33a76a1020d0a974d992f771dd3cb7a6dac9c8427e6f8e \
+                    size    19782 \
+                    tracy-30997d5ca6bb632cc10807a1da8a6d3de0aeeb3c.tar.gz \
+                    rmd160  0401874ef766fe52d85cd53e1414ccbb9d95320d \
+                    sha256  e9d527343623435de954a72ad211a1ae4b205cb877d5cc81b8bd505aac0a2cde \
+                    size    6176661 \
+                    xbyak-44a72f369268f7d552650891b296693e91db86bb.tar.gz \
+                    rmd160  a3430fca7929b0947e3792c2a791a545e5a68e06 \
+                    sha256  b5ff11ffdbcdb2fe8c7a441a25a6ed63c2ef2760a018b5ebb81969eaad96fafb \
+                    size    294442 \
+                    zydis-120e0e705f8e3b507dc49377ac2879979f0d545c.tar.gz \
+                    rmd160  508a671f69c1dbc440d6060ce0754031158a4c7b \
+                    sha256  2ed57a3bd77a2a10fe354638ea5a487582bb944b0d897b58c0e4d2acf466c126 \
+                    size    813994 \
+                    zycore-c-38d4f0285e6157ee840ea82a9b90aba71c8a705d.tar.gz \
+                    rmd160  d1c830eae4ebf41f2f3e839f8767091f503c89fa \
+                    sha256  fcc8de568292cf8f1793bf62e9fcf12bc70ea661a54c932690607f5ac2a8cb5c \
+                    size    65239 \
+                    OpenXR-SDK-f2448a8797c85814aa892efc1ab8707900fbcc78.tar.gz \
+                    rmd160  f5abe4c7264fadb3e690deae41d1f69b34a2b028 \
+                    sha256  1681e0f6c9633c73117c2fc376d1fe71cbd6fdd2aeb896ed5854ff022aa82eaa \
+                    size    997219 \
+                    NotoSans-Regular.ttf \
+                    rmd160  09ebad0b1ccedeba9ad4d5bf6ebca70b1fc8b6b2 \
+                    sha256  478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823 \
+                    size    621572 \
+                    NotoSans-Bold.ttf \
+                    rmd160  86e5c20f402afa7e583ab51ce135716eabe2929e \
+                    sha256  1df075a380fc7cb898acf64c1f7b3b4dd780de3caa860178bf929de35817a913 \
+                    size    631484 \
+                    NotoSans-Italic.ttf \
+                    rmd160  deef3637fcc37e25ca3b55fe7a1188e9e2a8c80d \
+                    sha256  467e3f89eeca4108bb8710a2b9e0cf2281ac56d5b0609211a83776d0505eecb5 \
+                    size    639124 \
+                    NotoSans-BoldItalic.ttf \
+                    rmd160  6989afbaab937314b5ead45b83f88c064e29c131 \
+                    sha256  1b602a9d6353be42c91df097a4857b69fa2696f26703d7a33b54a15d87c2622c \
+                    size    646092 \
+                    noto-sans-LICENSE \
+                    rmd160  77baa1b81a38ac9d2d01e698ea3a25ee4b803f9c \
+                    sha256  f2095b08bed08b23a6fe26112fcd679a2bee3f002eef077eb05d215ed1051bd8 \
+                    size    4374
+
+depends_build-append \
+                    port:glslang \
+                    port:magic_enum \
+                    port:nlohmann-json \
+                    path:bin/pkg-config:pkgconfig \
+                    path:bin/rsvg-convert:librsvg \
+                    port:spirv-headers \
+                    port:vulkan-headers \
+                    port:vulkan-memory-allocator
+depends_lib-append  port:ffmpeg8 \
+                    port:libfmt12 \
+                    port:libopus \
+                    port:SDL3 \
+                    port:spdlog \
+                    port:spirv-tools \
+                    port:xxhashlib \
+                    port:zstd
+depends_run-append  port:MoltenVK
+
+post-extract {
+    foreach {path repo rev} ${bundled} {
+        file delete -force ${worksrcpath}/3rdparty/${path}
+        set dir [lindex [glob -directory ${workpath} -types d "*-${rev}"] 0]
+        file rename ${dir} ${worksrcpath}/3rdparty/${path}
+    }
+    xinstall -d ${worksrcpath}/3rdparty/noto-sans
+    foreach f ${noto_fonts} {
+        copy ${distpath}/${f} ${worksrcpath}/3rdparty/noto-sans/
+    }
+    copy ${distpath}/noto-sans-LICENSE ${worksrcpath}/3rdparty/noto-sans/LICENSE
+}
+
+# Libraries from MacPorts instead of fetched or submodule copies (after tatsh-overlay).
+patchfiles          patch-system-libs.diff
+# The working directory in ~/Library/Application Support/KytyPS5, MoltenVK from ${prefix}/lib, no
+# macdeployqt or updater in the app bundle, an app icon, and Qt 6.7 in find_package().
+patchfiles-append   patch-macports.diff
+# Qt 6.7: QStyleHints::setColorScheme() is from Qt 6.8.
+patchfiles-append   patch-qt67.diff
+# Xcode 15 and macOS 13: ld64 951 has no -no_huge, so the guest address space segments are linked
+# as placeholders and grown afterwards; no quick_exit() in the macOS 13 SDK; nlohmann::json cannot
+# parse std::byte ranges with libc++ 19.
+patchfiles-append   patch-xcode15.diff
+
+post-patch {
+    # KytyPS5's reader hardening patch for ZArchive, whose sources are CRLF.
+    reinplace -E {s/\r$//} ${worksrcpath}/3rdparty/ZArchive/src/zarchivereader.cpp \
+        ${worksrcpath}/3rdparty/ZArchive/include/zarchive/zarchivecommon.h
+    system -W ${worksrcpath}/3rdparty/ZArchive \
+        "patch -p1 < ${worksrcpath}/3rdparty/patches/zarchive-reader.patch"
+    reinplace "s|@PREFIX@|${prefix}|g" \
+        ${worksrcpath}/src/graphics/presentation/window/window.cpp \
+        ${worksrcpath}/src/launcher/src/configurationEditDialog.cpp
+    reinplace -E "s|set\\(KYTY_GIT_VERSION \"unknown\"\\)|set(KYTY_GIT_VERSION \"${tag}\")|" \
+        ${worksrcpath}/src/generate_version.cmake
+    reinplace -E "s|set\\(KYTY_GIT_HASH \"unknown\"\\)|set(KYTY_GIT_HASH \"dfec14a\")|" \
+        ${worksrcpath}/src/generate_version.cmake
+}
+
+# C++20 with newer library features than Xcode 15's libc++; libc++'s availability markup keeps the
+# code to what macOS 13's libc++ provides.
+compiler.whitelist  macports-clang-20
+
+cmake.build_type    Release
+cmake.generator     Ninja
+configure.pkg_config_path-append ${prefix}/libexec/ffmpeg8/lib/pkgconfig
+configure.args-append \
+                    -Wno-dev \
+                    -DCMAKE_C_COMPILER_LAUNCHER= \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER= \
+                    -DBUILD_TESTING=OFF \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt
+
+post-destroot {
+    set app ${destroot}${applications_dir}/KytyPS5.app
+    xinstall -d ${destroot}${applications_dir}
+    move ${destroot}${prefix}/KytyPS5.app ${app}
+    set iconset ${workpath}/KytyPS5.iconset
+    set svg ${worksrcpath}/src/launcher/icons/kyty.svg
+    file mkdir ${iconset}
+    foreach s {16 32 128 256 512} {
+        set d [expr {${s} * 2}]
+        system "rsvg-convert -w ${s} -h ${s} ${svg} -o ${iconset}/icon_${s}x${s}.png"
+        system "rsvg-convert -w ${d} -h ${d} ${svg} -o ${iconset}/icon_${s}x${s}@2x.png"
+    }
+    system "iconutil -c icns ${iconset} -o ${app}/Contents/Resources/KytyPS5.icns"
+    # The emulator needs the JIT entitlements again after installation changed the binary.
+    system "codesign -s - --force --options runtime\
+        --entitlements ${worksrcpath}/src/macos_jit.entitlements\
+        ${app}/Contents/MacOS/kyty_emulator"
+    system "codesign -s - --force ${app}"
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    move ${destroot}${prefix}/licenses ${docdir}/licenses
+    xinstall -d ${docdir}/licenses/noto-sans
+    xinstall -m 0644 ${worksrcpath}/3rdparty/noto-sans/LICENSE ${docdir}/licenses/noto-sans/
+    xinstall -m 0644 -W ${worksrcpath} README.md LICENSE ${docdir}
+    foreach f {kyty_emulator assets} {
+        delete ${destroot}${prefix}/${f}
+    }
+}
+
+livecheck.type      none
