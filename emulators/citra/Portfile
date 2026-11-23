@@ -10,6 +10,7 @@ name                citra
 # PabloMK7/citra repository is gone; the tag tarball survives in the Wayback Machine.
 set tag             r5115f64
 version             20240821
+revision            1
 categories          emulators games
 license             GPL-2+ LGPL-2.1+ BSD MIT zlib
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -142,7 +143,8 @@ patchfiles          patch-0001-system-libraries.diff \
                     patch-0008-fix-find-cryptopp.diff \
                     patch-0010-missing-cstring.diff \
                     patch-ffmpeg-7-chlayout.diff
-patch.pre_args-replace -p0 -p1
+# Always the standard macOS paths, never leftover XDG directories.
+patchfiles-append   patch-macos-user-paths.diff
 
 post-patch {
     # Everything comes from the distfiles or MacPorts: make the build's own downloads (bundled Qt
@@ -228,3 +230,40 @@ destroot {
 }
 
 livecheck.type      none
+
+# citra-room, the dedicated multiplayer room server, as a launchd service under its own user.
+# Its settings are in ${prefix}/etc/citra-room.conf.
+set room_data       ${prefix}/var/db/citra-room
+
+add_users           _citraroom group=_citraroom realname=Citra\ room home=${room_data}
+
+post-destroot {
+    xinstall -d -m 0750 -o _citraroom -g _citraroom ${destroot}${room_data}
+    xinstall -m 0640 -g _citraroom ${filespath}/citra-room.conf ${destroot}${prefix}/etc/citra-room.conf.sample
+    xinstall -d ${destroot}${prefix}/libexec/citra
+    xinstall -m 0755 ${filespath}/citra-room-service.sh ${destroot}${prefix}/libexec/citra/room-service
+    reinplace "s|@PREFIX@|${prefix}|g; s|@ROOM@|citra-room|g; s|@DATADIR@|${room_data}|g" \
+        ${destroot}${prefix}/libexec/citra/room-service
+}
+destroot.keepdirs-append ${destroot}${room_data}
+
+post-activate {
+    if {![file exists ${prefix}/etc/citra-room.conf]} {
+        file copy ${prefix}/etc/citra-room.conf.sample ${prefix}/etc/citra-room.conf
+        file attributes ${prefix}/etc/citra-room.conf -group _citraroom -permissions 0640
+    }
+}
+
+startupitem.create  yes
+startupitem.name    citra-room
+startupitem.user    _citraroom
+startupitem.group   _citraroom
+startupitem.logfile ${prefix}/var/log/citra-room.log
+startupitem.executable \
+                    ${prefix}/libexec/citra/room-service
+
+notes "
+To host a multiplayer room, set ROOM_NAME and PREFERRED_GAME in ${prefix}/etc/citra-room.conf\
+ and load the service with: sudo port load citra. The room listens on all interfaces (citra-room has no bind option). Bans\
+ made while it runs are saved only when it quits from its console, not when launchd stops it.
+"

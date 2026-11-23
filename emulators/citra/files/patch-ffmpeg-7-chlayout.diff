@@ -1,5 +1,5 @@
---- a/src/core/dumping/ffmpeg_backend.cpp
-+++ b/src/core/dumping/ffmpeg_backend.cpp
+--- src/core/dumping/ffmpeg_backend.cpp
++++ src/core/dumping/ffmpeg_backend.cpp
 @@ -956,8 +956,8 @@
      case AV_OPT_TYPE_VIDEO_RATE: {
          return ToStdString(option->default_val.str);
@@ -11,8 +11,8 @@
      }
      default:
          return "";
---- a/src/citra_qt/dumping/option_set_dialog.cpp
-+++ b/src/citra_qt/dumping/option_set_dialog.cpp
+--- src/citra_qt/dumping/option_set_dialog.cpp
++++ src/citra_qt/dumping/option_set_dialog.cpp
 @@ -27,7 +27,7 @@
      {AV_OPT_TYPE_STRING, QT_TR_NOOP("string")},
      {AV_OPT_TYPE_DICT, QT_TR_NOOP("dictionary")},

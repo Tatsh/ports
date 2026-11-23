@@ -1,0 +1,21 @@
+--- src/common/file_util.cpp
++++ src/common/file_util.cpp
+@@ -798,14 +798,10 @@
+                 GetUserDirectory("XDG_CACHE_HOME") + DIR_SEP EMU_DATA_DIR DIR_SEP;
+ 
+ #if defined(__APPLE__)
+-            // If XDG directories don't already exist from a previous setup, use standard macOS
+-            // paths.
+-            if (!FileUtil::Exists(data_dir) && !FileUtil::Exists(config_dir) &&
+-                !FileUtil::Exists(cache_dir)) {
+-                data_dir = GetHomeDirectory() + DIR_SEP APPLE_EMU_DATA_DIR DIR_SEP;
+-                config_dir = data_dir + CONFIG_DIR DIR_SEP;
+-                cache_dir = data_dir + CACHE_DIR DIR_SEP;
+-            }
++            // The standard macOS paths, even when XDG directories exist from a previous setup.
++            data_dir = GetHomeDirectory() + DIR_SEP APPLE_EMU_DATA_DIR DIR_SEP;
++            config_dir = data_dir + CONFIG_DIR DIR_SEP;
++            cache_dir = data_dir + CACHE_DIR DIR_SEP;
+ #endif
+ 
+             user_path = data_dir;

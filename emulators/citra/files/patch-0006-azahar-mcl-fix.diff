@@ -7,10 +7,10 @@ Subject: [PATCH] Fix lift_sequence in msys2
  include/mcl/mp/typelist/lift_sequence.hpp | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/include/mcl/mp/typelist/lift_sequence.hpp b/include/mcl/mp/typelist/lift_sequence.hpp
+diff --git include/mcl/mp/typelist/lift_sequence.hpp include/mcl/mp/typelist/lift_sequence.hpp
 index ba2617b..d1070df 100644
---- a/externals/dynarmic/externals/mcl/include/mcl/mp/typelist/lift_sequence.hpp
-+++ b/externals/dynarmic/externals/mcl/include/mcl/mp/typelist/lift_sequence.hpp
+--- externals/dynarmic/externals/mcl/include/mcl/mp/typelist/lift_sequence.hpp
++++ externals/dynarmic/externals/mcl/include/mcl/mp/typelist/lift_sequence.hpp
 @@ -5,6 +5,7 @@
  #pragma once
 

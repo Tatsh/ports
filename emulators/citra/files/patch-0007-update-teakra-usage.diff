@@ -1,7 +1,7 @@
-diff --git a/src/audio_core/lle/lle.cpp b/src/audio_core/lle/lle.cpp
+diff --git src/audio_core/lle/lle.cpp src/audio_core/lle/lle.cpp
 index 91ac5dc73..2dfb28ae1 100644
---- a/src/audio_core/lle/lle.cpp
-+++ b/src/audio_core/lle/lle.cpp
+--- src/audio_core/lle/lle.cpp
++++ src/audio_core/lle/lle.cpp
 @@ -14,6 +14,7 @@
  #include "core/core.h"
  #include "core/core_timing.h"

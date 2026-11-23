@@ -11,10 +11,10 @@ Subject: [PATCH 1/2] System libraries
  src/common/logging/backend.cpp |  3 +--
  5 files changed, 37 insertions(+), 19 deletions(-)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
+diff --git CMakeLists.txt CMakeLists.txt
 index eaa5ca118..8ada4e674 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -92,6 +92,22 @@ CMAKE_DEPENDENT_OPTION(CITRA_ENABLE_BUNDLE_TARGET "Enable the distribution bundl
  CMAKE_DEPENDENT_OPTION(COMPILE_WITH_DWARF "Add DWARF debugging information" ${IS_DEBUG_BUILD} "MINGW" OFF)
  option(ENABLE_LTO "Enable link time optimization" ${DEFAULT_ENABLE_LTO})
@@ -38,10 +38,10 @@ index eaa5ca118..8ada4e674 100644
  option(CITRA_WARNINGS_AS_ERRORS "Enable warnings as errors" ON)
  
  include(CitraHandleSystemLibs)
-diff --git a/externals/CMakeLists.txt b/externals/CMakeLists.txt
+diff --git externals/CMakeLists.txt externals/CMakeLists.txt
 index 2f7bdde71..49b05e3c7 100644
---- a/externals/CMakeLists.txt
-+++ b/externals/CMakeLists.txt
+--- externals/CMakeLists.txt
++++ externals/CMakeLists.txt
 @@ -54,8 +54,6 @@ target_link_libraries(catch2 INTERFACE Catch2::Catch2WithMain)
  # Crypto++
  if(USE_SYSTEM_CRYPTOPP)
@@ -92,10 +92,10 @@ index 2f7bdde71..49b05e3c7 100644
  else()
      set(ZSTD_LEGACY_SUPPORT OFF)
      set(ZSTD_BUILD_PROGRAMS OFF)
-diff --git a/src/audio_core/CMakeLists.txt b/src/audio_core/CMakeLists.txt
+diff --git src/audio_core/CMakeLists.txt src/audio_core/CMakeLists.txt
 index a000e1fc1..a8d14f643 100644
---- a/src/audio_core/CMakeLists.txt
-+++ b/src/audio_core/CMakeLists.txt
+--- src/audio_core/CMakeLists.txt
++++ src/audio_core/CMakeLists.txt
 @@ -44,7 +44,7 @@ add_library(audio_core STATIC
  create_target_directory_groups(audio_core)
  
@@ -105,10 +105,10 @@ index a000e1fc1..a8d14f643 100644
  
  if(ENABLE_SDL2)
      target_link_libraries(audio_core PRIVATE SDL2::SDL2)
-diff --git a/src/common/CMakeLists.txt b/src/common/CMakeLists.txt
+diff --git src/common/CMakeLists.txt src/common/CMakeLists.txt
 index f8c953a60..94539913f 100644
---- a/src/common/CMakeLists.txt
-+++ b/src/common/CMakeLists.txt
+--- src/common/CMakeLists.txt
++++ src/common/CMakeLists.txt
 @@ -181,11 +181,14 @@ else()
      $<$<CXX_COMPILER_ID:Clang>:-fsized-deallocation>
    )
@@ -137,10 +137,10 @@ index f8c953a60..94539913f 100644
 +if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux" AND CMAKE_CXX_COMPILER_ID STREQUAL GNU)
 +  target_link_libraries(citra_common PRIVATE dl)
  endif()
-diff --git a/src/common/logging/backend.cpp b/src/common/logging/backend.cpp
+diff --git src/common/logging/backend.cpp src/common/logging/backend.cpp
 index 1ea126eaa..f54fad439 100644
---- a/src/common/logging/backend.cpp
-+++ b/src/common/logging/backend.cpp
+--- src/common/logging/backend.cpp
++++ src/common/logging/backend.cpp
 @@ -13,8 +13,7 @@
  #define _SH_DENYWR 0
  #endif

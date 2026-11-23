@@ -8,10 +8,10 @@ Subject: [PATCH 2/2] inih fix
  src/video_core/renderer_vulkan/vk_shader_util.cpp | 2 +-
  2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/src/citra/config.cpp b/src/citra/config.cpp
+diff --git src/citra/config.cpp src/citra/config.cpp
 index baf5bbded..2ddc70d70 100644
---- a/src/citra/config.cpp
-+++ b/src/citra/config.cpp
+--- src/citra/config.cpp
++++ src/citra/config.cpp
 @@ -8,6 +8,7 @@
  #include <type_traits>
  #include <INIReader.h>
@@ -20,10 +20,10 @@ index baf5bbded..2ddc70d70 100644
  #include "citra/config.h"
  #include "citra/default_ini.h"
  #include "common/file_util.h"
-diff --git a/src/video_core/renderer_vulkan/vk_shader_util.cpp b/src/video_core/renderer_vulkan/vk_shader_util.cpp
+diff --git src/video_core/renderer_vulkan/vk_shader_util.cpp src/video_core/renderer_vulkan/vk_shader_util.cpp
 index ba5c5f867..24a53857e 100644
---- a/src/video_core/renderer_vulkan/vk_shader_util.cpp
-+++ b/src/video_core/renderer_vulkan/vk_shader_util.cpp
+--- src/video_core/renderer_vulkan/vk_shader_util.cpp
++++ src/video_core/renderer_vulkan/vk_shader_util.cpp
 @@ -2,8 +2,8 @@
  // Licensed under GPLv2 or any later version
  // Refer to the license.txt file included.

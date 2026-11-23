@@ -7,10 +7,10 @@ Subject: [PATCH] vk_platform.cpp: Update to become Vulkan v1.4.304+ compliant
  .../renderer_vulkan/vk_platform.cpp           | 31 +++++++++----------
  1 file changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/src/video_core/renderer_vulkan/vk_platform.cpp b/src/video_core/renderer_vulkan/vk_platform.cpp
+diff --git src/video_core/renderer_vulkan/vk_platform.cpp src/video_core/renderer_vulkan/vk_platform.cpp
 index fa8f761998..cd628f03e0 100644
---- a/src/video_core/renderer_vulkan/vk_platform.cpp
-+++ b/src/video_core/renderer_vulkan/vk_platform.cpp
+--- src/video_core/renderer_vulkan/vk_platform.cpp
++++ src/video_core/renderer_vulkan/vk_platform.cpp
 @@ -29,8 +29,8 @@ namespace Vulkan {
  
  namespace {

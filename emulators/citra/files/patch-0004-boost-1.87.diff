@@ -1,7 +1,7 @@
-diff --git a/src/input_common/udp/client.cpp b/src/input_common/udp/client.cpp
+diff --git src/input_common/udp/client.cpp src/input_common/udp/client.cpp
 index 7b14dbc76..70b0d049f 100644
---- a/src/input_common/udp/client.cpp
-+++ b/src/input_common/udp/client.cpp
+--- src/input_common/udp/client.cpp
++++ src/input_common/udp/client.cpp
 @@ -108,7 +108,7 @@ private:
      }
  

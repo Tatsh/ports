@@ -1,7 +1,7 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
+diff --git CMakeLists.txt CMakeLists.txt
 index 6931cda9d..f4138802a 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -227,8 +227,6 @@ message(STATUS "Target architecture: ${ARCHITECTURE}")
  # Configure C++ standard
  # ===========================
