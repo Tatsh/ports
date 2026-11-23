@@ -4,6 +4,7 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/giwty/switch-library-manager 1.4.0
+revision            1
 categories          games
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 license             MIT
@@ -118,8 +119,7 @@ go.vendors          github.com/asaskevich/govalidator \
 # for the console mode, with settings in the XDG directories.
 patchfiles          patch-fix-version.diff \
                     patch-fix-versions-url.diff \
-                    patch-no-gui-xdg.diff
-patch.pre_args-replace -p0 -p1
+                    patch-no-gui.diff
 # The GUI removal leaves gui.go empty rather than deleting it.
 post-patch {
     delete ${worksrcpath}/gui.go

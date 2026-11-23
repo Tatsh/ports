@@ -1,7 +1,7 @@
-diff --git a/settings/settings.go b/settings/settings.go
+diff --git settings/settings.go settings/settings.go
 index 8095104..8ce5fb4 100644
---- a/settings/settings.go
-+++ b/settings/settings.go
+--- settings/settings.go
++++ settings/settings.go
 @@ -22,8 +22,7 @@ const (
  	SLM_VERSION            = "1.4.0"
  	TITLES_JSON_URL        = "https://tinfoil.media/repo/db/titles.json"

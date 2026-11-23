@@ -1,7 +1,7 @@
-diff --git a/gui.go b/gui.go
+diff --git gui.go gui.go
 deleted file mode 100644
 index f290616..0000000
---- a/gui.go
+--- gui.go
 +++ /dev/null
 @@ -1,458 +0,0 @@
 -package main
@@ -462,30 +462,27 @@ index f290616..0000000
 -	return result
 -
 -}
-diff --git a/main.go b/main.go
+diff --git main.go main.go
 index 3c3fa7e..5840b5d 100644
---- a/main.go
-+++ b/main.go
-@@ -19,7 +19,17 @@ func main() {
+--- main.go
++++ main.go
+@@ -19,7 +19,14 @@ func main() {
  		return
  	}
  
 -	workingFolder := filepath.Dir(exePath)
-+	dataHome, ok := os.LookupEnv("XDG_DATA_HOME")
-+	if !ok {
-+		homeDir, err := os.UserHomeDir()
-+		if err != nil {
-+			panic(1)
-+		}
-+		dataHome = homeDir + "/.local/share"
++	// ~/Library/Application Support on macOS.
++	configDir, err := os.UserConfigDir()
++	if err != nil {
++		panic(1)
 +	}
-+	dataHome += "/slm"
++	dataHome := configDir + "/slm"
 +	os.MkdirAll(dataHome, 0755)
 +	workingFolder := dataHome
  
  	if runtime.GOOS == "darwin" {
  		if strings.Contains(workingFolder, ".app") {
-@@ -40,19 +50,7 @@ func main() {
+@@ -40,19 +47,7 @@ func main() {
  	sugar.Infof("[Executable: %v]", exePath)
  	sugar.Infof("[Working directory: %v]", workingFolder)
  
