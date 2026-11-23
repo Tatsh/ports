@@ -1,5 +1,5 @@
---- a/frontend/drivers/platform_darwin.m	2026-11-22 14:46:35
-+++ b/frontend/drivers/platform_darwin.m	2026-11-22 15:59:47
+--- frontend/drivers/platform_darwin.m	2026-11-22 14:46:35
++++ frontend/drivers/platform_darwin.m	2026-11-22 15:59:47
 @@ -403,21 +403,21 @@
     fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SAVESTATE], documents_dir_buf, "states", sizeof(g_defaults.dirs[DEFAULT_DIR_SAVESTATE]));
     fill_pathname_join(g_defaults.dirs[DEFAULT_DIR_SYSTEM], documents_dir_buf, "system", sizeof(g_defaults.dirs[DEFAULT_DIR_SYSTEM]));

@@ -28,7 +28,6 @@ depends_run-append  port:libretro-info \
 # Cores, core info, databases, cheats, overlays and assets are read from the MacPorts directories
 # (the Gentoo layout) instead of ~/Library/Application Support/RetroArch.
 patchfiles          patch-macports-dirs.diff
-patch.pre_args-replace -p0 -p1
 
 post-patch {
     reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/frontend/drivers/platform_darwin.m
