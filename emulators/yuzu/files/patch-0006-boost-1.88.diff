@@ -1,7 +1,7 @@
-diff --git a/src/core/debugger/debugger.cpp b/src/core/debugger/debugger.cpp
+diff --git src/core/debugger/debugger.cpp src/core/debugger/debugger.cpp
 index 0e270eb50..2bd2ceaa8 100644
---- a/src/core/debugger/debugger.cpp
-+++ b/src/core/debugger/debugger.cpp
+--- src/core/debugger/debugger.cpp
++++ src/core/debugger/debugger.cpp
 @@ -6,7 +6,7 @@
  #include <thread>
  

@@ -1,0 +1,14 @@
+--- src/common/fs/path_util.cpp
++++ src/common/fs/path_util.cpp
+@@ -101,6 +101,11 @@
+         ASSERT(!yuzu_path.empty());
+         yuzu_path_cache = yuzu_path / CACHE_DIR;
+         yuzu_path_config = yuzu_path / CONFIG_DIR;
++#elif defined(__APPLE__)
++        // The standard macOS locations rather than the XDG ones.
++        yuzu_path = GetHomeDirectory() / "Library" / "Application Support" / YUZU_DIR;
++        yuzu_path_cache = GetHomeDirectory() / "Library" / "Caches" / YUZU_DIR;
++        yuzu_path_config = yuzu_path / CONFIG_DIR;
+ #else
+ #ifdef YUZU_ENABLE_PORTABLE
+         yuzu_path = GetCurrentDir() / PORTABLE_DIR;

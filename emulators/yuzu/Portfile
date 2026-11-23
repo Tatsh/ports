@@ -10,6 +10,7 @@ name                yuzu
 # survives in the Wayback Machine.
 set tag             mainline-0-1734
 version             0.1734
+revision            1
 categories          emulators games
 license             GPL-2+ GPL-3+ LGPL-2.1+ BSD MIT
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -123,7 +124,9 @@ patchfiles          patch-0001-system-libs.diff \
                     patch-0008-gcc-16-const-member-init.diff \
                     patch-0009-missing-cstring.diff \
                     patch-vulkan-library-prefix.diff
-patch.pre_args-replace -p0 -p1
+# Keep the user's data in ~/Library/Application Support/yuzu and the cache in ~/Library/Caches/yuzu
+# instead of the XDG directories.
+patchfiles-append   patch-macos-user-paths.diff
 
 # The video and audio code uses AVCodec fields that FFmpeg 8 removed.
 set ffmpeg_prefix   ${prefix}/libexec/ffmpeg7

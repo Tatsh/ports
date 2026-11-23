@@ -26,10 +26,10 @@ Subject: [PATCH 4/6] fmt 10 fixes
  src/video_core/texture_cache/formatter.h           |  6 +++---
  20 files changed, 30 insertions(+), 26 deletions(-)
 
-diff --git a/src/common/logging/formatter.h b/src/common/logging/formatter.h
+diff --git src/common/logging/formatter.h src/common/logging/formatter.h
 index 27078ee..f9c73d1 100644
---- a/src/common/logging/formatter.h
-+++ b/src/common/logging/formatter.h
+--- src/common/logging/formatter.h
++++ src/common/logging/formatter.h
 @@ -14,7 +14,7 @@ template <typename T>
  struct fmt::formatter<T, std::enable_if_t<std::is_enum_v<T>, char>>
      : formatter<std::underlying_type_t<T>> {
@@ -39,10 +39,10 @@ index 27078ee..f9c73d1 100644
          return fmt::formatter<std::underlying_type_t<T>>::format(
              static_cast<std::underlying_type_t<T>>(value), ctx);
      }
-diff --git a/src/common/typed_address.h b/src/common/typed_address.h
+diff --git src/common/typed_address.h src/common/typed_address.h
 index e0695c7..7663a2b 100644
---- a/src/common/typed_address.h
-+++ b/src/common/typed_address.h
+--- src/common/typed_address.h
++++ src/common/typed_address.h
 @@ -262,7 +262,7 @@ struct fmt::formatter<Common::PhysicalAddress> {
          return ctx.begin();
      }
@@ -70,10 +70,10 @@ index e0695c7..7663a2b 100644
          return fmt::format_to(ctx.out(), "{:#x}", static_cast<u64>(addr.GetValue()));
      }
  };
-diff --git a/src/core/arm/dynarmic/dynarmic_cp15.cpp b/src/core/arm/dynarmic/dynarmic_cp15.cpp
+diff --git src/core/arm/dynarmic/dynarmic_cp15.cpp src/core/arm/dynarmic/dynarmic_cp15.cpp
 index 4c13db8..3886bb7 100644
---- a/src/core/arm/dynarmic/dynarmic_cp15.cpp
-+++ b/src/core/arm/dynarmic/dynarmic_cp15.cpp
+--- src/core/arm/dynarmic/dynarmic_cp15.cpp
++++ src/core/arm/dynarmic/dynarmic_cp15.cpp
 @@ -22,7 +22,7 @@ struct fmt::formatter<Dynarmic::A32::CoprocReg> {
          return ctx.begin();
      }
@@ -83,10 +83,10 @@ index 4c13db8..3886bb7 100644
          return fmt::format_to(ctx.out(), "cp{}", static_cast<size_t>(reg));
      }
  };
-diff --git a/src/core/debugger/gdbstub.cpp b/src/core/debugger/gdbstub.cpp
+diff --git src/core/debugger/gdbstub.cpp src/core/debugger/gdbstub.cpp
 index 6756c17..f052784 100644
---- a/src/core/debugger/gdbstub.cpp
-+++ b/src/core/debugger/gdbstub.cpp
+--- src/core/debugger/gdbstub.cpp
++++ src/core/debugger/gdbstub.cpp
 @@ -9,6 +9,7 @@
  #include <thread>
 
@@ -95,10 +95,10 @@ index 6756c17..f052784 100644
 
  #include "common/hex_util.h"
  #include "common/logging/log.h"
-diff --git a/src/core/hle/service/nfc/common/device.cpp b/src/core/hle/service/nfc/common/device.cpp
+diff --git src/core/hle/service/nfc/common/device.cpp src/core/hle/service/nfc/common/device.cpp
 index 321136c..ac88355 100644
---- a/src/core/hle/service/nfc/common/device.cpp
-+++ b/src/core/hle/service/nfc/common/device.cpp
+--- src/core/hle/service/nfc/common/device.cpp
++++ src/core/hle/service/nfc/common/device.cpp
 @@ -15,6 +15,7 @@
  #endif
 
@@ -107,10 +107,10 @@ index 321136c..ac88355 100644
 
  #include "common/fs/file.h"
  #include "common/fs/fs.h"
-diff --git a/src/core/hle/service/psc/time/common.h b/src/core/hle/service/psc/time/common.h
+diff --git src/core/hle/service/psc/time/common.h src/core/hle/service/psc/time/common.h
 index c940638..15599e6 100644
---- a/src/core/hle/service/psc/time/common.h
-+++ b/src/core/hle/service/psc/time/common.h
+--- src/core/hle/service/psc/time/common.h
++++ src/core/hle/service/psc/time/common.h
 @@ -167,7 +167,7 @@ constexpr inline Result GetSpanBetweenTimePoints(s64* out_seconds, const SteadyC
  template <>
  struct fmt::formatter<Service::PSC::Time::TimeType> : fmt::formatter<fmt::string_view> {
@@ -120,10 +120,10 @@ index c940638..15599e6 100644
          const string_view name = [type] {
              using Service::PSC::Time::TimeType;
              switch (type) {
-diff --git a/src/shader_recompiler/backend/glasm/reg_alloc.h b/src/shader_recompiler/backend/glasm/reg_alloc.h
+diff --git src/shader_recompiler/backend/glasm/reg_alloc.h src/shader_recompiler/backend/glasm/reg_alloc.h
 index 41b8196..f7b6b3b 100644
---- a/src/shader_recompiler/backend/glasm/reg_alloc.h
-+++ b/src/shader_recompiler/backend/glasm/reg_alloc.h
+--- src/shader_recompiler/backend/glasm/reg_alloc.h
++++ src/shader_recompiler/backend/glasm/reg_alloc.h
 @@ -184,7 +184,7 @@ struct fmt::formatter<Shader::Backend::GLASM::Id> {
          return ctx.begin();
      }
@@ -187,10 +187,10 @@ index 41b8196..f7b6b3b 100644
          switch (value.type) {
          case Shader::Backend::GLASM::Type::Void:
              break;
-diff --git a/src/shader_recompiler/frontend/ir/attribute.h b/src/shader_recompiler/frontend/ir/attribute.h
+diff --git src/shader_recompiler/frontend/ir/attribute.h src/shader_recompiler/frontend/ir/attribute.h
 index abc7c06..4089767 100644
---- a/src/shader_recompiler/frontend/ir/attribute.h
-+++ b/src/shader_recompiler/frontend/ir/attribute.h
+--- src/shader_recompiler/frontend/ir/attribute.h
++++ src/shader_recompiler/frontend/ir/attribute.h
 @@ -250,7 +250,7 @@ struct fmt::formatter<Shader::IR::Attribute> {
          return ctx.begin();
      }
@@ -200,10 +200,10 @@ index abc7c06..4089767 100644
          return fmt::format_to(ctx.out(), "{}", Shader::IR::NameOf(attribute));
      }
  };
-diff --git a/src/shader_recompiler/frontend/ir/condition.h b/src/shader_recompiler/frontend/ir/condition.h
+diff --git src/shader_recompiler/frontend/ir/condition.h src/shader_recompiler/frontend/ir/condition.h
 index b07b3ee..f92c965 100644
---- a/src/shader_recompiler/frontend/ir/condition.h
-+++ b/src/shader_recompiler/frontend/ir/condition.h
+--- src/shader_recompiler/frontend/ir/condition.h
++++ src/shader_recompiler/frontend/ir/condition.h
 @@ -52,7 +52,7 @@ struct fmt::formatter<Shader::IR::Condition> {
          return ctx.begin();
      }
@@ -213,10 +213,10 @@ index b07b3ee..f92c965 100644
          return fmt::format_to(ctx.out(), "{}", Shader::IR::NameOf(cond));
      }
  };
-diff --git a/src/shader_recompiler/frontend/ir/flow_test.h b/src/shader_recompiler/frontend/ir/flow_test.h
+diff --git src/shader_recompiler/frontend/ir/flow_test.h src/shader_recompiler/frontend/ir/flow_test.h
 index ddfb152..c3f35dc 100644
---- a/src/shader_recompiler/frontend/ir/flow_test.h
-+++ b/src/shader_recompiler/frontend/ir/flow_test.h
+--- src/shader_recompiler/frontend/ir/flow_test.h
++++ src/shader_recompiler/frontend/ir/flow_test.h
 @@ -55,7 +55,7 @@ struct fmt::formatter<Shader::IR::FlowTest> {
          return ctx.begin();
      }
@@ -226,10 +226,10 @@ index ddfb152..c3f35dc 100644
          return fmt::format_to(ctx.out(), "{}", Shader::IR::NameOf(flow_test));
      }
  };
-diff --git a/src/shader_recompiler/frontend/ir/opcodes.h b/src/shader_recompiler/frontend/ir/opcodes.h
+diff --git src/shader_recompiler/frontend/ir/opcodes.h src/shader_recompiler/frontend/ir/opcodes.h
 index aad70e2..7d63bf9 100644
---- a/src/shader_recompiler/frontend/ir/opcodes.h
-+++ b/src/shader_recompiler/frontend/ir/opcodes.h
+--- src/shader_recompiler/frontend/ir/opcodes.h
++++ src/shader_recompiler/frontend/ir/opcodes.h
 @@ -103,7 +103,7 @@ struct fmt::formatter<Shader::IR::Opcode> {
          return ctx.begin();
      }
@@ -239,10 +239,10 @@ index aad70e2..7d63bf9 100644
          return fmt::format_to(ctx.out(), "{}", Shader::IR::NameOf(op));
      }
  };
-diff --git a/src/shader_recompiler/frontend/ir/pred.h b/src/shader_recompiler/frontend/ir/pred.h
+diff --git src/shader_recompiler/frontend/ir/pred.h src/shader_recompiler/frontend/ir/pred.h
 index 51dbf78..dff0cd4 100644
---- a/src/shader_recompiler/frontend/ir/pred.h
-+++ b/src/shader_recompiler/frontend/ir/pred.h
+--- src/shader_recompiler/frontend/ir/pred.h
++++ src/shader_recompiler/frontend/ir/pred.h
 @@ -33,7 +33,7 @@ struct fmt::formatter<Shader::IR::Pred> {
          return ctx.begin();
      }
@@ -252,10 +252,10 @@ index 51dbf78..dff0cd4 100644
          if (pred == Shader::IR::Pred::PT) {
              return fmt::format_to(ctx.out(), "PT");
          } else {
-diff --git a/src/shader_recompiler/frontend/ir/reg.h b/src/shader_recompiler/frontend/ir/reg.h
+diff --git src/shader_recompiler/frontend/ir/reg.h src/shader_recompiler/frontend/ir/reg.h
 index ba96f48..0bba552 100644
---- a/src/shader_recompiler/frontend/ir/reg.h
-+++ b/src/shader_recompiler/frontend/ir/reg.h
+--- src/shader_recompiler/frontend/ir/reg.h
++++ src/shader_recompiler/frontend/ir/reg.h
 @@ -319,7 +319,7 @@ struct fmt::formatter<Shader::IR::Reg> {
          return ctx.begin();
      }
@@ -265,10 +265,10 @@ index ba96f48..0bba552 100644
          if (reg == Shader::IR::Reg::RZ) {
              return fmt::format_to(ctx.out(), "RZ");
          } else if (static_cast<int>(reg) >= 0 && static_cast<int>(reg) < 255) {
-diff --git a/src/shader_recompiler/frontend/ir/type.h b/src/shader_recompiler/frontend/ir/type.h
+diff --git src/shader_recompiler/frontend/ir/type.h src/shader_recompiler/frontend/ir/type.h
 index b740680..3b6dc56 100644
---- a/src/shader_recompiler/frontend/ir/type.h
-+++ b/src/shader_recompiler/frontend/ir/type.h
+--- src/shader_recompiler/frontend/ir/type.h
++++ src/shader_recompiler/frontend/ir/type.h
 @@ -54,7 +54,7 @@ struct fmt::formatter<Shader::IR::Type> {
          return ctx.begin();
      }
@@ -278,10 +278,10 @@ index b740680..3b6dc56 100644
          return fmt::format_to(ctx.out(), "{}", NameOf(type));
      }
  };
-diff --git a/src/shader_recompiler/frontend/maxwell/location.h b/src/shader_recompiler/frontend/maxwell/location.h
+diff --git src/shader_recompiler/frontend/maxwell/location.h src/shader_recompiler/frontend/maxwell/location.h
 index 95bea0a..81d067d 100644
---- a/src/shader_recompiler/frontend/maxwell/location.h
-+++ b/src/shader_recompiler/frontend/maxwell/location.h
+--- src/shader_recompiler/frontend/maxwell/location.h
++++ src/shader_recompiler/frontend/maxwell/location.h
 @@ -102,7 +102,7 @@ struct fmt::formatter<Shader::Maxwell::Location> {
          return ctx.begin();
      }
@@ -291,10 +291,10 @@ index 95bea0a..81d067d 100644
          return fmt::format_to(ctx.out(), "{:04x}", location.Offset());
      }
  };
-diff --git a/src/shader_recompiler/frontend/maxwell/opcodes.h b/src/shader_recompiler/frontend/maxwell/opcodes.h
+diff --git src/shader_recompiler/frontend/maxwell/opcodes.h src/shader_recompiler/frontend/maxwell/opcodes.h
 index 899711d..1fec013 100644
---- a/src/shader_recompiler/frontend/maxwell/opcodes.h
-+++ b/src/shader_recompiler/frontend/maxwell/opcodes.h
+--- src/shader_recompiler/frontend/maxwell/opcodes.h
++++ src/shader_recompiler/frontend/maxwell/opcodes.h
 @@ -23,7 +23,7 @@ struct fmt::formatter<Shader::Maxwell::Opcode> {
          return ctx.begin();
      }
@@ -304,10 +304,10 @@ index 899711d..1fec013 100644
          return fmt::format_to(ctx.out(), "{}", NameOf(opcode));
      }
  };
-diff --git a/src/yuzu/main.cpp b/src/yuzu/main.cpp
+diff --git src/yuzu/main.cpp src/yuzu/main.cpp
 index 0d3b10c..7b4ca9f 100644
---- a/src/yuzu/main.cpp
-+++ b/src/yuzu/main.cpp
+--- src/yuzu/main.cpp
++++ src/yuzu/main.cpp
 @@ -93,6 +93,7 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
  #endif
 
@@ -316,10 +316,10 @@ index 0d3b10c..7b4ca9f 100644
  #include "common/detached_tasks.h"
  #include "common/fs/fs.h"
  #include "common/fs/path_util.h"
-diff --git a/src/video_core/renderer_vulkan/renderer_vulkan.cpp b/src/video_core/renderer_vulkan/renderer_vulkan.cpp
+diff --git src/video_core/renderer_vulkan/renderer_vulkan.cpp src/video_core/renderer_vulkan/renderer_vulkan.cpp
 index 3f9a364..525b46d 100644
---- a/src/video_core/renderer_vulkan/renderer_vulkan.cpp
-+++ b/src/video_core/renderer_vulkan/renderer_vulkan.cpp
+--- src/video_core/renderer_vulkan/renderer_vulkan.cpp
++++ src/video_core/renderer_vulkan/renderer_vulkan.cpp
 @@ -10,6 +10,7 @@
  #include <vector>
 
@@ -328,10 +328,10 @@ index 3f9a364..525b46d 100644
 
  #include "common/logging/log.h"
  #include "common/polyfill_ranges.h"
-diff --git a/src/video_core/texture_cache/formatter.h b/src/video_core/texture_cache/formatter.h
+diff --git src/video_core/texture_cache/formatter.h src/video_core/texture_cache/formatter.h
 index 42fed09..0b11b4c 100644
---- a/src/video_core/texture_cache/formatter.h
-+++ b/src/video_core/texture_cache/formatter.h
+--- src/video_core/texture_cache/formatter.h
++++ src/video_core/texture_cache/formatter.h
 @@ -13,7 +13,7 @@
  template <>
  struct fmt::formatter<VideoCore::Surface::PixelFormat> : fmt::formatter<fmt::string_view> {

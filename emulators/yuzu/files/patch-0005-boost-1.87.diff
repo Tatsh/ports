@@ -8,10 +8,10 @@ Subject: [PATCH 4/4] Fix for Boost 1.87
  src/tests/input_common/calibration_configuration_job.cpp | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/src/input_common/drivers/udp_client.cpp b/src/input_common/drivers/udp_client.cpp
+diff --git src/input_common/drivers/udp_client.cpp src/input_common/drivers/udp_client.cpp
 index 60821b31a..8aa113ced 100644
---- a/src/input_common/drivers/udp_client.cpp
-+++ b/src/input_common/drivers/udp_client.cpp
+--- src/input_common/drivers/udp_client.cpp
++++ src/input_common/drivers/udp_client.cpp
 @@ -113,7 +113,7 @@ private:
      }
 
@@ -21,10 +21,10 @@ index 60821b31a..8aa113ced 100644
      boost::asio::basic_waitable_timer<clock> timer;
      udp::socket socket;
 
-diff --git a/src/tests/input_common/calibration_configuration_job.cpp b/src/tests/input_common/calibration_configuration_job.cpp
+diff --git src/tests/input_common/calibration_configuration_job.cpp src/tests/input_common/calibration_configuration_job.cpp
 index 516ff1b30..40af1e4b9 100644
---- a/src/tests/input_common/calibration_configuration_job.cpp
-+++ b/src/tests/input_common/calibration_configuration_job.cpp
+--- src/tests/input_common/calibration_configuration_job.cpp
++++ src/tests/input_common/calibration_configuration_job.cpp
 @@ -82,7 +82,7 @@ public:
      }
 

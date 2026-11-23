@@ -8,10 +8,10 @@ Subject: [PATCH 7/7] Fix for Qt 6.10 qpa change
  src/yuzu/CMakeLists.txt | 6 +++++-
  2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
+diff --git CMakeLists.txt CMakeLists.txt
 index 68ee358ba..f45bbc256 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -370,7 +370,7 @@ if(ENABLE_QT)
 
      set_yuzu_qt_components()
@@ -21,10 +21,10 @@ index 68ee358ba..f45bbc256 100644
      endif()
      if (Qt6_FOUND)
          message(STATUS "yuzu/CMakeLists.txt: Qt6Widgets_VERSION ${Qt6Widgets_VERSION}, setting QT_VERSION")
-diff --git a/src/yuzu/CMakeLists.txt b/src/yuzu/CMakeLists.txt
+diff --git src/yuzu/CMakeLists.txt src/yuzu/CMakeLists.txt
 index 90278052a..2be00b2d6 100644
---- a/src/yuzu/CMakeLists.txt
-+++ b/src/yuzu/CMakeLists.txt
+--- src/yuzu/CMakeLists.txt
++++ src/yuzu/CMakeLists.txt
 @@ -383,7 +383,11 @@ target_link_libraries(yuzu PRIVATE ${PLATFORM_LIBRARIES} Threads::Threads)
 
  target_link_libraries(yuzu PRIVATE Vulkan::Headers)
