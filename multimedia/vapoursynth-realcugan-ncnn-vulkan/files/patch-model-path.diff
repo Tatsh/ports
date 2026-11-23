@@ -1,0 +1,38 @@
+--- src/main.cpp
++++ src/main.cpp
+@@ -218,8 +218,8 @@
+ 
+         // Model path
+         const std::string pluginPath{ vsapi->getPluginPath(getPluginById("com.vapoursynth.realcugannv", core)) };
+-        std::string paramPath{ pluginPath.substr(0, pluginPath.find_last_of("/\\")) };
+-        std::string modelPath{ pluginPath.substr(0, pluginPath.find_last_of("/\\")) };
++        std::string paramPath{ "@MODELDIR@" };
++        std::string modelPath{ "@MODELDIR@" };
+ 
+         // Model
+         int model = int64ToIntS(getInt(in, "model", 0, &err));
+@@ -234,18 +234,18 @@
+ 
+         if (model == 1)
+         {
+-            paramPath += "/models/models-se";
+-            modelPath += "/models/models-se";
++            paramPath += "/models-se";
++            modelPath += "/models-se";
+         }
+         else if (model == 2)
+         {
+-            paramPath += "/models/models-pro";
+-            modelPath += "/models/models-pro";
++            paramPath += "/models-pro";
++            modelPath += "/models-pro";
+         }
+         else if (model == 0 && scale == 2)
+         {
+-            paramPath += "/models/models-nose";
+-            modelPath += "/models/models-nose";
++            paramPath += "/models-nose";
++            modelPath += "/models-nose";
+         }
+         else
+         {

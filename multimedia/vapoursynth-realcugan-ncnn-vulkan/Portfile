@@ -1,0 +1,71 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           vapoursynth_plugin 1.0
+
+# r2 with the VapourSynth API4 support of 20261031, which is not tagged yet.
+github.setup        Kiyamou VapourSynth-RealCUGAN-ncnn-Vulkan 62c8fa148ba5064740e050e6756d77add6f01dfa
+version             2.20261031
+github.tarball_from archive
+name                vapoursynth-realcugan-ncnn-vulkan
+revision            0
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Real-CUGAN super resolution filter for VapourSynth.
+long_description    Real-CUGAN 2x to 4x upscaling and denoising of anime for VapourSynth, through \
+                    ncnn on the GPU with Vulkan (MoltenVK on macOS).
+supported_archs     x86_64 arm64
+
+# The models are a separate release asset.
+set models_distfile models.zip
+master_sites-append ${github.homepage}/releases/download/r2/:models
+distfiles-append    ${models_distfile}:models
+
+checksums           VapourSynth-RealCUGAN-ncnn-Vulkan-62c8fa148ba5064740e050e6756d77add6f01dfa.tar.gz \
+                    rmd160  da62a4845038cb719410056c3efe1b0bae8d3363 \
+                    sha256  1fdac7c70d634005b6d14f8c4f581333643acf1ce3d159c821404dacc81f26e2 \
+                    size    17545 \
+                    models.zip \
+                    rmd160  eb00f4ff8e8ce6a80639725d2d4e16e77cae7034 \
+                    sha256  bf02c8ad965e9322bcdcf765e50e3bc835e80e00b2f8265ef7daf48b99ab6994 \
+                    size    43749816
+
+extract.only        ${distname}${extract.suffix}
+depends_extract-append bin:unzip:unzip
+post-extract {
+    system -W ${workpath} "unzip -q ${distpath}/${models_distfile}"
+}
+
+depends_build-append \
+                    port:vulkan-headers
+depends_lib-append  port:ncnn \
+                    port:vulkan-loader
+
+# patch-system-ncnn.diff: build against the system ncnn, not the deps/ncnn submodule.
+# patch-model-path.diff: look for the models in @MODELDIR@, set below.
+patchfiles          patch-system-ncnn.diff \
+                    patch-model-path.diff
+
+post-patch {
+    # Load the models from ${prefix}/share/${name} rather than from next to the plugin.
+    reinplace "s|@MODELDIR@|${prefix}/share/${name}|" ${worksrcpath}/src/main.cpp
+}
+
+configure.args-append \
+                    -DVAPOURSYNTH_INCLUDE_DIR=${prefix}/include/vapoursynth
+
+destroot {
+    xinstall -d ${destroot}${vapoursynth.plugindir}
+    xinstall -m 0755 ${build.dir}/librealcugannv.dylib ${destroot}${vapoursynth.plugindir}/
+    xinstall -d ${destroot}${prefix}/share/${name}
+    foreach d {models-nose models-pro models-se} {
+        copy ${workpath}/${d} ${destroot}${prefix}/share/${name}/
+    }
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+vapoursynth.test_namespace rcnv
