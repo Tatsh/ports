@@ -1,7 +1,7 @@
-diff --git a/install/usbkill.ini b/install/usbkill.ini
+diff --git install/usbkill.ini install/usbkill.ini
 index 8750432..eabbc2a 100644
---- a/install/usbkill.ini
-+++ b/install/usbkill.ini
+--- install/usbkill.ini
++++ install/usbkill.ini
 @@ -1,4 +1,4 @@
 -#             _     _     _ _ _ 
 +#             _     _     _ _ _
@@ -61,10 +61,10 @@ index 8750432..eabbc2a 100644
  # Use " not ' to define the strings, e.g.:
  # kill_commands = [ "bash ~/scripts/destroy.sh", "sync" ]
  kill_commands = [ ]
-diff --git a/setup.py b/setup.py
+diff --git setup.py setup.py
 index 1daa7a7..27434b7 100644
---- a/setup.py
-+++ b/setup.py
+--- setup.py
++++ setup.py
 @@ -1,6 +1,6 @@
  #!/usr/bin/env python
  
@@ -85,10 +85,10 @@ index 1daa7a7..27434b7 100644
 +      data_files=[ ('/opt/local/etc/', [ name('install/usbkill.ini') ]) ]
       )
  
-diff --git a/usbkill/usbkill.py b/usbkill/usbkill.py
+diff --git usbkill/usbkill.py usbkill/usbkill.py
 index 1b85d26..3c2035d 100644
---- a/usbkill/usbkill.py
-+++ b/usbkill/usbkill.py
+--- usbkill/usbkill.py
++++ usbkill/usbkill.py
 @@ -1,6 +1,6 @@
  #!/usr/bin/env python
  
