@@ -17,8 +17,8 @@ The find_package() minimum is lowered rather than pinned, so 3.3 continues to
 satisfy it.
 
 diff -ruN a/CMakeLists.txt b/CMakeLists.txt
---- a/CMakeLists.txt	2026-08-02 18:51:52.252716791 -0400
-+++ b/CMakeLists.txt	2026-08-02 18:51:52.285160446 -0400
+--- CMakeLists.txt	2026-08-02 18:51:52.252716791 -0400
++++ CMakeLists.txt	2026-08-02 18:51:52.285160446 -0400
 @@ -233,7 +233,7 @@
  endif()
  
@@ -29,8 +29,8 @@ diff -ruN a/CMakeLists.txt b/CMakeLists.txt
  
  if (ENABLE_CUBEB)
 diff -ruN a/src/gui/wxgui/CemuApp.cpp b/src/gui/wxgui/CemuApp.cpp
---- a/src/gui/wxgui/CemuApp.cpp	2026-08-02 18:51:52.255147151 -0400
-+++ b/src/gui/wxgui/CemuApp.cpp	2026-08-02 18:51:52.285353439 -0400
+--- src/gui/wxgui/CemuApp.cpp	2026-08-02 18:51:52.255147151 -0400
++++ src/gui/wxgui/CemuApp.cpp	2026-08-02 18:51:52.285353439 -0400
 @@ -258,7 +258,7 @@
  
  std::string TranslationCallback(std::string_view msgId)
@@ -41,8 +41,8 @@ diff -ruN a/src/gui/wxgui/CemuApp.cpp b/src/gui/wxgui/CemuApp.cpp
  
  bool CemuApp::OnInit()
 diff -ruN a/src/gui/wxgui/components/TextList.cpp b/src/gui/wxgui/components/TextList.cpp
---- a/src/gui/wxgui/components/TextList.cpp	2026-08-02 18:51:52.257251092 -0400
-+++ b/src/gui/wxgui/components/TextList.cpp	2026-08-02 18:51:52.285471256 -0400
+--- src/gui/wxgui/components/TextList.cpp	2026-08-02 18:51:52.257251092 -0400
++++ src/gui/wxgui/components/TextList.cpp	2026-08-02 18:51:52.285471256 -0400
 @@ -27,8 +27,12 @@
  	m_font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
  	this->wxWindowBase::SetBackgroundStyle(wxBG_STYLE_PAINT);
@@ -57,8 +57,8 @@ diff -ruN a/src/gui/wxgui/components/TextList.cpp b/src/gui/wxgui/components/Tex
  	m_line_height = dc.GetCharHeight();
  	m_char_width = dc.GetCharWidth();
 diff -ruN a/src/gui/wxgui/GraphicPacksWindow2.cpp b/src/gui/wxgui/GraphicPacksWindow2.cpp
---- a/src/gui/wxgui/GraphicPacksWindow2.cpp	2026-08-02 18:59:43.303361222 -0400
-+++ b/src/gui/wxgui/GraphicPacksWindow2.cpp	2026-08-02 18:59:43.335615912 -0400
+--- src/gui/wxgui/GraphicPacksWindow2.cpp	2026-08-02 18:59:43.303361222 -0400
++++ src/gui/wxgui/GraphicPacksWindow2.cpp	2026-08-02 18:59:43.335615912 -0400
 @@ -96,10 +96,10 @@
  			const auto parent_node = node;
  			if (i < (tokens.size() - 1))
@@ -82,8 +82,8 @@ diff -ruN a/src/gui/wxgui/GraphicPacksWindow2.cpp b/src/gui/wxgui/GraphicPacksWi
  						nodeName.append(formatWxString(" #{}", s + 1));
  
 diff -ruN a/src/gui/wxgui/input/InputAPIAddWindow.cpp b/src/gui/wxgui/input/InputAPIAddWindow.cpp
---- a/src/gui/wxgui/input/InputAPIAddWindow.cpp	2026-08-02 19:05:41.823734548 -0400
-+++ b/src/gui/wxgui/input/InputAPIAddWindow.cpp	2026-08-02 19:05:41.874406590 -0400
+--- src/gui/wxgui/input/InputAPIAddWindow.cpp	2026-08-02 19:05:41.823734548 -0400
++++ src/gui/wxgui/input/InputAPIAddWindow.cpp	2026-08-02 19:05:41.874406590 -0400
 @@ -43,7 +43,7 @@
  				continue;
  
@@ -112,8 +112,8 @@ diff -ruN a/src/gui/wxgui/input/InputAPIAddWindow.cpp b/src/gui/wxgui/input/Inpu
  		const auto controllers = InputManager::instance().get_api_provider(InputAPI::Keyboard)->get_controllers();
  		if (!controllers.empty())
 diff -ruN a/src/gui/wxgui/input/InputSettings2.cpp b/src/gui/wxgui/input/InputSettings2.cpp
---- a/src/gui/wxgui/input/InputSettings2.cpp	2026-08-02 19:05:41.828554294 -0400
-+++ b/src/gui/wxgui/input/InputSettings2.cpp	2026-08-02 19:05:41.874777999 -0400
+--- src/gui/wxgui/input/InputSettings2.cpp	2026-08-02 19:05:41.828554294 -0400
++++ src/gui/wxgui/input/InputSettings2.cpp	2026-08-02 19:05:41.874777999 -0400
 @@ -354,7 +354,7 @@
  		has_controllers = !emulated_controller->get_controllers().empty();
  
@@ -151,8 +151,8 @@ diff -ruN a/src/gui/wxgui/input/InputSettings2.cpp b/src/gui/wxgui/input/InputSe
  
  	emulated_controllers->SetStringSelection(selected_value);
 diff -ruN a/src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp b/src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp
---- a/src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp	2026-08-02 19:05:41.832863849 -0400
-+++ b/src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp	2026-08-02 19:05:41.874987184 -0400
+--- src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp	2026-08-02 19:05:41.832863849 -0400
++++ src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp	2026-08-02 19:05:41.874987184 -0400
 @@ -103,7 +103,7 @@
  
  void ClassicControllerInputPanel::add_button_row(wxGridBagSizer *sizer, sint32 row, sint32 column, const ClassicController::ButtonId &button_id) {
@@ -163,8 +163,8 @@ diff -ruN a/src/gui/wxgui/input/panels/ClassicControllerInputPanel.cpp b/src/gui
  		wxDefaultSpan,
  		wxALL | wxALIGN_CENTER_VERTICAL, 5);
 diff -ruN a/src/gui/wxgui/input/panels/ProControllerInputPanel.cpp b/src/gui/wxgui/input/panels/ProControllerInputPanel.cpp
---- a/src/gui/wxgui/input/panels/ProControllerInputPanel.cpp	2026-08-02 19:05:41.837377489 -0400
-+++ b/src/gui/wxgui/input/panels/ProControllerInputPanel.cpp	2026-08-02 19:05:41.875124047 -0400
+--- src/gui/wxgui/input/panels/ProControllerInputPanel.cpp	2026-08-02 19:05:41.837377489 -0400
++++ src/gui/wxgui/input/panels/ProControllerInputPanel.cpp	2026-08-02 19:05:41.875124047 -0400
 @@ -101,7 +101,7 @@
  
  void ProControllerInputPanel::add_button_row(wxGridBagSizer *sizer, sint32 row, sint32 column, const ProController::ButtonId &button_id) {
@@ -175,8 +175,8 @@ diff -ruN a/src/gui/wxgui/input/panels/ProControllerInputPanel.cpp b/src/gui/wxg
  		wxDefaultSpan,
  		wxALL | wxALIGN_CENTER_VERTICAL, 5);
 diff -ruN a/src/gui/wxgui/input/panels/VPADInputPanel.cpp b/src/gui/wxgui/input/panels/VPADInputPanel.cpp
---- a/src/gui/wxgui/input/panels/VPADInputPanel.cpp	2026-08-02 19:05:41.841815920 -0400
-+++ b/src/gui/wxgui/input/panels/VPADInputPanel.cpp	2026-08-02 19:05:41.875246081 -0400
+--- src/gui/wxgui/input/panels/VPADInputPanel.cpp	2026-08-02 19:05:41.841815920 -0400
++++ src/gui/wxgui/input/panels/VPADInputPanel.cpp	2026-08-02 19:05:41.875246081 -0400
 @@ -157,7 +157,7 @@
  }
  
@@ -187,8 +187,8 @@ diff -ruN a/src/gui/wxgui/input/panels/VPADInputPanel.cpp b/src/gui/wxgui/input/
  
  void VPADInputPanel::add_button_row(wxGridBagSizer *sizer, sint32 row, sint32 column,
 diff -ruN a/src/gui/wxgui/input/panels/WiimoteInputPanel.cpp b/src/gui/wxgui/input/panels/WiimoteInputPanel.cpp
---- a/src/gui/wxgui/input/panels/WiimoteInputPanel.cpp	2026-08-02 19:05:41.846170394 -0400
-+++ b/src/gui/wxgui/input/panels/WiimoteInputPanel.cpp	2026-08-02 19:05:41.875384900 -0400
+--- src/gui/wxgui/input/panels/WiimoteInputPanel.cpp	2026-08-02 19:05:41.846170394 -0400
++++ src/gui/wxgui/input/panels/WiimoteInputPanel.cpp	2026-08-02 19:05:41.875384900 -0400
 @@ -122,7 +122,7 @@
  			continue;
  
@@ -208,8 +208,8 @@ diff -ruN a/src/gui/wxgui/input/panels/WiimoteInputPanel.cpp b/src/gui/wxgui/inp
  		wxDefaultSpan,
  		wxALL | wxALIGN_CENTER_VERTICAL, 5);
 diff -ruN a/src/gui/wxgui/MainWindow.cpp b/src/gui/wxgui/MainWindow.cpp
---- a/src/gui/wxgui/MainWindow.cpp	2026-08-02 19:10:24.680182526 -0400
-+++ b/src/gui/wxgui/MainWindow.cpp	2026-08-02 19:10:24.717623445 -0400
+--- src/gui/wxgui/MainWindow.cpp	2026-08-02 19:10:24.680182526 -0400
++++ src/gui/wxgui/MainWindow.cpp	2026-08-02 19:10:24.717623445 -0400
 @@ -1572,7 +1572,7 @@
  void MainWindow::AsyncSetTitle(std::string_view windowTitle)
  {
@@ -220,8 +220,8 @@ diff -ruN a/src/gui/wxgui/MainWindow.cpp b/src/gui/wxgui/MainWindow.cpp
  }
  
 diff -ruN a/src/gui/wxgui/PadViewFrame.cpp b/src/gui/wxgui/PadViewFrame.cpp
---- a/src/gui/wxgui/PadViewFrame.cpp	2026-08-02 19:10:24.684460801 -0400
-+++ b/src/gui/wxgui/PadViewFrame.cpp	2026-08-02 19:10:24.717965634 -0400
+--- src/gui/wxgui/PadViewFrame.cpp	2026-08-02 19:10:24.684460801 -0400
++++ src/gui/wxgui/PadViewFrame.cpp	2026-08-02 19:10:24.717965634 -0400
 @@ -237,6 +237,6 @@
  void PadViewFrame::AsyncSetTitle(std::string_view windowTitle)
  {
@@ -231,8 +231,8 @@ diff -ruN a/src/gui/wxgui/PadViewFrame.cpp b/src/gui/wxgui/PadViewFrame.cpp
  	QueueEvent(set_title_event.Clone());
  }
 diff -ruN a/src/gui/wxgui/TitleManager.cpp b/src/gui/wxgui/TitleManager.cpp
---- a/src/gui/wxgui/TitleManager.cpp	2026-08-02 19:10:24.689282678 -0400
-+++ b/src/gui/wxgui/TitleManager.cpp	2026-08-02 19:10:24.718156043 -0400
+--- src/gui/wxgui/TitleManager.cpp	2026-08-02 19:10:24.689282678 -0400
++++ src/gui/wxgui/TitleManager.cpp	2026-08-02 19:10:24.718156043 -0400
 @@ -382,7 +382,11 @@
  	if (openFileDialog.ShowModal() == wxID_CANCEL || openFileDialog.GetPath().IsEmpty())
  		return;
@@ -246,8 +246,8 @@ diff -ruN a/src/gui/wxgui/TitleManager.cpp b/src/gui/wxgui/TitleManager.cpp
  	{
  		filePath = filePath.parent_path();
 diff -ruN a/src/gui/wxgui/wxWindowSystem.cpp b/src/gui/wxgui/wxWindowSystem.cpp
---- a/src/gui/wxgui/wxWindowSystem.cpp	2026-08-02 18:59:43.308962251 -0400
-+++ b/src/gui/wxgui/wxWindowSystem.cpp	2026-08-02 18:59:43.335801477 -0400
+--- src/gui/wxgui/wxWindowSystem.cpp	2026-08-02 18:59:43.308962251 -0400
++++ src/gui/wxgui/wxWindowSystem.cpp	2026-08-02 18:59:43.335801477 -0400
 @@ -62,8 +62,8 @@
  	if (title.empty())
  		caption = wxASCII_STR(wxMessageBoxCaptionStr);
@@ -260,8 +260,8 @@ diff -ruN a/src/gui/wxgui/wxWindowSystem.cpp b/src/gui/wxgui/wxWindowSystem.cpp
  
  WindowSystem::WindowInfo& WindowSystem::GetWindowInfo()
 diff -ruN a/src/gui/wxgui/wxcomponents/checktree.cpp b/src/gui/wxgui/wxcomponents/checktree.cpp
---- a/src/gui/wxgui/wxcomponents/checktree.cpp	2026-10-12 05:00:50.463878412 -0400
-+++ b/src/gui/wxgui/wxcomponents/checktree.cpp	2026-10-12 05:00:50.476506322 -0400
+--- src/gui/wxgui/wxcomponents/checktree.cpp	2026-10-12 05:00:50.463878412 -0400
++++ src/gui/wxgui/wxcomponents/checktree.cpp	2026-10-12 05:00:50.476506322 -0400
 @@ -165,7 +165,14 @@
  		dc.SelectObject(wxNullBitmap);
  		states.push_back(wxBitmapBundle::FromBitmap(bitmap));

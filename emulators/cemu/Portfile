@@ -82,7 +82,6 @@ depends_lib-append  port:cubeb \
 
 # Build against wxWidgets 3.2.
 patchfiles          patch-wxwidgets-3.2-compat.diff
-patch.pre_args-replace -p0 -p1
 
 post-extract {
     file rename ${workpath}/glslang-${glslang_commit} ${worksrcpath}/glslang
