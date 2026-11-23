@@ -1,0 +1,19 @@
+--- curl_cffi/fingerprints.py
++++ curl_cffi/fingerprints.py
+@@ -1,5 +1,6 @@
+ import json
+ import os
++import sys
+ from copy import deepcopy
+ from dataclasses import dataclass, field, fields
+ from datetime import datetime
+@@ -427,6 +428,9 @@
+             return os.path.join(userprofile, "AppData", "Roaming", "impersonate")
+         home = os.path.expanduser("~")
+         return os.path.join(home, "AppData", "Roaming", "impersonate")
++
++    if sys.platform == "darwin":
++        return os.path.expanduser("~/Library/Application Support/impersonate")
+ 
+     xdg_config_home = os.environ.get("XDG_CONFIG_HOME")
+     if xdg_config_home:

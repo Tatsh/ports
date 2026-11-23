@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                py-curl-cffi
 python.rootname     curl_cffi
 version             0.17.0
-revision            1
+revision            2
 
 license             MIT
 maintainers         {mps @Schamschula} openmaintainer
@@ -25,8 +25,11 @@ universal_variant   no
 python.versions     310 311 312 313 314
 
 if {${name} ne ${subport}} {
+    # patch-macos-config-dir.diff keeps the fingerprints and settings in
+    # ~/Library/Application Support/impersonate on macOS.
     patchfiles      macports-curl-impersonate.diff \
-                    patch-libs.json.diff
+                    patch-libs.json.diff \
+                    patch-macos-config-dir.diff
 
     post-patch {
         # curl-impersonate 2.x installs its headers under include/curl-impersonate/curl.
