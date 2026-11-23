@@ -1,0 +1,3 @@
+#pragma once
+// <stop_token> for standard libraries without it; the jthread polyfill is force-included.
+#include <thread>

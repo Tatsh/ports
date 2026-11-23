@@ -1,0 +1,226 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           boost 1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+PortGroup           qt6 1.0
+
+github.setup        Eglantine-Community Eglantine 0.1.0-rc4 v
+github.tarball_from archive
+name                eglantine
+version             0.1.0-rc4
+categories          emulators games
+license             GPL-3+ BSD MIT LGPL-3+ MPL-2 Apache-2
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Experimental Nintendo Switch 2 emulator based on Eden.
+long_description    Eglantine is an experimental Nintendo Switch and Switch 2 emulator based on \
+                    Eden, a fork of yuzu. On macOS it renders through MoltenVK.
+homepage            https://eglantine-emu.org
+dist_subdir         ${name}/${version}
+
+set git_commit      cf6cfe9caa6e160d3562742308a38eb3c9014789
+
+boost.version       1.88
+
+# Packages that MacPorts does not have (or, for QuaZip, has only for Qt 5), unpacked where
+# CPMUtil's <name>_CUSTOM_DIR points. The rest come from MacPorts.
+set bundled [list \
+    xbyak       herumi/xbyak                v7.40.1 \
+    enet        lsalzman/enet               v1.3.18 \
+    SimpleIni   brofield/simpleini          v4.25 \
+    sirit       eden-emulator/sirit         v1.0.5 \
+    gamemode    FeralInteractive/gamemode   ce6fe122f3864cb29d9a6a2ec68b6d78239074b1 \
+    QuaZip-Qt6  stachenov/quazip            2e95c9001bf1ad0177c54923029ed8f4c53b70e0 \
+    reshade     crosire/reshade             v6.8.0 \
+    zbic        kinnay/zbic                 11b08f2712264bbed731545085cbd9702096ceb7 \
+    zstd        facebook/zstd               33618c89e511637f8a6ef955b3501766d71feb53]
+set i 0
+foreach {pkg repo rev} ${bundled} {
+    master_sites-append https://github.com/${repo}/archive/${rev}.tar.gz?dummy=:b${i}
+    distfiles-append    [file tail ${repo}]-${rev}.tar.gz:b${i}
+    incr i
+}
+set tzdb_ver        230326
+master_sites-append https://git.eden-emu.dev/eden-emu/tzdb_to_nx/releases/download/${tzdb_ver}/:tzdb
+distfiles-append    ${tzdb_ver}.tar.gz:tzdb
+
+checksums           Eglantine-0.1.0-rc4.tar.gz \
+                    rmd160  11c96c736cdb37bf32bbaf7aa0b5f2cc42725693 \
+                    sha256  b07307d17ff30f884aada1c77e8161318a4c4339c1924a46d719378f9b2694d5 \
+                    size    17937334 \
+                    xbyak-v7.40.1.tar.gz \
+                    rmd160  5d308efc8fd4dea98e5af0e8b4263d31a2e3dd42 \
+                    sha256  2af7aee286b0ce94422b7894de4308d26eba06ef63c1c80a3bd9719b5d798fe2 \
+                    size    513683 \
+                    enet-v1.3.18.tar.gz \
+                    rmd160  cfc85769b2290c79d77b217e6655b7b044dfb878 \
+                    sha256  28603c895f9ed24a846478180ee72c7376b39b4bb1287b73877e5eae7d96b0dd \
+                    size    82923 \
+                    simpleini-v4.25.tar.gz \
+                    rmd160  c1e255954989f97c01469975fe22fe106d79ea83 \
+                    sha256  10001ee1486ae55259a5408786262bc0f72d699bc9637d536ebc62765d3ecd3b \
+                    size    81269 \
+                    sirit-v1.0.5.tar.gz \
+                    rmd160  0ebaf0f3d44af98d3e00bc35e9764bbc5d9bb4c6 \
+                    sha256  eda46f8bfb109a6cd14fa9816dfcb34fcde934051892c7801f43b7d37f4ec2cc \
+                    size    53514 \
+                    gamemode-ce6fe122f3864cb29d9a6a2ec68b6d78239074b1.tar.gz \
+                    rmd160  2040f19da9b04408d33c946b1b6a2f62454b4833 \
+                    sha256  22bc6894600d4a47d8b1a7b8299b01b54435be24784d9658d3a4b13beca2e664 \
+                    size    82978 \
+                    quazip-2e95c9001bf1ad0177c54923029ed8f4c53b70e0.tar.gz \
+                    rmd160  9d83fdec52758961ce2aa5af21f0640849d0aca4 \
+                    sha256  0bd93f07be1be93568424c638fb21ceb6982f4f7988b74ad2999305816117901 \
+                    size    179379 \
+                    reshade-v6.8.0.tar.gz \
+                    rmd160  d6f60bfe9bcd481db5ef9c1a6991b79f6050122f \
+                    sha256  23197b1d0a032fb875c6c01a45405f1d5f3d753ddcfcf833be2df3675724e397 \
+                    size    2441667 \
+                    zbic-11b08f2712264bbed731545085cbd9702096ceb7.tar.gz \
+                    rmd160  ca9b2f3acfe2a227c90f41f80bc4e862915aa327 \
+                    sha256  b5edd02de98b9fec4d8f1cc867782cf4dc3e52d605bb13f63de7d0c194ef28be \
+                    size    540473 \
+                    zstd-33618c89e511637f8a6ef955b3501766d71feb53.tar.gz \
+                    rmd160  b0fbb03b415addf591babf96dc0d36e7e067ffa9 \
+                    sha256  4e63f3f2e6e4eb37fec3cc768168f31be835d4a141bb6355cff8f764ebdb1862 \
+                    size    2482193 \
+                    230326.tar.gz \
+                    rmd160  e8ef7f81f9ded54a9c89d4223a7d068b505c6885 \
+                    sha256  e5db90dd681b6e6bb4aa13ad446b138d424762e996a5830ba5dbcd88b3a9038b \
+                    size    113905
+
+depends_build-append \
+                    port:cpp-httplib \
+                    port:frozen \
+                    port:glslang \
+                    port:nlohmann-json \
+                    port:pkgconfig \
+                    port:spirv-headers \
+                    port:vulkan-headers \
+                    port:vulkan-memory-allocator \
+                    port:vulkan-utility-libraries
+depends_lib-append  path:lib/libssl.dylib:openssl \
+                    port:cubeb \
+                    port:ffmpeg \
+                    port:libfmt12 \
+                    port:libopus \
+                    port:SDL3 \
+                    port:libusb \
+                    port:lz4 \
+                    port:MoltenVK \
+                    port:spirv-tools \
+                    port:zlib \
+                    port:zstd
+qt6.depends_lib-append qtcharts
+qt6.depends_build-append qttools
+
+patchfiles          patch-rename-binaries.diff \
+                    patch-vulkan-library-prefix.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/src/video_core/vulkan_common/vulkan_library.cpp
+    # MoltenVK is loaded from ${prefix}/lib (see patch-vulkan-library-prefix.diff), not copied in.
+    reinplace {/target_sources(yuzu PRIVATE ${MOLTENVK_LIBRARY})/d} \
+        ${worksrcpath}/src/yuzu/CMakeLists.txt
+    # CPMUtil applies its own patches only to packages it downloads itself.
+    foreach p [glob ${worksrcpath}/.patch/reshade/*.patch] {
+        system -W ${workpath}/reshade-6.8.0 "patch -p1 < [shellescape ${p}]"
+    }
+    # Read by GetSCMRev in place of git.
+    foreach {f v} [list GIT-TAG v${version} GIT-RELEASE v${version} GIT-COMMIT ${git_commit} \
+                       GIT-REFSPEC nx2] {
+        set fd [open ${worksrcpath}/${f} w]
+        puts ${fd} ${v}
+        close ${fd}
+    }
+    # Everything comes from the distfiles or MacPorts: make any download fail instead of reaching
+    # the network.
+    foreach f [list ${worksrcpath}/CMakeModules/CPMUtil.cmake ${worksrcpath}/CMakeModules/CPM.cmake] {
+        reinplace -q {s|file(DOWNLOAD|message(FATAL_ERROR "download attempted" |} ${f}
+    }
+    # Imported targets add -isystem ${prefix}/include, which has the headers of the default boost
+    # port; put this Boost in front of it for every target.
+    set fd [open ${workpath}/include-first.cmake w]
+    puts ${fd} "include_directories(BEFORE SYSTEM ${prefix}/libexec/boost/${boost.version}/include)"
+    close ${fd}
+}
+
+compiler.cxx_standard 2020
+# dynarmic's decoder (and more of Eden) emplaces aggregates, which needs C++20 parenthesized
+# aggregate initialisation: clang 16 or later. Clang 16's libc++ headers are the same version as
+# the system libc++ it links, which newer MacPorts clangs' are not.
+compiler.whitelist  macports-clang-16
+# -I${prefix}/include (and CPATH, which acts like -I) would be searched before every -isystem
+# directory, so the default boost headers there would win over the one above.
+configure.cppflags-delete -I${prefix}/include
+compiler.cpath
+
+# The libc++ this builds against has no std::jthread, std::stop_token or the stop_token overloads
+# of std::condition_variable_any (which Eden uses throughout), std::array's operator<=> or
+# std::atomic_ref; force-include a polyfill for them (the jthread part from yuzu's) into every C++
+# file, and give <stop_token> a header.
+configure.cxxflags-append -include ${filespath}/libcxx-polyfill.h -isystem ${workpath}/polyfill-include
+configure.objcxxflags-append -include ${filespath}/libcxx-polyfill.h -isystem ${workpath}/polyfill-include
+# Clang 16's libc++ headers mark std::format (and <chrono>'s formatters) unavailable for this
+# deployment target, though the system libc++ (16) on macOS 13.6 has everything they need.
+configure.cxxflags-append -D_LIBCPP_DISABLE_AVAILABILITY
+configure.objcxxflags-append -D_LIBCPP_DISABLE_AVAILABILITY
+post-extract {
+    file mkdir ${workpath}/polyfill-include
+    copy ${filespath}/stop_token ${workpath}/polyfill-include/stop_token
+}
+
+# The bundled Zydis (in dynarmic) has pointers in packed data, which Xcode 15's linker cannot
+# express as chained fixups.
+configure.ldflags-append -Wl,-no_fixup_chains
+
+# glslang writes the SPIR-V headers into this directory, which only another (parallel) generator
+# step creates.
+pre-build {
+    file mkdir ${build.dir}/src/video_core/host_shaders/include/video_core/host_shaders
+}
+
+configure.args-append \
+                    -DBUILD_TESTING=OFF \
+                    -DCMAKE_PROJECT_INCLUDE=${workpath}/include-first.cmake \
+                    -DCPMUTIL_FORCE_SYSTEM=ON \
+                    -DDYNARMIC_USE_LLVM=OFF \
+                    -DENABLE_CUBEB=ON \
+                    -DENABLE_LIBUSB=ON \
+                    -DENABLE_QT=ON \
+                    -DENABLE_UPDATE_CHECKER=OFF \
+                    -DENABLE_WEB_SERVICE=OFF \
+                    -DENABLE_WERROR=OFF \
+                    -DUSE_DISCORD_PRESENCE=OFF \
+                    -DYUZU_CMD=ON \
+                    -DYUZU_DISABLE_LLVM=ON \
+                    -DYUZU_ROOM=ON \
+                    -DYUZU_TESTS=OFF \
+                    -DYUZU_TZDB_PATH=${workpath}/nx-tzdb-${tzdb_ver} \
+                    -DYUZU_USE_BUNDLED_MOLTENVK=OFF \
+                    -DYUZU_USE_QT_MULTIMEDIA=OFF \
+                    -DYUZU_USE_QT_WEB_ENGINE=OFF \
+                    -Dfmt_DIR=${prefix}/lib/libfmt12/cmake/fmt \
+                    -Wno-dev
+foreach {pkg repo rev} ${bundled} {
+    set dir [file tail ${repo}]-[string trimleft ${rev} v]
+    configure.args-append -D${pkg}_FORCE_BUNDLED=ON -D${pkg}_CUSTOM_DIR=${workpath}/${dir}
+}
+
+destroot {
+    set bin ${build.dir}/bin/${cmake.build_type}
+    if {![file exists ${bin}]} {
+        set bin ${build.dir}/bin
+    }
+    copy ${bin}/eglantine.app ${destroot}${applications_dir}/Eglantine.app
+    foreach b {eglantine-cli eglantine-room} {
+        if {[file exists ${bin}/${b}]} {
+            xinstall -m 0755 ${bin}/${b} ${destroot}${prefix}/bin/
+        }
+    }
+    ln -s ${applications_dir}/Eglantine.app/Contents/MacOS/eglantine ${destroot}${prefix}/bin/eglantine
+}
+
+github.livecheck.regex {([0-9.]+(?:-rc[0-9]+)?)}
