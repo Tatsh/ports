@@ -1,0 +1,99 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+# One commit past v6.7.46: the one that replaced the end of life net7.0 target with net8.0.
+github.setup        Perfare Il2CppDumper 4741d46ba9cd6159c5d853eb9d6fc48b4bfa2b1a
+github.tarball_from archive
+name                il2cppdumper
+version             6.7.46.20240706
+revision            0
+categories          devel
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Unity il2cpp reverse engineering tool.
+long_description    Il2CppDumper restores the classes, methods and fields of a Unity game built with \
+                    il2cpp from its binary and global-metadata.dat, and writes C# stubs, dummy \
+                    assemblies and scripts for IDA and Ghidra.
+supported_archs     x86_64 arm64
+platforms           {darwin >= 21}
+
+set cecil_ver       0.11.4
+
+master_sites-append https://www.nuget.org/api/v2/package/Mono.Cecil/${cecil_ver}?dummy=:nuget
+distfiles-append    mono.cecil.${cecil_ver}.nupkg:nuget
+extract.only        ${distname}${extract.suffix}
+
+checksums           Il2CppDumper-4741d46ba9cd6159c5d853eb9d6fc48b4bfa2b1a.tar.gz \
+                    rmd160  521181a4901c1f4dd736d690353dce20fb4cba9d \
+                    sha256  b6c7ad729b2bf7a83ccd5a393569d6f2e0ca1f9dc7725d98c25159c4c5c9dc24 \
+                    size    76246 \
+                    mono.cecil.0.11.4.nupkg \
+                    rmd160  e2dfa284872bde1c3b13d7da770ccf958029b412 \
+                    sha256  1eb9d1805b0ecdfa805b0d1f5318bfbe4cd977c74c9f9cee79478b41603daafb \
+                    size    692728
+
+depends_build-append \
+                    port:dotnet-sdk-8
+depends_run-append  port:dotnet-cli \
+                    port:dotnet-runtime-8
+
+# Unity 6 support (metadata versions 35, 38 and 39), from
+# https://github.com/Perfare/Il2CppDumper/pull/922, which is still open.
+patchfiles          patch-unity6.diff
+patch.pre_args-replace -p0 -p1
+
+post-patch {
+    # Upstream targets net6.0 and net8.0; build only the latter, for the runtime this installs.
+    reinplace {s|<TargetFrameworks>.*</TargetFrameworks>|<TargetFramework>net8.0</TargetFramework>|} \
+        ${worksrcpath}/Il2CppDumper/Il2CppDumper.csproj
+    # Restore from the bundled package only, never from nuget.org.
+    file mkdir ${workpath}/nuget-feed
+    file copy ${distpath}/mono.cecil.${cecil_ver}.nupkg ${workpath}/nuget-feed/
+    set fd [open ${worksrcpath}/NuGet.config w]
+    puts ${fd} "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<configuration>
+  <packageSources>
+    <clear />
+    <add key=\"local\" value=\"${workpath}/nuget-feed\" />
+  </packageSources>
+</configuration>"
+    close ${fd}
+}
+
+use_configure       no
+
+set dotnet_env      [list DOTNET_CLI_HOME=${workpath}/dotnet-home \
+                         NUGET_PACKAGES=${workpath}/nuget-packages \
+                         DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+                         DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+                         DOTNET_NOLOGO=1]
+
+# No build servers: a compiler server left running holds the build's output open.
+build {
+    system -W ${worksrcpath} "env [join ${dotnet_env}] ${prefix}/bin/dotnet publish\
+        Il2CppDumper/Il2CppDumper.csproj -c Release -f net8.0 --no-self-contained\
+        -p:UseAppHost=false -p:UseSharedCompilation=false --disable-build-servers\
+        -o ${workpath}/out"
+}
+
+destroot {
+    set dest ${prefix}/libexec/${name}
+    xinstall -d ${destroot}${dest}
+    foreach f [glob -directory ${workpath}/out *] {
+        copy ${f} ${destroot}${dest}/
+    }
+    set fd [open ${destroot}${prefix}/bin/${name} w]
+    puts ${fd} "#!/bin/sh\nexec ${prefix}/bin/dotnet ${dest}/Il2CppDumper.dll \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/${name} -permissions 0755
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
+}
+
+notes "
+${name} reads its settings from ${prefix}/libexec/${name}/config.json.
+"
+
+livecheck.type      none
