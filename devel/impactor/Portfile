@@ -7,7 +7,7 @@ PortGroup           github 1.0
 github.setup        claration Impactor 2.7.3 v
 github.tarball_from archive
 name                impactor
-revision            0
+revision            1
 categories          devel
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -38,6 +38,9 @@ checksums           ${distname}${extract.suffix} \
                     rmd160  994f323afdcc245ce5b185f48d4e2ff88ef3643d \
                     sha256  57d56c5159a31cd3bb71ac2cfe84305014b2ba57751cc6327ecaa5e74c56d532 \
                     size    6958
+
+# Keep the accounts, certificates and state in ~/Library/Application Support/PlumeImpactor.
+patchfiles          patch-macos-data-dir.diff
 
 post-extract {
     set reg ${cargo.home}/macports

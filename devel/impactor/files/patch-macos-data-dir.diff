@@ -1,0 +1,24 @@
+--- apps/plumeimpactor/src/defaults.rs
++++ apps/plumeimpactor/src/defaults.rs
+@@ -60,6 +60,9 @@
+ pub fn get_data_path() -> PathBuf {
+     let base = if cfg!(windows) {
+         env::var("APPDATA").unwrap()
++    } else if cfg!(target_os = "macos") {
++        // ~/Library/Application Support rather than ~/.config.
++        env::var("HOME").unwrap() + "/Library/Application Support"
+     } else {
+         env::var("XDG_CONFIG_HOME").unwrap_or_else(|_| {
+             env::var("HOME").unwrap() + "/.config"
+--- apps/plumesign/src/main.rs
++++ apps/plumesign/src/main.rs
+@@ -27,6 +27,9 @@
+ pub fn get_data_path() -> PathBuf {
+     let base = if cfg!(windows) {
+         env::var("APPDATA").unwrap()
++    } else if cfg!(target_os = "macos") {
++        // ~/Library/Application Support rather than ~/.config.
++        env::var("HOME").unwrap() + "/Library/Application Support"
+     } else {
+         env::var("XDG_CONFIG_HOME").unwrap_or_else(|_| {
+             env::var("HOME").unwrap() + "/.config"
