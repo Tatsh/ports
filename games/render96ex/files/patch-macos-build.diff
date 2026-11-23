@@ -1,0 +1,91 @@
+--- a/Makefile
++++ b/Makefile
+@@ -458,8 +458,9 @@
+ 
+ AS := $(CROSS)as
+ 
++# The sound sequences only need a GNU syntax assembler that writes ELF; clang's built-in one does.
+ ifeq ($(OSX_BUILD),1)
+-AS := i686-w64-mingw32-as
++AS = $(CC) --target=x86_64-unknown-elf -c -x assembler
+ endif
+ 
+ ifneq ($(TARGET_WEB),1) # As in, not-web PC port
+@@ -489,8 +490,7 @@
+   OBJCOPY := objcopy
+   OBJDUMP := $(CROSS)objdump
+ else ifeq ($(OSX_BUILD),1)
+-  OBJDUMP := i686-w64-mingw32-objdump
+-  OBJCOPY := i686-w64-mingw32-objcopy
++  # The only use of objcopy, extracting the assembled sequences, is done by tools/elf_section.py.
+ else # Linux & other builds
+   CPP := $(CROSS)cpp -P
+   OBJCOPY := $(CROSS)objcopy
+@@ -613,6 +613,10 @@
+ SKYTILE_DIR := $(BUILD_DIR)/textures/skybox_tiles
+ 
+ ASFLAGS := -I include -I $(BUILD_DIR) $(VERSION_ASFLAGS)
++ifeq ($(OSX_BUILD),1)
++  COMMA := ,
++  ASFLAGS := $(subst --defsym ,-Wa$(COMMA)-defsym$(COMMA),$(ASFLAGS))
++endif
+ 
+ ifeq ($(TARGET_WEB),1)
+ LDFLAGS := -lm -lGL -lSDL2 -no-pie -s TOTAL_MEMORY=20MB -g4 --source-map-base http://localhost:8080/ -s "EXTRA_EXPORTED_RUNTIME_METHODS=['callMain']"
+@@ -754,7 +758,11 @@
+ 	@true
+ 
+ $(SOUND_BIN_DIR)/%.m64: $(SOUND_BIN_DIR)/%.o
++ifeq ($(OSX_BUILD),1)
++	$(PYTHON) $(TOOLS_DIR)/elf_section.py .rodata $< $@
++else
+ 	$(OBJCOPY) -j .rodata $< -O binary $@
++endif
+ 
+ $(SOUND_BIN_DIR)/%.o: $(SOUND_BIN_DIR)/%.s
+ 	$(AS) $(ASFLAGS) -o $@ $<
+@@ -810,9 +818,10 @@
+ 	@rm -f $(GLOBAL_ASM_DEP).*
+ 	touch $@
+ 
++# CXXFLAGS for the C++ standard: clang defaults to C++98, which DynOS does not build with.
+ $(BUILD_DIR)/%.o: %.cpp
+-	@$(CXX) -fsyntax-only $(CFLAGS) -MMD -MP -MT $@ -MF $(BUILD_DIR)/$*.d $<
+-	$(CXX) -c $(CFLAGS) -o $@ $<
++	@$(CXX) -fsyntax-only $(CFLAGS) $(CXXFLAGS) -MMD -MP -MT $@ -MF $(BUILD_DIR)/$*.d $<
++	$(CXX) -c $(CFLAGS) $(CXXFLAGS) -o $@ $<
+ 
+ $(BUILD_DIR)/%.o: %.c
+ 	@$(CC_CHECK) $(CC_CHECK_CFLAGS) -MMD -MP -MT $@ -MF $(BUILD_DIR)/$*.d $<
+@@ -823,7 +832,11 @@
+ 	$(CC) -c $(CFLAGS) -o $@ $<
+ 
+ $(BUILD_DIR)/%.o: %.s
++ifeq ($(OSX_BUILD),1)
++	$(AS) $(ASFLAGS) -MD -MF $(BUILD_DIR)/$*.d -o $@ $<
++else
+ 	$(AS) $(ASFLAGS) -MD $(BUILD_DIR)/$*.d -o $@ $<
++endif
+ 
+ $(EXE): $(O_FILES) $(MIO0_FILES:.mio0=.o) $(SOUND_OBJ_FILES) $(ULTRA_O_FILES) $(GODDARD_O_FILES) $(BUILD_DIR)/$(RPC_LIBS)
+ 	$(LD) -L $(BUILD_DIR) -o $@ $(O_FILES) $(SOUND_OBJ_FILES) $(ULTRA_O_FILES) $(GODDARD_O_FILES) $(LDFLAGS) -lstdc++
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -46,4 +46,6 @@
+ 
+ $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
+ 
++tabledesign: $(LIBAUDIOFILE)
++
+ .PHONY: all clean default
+--- a/tools/aiff_extract_codebook.c
++++ b/tools/aiff_extract_codebook.c
+@@ -2,7 +2,7 @@
+  * Create an ADPCM codebook either by extracting it from an AIFF section, or
+  * by executing tabledesign.
+  */
+-#define _XOPEN_SOURCE 500
++#define _XOPEN_SOURCE 600
+ #include <unistd.h>
+ #include <math.h>
+ #include <string.h>

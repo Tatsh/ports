@@ -1,0 +1,157 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           app 1.0
+PortGroup           fetch_restrict 1.0
+PortGroup           github 1.0
+
+# alpha branch
+github.setup        Render96 Render96ex f6e9e1b54f43b2caeffcf71644c6165f2652948c
+github.tarball_from archive
+name                render96ex
+version             20260716
+revision            0
+categories          games
+license             Restrictive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Fork of sm64-port with additional features.
+long_description    Render96ex is a fork of sm64ex, the PC port of the Super Mario 64 \
+                    decompilation, with Luigi and Wario, DynOS and optional HD models and \
+                    textures. The game is built from your own copy of the ROM.
+homepage            https://github.com/Render96/Render96ex/tree/alpha
+
+set models_rev      f4f438447748782b7c824cee903594706a3941e2
+set textures_rev    239156bea1903ca15989d1e7143a88b32e9f1b99
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  b67a3259287c9e4a486d0cde16293fdcb915e7c3 \
+                    sha256  9d20093ec1176c700477845fd96be39ecaeae5de33ae601f11c27ff75dc08406 \
+                    size    403056188
+
+depends_build-append \
+                    port:gmake \
+                    port:pkgconfig \
+                    port:python313
+depends_lib-append  port:glew \
+                    port:libsdl2
+
+# The build links the system OpenGL framework, as upstream's macOS build does.
+
+patchfiles          patch-custom-flags.diff \
+                    patch-macos-build.diff \
+                    patch-luigi-cap-uv.diff
+patch.pre_args-replace -p0 -p1
+
+variant us conflicts eu jp description {Build from the North American ROM} {
+    set rom_version us
+    fetch_restrict.files {sm64.us.z64 sha1 9bef1128717f958171a4afac3ed78ee2bb4e86ce}
+}
+variant eu conflicts us jp description {Build from the European ROM} {
+    set rom_version eu
+    fetch_restrict.files {sm64.eu.z64 sha1 4ac5721683d0e0b6bbb561b58a71740845dceea9}
+}
+variant jp conflicts us eu description {Build from the Japanese ROM} {
+    set rom_version jp
+    fetch_restrict.files {sm64.jp.z64 sha1 8a20a5c83d6ceb0f0506cfc9fa20d8f438cafe51}
+}
+if {![variant_isset eu] && ![variant_isset jp]} {
+    default_variants-append +us
+}
+if {![info exists rom_version]} {
+    set rom_version us
+}
+
+fetch_restrict.instructions [subst {
+    Render96ex is built from an unmodified Super Mario 64 ROM in Z64 (big-endian) format, the one
+    for the selected variant (+us, +eu or +jp). Copy it into the directory below, named
+    sm64.${rom_version}.z64. A ROM with the wrong checksum may be in V64 (byte-swapped) format.
+}]
+
+variant models description {Use the Render96 model pack (characters and the Goddard face)} {
+    master_sites-append https://github.com/Render96/ModelPack/archive/${models_rev}.tar.gz?dummy=:models
+    distfiles-append    ModelPack-${models_rev}.tar.gz:models
+    checksums-append    ModelPack-${models_rev}.tar.gz \
+                        rmd160  6f7a44ada3d12bd3e1a65e33dc3ab89f9b3032b6 \
+                        sha256  6a398a9044191c7169355d90b8f3837a3a914d7a017f4a18e94c98a8809a15b3 \
+                        size    75846014
+}
+
+variant textures description {Install the Render96 HD texture pack} {
+    master_sites-append https://github.com/pokeheadroom/RENDER96-HD-TEXTURE-PACK/archive/${textures_rev}.tar.gz?dummy=:textures
+    distfiles-append    RENDER96-HD-TEXTURE-PACK-${textures_rev}.tar.gz:textures
+    checksums-append    RENDER96-HD-TEXTURE-PACK-${textures_rev}.tar.gz \
+                        rmd160  beae002e439d445911f4e24f8a6ea4992497e51c \
+                        sha256  22345ee7846205ad069ed7a2a000b72d6c88cdfb967281e86f753d9a3fee85a6 \
+                        size    595497666
+}
+
+default_variants-append +models +textures
+
+post-patch {
+    # Takes the place of objcopy for the assembled sound sequences.
+    xinstall -m 0644 ${filespath}/elf_section.py ${worksrcpath}/tools/
+}
+
+use_configure       no
+
+pre-build {
+    file copy [fetch_restrict::path sm64.${rom_version}.z64] ${worksrcpath}/baserom.${rom_version}.z64
+    system -W ${worksrcpath} "${prefix}/bin/python3.13 ./extract_assets.py ${rom_version}"
+    if {[variant_isset models]} {
+        set pack ${workpath}/ModelPack-${models_rev}
+        # Merged over the original directories, replacing files of the same name.
+        foreach {from to} [list ${pack}/Render96/actors actors ${pack}/Goddard/src/goddard src/goddard] {
+            system "/bin/cp -R [shellescape ${from}]/ [shellescape ${worksrcpath}/${to}]/"
+        }
+    }
+}
+
+# The Makefile needs GNU make 4 (it creates the build directories with !=).
+build.cmd           ${prefix}/bin/gmake
+# Upstream's macOS section picks MacPorts GCC; build with the configured compiler instead.
+build.args          CC=${configure.cc} \
+                    CXX=${configure.cxx} \
+                    CXXFLAGS=-std=gnu++17 \
+                    CPP="${configure.cc} -E -P -x c" \
+                    CUSTOM_CFLAGS="${configure.cflags} [get_canonical_archflags cc]" \
+                    CUSTOM_LDFLAGS="${configure.ldflags} [get_canonical_archflags ld]" \
+                    PYTHON=${prefix}/bin/python3.13 \
+                    GIT_HASH=[string range ${github.version} 0 6] \
+                    VERSION=${rom_version} \
+                    TEXTURE_FIX=1 \
+                    DISCORDRPC=0 \
+                    NOEXTRACT=1
+
+set exe             sm64.${rom_version}.f3dex2e
+
+destroot {
+    set out ${worksrcpath}/build/${rom_version}_pc
+    set share ${destroot}${prefix}/share/${name}
+    xinstall -d ${share}
+    xinstall -m 0755 ${out}/${exe} ${share}/
+    # Everything else in the build directory that is not an intermediate is game data.
+    foreach f {res dynos} {
+        if {[file exists ${out}/${f}]} {
+            copy ${out}/${f} ${share}/
+        }
+    }
+    if {[variant_isset textures]} {
+        copy ${workpath}/RENDER96-HD-TEXTURE-PACK-${textures_rev}/gfx ${share}/res/
+    }
+    # The game finds its data relative to the working directory.
+    set fd [open ${destroot}${prefix}/bin/${name} w]
+    puts ${fd} "#!/bin/sh\ncd ${prefix}/share/${name} && exec ./${exe} \"\$@\""
+    close ${fd}
+    file attributes ${destroot}${prefix}/bin/${name} -permissions 0755
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
+}
+
+app.name            Render96ex
+app.executable      ${prefix}/bin/${name}
+
+notes "
+Settings and saves are kept in ~/Library/Application Support/sm64ex.
+"
+
+livecheck.type      none
