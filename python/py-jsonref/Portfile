@@ -21,7 +21,7 @@ checksums           rmd160  cabae01f26058b8d1972a53d0b0015022c45e396 \
                     sha256  32fe8e1d85af0fdefbebce950af85590b22b60f9e95443176adbde4e1ecea552 \
                     size    8814
 
-python.versions         313 314
+python.versions         313 314 315
 python.pep517_backend   pdm
 
 # The retired pdm-pep517 backend is superseded by pdm-backend.
