@@ -1,5 +1,6 @@
 aanand
 abcabcabc
+absl
 accesskit
 actool
 addopts
@@ -47,7 +48,9 @@ anyio's
 apcupsd
 apfs
 apidir
+appdir
 appdirs
+appicon
 appiconset
 appium
 appl
@@ -81,6 +84,7 @@ astc
 astd
 astdr
 astrelsky
+asyncer
 asyncio
 atexit
 atomiswave
@@ -112,6 +116,7 @@ baserom
 bbolt
 bcder
 bdir
+bdist
 beartype
 beautifulsoup
 beautysh
@@ -142,6 +147,7 @@ blacktop
 blas
 blastem
 boltdb
+boostorg
 bootstrapper
 borsh
 botan
@@ -183,6 +189,7 @@ capa
 capa's
 cbindgen
 cbor
+ccdec
 ccleste
 cctools
 cddb
@@ -269,6 +276,8 @@ copypasta
 copytime
 corasick
 coreaudio
+coreml
+coremltools
 coreutils
 corlett's
 countme
@@ -288,6 +297,7 @@ createuser
 creds
 crosire
 crossflash
+crossplatformbuild
 cryoglyph
 cryptopp
 cstdint
@@ -297,8 +307,11 @@ ctest
 ctmf
 ctutils
 cuda
+cugan
+cunet
 cupaloy
 cuyler
+cvbs
 cxxfilt
 cxxflags
 cxxlib
@@ -326,11 +339,14 @@ dbeaver
 dboost
 dbuild
 dbundle
+dcall
 dccache
 dccleste
 dchest
 dcitra
 dclang
+dcleblanc
+dclib
 dcmake
 dcoastline
 dcpmutil
@@ -363,6 +379,7 @@ demangle
 demucs
 denable
 denoiser
+denoises
 denoising
 depklite
 deprotect
@@ -381,6 +398,7 @@ dfmderainbow
 dfmt
 dforce
 dgit
+dglslang
 dgst
 dhave
 dheadless
@@ -405,6 +423,7 @@ djava
 djbig
 djpeg
 dlclark
+dldchroma
 dlerc
 dlfind
 dlib
@@ -416,14 +435,17 @@ dlisr
 dlith
 dllvm
 dlopen
+dlpack
 dlsym
 dlua
 dlvfx
 dlzma
 dmio
+dmlc
 dmupenplusapi
 dncil
 dncine
+dncnn
 dndebug
 dnfile
 dnjulek
@@ -432,6 +454,8 @@ docdir
 dockutil
 docstrfmt
 docstrings
+donnx
+donnxruntime
 dopengl
 doptimize
 dosx
@@ -440,6 +464,7 @@ dpatches
 dplutosvg
 dpng
 dproject
+dpybind
 dpython
 dqcoro
 dragonbox
@@ -451,6 +476,7 @@ drhelius
 driftyz
 drwx
 dryml
+dsafeint
 dsirit
 dskip
 dspirv
@@ -469,8 +495,10 @@ dunamai
 dunix
 dunleashed
 dusing
+dvapoursynth
 dvcpkg
 dvec
+dvideo
 dwarvesf
 dwebp
 dwith
@@ -522,6 +550,7 @@ errno
 esac
 esaxx
 esbuild
+esrgan
 estree
 etagere
 etld
@@ -533,6 +562,7 @@ expanduser
 extensionmanager
 extruct
 exzap
+ezpwd
 faad
 facetime
 fakecrc
@@ -563,11 +593,14 @@ filetime
 filippo
 filt
 findall
+fium
 fixbaserom
 fixups
 flacted
 flagset
 flashplayer
+flatbuffers
+flatc
 flate
 flavored
 flto
@@ -587,6 +620,7 @@ fomit
 fontconfig
 fontdb
 fontique
+fopenmp
 fordpass
 fourcc
 fpath
@@ -603,8 +637,10 @@ fsclient
 fseek
 fsevent
 fsnotify
+fsrcnn
 fsrcnnx
 fsutil
+fsutils
 ftdetect
 ftplugin
 funcs
@@ -638,6 +674,7 @@ gendisc
 genout
 genv
 getattr
+getenv
 gethostname
 getopts
 getrandom
@@ -735,6 +772,7 @@ hactool
 hardfp
 harens
 harfrust
+harrypm
 hartator's
 hashbrown
 hashstructure
@@ -748,6 +786,7 @@ herbygillot
 herumi
 hetelek
 hexf
+hinnant
 hinterwaeldlers
 hkdf
 hlsl
@@ -783,6 +822,7 @@ idna
 ifaddr
 ifndef
 ifneeded
+ifunc
 iinclude
 iiqqqq
 imdario
@@ -897,6 +937,7 @@ killall
 kimg
 kinnay
 kirito
+kiyamou
 klauspost
 knownhosts
 kokke
@@ -983,6 +1024,7 @@ libmpv
 libmspack
 libmwaw
 libname
+libncnn
 libogg
 libomp
 libopenmpt
@@ -991,16 +1033,21 @@ libpcap
 libpicofe
 libpietendo
 libpixman
+libplacebo
 libplist
 libps
 libpulse
 libquadmath
 libquassel
 libquasselc
+librealcugan
+librealcugannv
+librealsrnv
 libredox
 librespot
 libretro
 libretrodb
+librife
 librosa
 librsvg
 librw
@@ -1010,6 +1057,7 @@ libshared
 libslirp
 libsmacker
 libsndfile
+libsrmdnv
 libssp
 libstdc
 libstdcxx
@@ -1025,8 +1073,10 @@ libultraship's
 libusb
 libuv
 libvaqua
+libvideo
 libvorbis
 libvs
+libvsw
 libvszip
 libvulkan
 libweaver
@@ -1065,11 +1115,13 @@ localsend
 lodepng
 logrusorgru
 loguru
+lora
 lpthread
 lrange
 lsalzman
 lsdvd
 lsearch
+lsenv
 lsort
 lstsq
 lsusb
@@ -1096,6 +1148,7 @@ mackron
 macports
 macprefs
 magiconair
+magika
 makemkv
 makemkvcon
 malcommac
@@ -1107,6 +1160,9 @@ mandir
 mangerlahn
 mapfile
 mapstructure
+maratyszcza
+markdownify
+markitdown
 marlliton
 marmelroy
 martinus
@@ -1170,6 +1226,7 @@ mklvers
 mksprite
 mkstemp
 mkwineprefix
+mlas
 mlrt
 mltgui
 mmacosx
@@ -1177,6 +1234,7 @@ mmccextr
 mmcdole
 mnamer
 mockoidc
+modeldir
 modeline
 modernc
 moltenvk
@@ -1238,6 +1296,8 @@ natord
 naurdw
 nccl
 ncine
+ncnn
+ncnn's
 ncruces
 ndarray
 nego
@@ -1254,10 +1314,13 @@ nfsw
 nicklockwood
 nihongo
 nihstro
+nihui
+nihui's
 niquests
 njpgdsp
 nlibvszip
 nlohmann
+nlzy
 nmicmpd
 nnedi
 nntplib
@@ -1265,6 +1328,7 @@ noarch
 noautofsck
 noautoopen
 nobrowse
+nobrowser
 nocomplain
 noconflict
 nodedir
@@ -1312,12 +1376,14 @@ objx
 occivink
 ocornut
 offscreen
+olefile
 ollama
 omnilib
 omnisharp
 onedev
 onig
 onnx
+onnxruntime
 oorandom
 opack
 openal
@@ -1363,6 +1429,8 @@ pcblist
 pckey
 pcre
 pcsx
+pdfminer
+pdfplumber
 pefile
 pelletier
 pemfile
@@ -1384,6 +1452,8 @@ pipx
 pixbuf
 pjbgf
 pkgd
+pkgdir
+pkgname
 pkgs
 pklite
 platformdirs
@@ -1431,6 +1501,7 @@ prost
 prosystem
 protoc
 protocolbuffers
+psimd
 psutil
 pthread
 pthreadglue
@@ -1471,8 +1542,10 @@ pykdebugparser
 pylibyaml
 pylzham
 pylzss
+pymatting
 pymobiledevice
 pypackages
+pypdfium
 pype's
 pyperclip
 pypi
@@ -1496,6 +1569,7 @@ pyxbld
 pyximport
 qcng
 qcoro
+qlutgemm
 qpxtool
 qscan
 qtbase
@@ -1531,14 +1605,19 @@ rbuild
 rccl
 rcgen
 rcheevos
+rclone
+rcnv
 rdfa
 rdflib
 rdparty
 readlines
 readlink
+realcugan
+realesrgan
 realname
 realpath
 realroot
+realsr
 reborrow
 rebulk
 recomp
@@ -1558,6 +1637,7 @@ regsub
 reinplace
 relcs
 rels
+rembg
 remotezip
 removegrain
 remyoudompheng
@@ -1600,6 +1680,7 @@ rpaths
 rpetrich
 rpkg
 rrdtool
+rsnv
 rspolib
 rstest
 rstfmt
@@ -1619,6 +1700,7 @@ rustversion
 rustybuzz
 ruzstd
 ryml
+safeint
 sagikazarmark
 samber
 sammycage
@@ -1690,6 +1772,8 @@ simoninns
 simplecss
 simpleini
 simplelog
+simpleomp
+simplevk
 sindresorhus
 siphasher
 sirit
@@ -1747,6 +1831,8 @@ spvt
 sqlalchemy
 sqlfluff
 srcgen
+srmd
+srmdnv
 srtp
 ssim
 ssimulacra
@@ -1809,6 +1895,9 @@ tauri
 tblib
 tdir
 teakra
+teardown
+teletextintegration
+teletextviewerdialog
 temoto
 termcolor
 termi
@@ -1863,6 +1952,7 @@ toolinfo
 torbrowser
 torchaudio
 torchvision
+toupper
 tqdm
 trimleft
 triomphe
@@ -1898,6 +1988,8 @@ unminify
 unmutate
 unshield
 unty
+upconv
+upscalers
 urandom
 ureq
 uritemplate
@@ -1931,6 +2023,7 @@ vimrc
 vinniefalco
 virtualjaguar
 virtualwebauthn
+vitc
 vite
 vladikcomper
 volk
@@ -1957,6 +2050,7 @@ vsznedi
 vtable
 vtune
 vusec
+waifu
 waitgroup
 wakapi
 wakapi's
@@ -1999,6 +2093,7 @@ williballenthin
 wimgt
 winapi
 wincon
+wineprefixes
 wingetty
 winio
 winit
@@ -2039,6 +2134,7 @@ xcodeproj
 xcodeversion
 xcrun
 xctest
+xcui
 xcursor
 xcworkspace
 xdist
@@ -2059,9 +2155,12 @@ xkbcommon
 xkeysym
 xlib
 xlinker
+xlrd
 xmltodict
 xmlwriter
+xnvk
 xplo
+xpreprocessor
 xpsnr
 xsltproc
 xtlid
