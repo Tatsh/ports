@@ -99,6 +99,7 @@ azcore
 azidentity
 babelfish
 bascom
+baserom
 bbolt
 bcder
 bdir
@@ -359,6 +360,7 @@ difflib
 directx
 direnv
 discid
+discordrpc
 diskv
 disle
 displaydoc
@@ -716,6 +718,7 @@ ifaddr
 ifndef
 ifneeded
 iinclude
+iiqqqq
 imdario
 imgref
 imgui
@@ -1167,6 +1170,7 @@ nocomplain
 noconflict
 nodedir
 nodeheaders
+noextract
 nofetch
 nohash
 noinput
@@ -1197,6 +1201,7 @@ nygard
 obfstr
 objc
 objcc
+objcopy
 objcxxflags
 objdump
 objroot
@@ -1524,9 +1529,13 @@ shadpkg
 sharedir
 shellescape
 shellingham
+shentsize
 shifta
 shirou
 shlex
+shnum
+shoff
+shstrndx
 shurcoo
 shutup
 sideload
@@ -1612,6 +1621,7 @@ strftime
 stringutils
 strsed
 strsim
+strtab
 stylesheet
 subclassing
 subosito
@@ -1782,6 +1792,7 @@ wakelock
 wakepy
 waker
 walkdir
+wario
 warnflags
 washi
 wasi
