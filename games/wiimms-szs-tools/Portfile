@@ -6,6 +6,7 @@ PortGroup           github 1.0
 github.setup        Wiimm wiimms-szs-tools 246fdb38d7c2fb3054b8f8528e11dc8f17691750
 github.tarball_from archive
 version             2.42a
+revision            1
 categories          games sysutils
 platforms           darwin linux freebsd
 license             GPL-2
@@ -27,6 +28,9 @@ worksrcdir          ${distname}/project
 use_configure       no
 
 post-patch {
+    # Look for the configuration in ~/Library/Application Support/szs instead of ~/.config/szs.
+    reinplace {s|xdg = PathCatPP(buf,sizeof(buf),home,".config");|xdg = PathCatPP(buf,sizeof(buf),home,"Library/Application Support");|} \
+        ${worksrcpath}/dclib/dclib-basics.c
     reinplace -E {s/@\$\(CC\)/$(CC)/g; s/-O3\b//g; s/^CC[[:space:]]+=(.*)/CC ?=\1/} \
         ${worksrcpath}/Makefile
 }
