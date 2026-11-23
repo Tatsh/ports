@@ -1,5 +1,5 @@
---- a/Makefile
-+++ b/Makefile
+--- Makefile
++++ Makefile
 @@ -621,6 +621,9 @@ endif # End of LDFLAGS
  # Prevent a crash with -sopt
  export LANG := C

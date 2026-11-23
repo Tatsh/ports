@@ -1,5 +1,5 @@
---- a/Makefile
-+++ b/Makefile
+--- Makefile
++++ Makefile
 @@ -458,8 +458,9 @@
  
  AS := $(CROSS)as
@@ -69,8 +69,8 @@
  
  $(EXE): $(O_FILES) $(MIO0_FILES:.mio0=.o) $(SOUND_OBJ_FILES) $(ULTRA_O_FILES) $(GODDARD_O_FILES) $(BUILD_DIR)/$(RPC_LIBS)
  	$(LD) -L $(BUILD_DIR) -o $@ $(O_FILES) $(SOUND_OBJ_FILES) $(ULTRA_O_FILES) $(GODDARD_O_FILES) $(LDFLAGS) -lstdc++
---- a/tools/Makefile
-+++ b/tools/Makefile
+--- tools/Makefile
++++ tools/Makefile
 @@ -46,4 +46,6 @@
  
  $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
@@ -78,8 +78,8 @@
 +tabledesign: $(LIBAUDIOFILE)
 +
  .PHONY: all clean default
---- a/tools/aiff_extract_codebook.c
-+++ b/tools/aiff_extract_codebook.c
+--- tools/aiff_extract_codebook.c
++++ tools/aiff_extract_codebook.c
 @@ -2,7 +2,7 @@
   * Create an ADPCM codebook either by extracting it from an AIFF section, or
   * by executing tabledesign.

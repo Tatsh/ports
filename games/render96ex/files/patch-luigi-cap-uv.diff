@@ -1,5 +1,5 @@
---- a/actors/luigi_cap/model.inc.c
-+++ b/actors/luigi_cap/model.inc.c
+--- actors/luigi_cap/model.inc.c
++++ actors/luigi_cap/model.inc.c
 @@ -3191,49 +3191,49 @@
  };Vtx luigi_cap_000_displaylist_mesh_vtx_2[45] = {
  	{{{78, -1, -83},0, {887, 87},{0x26, 0x8A, 0xE2, 0xFF}}},

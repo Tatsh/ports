@@ -40,7 +40,6 @@ depends_lib-append  port:glew \
 patchfiles          patch-custom-flags.diff \
                     patch-macos-build.diff \
                     patch-luigi-cap-uv.diff
-patch.pre_args-replace -p0 -p1
 
 variant us conflicts eu jp description {Build from the North American ROM} {
     set rom_version us
