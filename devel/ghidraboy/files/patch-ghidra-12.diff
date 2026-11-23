@@ -16,10 +16,10 @@ BootRomUtils, whose entries are matched against Sha256.parse()'s [0-9a-z]{64}.
 
 Upstream is archived, so this cannot be sent anywhere.
 
-diff --git a/src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java b/src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java
+diff --git src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java
 index 2e9e81c..f6a7348 100644
---- a/src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java
-+++ b/src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java
+--- src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java
++++ src/main/java/fi/gekkio/ghidraboy/GameBoyLoader.java
 @@ -17,10 +17,8 @@ import ghidra.app.util.MemoryBlockUtils;
  import ghidra.app.util.Option;
  import ghidra.app.util.OptionUtils;
@@ -110,10 +110,10 @@ index 2e9e81c..f6a7348 100644
  
          if (bootRom.isPresent()) {
              var cgb = GameBoyKind.CGB.equals(bootRom.get());
-diff --git a/src/main/java/fi/gekkio/ghidraboy/Sha256.java b/src/main/java/fi/gekkio/ghidraboy/Sha256.java
+diff --git src/main/java/fi/gekkio/ghidraboy/Sha256.java src/main/java/fi/gekkio/ghidraboy/Sha256.java
 index ecaedee..b016b5d 100644
---- a/src/main/java/fi/gekkio/ghidraboy/Sha256.java
-+++ b/src/main/java/fi/gekkio/ghidraboy/Sha256.java
+--- src/main/java/fi/gekkio/ghidraboy/Sha256.java
++++ src/main/java/fi/gekkio/ghidraboy/Sha256.java
 @@ -14,10 +14,13 @@
  package fi.gekkio.ghidraboy;
  

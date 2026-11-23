@@ -20,7 +20,6 @@ ghidra_extension.name GhidraBoy
 
 patchfiles          patch-ghidra-12.2.diff \
                     patch-ghidra-12.diff
-patch.pre_args-replace -p0 -p1
 
 # Upstream generates extension.properties from its Gradle build.
 post-extract {
