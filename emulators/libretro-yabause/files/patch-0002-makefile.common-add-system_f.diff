@@ -17,10 +17,10 @@ Signed-off-by: Andrew Udvare <audvare@gmail.com>
  Makefile.common | 22 +++++++++++++++-------
  1 file changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/Makefile.common b/Makefile.common
+diff --git Makefile.common Makefile.common
 index 9705e51ba..00163d9e4 100644
---- a/Makefile.common
-+++ b/Makefile.common
+--- Makefile.common
++++ Makefile.common
 @@ -14,9 +14,12 @@ INCLUDE_DIRS := $(CORE_DIR) \
  	$(LIBRETRO_COMM_DIR)/include \
  	$(SOURCE_DIR)/musashi \

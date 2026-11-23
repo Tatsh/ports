@@ -23,7 +23,6 @@ depends_lib-append  port:flac \
 
 patchfiles          patch-0001-makefile.common-add-system_z.diff \
                     patch-0002-makefile.common-add-system_f.diff
-patch.pre_args-replace -p0 -p1
 patch.dir           ${worksrcpath}/yabause/src/libretro
 
 libretro.build_dir  ${worksrcpath}/yabause/src/libretro

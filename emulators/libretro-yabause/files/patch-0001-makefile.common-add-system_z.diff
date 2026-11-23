@@ -17,10 +17,10 @@ Signed-off-by: Andrew Udvare <audvare@gmail.com>
  Makefile.common | 16 ++++++++++++----
  1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile.common b/Makefile.common
+diff --git Makefile.common Makefile.common
 index 4f34901a2..9705e51ba 100644
---- a/Makefile.common
-+++ b/Makefile.common
+--- Makefile.common
++++ Makefile.common
 @@ -16,8 +16,11 @@ INCLUDE_DIRS := $(CORE_DIR) \
  	$(LIBCHDR_DIR)/include \
  	$(LZMA_DIR)/include \
