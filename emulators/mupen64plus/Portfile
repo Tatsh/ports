@@ -1,0 +1,76 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        mupen64plus mupen64plus-core 2.6.0
+github.tarball_from releases
+name                mupen64plus
+revision            0
+categories          emulators games
+license             GPL-2+ LGPL-2.1+
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Nintendo 64 emulator.
+long_description    Mupen64Plus is a plugin-based Nintendo 64 emulator. This installs the core \
+                    library, the mupen64plus console front end, and the audio-sdl, input-sdl, \
+                    rsp-hle, video-rice and video-glide64mk2 plugins. Other plugins install into \
+                    ${prefix}/lib/mupen64plus, where the front end looks for them.
+homepage            https://mupen64plus.org
+
+distname            mupen64plus-bundle-src-${version}
+
+checksums           rmd160  81d139733a9eeeae72147c17a909a770a170c36b \
+                    sha256  297e17180cd76a7b8ea809d1a1be2c98ed5c7352dc716965a80deb598b21e131 \
+                    size    3019059
+
+depends_build-append \
+                    port:nasm \
+                    port:pkgconfig
+depends_lib-append  port:freetype \
+                    port:libpng \
+                    port:libsamplerate \
+                    port:libsdl2 \
+                    port:minizip \
+                    port:speex \
+                    port:zlib
+
+use_configure       no
+
+set components      {core ui-console audio-sdl input-sdl rsp-hle video-rice video-glide64mk2}
+
+# The plugin and data directories are compiled into the core and the front end. The minizip
+# port's pkg-config file points at ${prefix}/include, but the core includes unzip.h directly.
+set make_args [list PREFIX=${prefix} LIBDIR=${prefix}/lib PLUGINDIR=${prefix}/lib/mupen64plus \
+                   SHAREDIR=${prefix}/share/mupen64plus MANDIR=${prefix}/share/man \
+                   "CC=${configure.cc} [get_canonical_archflags cc]" \
+                   "CXX=${configure.cxx} [get_canonical_archflags cxx]" \
+                   OPTFLAGS=-O2 V=1 \
+                   "MINIZIP_CFLAGS=-I${prefix}/include/minizip" MINIZIP_LDLIBS=-lminizip]
+
+# LDFLAGS in the environment, as the Makefiles add their own (-dynamiclib, frameworks) to it.
+set make_env        [shellescape "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]"]
+
+build {
+    foreach c ${components} {
+        set dir ${worksrcpath}/source/mupen64plus-${c}/projects/unix
+        system -W ${dir} "env ${make_env} ${build.cmd} -j${build.jobs} all\
+            [join [lmap a ${make_args} {shellescape ${a}}]]"
+    }
+}
+
+destroot {
+    foreach c ${components} {
+        set dir ${worksrcpath}/source/mupen64plus-${c}/projects/unix
+        system -W ${dir} "env ${make_env} ${build.cmd} install DESTDIR=${destroot} LDCONFIG=true\
+            [join [lmap a ${make_args} {shellescape ${a}}]]"
+    }
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    foreach c ${components} {
+        foreach doc {README RELEASE LICENSES} {
+            set f ${worksrcpath}/source/mupen64plus-${c}/${doc}
+            if {[file exists ${f}]} {
+                xinstall -m 0644 ${f} ${destroot}${prefix}/share/doc/${name}/${doc}-${c}
+            }
+        }
+    }
+}
