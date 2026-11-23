@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        qcoro qcoro 0.13.0 v
+github.tarball_from archive
+revision            0
+categories          devel
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         C++ coroutine support for Qt.
+long_description    QCoro is a C++ library that provides coroutine support for Qt, so that \
+                    asynchronous Qt operations (network replies, timers, signals, processes, \
+                    WebSockets) can be awaited with co_await. This port builds it for Qt 6.
+homepage            https://qcoro.dev
+
+checksums           rmd160  36cd7b101b7cceb9c4d6edce717777c72da74345 \
+                    sha256  4bff7513c5c8e301b66308df05795043b1792ed16381a484e5c990171b8ff19e \
+                    size    163436
+
+depends_lib-append  port:qt67-qtbase \
+                    port:qt67-qtdeclarative \
+                    port:qt67-qtwebsockets
+
+configure.args-append \
+                    -DCMAKE_PREFIX_PATH=${prefix}/libexec/qt6 \
+                    -DUSE_QT_VERSION=6 \
+                    -DBUILD_SHARED_LIBS=ON \
+                    -DBUILD_TESTING=OFF \
+                    -DQCORO_BUILD_EXAMPLES=OFF \
+                    -DQCORO_WITH_QTDBUS=OFF
