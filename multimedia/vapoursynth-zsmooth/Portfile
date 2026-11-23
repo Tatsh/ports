@@ -1,0 +1,83 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           vapoursynth_plugin 1.0
+PortGroup           zig_toolchain 1.0
+
+github.setup        adworacz zsmooth 0.20.0
+github.tarball_from archive
+name                vapoursynth-zsmooth
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Cross-platform video smoothing functions for VapourSynth, written in Zig.
+long_description    zsmooth provides FluxSmoothT/ST, RemoveGrain, Repair, VerticalCleaner, \
+                    Clense, TemporalMedian, TemporalSoften, TTempSmooth, DegrainMedian, \
+                    InterQuartileMean, SmartMedian, CCD, CNR4, DCTFilter and more. It replaces \
+                    the obsolete vapoursynth-fluxsmooth.
+
+# minimum_zig_version in build.zig.zon. An exact series: Zig breaks the language at every minor
+# release.
+set zig_series      0.15
+platforms           "darwin >= [zig_toolchain.min_darwin ${zig_series}]"
+
+# The vapoursynth-zig bindings package from build.zig.zon, vendored for `zig build --system`
+# (which disables fetching). The directory must be named for the hash Zig records.
+set vszig_commit    344caabeae1f4168b69ea6975d6ef244583e7c63
+set vszig_hash      vapoursynth-4.0.0-jLYMQ2SPAgCbH6_Kr5k8EUde77slXphbfx6P31vl3abc
+set zig_system_dir  ${workpath}/zig-system
+
+master_sites-append https://github.com/dnjulek/vapoursynth-zig/archive/:vszig
+distfiles-append    ${vszig_commit}.tar.gz:vszig
+
+checksums           zsmooth-0.20.0.tar.gz \
+                    rmd160  718e816a06d518b3c4f840a346f9f16bbad2fee5 \
+                    sha256  218d141fe0b0e1cac2c6a16f2d653dd2fb4ea6f0b8d0792232dbbe2107469600 \
+                    size    201865 \
+                    344caabeae1f4168b69ea6975d6ef244583e7c63.tar.gz \
+                    rmd160  8a13382a752dc414cdd5f553fe1462fa695c4d18 \
+                    sha256  385dd211a8e98d0cfd78199d5e1cb93ff442558d4fec789aef247310ca974689 \
+                    size    41513
+
+depends_build-append port:zig-${zig_series}
+depends_lib-append  port:fftw-3-single
+
+# Link the fftw-3-single port instead of building FFTW from adworacz's zig fork of it (the fftw
+# entry in build.zig.zon).
+patchfiles          patch-system-fftw.diff
+
+post-extract {
+    xinstall -d ${zig_system_dir}
+    move ${workpath}/vapoursynth-zig-${vszig_commit} ${zig_system_dir}/${vszig_hash}
+}
+
+post-patch {
+    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/build.zig
+}
+
+use_configure       no
+
+# -Dcpu=baseline: without it Zig optimises for the CPU of the build machine.
+build.cmd           [zig_toolchain.bin ${zig_series}]
+build.target        build
+build.env-append    ZIG_GLOBAL_CACHE_DIR=${workpath}/zig-global-cache \
+                    ZIG_LOCAL_CACHE_DIR=${workpath}/zig-local-cache
+build.args          --system ${zig_system_dir} \
+                    -Doptimize=ReleaseFast \
+                    -Dcpu=baseline \
+                    -j${build.jobs}
+
+destroot {
+    xinstall -d ${destroot}${vapoursynth.plugindir}
+    xinstall -m 0755 ${worksrcpath}/zig-out/lib/libzsmooth.dylib \
+        ${destroot}${vapoursynth.plugindir}/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 -W ${worksrcpath} README.md CHANGELOG.md \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+# The Zig caches under ${workpath} hold copies of the plugin, so load only the installed one.
+test {
+    system -W ${workpath} "env VAPOURSYNTH_EXTRA_PLUGIN_PATH=${worksrcpath}/zig-out/lib \
+        ${vapoursynth.python_bin} -c 'import vapoursynth as vs; print(vs.core.zsmooth)'"
+}

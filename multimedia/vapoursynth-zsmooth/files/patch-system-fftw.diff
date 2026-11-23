@@ -1,0 +1,68 @@
+--- build.zig
++++ build.zig
+@@ -35,13 +35,6 @@
+         .optimize = optimize,
+     });
+ 
+-    const fftw_dep = b.dependency("fftw", .{
+-        .target = target,
+-        .optimize = optimize,
+-        .precision = .single,
+-        .threads = true,
+-    });
+-
+     const root_module_options: std.Build.Module.CreateOptions = .{
+         .root_source_file = b.path("src/zsmooth.zig"),
+         .target = target,
+@@ -62,7 +55,7 @@
+     const root_module = b.createModule(root_module_options);
+ 
+     root_module.addImport("vapoursynth", vapoursynth_dep.module("vapoursynth"));
+-    root_module.linkLibrary(fftw_dep.artifact("fftw3f"));
++    linkFftw(root_module);
+     root_module.addOptions("config", options);
+ 
+     const lib_options: std.Build.LibraryOptions = .{
+@@ -101,13 +94,7 @@
+         target_root_module.addImport("vapoursynth", vapoursynth_dep.module("vapoursynth"));
+         target_root_module.addOptions("config", options);
+ 
+-        const target_fftw_dep = b.dependency("fftw", .{
+-            .target = target_root_module_options.target,
+-            .optimize = optimize,
+-            .precision = .single,
+-            .threads = true,
+-        });
+-        target_root_module.linkLibrary(target_fftw_dep.artifact("fftw3f"));
++        linkFftw(target_root_module);
+ 
+         // copy lib options so we can operate on them separately.
+         var target_lib_options = lib_options;
+@@ -150,6 +137,14 @@
+     test_step.dependOn(&run_lib_unit_tests.step);
+ }
+ 
++// MacPorts: link the fftw-3-single port instead of building the zig fork of FFTW.
++fn linkFftw(m: *std.Build.Module) void {
++    m.addSystemIncludePath(.{ .cwd_relative = "@PREFIX@/include" });
++    m.addLibraryPath(.{ .cwd_relative = "@PREFIX@/lib" });
++    m.linkSystemLibrary("fftw3f", .{});
++    m.linkSystemLibrary("fftw3f_threads", .{});
++}
++
+ fn ensureZigVersion(min_zig_version: std.SemanticVersion) !void {
+     var installed_ver = @import("builtin").zig_version;
+     installed_ver.build = null;
+--- build.zig.zon
++++ build.zig.zon
+@@ -12,10 +12,6 @@
+             .url = "git+https://github.com/dnjulek/vapoursynth-zig.git#344caabeae1f4168b69ea6975d6ef244583e7c63",
+             .hash = "vapoursynth-4.0.0-jLYMQ2SPAgCbH6_Kr5k8EUde77slXphbfx6P31vl3abc",
+         },
+-        .fftw = .{
+-            .url = "git+https://github.com/adworacz/fftw.git?ref=v3.3.11-2#579b516e6b39a2a96200d248fc3c96d1ad7d9841",
+-            .hash = "fftw-3.3.11-2-EjV1I17WAgD0Lnb_BKT51TNd_56-eY4NBOPHO2IH_WHZ",
+-        },
+     },
+     .paths = .{
+         "build.zig",
