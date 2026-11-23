@@ -6,7 +6,7 @@ PortGroup           cmake 1.1
 
 name                relcs
 version             20210902
-revision            2
+revision            3
 set commit          33abd1b4e7a7b19e2d09c796c481c3325c1e2902
 set librw_commit    5501c4fdc7425ff926be59369a13593bb6c81b54
 categories          games
@@ -85,3 +85,4 @@ livecheck.type      none
 # A Finder-launchable app bundle for the game, which runs the installed program.
 app.name            reLCS
 app.executable      ${prefix}/share/${name}/reLCS
+app.icon            res/images/logo_1024.png
