@@ -1,0 +1,13 @@
+--- xirvik/commands/simple.py
++++ xirvik/commands/simple.py
+@@ -101,7 +101,9 @@
+                               'propagate': False,
+                           } if handlers_tuple else {}
+                       })
+-        cache_dir = await (await anyio.Path('~/.cache/xirvik').expanduser()).resolve()
++        cache_dir = await (await anyio.Path(
++            '~/Library/Caches/xirvik' if sys.platform == 'darwin' else '~/.cache/xirvik').expanduser()
++                          ).resolve()
+         await cache_dir.mkdir(parents=True, exist_ok=True)
+         post_url = f'https://{host:s}:{port:d}/rtorrent/php/addtorrent.php?'
+         form_data: dict[str, str] = {}
