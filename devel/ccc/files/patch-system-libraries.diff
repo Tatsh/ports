@@ -8,10 +8,10 @@ copies are found with no include path of their own.
 The two license files under thirdparty/ are dropped from RELEASE_CONTENTS with
 them, so nothing refers to directories that no longer exist.
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
+diff --git CMakeLists.txt CMakeLists.txt
 index fb3f25d..c83492d 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+--- CMakeLists.txt
++++ CMakeLists.txt
 @@ -75,7 +75,6 @@ add_library(ccc STATIC
  	src/ccc/util.cpp
  	src/ccc/util.h

@@ -22,7 +22,6 @@ depends_build-append port:rapidjson
 # Use the system RapidJSON and GoogleTest, and stamp the release version.
 patchfiles          patch-system-libraries.diff \
                     patch-version.diff
-patch.pre_args-replace -p0 -p1
 
 compiler.cxx_standard 2020
 

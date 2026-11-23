@@ -4,10 +4,10 @@ Subject: [PATCH] Stamp the release version when building outside a git checkout
 version_finder.cmake reads the version from the git tag. A release tarball
 carries no git metadata, so every tool reports itself as a development build.
 
-diff --git a/cmake/version_finder.cmake b/cmake/version_finder.cmake
+diff --git cmake/version_finder.cmake cmake/version_finder.cmake
 index 40c21ec..c34c07c 100644
---- a/cmake/version_finder.cmake
-+++ b/cmake/version_finder.cmake
+--- cmake/version_finder.cmake
++++ cmake/version_finder.cmake
 @@ -13,7 +13,7 @@ if(GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
  	)
  else()
