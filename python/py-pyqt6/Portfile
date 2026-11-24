@@ -2,12 +2,13 @@
 
 PortSystem          1.0
 PortGroup           python 1.0
+PortGroup           select 1.0
 PortGroup           qt6 1.0
 
 name                py-pyqt6
 python.rootname     PyQt6
 version             6.12.1
-revision            0
+revision            1
 
 categories-append   devel
 license             {GPL-3 OpenSSLException}
@@ -41,6 +42,15 @@ python.pep517       no
 compiler.cxx_standard 2011
 
 if {${name} ne ${subport}} {
+    depends_run-append  port:pyqt6_select
+    select.group        pyqt6
+    select.file         ${filespath}/pyqt6${python.version}
+    notes-append "
+To make the Python ${python.branch} version of pyqt6 the one that is run\
+when you execute the commands without a version suffix, run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
     # fix permissions
     post-extract {
         fs-traverse item ${worksrcpath} {
