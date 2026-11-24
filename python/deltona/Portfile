@@ -1,0 +1,114 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                deltona
+version             1.0
+categories          python sysutils
+platforms           any
+supported_archs     noarch
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         deltona commands for the newest supported Python
+long_description    Installs the commands from py314-deltona without a Python version suffix.
+homepage            https://github.com/Tatsh/deltona
+
+distfiles
+
+# Newest Python version in the python.versions of py-deltona.
+set py_ver          314
+set py_branch       3.14
+
+depends_lib         port:py${py_ver}-deltona
+
+use_configure       no
+
+build {}
+
+set commands {
+    add-cdda-times
+    add-info-json
+    adp
+    audio2vid
+    burnrariso
+    cddb-query
+    check-bookmarks-html
+    chrome-bisect-flags
+    chrome-dump
+    clean-old-kernels-modules
+    connect-g603
+    cssq
+    deltona
+    display-info-json
+    encode-dashcam
+    fix-mime-assocs
+    fix-pwa-icon
+    flac-dir-finalize
+    fullwidth2ascii
+    git-checkout-default-branch
+    git-co-default-branch
+    git-open
+    git-rebase-default-branch
+    gogextract
+    hlg2sdr
+    htmltree
+    inhibit-notifications
+    is-ascii
+    is-bin
+    json2yaml
+    kconfig-to-commands
+    kconfig-to-json
+    ke-ebook-ex
+    kill-gamescope
+    kill-wine
+    make-rclone-bisync-service
+    merge-dependabot-prs
+    merge-pre-commit-prs
+    mp4json
+    mp4json-display
+    mpv-sbs
+    mvid-rename
+    netloc
+    patch-bundle
+    patch-uiso-font
+    pl2json
+    rclone-bisyncd
+    rclone-drive-changes
+    remove-rclone-bisync-service
+    remove-trailing-commas
+    retry-gh-jobs
+    sanitize
+    set-wine-fonts
+    show-info-json
+    slug-rename
+    slugify
+    smv
+    supported-audio-input-formats
+    systemd-reset-tpm-cryptenroll
+    tbc2srt
+    title-fixer
+    trim
+    ucwords
+    uiso
+    umpv
+    underscorize
+    unix2wine
+    unpack-0day
+    unregister-wine-assocs
+    upload-to-imgbb
+    urldecode
+    wait-for-disc
+    where-from
+    winegoginstall
+    wineshell
+}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/bin
+    foreach cmd ${commands} {
+        ln -s ${frameworks_dir}/Python.framework/Versions/${py_branch}/bin/${cmd} \
+            ${destroot}${prefix}/bin/${cmd}
+    }
+}
+
+livecheck.type      none
