@@ -11,7 +11,7 @@ revision            0
 license             Apache-2
 supported_archs     noarch
 platforms           {darwin any}
-categories          python devel
+categories          llm python devel
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 description         MCP bridge exposing Ghidra's reverse engineering tools to MCP clients.
 long_description    bridge-mcp-ghidra is a thin MCP-to-HTTP multiplexer: it connects MCP clients \
