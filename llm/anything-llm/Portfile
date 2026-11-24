@@ -6,7 +6,7 @@ PortGroup           nodejs 1.0
 name                anything-llm
 version             1.20.0
 revision            1
-categories          www
+categories          llm www
 license             MIT 0BSD Apache-2 BSD ISC PSF Unlicense public-domain WTFPL-2
 description         Server and document collector of AnythingLLM, an application to chat with \
                     your documents using LLMs.
