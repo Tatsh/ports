@@ -2,6 +2,7 @@ aanand
 abcabcabc
 absl
 accesskit
+acompress
 actool
 addonapi
 addopts
@@ -85,6 +86,7 @@ asgiwebdav
 ashpd
 asio
 assetcatalog
+assocs
 astc
 astd
 astdr
@@ -152,6 +154,8 @@ binpath
 binutils
 bioacoustic
 biojppm
+bisync
+bisyncd
 bitfield
 bitflags
 bitpacking
@@ -189,6 +193,7 @@ btzy
 buildfromsource
 buildmakejobs
 bumpalo
+burnrariso
 bytebufferpool
 bytecheck
 bytemuck
@@ -317,7 +322,9 @@ crossflash
 crossplatformbuild
 crossterm
 cryoglyph
+cryptenroll
 cryptopp
+cssq
 cstdint
 cstdlib
 cstring
@@ -346,6 +353,7 @@ dannav
 danwakefield
 dargparse
 dary
+dashcam
 dashmap
 dasp
 dataclass
@@ -683,6 +691,7 @@ fsutil
 fsutils
 ftdetect
 ftplugin
+fullwidth
 funcs
 functools
 funcy
@@ -697,6 +706,7 @@ gamecontrollerdb
 gamecube
 gamedb
 gamemode
+gamescope
 gandarez
 gaussfilt
 gcdb
@@ -775,6 +785,7 @@ godot
 godot's
 gofeed
 goflags
+gogextract
 gogs
 gohugoio
 golangci
@@ -793,6 +804,7 @@ gotoolchain
 govalidator
 gowebdav
 goxpp
+gpgconf
 gprofng
 gqlgen
 gradlew
@@ -842,6 +854,7 @@ hrydgard
 hschmidt
 htmlcov
 htmlparser
+htmltree
 htmx
 htobe
 htole
@@ -873,6 +886,7 @@ iinclude
 iiqqqq
 imageio
 imdario
+imgbb
 imgref
 imgui
 implot
@@ -969,6 +983,7 @@ kalmanfilt
 kamadak
 kamina
 kanaria
+kconfig
 kcrawford
 kdab
 kddockwidgets
@@ -1311,6 +1326,7 @@ mockoidc
 modeldir
 modeline
 modernc
+moggsplit
 moka
 moltenvk
 monostate
@@ -1347,6 +1363,7 @@ musepack
 musicbrainzngs
 muvs
 muvsfunc
+mvid
 mvsfunc
 mvtools
 mydep
@@ -1458,6 +1475,7 @@ objroot
 objx
 occivink
 ocornut
+ocsp
 offscreen
 olefile
 ollama
@@ -1626,6 +1644,7 @@ pyfordpass
 pyftdi
 pygfxd
 pyghidra
+pyghidraw
 pygments
 pygnuutils
 pyhamcrest
@@ -1633,6 +1652,7 @@ pyimg
 pyiosbackup
 pykdebugparser
 pylibyaml
+pylupdate
 pylzham
 pylzss
 pymatting
@@ -1651,6 +1671,7 @@ pyrate
 pyrdfa
 pyrescene
 pytcp
+pytcpd
 pytest
 pythonpath
 pytimeparse
@@ -1658,6 +1679,7 @@ pytorch
 pytorch's
 pytun
 pytype
+pyuic
 pyvboxmanage
 pyver
 pyxbld
@@ -2087,6 +2109,8 @@ toolbelt
 toolinfo
 torbrowser
 torchaudio
+torchfrtrace
+torchrun
 torchvision
 toupper
 tqdm
@@ -2109,11 +2133,15 @@ tyrquake
 tzdata
 tzdb
 tzlocal
+ucwords
 udalov
 udvare
 uhubctl
 uips
+uiso
+umpv
 uncc
+underscorize
 undmg
 unecm
 unicase
@@ -2131,6 +2159,7 @@ urandom
 ureq
 uring
 uritemplate
+urldecode
 urlencoding
 urllib
 usbkill
@@ -2218,6 +2247,7 @@ wctct
 wdio
 webauthn
 webbrowser
+webdav
 webp
 webpki
 webrtc
@@ -2236,7 +2266,9 @@ williballenthin
 wimgt
 winapi
 wincon
+winegoginstall
 wineprefixes
+wineshell
 wingetty
 winio
 winit
