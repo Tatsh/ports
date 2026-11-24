@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                sbclaude
 version             0.3.0
-categories          devel python
+categories          llm devel python
 license             MIT
 supported_archs     noarch
 platforms           {darwin any}
