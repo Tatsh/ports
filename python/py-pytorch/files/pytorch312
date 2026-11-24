@@ -1,0 +1,2 @@
+${frameworks_dir}/Python.framework/Versions/3.12/bin/torchfrtrace
+${frameworks_dir}/Python.framework/Versions/3.12/bin/torchrun

@@ -4,9 +4,10 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           mpi 1.0
 PortGroup           python 1.0
+PortGroup           select 1.0
 
 github.setup        pytorch pytorch 2.13.0 v
-revision            1
+revision            2
 name                py-${github.project}
 license             BSD
 maintainers         nomaintainer
@@ -101,6 +102,15 @@ use device \"mps\". Matrix multiplication example:
 }
 
 if {${name} ne ${subport}} {
+    depends_run-append  port:pytorch_select
+    select.group        pytorch
+    select.file         ${filespath}/pytorch${python.version}
+    notes-append "
+To make the Python ${python.branch} version of pytorch the one that is run\
+when you execute the commands without a version suffix, run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
     depends_build-append \
         port:git \
         path:bin/doxygen:doxygen \
