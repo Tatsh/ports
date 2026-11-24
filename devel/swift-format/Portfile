@@ -1,0 +1,142 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+# swift-format is released per Swift train and each release sets a minimum swift-tools-version, so
+# the newest usable release depends on the Swift that ships with the newest Xcode for this macOS:
+#
+#   macOS 13 (Xcode 15.2, Swift 5.9) -> 602.0.0, the last release with swift-tools-version 5.9
+#   macOS 14 and later (Xcode 16+, Swift 6.0+) -> 604.0.0, which needs swift-tools-version 6.0
+#
+# Only the macOS 13 combination is tested; the dependency versions for each branch are the newest
+# ones SwiftPM resolves for that toolchain.
+if {${os.major} >= 23} {
+    set swift_format_version    604.0.0
+    set swift_syntax_version    604.0.0
+    set swift_markdown_version  0.9.0
+    set swift_cmark_version     0.9.0
+    set argument_parser_version 1.8.2
+} else {
+    set swift_format_version    602.0.0
+    set swift_syntax_version    602.0.0
+    set swift_markdown_version  0.7.1
+    set swift_cmark_version     0.9.0
+    set argument_parser_version 1.7.2
+}
+
+github.setup        swiftlang swift-format ${swift_format_version}
+github.tarball_from archive
+categories          devel
+license             Apache-2
+platforms           macosx
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Formatter and linter for Swift source code.
+long_description    ${description} This is the formatter maintained by the Swift project itself, \
+                    which follows the Swift API Design Guidelines. It is unrelated to the \
+                    swiftformat port.
+
+# SwiftPM cannot resolve dependencies without network access, so each one is a distfile and the
+# build uses the package's own SWIFTCI_USE_LOCAL_DEPS mode, which expects them checked out as
+# siblings of the source directory.
+master_sites-append https://github.com/swiftlang/swift-syntax/archive/${swift_syntax_version}:syntax \
+                    https://github.com/swiftlang/swift-markdown/archive/${swift_markdown_version}:markdown \
+                    https://github.com/swiftlang/swift-cmark/archive/${swift_cmark_version}:cmark \
+                    https://github.com/apple/swift-argument-parser/archive/${argument_parser_version}:argparse
+
+set swift_syntax_distfile    swift-syntax-${swift_syntax_version}.tar.gz
+set swift_markdown_distfile  swift-markdown-${swift_markdown_version}.tar.gz
+set swift_cmark_distfile     swift-cmark-${swift_cmark_version}.tar.gz
+set argument_parser_distfile swift-argument-parser-${argument_parser_version}.tar.gz
+
+distfiles-append    ${swift_syntax_distfile}:syntax \
+                    ${swift_markdown_distfile}:markdown \
+                    ${swift_cmark_distfile}:cmark \
+                    ${argument_parser_distfile}:argparse
+
+if {${os.major} >= 23} {
+    checksums       ${distname}${extract.suffix} \
+                    rmd160  bd475c5882dc301128a310bf2764a577a542b057 \
+                    sha256  43f7f4d039dd85733fdb6119dcd29271d08936592ee9904840f0fd743b061894 \
+                    size    323994 \
+                    ${swift_syntax_distfile} \
+                    rmd160  5c0773ac743aa831ed3d91a4bd33abf39304846c \
+                    sha256  a2968b85f4fbac228bfbbab7122ea69154d326cbf666e0bce6d8e9050f39a19d \
+                    size    1472592 \
+                    ${swift_markdown_distfile} \
+                    rmd160  dc671d89afa7346ba73157d1b93fc05e43c3ae39 \
+                    sha256  dccccc3c63a2da6c5a9dfac538834b9c8e20a709b2fe41fc04a5d79bbf86c55a \
+                    size    122815 \
+                    ${swift_cmark_distfile} \
+                    rmd160  28628fa7acc435c1d2a2f711527a738f3c765d08 \
+                    sha256  21e88b2ac458edda8c3376336e589f6aff2d9ac1091794ab6461299e6248e0e7 \
+                    size    308358 \
+                    ${argument_parser_distfile} \
+                    rmd160  acc20eae3c5200131c7748631a762ed77424dc6d \
+                    sha256  62bb12fb84d07d7f9ebbbbae205d32f941bcfecdcebdd09889f6e7f7f96f04ac \
+                    size    709666
+} else {
+    checksums       ${distname}${extract.suffix} \
+                    rmd160  11c8624ab7bb16bc7aa35e33aad9a03ed6602a72 \
+                    sha256  d72b8ca81face822b7ef9c5d9db87e2479c9851345406e0ea237dcaa047f5e0a \
+                    size    298615 \
+                    ${swift_syntax_distfile} \
+                    rmd160  de10d311efdee63e8113430bb86ab3135d7c0ff8 \
+                    sha256  e5a5af9c82c8c192131598dc1242ab6c6bd68718689aa10d36594c187108aaca \
+                    size    1396301 \
+                    ${swift_markdown_distfile} \
+                    rmd160  7946ee340b5ef5b976d6a969d8383f4ba5332d1f \
+                    sha256  2b780b7b1184510288c530c782b5f784253b34867a00a4dee9ef91344e0a472a \
+                    size    120896 \
+                    ${swift_cmark_distfile} \
+                    rmd160  28628fa7acc435c1d2a2f711527a738f3c765d08 \
+                    sha256  21e88b2ac458edda8c3376336e589f6aff2d9ac1091794ab6461299e6248e0e7 \
+                    size    308358 \
+                    ${argument_parser_distfile} \
+                    rmd160  a6e346fcbdac48c7baa65a489b4425bad184aeda \
+                    sha256  ad7b222286215b190729f621cb82ddf6f32f695b95a41acea1e63c8c957a92af \
+                    size    697414
+}
+
+# Package.swift looks for ../swift-syntax, ../swift-markdown and ../swift-argument-parser, and
+# swift-markdown looks for ../cmark.
+post-extract {
+    move ${workpath}/swift-syntax-${swift_syntax_version} ${workpath}/swift-syntax
+    move ${workpath}/swift-markdown-${swift_markdown_version} ${workpath}/swift-markdown
+    move ${workpath}/swift-cmark-${swift_cmark_version} ${workpath}/cmark
+    move ${workpath}/swift-argument-parser-${argument_parser_version} ${workpath}/swift-argument-parser
+}
+
+use_configure       no
+# The Swift toolchain ships with Xcode, not with the Command Line Tools.
+use_xcode           yes
+
+# MacPorts headers conflict with the SDK headers that the SwiftPM build system uses.
+compiler.cpath
+
+build.cmd           /usr/bin/xcrun swift build
+build.target
+build.args          -c release --disable-sandbox --product ${name}
+# SwiftPM writes caches under HOME, and SWIFTCI_USE_LOCAL_DEPS makes Package.swift use the
+# dependencies extracted next to the source instead of fetching them.
+build.env-append    HOME=${workpath}/home \
+                    SWIFTCI_USE_LOCAL_DEPS=1
+
+pre-build {
+    file mkdir ${workpath}/home
+}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/.build/release/${name} ${destroot}${prefix}/bin/${name}
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 0644 ${worksrcpath}/LICENSE.txt ${destroot}${prefix}/share/doc/${name}/
+    xinstall -m 0644 {*}[glob ${worksrcpath}/Documentation/*.md] \
+        ${destroot}${prefix}/share/doc/${name}/
+}
+
+if {${os.major} < 22} {
+    pre-fetch {
+        ui_error "${name} requires macOS 13 or later."
+        return -code error "incompatible macOS version"
+    }
+}
