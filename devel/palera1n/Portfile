@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        palera1n palera1n 2.4 v
+github.tarball_from releases
+categories          devel sysutils
+# palera1n itself is MIT; the binary embeds checkra1n, which is redistributable but not open source.
+license             {MIT Restrictive/Distributable}
+platforms           macosx
+supported_archs     arm64 x86_64
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Jailbreak for checkm8-vulnerable devices on iOS 15 and later.
+long_description    Jailbreak for A8 through A11 and T2 devices on iOS/iPadOS/tvOS 15.0 and \
+                    bridgeOS 5.0 and higher. This installs the upstream prebuilt release: building \
+                    from source downloads checkra1n, PongoOS, the ramdisk and the overlay at build \
+                    time, and those are only published as unversioned files.
+homepage            https://palera.in
+
+distfiles           ${name}-macos-${build_arch}
+
+if {${build_arch} eq "arm64"} {
+    checksums       rmd160  c541736eda5efd3b49b52919b82779539d86cd68 \
+                    sha256  950c357b6ae5df36128f6e42a3c6d371e55aeb69a5afcde276f096276210d0c9 \
+                    size    4874592
+} else {
+    checksums       rmd160  d20036cab0d940b8de1b9f982b507d70c163b156 \
+                    sha256  a1a798c4b9d9f0c74794f7d8c3bd3a4c01eee1c874b4980096d26e9403293047 \
+                    size    4853824
+}
+
+# The distfile is the ad-hoc signed executable itself, so it is copied rather than unarchived.
+extract {
+    xinstall -d ${worksrcpath}
+    xinstall -m 0755 ${distpath}/${distfiles} ${worksrcpath}/${name}
+}
+
+use_configure       no
+build {}
+
+destroot {
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/${name}
+}
+
+notes "
+palera1n talks to the device over USB, so run it with sudo:
+  sudo palera1n
+
+A USB-A cable is recommended; USB-C cables often fail to enter DFU mode. Read the guides at
+https://palera.in before using it, and note that it cannot work in a virtual machine without PCI
+passthrough.
+"
