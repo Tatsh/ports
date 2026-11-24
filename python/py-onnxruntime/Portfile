@@ -2,10 +2,11 @@
 
 PortSystem          1.0
 PortGroup           python 1.0
+PortGroup           select 1.0
 
 name                py-onnxruntime
 version             1.29.0
-revision            0
+revision            1
 categories-append   science devel
 license             MIT
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -70,6 +71,15 @@ checksums           onnxruntime-1.29.0.tar.gz \
 python.versions     313 314 315
 
 if {${name} ne ${subport}} {
+    depends_run-append  port:onnxruntime_select
+    select.group        onnxruntime
+    select.file         ${filespath}/onnxruntime${python.version}
+    notes-append "
+To make the Python ${python.branch} version of onnxruntime the one that is run\
+when you execute the commands without a version suffix, run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
     PortGroup       cmake 1.1
 
     # Dependencies from cmake/deps.txt that MacPorts lacks, as FetchContent name, extracted
