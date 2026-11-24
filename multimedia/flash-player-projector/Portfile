@@ -5,7 +5,7 @@ PortSystem          1.0
 name                flash-player-projector
 version             32.0.0.465
 revision            0
-categories          www multimedia
+categories          multimedia www
 license             Restrictive/Distributable
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 description         Adobe Flash Player projector (standalone player for SWF files).
