@@ -2033,8 +2033,10 @@ swaggo
 swanstation
 swda
 swiftc
+swiftci
 swiftcli
 swiftformat
+swiftlang
 swiftmodule
 swresample
 swscale
