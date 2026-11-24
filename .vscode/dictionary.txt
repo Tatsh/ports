@@ -240,6 +240,8 @@ charconv
 chardet
 chatnet
 chatnets
+checkm
+checkra
 cheevos
 cheke
 chgrp
@@ -1513,12 +1515,14 @@ oxffaa
 oyvindln
 packagefiles
 paho
+palera
 pango
 panzi
 paramiko
 parrado
 parti
 partiql
+passthrough
 pastey
 patchfile
 patchfiles
@@ -1577,6 +1581,7 @@ pngdefry
 pnglibconf
 polycool
 polyval
+pongo
 popd
 portarchivetype
 portaudio
