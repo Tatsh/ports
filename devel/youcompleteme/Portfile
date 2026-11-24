@@ -6,7 +6,7 @@ PortGroup           github 1.0
 github.setup            ycm-core YouCompleteMe d4c9143
 name                    youcompleteme
 version                 20260703
-revision                1
+revision                2
 platforms               darwin linux freebsd
 license                 GPL-3
 categories              devel textproc
@@ -57,6 +57,9 @@ destroot {
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles/plugin
     xinstall -d ${destroot}${prefix}/share/vim/vimfiles/autoload
     xinstall -m 0644 ${worksrcpath}/autoload/${name}.vim \
+        ${destroot}${prefix}/share/vim/vimfiles/autoload/
+    # autoload/youcompleteme/ holds filetypes.vim, finder.vim, etc.
+    copy ${worksrcpath}/autoload/${name} \
         ${destroot}${prefix}/share/vim/vimfiles/autoload/
     xinstall -m 0644 ${worksrcpath}/plugin/${name}.vim \
         ${destroot}${prefix}/share/vim/vimfiles/plugin/
