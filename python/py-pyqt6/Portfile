@@ -36,7 +36,7 @@ if {[vercmp ${qt6.version} 6.10] < 0} {
                     size    1051212
 }
 
-python.versions     310 311 312 313 314 315
+python.versions     310 311 312 313 314
 python.pep517       no
 
 compiler.cxx_standard 2011
