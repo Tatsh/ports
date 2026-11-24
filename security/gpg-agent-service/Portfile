@@ -1,0 +1,44 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                gpg-agent-service
+version             1.0
+categories          security
+platforms           macosx
+supported_archs     noarch
+license             Permissive
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Per-user launchd agent that runs gpg-agent from login
+long_description    Installs a launchd agent that starts gpg-agent for the user at login and \
+                    restarts it if it exits, instead of waiting for the first gpg command to \
+                    start it.
+homepage            https://www.gnupg.org/
+
+distfiles
+
+depends_run         port:gnupg2
+
+use_configure       no
+
+build {}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    system "echo 'See: port notes ${name}' > ${destroot}${prefix}/share/doc/${name}/README"
+}
+
+# Stays in the foreground so launchd supervises it (KeepAlive restarts it after gpgconf --kill).
+startupitem.create  yes
+startupitem.location LaunchAgents
+startupitem.executable \
+                    ${prefix}/bin/gpg-agent --daemon --no-detach
+
+notes "
+To start gpg-agent for your user at every login, load its agent:
+  sudo port load ${name}
+
+Its sockets are in ~/.gnupg (gpgconf --list-dirs agent-socket).
+"
+
+livecheck.type      none
