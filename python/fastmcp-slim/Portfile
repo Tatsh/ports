@@ -10,14 +10,14 @@ supported_archs     noarch
 license             Apache-2
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 description         fastmcp-slim commands for the newest supported Python
-long_description    Installs the commands from py314-fastmcp-slim without a Python version suffix.
+long_description    Installs the commands from py313-fastmcp-slim without a Python version suffix.
 homepage            https://gofastmcp.com
 
 distfiles
 
-# Newest Python version in the python.versions of py-fastmcp-slim.
-set py_ver          314
-set py_branch       3.14
+# Newest Python version py-fastmcp-slim can use (py314 needs py314-exceptiongroup, which MacPorts lacks).
+set py_ver          313
+set py_branch       3.13
 
 depends_lib         port:py${py_ver}-fastmcp-slim
 
