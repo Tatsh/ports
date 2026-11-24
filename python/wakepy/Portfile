@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+
+name                wakepy
+version             1.0
+categories          python sysutils
+platforms           any
+supported_archs     noarch
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         wakepy commands for the newest supported Python
+long_description    Installs the commands from py315-wakepy without a Python version suffix.
+homepage            https://github.com/wakepy/wakepy
+
+distfiles
+
+# Newest Python version in the python.versions of py-wakepy.
+set py_ver          315
+set py_branch       3.15
+
+depends_lib         port:py${py_ver}-wakepy
+
+use_configure       no
+
+build {}
+
+set commands {
+    wakepy
+}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/bin
+    foreach cmd ${commands} {
+        ln -s ${frameworks_dir}/Python.framework/Versions/${py_branch}/bin/${cmd} \
+            ${destroot}${prefix}/bin/${cmd}
+    }
+}
+
+livecheck.type      none
