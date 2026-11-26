@@ -1,36 +1,32 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        rpetrich battery_stat f3336c0
+github.setup        Tatsh battery-stat 0.0.1 v
+github.tarball_from archive
+# The previous versions were dates of upstream commits.
+epoch               1
+revision            0
 
-name                battery-stat
-version             20190814
-revision            1
 platforms           macosx
-license             GPL-3
-maintainers         {gmail.com:audvare @Tatsh}
-description         Simple program to read Apple battery information.
-long_description    Simple program to read Apple battery information as json, \
-                    text or in a format suitable for a shell prompt.
+license             MIT
+maintainers         {gmail.com:audvare @Tatsh} openmaintainer
+description         Read Apple battery information as JSON, text, or a shell prompt
+long_description    {*}${description}. battery-stat prints the capacity of the battery \
+                    of a Mac and whether it is charging, as text, as JSON, as a \
+                    percentage, or as a coloured symbol for a shell prompt.
 categories          sysutils
 
-patchfiles          patch-enhancements.diff
-use_configure       no
-build.target        battery_stat
+checksums           rmd160  b742e6557817049b6c90e8cc3d876cec9d9255c0 \
+                    sha256  f7aec71f4a942524138e6c138adffb9a3e37e7f7640a0d3b1026a9d171c02dbc \
+                    size    1382861
 
-checksums           rmd160  28877ae40622624ca6a22bdbe5eeb50c9cc2f85e \
-                    sha256  afa7ccec2b956c8ffbd87e444ed505bc9911c78d24073103dae790d508b070c7 \
-                    size    1466
+# The project is GNU C23. MacPorts can request at most C17, and older Xcode clang lacks -std=c2x.
+compiler.c_standard 2017
+compiler.blacklist-append {clang < 1200}
 
-destroot {
-    xinstall -m 755 ${worksrcpath}/battery_stat ${destroot}${prefix}/bin/battery-stat
-}
-
-if {${os.major} < 18} {
-    pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.14 or later."
-        return -code error "incompatible OS X version"
-    }
-}
+# Newer compilers may add warnings that the project treats as errors.
+configure.args-append \
+                    --compile-no-warning-as-error
