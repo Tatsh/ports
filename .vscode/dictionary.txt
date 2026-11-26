@@ -507,6 +507,7 @@ dproject
 dpybind
 dpython
 dqcoro
+dquickpvr
 dragonbox
 dreamcast
 dredumper
@@ -1629,6 +1630,7 @@ pumpkinos
 purego
 puremagic
 pushd
+pvrt
 pvrtc
 pxfm
 pxfw
@@ -1731,6 +1733,7 @@ quassel
 quasselc
 quazip
 quic
+quickpvr
 rabbitizer
 ranav's
 rancor
@@ -1826,7 +1829,6 @@ rootcerts
 rootname
 roxmltree
 rpaths
-rpetrich
 rpkg
 rrdtool
 rsnv
