@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                minchoc
 version             0.2.0
-revision            1
+revision            2
 platforms           darwin linux freebsd
 license             MIT
 supported_archs     noarch
@@ -56,13 +56,17 @@ post-destroot {
         ${destroot}${prefix}/libexec/${name}/minchoc-service
     reinplace "s|@PYTHON@|${python.bin}|g" ${destroot}${prefix}/bin/minchoc-manage \
         ${destroot}${prefix}/libexec/${name}/minchoc-service
-    xinstall -d -o _minchoc -g _minchoc -m 0750 ${destroot}${prefix}/var/db/${name}
 }
-destroot.keepdirs   ${destroot}${prefix}/var/db/${name}
 
 add_users           _minchoc group=_minchoc realname=minchoc
 
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    if {![file isdirectory ${prefix}/var/db/${name}]} {
+        xinstall -d -m 0750 -o _minchoc -g _minchoc ${prefix}/var/db/${name}
+    }
     set conf ${prefix}/etc/${name}/local_settings.py
     if {![file exists ${conf}]} {
         set key [exec /usr/bin/openssl rand -hex 32]
