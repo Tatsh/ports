@@ -6,7 +6,7 @@ PortGroup           github 1.0
 github.setup        thilojaeggi WinGetty 1.0.0 v
 github.tarball_from archive
 name                wingetty
-revision            0
+revision            1
 categories          www sysutils
 platforms           darwin
 license             AGPL-3
@@ -115,16 +115,21 @@ destroot {
         ${destroot}${prefix}/libexec/${name}/wingetty-flask
     reinplace "s|@PYTHON@|${python_bin}|g" ${destroot}${prefix}/libexec/${name}/wingetty-service \
         ${destroot}${prefix}/libexec/${name}/wingetty-flask
-    xinstall -d -o _wingetty -g _wingetty -m 0750 ${destroot}${prefix}/var/db/${name} \
-        ${destroot}${prefix}/var/db/${name}/packages
     xinstall -d -m 0755 ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE.md ${destroot}${prefix}/share/doc/${name}/
 }
-destroot.keepdirs   ${destroot}${prefix}/var/db/${name}/packages
 
 add_users           _wingetty group=_wingetty realname=WinGetty
 
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    foreach d [list ${prefix}/var/db/${name} ${prefix}/var/db/${name}/packages] {
+        if {![file isdirectory ${d}]} {
+            xinstall -d -m 0750 -o _wingetty -g _wingetty ${d}
+        }
+    }
     set conf ${prefix}/etc/${name}/wingetty.conf
     if {![file exists ${conf}]} {
         set key [exec /usr/bin/openssl rand -hex 32]
