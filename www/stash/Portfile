@@ -5,7 +5,7 @@ PortGroup           github 1.0
 
 github.setup        stashapp stash 0.32.0 v
 github.tarball_from archive
-revision            0
+revision            1
 categories          www multimedia
 license             AGPL-3 MIT BSD Apache-2 ISC MPL-2 CC-BY-4 public-domain
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -147,10 +147,14 @@ set log_file        ${prefix}/var/log/${name}.log
 
 add_users           _stash group=_stash realname=Stash home=${data_dir}
 
-post-destroot {
-    xinstall -d -m 0750 -o _stash -g _stash ${destroot}${data_dir}
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
+post-activate {
+    if {![file isdirectory ${data_dir}]} {
+        xinstall -d -m 0750 -o _stash -g _stash ${data_dir}
+    }
 }
-destroot.keepdirs   ${destroot}${data_dir}
 
 startupitem.create  yes
 startupitem.user    _stash
