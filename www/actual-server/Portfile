@@ -5,7 +5,7 @@ PortGroup           nodejs 1.0
 
 name                actual-server
 version             26.11.0
-revision            0
+revision            1
 categories          www finance
 license             MIT Apache-2 BSD ISC
 description         Sync server and web client for Actual, a local-first personal finance app.
@@ -48,10 +48,14 @@ post-build {
 set data_dir        ${prefix}/var/db/actual
 set log_file        ${prefix}/var/log/${name}.log
 
-post-destroot {
-    xinstall -d -m 0750 -o _actual -g _actual ${destroot}${data_dir}
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
+post-activate {
+    if {![file isdirectory ${data_dir}]} {
+        xinstall -d -m 0750 -o _actual -g _actual ${data_dir}
+    }
 }
-destroot.keepdirs   ${destroot}${data_dir}
 
 add_users           _actual group=_actual realname=Actual
 
