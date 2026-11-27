@@ -10,7 +10,7 @@ name                citra
 # PabloMK7/citra repository is gone; the tag tarball survives in the Wayback Machine.
 set tag             r5115f64
 version             20240821
-revision            1
+revision            2
 categories          emulators games
 license             GPL-2+ LGPL-2.1+ BSD MIT zlib
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -238,16 +238,20 @@ set room_data       ${prefix}/var/db/citra-room
 add_users           _citraroom group=_citraroom realname=Citra\ room home=${room_data}
 
 post-destroot {
-    xinstall -d -m 0750 -o _citraroom -g _citraroom ${destroot}${room_data}
     xinstall -m 0640 -g _citraroom ${filespath}/citra-room.conf ${destroot}${prefix}/etc/citra-room.conf.sample
     xinstall -d ${destroot}${prefix}/libexec/citra
     xinstall -m 0755 ${filespath}/citra-room-service.sh ${destroot}${prefix}/libexec/citra/room-service
     reinplace "s|@PREFIX@|${prefix}|g; s|@ROOM@|citra-room|g; s|@DATADIR@|${room_data}|g" \
         ${destroot}${prefix}/libexec/citra/room-service
 }
-destroot.keepdirs-append ${destroot}${room_data}
 
+# The room's data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    if {![file isdirectory ${room_data}]} {
+        xinstall -d -m 0750 -o _citraroom -g _citraroom ${room_data}
+    }
     if {![file exists ${prefix}/etc/citra-room.conf]} {
         file copy ${prefix}/etc/citra-room.conf.sample ${prefix}/etc/citra-room.conf
         file attributes ${prefix}/etc/citra-room.conf -group _citraroom -permissions 0640
