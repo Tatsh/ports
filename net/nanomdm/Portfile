@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/micromdm/nanomdm 0.9.0 v
-revision            1
+revision            2
 categories          net
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 license             MIT
@@ -95,17 +95,21 @@ destroot {
     xinstall -m 0755 ${filespath}/nanomdm-service.sh ${destroot}${prefix}/libexec/${name}/
     reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/etc/${name}/nanomdm.conf.sample \
         ${destroot}${prefix}/libexec/${name}/nanomdm-service.sh
-    xinstall -d -o _nanomdm -g _nanomdm -m 0750 ${destroot}${prefix}/var/db/${name}
     xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
 }
 
 test.run            yes
 test.target         ./...
-destroot.keepdirs   ${destroot}${prefix}/var/db/${name}
 
 add_users           _nanomdm group=_nanomdm realname=NanoMDM
 
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    if {![file isdirectory ${prefix}/var/db/${name}]} {
+        xinstall -d -m 0750 -o _nanomdm -g _nanomdm ${prefix}/var/db/${name}
+    }
     if {![file exists ${prefix}/etc/${name}/nanomdm.conf]} {
         copy ${prefix}/etc/${name}/nanomdm.conf.sample ${prefix}/etc/${name}/nanomdm.conf
     }
