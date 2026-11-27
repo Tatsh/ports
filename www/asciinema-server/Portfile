@@ -6,7 +6,7 @@ PortGroup           github 1.0
 
 github.setup        asciinema asciinema-server 20260626 v
 github.tarball_from archive
-revision            0
+revision            1
 categories          www
 platforms           darwin
 # Apache-2 is upstream's own. The rest cover the crates linked into the three Rust NIFs.
@@ -145,16 +145,21 @@ destroot {
     xinstall -m 0644 ${filespath}/server.env.sample ${destroot}${prefix}/etc/${name}/
     xinstall -m 0755 ${filespath}/asciinema-server-service ${dest}/
     reinplace "s|@PREFIX@|${prefix}|g" ${dest}/asciinema-server-service
-    xinstall -d -o _asciinema -g _asciinema -m 0750 ${destroot}${prefix}/var/db/${name} \
-        ${destroot}${prefix}/var/db/${name}/tmp
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/README.md ${worksrcpath}/LICENSE ${destroot}${prefix}/share/doc/${name}/
 }
-destroot.keepdirs   ${destroot}${prefix}/var/db/${name}/tmp
 
 add_users           _asciinema group=_asciinema realname=asciinema\ server
 
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    foreach d [list ${prefix}/var/db/${name} ${prefix}/var/db/${name}/tmp] {
+        if {![file isdirectory ${d}]} {
+            xinstall -d -m 0750 -o _asciinema -g _asciinema ${d}
+        }
+    }
     set conf ${prefix}/etc/${name}/server.env
     if {![file exists ${conf}]} {
         set key [exec /usr/bin/openssl rand -base64 48]
