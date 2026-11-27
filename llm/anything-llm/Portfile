@@ -5,7 +5,7 @@ PortGroup           nodejs 1.0
 
 name                anything-llm
 version             1.20.0
-revision            1
+revision            2
 categories          llm www
 license             MIT 0BSD Apache-2 BSD ISC PSF Unlicense public-domain WTFPL-2
 description         Server and document collector of AnythingLLM, an application to chat with \
@@ -261,10 +261,15 @@ post-destroot {
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/../README.md ${worksrcpath}/../LICENSE \
         ${worksrcpath}/.env.example ${destroot}${prefix}/share/doc/${name}/
-
-    xinstall -d -m 0750 -o _anythingllm -g _anythingllm ${destroot}${data_dir}
 }
-destroot.keepdirs   ${destroot}${data_dir}
+# The storage directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
+post-activate {
+    if {![file isdirectory ${data_dir}]} {
+        xinstall -d -m 0750 -o _anythingllm -g _anythingllm ${data_dir}
+    }
+}
 
 # Two launchd services (the server and the collector) under their own user, sharing the storage
 # folder and listening on 127.0.0.1 only.
