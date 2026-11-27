@@ -4,6 +4,7 @@ PortSystem          1.0
 PortGroup           golang 1.0
 
 go.setup            github.com/muety/wakapi 2.18.2
+revision            1
 categories          www
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 license             MIT
@@ -563,11 +564,15 @@ destroot {
     xinstall -d ${destroot}${prefix}/etc/${name} ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/config.default.yml ${destroot}${prefix}/etc/${name}/config.yml.sample
     xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
-    xinstall -d -o _wakapi -g _wakapi -m 0750 ${destroot}${prefix}/var/db/${name}
 }
-destroot.keepdirs   ${destroot}${prefix}/var/db/${name}
 
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    if {![file isdirectory ${prefix}/var/db/${name}]} {
+        xinstall -d -m 0750 -o _wakapi -g _wakapi ${prefix}/var/db/${name}
+    }
     if {![file exists ${prefix}/etc/${name}/config.yml]} {
         copy ${prefix}/etc/${name}/config.yml.sample ${prefix}/etc/${name}/config.yml
     }
