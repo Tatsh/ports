@@ -5,7 +5,7 @@ PortGroup           nodejs 1.0
 
 name                zwave-js-server
 version             3.12.0
-revision            0
+revision            1
 categories          net
 license             MIT Apache-2 BSD ISC
 description         Small server wrapper around Z-Wave JS to access it via a WebSocket.
@@ -44,13 +44,17 @@ post-destroot {
     xinstall -d ${destroot}${prefix}/libexec/${name}
     xinstall -m 0755 ${filespath}/${name}-service ${destroot}${prefix}/libexec/${name}/
     reinplace "s|@PREFIX@|${prefix}|g" ${destroot}${prefix}/libexec/${name}/${name}-service
-    foreach d ${state_dirs} {
-        xinstall -d -m 0750 -o _zwavejs -g _zwavejs ${destroot}${d}
-    }
 }
-destroot.keepdirs   [lmap d ${state_dirs} {string cat ${destroot}${d}}]
 
+# Each state directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
 post-activate {
+    foreach d ${state_dirs} {
+        if {![file isdirectory ${d}]} {
+            xinstall -d -m 0750 -o _zwavejs -g _zwavejs ${d}
+        }
+    }
     foreach f [list ${name}.config.js ${name}.conf] {
         if {![file exists ${prefix}/etc/${f}]} {
             copy ${prefix}/etc/${f}.sample ${prefix}/etc/${f}
