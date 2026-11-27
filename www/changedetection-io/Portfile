@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                changedetection-io
 version             0.70.4
-revision            1
+revision            2
 platforms           darwin linux freebsd
 license             Apache-2
 supported_archs     noarch
@@ -96,11 +96,14 @@ depends_run-append \
 
 add_users           _changedetection group=_changedetection realname=changedetection.io
 
-post-destroot {
-    xinstall -d -o _changedetection -g _changedetection -m 0750 \
-        ${destroot}${prefix}/var/db/${name}
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
+post-activate {
+    if {![file isdirectory ${prefix}/var/db/${name}]} {
+        xinstall -d -m 0750 -o _changedetection -g _changedetection ${prefix}/var/db/${name}
+    }
 }
-destroot.keepdirs   ${destroot}${prefix}/var/db/${name}
 
 startupitem.create  yes
 startupitem.user    _changedetection
