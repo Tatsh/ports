@@ -5,6 +5,7 @@ PortGroup           cargo 1.0
 PortGroup           github 1.0
 
 github.setup        librespot-org librespot 0.8.0 v
+revision            1
 github.tarball_from archive
 categories          audio net
 platforms           darwin linux freebsd
@@ -24,9 +25,15 @@ destroot {
         ${destroot}${prefix}/bin/
     xinstall -d ${destroot}${prefix}/share/doc/${name}
     xinstall -m 0644 ${worksrcpath}/README.md ${destroot}${prefix}/share/doc/${name}/
-    xinstall -d -o _librespot -g _librespot ${destroot}${prefix}/var/cache/${name}
 }
-destroot.keepdirs   ${destroot}${prefix}/var/cache/${name}
+# The cache directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
+post-activate {
+    if {![file isdirectory ${prefix}/var/cache/${name}]} {
+        xinstall -d -o _librespot -g _librespot ${prefix}/var/cache/${name}
+    }
+}
 
 add_users           _librespot group=_librespot realname=librespot
 
