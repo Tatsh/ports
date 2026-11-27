@@ -10,7 +10,7 @@ github.setup        zortos293 Lichii 341 build-
 github.tarball_from archive
 name                lichii
 version             0.1.0-rc1.341
-revision            1
+revision            2
 categories          emulators games
 license             GPL-3+ BSD MIT LGPL-3+ MPL-2 Apache-2
 maintainers         {gmail.com:audvare @Tatsh} openmaintainer
@@ -240,16 +240,20 @@ set room_data       ${prefix}/var/db/lichii-room
 add_users           _lichiiroom group=_lichiiroom realname=Lichii\ room home=${room_data}
 
 post-destroot {
-    xinstall -d -m 0750 -o _lichiiroom -g _lichiiroom ${destroot}${room_data}
     xinstall -m 0640 -g _lichiiroom ${filespath}/lichii-room.conf ${destroot}${prefix}/etc/lichii-room.conf.sample
     xinstall -d ${destroot}${prefix}/libexec/lichii
     xinstall -m 0755 ${filespath}/lichii-room-service.sh ${destroot}${prefix}/libexec/lichii/room-service
     reinplace "s|@PREFIX@|${prefix}|g; s|@ROOM@|lichii-room|g; s|@DATADIR@|${room_data}|g" \
         ${destroot}${prefix}/libexec/lichii/room-service
 }
-destroot.keepdirs-append ${destroot}${room_data}
 
+# The room's data directory is owned by its user, so it is made here rather than in the destroot:
+# deactivation cannot delete a registered directory owned by another user ("not owner"), and the
+# ban list in it should outlive the port anyway.
 post-activate {
+    if {![file isdirectory ${room_data}]} {
+        xinstall -d -m 0750 -o _lichiiroom -g _lichiiroom ${room_data}
+    }
     if {![file exists ${prefix}/etc/lichii-room.conf]} {
         file copy ${prefix}/etc/lichii-room.conf.sample ${prefix}/etc/lichii-room.conf
         file attributes ${prefix}/etc/lichii-room.conf -group _lichiiroom -permissions 0640
