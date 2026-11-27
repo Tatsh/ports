@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                vivisect
 version             1.3.2
-revision            1
+revision            2
 platforms           darwin linux freebsd
 license             Apache-2
 categories          devel python
@@ -40,10 +40,14 @@ set data_dir        ${prefix}/var/db/vivserver
 
 add_users           _vivserver group=_vivserver realname=Vivisect\ server home=${data_dir}
 
-post-destroot {
-    xinstall -d -m 0750 -o _vivserver -g _vivserver ${destroot}${data_dir}
+# The data directory is owned by the service user, so it is made at activation rather than in the
+# destroot: deactivation cannot delete a registered directory owned by another user ("not
+# owner"), and the data in it should outlive the port anyway.
+post-activate {
+    if {![file isdirectory ${data_dir}]} {
+        xinstall -d -m 0750 -o _vivserver -g _vivserver ${data_dir}
+    }
 }
-destroot.keepdirs-append ${destroot}${data_dir}
 
 startupitem.create  yes
 startupitem.name    vivserver
